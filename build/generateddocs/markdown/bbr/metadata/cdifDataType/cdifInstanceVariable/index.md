@@ -297,6 +297,1000 @@ xas:monochromatorEnergy a cdi:InstanceVariable,
 
 ```
 
+
+### CDIF Instance Variable with category statistics (DDI Codebook)
+A categorical InstanceVariable exercising cdif:isDescribedBy_StatisticsCollection.
+Derived from variable HH14 ("Language of the Questionnaire") of the MWI 2019 MICS
+household record (DDI Codebook 2.5). Shows how DDI <catgry>/<catStat>/<sumStat>
+map to CDIF: the categories become an enumerated value domain
+(cdi:takesSubstantiveValuesFrom -> SubstantiveValueDomain -> EnumerationDomain ->
+a skos:ConceptScheme code list), the "Sysmiss" missing category becomes a
+SentinelValueDomain, and the summary + per-category frequencies become a
+StatisticsCollection of cdi:Statistics (count/min/max, split by
+cdi:computationBase) and cdi:CategoryStatistics (one per category, cdi:for
+referencing the code-list concept).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "mics": "https://example.org/mics/mwi2019/"
+  },
+  "@id": "mics:var/HH14",
+  "@type": [
+    "cdi:InstanceVariable",
+    "schema:PropertyValue"
+  ],
+  "schema:name": "HH14",
+  "schema:description": "Language of the household questionnaire. Categorical variable from the MWI 2019 MICS household record; source DDI Codebook variable HH14. The value domains reference a shared skos:ConceptScheme code list by @id; in a full document that code list is a sibling @graph node (see the cdifCodelist profile). This InstanceVariable declares the value domains directly because it does NOT defer to a RepresentedVariable via cdif:isDefinedBy_RepresentedVariable.",
+  "cdif:name": [
+    "HH14"
+  ],
+  "cdif:displayLabel": [
+    "Language of the Questionnaire"
+  ],
+  "cdif:definition": "The language in which the household questionnaire was administered.",
+  "cdif:physicalDataType": "xsd:integer",
+  "cdif:role": "Measure",
+
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "mics:var/HH14/valueDomain/substantive",
+    "@type": [
+      "cdif:SubstantiveValueDomain"
+    ],
+    "cdif:displayLabel": "Valid language codes for HH14",
+    "cdif:takesValuesFrom": {
+      "@id": "mics:var/HH14/enumerationDomain",
+      "@type": [
+        "cdif:EnumerationDomain"
+      ],
+      "schema:name": "MWI 2019 MICS questionnaire-language codes",
+      "cdif:references": {
+        "@id": "mics:codelist/HH14-language"
+      }
+    }
+  },
+
+  "cdi:takesSentinelValuesFrom": [
+    {
+      "@id": "mics:var/HH14/valueDomain/sentinel",
+      "@type": [
+        "cdif:SentinelValueDomain"
+      ],
+      "cdif:displayLabel": "Missing-value codes for HH14",
+      "cdif:takesValuesFrom": {
+        "@id": "mics:var/HH14/sentinelEnumerationDomain",
+        "@type": [
+          "cdif:EnumerationDomain"
+        ],
+        "schema:name": "MWI 2019 MICS system-missing code",
+        "cdif:references": {
+          "@id": "mics:codelist/HH14-missing"
+        }
+      }
+    }
+  ],
+
+  "cdif:isDescribedBy_StatisticsCollection": {
+    "@id": "mics:var/HH14/statistics",
+    "@type": [
+      "cdi:StatisticsCollection"
+    ],
+    "cdif:indexedBy": [
+      {
+        "@id": "mics:var/HH14"
+      }
+    ],
+    "cdif:has_Statistics": [
+      {
+        "@id": "mics:var/HH14/statistics/count",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "count",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 25419,
+            "cdi:typeOfNumericValue": "decimal"
+          },
+          {
+            "cdi:computationBase": "MissingOnly",
+            "cdi:content": 1463,
+            "cdi:typeOfNumericValue": "decimal"
+          },
+          {
+            "cdi:computationBase": "Total",
+            "cdi:content": 26882,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH14/statistics/minimum",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "minimum",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 1,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH14/statistics/maximum",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "maximum",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 4,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH14/statistics/frequencies",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "frequency",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "Total",
+            "cdi:content": 26882,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ],
+        "cdif:has_CategoryStatistics": [
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH14-language/1"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 108,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          },
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH14-language/2"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 21497,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          },
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH14-language/3"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 3739,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          },
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH14-language/4"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 75,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          },
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH14-missing/sysmiss"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "MissingOnly",
+                "cdi:content": 1463,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "mics": "https://example.org/mics/mwi2019/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "mics": "https://example.org/mics/mwi2019/"
+    }
+  ],
+  "@id": "mics:var/HH14",
+  "@type": [
+    "cdi:InstanceVariable",
+    "schema:PropertyValue"
+  ],
+  "schema:name": "HH14",
+  "schema:description": "Language of the household questionnaire. Categorical variable from the MWI 2019 MICS household record; source DDI Codebook variable HH14. The value domains reference a shared skos:ConceptScheme code list by @id; in a full document that code list is a sibling @graph node (see the cdifCodelist profile). This InstanceVariable declares the value domains directly because it does NOT defer to a RepresentedVariable via cdif:isDefinedBy_RepresentedVariable.",
+  "cdif:name": [
+    "HH14"
+  ],
+  "cdif:displayLabel": [
+    "Language of the Questionnaire"
+  ],
+  "cdif:definition": "The language in which the household questionnaire was administered.",
+  "cdif:physicalDataType": "xsd:integer",
+  "cdif:role": "Measure",
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "mics:var/HH14/valueDomain/substantive",
+    "@type": [
+      "cdif:SubstantiveValueDomain"
+    ],
+    "cdif:displayLabel": "Valid language codes for HH14",
+    "cdif:takesValuesFrom": {
+      "@id": "mics:var/HH14/enumerationDomain",
+      "@type": [
+        "cdif:EnumerationDomain"
+      ],
+      "schema:name": "MWI 2019 MICS questionnaire-language codes",
+      "cdif:references": {
+        "@id": "mics:codelist/HH14-language"
+      }
+    }
+  },
+  "cdi:takesSentinelValuesFrom": [
+    {
+      "@id": "mics:var/HH14/valueDomain/sentinel",
+      "@type": [
+        "cdif:SentinelValueDomain"
+      ],
+      "cdif:displayLabel": "Missing-value codes for HH14",
+      "cdif:takesValuesFrom": {
+        "@id": "mics:var/HH14/sentinelEnumerationDomain",
+        "@type": [
+          "cdif:EnumerationDomain"
+        ],
+        "schema:name": "MWI 2019 MICS system-missing code",
+        "cdif:references": {
+          "@id": "mics:codelist/HH14-missing"
+        }
+      }
+    }
+  ],
+  "cdif:isDescribedBy_StatisticsCollection": {
+    "@id": "mics:var/HH14/statistics",
+    "@type": [
+      "cdi:StatisticsCollection"
+    ],
+    "cdif:indexedBy": [
+      {
+        "@id": "mics:var/HH14"
+      }
+    ],
+    "cdif:has_Statistics": [
+      {
+        "@id": "mics:var/HH14/statistics/count",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "count",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 25419,
+            "cdi:typeOfNumericValue": "decimal"
+          },
+          {
+            "cdi:computationBase": "MissingOnly",
+            "cdi:content": 1463,
+            "cdi:typeOfNumericValue": "decimal"
+          },
+          {
+            "cdi:computationBase": "Total",
+            "cdi:content": 26882,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH14/statistics/minimum",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "minimum",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 1,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH14/statistics/maximum",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "maximum",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 4,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH14/statistics/frequencies",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "frequency",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "Total",
+            "cdi:content": 26882,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ],
+        "cdif:has_CategoryStatistics": [
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH14-language/1"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 108,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          },
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH14-language/2"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 21497,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          },
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH14-language/3"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 3739,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          },
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH14-language/4"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 75,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          },
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH14-missing/sysmiss"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "MissingOnly",
+                "cdi:content": 1463,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/mics/mwi2019/var/HH14> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:takesSentinelValuesFrom <https://example.org/mics/mwi2019/var/HH14/valueDomain/sentinel> ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/mics/mwi2019/var/HH14/valueDomain/substantive> ;
+    schema1:description "Language of the household questionnaire. Categorical variable from the MWI 2019 MICS household record; source DDI Codebook variable HH14. The value domains reference a shared skos:ConceptScheme code list by @id; in a full document that code list is a sibling @graph node (see the cdifCodelist profile). This InstanceVariable declares the value domains directly because it does NOT defer to a RepresentedVariable via cdif:isDefinedBy_RepresentedVariable." ;
+    schema1:name "HH14" ;
+    cdif:definition "The language in which the household questionnaire was administered." ;
+    cdif:displayLabel "Language of the Questionnaire" ;
+    cdif:isDescribedBy_StatisticsCollection <https://example.org/mics/mwi2019/var/HH14/statistics> ;
+    cdif:name "HH14" ;
+    cdif:physicalDataType "xsd:integer" ;
+    cdif:role "Measure" .
+
+<https://example.org/mics/mwi2019/var/HH14/enumerationDomain> a cdif:EnumerationDomain ;
+    schema1:name "MWI 2019 MICS questionnaire-language codes" ;
+    cdif:references <https://example.org/mics/mwi2019/codelist/HH14-language> .
+
+<https://example.org/mics/mwi2019/var/HH14/sentinelEnumerationDomain> a cdif:EnumerationDomain ;
+    schema1:name "MWI 2019 MICS system-missing code" ;
+    cdif:references <https://example.org/mics/mwi2019/codelist/HH14-missing> .
+
+<https://example.org/mics/mwi2019/var/HH14/statistics> a cdi:StatisticsCollection ;
+    cdif:has_Statistics <https://example.org/mics/mwi2019/var/HH14/statistics/count>,
+        <https://example.org/mics/mwi2019/var/HH14/statistics/frequencies>,
+        <https://example.org/mics/mwi2019/var/HH14/statistics/maximum>,
+        <https://example.org/mics/mwi2019/var/HH14/statistics/minimum> ;
+    cdif:indexedBy <https://example.org/mics/mwi2019/var/HH14> .
+
+<https://example.org/mics/mwi2019/var/HH14/statistics/count> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "Total" ;
+            cdi:content 26882 ;
+            cdi:typeOfNumericValue "decimal" ],
+        [ cdi:computationBase "ValidOnly" ;
+            cdi:content 25419 ;
+            cdi:typeOfNumericValue "decimal" ],
+        [ cdi:computationBase "MissingOnly" ;
+            cdi:content 1463 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "count" .
+
+<https://example.org/mics/mwi2019/var/HH14/statistics/frequencies> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "Total" ;
+            cdi:content 26882 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "frequency" ;
+    cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 75 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
+            cdi:statistic [ cdi:computationBase "MissingOnly" ;
+                    cdi:content 1463 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 3739 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 21497 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/1> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 108 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ] .
+
+<https://example.org/mics/mwi2019/var/HH14/statistics/maximum> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 4 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "maximum" .
+
+<https://example.org/mics/mwi2019/var/HH14/statistics/minimum> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 1 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "minimum" .
+
+<https://example.org/mics/mwi2019/var/HH14/valueDomain/sentinel> a cdif:SentinelValueDomain ;
+    cdif:displayLabel "Missing-value codes for HH14" ;
+    cdif:takesValuesFrom <https://example.org/mics/mwi2019/var/HH14/sentinelEnumerationDomain> .
+
+<https://example.org/mics/mwi2019/var/HH14/valueDomain/substantive> a cdif:SubstantiveValueDomain ;
+    cdif:displayLabel "Valid language codes for HH14" ;
+    cdif:takesValuesFrom <https://example.org/mics/mwi2019/var/HH14/enumerationDomain> .
+
+
+```
+
+
+### CDIF Instance Variable with category statistics (minimal, no missing)
+The pared-down companion to the HH14 statistics example. Variable HH6
+("Area", urban/rural) of the MWI 2019 MICS household record (DDI Codebook
+2.5): a binary category with no missing values, so there is a substantive
+value domain (2-concept code list) but no SentinelValueDomain. The
+StatisticsCollection carries count/min/max plus one cdi:CategoryStatistics
+per category; the category frequencies (3936 + 22946) reconcile with the
+valid count (26882).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "mics": "https://example.org/mics/mwi2019/"
+  },
+  "@id": "mics:var/HH6",
+  "@type": [
+    "cdi:InstanceVariable",
+    "schema:PropertyValue"
+  ],
+  "schema:name": "HH6",
+  "schema:description": "Area (urban/rural) of the household. Categorical variable from the MWI 2019 MICS household record; source DDI Codebook variable HH6. Every case is valid (no missing category), so there is a substantive value domain but no sentinel value domain. The value domain references a shared skos:ConceptScheme code list by @id (a sibling @graph node in a full document).",
+  "cdif:name": [
+    "HH6"
+  ],
+  "cdif:displayLabel": [
+    "Area"
+  ],
+  "cdif:definition": "Whether the household is located in an urban or rural area.",
+  "cdif:physicalDataType": "xsd:integer",
+  "cdif:role": "Measure",
+
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "mics:var/HH6/valueDomain/substantive",
+    "@type": [
+      "cdif:SubstantiveValueDomain"
+    ],
+    "cdif:displayLabel": "Valid area codes for HH6",
+    "cdif:takesValuesFrom": {
+      "@id": "mics:var/HH6/enumerationDomain",
+      "@type": [
+        "cdif:EnumerationDomain"
+      ],
+      "schema:name": "MWI 2019 MICS area codes",
+      "cdif:references": {
+        "@id": "mics:codelist/HH6-area"
+      }
+    }
+  },
+
+  "cdif:isDescribedBy_StatisticsCollection": {
+    "@id": "mics:var/HH6/statistics",
+    "@type": [
+      "cdi:StatisticsCollection"
+    ],
+    "cdif:indexedBy": [
+      {
+        "@id": "mics:var/HH6"
+      }
+    ],
+    "cdif:has_Statistics": [
+      {
+        "@id": "mics:var/HH6/statistics/count",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "count",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 26882,
+            "cdi:typeOfNumericValue": "decimal"
+          },
+          {
+            "cdi:computationBase": "Total",
+            "cdi:content": 26882,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH6/statistics/minimum",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "minimum",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 1,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH6/statistics/maximum",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "maximum",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 2,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH6/statistics/frequencies",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "frequency",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "Total",
+            "cdi:content": 26882,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ],
+        "cdif:has_CategoryStatistics": [
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH6-area/1"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 3936,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          },
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH6-area/2"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 22946,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "mics": "https://example.org/mics/mwi2019/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "mics": "https://example.org/mics/mwi2019/"
+    }
+  ],
+  "@id": "mics:var/HH6",
+  "@type": [
+    "cdi:InstanceVariable",
+    "schema:PropertyValue"
+  ],
+  "schema:name": "HH6",
+  "schema:description": "Area (urban/rural) of the household. Categorical variable from the MWI 2019 MICS household record; source DDI Codebook variable HH6. Every case is valid (no missing category), so there is a substantive value domain but no sentinel value domain. The value domain references a shared skos:ConceptScheme code list by @id (a sibling @graph node in a full document).",
+  "cdif:name": [
+    "HH6"
+  ],
+  "cdif:displayLabel": [
+    "Area"
+  ],
+  "cdif:definition": "Whether the household is located in an urban or rural area.",
+  "cdif:physicalDataType": "xsd:integer",
+  "cdif:role": "Measure",
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "mics:var/HH6/valueDomain/substantive",
+    "@type": [
+      "cdif:SubstantiveValueDomain"
+    ],
+    "cdif:displayLabel": "Valid area codes for HH6",
+    "cdif:takesValuesFrom": {
+      "@id": "mics:var/HH6/enumerationDomain",
+      "@type": [
+        "cdif:EnumerationDomain"
+      ],
+      "schema:name": "MWI 2019 MICS area codes",
+      "cdif:references": {
+        "@id": "mics:codelist/HH6-area"
+      }
+    }
+  },
+  "cdif:isDescribedBy_StatisticsCollection": {
+    "@id": "mics:var/HH6/statistics",
+    "@type": [
+      "cdi:StatisticsCollection"
+    ],
+    "cdif:indexedBy": [
+      {
+        "@id": "mics:var/HH6"
+      }
+    ],
+    "cdif:has_Statistics": [
+      {
+        "@id": "mics:var/HH6/statistics/count",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "count",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 26882,
+            "cdi:typeOfNumericValue": "decimal"
+          },
+          {
+            "cdi:computationBase": "Total",
+            "cdi:content": 26882,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH6/statistics/minimum",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "minimum",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 1,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH6/statistics/maximum",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "maximum",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "ValidOnly",
+            "cdi:content": 2,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ]
+      },
+      {
+        "@id": "mics:var/HH6/statistics/frequencies",
+        "@type": [
+          "cdi:Statistics"
+        ],
+        "cdi:typeOfStatistic": "frequency",
+        "cdi:statistic": [
+          {
+            "cdi:computationBase": "Total",
+            "cdi:content": 26882,
+            "cdi:typeOfNumericValue": "decimal"
+          }
+        ],
+        "cdif:has_CategoryStatistics": [
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH6-area/1"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 3936,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          },
+          {
+            "@type": [
+              "cdi:CategoryStatistics"
+            ],
+            "cdi:for": {
+              "@id": "mics:codelist/HH6-area/2"
+            },
+            "cdi:typeOfStatistic": "frequency",
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 22946,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/mics/mwi2019/var/HH6> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/mics/mwi2019/var/HH6/valueDomain/substantive> ;
+    schema1:description "Area (urban/rural) of the household. Categorical variable from the MWI 2019 MICS household record; source DDI Codebook variable HH6. Every case is valid (no missing category), so there is a substantive value domain but no sentinel value domain. The value domain references a shared skos:ConceptScheme code list by @id (a sibling @graph node in a full document)." ;
+    schema1:name "HH6" ;
+    cdif:definition "Whether the household is located in an urban or rural area." ;
+    cdif:displayLabel "Area" ;
+    cdif:isDescribedBy_StatisticsCollection <https://example.org/mics/mwi2019/var/HH6/statistics> ;
+    cdif:name "HH6" ;
+    cdif:physicalDataType "xsd:integer" ;
+    cdif:role "Measure" .
+
+<https://example.org/mics/mwi2019/var/HH6/enumerationDomain> a cdif:EnumerationDomain ;
+    schema1:name "MWI 2019 MICS area codes" ;
+    cdif:references <https://example.org/mics/mwi2019/codelist/HH6-area> .
+
+<https://example.org/mics/mwi2019/var/HH6/statistics> a cdi:StatisticsCollection ;
+    cdif:has_Statistics <https://example.org/mics/mwi2019/var/HH6/statistics/count>,
+        <https://example.org/mics/mwi2019/var/HH6/statistics/frequencies>,
+        <https://example.org/mics/mwi2019/var/HH6/statistics/maximum>,
+        <https://example.org/mics/mwi2019/var/HH6/statistics/minimum> ;
+    cdif:indexedBy <https://example.org/mics/mwi2019/var/HH6> .
+
+<https://example.org/mics/mwi2019/var/HH6/statistics/count> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 26882 ;
+            cdi:typeOfNumericValue "decimal" ],
+        [ cdi:computationBase "Total" ;
+            cdi:content 26882 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "count" .
+
+<https://example.org/mics/mwi2019/var/HH6/statistics/frequencies> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "Total" ;
+            cdi:content 26882 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "frequency" ;
+    cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/2> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 22946 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/1> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 3936 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ] .
+
+<https://example.org/mics/mwi2019/var/HH6/statistics/maximum> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 2 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "maximum" .
+
+<https://example.org/mics/mwi2019/var/HH6/statistics/minimum> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 1 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "minimum" .
+
+<https://example.org/mics/mwi2019/var/HH6/valueDomain/substantive> a cdif:SubstantiveValueDomain ;
+    cdif:displayLabel "Valid area codes for HH6" ;
+    cdif:takesValuesFrom <https://example.org/mics/mwi2019/var/HH6/enumerationDomain> .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -423,6 +1417,41 @@ allOf:
 - required:
   - '@type'
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
+- if:
+    required:
+    - cdif:isDefinedBy_RepresentedVariable
+  then:
+    properties:
+      cdi:takesSubstantiveValuesFrom:
+        not: true
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSubstantiveValuesFrom
+      cdi:takesSentinelValuesFrom:
+        not: true
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelValuesFrom
+      cdi:hasIntendedDataType:
+        not: true
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType
+      cdi:describedUnitOfMeasure:
+        not: true
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
+      cdi:unitOfMeasureKind:
+        not: true
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind
+      cdi:measures:
+        not: true
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures
+      cdi:externalDefinition:
+        not: true
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
+      cdif:uses_Concept:
+        not: true
+        x-jsonld-id: https://w3id.org/cdif/uses_Concept
+      cdif:definition:
+        not: true
+        x-jsonld-id: https://w3id.org/cdif/definition
+    description: When cdif:isDefinedBy_RepresentedVariable is present, the represented-variable-level
+      properties live on that RepresentedVariable and may not be declared inline on
+      the InstanceVariable.
 $defs:
   cdifConceptOrTermOrString:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml

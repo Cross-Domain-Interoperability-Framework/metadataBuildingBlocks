@@ -1,0 +1,71 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/mics/mwi2019/var/HH6> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/mics/mwi2019/var/HH6/valueDomain/substantive> ;
+    schema1:description "Area (urban/rural) of the household. Categorical variable from the MWI 2019 MICS household record; source DDI Codebook variable HH6. Every case is valid (no missing category), so there is a substantive value domain but no sentinel value domain. The value domain references a shared skos:ConceptScheme code list by @id (a sibling @graph node in a full document)." ;
+    schema1:name "HH6" ;
+    cdif:definition "Whether the household is located in an urban or rural area." ;
+    cdif:displayLabel "Area" ;
+    cdif:isDescribedBy_StatisticsCollection <https://example.org/mics/mwi2019/var/HH6/statistics> ;
+    cdif:name "HH6" ;
+    cdif:physicalDataType "xsd:integer" ;
+    cdif:role "Measure" .
+
+<https://example.org/mics/mwi2019/var/HH6/enumerationDomain> a cdif:EnumerationDomain ;
+    schema1:name "MWI 2019 MICS area codes" ;
+    cdif:references <https://example.org/mics/mwi2019/codelist/HH6-area> .
+
+<https://example.org/mics/mwi2019/var/HH6/statistics> a cdi:StatisticsCollection ;
+    cdif:has_Statistics <https://example.org/mics/mwi2019/var/HH6/statistics/count>,
+        <https://example.org/mics/mwi2019/var/HH6/statistics/frequencies>,
+        <https://example.org/mics/mwi2019/var/HH6/statistics/maximum>,
+        <https://example.org/mics/mwi2019/var/HH6/statistics/minimum> ;
+    cdif:indexedBy <https://example.org/mics/mwi2019/var/HH6> .
+
+<https://example.org/mics/mwi2019/var/HH6/statistics/count> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 26882 ;
+            cdi:typeOfNumericValue "decimal" ],
+        [ cdi:computationBase "Total" ;
+            cdi:content 26882 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "count" .
+
+<https://example.org/mics/mwi2019/var/HH6/statistics/frequencies> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "Total" ;
+            cdi:content 26882 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "frequency" ;
+    cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/2> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 22946 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/1> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 3936 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ] .
+
+<https://example.org/mics/mwi2019/var/HH6/statistics/maximum> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 2 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "maximum" .
+
+<https://example.org/mics/mwi2019/var/HH6/statistics/minimum> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 1 ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdi:typeOfStatistic "minimum" .
+
+<https://example.org/mics/mwi2019/var/HH6/valueDomain/substantive> a cdif:SubstantiveValueDomain ;
+    cdif:displayLabel "Valid area codes for HH6" ;
+    cdif:takesValuesFrom <https://example.org/mics/mwi2019/var/HH6/enumerationDomain> .
+
