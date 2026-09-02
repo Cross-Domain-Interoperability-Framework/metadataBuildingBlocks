@@ -89,10 +89,10 @@ that const.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:LongStructureDataSet ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;
-            cdif:index 1 ],
-        [ cdif:formats_InstanceVariable ex:var-descriptor ;
-            cdif:index 0 ] .
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ],
+        [ cdif:formats_InstanceVariable ex:var-value ;
+            cdif:index 1 ] .
 
 
 ```
@@ -189,12 +189,12 @@ to their InstanceVariables.
     csvw:delimiter "," ;
     csvw:header true ;
     csvw:headerRowCount 1 ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ],
-        [ cdif:formats_InstanceVariable ex:var-value ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;
             cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ] .
+            cdif:physicalDataType "Numeric" ],
+        [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ] .
 
 
 ```
