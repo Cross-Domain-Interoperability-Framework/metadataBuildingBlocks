@@ -1,11 +1,19 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xas: <https://w3id.org/cdif/xas/> .
 
 xas:exampleOptionalFields a schema1:Dataset,
         schema1:Product ;
+    schema1:subjectOf xas:exampleOptionalFieldsRecord ;
     schema1:variableMeasured xas:incidentintensity,
         xas:monochromatorenergy .
+
+xas:exampleOptionalFieldsRecord a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/xasOptional/1.0> ;
+    schema1:about xas:exampleOptionalFields ;
+    schema1:additionalType dcat:CatalogRecord .
 
 xas:incidentintensity a cdi:InstanceVariable,
         schema1:PropertyValue ;

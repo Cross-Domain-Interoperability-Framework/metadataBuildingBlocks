@@ -123,7 +123,26 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       "cdi:name": "i0",
       "cdi:displayLabel": "monitor intensity"
     }
-  ]
+  ],
+  "schema:subjectOf": {
+    "@id": "xas:exampleOptionalFieldsRecord",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "schema:about": {
+      "@id": "xas:exampleOptionalFields"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/xasOptional/1.0"
+      }
+    ]
+  }
 }
 
 ```
@@ -209,20 +228,47 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       "cdi:name": "i0",
       "cdi:displayLabel": "monitor intensity"
     }
-  ]
+  ],
+  "schema:subjectOf": {
+    "@id": "xas:exampleOptionalFieldsRecord",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "schema:about": {
+      "@id": "xas:exampleOptionalFields"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/xasOptional/1.0"
+      }
+    ]
+  }
 }
 ```
 
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xas: <https://w3id.org/cdif/xas/> .
 
 xas:exampleOptionalFields a schema1:Dataset,
         schema1:Product ;
+    schema1:subjectOf xas:exampleOptionalFieldsRecord ;
     schema1:variableMeasured xas:incidentintensity,
         xas:monochromatorenergy .
+
+xas:exampleOptionalFieldsRecord a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/xasOptional/1.0> ;
+    schema1:about xas:exampleOptionalFields ;
+    schema1:additionalType dcat:CatalogRecord .
 
 xas:incidentintensity a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -259,8 +305,10 @@ xas:monochromatorenergy a cdi:InstanceVariable,
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Optional XAS metadata fields
-description: 'Genuinely-optional XAS properties layered on cdifCore. Adds NO requirements.
-  Documents and permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured
+description: 'Genuinely-optional XAS properties layered on cdifCore. Adds no requirement
+  to a record that carries no optional XAS content; a record that does carry schema:variableMeasured
+  must declare conformance to https://w3id.org/cdif/xasOptional/1.0. Documents and
+  permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured
   cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical
   parameters carried as schema:additionalProperty entries (on the prov:used xas:beamline
   entity and the schema:object sample respectively; see description.md for the propertyID
@@ -425,6 +473,40 @@ properties:
                   x-jsonld-id: http://schema.org/instrument
           x-jsonld-id: http://www.w3.org/ns/prov#used
     x-jsonld-id: http://www.w3.org/ns/prov#wasGeneratedBy
+if:
+  required:
+  - schema:variableMeasured
+then:
+  required:
+  - schema:subjectOf
+  properties:
+    schema:subjectOf:
+      required:
+      - dcterms:conformsTo
+      properties:
+        dcterms:conformsTo:
+          type: array
+          items:
+            type: object
+            required:
+            - '@id'
+            additionalProperties: false
+            properties:
+              '@id':
+                type: string
+                description: uri for specifications that this metadata record conforms
+                  to
+          minItems: 1
+          contains:
+            type: object
+            required:
+            - '@id'
+            additionalProperties: false
+            properties:
+              '@id':
+                const: https://w3id.org/cdif/xasOptional/1.0
+          x-jsonld-id: http://purl.org/dc/terms/conformsTo
+      x-jsonld-id: http://schema.org/subjectOf
 $defs:
   InstanceVariable:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
@@ -453,16 +535,16 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
-    "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
-    "xas": "cdif:xas/",
-    "nxs": "https://manual.nexusformat.org/classes/",
-    "prov": "http://www.w3.org/ns/prov#",
     "dcat": "http://www.w3.org/ns/dcat#",
     "dcterms": "http://purl.org/dc/terms/",
+    "nxs": "https://manual.nexusformat.org/classes/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "xas": "cdif:xas/",
+    "cdif": "https://w3id.org/cdif/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "@version": 1.1
   }
 }

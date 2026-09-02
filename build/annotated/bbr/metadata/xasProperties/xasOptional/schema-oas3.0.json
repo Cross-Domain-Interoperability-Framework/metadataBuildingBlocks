@@ -2275,7 +2275,7 @@
     }
   },
   "title": "Optional XAS metadata fields",
-  "description": "Genuinely-optional XAS properties layered on cdifCore. Adds NO requirements. Documents and permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical parameters carried as schema:additionalProperty entries (on the prov:used xas:beamline entity and the schema:object sample respectively; see description.md for the propertyID vocabularies). Present only when the corresponding measurements exist.",
+  "description": "Genuinely-optional XAS properties layered on cdifCore. Adds no requirement to a record that carries no optional XAS content; a record that does carry schema:variableMeasured must declare conformance to https://w3id.org/cdif/xasOptional/1.0. Documents and permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical parameters carried as schema:additionalProperty entries (on the prov:used xas:beamline entity and the schema:object sample respectively; see description.md for the propertyID vocabularies). Present only when the corresponding measurements exist.",
   "type": "object",
   "properties": {
     "@context": {
@@ -2514,6 +2514,58 @@
         }
       },
       "x-jsonld-id": "http://www.w3.org/ns/prov#wasGeneratedBy"
+    }
+  },
+  "if": {
+    "required": [
+      "schema:variableMeasured"
+    ]
+  },
+  "then": {
+    "required": [
+      "schema:subjectOf"
+    ],
+    "properties": {
+      "schema:subjectOf": {
+        "required": [
+          "dcterms:conformsTo"
+        ],
+        "properties": {
+          "dcterms:conformsTo": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "uri for specifications that this metadata record conforms to"
+                }
+              }
+            },
+            "minItems": 1,
+            "contains": {
+              "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "enum": [
+                    "https://w3id.org/cdif/xasOptional/1.0"
+                  ]
+                }
+              }
+            },
+            "x-jsonld-id": "http://purl.org/dc/terms/conformsTo"
+          }
+        },
+        "x-jsonld-id": "http://schema.org/subjectOf"
+      }
     }
   },
   "$defs": {
