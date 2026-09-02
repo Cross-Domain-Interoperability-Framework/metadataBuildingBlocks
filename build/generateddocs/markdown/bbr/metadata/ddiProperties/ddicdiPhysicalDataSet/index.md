@@ -15,8 +15,135 @@ Each variant references its structure via `cdi:isStructuredBy` (pointing at a `d
 
 ## Examples
 
-### Minimal WideDataSet
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI physical data set (wide).
+A WideDataSet for a daily air-temperature series: one row per observation
+date, one column per variable. cdi:has_InstanceVariable names the columns
+and cdi:isStructuredBy points at the DataStructure that describes their
+roles.
+
+The block is a union of five physical forms — WideDataSet, LongDataSet,
+DimensionalDataSet, TabularTextDataSet, StructuredDataSet — and they
+differ in more than @type. cdi:isStructuredBy used here belongs to
+WideDataSet; a TabularTextDataSet instead carries the CSV dialect
+(delimiter, quote character, header rows) and links to its logical view
+with cdi:correspondsTo, and its cdi:name is a single ObjectName rather
+than an array. Check the target $defs rather than copying a sibling.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:physical/dailyTemperature",
+  "@type": [
+    "cdi:WideDataSet"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "dailyTemperature"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/physical/dailyTemperature"
+  },
+  "cdi:recordCount": 366,
+  "cdi:has_InstanceVariable": [
+    {
+      "@id": "ex:iv/observationDate"
+    },
+    {
+      "@id": "ex:iv/airTemperature"
+    },
+    {
+      "@id": "ex:iv/qualityFlag"
+    }
+  ],
+  "cdi:isStructuredBy": [
+    {
+      "@id": "ex:struct/dailyTemperature"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalDataSet/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:physical/dailyTemperature",
+  "@type": [
+    "cdi:WideDataSet"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "dailyTemperature"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/physical/dailyTemperature"
+  },
+  "cdi:recordCount": 366,
+  "cdi:has_InstanceVariable": [
+    {
+      "@id": "ex:iv/observationDate"
+    },
+    {
+      "@id": "ex:iv/airTemperature"
+    },
+    {
+      "@id": "ex:iv/qualityFlag"
+    }
+  ],
+  "cdi:isStructuredBy": [
+    {
+      "@id": "ex:struct/dailyTemperature"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/physical/dailyTemperature> a cdi:WideDataSet ;
+    cdi:has_InstanceVariable <https://example.org/iv/airTemperature>,
+        <https://example.org/iv/observationDate>,
+        <https://example.org/iv/qualityFlag> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/physical/dailyTemperature" ] ;
+    cdi:isStructuredBy <https://example.org/struct/dailyTemperature> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "dailyTemperature" ] ;
+    cdi:recordCount 366 .
+
+
+```
+
 ## Schema
 
 ```yaml

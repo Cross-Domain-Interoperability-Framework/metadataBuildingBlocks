@@ -15,8 +15,282 @@ The hierarchy is expressed via `cdi:has_Level` and `cdi:has_ClassificationItem` 
 
 ## Examples
 
-### Minimal StatisticalClassification
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI statistical classification.
+A StatisticalClassification of weather-station types with two
+ClassificationItems. Shows the version and currency properties that
+distinguish a classification from a plain code list — cdi:isCurrent,
+cdi:isFloating, cdi:releaseDate and cdi:availableLanguage.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:classification/stationType",
+  "@type": [
+    "cdi:StatisticalClassification"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "weatherStationType"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/classification/stationType/1"
+  },
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Weather station type",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:purpose": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Classifies observing stations by siting and instrumentation, for stratifying temperature series.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:isCurrent": true,
+  "cdi:isFloating": false,
+  "cdi:allowsDuplicates": false,
+  "cdi:availableLanguage": [
+    "en"
+  ],
+  "cdi:releaseDate": {
+    "@type": [
+      "cdi:CombinedDate"
+    ],
+    "cdi:isoDate": "2026-01-15"
+  },
+  "cdi:has_ClassificationItem": [
+    {
+      "@id": "ex:classification/stationType/synoptic",
+      "@type": [
+        "cdi:ClassificationItem"
+      ],
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "synoptic"
+        }
+      ],
+      "cdi:isValid": true,
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/classification/stationType/synoptic"
+      }
+    },
+    {
+      "@id": "ex:classification/stationType/automatic",
+      "@type": [
+        "cdi:ClassificationItem"
+      ],
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "automatic"
+        }
+      ],
+      "cdi:isValid": true,
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/classification/stationType/automatic"
+      }
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiStatisticalClassification/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:classification/stationType",
+  "@type": [
+    "cdi:StatisticalClassification"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "weatherStationType"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/classification/stationType/1"
+  },
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Weather station type",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:purpose": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Classifies observing stations by siting and instrumentation, for stratifying temperature series.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:isCurrent": true,
+  "cdi:isFloating": false,
+  "cdi:allowsDuplicates": false,
+  "cdi:availableLanguage": [
+    "en"
+  ],
+  "cdi:releaseDate": {
+    "@type": [
+      "cdi:CombinedDate"
+    ],
+    "cdi:isoDate": "2026-01-15"
+  },
+  "cdi:has_ClassificationItem": [
+    {
+      "@id": "ex:classification/stationType/synoptic",
+      "@type": [
+        "cdi:ClassificationItem"
+      ],
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "synoptic"
+        }
+      ],
+      "cdi:isValid": true,
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/classification/stationType/synoptic"
+      }
+    },
+    {
+      "@id": "ex:classification/stationType/automatic",
+      "@type": [
+        "cdi:ClassificationItem"
+      ],
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "automatic"
+        }
+      ],
+      "cdi:isValid": true,
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/classification/stationType/automatic"
+      }
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/classification/stationType> a cdi:StatisticalClassification ;
+    cdi:allowsDuplicates false ;
+    cdi:availableLanguage "en" ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Weather station type" ;
+                    cdi:language "en" ] ] ;
+    cdi:has_ClassificationItem <https://example.org/classification/stationType/automatic>,
+        <https://example.org/classification/stationType/synoptic> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/classification/stationType/1" ] ;
+    cdi:isCurrent true ;
+    cdi:isFloating false ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "weatherStationType" ] ;
+    cdi:purpose [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Classifies observing stations by siting and instrumentation, for stratifying temperature series." ;
+                    cdi:language "en" ] ] ;
+    cdi:releaseDate [ a cdi:CombinedDate ;
+            cdi:isoDate "2026-01-15" ] .
+
+<https://example.org/classification/stationType/automatic> a cdi:ClassificationItem ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/classification/stationType/automatic" ] ;
+    cdi:isValid true ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "automatic" ] .
+
+<https://example.org/classification/stationType/synoptic> a cdi:ClassificationItem ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/classification/stationType/synoptic" ] ;
+    cdi:isValid true ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "synoptic" ] .
+
+
+```
+
 ## Schema
 
 ```yaml

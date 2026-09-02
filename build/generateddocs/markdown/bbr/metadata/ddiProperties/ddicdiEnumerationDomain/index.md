@@ -15,8 +15,122 @@ Local `$defs` mirror the supporting types from `ddicdiCodeList` (`Code`, `Catego
 
 ## Examples
 
-### Minimal EnumerationDomain
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI enumeration domain.
+An EnumerationDomain for the quality-flag column, enumerating its
+permitted values by referencing the same CategorySet the CodeList example
+defines (`ex:categoryset/quality`). The domain says which values are allowed;
+the code list says how they are written down.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:domain/qualityFlag",
+  "@type": [
+    "cdi:EnumerationDomain"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "qualityFlagDomain"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/domain/qualityFlag"
+  },
+  "cdi:purpose": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "The permitted values of the quality-flag column: the three quality categories, enumerated.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:references": {
+    "@id": "ex:categoryset/quality"
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiEnumerationDomain/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:domain/qualityFlag",
+  "@type": [
+    "cdi:EnumerationDomain"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "qualityFlagDomain"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/domain/qualityFlag"
+  },
+  "cdi:purpose": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "The permitted values of the quality-flag column: the three quality categories, enumerated.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:references": {
+    "@id": "ex:categoryset/quality"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/domain/qualityFlag> a cdi:EnumerationDomain ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/domain/qualityFlag" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "qualityFlagDomain" ] ;
+    cdi:purpose [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "The permitted values of the quality-flag column: the three quality categories, enumerated." ;
+                    cdi:language "en" ] ] ;
+    cdi:references <https://example.org/categoryset/quality> .
+
+
+```
+
 ## Schema
 
 ```yaml

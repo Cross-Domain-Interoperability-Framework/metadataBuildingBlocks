@@ -15,8 +15,139 @@ Logical records are the units that `ddicdiLogicalRecordRepository` aggregates (`
 
 ## Examples
 
-### Minimal LogicalRecord
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI logical record.
+A LogicalRecord for a daily air-temperature series: cdi:organizes names
+the DataSet whose data points it groups, and cdi:has lists the
+InstanceVariables that make up one record. The logical record is the
+row-shaped view; the physical data set example describes the same data as
+bytes on disk.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:record/dailyTemperature",
+  "@type": [
+    "cdi:LogicalRecord"
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/record/dailyTemperature"
+  },
+  "cdi:organizes": [
+    {
+      "@id": "ex:dataset/dailyTemperature",
+      "@type": [
+        "cdi:DataSet"
+      ],
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/dataset/dailyTemperature"
+      },
+      "cdi:isStructuredBy": [
+        {
+          "@id": "ex:struct/dailyTemperature"
+        }
+      ]
+    }
+  ],
+  "cdi:has": [
+    {
+      "@id": "ex:iv/observationDate"
+    },
+    {
+      "@id": "ex:iv/airTemperature"
+    },
+    {
+      "@id": "ex:iv/qualityFlag"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiLogicalRecord/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:record/dailyTemperature",
+  "@type": [
+    "cdi:LogicalRecord"
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/record/dailyTemperature"
+  },
+  "cdi:organizes": [
+    {
+      "@id": "ex:dataset/dailyTemperature",
+      "@type": [
+        "cdi:DataSet"
+      ],
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/dataset/dailyTemperature"
+      },
+      "cdi:isStructuredBy": [
+        {
+          "@id": "ex:struct/dailyTemperature"
+        }
+      ]
+    }
+  ],
+  "cdi:has": [
+    {
+      "@id": "ex:iv/observationDate"
+    },
+    {
+      "@id": "ex:iv/airTemperature"
+    },
+    {
+      "@id": "ex:iv/qualityFlag"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/record/dailyTemperature> a cdi:LogicalRecord ;
+    cdi:has <https://example.org/iv/airTemperature>,
+        <https://example.org/iv/observationDate>,
+        <https://example.org/iv/qualityFlag> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/record/dailyTemperature" ] ;
+    cdi:organizes <https://example.org/dataset/dailyTemperature> .
+
+<https://example.org/dataset/dailyTemperature> a cdi:DataSet ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/dataset/dailyTemperature" ] ;
+    cdi:isStructuredBy <https://example.org/struct/dailyTemperature> .
+
+
+```
+
 ## Schema
 
 ```yaml

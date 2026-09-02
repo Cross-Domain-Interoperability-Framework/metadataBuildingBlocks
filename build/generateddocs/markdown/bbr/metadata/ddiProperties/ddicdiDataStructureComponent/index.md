@@ -15,8 +15,97 @@ Most variants associate the component with a `ddicdiRepresentedVariable` via `cd
 
 ## Examples
 
-### Minimal IdentifierComponent
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI data structure component.
+A single MeasureComponent for an air-temperature column, deferring its
+semantics to a RepresentedVariable via cdi:isDefinedBy.
+
+The block is a union of six concrete component types and the abstract
+cdi:DataStructureComponent is not one of them: a component must say which role
+it plays (Identifier, Measure, Attribute, Dimension, VariableValue or
+VariableDescriptor).
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:struct/dailyTemperature/comp/airTemperature",
+  "@type": [
+    "cdi:MeasureComponent"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "airTemperature"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/struct/dailyTemperature/comp/airTemperature"
+  },
+  "cdi:isDefinedBy": {
+    "@id": "ex:rv/airTemperature"
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:struct/dailyTemperature/comp/airTemperature",
+  "@type": [
+    "cdi:MeasureComponent"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "airTemperature"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/struct/dailyTemperature/comp/airTemperature"
+  },
+  "cdi:isDefinedBy": {
+    "@id": "ex:rv/airTemperature"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/struct/dailyTemperature/comp/airTemperature> a cdi:MeasureComponent ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/struct/dailyTemperature/comp/airTemperature" ] ;
+    cdi:isDefinedBy <https://example.org/rv/airTemperature> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "airTemperature" ] .
+
+
+```
+
 ## Schema
 
 ```yaml

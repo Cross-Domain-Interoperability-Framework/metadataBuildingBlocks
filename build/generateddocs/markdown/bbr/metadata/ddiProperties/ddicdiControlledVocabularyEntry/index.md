@@ -15,8 +15,102 @@ It is the standalone-BB form of the `ControlledVocabularyEntry` data type define
 
 ## Examples
 
-### Minimal ControlledVocabularyEntry
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI controlled vocabulary entry.
+A ControlledVocabularyEntry naming the XML Schema `decimal` datatype.
+Shows the two ways an entry points outward: cdi:vocabulary references the
+vocabulary as a whole, cdi:entryReference the individual term within it.
+
+cdi:entryValue is an array of strings even for a single code, and cdi:name
+is a plain string rather than a structured name.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:cve/decimal",
+  "@type": [
+    "cdi:ControlledVocabularyEntry"
+  ],
+  "cdi:entryValue": [
+    "decimal"
+  ],
+  "cdi:name": "XML Schema decimal",
+  "cdi:vocabulary": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "https://www.w3.org/TR/xmlschema-2/",
+    "cdi:description": "W3C XML Schema Part 2 built-in datatypes."
+  },
+  "cdi:entryReference": [
+    {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "https://www.w3.org/TR/xmlschema-2/#decimal"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiControlledVocabularyEntry/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:cve/decimal",
+  "@type": [
+    "cdi:ControlledVocabularyEntry"
+  ],
+  "cdi:entryValue": [
+    "decimal"
+  ],
+  "cdi:name": "XML Schema decimal",
+  "cdi:vocabulary": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "https://www.w3.org/TR/xmlschema-2/",
+    "cdi:description": "W3C XML Schema Part 2 built-in datatypes."
+  },
+  "cdi:entryReference": [
+    {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "https://www.w3.org/TR/xmlschema-2/#decimal"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/cve/decimal> a cdi:ControlledVocabularyEntry ;
+    cdi:entryReference [ a cdi:Reference ;
+            cdi:uri "https://www.w3.org/TR/xmlschema-2/#decimal" ] ;
+    cdi:entryValue "decimal" ;
+    cdi:name "XML Schema decimal" ;
+    cdi:vocabulary [ a cdi:Reference ;
+            cdi:description "W3C XML Schema Part 2 built-in datatypes." ;
+            cdi:uri "https://www.w3.org/TR/xmlschema-2/" ] .
+
+
+```
+
 ## Schema
 
 ```yaml

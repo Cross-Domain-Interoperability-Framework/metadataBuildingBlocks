@@ -15,8 +15,430 @@ The local `$defs` cover the supporting types DDI-CDI uses to express controlled 
 
 ## Examples
 
-### Minimal CodeList
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI code list.
+A CodeList of single-letter quality flags for a daily air-temperature
+series. Demonstrates the split DDI-CDI makes between codes and the concepts
+they stand for: cdi:has_Code carries the Code objects, while cdi:references
+points at a CategorySet holding the Categories those codes denote.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:codelist/qualityFlag",
+  "@type": [
+    "cdi:CodeList"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "qualityFlag"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/codelist/qualityFlag"
+  },
+  "cdi:purpose": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Single-letter quality flags accompanying each daily air-temperature value.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:allowsDuplicates": false,
+  "cdi:references": {
+    "@id": "ex:categoryset/quality",
+    "@type": [
+      "cdi:CategorySet"
+    ],
+    "cdi:name": [
+      {
+        "@type": [
+          "cdi:ObjectName"
+        ],
+        "cdi:name": "qualityCategories"
+      }
+    ],
+    "cdi:has_Category": [
+      {
+        "@id": "ex:cat/quality/good",
+        "@type": [
+          "cdi:Category"
+        ],
+        "cdi:name": [
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "good"
+          }
+        ],
+        "cdi:definition": {
+          "@type": [
+            "cdi:InternationalString"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "Value passed all quality-control checks.",
+            "cdi:language": "en"
+          }
+        }
+      },
+      {
+        "@id": "ex:cat/quality/suspect",
+        "@type": [
+          "cdi:Category"
+        ],
+        "cdi:name": [
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "suspect"
+          }
+        ],
+        "cdi:definition": {
+          "@type": [
+            "cdi:InternationalString"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "Value failed at least one quality-control check and should be used with caution.",
+            "cdi:language": "en"
+          }
+        }
+      },
+      {
+        "@id": "ex:cat/quality/missing",
+        "@type": [
+          "cdi:Category"
+        ],
+        "cdi:name": [
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "missing"
+          }
+        ],
+        "cdi:definition": {
+          "@type": [
+            "cdi:InternationalString"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "No value was recorded for this observation.",
+            "cdi:language": "en"
+          }
+        }
+      }
+    ]
+  },
+  "cdi:has_Code": [
+    {
+      "@id": "ex:code/quality/G",
+      "@type": [
+        "cdi:Code"
+      ],
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/code/qualityFlag/G"
+      }
+    },
+    {
+      "@id": "ex:code/quality/S",
+      "@type": [
+        "cdi:Code"
+      ],
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/code/qualityFlag/S"
+      }
+    },
+    {
+      "@id": "ex:code/quality/M",
+      "@type": [
+        "cdi:Code"
+      ],
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/code/qualityFlag/M"
+      }
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:codelist/qualityFlag",
+  "@type": [
+    "cdi:CodeList"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "qualityFlag"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/codelist/qualityFlag"
+  },
+  "cdi:purpose": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Single-letter quality flags accompanying each daily air-temperature value.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:allowsDuplicates": false,
+  "cdi:references": {
+    "@id": "ex:categoryset/quality",
+    "@type": [
+      "cdi:CategorySet"
+    ],
+    "cdi:name": [
+      {
+        "@type": [
+          "cdi:ObjectName"
+        ],
+        "cdi:name": "qualityCategories"
+      }
+    ],
+    "cdi:has_Category": [
+      {
+        "@id": "ex:cat/quality/good",
+        "@type": [
+          "cdi:Category"
+        ],
+        "cdi:name": [
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "good"
+          }
+        ],
+        "cdi:definition": {
+          "@type": [
+            "cdi:InternationalString"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "Value passed all quality-control checks.",
+            "cdi:language": "en"
+          }
+        }
+      },
+      {
+        "@id": "ex:cat/quality/suspect",
+        "@type": [
+          "cdi:Category"
+        ],
+        "cdi:name": [
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "suspect"
+          }
+        ],
+        "cdi:definition": {
+          "@type": [
+            "cdi:InternationalString"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "Value failed at least one quality-control check and should be used with caution.",
+            "cdi:language": "en"
+          }
+        }
+      },
+      {
+        "@id": "ex:cat/quality/missing",
+        "@type": [
+          "cdi:Category"
+        ],
+        "cdi:name": [
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "missing"
+          }
+        ],
+        "cdi:definition": {
+          "@type": [
+            "cdi:InternationalString"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "No value was recorded for this observation.",
+            "cdi:language": "en"
+          }
+        }
+      }
+    ]
+  },
+  "cdi:has_Code": [
+    {
+      "@id": "ex:code/quality/G",
+      "@type": [
+        "cdi:Code"
+      ],
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/code/qualityFlag/G"
+      }
+    },
+    {
+      "@id": "ex:code/quality/S",
+      "@type": [
+        "cdi:Code"
+      ],
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/code/qualityFlag/S"
+      }
+    },
+    {
+      "@id": "ex:code/quality/M",
+      "@type": [
+        "cdi:Code"
+      ],
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/code/qualityFlag/M"
+      }
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/codelist/qualityFlag> a cdi:CodeList ;
+    cdi:allowsDuplicates false ;
+    cdi:has_Code <https://example.org/code/quality/G>,
+        <https://example.org/code/quality/M>,
+        <https://example.org/code/quality/S> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/codelist/qualityFlag" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "qualityFlag" ] ;
+    cdi:purpose [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Single-letter quality flags accompanying each daily air-temperature value." ;
+                    cdi:language "en" ] ] ;
+    cdi:references <https://example.org/categoryset/quality> .
+
+<https://example.org/cat/quality/good> a cdi:Category ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Value passed all quality-control checks." ;
+                    cdi:language "en" ] ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "good" ] .
+
+<https://example.org/cat/quality/missing> a cdi:Category ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "No value was recorded for this observation." ;
+                    cdi:language "en" ] ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "missing" ] .
+
+<https://example.org/cat/quality/suspect> a cdi:Category ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Value failed at least one quality-control check and should be used with caution." ;
+                    cdi:language "en" ] ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "suspect" ] .
+
+<https://example.org/categoryset/quality> a cdi:CategorySet ;
+    cdi:has_Category <https://example.org/cat/quality/good>,
+        <https://example.org/cat/quality/missing>,
+        <https://example.org/cat/quality/suspect> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "qualityCategories" ] .
+
+<https://example.org/code/quality/G> a cdi:Code ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/code/qualityFlag/G" ] .
+
+<https://example.org/code/quality/M> a cdi:Code ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/code/qualityFlag/M" ] .
+
+<https://example.org/code/quality/S> a cdi:Code ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/code/qualityFlag/S" ] .
+
+
+```
+
 ## Schema
 
 ```yaml

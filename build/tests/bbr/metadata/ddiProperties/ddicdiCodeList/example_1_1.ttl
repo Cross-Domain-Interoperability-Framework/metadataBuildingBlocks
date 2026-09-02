@@ -1,0 +1,61 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/codelist/qualityFlag> a cdi:CodeList ;
+    cdi:allowsDuplicates false ;
+    cdi:has_Code <https://example.org/code/quality/G>,
+        <https://example.org/code/quality/M>,
+        <https://example.org/code/quality/S> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/codelist/qualityFlag" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "qualityFlag" ] ;
+    cdi:purpose [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Single-letter quality flags accompanying each daily air-temperature value." ;
+                    cdi:language "en" ] ] ;
+    cdi:references <https://example.org/categoryset/quality> .
+
+<https://example.org/cat/quality/good> a cdi:Category ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Value passed all quality-control checks." ;
+                    cdi:language "en" ] ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "good" ] .
+
+<https://example.org/cat/quality/missing> a cdi:Category ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "No value was recorded for this observation." ;
+                    cdi:language "en" ] ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "missing" ] .
+
+<https://example.org/cat/quality/suspect> a cdi:Category ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Value failed at least one quality-control check and should be used with caution." ;
+                    cdi:language "en" ] ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "suspect" ] .
+
+<https://example.org/categoryset/quality> a cdi:CategorySet ;
+    cdi:has_Category <https://example.org/cat/quality/good>,
+        <https://example.org/cat/quality/missing>,
+        <https://example.org/cat/quality/suspect> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "qualityCategories" ] .
+
+<https://example.org/code/quality/G> a cdi:Code ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/code/qualityFlag/G" ] .
+
+<https://example.org/code/quality/M> a cdi:Code ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/code/qualityFlag/M" ] .
+
+<https://example.org/code/quality/S> a cdi:Code ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/code/qualityFlag/S" ] .
+

@@ -15,8 +15,185 @@ Both variants carry `cdi:takesValuesFrom` (pointing at a local presentational va
 
 ## Examples
 
-### Minimal ReferenceVariable
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI presentational variable.
+A ReferenceVariable carrying a human-readable station name alongside
+the station code. A presentational variable exists for display: it identifies
+no new unit and measures nothing, which is what separates it from an
+InstanceVariable.
+
+The block is a union — cdi:ReferenceVariable or cdi:DescriptorVariable — so
+the @type chooses the branch.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:pv/stationName",
+  "@type": [
+    "cdi:ReferenceVariable"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "stationName"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/pv/stationName"
+  },
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Station name",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Human-readable station name carried alongside the station code for presentation; it identifies no new unit and is not itself measured.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:physicalDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "string"
+    ],
+    "cdi:vocabulary": {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "https://www.w3.org/TR/xmlschema-2/"
+    }
+  },
+  "cdi:simpleUnitOfMeasure": "none"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPresentationalVariable/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:pv/stationName",
+  "@type": [
+    "cdi:ReferenceVariable"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "stationName"
+    }
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/pv/stationName"
+  },
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Station name",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Human-readable station name carried alongside the station code for presentation; it identifies no new unit and is not itself measured.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:physicalDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "string"
+    ],
+    "cdi:vocabulary": {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "https://www.w3.org/TR/xmlschema-2/"
+    }
+  },
+  "cdi:simpleUnitOfMeasure": "none"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/pv/stationName> a cdi:ReferenceVariable ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Human-readable station name carried alongside the station code for presentation; it identifies no new unit and is not itself measured." ;
+                    cdi:language "en" ] ] ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Station name" ;
+                    cdi:language "en" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/pv/stationName" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "stationName" ] ;
+    cdi:physicalDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "string" ;
+            cdi:vocabulary [ a cdi:Reference ;
+                    cdi:uri "https://www.w3.org/TR/xmlschema-2/" ] ] ;
+    cdi:simpleUnitOfMeasure "none" .
+
+
+```
+
 ## Schema
 
 ```yaml
