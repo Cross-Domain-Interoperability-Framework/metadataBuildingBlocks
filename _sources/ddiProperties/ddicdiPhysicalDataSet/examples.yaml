@@ -1,2 +1,19 @@
-- title: Minimal WideDataSet
-  content: 'TODO: replace with a JSON-LD example.'
+- title: Example DDI-CDI physical data set (wide).
+  content: |-
+    A WideDataSet for a daily air-temperature series: one row per observation
+    date, one column per variable. cdi:has_InstanceVariable names the columns
+    and cdi:isStructuredBy points at the DataStructure that describes their
+    roles.
+
+    The block is a union of five physical forms — WideDataSet, LongDataSet,
+    DimensionalDataSet, TabularTextDataSet, StructuredDataSet — and they
+    differ in more than @type. cdi:isStructuredBy used here belongs to
+    WideDataSet; a TabularTextDataSet instead carries the CSV dialect
+    (delimiter, quote character, header rows) and links to its logical view
+    with cdi:correspondsTo, and its cdi:name is a single ObjectName rather
+    than an array. Check the target $defs rather than copying a sibling.
+  prefixes:
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+  snippets:
+    - language: json
+      ref: exampleDdicdiPhysicalDataSet.json

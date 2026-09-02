@@ -109,8 +109,14 @@ their refs are resolved over the network at their build time, not ours.
 - **An `example*.json` must be referenced from its block's `examples.yaml`**, as
   `snippets: [{language: json, ref: <file>}]` — that is what the OGC postprocessor publishes and
   validates. `validate_examples.py` finds examples by globbing `example*.json`, so an unreferenced
-  file still passes locally while being invisible to CI and to the published block. Eight
-  `ddiProperties` blocks still carry a bare `content: 'TODO: replace with a JSON-LD example.'`
-  placeholder and ship no example at all: `ddicdiCodeList`, `ddicdiControlledVocabularyEntry`,
-  `ddicdiDataStructureComponent`, `ddicdiEnumerationDomain`, `ddicdiLogicalRecord`,
-  `ddicdiPhysicalDataSet`, `ddicdiPresentationalVariable`, `ddicdiStatisticalClassification`.
+  file still passes locally while being invisible to CI and to the published block. Every block now
+  wires its examples and **no `TODO: replace with a JSON-LD example` placeholder remains**; keep it
+  that way when adding a block.
+- **`ddiProperties` examples use the canonical DDI-CDI datatypes, not CDIF's simplifications** —
+  `cdi:name` is an `ObjectName` (`{@type, cdi:name}`), `cdi:definition` an `InternationalString`
+  wrapping a `LanguageString`, `cdi:encoding`/`cdi:physicalDataType` a `ControlledVocabularyEntry`.
+  Arity is per-block, not per-property: `cdi:name` is an array on most blocks but a single object on
+  `TabularTextDataSet`. Union blocks pick a branch by `@type` and the branches differ in more than
+  the type — `cdi:isStructuredBy` is on `WideDataSet` while a `TabularTextDataSet` uses
+  `cdi:correspondsTo`, and an abstract type such as `cdi:DataStructureComponent` is never a valid
+  choice. Check the target `$defs` rather than copying a sibling example.
