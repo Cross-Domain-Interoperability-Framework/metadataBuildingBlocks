@@ -12,9 +12,15 @@ Profile modules are discovered by scanning the building-block sources for the
 conformance URI each one pins, so adding a module or bumping a version URI
 needs no change here.
 
+A nested property that no declared profile mentions anywhere is marked in
+place; a remote @context is fetched so its CURIEs resolve (--offline to skip);
+and several records can be rendered in one run, optionally with a catalogue
+page linking them.
+
 USAGE:
   python tools/cdif_record_to_html.py record.json
   python tools/cdif_record_to_html.py record.json -o out.html
+  python tools/cdif_record_to_html.py _sources/profiles/cdifCompositeProfile/CoreDiscovery       -o build/records --index build/records/index.html
   python tools/cdif_record_to_html.py --list-profiles
 """
 from __future__ import annotations
@@ -25,6 +31,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.request import Request, urlopen
 
 import yaml
 
@@ -212,23 +219,127 @@ def load_modules(dirs):
 # record inspection
 # --------------------------------------------------------------------------
 
-def record_context(record):
-    """Prefix -> namespace map from the record's @context.
+_CONTEXT_CACHE = {}
 
-    Only the inline object form is used; a remote context would need a fetch,
-    and CURIEs that cannot be expanded are simply rendered as text.
+
+def fetch_context(url, timeout=10):
+    """Fetch a remote JSON-LD context and return its term map.
+
+    Cached per run. A failure is a warning, not an error: the page still
+    renders, with unexpandable CURIEs shown as text.
     """
-    context = record.get('@context')
+    if url in _CONTEXT_CACHE:
+        return _CONTEXT_CACHE[url]
+    terms = {}
+    try:
+        request = Request(url, headers={
+            'Accept': 'application/ld+json, application/json;q=0.9, */*;q=0.1',
+            'User-Agent': 'cdif_record_to_html',
+        })
+        with urlopen(request, timeout=timeout) as response:
+            body = json.loads(response.read().decode('utf-8'))
+        terms = _context_terms(body.get('@context') if isinstance(body, dict) else None)
+    except Exception as exc:                      # network, TLS, JSON, encoding
+        print('warning: could not fetch context %s (%s: %s)'
+              % (url, type(exc).__name__, exc), file=sys.stderr)
+    _CONTEXT_CACHE[url] = terms
+    return terms
+
+
+def _context_terms(context, offline=True, seen=None):
+    """Prefix -> namespace map from a @context value, following remote
+    references when not offline."""
+    seen = seen if seen is not None else set()
     entries = context if isinstance(context, list) else [context]
     prefixes = {}
     for entry in entries:
         if isinstance(entry, dict):
             for key, value in entry.items():
+                if key.startswith('@'):
+                    continue
                 if isinstance(value, str):
                     prefixes[key] = value
                 elif isinstance(value, dict) and isinstance(value.get('@id'), str):
                     prefixes[key] = value['@id']
+        elif isinstance(entry, str) and entry.startswith(('http://', 'https://')):
+            if offline or entry in seen:
+                continue
+            seen.add(entry)
+            prefixes.update(fetch_context(entry))
     return prefixes
+
+
+def record_context(record, offline=True):
+    """Prefix -> namespace map from the record's @context.
+
+    A remote context (a bare URL in @context) is fetched unless offline;
+    CURIEs that still cannot be expanded are rendered as text.
+    """
+    return _context_terms(record.get('@context'), offline=offline)
+
+
+def _type_consts(spec):
+    """The @type values a schema node pins, via const or enum."""
+    type_spec = (spec.get('properties') or {}).get('@type')
+    if not isinstance(type_spec, dict):
+        return []
+    found = []
+    for holder in (type_spec.get('contains'), type_spec.get('items'), type_spec):
+        if not isinstance(holder, dict):
+            continue
+        if isinstance(holder.get('const'), str):
+            found.append(holder['const'])
+        for value in (holder.get('enum') or []):
+            if isinstance(value, str):
+                found.append(value)
+    return found
+
+
+def known_property_names(modules):
+    """Every property name any declared profile mentions, at any depth.
+
+    This is deliberately a weak claim. A stronger per-@type check -- "is this
+    property allowed on a node of this type" -- cannot be made reliably from
+    these schemas: CDIF modules are property bundles and only cdifCore pins the
+    root @type, so cdifDiscovery's schema:temporalCoverage is never associated
+    with schema:Dataset in any single module. Type-to-property association only
+    becomes true after the profile composes them, which build_tabs already does
+    at the record root. Attempting it per node marked ~22% of valid content as
+    "not in profile".
+
+    So a nested property is flagged only when NO declared profile mentions it
+    anywhere -- the same claim the root-level "Additional" tab makes.
+    """
+    names = set()
+
+    def visit(node):
+        if isinstance(node, dict):
+            declared = node.get('properties')
+            if isinstance(declared, dict):
+                names.update(declared.keys())
+            for child in node.values():
+                visit(child)
+        elif isinstance(node, list):
+            for child in node:
+                visit(child)
+
+    seen = set()
+    for module in modules:
+        if module.path in seen:
+            continue
+        seen.add(module.path)
+        schema = _load_resolved(module.path) or _load_source(module.path)
+        if isinstance(schema, dict):
+            visit(schema)
+    return names
+
+
+def unknown_keys(node, known):
+    """Property names on this node that no declared profile mentions at all."""
+    if not known:
+        return set()
+    return {k for k in node
+            if not k.startswith('@') and k not in known}
 
 
 def catalog_record(record):
@@ -328,7 +439,7 @@ def render_scalar(value, prefixes):
     return '<span class="lit">%s</span>' % esc(value)
 
 
-def render_value(value, prefixes, depth=0):
+def render_value(value, prefixes, depth=0, type_index=None):
     if value is None:
         return '<span class="empty">null</span>'
     if isinstance(value, (str, int, float, bool)):
@@ -336,14 +447,15 @@ def render_value(value, prefixes, depth=0):
     if isinstance(value, list):
         if not value:
             return '<span class="empty">(none)</span>'
-        items = ''.join('<li>%s</li>' % render_value(v, prefixes, depth) for v in value)
+        items = ''.join('<li>%s</li>' % render_value(v, prefixes, depth, type_index)
+                        for v in value)
         return '<ul class="vals">%s</ul>' % items
     if isinstance(value, dict):
-        return render_node(value, prefixes, depth)
+        return render_node(value, prefixes, depth, type_index)
     return '<span class="lit">%s</span>' % esc(value)
 
 
-def render_node(node, prefixes, depth=0):
+def render_node(node, prefixes, depth=0, type_index=None):
     """A JSON-LD object: a bare {@id} becomes a link, anything richer a card."""
     keys = [k for k in node if k != '@context']
     if keys == ['@id']:
@@ -372,16 +484,20 @@ def render_node(node, prefixes, depth=0):
                 shown_keys.add(key)
                 break
 
+    unknown = unknown_keys(node, type_index)
     rows = []
     for key in keys:
         if key in shown_keys:
             continue
+        extra = ' unknown' if key in unknown else ''
+        flag = ('<span class="flag" title="Not defined for this @type by any '
+                'declared profile">not in profile</span>') if key in unknown else ''
         rows.append(
-            '<div class="row"><div class="key" title="%s">%s'
-            '<span class="curie">%s</span></div>'
+            '<div class="row%s"><div class="key" title="%s">%s'
+            '<span class="curie">%s</span>%s</div>'
             '<div class="val">%s</div></div>'
-            % (esc(key), esc(humanize(key)), esc(key),
-               render_value(node[key], prefixes, depth + 1))
+            % (extra, esc(key), esc(humanize(key)), esc(key), flag,
+               render_value(node[key], prefixes, depth + 1, type_index))
         )
 
     header = '<div class="node-head">%s</div>' % ''.join(head) if head else ''
@@ -391,7 +507,8 @@ def render_node(node, prefixes, depth=0):
     return '<div class="node">%s%s</div>' % (header, body)
 
 
-def render_property(name, value, description, prefixes):
+def render_property(name, value, description, prefixes, type_index=None,
+                    label=None):
     tip = ' title="%s"' % esc(description) if description else ''
     note = '<div class="desc">%s</div>' % esc(description) if description else ''
     return (
@@ -400,8 +517,8 @@ def render_property(name, value, description, prefixes):
         '%s'
         '<div class="prop-val">%s</div>'
         '</section>'
-        % (tip, esc(humanize(name)), esc(name), note,
-           render_value(value, prefixes))
+        % (tip, esc(label or humanize(name)), esc(name), note,
+           render_value(value, prefixes, 0, type_index))
     )
 
 
@@ -437,6 +554,10 @@ nav.tabs button[aria-selected=true]{color:var(--fg);font-weight:600;background:v
 nav.tabs .count{color:var(--muted);font-weight:400;font-size:.8em;margin-left:.3rem}
 .panel[hidden]{display:none}
 .panel > p.lead{color:var(--muted);margin:0 0 1.25rem;max-width:80ch}
+.group{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;
+       color:var(--muted);margin:1.6rem 0 .7rem;padding-bottom:.25rem;
+       border-bottom:1px solid var(--line);font-weight:600}
+.panel > .group:first-child{margin-top:0}
 .prop{margin:0 0 1.4rem}
 .prop > h3{margin:0 0 .1rem;font-size:1rem;border-bottom:1px solid var(--line);padding-bottom:.2rem}
 .curie{color:var(--muted);font-weight:400;font-size:.75rem;
@@ -460,6 +581,18 @@ ul.vals > li:last-child{margin-bottom:0}
 .row:first-child{border-top:none}
 .row > .key{color:var(--muted);font-size:.85rem}
 .row > .key .curie{display:block;margin:0;font-size:.7rem;opacity:.75}
+.row.unknown{background:var(--warnbg)}
+.flag{display:inline-block;margin-top:.15rem;padding:0 .3rem;border-radius:3px;
+      background:var(--warnbg);color:var(--warn);border:1px solid currentColor;
+      font-size:.65rem;letter-spacing:.02em;white-space:nowrap}
+ul.cards{list-style:none;margin:0;padding:0;display:grid;gap:.6rem;
+         grid-template-columns:repeat(auto-fill,minmax(19rem,1fr))}
+ul.cards > li{border:1px solid var(--line);border-radius:6px;background:var(--card);
+              padding:.7rem .8rem}
+ul.cards a.card-title{font-weight:600;font-size:1rem;text-decoration:none}
+ul.cards .card-meta{color:var(--muted);font-size:.78rem;margin-top:.25rem;
+                    word-break:break-all}
+ul.cards .card-desc{font-size:.85rem;margin-top:.4rem}
 .note{background:var(--warnbg);color:var(--warn);border:1px solid var(--line);
       border-radius:5px;padding:.5rem .7rem;margin:0 0 1.25rem;font-size:.85rem;max-width:80ch}
 footer{margin-top:2.5rem;padding-top:.75rem;border-top:1px solid var(--line);
@@ -487,8 +620,198 @@ if (location.hash) {
 """
 
 
-def build_tabs(record, modules, prefixes):
-    """Assign each root property to a tab and render the panels."""
+# --------------------------------------------------------------------------
+# curated layout from JSON Forms uischema
+# --------------------------------------------------------------------------
+
+UISCHEMA_ROOT = REPO / '_sources' / 'jsonforms' / 'profiles'
+COMPOSITE_ROOT = REPO / '_sources' / 'profiles' / 'cdifCompositeProfile'
+
+
+class Layout:
+    """A curated tab layout taken from a profile's JSON Forms uischema.
+
+    tools/convert_for_jsonforms.py already derives a
+    Categorization -> Category -> Group -> Control tree from each composite
+    profile, with human labels and a sensible field order. Reusing it gives
+    the same sections the ADA metadata forms show, generated from the
+    profiles rather than hand-maintained here.
+    """
+
+    def __init__(self, name, uris, categories, labels):
+        self.name = name
+        self.uris = uris              # conformance URIs the profile requires
+        self.categories = categories  # [(label, [(group label, [property])])]
+        self.labels = labels          # {property: curated label}
+
+
+def _scope_property(scope):
+    """'#/properties/schema:name/properties/x' -> 'schema:name'."""
+    if not isinstance(scope, str) or not scope.startswith('#/properties/'):
+        return None
+    parts = scope.split('/')
+    return parts[2] if len(parts) > 2 else None
+
+
+def _uischema_categories(uischema):
+    """Flatten the uischema into [(category, [(group, [property])])] plus the
+    curated label for each property."""
+    labels = {}
+
+    def controls(node, found):
+        """Root property names under a node, in document order, de-duplicated."""
+        if isinstance(node, dict):
+            if node.get('type') == 'Control':
+                name = _scope_property(node.get('scope'))
+                if name and name not in found:
+                    found.append(name)
+                if name and name not in labels and isinstance(node.get('label'), str):
+                    labels[name] = node['label']
+            for child in (node.get('elements') or []):
+                controls(child, found)
+        elif isinstance(node, list):
+            for child in node:
+                controls(child, found)
+        return found
+
+    categories = []
+    for category in (uischema.get('elements') or []):
+        if not isinstance(category, dict):
+            continue
+        groups = []
+        for group in (category.get('elements') or []):
+            names = controls(group, [])
+            if names:
+                groups.append((group.get('label') or '', names))
+        if groups:
+            categories.append((category.get('label') or 'Section', groups))
+    return categories, labels
+
+
+def _composite_conformance(name):
+    """The conformance URIs a composite profile requires, from the modules it
+    composes. Returns None when no such composite exists."""
+    directory = COMPOSITE_ROOT / name
+    schema = _load_source(directory)
+    if not isinstance(schema, dict):
+        return None
+    uris = set()
+    base = directory.resolve()
+    for entry in (schema.get('allOf') or []):
+        ref = entry.get('$ref') if isinstance(entry, dict) else None
+        if not isinstance(ref, str) or ref.startswith('#'):
+            continue
+        module_dir = (base / ref).resolve().parent
+        module_schema = _load_source(module_dir)
+        if isinstance(module_schema, dict):
+            uris |= _find_conformance_uris(module_schema, set())
+            uris |= _shacl_conformance_uris(module_dir)
+    return uris
+
+
+def load_layouts():
+    """Every uischema whose composite profile still exists.
+
+    A uischema left behind by a retired profile is skipped: XASdata's
+    composite was archived in favour of xasDocument, which has no uischema of
+    its own, so matching on the uischema directory name alone would apply a
+    layout for a profile that no longer ships.
+    """
+    layouts = []
+    if not UISCHEMA_ROOT.is_dir():
+        return layouts
+    for group_dir in sorted(UISCHEMA_ROOT.iterdir()):
+        if not group_dir.is_dir():
+            continue
+        for profile_dir in sorted(group_dir.iterdir()):
+            path = profile_dir / 'uischema.json'
+            if not path.is_file():
+                continue
+            uris = _composite_conformance(profile_dir.name)
+            if not uris:
+                continue
+            try:
+                uischema = json.loads(path.read_text(encoding='utf-8'))
+            except (json.JSONDecodeError, OSError):
+                continue
+            categories, labels = _uischema_categories(uischema)
+            if categories:
+                layouts.append(Layout(profile_dir.name, uris, categories, labels))
+    return layouts
+
+
+def choose_layout(declared, layouts):
+    """The most specific layout the record actually satisfies.
+
+    A layout applies only when the record declares every URI its profile
+    requires; among those, the one requiring most wins.
+    """
+    applicable = [l for l in layouts if l.uris and l.uris <= set(declared)]
+    if not applicable:
+        return None
+    return max(applicable, key=lambda l: len(l.uris))
+
+
+def _slug(text, used):
+    base = re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-') or 'section'
+    slug, n = base, 2
+    while slug in used:
+        slug, n = '%s-%d' % (base, n), n + 1
+    used.add(slug)
+    return slug
+
+
+def _tabs_from_layout(record, layout, described, prefixes, type_index, unknown_uris):
+    """Tabs from a profile's curated uischema: one per Category, sections per
+    Group, in the order the profile's form declares."""
+    handled = set(BANNER_PROPERTIES) | {'@context'}
+    covered, used = set(), set()
+    tabs, panels = [], []
+
+    for category, groups in layout.categories:
+        sections, count = [], 0
+        for group_label, names in groups:
+            present = [n for n in names
+                       if n in record and n not in handled and n not in covered]
+            if not present:
+                continue
+            body = ''.join(
+                render_property(n, record[n], described.get(n, ''), prefixes,
+                                type_index, layout.labels.get(n))
+                for n in present)
+            heading = ('<h4 class="group">%s</h4>' % esc(group_label)) if group_label else ''
+            sections.append(heading + body)
+            covered.update(present)
+            count += len(present)
+        if not sections:
+            continue
+        body = ''.join(sections)
+        if category == 'Metadata Record' and unknown_uris:
+            listed = ', '.join('<code>%s</code>' % esc(u) for u in unknown_uris)
+            body = ('<p class="note">Declared conformance not matched to a known '
+                    'profile module: %s</p>' % listed) + body
+        tabs.append((_slug(category, used), category, count))
+        panels.append((tabs[-1][0], body))
+
+    extra = [n for n in record if n not in handled and n not in covered]
+    if extra:
+        body = ('<p class="note">Present in the record but not placed by the '
+                '%s form layout. Shown so nothing is dropped.</p>' % esc(layout.name))
+        body += ''.join(render_property(n, record[n], described.get(n, ''),
+                                        prefixes, type_index)
+                        for n in extra)
+        tabs.append((_slug('additional', used), 'Additional', len(extra)))
+        panels.append((tabs[-1][0], body))
+
+    return tabs, panels
+
+
+def build_tabs(record, modules, prefixes, type_index=None, layouts=None):
+    """Assign each root property to a tab and render the panels.
+
+    When the record satisfies a profile that ships a JSON Forms uischema,
+    that curated layout is used; otherwise tabs are derived one per
+    declared module."""
     uris = declared_conformance(record)
     selected, unknown_uris = [], []
     for uri in uris:
@@ -513,6 +836,13 @@ def build_tabs(record, modules, prefixes):
             if description:
                 described[name] = description
 
+    layout = choose_layout(uris, layouts or [])
+    if layout is not None:
+        tabs, panels = _tabs_from_layout(record, layout, described, prefixes,
+                                         type_index, unknown_uris)
+        if tabs:
+            return tabs, panels, selected, unknown_uris
+
     handled = set(BANNER_PROPERTIES) | {'@context', RECORD_PROPERTY}
     buckets = {module.name: [] for module in selected}
     extra = []
@@ -533,7 +863,8 @@ def build_tabs(record, modules, prefixes):
         lead = ('<p class="lead">%s<br><code>%s</code></p>'
                 % (esc(module.title), esc(module.uri)))
         if names:
-            body = ''.join(render_property(n, record[n], described.get(n, ''), prefixes)
+            body = ''.join(render_property(n, record[n], described.get(n, ''),
+                                          prefixes, type_index)
                            for n in names)
         elif module.name == 'cdifDataStructure':
             # This module adds no root properties; a structure is attached to a
@@ -558,22 +889,26 @@ def build_tabs(record, modules, prefixes):
             body += ('<p class="note">Declared conformance not matched to a known '
                      'profile module, so it contributes no tab: %s</p>' % listed)
         body += render_property(RECORD_PROPERTY, node,
-                                described.get(RECORD_PROPERTY, ''), prefixes)
+                                described.get(RECORD_PROPERTY, ''), prefixes,
+                                type_index)
         add('record', 'Metadata Record', 1, body)
 
     if extra:
         body = ('<p class="note">Present in the record but not defined by any declared '
                 'CDIF profile. Shown so nothing is dropped; these are not validated '
                 'by the profiles above.</p>')
-        body += ''.join(render_property(n, record[n], '', prefixes) for n in extra)
+        body += ''.join(render_property(n, record[n], '', prefixes, type_index)
+                        for n in extra)
         add('additional', 'Additional', len(extra), body)
 
     return tabs, panels, selected, unknown_uris
 
 
-def render_html(record, modules, title=None):
-    prefixes = record_context(record)
-    tabs, panels, selected, _ = build_tabs(record, modules, prefixes)
+def render_html(record, modules, title=None, offline=True, type_index=None,
+                layouts=None):
+    prefixes = record_context(record, offline=offline)
+    tabs, panels, selected, _ = build_tabs(record, modules, prefixes,
+                                          type_index, layouts)
 
     name = record.get('schema:name')
     if isinstance(name, list):
@@ -625,12 +960,97 @@ def render_html(record, modules, title=None):
     )
 
 
+def render_index(entries, title='CDIF records'):
+    """A catalogue page linking the records rendered in a batch run."""
+    cards = []
+    for e in entries:
+        badges = ''.join('<span class="badge">%s</span>' % esc(p) for p in e['profiles'])
+        desc = ('<div class="card-desc">%s</div>' % esc(e['description'][:240])
+                if e['description'] else '')
+        cards.append(
+            '<li><a class="card-title" href="%s">%s</a>%s'
+            '<div class="card-meta">%s</div>%s</li>'
+            % (esc(e['href']), esc(e['name']),
+               ('<div class="card-meta">%s</div>' % badges) if badges else '',
+               esc(e['identifier'] or e['href']), desc))
+    return (
+        '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
+        '<title>%s</title>\n<style>%s</style>\n</head>\n<body>\n<div class="wrap">\n'
+        '<header class="banner"><h1>%s</h1>'
+        '<div class="ids">%d record%s</div></header>\n'
+        '<ul class="cards">%s</ul>\n'
+        '<footer>Rendered from CDIF JSON-LD records.</footer>\n'
+        '</div>\n</body>\n</html>\n'
+        % (esc(title), CSS, esc(title), len(entries),
+           '' if len(entries) == 1 else 's', ''.join(cards))
+    )
+
+
+def load_record(path):
+    """Return (record, error_message)."""
+    try:
+        record = json.loads(path.read_text(encoding='utf-8'))
+    except OSError as exc:
+        return None, 'cannot read %s: %s' % (path, exc)
+    except json.JSONDecodeError as exc:
+        return None, '%s is not valid JSON: %s' % (path, exc)
+    if not isinstance(record, dict):
+        return None, '%s is not a JSON object' % path
+    return record, None
+
+
+def collect_records(paths):
+    """Expand the positional arguments into record files.
+
+    A directory contributes its *.json files (non-recursively), skipping the
+    generated *Schema.json artefacts that sit beside examples.
+    """
+    files = []
+    for raw in paths:
+        p = Path(raw)
+        if p.is_dir():
+            files.extend(sorted(q for q in p.glob('*.json')
+                                if not q.name.endswith('Schema.json')
+                                and q.name not in ('bblock.json', 'context.jsonld')))
+        else:
+            files.append(p)
+    return files
+
+
+def _record_summary(record, source, href, modules, type_index, offline, layouts=None):
+    """One entry for the index page."""
+    prefixes = record_context(record, offline=offline)
+    _, _, selected, _ = build_tabs(record, modules, prefixes, type_index, layouts)
+    name = record.get('schema:name')
+    if isinstance(name, list):
+        name = next((n for n in name if isinstance(n, str)), None)
+    description = record.get('schema:description')
+    if isinstance(description, list):
+        description = next((d for d in description if isinstance(d, str)), '')
+    return {
+        'href': href,
+        'name': name if isinstance(name, str) else (record.get('@id') or source.name),
+        'identifier': record.get('@id') if isinstance(record.get('@id'), str) else '',
+        'description': description if isinstance(description, str) else '',
+        'profiles': [m.label for m in selected],
+    }
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('record', nargs='?', help='CDIF JSON-LD metadata record')
-    parser.add_argument('-o', '--output', help='output HTML file (default: <record>.html)')
+    parser.add_argument('record', nargs='*',
+                        help='CDIF JSON-LD record(s), or a directory of them')
+    parser.add_argument('-o', '--output',
+                        help='output HTML file, or a directory when rendering more '
+                             'than one record (default: alongside each record)')
     parser.add_argument('--title', help='page title (default: schema:name)')
+    parser.add_argument('--index', metavar='PATH',
+                        help='also write a catalogue page linking every record '
+                             'rendered in this run')
+    parser.add_argument('--offline', action='store_true',
+                        help='do not fetch remote @context documents')
     parser.add_argument('--profile-dir', action='append', type=Path,
                         help='directory of profile modules; repeatable')
     parser.add_argument('--list-profiles', action='store_true',
@@ -650,32 +1070,75 @@ def main(argv=None):
     if not args.record:
         parser.error('a record is required (or use --list-profiles)')
 
-    source = Path(args.record)
-    try:
-        record = json.loads(source.read_text(encoding='utf-8'))
-    except OSError as exc:
-        print('error: cannot read %s: %s' % (source, exc), file=sys.stderr)
-        return 2
-    except json.JSONDecodeError as exc:
-        print('error: %s is not valid JSON: %s' % (source, exc), file=sys.stderr)
+    sources = collect_records(args.record)
+    if not sources:
+        print('error: no record files found', file=sys.stderr)
         return 2
 
-    if not isinstance(record, dict):
-        print('error: %s is not a JSON object' % source, file=sys.stderr)
-        return 2
+    many = len(sources) > 1
+    out_dir = None
+    if args.output:
+        out_path = Path(args.output)
+        if many or out_path.is_dir():
+            out_dir = out_path
+            out_dir.mkdir(parents=True, exist_ok=True)
 
-    uris = declared_conformance(record)
-    if not uris:
-        print('warning: %s declares no %s -> dcterms:conformsTo; falling back to '
-              'the core profile' % (source, RECORD_PROPERTY), file=sys.stderr)
-    for uri in uris:
-        if uri not in modules:
-            print('warning: unrecognised conformance URI %s' % uri, file=sys.stderr)
+    type_index = known_property_names(list(dict.fromkeys(modules.values())))
+    layouts = load_layouts()
 
-    output = Path(args.output) if args.output else source.with_suffix('.html')
-    output.write_text(render_html(record, modules, args.title), encoding='utf-8')
-    print('wrote %s' % output)
-    return 0
+    entries, failures = [], 0
+    for source in sources:
+        record, error = load_record(source)
+        if error:
+            print('error: %s' % error, file=sys.stderr)
+            failures += 1
+            continue
+
+        uris = declared_conformance(record)
+        if not uris:
+            print('warning: %s declares no %s -> dcterms:conformsTo; falling back '
+                  'to the core profile' % (source, RECORD_PROPERTY), file=sys.stderr)
+        for uri in uris:
+            if uri not in modules:
+                print('warning: %s declares unrecognised conformance URI %s'
+                      % (source, uri), file=sys.stderr)
+
+        if out_dir is not None:
+            output = out_dir / (source.stem + '.html')
+        elif args.output and not many:
+            output = Path(args.output)
+        else:
+            output = source.with_suffix('.html')
+
+        title = args.title if (args.title and not many) else None
+        output.write_text(
+            render_html(record, modules, title, offline=args.offline,
+                        type_index=type_index, layouts=layouts),
+            encoding='utf-8')
+        print('wrote %s' % output)
+        entries.append(_record_summary(record, source, output, modules,
+                                       type_index, args.offline, layouts))
+
+    if args.index and entries:
+        index_path = Path(args.index)
+        if index_path.is_dir():
+            index_path = index_path / 'index.html'
+        index_path.parent.mkdir(parents=True, exist_ok=True)
+        base = index_path.parent.resolve()
+        for e in entries:
+            target = Path(e['href']).resolve()
+            try:
+                e['href'] = target.relative_to(base).as_posix()
+            except ValueError:
+                e['href'] = target.as_uri()
+        index_path.write_text(
+            render_index(entries, args.title or 'CDIF records'), encoding='utf-8')
+        print('wrote %s' % index_path)
+    elif entries:
+        for e in entries:
+            e['href'] = str(e['href'])
+
+    return 2 if failures and not entries else 0
 
 
 if __name__ == '__main__':
