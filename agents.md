@@ -751,7 +751,7 @@ This is not hypothetical. `ecrrBuildingBlocks` points every one of its 25 cross-
 - **Draft 2020-12 `$ref` siblings:** when a `$ref` carries sibling keywords (e.g. `description`), they merge into the `$ref` node directly rather than being wrapped in `allOf [{$ref}, {siblings}]`. Draft 2020-12 evaluates sibling keywords alongside the referenced schema, so the allOf wrap is unnecessary and the merged shape is more compact and metaschema-clean.
 - **`merge_profile_structured` keys handling:** top-level keys other than `properties`/`allOf`/identity (e.g. `required`, `contains`) on a composing BB become `allOf` constraint entries on the merged result rather than being inserted into the merged `properties` dict. Multiple BBs' `required` lists therefore compose by intersection (each is its own constraint) instead of clobbering each other or polluting `properties`.
 
-**Key implementation details (schema_resolver.py):**
+**Key implementation details (`tools/resolve_schema.py`):**
 - Flattens all `$defs` to a single global scope; `--inline-single-use` inlines defs referenced only once
 - Tracks `source_file` through `process_schema()` so that internal `#/$defs/X` refs within externally-referenced files are resolved against the source file and promoted to global scope (fixes transitive internal ref resolution)
 - Collapses alias `$defs` (e.g. `DefinedTerm_2: {$ref: "#/$defs/DefinedTerm"}`) that arise when multiple building blocks each declare a local `$defs` entry pointing to the same external schema — rewrites all references to point directly to the canonical def and removes the aliases
@@ -921,7 +921,9 @@ python generate_property_table.py path/to/_sources/profiles/cdifCompositeProfile
 
 ## validate_examples.py
 
-Validates all example JSON files against their resolved schemas. Uses `schema_resolver.py`'s `SchemaResolver` class for resolution, which correctly handles transitive internal `$defs` references within externally-referenced schemas. Falls back to the `tools/resolve_schema.py` inline resolver for schemas with circular `$ref` patterns that cause recursion errors in jsonschema validation.
+Validates all example JSON files against their resolved schemas.
+
+**One resolver, not two.** Resolution uses `tools/resolve_schema.py`'s `resolve_structured` — the same code that writes `resolvedSchema.json` — so the gate validates the artifact that ships, falling back to that module's inline `resolve_file` for schemas whose recursion defeats structured resolution. It previously used the root `schema_resolver.py`, which resolved some schemas differently: an example could pass the gate and be invalid against the published block, or the reverse (a `ddicdiPhysicalDataSet` example did exactly that). That file is now in `archive/` — switching changed no result, 152 passed / 0 failed either way. The resolver narrates on **stderr** (24 print sites), so the call is wrapped in `redirect_stderr`/`redirect_stdout`; without it the pass/fail report is buried under ~30 KB of chatter.
 
 **Usage:**
 ```bash
@@ -1050,7 +1052,7 @@ python tools/audit_building_blocks.py --filter cdifCore -v
 python tools/audit_building_blocks.py --json -o report.json
 ```
 
-**Requirements:** `pyyaml`, `jsonschema`. Imports `schema_resolver.py` for re-resolution checks.
+**Requirements:** `pyyaml`, `jsonschema`. Imports `tools/resolve_schema.py`'s `resolve_structured` for re-resolution checks.
 
 ## audit_shacl_coverage.py
 

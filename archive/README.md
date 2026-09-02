@@ -56,3 +56,23 @@ un-archiving these.
 `_sources/ddiProperties/ddicdiInstanceVariable/exampleDdicdiInstanceVariable.json` was
 unreferenced in the same way but **was never archived** — it validates, so it was unwired
 rather than broken, and it is now wired into its `examples.yaml` too.
+
+## schema_resolver.py
+
+Archived 2026-09-02. The repo had two `$ref` resolvers, which was history rather than design: this
+one began as the root `resolve_schema.py`, and commit `c76ae456d` (2026-04-08) renamed it to
+`schema_resolver.py` purely to stop it colliding with `tools/resolve_schema.py`. It was frozen from
+that day; the tools copy kept growing (structured mode, `$defs` promotion, type libraries) and
+became the resolver that writes every `resolvedSchema.json`.
+
+The split mattered because the two were used for different things: `tools/resolve_schema.py`
+produced what shipped, while `validate_examples.py` validated against **this** one. Same
+`schema.yaml`, two different schemas — an example could pass the gate and be invalid against the
+published block, or the reverse. That is exactly what happened to a new `ddicdiPhysicalDataSet`
+example, which validated against `resolvedSchema.json` and failed the gate.
+
+`validate_examples.py` now uses `tools/resolve_schema.py`, which left nothing importing this file
+(`audit_building_blocks.py` already called `resolve_structured`; only a stale comment claimed
+otherwise). Switching resolvers changed no result — 152 passed / 0 failed either way — so the
+docstring claim that this resolver "correctly handles transitive internal `$defs`" is not a
+capability the tools resolver lacks.

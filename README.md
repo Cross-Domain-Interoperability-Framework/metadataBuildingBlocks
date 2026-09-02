@@ -139,7 +139,7 @@ See `agents.md` for full CLI options and convention details.
 
 ### Validate Examples (`validate_examples.py`)
 
-Validates all example JSON files against their resolved schemas. Uses `schema_resolver.py`'s `SchemaResolver` for proper `$defs` and cross-file `$ref` handling, with fallback to `tools/resolve_schema.py` for schemas with circular references.
+Validates all example JSON files against their resolved schemas. Uses `tools/resolve_schema.py`'s structured resolver — the same code that writes `resolvedSchema.json`, so an example is checked against the schema the published block carries — falling back to that module's inline resolver for schemas with circular references.
 
 ```bash
 python tools/validate_examples.py --verbose

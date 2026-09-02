@@ -48,8 +48,9 @@ except ImportError:
     Draft202012Validator = None
 
 # ---------------------------------------------------------------------------
-# Import resolvers: prefer schema_resolver.py SchemaResolver (correct transitive $defs),
-# fall back to tools/resolve_schema.py (handles circular refs)
+# Resolver: tools/resolve_schema.py's structured resolver, which writes the
+# canonical resolvedSchema.json. (This comment used to say the root
+# schema_resolver.py was preferred; the code never imported it.)
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent

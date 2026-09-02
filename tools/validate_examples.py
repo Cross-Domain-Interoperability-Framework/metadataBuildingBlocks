@@ -2,8 +2,9 @@
 """
 Validate all example JSON files against their resolved schemas.
 
-Uses schema_resolver.py's resolver to fully inline $ref references before
-validation, so $defs and cross-file references are handled correctly.
+Resolves each schema with resolve_schema.py's structured resolver -- the same
+code that writes resolvedSchema.json -- so an example is validated against the
+schema the published building block actually carries.
 
 Usage:
     python tools/validate_examples.py           # validate all examples
@@ -12,23 +13,28 @@ Usage:
 """
 
 import argparse
+import contextlib
+import io
 import json
 import sys
 import yaml
 from pathlib import Path
 
-# Import schema_resolver.py (handles transitive internal $defs refs correctly)
+# tools/resolve_schema.py -- the same resolver that writes resolvedSchema.json,
+# so the gate validates the artifact that actually ships. Previously this used
+# the frozen root schema_resolver.py, which resolves some schemas differently:
+# an example could pass here and be invalid against the published block, or the
+# reverse. See agents.md, "One resolver, not two".
 _repo_root = str(Path(__file__).resolve().parent.parent)
 sys.path.insert(0, _repo_root)
-from schema_resolver import SchemaResolver
 
-# Fallback: tools/resolve_schema.py (handles recursive schemas better)
 import importlib.util
 _tools_spec = importlib.util.spec_from_file_location(
     "tools_resolve_schema",
     str(Path(__file__).resolve().parent / "resolve_schema.py"))
 _tools_resolver = importlib.util.module_from_spec(_tools_spec)
 _tools_spec.loader.exec_module(_tools_resolver)
+_structured_resolve = _tools_resolver.resolve_structured
 _fallback_resolve_file = _tools_resolver.resolve_file
 _fallback_strip = _tools_resolver.strip_metadata_keys
 
@@ -84,14 +90,21 @@ def find_example_schema_pairs():
 
 
 def resolve_for_validation(schema_path: Path) -> dict:
-    """Resolve a schema file into a fully-inlined JSON Schema dict.
+    """Resolve a schema file into a JSON Schema dict for validation.
 
-    Uses the root SchemaResolver (correct transitive $defs handling).
-    Falls back to tools/resolve_schema.py for schemas with circular refs.
+    Uses resolve_schema.py's structured resolver -- the code that writes
+    resolvedSchema.json -- so an example is checked against the schema the
+    published building block carries. Falls back to the same module's inline
+    resolver when recursion defeats structured resolution.
     """
     try:
-        resolver = SchemaResolver(verbose=False, inline_single_use=False)
-        resolved = resolver.resolve(str(schema_path.resolve()))
+        # resolve_structured narrates its work on stderr (24 print sites);
+        # useful when regenerating, noise that buries the pass/fail report here.
+        # Its fetch warnings are silenced with it -- acceptable because every
+        # $ref this repo resolves is local.
+        with contextlib.redirect_stderr(io.StringIO()), \
+                contextlib.redirect_stdout(io.StringIO()):
+            resolved = _structured_resolve(schema_path.resolve())
         resolved.pop("$schema", None)
         return resolved
     except RecursionError:
