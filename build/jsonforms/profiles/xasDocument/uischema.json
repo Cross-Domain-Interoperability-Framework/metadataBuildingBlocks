@@ -34,16 +34,7 @@
               "options": {
                 "suggestion": [
                   "schema:Dataset",
-                  "schema:CreativeWork",
-                  "schema:SoftwareApplication",
-                  "schema:SoftwareSourceCode",
-                  "schema:Product",
-                  "schema:WebAPI",
-                  "schema:DigitalDocument",
-                  "schema:Collection",
-                  "schema:ImageObject",
-                  "schema:DataCatalog",
-                  "schema:DefinedTermSet"
+                  "schema:Product"
                 ]
               }
             },
@@ -69,29 +60,19 @@
               ]
             },
             {
-              "type": "HorizontalLayout",
-              "elements": [
-                {
-                  "type": "Control",
-                  "scope": "#/properties/schema:version",
-                  "label": "Version"
-                },
-                {
-                  "type": "Control",
-                  "scope": "#/properties/schema:inLanguage",
-                  "label": "Language"
-                }
-              ]
+              "type": "Control",
+              "scope": "#/properties/schema:version",
+              "label": "Version"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/schema:inLanguage",
+              "label": "Language"
             },
             {
               "type": "Control",
               "scope": "#/properties/schema:additionalType",
               "label": "Additional Types"
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/schema:keywords",
-              "label": "Keywords"
             },
             {
               "type": "Control",
@@ -212,46 +193,6 @@
         },
         {
           "type": "Group",
-          "label": "Publisher",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/schema:publisher/properties/schema:name",
-              "label": "Publisher Name"
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/schema:publisher/properties/schema:identifier",
-              "label": "Publisher Identifier"
-            }
-          ]
-        },
-        {
-          "type": "Group",
-          "label": "Provider",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/schema:provider",
-              "label": "Data Providers",
-              "options": {
-                "elementLabelProp": "schema:name",
-                "detail": {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:name",
-                      "label": "Name"
-                    }
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Group",
           "label": "Funding",
           "elements": [
             {
@@ -267,11 +208,6 @@
                       "type": "Control",
                       "scope": "#/properties/schema:name",
                       "label": "Grant Name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:description",
-                      "label": "Description"
                     },
                     {
                       "type": "Control",
@@ -318,17 +254,346 @@
         },
         {
           "type": "Group",
+          "label": "Publisher",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/schema:publisher",
+              "label": "Publisher Name"
+            }
+          ]
+        },
+        {
+          "type": "Group",
+          "label": "Provider",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/schema:provider",
+              "label": "Data Providers"
+            }
+          ]
+        },
+        {
+          "type": "Group",
           "label": "Provenance",
           "elements": [
             {
               "type": "Control",
+              "scope": "#/properties/prov:wasDerivedFrom",
+              "label": "Derived From"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "XAS Experiment",
+      "elements": [
+        {
+          "type": "Group",
+          "label": "Measurement Technique",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/schema:measurementTechnique",
+              "label": "Measurement Techniques",
+              "options": {
+                "elementLabelProp": "schema:name",
+                "detail": {
+                  "type": "VerticalLayout",
+                  "elements": [
+                    {
+                      "type": "HorizontalLayout",
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:name",
+                          "label": "Technique Name"
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:termCode",
+                          "label": "Code"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "HorizontalLayout",
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:identifier",
+                          "label": "Identifier"
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:inDefinedTermSet",
+                          "label": "Defined Term Set"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Group",
+          "label": "Keywords (Absorption Edge & Target Element)",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/schema:keywords",
+              "label": "Keywords",
+              "options": {
+                "elementLabelProp": "schema:name",
+                "detail": {
+                  "type": "VerticalLayout",
+                  "elements": [
+                    {
+                      "type": "HorizontalLayout",
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:name",
+                          "label": "Name"
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:termCode",
+                          "label": "Code"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "HorizontalLayout",
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:identifier",
+                          "label": "Identifier"
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:inDefinedTermSet",
+                          "label": "Defined Term Set"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Group",
+          "label": "Instrumentation & Sample",
+          "elements": [
+            {
+              "type": "Control",
               "scope": "#/properties/prov:wasGeneratedBy",
-              "label": "Generated By (activity)"
+              "label": "Experiment Details",
+              "options": {
+                "detail": {
+                  "type": "VerticalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/prov:used",
+                      "label": "Instruments (X-ray Source, Monochromator)",
+                      "options": {
+                        "elementLabelProp": "schema:name",
+                        "detail": {
+                          "type": "VerticalLayout",
+                          "elements": [
+                            {
+                              "type": "HorizontalLayout",
+                              "elements": [
+                                {
+                                  "type": "Control",
+                                  "scope": "#/properties/schema:name",
+                                  "label": "Instrument Name"
+                                },
+                                {
+                                  "type": "Control",
+                                  "scope": "#/properties/schema:additionalType",
+                                  "label": "Instrument Type (NeXus Class)"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "Control",
+                              "scope": "#/properties/schema:additionalProperty",
+                              "label": "Properties",
+                              "options": {
+                                "elementLabelProp": "schema:name",
+                                "detail": {
+                                  "type": "VerticalLayout",
+                                  "elements": [
+                                    {
+                                      "type": "HorizontalLayout",
+                                      "elements": [
+                                        {
+                                          "type": "Control",
+                                          "scope": "#/properties/schema:name",
+                                          "label": "Property Name"
+                                        },
+                                        {
+                                          "type": "Control",
+                                          "scope": "#/properties/schema:value",
+                                          "label": "Value"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "HorizontalLayout",
+                                      "elements": [
+                                        {
+                                          "type": "Control",
+                                          "scope": "#/properties/schema:propertyID",
+                                          "label": "Property ID"
+                                        },
+                                        {
+                                          "type": "Control",
+                                          "scope": "#/properties/schema:unitText",
+                                          "label": "Unit"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "Group",
+                      "label": "Sample",
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:mainEntity/properties/schema:name",
+                          "label": "Sample Name"
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:mainEntity/properties/schema:identifier",
+                          "label": "Sample Identifier (IGSN)"
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:mainEntity/properties/schema:description",
+                          "label": "Sample Description",
+                          "options": {
+                            "multi": true
+                          }
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/schema:mainEntity/properties/schema:additionalProperty",
+                          "label": "Sample Properties",
+                          "options": {
+                            "elementLabelProp": "schema:name",
+                            "detail": {
+                              "type": "HorizontalLayout",
+                              "elements": [
+                                {
+                                  "type": "Control",
+                                  "scope": "#/properties/schema:name",
+                                  "label": "Name"
+                                },
+                                {
+                                  "type": "Control",
+                                  "scope": "#/properties/schema:value",
+                                  "label": "Value"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Data Description",
+      "elements": [
+        {
+          "type": "Group",
+          "label": "Variables Measured",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/schema:variableMeasured",
+              "label": "Variables"
+            }
+          ]
+        },
+        {
+          "type": "Group",
+          "label": "Structure",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/cdif:hasPrimaryKey",
+              "label": "Primary Key"
             },
             {
               "type": "Control",
-              "scope": "#/properties/prov:wasDerivedFrom",
-              "label": "Derived From"
+              "scope": "#/properties/cdif:statistics",
+              "label": "Dataset Statistics"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Coverage & Quality",
+      "elements": [
+        {
+          "type": "Group",
+          "label": "Spatial Coverage",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/schema:spatialCoverage",
+              "label": "Spatial Coverage"
+            }
+          ]
+        },
+        {
+          "type": "Group",
+          "label": "Temporal Coverage",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/schema:temporalCoverage",
+              "label": "Temporal Coverage"
+            }
+          ]
+        },
+        {
+          "type": "Group",
+          "label": "Quality Measurements",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/dqv:hasQualityMeasurement",
+              "label": "Quality Measurements"
             }
           ]
         }
@@ -350,53 +615,12 @@
             {
               "type": "Control",
               "scope": "#/properties/schema:license",
-              "label": "License",
-              "options": {
-                "elementLabelProp": "schema:name",
-                "detail": {
-                  "type": "VerticalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:name",
-                      "label": "License Name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:url",
-                      "label": "License URL"
-                    }
-                  ]
-                }
-              }
+              "label": "License"
             },
             {
               "type": "Control",
               "scope": "#/properties/schema:conditionsOfAccess",
-              "label": "Conditions of Access",
-              "options": {
-                "elementLabelProp": "schema:name",
-                "detail": {
-                  "type": "VerticalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:name",
-                      "label": "Condition Name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:description",
-                      "label": "Description"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:url",
-                      "label": "URL"
-                    }
-                  ]
-                }
-              }
+              "label": "Conditions of Access"
             }
           ]
         },
@@ -409,7 +633,32 @@
               "scope": "#/properties/schema:distribution",
               "label": "Distributions",
               "options": {
-                "elementLabelProp": "schema:name"
+                "elementLabelProp": "schema:name",
+                "detail": {
+                  "type": "VerticalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/schema:name",
+                      "label": "File Name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/schema:contentUrl",
+                      "label": "Download URL"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/schema:encodingFormat",
+                      "label": "MIME Type"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/dcterms:conformsTo",
+                      "label": "Conforms To (specification URL)"
+                    }
+                  ]
+                }
               }
             }
           ]
@@ -421,145 +670,12 @@
             {
               "type": "Control",
               "scope": "#/properties/schema:relatedLink",
-              "label": "Related Links",
-              "options": {
-                "elementLabelProp": "schema:linkRelationship",
-                "detail": {
-                  "type": "VerticalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:linkRelationship",
-                      "label": "Relationship"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/target/properties/schema:name",
-                      "label": "Target Name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/target/properties/schema:url",
-                      "label": "Target URL"
-                    }
-                  ]
-                }
-              }
+              "label": "Related Links"
             },
             {
               "type": "Control",
               "scope": "#/properties/schema:publishingPrinciples",
               "label": "Publishing Principles"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "Category",
-      "label": "Coverage & Quality",
-      "elements": [
-        {
-          "type": "Group",
-          "label": "Spatial Coverage",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/schema:spatialCoverage",
-              "label": "Spatial Coverage",
-              "options": {
-                "elementLabelProp": "schema:name",
-                "detail": {
-                  "type": "VerticalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:name",
-                      "label": "Place Name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:geo/properties/schema:box",
-                      "label": "Bounding Box (south west north east)"
-                    }
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Group",
-          "label": "Temporal Coverage",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/schema:temporalCoverage",
-              "label": "Temporal Coverage"
-            }
-          ]
-        },
-        {
-          "type": "Group",
-          "label": "Variables Measured",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/schema:variableMeasured",
-              "label": "Variables",
-              "options": {
-                "elementLabelProp": "schema:name",
-                "detail": {
-                  "type": "VerticalLayout",
-                  "elements": [
-                    {
-                      "type": "HorizontalLayout",
-                      "elements": [
-                        {
-                          "type": "Control",
-                          "scope": "#/properties/schema:name",
-                          "label": "Name"
-                        },
-                        {
-                          "type": "Control",
-                          "scope": "#/properties/schema:unitText",
-                          "label": "Unit"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/schema:description",
-                      "label": "Description",
-                      "options": {
-                        "multi": true
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Group",
-          "label": "Measurement Technique",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/schema:measurementTechnique",
-              "label": "Measurement Technique"
-            }
-          ]
-        },
-        {
-          "type": "Group",
-          "label": "Quality Measurements",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/dqv:hasQualityMeasurement",
-              "label": "Quality Measurements"
             }
           ]
         }
