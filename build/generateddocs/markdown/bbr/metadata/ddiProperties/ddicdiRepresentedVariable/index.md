@@ -15,8 +15,171 @@ It is referenced from `ddicdiDataStructureComponent` via `cdi:isDefinedBy` so th
 
 ## Examples
 
-### Minimal RepresentedVariable
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI represented variable.
+A RepresentedVariable for air temperature measured at 2 m, carrying the
+DDI-CDI structured value types: cdi:name as ObjectName, cdi:displayLabel
+as LabelForDisplay, cdi:definition as InternationalString wrapping a
+language-tagged LanguageString, and a registered cdi:identifier.
+
+These are the canonical DDI-CDI datatypes, not the CDIF simplifications —
+cdifDataType/cdifRepresentedVariable carries the same concept with plain
+strings under the cdif: namespace.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:rv/airTemperature",
+  "@type": [
+    "cdi:RepresentedVariable"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "airTemperature"
+    }
+  ],
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Air temperature (2 m)",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Temperature of the air measured at 2 m above ground level, in degrees Celsius.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:ddiIdentifier": {
+      "@type": [
+        "cdi:InternationalRegistrationDataIdentifier"
+      ],
+      "cdi:dataIdentifier": "rv-air-temperature",
+      "cdi:registrationAuthorityIdentifier": "example.org",
+      "cdi:versionIdentifier": "1"
+    }
+  },
+  "cdi:simpleUnitOfMeasure": "degC"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiRepresentedVariable/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:rv/airTemperature",
+  "@type": [
+    "cdi:RepresentedVariable"
+  ],
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "airTemperature"
+    }
+  ],
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Air temperature (2 m)",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Temperature of the air measured at 2 m above ground level, in degrees Celsius.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:ddiIdentifier": {
+      "@type": [
+        "cdi:InternationalRegistrationDataIdentifier"
+      ],
+      "cdi:dataIdentifier": "rv-air-temperature",
+      "cdi:registrationAuthorityIdentifier": "example.org",
+      "cdi:versionIdentifier": "1"
+    }
+  },
+  "cdi:simpleUnitOfMeasure": "degC"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/rv/airTemperature> a cdi:RepresentedVariable ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Temperature of the air measured at 2 m above ground level, in degrees Celsius." ;
+                    cdi:language "en" ] ] ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Air temperature (2 m)" ;
+                    cdi:language "en" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:ddiIdentifier [ a cdi:InternationalRegistrationDataIdentifier ;
+                    cdi:dataIdentifier "rv-air-temperature" ;
+                    cdi:registrationAuthorityIdentifier "example.org" ;
+                    cdi:versionIdentifier "1" ] ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "airTemperature" ] ;
+    cdi:simpleUnitOfMeasure "degC" .
+
+
+```
+
 ## Schema
 
 ```yaml

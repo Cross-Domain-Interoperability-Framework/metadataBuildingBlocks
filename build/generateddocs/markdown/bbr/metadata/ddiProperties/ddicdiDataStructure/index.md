@@ -15,8 +15,198 @@ Each variant carries `cdi:has_DataStructureComponent` (referencing the `ddicdiDa
 
 ## Examples
 
-### Minimal DataStructure
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI wide data structure.
+A WideDataStructure for a daily air-temperature series, in which each
+logical record is one row and each component is one column. Demonstrates
+an IdentifierComponent and a MeasureComponent, each deferring its
+semantics to a RepresentedVariable via cdi:isDefinedBy, and a PrimaryKey
+whose PrimaryKeyComponent points at the identifier column.
+
+Components declare a concrete subtype (cdi:IdentifierComponent,
+cdi:MeasureComponent) rather than the abstract cdi:DataStructureComponent,
+which the schema requires: the subtype states what role the column plays.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:struct/dailyTemperature",
+  "@type": [
+    "cdi:WideDataStructure"
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:ddiIdentifier": {
+      "@type": [
+        "cdi:InternationalRegistrationDataIdentifier"
+      ],
+      "cdi:dataIdentifier": "struct-daily-temperature",
+      "cdi:registrationAuthorityIdentifier": "example.org",
+      "cdi:versionIdentifier": "1"
+    }
+  },
+  "cdi:has_DataStructureComponent": [
+    {
+      "@id": "ex:struct/dailyTemperature/comp/observationDate",
+      "@type": [
+        "cdi:IdentifierComponent"
+      ],
+      "cdi:isDefinedBy": {
+        "@id": "ex:rv/observationDate"
+      }
+    },
+    {
+      "@id": "ex:struct/dailyTemperature/comp/airTemperature",
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "airTemperature"
+        }
+      ],
+      "cdi:isDefinedBy": {
+        "@id": "ex:rv/airTemperature"
+      }
+    }
+  ],
+  "cdi:has_PrimaryKey": {
+    "@id": "ex:struct/dailyTemperature/pk",
+    "@type": [
+      "cdi:PrimaryKey"
+    ],
+    "cdi:has_PrimaryKeyComponent": [
+      {
+        "@id": "ex:struct/dailyTemperature/pk/comp1",
+        "@type": [
+          "cdi:PrimaryKeyComponent"
+        ],
+        "cdi:correspondsTo_DataStructureComponent": {
+          "@id": "ex:struct/dailyTemperature/comp/observationDate"
+        }
+      }
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructure/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:struct/dailyTemperature",
+  "@type": [
+    "cdi:WideDataStructure"
+  ],
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:ddiIdentifier": {
+      "@type": [
+        "cdi:InternationalRegistrationDataIdentifier"
+      ],
+      "cdi:dataIdentifier": "struct-daily-temperature",
+      "cdi:registrationAuthorityIdentifier": "example.org",
+      "cdi:versionIdentifier": "1"
+    }
+  },
+  "cdi:has_DataStructureComponent": [
+    {
+      "@id": "ex:struct/dailyTemperature/comp/observationDate",
+      "@type": [
+        "cdi:IdentifierComponent"
+      ],
+      "cdi:isDefinedBy": {
+        "@id": "ex:rv/observationDate"
+      }
+    },
+    {
+      "@id": "ex:struct/dailyTemperature/comp/airTemperature",
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "airTemperature"
+        }
+      ],
+      "cdi:isDefinedBy": {
+        "@id": "ex:rv/airTemperature"
+      }
+    }
+  ],
+  "cdi:has_PrimaryKey": {
+    "@id": "ex:struct/dailyTemperature/pk",
+    "@type": [
+      "cdi:PrimaryKey"
+    ],
+    "cdi:has_PrimaryKeyComponent": [
+      {
+        "@id": "ex:struct/dailyTemperature/pk/comp1",
+        "@type": [
+          "cdi:PrimaryKeyComponent"
+        ],
+        "cdi:correspondsTo_DataStructureComponent": {
+          "@id": "ex:struct/dailyTemperature/comp/observationDate"
+        }
+      }
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/struct/dailyTemperature> a cdi:WideDataStructure ;
+    cdi:has_DataStructureComponent <https://example.org/struct/dailyTemperature/comp/airTemperature>,
+        <https://example.org/struct/dailyTemperature/comp/observationDate> ;
+    cdi:has_PrimaryKey <https://example.org/struct/dailyTemperature/pk> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:ddiIdentifier [ a cdi:InternationalRegistrationDataIdentifier ;
+                    cdi:dataIdentifier "struct-daily-temperature" ;
+                    cdi:registrationAuthorityIdentifier "example.org" ;
+                    cdi:versionIdentifier "1" ] ] .
+
+<https://example.org/struct/dailyTemperature/comp/airTemperature> a cdi:MeasureComponent ;
+    cdi:isDefinedBy <https://example.org/rv/airTemperature> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "airTemperature" ] .
+
+<https://example.org/struct/dailyTemperature/pk> a cdi:PrimaryKey ;
+    cdi:has_PrimaryKeyComponent <https://example.org/struct/dailyTemperature/pk/comp1> .
+
+<https://example.org/struct/dailyTemperature/pk/comp1> a cdi:PrimaryKeyComponent ;
+    cdi:correspondsTo_DataStructureComponent <https://example.org/struct/dailyTemperature/comp/observationDate> .
+
+<https://example.org/struct/dailyTemperature/comp/observationDate> a cdi:IdentifierComponent ;
+    cdi:isDefinedBy <https://example.org/rv/observationDate> .
+
+
+```
+
 ## Schema
 
 ```yaml

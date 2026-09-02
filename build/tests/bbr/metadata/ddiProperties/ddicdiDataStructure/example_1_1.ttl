@@ -1,0 +1,26 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/struct/dailyTemperature> a cdi:WideDataStructure ;
+    cdi:has_DataStructureComponent <https://example.org/struct/dailyTemperature/comp/airTemperature>,
+        <https://example.org/struct/dailyTemperature/comp/observationDate> ;
+    cdi:has_PrimaryKey <https://example.org/struct/dailyTemperature/pk> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:ddiIdentifier [ a cdi:InternationalRegistrationDataIdentifier ;
+                    cdi:dataIdentifier "struct-daily-temperature" ;
+                    cdi:registrationAuthorityIdentifier "example.org" ;
+                    cdi:versionIdentifier "1" ] ] .
+
+<https://example.org/struct/dailyTemperature/comp/airTemperature> a cdi:MeasureComponent ;
+    cdi:isDefinedBy <https://example.org/rv/airTemperature> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "airTemperature" ] .
+
+<https://example.org/struct/dailyTemperature/pk> a cdi:PrimaryKey ;
+    cdi:has_PrimaryKeyComponent <https://example.org/struct/dailyTemperature/pk/comp1> .
+
+<https://example.org/struct/dailyTemperature/pk/comp1> a cdi:PrimaryKeyComponent ;
+    cdi:correspondsTo_DataStructureComponent <https://example.org/struct/dailyTemperature/comp/observationDate> .
+
+<https://example.org/struct/dailyTemperature/comp/observationDate> a cdi:IdentifierComponent ;
+    cdi:isDefinedBy <https://example.org/rv/observationDate> .
+

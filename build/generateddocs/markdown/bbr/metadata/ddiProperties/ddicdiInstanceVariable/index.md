@@ -15,8 +15,466 @@ It also carries the conceptual-level properties shared with `ddicdiRepresentedVa
 
 ## Examples
 
-### Minimal InstanceVariable
-TODO: replace with a JSON-LD example.
+### Example DDI-CDI instance variable.
+An InstanceVariable — a variable as realised in a specific dataset,
+carrying the physical data type and the value domains its data actually
+takes, in canonical DDI-CDI vocabulary.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": [
+    "cdi:InstanceVariable"
+  ],
+  "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/dataset/oceanTemp2025/var/seaWaterTemp",
+    "cdi:ddiIdentifier": {
+      "@type": [
+        "cdi:InternationalRegistrationDataIdentifier"
+      ],
+      "cdi:dataIdentifier": "OCEAN-IV-SST-2025",
+      "cdi:registrationAuthorityIdentifier": "0000.0000.0000",
+      "cdi:versionIdentifier": "1.0.0"
+    }
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "sea_water_temperature",
+      "cdi:context": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "technical-name"
+        ]
+      }
+    }
+  ],
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:maxLength": 32,
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Sea Water Temperature",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:descriptiveText": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Sea water temperature column as realised in the ocean-temperature 2025 release.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Decimal-valued sea water temperature observation as stored in the ocean-temperature 2025 dataset.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:externalDefinition": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
+    "cdi:description": "BODC P01 sea water temperature parameter usage"
+  },
+  "cdi:source": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "https://example.org/processing/sst-2025-pipeline",
+    "cdi:description": "Provenance: derived by the ocean temperature 2025 processing pipeline."
+  },
+  "cdi:variableFunction": [
+    {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "measure"
+      ],
+      "cdi:name": "DDI-CDI variable function"
+    }
+  ],
+  "cdi:physicalDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ],
+    "cdi:name": "XML Schema Datatypes",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
+      }
+    ]
+  },
+  "cdi:hasIntendedDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ],
+    "cdi:name": "XML Schema Datatypes"
+  },
+  "cdi:platformType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "SPSSstyle"
+    ],
+    "cdi:name": "DDI-CDI sentinel platform types"
+  },
+  "cdi:describedUnitOfMeasure": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "DEG_C"
+    ],
+    "cdi:name": "QUDT Units",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://qudt.org/vocab/unit/DEG_C"
+      }
+    ]
+  },
+  "cdi:simpleUnitOfMeasure": "Cel",
+  "cdi:unitOfMeasureKind": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "temperature"
+    ]
+  },
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "ex:vd/temperatureCelsius"
+  },
+  "cdi:takesSentinelValuesFrom": [
+    {
+      "@id": "ex:vd/temperatureSentinel"
+    }
+  ],
+  "cdi:takesSubstantiveConceptsFrom": {
+    "@id": "ex:cd/seaWaterTemperatureConcept"
+  },
+  "cdi:takesSentinelConceptsFrom": {
+    "@id": "ex:cd/temperatureSentinelConcepts"
+  },
+  "cdi:measures": {
+    "@id": "ex:ut/oceanographicStation"
+  },
+  "cdi:uses": [
+    {
+      "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:InstanceVariable"
+  ],
+  "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/dataset/oceanTemp2025/var/seaWaterTemp",
+    "cdi:ddiIdentifier": {
+      "@type": [
+        "cdi:InternationalRegistrationDataIdentifier"
+      ],
+      "cdi:dataIdentifier": "OCEAN-IV-SST-2025",
+      "cdi:registrationAuthorityIdentifier": "0000.0000.0000",
+      "cdi:versionIdentifier": "1.0.0"
+    }
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "sea_water_temperature",
+      "cdi:context": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "technical-name"
+        ]
+      }
+    }
+  ],
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:maxLength": 32,
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Sea Water Temperature",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:descriptiveText": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Sea water temperature column as realised in the ocean-temperature 2025 release.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Decimal-valued sea water temperature observation as stored in the ocean-temperature 2025 dataset.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:externalDefinition": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
+    "cdi:description": "BODC P01 sea water temperature parameter usage"
+  },
+  "cdi:source": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "https://example.org/processing/sst-2025-pipeline",
+    "cdi:description": "Provenance: derived by the ocean temperature 2025 processing pipeline."
+  },
+  "cdi:variableFunction": [
+    {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "measure"
+      ],
+      "cdi:name": "DDI-CDI variable function"
+    }
+  ],
+  "cdi:physicalDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ],
+    "cdi:name": "XML Schema Datatypes",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
+      }
+    ]
+  },
+  "cdi:hasIntendedDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ],
+    "cdi:name": "XML Schema Datatypes"
+  },
+  "cdi:platformType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "SPSSstyle"
+    ],
+    "cdi:name": "DDI-CDI sentinel platform types"
+  },
+  "cdi:describedUnitOfMeasure": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "DEG_C"
+    ],
+    "cdi:name": "QUDT Units",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://qudt.org/vocab/unit/DEG_C"
+      }
+    ]
+  },
+  "cdi:simpleUnitOfMeasure": "Cel",
+  "cdi:unitOfMeasureKind": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "temperature"
+    ]
+  },
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "ex:vd/temperatureCelsius"
+  },
+  "cdi:takesSentinelValuesFrom": [
+    {
+      "@id": "ex:vd/temperatureSentinel"
+    }
+  ],
+  "cdi:takesSubstantiveConceptsFrom": {
+    "@id": "ex:cd/seaWaterTemperatureConcept"
+  },
+  "cdi:takesSentinelConceptsFrom": {
+    "@id": "ex:cd/temperatureSentinelConcepts"
+  },
+  "cdi:measures": {
+    "@id": "ex:ut/oceanographicStation"
+  },
+  "cdi:uses": [
+    {
+      "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> a cdi:InstanceVariable ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Decimal-valued sea water temperature observation as stored in the ocean-temperature 2025 dataset." ;
+                    cdi:language "en" ] ] ;
+    cdi:describedUnitOfMeasure [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryReference [ a cdi:Reference ;
+                    cdi:uri "http://qudt.org/vocab/unit/DEG_C" ] ;
+            cdi:entryValue "DEG_C" ;
+            cdi:name "QUDT Units" ] ;
+    cdi:descriptiveText [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Sea water temperature column as realised in the ocean-temperature 2025 release." ;
+                    cdi:language "en" ] ] ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Sea Water Temperature" ;
+                    cdi:language "en" ] ;
+            cdi:maxLength 32 ] ;
+    cdi:externalDefinition [ a cdi:Reference ;
+            cdi:description "BODC P01 sea water temperature parameter usage" ;
+            cdi:uri "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ] ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ;
+            cdi:name "XML Schema Datatypes" ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:ddiIdentifier [ a cdi:InternationalRegistrationDataIdentifier ;
+                    cdi:dataIdentifier "OCEAN-IV-SST-2025" ;
+                    cdi:registrationAuthorityIdentifier "0000.0000.0000" ;
+                    cdi:versionIdentifier "1.0.0" ] ;
+            cdi:uri "https://example.org/dataset/oceanTemp2025/var/seaWaterTemp" ] ;
+    cdi:measures <https://example.org/ut/oceanographicStation> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:context [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "technical-name" ] ;
+            cdi:name "sea_water_temperature" ] ;
+    cdi:physicalDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryReference [ a cdi:Reference ;
+                    cdi:uri "http://www.w3.org/2001/XMLSchema#decimal" ] ;
+            cdi:entryValue "xsd:decimal" ;
+            cdi:name "XML Schema Datatypes" ] ;
+    cdi:platformType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "SPSSstyle" ;
+            cdi:name "DDI-CDI sentinel platform types" ] ;
+    cdi:simpleUnitOfMeasure "Cel" ;
+    cdi:source [ a cdi:Reference ;
+            cdi:description "Provenance: derived by the ocean temperature 2025 processing pipeline." ;
+            cdi:uri "https://example.org/processing/sst-2025-pipeline" ] ;
+    cdi:takesSentinelConceptsFrom <https://example.org/cd/temperatureSentinelConcepts> ;
+    cdi:takesSentinelValuesFrom <https://example.org/vd/temperatureSentinel> ;
+    cdi:takesSubstantiveConceptsFrom <https://example.org/cd/seaWaterTemperatureConcept> ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/vd/temperatureCelsius> ;
+    cdi:unitOfMeasureKind [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "temperature" ] ;
+    cdi:uses <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/> ;
+    cdi:variableFunction [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "measure" ;
+            cdi:name "DDI-CDI variable function" ] .
+
+
+```
+
 ## Schema
 
 ```yaml
