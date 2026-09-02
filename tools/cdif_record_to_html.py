@@ -120,6 +120,37 @@ def _is_conformance_uri(value):
             and not value.endswith('/'))
 
 
+_VERSION_SUFFIX = re.compile(r'/\d+(?:\.\d+)*$')
+
+
+def uri_stem(uri):
+    """A conformance URI without its trailing version segment.
+
+    Records in the wild declare the version they were written against:
+    real ADA records say https://w3id.org/cdif/core/1.0 where this repo now
+    pins core/1.1. Matching on the stem keeps such a record laid out by
+    profile instead of collapsing into "Additional"; the version difference
+    is reported rather than hidden.
+    """
+    return _VERSION_SUFFIX.sub('', uri) if isinstance(uri, str) else uri
+
+
+def resolve_module(uri, modules, by_stem):
+    """(module, declared_version_differs). Exact match wins."""
+    module = modules.get(uri)
+    if module is not None:
+        return module, False
+    module = by_stem.get(uri_stem(uri))
+    return (module, True) if module is not None else (None, False)
+
+
+def modules_by_stem(modules):
+    index = {}
+    for uri, module in modules.items():
+        index.setdefault(uri_stem(uri), module)
+    return index
+
+
 def _find_conformance_uris(node, found):
     """Collect every `const` that pins a CDIF conformance URI.
 
@@ -746,7 +777,9 @@ def choose_layout(declared, layouts):
     A layout applies only when the record declares every URI its profile
     requires; among those, the one requiring most wins.
     """
-    applicable = [l for l in layouts if l.uris and l.uris <= set(declared)]
+    stems = {uri_stem(u) for u in declared}
+    applicable = [l for l in layouts
+                  if l.uris and {uri_stem(u) for u in l.uris} <= stems]
     if not applicable:
         return None
     return max(applicable, key=lambda l: len(l.uris))
@@ -813,13 +846,21 @@ def build_tabs(record, modules, prefixes, type_index=None, layouts=None):
     that curated layout is used; otherwise tabs are derived one per
     declared module."""
     uris = declared_conformance(record)
-    selected, unknown_uris = [], []
+    selected, unknown_uris, versioned = [], [], []
+    by_stem = modules_by_stem(modules)
     for uri in uris:
-        module = modules.get(uri)
+        module, differs = resolve_module(uri, modules, by_stem)
         if module is None:
             unknown_uris.append(uri)
-        elif module not in selected:
+            continue
+        if differs:
+            versioned.append((uri, module.uri))
+        if module not in selected:
             selected.append(module)
+    if versioned:
+        unknown_uris = unknown_uris + [
+            '%s (laid out as %s)' % (declared_uri, known_uri)
+            for declared_uri, known_uri in versioned]
     if not selected:
         # No recognised declaration: fall back to core so the record still
         # renders with labels rather than as a bare property dump.

@@ -1048,6 +1048,15 @@ module properties against the scopes in its uischema). Five were missing from Co
 `prov:wasDerivedFrom` — and 15 from the renamed xasDocument. A property with no control still
 renders, in "Additional", which is how the gap was visible at all.
 
+**Version-tolerant profile matching.** A declared conformance URI is matched exactly first, then
+by stem with the trailing version segment removed. Records in the wild declare the version they were
+written against: the 81 ADA records in `amds-ldeo/metadata/testJSONMetadata` say
+`https://w3id.org/cdif/core/1.0` where this repo pins `core/1.1`, and under exact matching every one
+of them collapsed to a fallback Core tab plus "Additional". Matching on the stem gives them their
+real Core / Data Description / Provenance / Manifest split (properties left unplaced across the 81:
+243 -> 162). The version difference is reported in the Metadata Record tab as
+`<declared> (laid out as <known>)` rather than hidden.
+
 **Batch and catalogue.** Several records render in one run — pass multiple paths, or a directory
 (its `*.json` minus the generated `*Schema.json` / `bblock.json`). With more than one record `-o` is
 a directory. `--index PATH` additionally writes a catalogue page of cards linking each rendered
