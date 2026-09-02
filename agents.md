@@ -1072,6 +1072,17 @@ real Core / Data Description / Provenance / Manifest split (properties left unpl
 243 -> 162). The version difference is reported in the Metadata Record tab as
 `<declared> (laid out as <known>)` rather than hidden.
 
+**Collapsible sections.** Property sections and nested node cards are `<details>`, open on arrival
+so nothing is hidden, with `expand all` / `collapse all` in the tab bar acting on the visible tab.
+Collapsed, a long record reads as a scannable list of headings; each node card shows its row count
+so a collapsed card still says how much is inside.
+
+The disclosure markers are drawn with CSS borders rather than a glyph. They were briefly a CSS
+escape written into a non-raw Python string, where Python read `` as an **octal** escape and
+emitted a NAK control character followed by the text "be" -- browsers drew tofu. The source looked
+correct; only the rendered output was corrupt, so grepping the source for a control character found
+nothing. Borders need no glyph, no font coverage and no escaping.
+
 **Batch and catalogue.** Several records render in one run — pass multiple paths, or a directory
 (its `*.json` minus the generated `*Schema.json` / `bblock.json`). With more than one record `-o` is
 a directory. `--index PATH` additionally writes a catalogue page of cards linking each rendered

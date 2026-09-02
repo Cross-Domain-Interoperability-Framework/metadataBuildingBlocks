@@ -531,11 +531,18 @@ def render_node(node, prefixes, depth=0, type_index=None):
                render_value(node[key], prefixes, depth + 1, type_index))
         )
 
-    header = '<div class="node-head">%s</div>' % ''.join(head) if head else ''
-    body = '<div class="node-body">%s</div>' % ''.join(rows) if rows else ''
-    if not header and not body:
+    header = ''.join(head)
+    if not header and not rows:
         return '<span class="empty">(empty)</span>'
-    return '<div class="node">%s%s</div>' % (header, body)
+    if not rows:
+        return '<div class="node"><div class="node-head">%s</div></div>' % header
+    # Collapsible, open by default: long records stay browsable without any
+    # content being hidden on arrival.
+    return ('<details class="node" open><summary class="node-head">%s'
+            '<span class="rowcount">%d</span></summary>'
+            '<div class="node-body">%s</div></details>'
+            % (header or '<span class="node-label">&hellip;</span>',
+               len(rows), ''.join(rows)))
 
 
 def render_property(name, value, description, prefixes, type_index=None,
@@ -543,11 +550,12 @@ def render_property(name, value, description, prefixes, type_index=None,
     tip = ' title="%s"' % esc(description) if description else ''
     note = '<div class="desc">%s</div>' % esc(description) if description else ''
     return (
-        '<section class="prop">'
-        '<h3%s>%s<span class="curie">%s</span></h3>'
+        '<details class="prop" open>'
+        '<summary%s><span class="prop-title">%s</span>'
+        '<span class="curie">%s</span></summary>'
         '%s'
         '<div class="prop-val">%s</div>'
-        '</section>'
+        '</details>'
         % (tip, esc(label or humanize(name)), esc(name), note,
            render_value(value, prefixes, 0, type_index))
     )
@@ -590,7 +598,34 @@ nav.tabs .count{color:var(--muted);font-weight:400;font-size:.8em;margin-left:.3
        border-bottom:1px solid var(--line);font-weight:600}
 .panel > .group:first-child{margin-top:0}
 .prop{margin:0 0 1.4rem}
-.prop > h3{margin:0 0 .1rem;font-size:1rem;border-bottom:1px solid var(--line);padding-bottom:.2rem}
+.prop > summary{margin:0 0 .1rem;font-size:1rem;font-weight:600;cursor:pointer;
+   border-bottom:1px solid var(--line);padding:0 0 .2rem 1.1rem;position:relative;
+   list-style:none}
+.prop > summary::-webkit-details-marker{display:none}
+.prop > summary::marker{content:''}
+.prop > summary::before{content:'';position:absolute;left:.3rem;top:.5rem;
+   border-left:.32rem solid var(--muted);border-top:.26rem solid transparent;
+   border-bottom:.26rem solid transparent;transition:transform .12s;
+   transform-origin:40% 50%}
+.prop[open] > summary::before{transform:rotate(90deg)}
+.prop > summary:hover{color:var(--accent)}
+.prop:not([open]) > summary{border-bottom-color:transparent}
+details.node > summary{cursor:pointer;list-style:none;padding-left:1rem;position:relative}
+details.node > summary::-webkit-details-marker{display:none}
+details.node > summary::marker{content:''}
+details.node > summary::before{content:'';position:absolute;left:.1rem;top:.5rem;
+   border-left:.3rem solid var(--muted);border-top:.24rem solid transparent;
+   border-bottom:.24rem solid transparent;transition:transform .12s;
+   transform-origin:40% 50%}
+details.node[open] > summary::before{transform:rotate(90deg)}
+details.node > summary:hover{color:var(--accent)}
+.rowcount{color:var(--muted);font-size:.7rem;margin-left:.4rem}
+details.node[open] > summary .rowcount{opacity:.5}
+nav.tabs .bulk{margin-left:auto;display:flex;gap:.3rem;align-self:center;
+   padding-bottom:.35rem}
+nav.tabs .bulk button{font-size:.72rem;padding:.15rem .5rem;color:var(--muted);
+   border:1px solid var(--line);border-radius:4px;background:none;margin-bottom:0}
+nav.tabs .bulk button:hover{color:var(--accent);border-color:var(--accent)}
 .curie{color:var(--muted);font-weight:400;font-size:.75rem;
        font-family:ui-monospace,SFMono-Regular,Consolas,monospace;margin-left:.5rem}
 .desc{color:var(--muted);font-size:.82rem;margin:.25rem 0 .45rem;max-width:80ch}
@@ -633,9 +668,9 @@ footer{margin-top:2.5rem;padding-top:.75rem;border-top:1px solid var(--line);
 """
 
 JS = """
-document.querySelectorAll('nav.tabs button').forEach(function(b){
+document.querySelectorAll('nav.tabs button[data-tab]').forEach(function(b){
   b.addEventListener('click', function(){
-    document.querySelectorAll('nav.tabs button').forEach(function(o){
+    document.querySelectorAll('nav.tabs button[data-tab]').forEach(function(o){
       o.setAttribute('aria-selected', String(o === b));
     });
     document.querySelectorAll('.panel').forEach(function(p){
@@ -644,6 +679,13 @@ document.querySelectorAll('nav.tabs button').forEach(function(b){
     if (history.replaceState) history.replaceState(null, '', '#' + b.dataset.tab);
   });
 });
+function setAll(open){
+  var pane = document.querySelector('.panel:not([hidden])') || document;
+  pane.querySelectorAll('details').forEach(function(d){ d.open = open; });
+}
+var ea = document.getElementById('expand-all'), ca = document.getElementById('collapse-all');
+if (ea) ea.addEventListener('click', function(){ setAll(true); });
+if (ca) ca.addEventListener('click', function(){ setAll(false); });
 if (location.hash) {
   var initial = document.querySelector('nav.tabs button[data-tab="' + location.hash.slice(1) + '"]');
   if (initial) initial.click();
@@ -969,6 +1011,7 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
     if description is not None:
         abstract = '<div class="abstract">%s</div>' % render_value(description, prefixes)
 
+    controls = ('<span class="bulk"><button type="button" id="expand-all">expand all</button><button type="button" id="collapse-all">collapse all</button></span>')
     tab_html = ''.join(
         '<button role="tab" data-tab="%s" aria-selected="%s">%s'
         '<span class="count">%d</span></button>'
@@ -991,12 +1034,12 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
         '<div class="wrap">\n'
         '<header class="banner">\n  <div>%s</div>\n  <h1>%s</h1>\n'
         '  <div class="ids">%s</div>\n  %s\n</header>\n'
-        '<nav class="tabs" role="tablist">%s</nav>\n%s\n'
+        '<nav class="tabs" role="tablist">%s%s</nav>\n%s\n'
         '<footer>Rendered from a CDIF JSON-LD record. Layout selected by declared '
         'conformance: %s.</footer>\n</div>\n<script>%s</script>\n</body>\n</html>\n'
         % (esc(title or name), CSS,
            ''.join('<span class="badge">%s</span>' % esc(t) for t in types),
-           esc(name), ' '.join(ids), abstract, tab_html, panel_html,
+           esc(name), ' '.join(ids), abstract, tab_html, controls, panel_html,
            esc(profiles), JS)
     )
 
