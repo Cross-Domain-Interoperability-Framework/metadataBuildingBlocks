@@ -100,9 +100,17 @@ their refs are resolved over the network at their build time, not ours.
 - **Commit regenerated artifacts separately** from unrelated changes. When a regeneration sweeps up
   pre-existing drift, split it: revert your source edit, regenerate, commit the catch-up alone, then
   restore and commit your actual change.
-- **The JSON Schema gate is now clean: `validate_examples.py` should report 142 passed, 0 failed.**
+- **The JSON Schema gate is now clean: `validate_examples.py` should report 144 passed, 0 failed.**
   A failure means you broke something — this is no longer a run with expected noise to squint past.
   The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
   fixtures never referenced by their own `examples.yaml`, so nothing was validating them into
-  conformance). Most `ddiProperties` blocks *do* wire their examples in and those still validate;
-  if you add an `example*.json`, reference it from `examples.yaml` or it becomes another orphan.
+  conformance), and `ddicdiDataStructure` / `ddicdiRepresentedVariable` got fresh, validating
+  replacements.
+- **An `example*.json` must be referenced from its block's `examples.yaml`**, as
+  `snippets: [{language: json, ref: <file>}]` — that is what the OGC postprocessor publishes and
+  validates. `validate_examples.py` finds examples by globbing `example*.json`, so an unreferenced
+  file still passes locally while being invisible to CI and to the published block. Eight
+  `ddiProperties` blocks still carry a bare `content: 'TODO: replace with a JSON-LD example.'`
+  placeholder and ship no example at all: `ddicdiCodeList`, `ddicdiControlledVocabularyEntry`,
+  `ddicdiDataStructureComponent`, `ddicdiEnumerationDomain`, `ddicdiLogicalRecord`,
+  `ddicdiPhysicalDataSet`, `ddicdiPresentationalVariable`, `ddicdiStatisticalClassification`.

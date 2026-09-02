@@ -43,10 +43,16 @@ exercising every schema option") and were never adopted: unlike every other
 were carried along by schema-change sweeps without being reconciled, and all five failed
 `validate_examples.py`.
 
-Retiring them takes the JSON Schema gate to **142 passed / 0 failed**. Both blocks are now
-without an example, which the `examples.yaml` TODOs already anticipated; anything restored
-here must be made to validate and wired into `examples.yaml`.
+Retiring them took the JSON Schema gate to 142 passed / 0 failed.
 
-`_sources/ddiProperties/ddicdiInstanceVariable/exampleDdicdiInstanceVariable.json` is
-unreferenced in the same way but **was left in place** — it validates, so it is unwired
-rather than broken.
+**Both blocks have since been given fresh examples** (same commit day): a
+`cdi:WideDataStructure` with one `cdi:IdentifierComponent` and one
+`cdi:MeasureComponent`, and a `cdi:RepresentedVariable` using the canonical DDI-CDI
+value types. Both validate and are wired into `examples.yaml`, so the files here are
+superseded reference material, not a gap waiting to be filled. Nothing needs restoring —
+if you want the old fixtures' broader coverage, write it into the new examples rather than
+un-archiving these.
+
+`_sources/ddiProperties/ddicdiInstanceVariable/exampleDdicdiInstanceVariable.json` was
+unreferenced in the same way but **was never archived** — it validates, so it was unwired
+rather than broken, and it is now wired into its `examples.yaml` too.
