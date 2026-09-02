@@ -122,6 +122,7 @@ metadataBuildingBlocks/
 │   ├── validate_instance.py         # Profile-aware validation tool
 │   ├── validate_examples.py         # Validates all examples against resolved schemas (JSON Schema only)
 │   ├── validate_shacl.py            # Standalone SHACL validation for a BB/profile (gathers rules transitively, expands JSON-LD, runs pyshacl)
+│   ├── cdif_record_to_html.py       # Renders a CDIF record as tabbed HTML; tabs chosen from the record's declared conformsTo (see below)
 │   ├── augment_register.py          # Adds resolvedSchema URLs to register.json
 │   ├── regenerate_schema_json.py    # Regenerates *Schema.json files from schema.yaml sources
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
@@ -961,6 +962,67 @@ python tools/validate_shacl.py _sources/profiles/cdifCompositeProfile/DiscoveryD
 **Requirements:** `pyshacl` (pulls in `rdflib`, which also provides the JSON-LD parser). Install with `pip install --user pyshacl`.
 
 **Caveat:** it reimplements rule-bundling from the `_sources` `$ref` graph rather than the OGC `build/` bundle, so it can drift from what CI validates — verify against a CI run before treating it as authoritative.
+
+## cdif_record_to_html.py
+
+Renders a CDIF JSON-LD metadata record as a **single self-contained HTML page** (inline CSS/JS, no
+CDN, no network) with one tab per metadata profile section. Read-only — it never touches `_sources`.
+
+**Layout is selected by the record, not by a flag.** The tool reads
+`schema:subjectOf` → `dcterms:conformsTo`, maps each declared URI to a profile module, and gives
+each matched module a tab holding the properties that module declares. A `cdifComplete` record
+yields Core / Discovery / Data Description / Data Structure / Provenance / Manifest / Metadata
+Record; an `xasDocument` record picks up XAS Core and XAS Optional with no domain-specific code.
+
+**The profile registry is scanned, not hardcoded** — `_sources/profiles/cdifProfile/*` and
+`_sources/xasProperties/*` are read at startup for the conformance URI each module pins, so a new
+module or a version bump needs no change here. Two details that registry depends on:
+
+- **URIs come from `schema.yaml`, never `resolvedSchema.json`.** A resolved schema inlines other
+  blocks into `$defs`, and their conformance `const`s come with them — reading the resolved file
+  makes a module claim URIs it does not own (`cdifDataStructure` picked up `codelist/1.1` this
+  way). Descriptions are still taken from `resolvedSchema.json`, where `$ref`'d properties have them.
+- **`rules.shacl` is scanned too**, for `sh:hasValue` pins. No module relies on this today —
+  `xasOptional` was the one that pinned only in SHACL, and it now pins in its schema as well. The
+  scan is kept because a SHACL-only pin is invisible to a `const` scan and the tool would silently
+  file that profile's properties under "Additional" rather than reporting anything wrong.
+- Namespace declarations under `@context` are skipped, and a conformance URI is required to have no
+  trailing `/` (the convention above) — otherwise `xas:` → `https://w3id.org/cdif/xas/` registers
+  as a profile.
+
+**Nothing in the record is dropped.** A property no declared module defines still renders — at the
+root in an "Additional" tab, marked as unvalidated by the declared profiles; nested, in place.
+Verified across all 126 non-DDI examples in the repo: every root property lands in a tab.
+
+**Property precedence:** a property declared by more than one selected module goes to the most
+specific one (`MODULE_ORDER`), so `schema:variableMeasured` shows under Data Description rather
+than Discovery when a record declares both.
+
+**Usage:**
+```bash
+# Render a record (writes <record>.html next to it)
+python tools/cdif_record_to_html.py _sources/profiles/cdifCompositeProfile/cdifComplete/exampleCDIFcomplete.json
+
+# Choose the output path
+python tools/cdif_record_to_html.py record.json -o /tmp/record.html
+
+# Show the discovered conformance-URI registry (diagnose "unrecognised URI")
+python tools/cdif_record_to_html.py --list-profiles
+```
+
+**CLI options:** `-o`/`--output`, `--title`, `--profile-dir` (repeatable, overrides the scanned
+defaults), `--list-profiles`. Exit `2` on an unreadable or non-object record; unrecognised
+conformance URIs are a stderr warning and are listed in the Metadata Record tab, not an error.
+
+**Requirements:** `pyyaml` only (already in `requirements.txt`).
+
+**Known limits:** a record with no recognised `conformsTo` falls back to the Core profile, so a
+building-block *fragment* renders as Core + Additional rather than failing. `cdifDataStructure`
+declares no root properties — a structure attaches via `cdi:isStructuredBy` on a distribution, so
+its tab explains that and the structure itself renders under the tab owning `schema:distribution`.
+Known/unknown is determined at the record root only; nested objects are rendered without checking
+them against `$defs`. A remote `@context` is not fetched — CURIEs that cannot be expanded from an
+inline context render as text rather than links.
 
 ## audit_building_blocks.py
 
