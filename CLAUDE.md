@@ -100,5 +100,9 @@ their refs are resolved over the network at their build time, not ours.
 - **Commit regenerated artifacts separately** from unrelated changes. When a regeneration sweeps up
   pre-existing drift, split it: revert your source edit, regenerate, commit the catch-up alone, then
   restore and commit your actual change.
-- **`_sources/ddiProperties/ddicdi*/example*.json` are not in use.** Several fail validation and are
-  not worth conforming — judge a validation run by *which* examples fail, not the total.
+- **The JSON Schema gate is now clean: `validate_examples.py` should report 142 passed, 0 failed.**
+  A failure means you broke something — this is no longer a run with expected noise to squint past.
+  The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
+  fixtures never referenced by their own `examples.yaml`, so nothing was validating them into
+  conformance). Most `ddiProperties` blocks *do* wire their examples in and those still validate;
+  if you add an `example*.json`, reference it from `examples.yaml` or it becomes another orphan.
