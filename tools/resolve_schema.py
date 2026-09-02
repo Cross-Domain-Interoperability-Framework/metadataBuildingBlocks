@@ -268,6 +268,9 @@ def strip_metadata_keys(schema: Any, is_root: bool = True) -> Any:
 
 _SCHEMA_DEF_KEYS = frozenset({"type", "oneOf", "anyOf", "allOf", "$ref"})
 
+# A conditional is one construct: these keys travel together or not at all.
+_CONDITIONAL_KEYS = ("if", "then", "else")
+
 
 def _is_complete_schema(d: dict) -> bool:
     """Return True if d looks like a complete schema definition (has type, composition, or $ref)."""
@@ -1096,11 +1099,21 @@ def merge_profile_structured(profile_path: Path, global_defs: dict,
                     # schema level, not be stuffed into `properties`. Push each
                     # as its own allOf constraint so multiple composing BBs'
                     # required-lists (etc.) compose by intersection.
+                    # `if`/`then`/`else` are one coupled construct and must stay
+                    # in a SINGLE entry: split across entries, `if` alone is a
+                    # no-op and `then` alone is ignored (JSON Schema 2020-12),
+                    # so the conditional silently stops constraining anything.
+                    conditional = {k: resolved_bb[k] for k in _CONDITIONAL_KEYS
+                                   if k in resolved_bb}
                     for k, v in resolved_bb.items():
                         if k in ("properties", "allOf", "$schema", "$defs",
                                  "type", "title", "description"):
                             continue
+                        if k in _CONDITIONAL_KEYS:
+                            continue
                         constraint_entries.append({k: v})
+                    if conditional:
+                        constraint_entries.append(conditional)
                     continue
 
         # Non-$ref allOf entries are constraint entries

@@ -2,7 +2,9 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Optional XAS metadata fields
 description: >-
-  Genuinely-optional XAS properties layered on cdifCore. Adds NO requirements. Documents and
+  Genuinely-optional XAS properties layered on cdifCore. Adds no requirement to a record that
+  carries no optional XAS content; a record that does carry schema:variableMeasured must declare
+  conformance to https://w3id.org/cdif/xasOptional/1.0. Documents and
   permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured
   cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical
   parameters carried as schema:additionalProperty entries (on the prov:used xas:beamline entity
@@ -167,6 +169,41 @@ properties:
                                     - xas:scanmode
                                     - xas:spotsize
                                     - xas:website
+# Conformance pin. A record that actually carries optional XAS content --
+# schema:variableMeasured -- must declare the optional tier; a record that
+# carries none is unaffected, so the module still adds no unconditional
+# requirement. This mirrors XasOptionalConformsToShape in rules.shacl, which
+# states the same rule as an advisory sh:Warning; JSON Schema has no advisory
+# severity, so here it is a hard constraint.
+if:
+  required:
+  - 'schema:variableMeasured'
+then:
+  required:
+  - 'schema:subjectOf'
+  properties:
+    'schema:subjectOf':
+      required:
+      - 'dcterms:conformsTo'
+      properties:
+        'dcterms:conformsTo':
+          type: array
+          items:
+            type: object
+            required: ['@id']
+            additionalProperties: false
+            properties:
+              '@id':
+                type: string
+                description: uri for specifications that this metadata record conforms to
+          minItems: 1
+          contains:
+            type: object
+            required: ['@id']
+            additionalProperties: false
+            properties:
+              '@id':
+                const: https://w3id.org/cdif/xasOptional/1.0
 $defs:
   InstanceVariable:
     $ref: ../../cdifDataType/cdifInstanceVariable/schema.yaml

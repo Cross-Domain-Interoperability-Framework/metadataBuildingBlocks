@@ -5644,9 +5644,7 @@
             }
           }
         }
-      }
-    },
-    {
+      },
       "then": {
         "description": "Standalone data-structure object (one of the four variants).",
         "anyOf": [
@@ -5920,9 +5918,7 @@
             ]
           }
         ]
-      }
-    },
-    {
+      },
       "else": {
         "description": "A CDIF dataset described by a data structure. Must declare conformance to data_structure/1.1 and attach the structure to a distribution.",
         "required": [
@@ -6231,6 +6227,56 @@
                       "$ref": "#/$defs/ObjectReference"
                     }
                   ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "schema:variableMeasured"
+        ]
+      },
+      "then": {
+        "required": [
+          "schema:subjectOf"
+        ],
+        "properties": {
+          "schema:subjectOf": {
+            "required": [
+              "dcterms:conformsTo"
+            ],
+            "properties": {
+              "dcterms:conformsTo": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "uri for specifications that this metadata record conforms to"
+                    }
+                  }
+                },
+                "minItems": 1,
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "@id": {
+                      "const": "https://w3id.org/cdif/xasOptional/1.0"
+                    }
+                  }
                 }
               }
             }

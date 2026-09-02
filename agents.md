@@ -423,9 +423,22 @@ Building blocks that represent CDIF specification components declare required `d
 | `cdifManifest` | `https://w3id.org/cdif/manifest/1.1` | *(no rules.shacl — JSON Schema only)* |
 | `cdifProvenance` | `https://w3id.org/cdif/provenance/1.1` | *(no rules.shacl — JSON Schema only)* |
 | `xasCore` | `https://w3id.org/cdif/xasCore/1.0` | `XasCoreConformsToShape` (XAS mandatory tier) |
-| `xasOptional` | `https://w3id.org/cdif/xasOptional/1.0` | `XasOptionalConformsToShape` (XAS optional tier, advisory `sh:Warning`) |
+| `xasOptional` | `https://w3id.org/cdif/xasOptional/1.0` (**conditional** — see below) | `XasOptionalConformsToShape` (XAS optional tier, advisory `sh:Warning`) |
 
 **URI convention:** Conformance URIs must NOT have a trailing `/` character.
+
+**`xasOptional` pins conditionally.** Every other block above pins its URI unconditionally via a
+`contains` constraint on `schema:subjectOf` → `dcterms:conformsTo`. `xasOptional` is the optional
+tier, so an unconditional pin would contradict it: a record carrying no optional XAS content would
+be forced to declare the tier anyway. Instead its `schema.yaml` carries a top-level `if`/`then` —
+**`if` the record has `schema:variableMeasured`, `then` the `xasOptional/1.0` URI is required.** A
+record with no optional content is unaffected.
+
+This mirrors `XasOptionalConformsToShape` in `rules.shacl`, which states the same rule as an
+advisory `sh:Warning` ("a record that uses optional XAS fields *should* declare conformance").
+JSON Schema has no advisory severity, so the schema form is a hard failure where the SHACL form is
+a warning. Before this pin existed the URI was enforced **only** in SHACL, so it was invisible to
+every JSON-Schema-only consumer, `validate_examples.py` included.
 
 **Profile rollup:** When building blocks are composed into profiles via `allOf`, the `contains` constraints combine — the conformsTo array must include URIs for all constituent building blocks. For example:
 
@@ -713,6 +726,10 @@ python tools/resolve_schema.py --all
 **Type libraries keep all their `$defs`.** A block flagged `isTypeLibrary: true` in `bblock.json` publishes definitions for *other* blocks to `$ref`, so nothing local references them: the merge never collects them and `inline_low_use_defs` drops anything used ≤2 times (a def used zero times is inlined into nothing and popped). Both steps are skipped for type libraries. Before this, `ddicdiDataTypes` declared 28 `$defs` and its published `resolvedSchema.json` contained none.
 
 **Writes LF and compares bytes.** Text-mode writes produced CRLF on Windows against LF-stored files, so every run rewrote all 92 while the text-mode comparison reported "0 updated". Repeated runs are now byte-stable.
+
+**`if`/`then`/`else` stay in one `allOf` entry (fixed 2026-09-02).** When `merge_profile_structured` folds a composing BB into a profile, top-level keys it can't merge into `properties` (`required`, `contains`, …) are each pushed out as their own `allOf` entry. A conditional is not independent that way: split across entries, `if` alone is a no-op and `then` alone is **ignored** under JSON Schema 2020-12, so the constraint silently evaluates to nothing. `_CONDITIONAL_KEYS` now travel together.
+
+Only two blocks carry a top-level conditional — `cdifDataStructure` and `xasOptional` — so the damage was contained, but `cdifDataStructure`'s standalone-vs-dataset dispatch had been inert in **every** composite that includes it (`xasDocument`, `cdifComplete`, `DiscoveryDataDescriptionStructure`) despite a source comment describing how it behaves there. Nothing failed: a dead conditional passes everything. Worth checking after any change to how composing BBs are merged — `python -c "import json;print([sorted(b) for b in json.load(open('_sources/profiles/cdifCompositeProfile/xasDocument/resolvedSchema.json'))['allOf']])"` should never show `['if']` or `['then']` alone.
 
 **An unresolvable `$ref` is fatal, and nothing is written (2026-08-15).** A failed fetch, a missing file, or a fragment that isn't in the target used to print a `WARNING` and emit a `$comment` placeholder where the content belonged — so the run still "succeeded" and a schema missing whole branches replaced a good one on disk. The tool now scans the *finished* output for those placeholders (`find_unresolved`), skips writing any schema that has them, lists what failed and where, and exits 1. Checking the output rather than each failure site matters: `unresolved fragment ref:` doubles as an internal sentinel that `_inline_unresolved_defs` replaces later in the inline path, so recording at the call site would report failures that get fixed moments later.
 
