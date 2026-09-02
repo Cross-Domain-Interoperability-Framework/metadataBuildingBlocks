@@ -75,13 +75,45 @@ jobs:
             --output validation/ShaclValidation/CDIF-Complete-Shapes.ttl \
             -v
 
+      - name: Generate CDIF-DataDescription-Shapes.ttl
+        run: |
+          python validation/ShaclValidation/generate_shacl_shapes.py \
+            --profile data_description \
+            --bb-dir bb/_sources \
+            --output validation/ShaclValidation/CDIF-DataDescription-Shapes.ttl \
+            -v
+
+      - name: Generate CDIF-DataStructure-Shapes.ttl
+        run: |
+          python validation/ShaclValidation/generate_shacl_shapes.py \
+            --profile data_structure \
+            --bb-dir bb/_sources \
+            --output validation/ShaclValidation/CDIF-DataStructure-Shapes.ttl \
+            -v
+
+      - name: Generate CDIF-Provenance-Shapes.ttl
+        run: |
+          python validation/ShaclValidation/generate_shacl_shapes.py \
+            --profile provenance \
+            --bb-dir bb/_sources \
+            --output validation/ShaclValidation/CDIF-Provenance-Shapes.ttl \
+            -v
+
+      - name: Generate CDIF-Manifest-Shapes.ttl
+        run: |
+          python validation/ShaclValidation/generate_shacl_shapes.py \
+            --profile manifest \
+            --bb-dir bb/_sources \
+            --output validation/ShaclValidation/CDIF-Manifest-Shapes.ttl \
+            -v
+
       - name: Commit and push to validation repo
         working-directory: validation
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.VALIDATION_REPO_PAT }}@github.com/Cross-Domain-Interoperability-Framework/validation.git
-          git add CDIFDiscoverySchema.json CDIFDataDescriptionSchema.json CDIFCompleteSchema.json ShaclValidation/CDIF-Discovery-Shapes.ttl ShaclValidation/CDIF-Complete-Shapes.ttl
+          git add CDIFDiscoverySchema.json CDIFDataDescriptionSchema.json CDIFCompleteSchema.json ShaclValidation/CDIF-Discovery-Shapes.ttl ShaclValidation/CDIF-Complete-Shapes.ttl ShaclValidation/CDIF-DataDescription-Shapes.ttl ShaclValidation/CDIF-DataStructure-Shapes.ttl ShaclValidation/CDIF-Provenance-Shapes.ttl ShaclValidation/CDIF-Manifest-Shapes.ttl
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
