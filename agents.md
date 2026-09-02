@@ -123,6 +123,7 @@ metadataBuildingBlocks/
 │   ├── validate_examples.py         # Validates all examples against resolved schemas (JSON Schema only)
 │   ├── validate_shacl.py            # Standalone SHACL validation for a BB/profile (gathers rules transitively, expands JSON-LD, runs pyshacl)
 │   ├── cdif_record_to_html.py       # Renders a CDIF record as tabbed HTML; tabs chosen from the record's declared conformsTo (see below)
+│   ├── cdif_viewer_app.py          # Local pick-and-render app for the above (stdlib http.server, loopback only)
 │   ├── augment_register.py          # Adds resolvedSchema URLs to register.json
 │   ├── regenerate_schema_json.py    # Regenerates *Schema.json files from schema.yaml sources
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
@@ -1098,6 +1099,33 @@ those levels are not sealed, so the badge catches a class of error validation do
 building-block *fragment* renders as Core + Additional rather than failing. `cdifDataStructure`
 declares no root properties — a structure attaches via `cdi:isStructuredBy` on a distribution, so
 its tab explains that and the structure itself renders under the tab owning `schema:distribution`.
+
+## cdif_viewer_app.py
+
+A local pick-and-render app for `cdif_record_to_html.py`. Starts a server on `127.0.0.1`, opens a
+browser, and renders whichever record you drop on the page or choose with the file dialog. Rendering
+is the renderer's own — this adds only the picker, so the two cannot drift.
+
+Standard library only: no Flask, nothing to install. The browser reads the file locally with
+`FileReader` and POSTs its text to `127.0.0.1`, so there is no multipart parsing and nothing leaves
+the machine. The server binds to loopback only.
+
+**Usage:**
+```bash
+python tools/cdif_viewer_app.py                  # opens the picker in your browser
+python tools/cdif_viewer_app.py --port 8800      # a busy port falls back to a free one
+python tools/cdif_viewer_app.py --no-browser
+python tools/cdif_viewer_app.py --fetch-context  # allow remote @context fetches (off by default)
+```
+
+**CLI options:** `--port` (default 8765, falls back to any free port if taken), `--no-browser`,
+`--fetch-context`, `--profile-dir` (repeatable — point it at another repo's `_sources` to resolve
+that repo's profiles too, e.g. geochem's `ada:`/`geochem` URIs).
+
+A malformed record is reported in the page rather than killing the server: non-JSON gives 400 with
+the parse error, a non-object gives 400, a render failure gives 500 with the exception, and a body
+over 32 MB gives 413. Each successful render logs one line with the count of declared and
+unrecognised conformance URIs.
 
 ## audit_building_blocks.py
 
