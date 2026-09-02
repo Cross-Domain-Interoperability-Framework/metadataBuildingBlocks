@@ -420,13 +420,27 @@ Building blocks that represent CDIF specification components declare required `d
 |---|---|---|
 | `cdifCore` | `https://w3id.org/cdif/core/1.1` | `sh:hasValue` on existing `metadataProfileProperty` |
 | `CDIFDiscoveryProfile` | `https://w3id.org/cdif/discovery/1.1` | `CDIFDiscoveryProfileConformsToShape` |
-| `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.1` | `CDIFDataDescriptionProfileConformsToShape` |
+| `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.1` (**conditional** — non-empty `schema:variableMeasured`; see below) | `CDIFDataDescriptionProfileConformsToShape` |
 | `cdifManifest` | `https://w3id.org/cdif/manifest/1.1` | *(no rules.shacl — JSON Schema only)* |
 | `cdifProvenance` | `https://w3id.org/cdif/provenance/1.1` | *(no rules.shacl — JSON Schema only)* |
 | `xasCore` | `https://w3id.org/cdif/xasCore/1.0` | `XasCoreConformsToShape` (XAS mandatory tier) |
 | `xasOptional` | `https://w3id.org/cdif/xasOptional/1.0` (**conditional** — see below) | `XasOptionalConformsToShape` (XAS optional tier, advisory `sh:Warning`) |
 
 **URI convention:** Conformance URIs must NOT have a trailing `/` character.
+
+**`cdifDataDescription` pins conditionally (2026-09-02).** Its `contains` on
+`schema:subjectOf` → `dcterms:conformsTo` fires only when the record has a **non-empty**
+`schema:variableMeasured`. The property itself stays required, but it may be `[]`: a record can
+compose the data-description profile and describe no variables, and demanding the
+`data_description/1.1` declaration from it asserts a description it does not carry. `geochemProduct`
+already used this shape for `manifest/1.1`, whose pin fires only when a distribution contains a
+`schema:Collection`.
+
+This came out of the ADA corpus, where `detect_conformance.py` (CDIF/validation) withheld
+`data_description/1.1` from exactly the 45 of 81 records whose `schema:variableMeasured` is empty,
+while `geochemProduct` — which reaches this constraint by `$ref` — required it of all 81. Since
+`allOf` is conjunctive, a downstream profile can only add constraints, so the fix had to be in the
+module. Every other module still pins unconditionally: composing the module *is* the declaration.
 
 **`xasOptional` pins conditionally.** Every other block above pins its URI unconditionally via a
 `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo`. `xasOptional` is the optional
