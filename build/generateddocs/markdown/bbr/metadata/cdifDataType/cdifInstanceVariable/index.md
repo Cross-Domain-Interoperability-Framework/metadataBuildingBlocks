@@ -830,9 +830,15 @@ referencing the code-list concept).
             cdi:typeOfNumericValue "decimal" ] ;
     cdi:typeOfStatistic "frequency" ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 21497 ;
+                    cdi:content 75 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 3739 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
@@ -848,15 +854,9 @@ referencing the code-list concept).
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 75 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 3739 ;
+                    cdi:content 21497 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ] .
 
@@ -1246,10 +1246,10 @@ valid count (26882).
     cdif:indexedBy <https://example.org/mics/mwi2019/var/HH6> .
 
 <https://example.org/mics/mwi2019/var/HH6/statistics/count> a cdi:Statistics ;
-    cdi:statistic [ cdi:computationBase "Total" ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ],
-        [ cdi:computationBase "ValidOnly" ;
+        [ cdi:computationBase "Total" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
     cdi:typeOfStatistic "count" .
@@ -1260,15 +1260,15 @@ valid count (26882).
             cdi:typeOfNumericValue "decimal" ] ;
     cdi:typeOfStatistic "frequency" ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/2> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 22946 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/1> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 3936 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/2> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 22946 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ] .
 

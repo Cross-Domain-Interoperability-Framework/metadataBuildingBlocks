@@ -315,8 +315,12 @@ linked via schema:object references for action chaining.
       "@id": "#SamplePreparation",
       "schema:name": "Sample preparation for EPMA",
       "schema:additionalType": [
-        "schema:CreateAction",
-        "bios:LabProcess"
+        {
+          "@id": "schema:CreateAction"
+        },
+        {
+          "@id": "bios:LabProcess"
+        }
       ],
       "schema:description": "Olivine grains from Kilauea Iki lava lake drill core KI81-1 mounted in epoxy, ground, polished, and carbon coated for electron microprobe analysis.",
       "schema:actionProcess": {
@@ -387,8 +391,12 @@ linked via schema:object references for action chaining.
       "@id": "#EPMAAnalysis",
       "schema:name": "EPMA major element analysis of olivine",
       "schema:additionalType": [
-        "schema:CreateAction",
-        "bios:LabProcess"
+        {
+          "@id": "schema:CreateAction"
+        },
+        {
+          "@id": "bios:LabProcess"
+        }
       ],
       "schema:description": "Quantitative WDS electron microprobe analysis of olivine for major and minor elements using a JEOL JXA-8530F field-emission electron microprobe at 15 kV / 20 nA.",
       "schema:actionProcess": {
@@ -543,7 +551,9 @@ linked via schema:object references for action chaining.
       "@id": "#DataReduction",
       "schema:name": "Data reduction and filtering",
       "schema:additionalType": [
-        "schema:CreateAction"
+        {
+          "@id": "schema:CreateAction"
+        }
       ],
       "schema:description": "Analyses filtered for quality: rejected points with analytical totals outside 98.5–101.0 wt% or with anomalous stoichiometry. Forsterite content (Fo) calculated from Mg/(Mg+Fe) atomic ratio. Final dataset exported as CSV.",
       "schema:actionProcess": {
@@ -668,8 +678,12 @@ linked via schema:object references for action chaining.
       "@id": "#SamplePreparation",
       "schema:name": "Sample preparation for EPMA",
       "schema:additionalType": [
-        "schema:CreateAction",
-        "bios:LabProcess"
+        {
+          "@id": "schema:CreateAction"
+        },
+        {
+          "@id": "bios:LabProcess"
+        }
       ],
       "schema:description": "Olivine grains from Kilauea Iki lava lake drill core KI81-1 mounted in epoxy, ground, polished, and carbon coated for electron microprobe analysis.",
       "schema:actionProcess": {
@@ -740,8 +754,12 @@ linked via schema:object references for action chaining.
       "@id": "#EPMAAnalysis",
       "schema:name": "EPMA major element analysis of olivine",
       "schema:additionalType": [
-        "schema:CreateAction",
-        "bios:LabProcess"
+        {
+          "@id": "schema:CreateAction"
+        },
+        {
+          "@id": "bios:LabProcess"
+        }
       ],
       "schema:description": "Quantitative WDS electron microprobe analysis of olivine for major and minor elements using a JEOL JXA-8530F field-emission electron microprobe at 15 kV / 20 nA.",
       "schema:actionProcess": {
@@ -896,7 +914,9 @@ linked via schema:object references for action chaining.
       "@id": "#DataReduction",
       "schema:name": "Data reduction and filtering",
       "schema:additionalType": [
-        "schema:CreateAction"
+        {
+          "@id": "schema:CreateAction"
+        }
       ],
       "schema:description": "Analyses filtered for quality: rejected points with analytical totals outside 98.5\u2013101.0 wt% or with anomalous stoichiometry. Forsterite content (Fo) calculated from Mg/(Mg+Fe) atomic ratio. Final dataset exported as CSV.",
       "schema:actionProcess": {
@@ -973,6 +993,7 @@ linked via schema:object references for action chaining.
 
 #### ttl
 ```ttl
+@prefix bios: <https://bioschemas.org/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
@@ -985,19 +1006,19 @@ linked via schema:object references for action chaining.
     schema1:actionProcess [ a schema1:HowTo ;
             schema1:name "EPMA data reduction protocol" ;
             schema1:step [ a schema1:HowToStep ;
+                    schema1:description "Calculate cations per 4 oxygen. Reject analyses with Si > 1.02 or total cations outside 2.98–3.02 (expected 3.00 for olivine)." ;
+                    schema1:name "Stoichiometry check" ;
+                    schema1:position 2 ],
+                [ a schema1:HowToStep ;
                     schema1:description "Calculate Fo = 100 * Mg/(Mg+Fe) from atomic proportions. Export accepted analyses with Fo, oxide wt%, detection limits, and analytical totals to CSV." ;
                     schema1:name "Forsterite calculation and export" ;
                     schema1:position 3 ],
                 [ a schema1:HowToStep ;
                     schema1:description "Reject analyses with oxide totals < 98.5% or > 101.0%." ;
                     schema1:name "Total oxide filter" ;
-                    schema1:position 1 ],
-                [ a schema1:HowToStep ;
-                    schema1:description "Calculate cations per 4 oxygen. Reject analyses with Si > 1.02 or total cations outside 2.98–3.02 (expected 3.00 for olivine)." ;
-                    schema1:name "Stoichiometry check" ;
-                    schema1:position 2 ] ] ;
+                    schema1:position 1 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
-    schema1:additionalType "schema:CreateAction" ;
+    schema1:additionalType schema1:CreateAction ;
     schema1:agent [ a schema1:Person ;
             schema1:identifier "https://orcid.org/0000-0002-5555-6666" ;
             schema1:name "Chen, Wei" ] ;
@@ -1030,17 +1051,9 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
 <https://registry.onegeochemistry.org/methods/jeol-8530f-olivine-v1> a schema1:HowTo ;
     schema1:name "JEOL-8530F WDS olivine major elements v1.0" ;
     schema1:step [ a schema1:HowToStep ;
-            schema1:description "Set accelerating voltage to 15 kV, beam current to 20 nA measured on Faraday cup, focused beam (~1 um). Verify beam current stability within 0.5% over 5 minutes." ;
-            schema1:name "Beam condition setup" ;
-            schema1:position 2 ],
-        [ a schema1:HowToStep ;
             schema1:description "Apply ZAF matrix correction using Probe for EPMA v13.0.6 with LINEMU mass absorption coefficients. Report oxide weight percent with oxygen calculated by stoichiometry." ;
             schema1:name "Matrix correction and quantification" ;
             schema1:position 4 ],
-        [ a schema1:HowToStep ;
-            schema1:description "Acquire major elements simultaneously on 5 WDS spectrometers: Sp1 TAP (SiO2 Ka 30s, Al2O3 Ka 40s), Sp2 LiFH (FeO Ka 30s, MnO Ka 30s), Sp3 PETJ (CaO Ka 30s, TiO2 Ka 40s, Cr2O3 Ka 30s), Sp4 TAP (MgO Ka 30s), Sp5 LiF (NiO Ka 40s). Backgrounds measured on both sides of each peak." ;
-            schema1:name "WDS acquisition" ;
-            schema1:position 3 ],
         [ a schema1:HowToStep ;
             schema1:description "Analyze San Carlos olivine NMNH 111312/444 as secondary standard at start, middle, and end of each session. Accept session if all major elements within 1% relative of accepted values. Monitor Faraday cup current every 30 minutes; recalibrate if drift exceeds 1%." ;
             schema1:name "Quality control" ;
@@ -1048,7 +1061,15 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
         [ a schema1:HowToStep ;
             schema1:description "Calibrate WDS spectrometers on primary standards: San Carlos olivine (SiO2, MgO, FeO), chromite NMNH 117075 (Cr2O3), rhodonite (MnO), Kakanui hornblende (CaO, TiO2), jadeite (Na2O, Al2O3), synthetic NiO (NiO). Verify calibration on secondary standard San Carlos olivine NMNH 111312/444." ;
             schema1:name "Instrument calibration" ;
-            schema1:position 1 ] ;
+            schema1:position 1 ],
+        [ a schema1:HowToStep ;
+            schema1:description "Acquire major elements simultaneously on 5 WDS spectrometers: Sp1 TAP (SiO2 Ka 30s, Al2O3 Ka 40s), Sp2 LiFH (FeO Ka 30s, MnO Ka 30s), Sp3 PETJ (CaO Ka 30s, TiO2 Ka 40s, Cr2O3 Ka 30s), Sp4 TAP (MgO Ka 30s), Sp5 LiF (NiO Ka 40s). Backgrounds measured on both sides of each peak." ;
+            schema1:name "WDS acquisition" ;
+            schema1:position 3 ],
+        [ a schema1:HowToStep ;
+            schema1:description "Set accelerating voltage to 15 kV, beam current to 20 nA measured on Faraday cup, focused beam (~1 um). Verify beam current stability within 0.5% over 5 minutes." ;
+            schema1:name "Beam condition setup" ;
+            schema1:position 2 ] ;
     schema1:url "https://doi.org/10.5281/zenodo.example-olivine-method" .
 
 <file:///github/workspace/#EPMAAnalysis> a schema1:Action,
@@ -1056,24 +1077,24 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
     schema1:actionProcess <https://registry.onegeochemistry.org/methods/jeol-8530f-olivine-v1> ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Number of Analyses" ;
+            schema1:value 142 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Beam Current" ;
+            schema1:unitText "nA" ;
+            schema1:value 20 ],
+        [ a schema1:PropertyValue ;
             schema1:name "Accelerating Voltage" ;
             schema1:unitText "kV" ;
             schema1:value 15 ],
         [ a schema1:PropertyValue ;
-            schema1:name "Number of Analyses" ;
-            schema1:value 142 ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Beam Diameter" ;
-            schema1:value "focused (~1 um)" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Matrix Correction Model" ;
             schema1:value "ZAF (LINEMU MACs)" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Beam Current" ;
-            schema1:unitText "nA" ;
-            schema1:value 20 ] ;
-    schema1:additionalType "bios:LabProcess",
-        "schema:CreateAction" ;
+            schema1:name "Beam Diameter" ;
+            schema1:value "focused (~1 um)" ] ;
+    schema1:additionalType schema1:CreateAction,
+        bios:LabProcess ;
     schema1:agent [ a schema1:Person ;
             schema1:identifier "https://orcid.org/0000-0002-5555-6666" ;
             schema1:name "Chen, Wei" ] ;
@@ -1113,8 +1134,8 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
                     schema1:name "Grinding and polishing" ;
                     schema1:position 2 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
-    schema1:additionalType "bios:LabProcess",
-        "schema:CreateAction" ;
+    schema1:additionalType schema1:CreateAction,
+        bios:LabProcess ;
     schema1:agent [ a schema1:Person ;
             schema1:identifier "https://orcid.org/0000-0002-5555-6666" ;
             schema1:name "Chen, Wei" ] ;

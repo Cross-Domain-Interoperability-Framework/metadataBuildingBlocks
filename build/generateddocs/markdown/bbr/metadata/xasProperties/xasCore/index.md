@@ -92,7 +92,12 @@ XAS core properties: instrument components, XDI distribution, measurement techni
       },
       "schema:provider": [
         {
-          "@id": "plTqxpHjBTESztfaDyI"
+          "@id": "https://ror.org/04qxsr837",
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "Advanced Photon Source",
+          "schema:url": "https://www.aps.anl.gov"
         }
       ]
     },
@@ -116,7 +121,12 @@ XAS core properties: instrument components, XDI distribution, measurement techni
       },
       "schema:provider": [
         {
-          "@id": "EwHwOWWPjkVxr"
+          "@id": "https://ror.org/04qxsr837",
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "Advanced Photon Source",
+          "schema:url": "https://www.aps.anl.gov"
         }
       ],
       "dcterms:conformsTo": [
@@ -485,7 +495,12 @@ XAS core properties: instrument components, XDI distribution, measurement techni
       },
       "schema:provider": [
         {
-          "@id": "plTqxpHjBTESztfaDyI"
+          "@id": "https://ror.org/04qxsr837",
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "Advanced Photon Source",
+          "schema:url": "https://www.aps.anl.gov"
         }
       ]
     },
@@ -509,7 +524,12 @@ XAS core properties: instrument components, XDI distribution, measurement techni
       },
       "schema:provider": [
         {
-          "@id": "EwHwOWWPjkVxr"
+          "@id": "https://ror.org/04qxsr837",
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "Advanced Photon Source",
+          "schema:url": "https://www.aps.anl.gov"
         }
       ],
       "dcterms:conformsTo": [
@@ -818,7 +838,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
     schema1:encodingFormat "application/zip",
         "text/csv" ;
     schema1:name "Processed spectrum CSV" ;
-    schema1:provider <file:///github/workspace/EwHwOWWPjkVxr> ;
+    schema1:provider <https://ror.org/04qxsr837> ;
     spdx:checksum [ a spdx:Checksum ;
             spdx:algorithm "MD5" ;
             spdx:checksumValue "d41d8cd98f00b204e9800998ecf8427e" ] .
@@ -829,7 +849,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
     schema1:contentUrl "http://example.com/resource/35uj46j" ;
     schema1:encodingFormat "application/x-xdi" ;
     schema1:name "XDI data file" ;
-    schema1:provider <file:///github/workspace/plTqxpHjBTESztfaDyI> ;
+    schema1:provider <https://ror.org/04qxsr837> ;
     spdx:checksum [ a spdx:Checksum ;
             spdx:algorithm "SHA-256" ;
             spdx:checksumValue "a1b2c3d4e5f6..." ] .
@@ -884,13 +904,13 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "sample preparation method" ;
-                            schema1:propertyID xas:samplepreparation ;
-                            schema1:value "powder on tape, 6 layers" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "Stoichiometry" ;
                             schema1:propertyID xas:samplechemicalcomposition ;
-                            schema1:value "Na2SeO4" ] ;
+                            schema1:value "Na2SeO4" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "sample preparation method" ;
+                            schema1:propertyID xas:samplepreparation ;
+                            schema1:value "powder on tape, 6 layers" ] ;
                     schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
                         "MaterialSample" ;
                     schema1:description "Sodium selenate reference compound, powder" ;
@@ -909,6 +929,20 @@ ex:xas-dataset-001 a schema1:Dataset,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
+                                    schema1:name "x-ray source" ;
+                                    schema1:propertyID xas:xraysourcetype ;
+                                    schema1:value "Synchrotron X-ray Source" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "Probe" ;
+                                    schema1:propertyID xas:probe ;
+                                    schema1:value "x-ray" ] ;
+                            schema1:additionalType xas:source,
+                                wd:Q3099911 ;
+                            schema1:name "APS bending magnet source" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalProperty [ a schema1:PropertyValue ;
                                     schema1:name "crystal type" ;
                                     schema1:propertyID xas:monochromatortype ;
                                     schema1:value "Si(111)" ],
@@ -923,21 +957,7 @@ ex:xas-dataset-001 a schema1:Dataset,
                                     schema1:value "1,1,1" ] ;
                             schema1:additionalType xas:xraymonochromator,
                                 wd:Q3099911 ;
-                            schema1:name "Si 111" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "x-ray source" ;
-                                    schema1:propertyID xas:xraysourcetype ;
-                                    schema1:value "Synchrotron X-ray Source" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "Probe" ;
-                                    schema1:propertyID xas:probe ;
-                                    schema1:value "x-ray" ] ;
-                            schema1:additionalType xas:source,
-                                wd:Q3099911 ;
-                            schema1:name "APS bending magnet source" ] ] ] .
+                            schema1:name "Si 111" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -948,6 +968,10 @@ ex:xas-dataset-001 a schema1:Dataset,
     schema1:includedInDataCatalog <file:///github/workspace/nbUunSyw> ;
     schema1:maintainer <file:///github/workspace/nKwywfsuBh> ;
     schema1:sdDatePublished "2025-08-15T06:45:40Z" .
+
+<https://ror.org/04qxsr837> a schema1:Organization ;
+    schema1:name "Advanced Photon Source" ;
+    schema1:url "https://www.aps.anl.gov" .
 
 
 ```
