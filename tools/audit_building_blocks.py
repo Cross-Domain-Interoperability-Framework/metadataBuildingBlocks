@@ -28,6 +28,7 @@ Usage:
     python audit_building_blocks.py --json -o report.json
 """
 
+import re
 import argparse
 import json
 import sys
@@ -511,6 +512,67 @@ def extract_example_properties(data, prefix=""):
     return props
 
 
+def check_type_enum_shacl_sync(bb_dir, name):
+    """schema.yaml's @type enum vs the list CDIFSubjectOfPlacementShape restates.
+
+    SHACL cannot read JSON Schema, so cdifCore/rules.shacl duplicates the enum
+    inside the shape's sh:in list. schema.yaml is the source of truth; this
+    check exists so the copy cannot drift from it unnoticed.
+
+    Only applies to the block that owns both files; a no-op everywhere else.
+    """
+    issues = []
+    info = []
+
+    schema_path = bb_dir / "schema.yaml"
+    shacl_path = bb_dir / "rules.shacl"
+    if not (schema_path.exists() and shacl_path.exists()):
+        return issues, info
+
+    try:
+        shacl_text = shacl_path.read_text(encoding="utf-8")
+    except Exception as e:
+        return [f"Cannot read rules.shacl: {e}"], info
+    if "CDIFSubjectOfPlacementShape" not in shacl_text:
+        return issues, info
+
+    try:
+        schema = load_yaml(schema_path)
+    except Exception as e:
+        return [f"Cannot read schema.yaml: {e}"], info
+    enum = (((schema.get("properties") or {}).get("@type") or {})
+            .get("items") or {}).get("enum")
+    if not enum:
+        return ["CDIFSubjectOfPlacementShape is present but schema.yaml "
+                "declares no @type enum to check it against"], info
+
+    # The sh:in ( ... ) list inside the placement shape.
+    start = shacl_text.index("CDIFSubjectOfPlacementShape")
+    m = re.search(r"sh:in\s*\(([^)]*)\)", shacl_text[start:])
+    if not m:
+        return ["CDIFSubjectOfPlacementShape has no sh:in list of @type "
+                "classes to compare with schema.yaml"], info
+    shape_types = set(m.group(1).split())
+
+    enum_types = set(enum)
+    missing = sorted(enum_types - shape_types)
+    extra = sorted(shape_types - enum_types)
+    if missing:
+        issues.append(
+            "CDIFSubjectOfPlacementShape is missing @type enum value(s) that "
+            "schema.yaml allows, so a valid record typed with one would fail "
+            "the placement check: " + ", ".join(missing))
+    if extra:
+        issues.append(
+            "CDIFSubjectOfPlacementShape allows class(es) the schema.yaml "
+            "@type enum does not, so an ineligible node could carry "
+            "schema:subjectOf: " + ", ".join(extra))
+    if not issues:
+        info.append("@type enum and CDIFSubjectOfPlacementShape agree "
+                    f"({len(enum_types)} classes)")
+    return issues, info
+
+
 def check_example_coverage(bb_dir, name, is_type_library=False):
     """Check whether examples exercise all schema properties."""
     issues = []
@@ -685,6 +747,12 @@ def audit_building_block(category, name, bb_dir, checks=None):
         result.add_issues(issues)
         result.add_info(info)
 
+    # Check 7: @type enum vs the SHACL list that restates it
+    if not checks or "type-enum" in checks:
+        issues, info = check_type_enum_shacl_sync(bb_dir, name)
+        result.add_issues(issues)
+        result.add_info(info)
+
     return result
 
 
@@ -708,7 +776,7 @@ def main():
         "--checks", "-c",
         type=str,
         default=None,
-        help="Comma-separated list of checks to run: files,schema-json,resolved,examples,shacl,coverage"
+        help="Comma-separated list of checks to run: files,schema-json,resolved,examples,shacl,coverage,type-enum"
     )
     parser.add_argument(
         "--verbose", "-v",
