@@ -549,18 +549,27 @@ def render_node(node, prefixes, depth=0, type_index=None):
                len(rows), ''.join(rows)))
 
 
+# A list-valued section longer than this starts collapsed: schema:variableMeasured
+# and schema:distribution are the usual offenders, but the rule is by shape, not
+# by property name, so a new long property needs no change here.
+COLLAPSE_OVER = 5
+
+
 def render_property(name, value, description, prefixes, type_index=None,
                     label=None):
     tip = ' title="%s"' % esc(description) if description else ''
     note = '<div class="desc">%s</div>' % esc(description) if description else ''
+    count = len(value) if isinstance(value, list) else None
+    tally = ('<span class="rowcount">%d</span>' % count) if count is not None else ''
     return (
-        '<details class="prop" open>'
+        '<details class="prop"%s>'
         '<summary%s><span class="prop-title">%s</span>'
-        '<span class="curie">%s</span></summary>'
+        '<span class="curie">%s</span>%s</summary>'
         '%s'
         '<div class="prop-val">%s</div>'
         '</details>'
-        % (tip, esc(label or humanize(name)), esc(name), note,
+        % ('' if (count is not None and count > COLLAPSE_OVER) else ' open',
+           tip, esc(label or humanize(name)), esc(name), tally, note,
            render_value(value, prefixes, 0, type_index))
     )
 

@@ -1090,6 +1090,12 @@ so a collapsed card still says how much is inside. Nodes nested two or more leve
 companion graph nodes, start collapsed: a Dataverse survey record otherwise opened ~19,400
 `<details>` on one 15 MB page. That is now ~1,700.
 
+A **list-valued section with more than `COLLAPSE_OVER` (5) entries also starts collapsed**, with its
+entry count in the heading — `schema:variableMeasured` and `schema:distribution` in practice, but
+the rule is by shape rather than property name, so a new long property needs no change. This barely
+moves the open-`<details>` count (those children were already collapsed by depth) and matters
+visually: that survey's 863 variables sit behind one heading instead of 863 stacked cards.
+
 The disclosure markers are drawn with CSS borders rather than a glyph. They were briefly a CSS
 escape written into a non-raw Python string, where Python read `` as an **octal** escape and
 emitted a NAK control character followed by the text "be" -- browsers drew tofu. The source looked
