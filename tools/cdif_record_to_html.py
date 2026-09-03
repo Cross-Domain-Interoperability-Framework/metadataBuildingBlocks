@@ -538,10 +538,14 @@ def render_node(node, prefixes, depth=0, type_index=None):
         return '<div class="node"><div class="node-head">%s</div></div>' % header
     # Collapsible, open by default: long records stay browsable without any
     # content being hidden on arrival.
-    return ('<details class="node" open><summary class="node-head">%s'
+    # Depth 0 and 1 open, deeper collapsed. A survey dataset produced ~19k
+    # open <details> on one page otherwise; the top levels stay readable and
+    # "expand all" opens the rest on demand.
+    return ('<details class="node"%s><summary class="node-head">%s'
             '<span class="rowcount">%d</span></summary>'
             '<div class="node-body">%s</div></details>'
-            % (header or '<span class="node-label">&hellip;</span>',
+            % (' open' if depth < 2 else '',
+               header or '<span class="node-label">&hellip;</span>',
                len(rows), ''.join(rows)))
 
 
@@ -579,6 +583,10 @@ a{color:var(--accent)}
 header.banner{border-bottom:2px solid var(--line);padding-bottom:1rem;margin-bottom:.25rem}
 header.banner h1{margin:.1rem 0 .5rem;font-size:1.55rem;line-height:1.25}
 .ids{color:var(--muted);font-size:.83rem;word-break:break-all;margin-bottom:.5rem}
+.srcfile{display:inline-block;margin-right:.6rem;padding:.05rem .4rem;
+   border:1px solid var(--line);border-radius:3px;background:var(--card);
+   font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.78rem;
+   color:var(--fg)}
 .abstract{margin:.5rem 0 0;max-width:80ch}
 .badge{display:inline-block;background:var(--badge);color:var(--fg);border-radius:3px;
        padding:.05rem .4rem;font-size:.75rem;margin-right:.3rem;white-space:nowrap}
@@ -827,6 +835,71 @@ def choose_layout(declared, layouts):
     return max(applicable, key=lambda l: len(l.uris))
 
 
+def split_graph(doc):
+    """(primary record, companion nodes) for an @graph document.
+
+    Returns (doc, []) unchanged when there is no @graph. The primary node is
+    the one the catalog record is about when that can be determined, else the
+    first schema:Dataset, else the first node -- so a graph without a dataset
+    still renders something rather than failing.
+    """
+    graph = doc.get('@graph')
+    if not isinstance(graph, list) or not graph:
+        return doc, []
+    nodes = [n for n in graph if isinstance(n, dict)]
+    if not nodes:
+        return doc, []
+
+    def has_type(node, name):
+        types = node.get('@type')
+        types = types if isinstance(types, list) else [types]
+        return name in types
+
+    primary = next((n for n in nodes if n.get(RECORD_PROPERTY)), None)
+    if primary is None:
+        primary = next((n for n in nodes if has_type(n, 'schema:Dataset')), None)
+    if primary is None:
+        primary = nodes[0]
+
+    # Keep the original object for the identity test below: copying primary to
+    # attach @context would otherwise leave the original in the companion list.
+    original = primary
+    context = doc.get('@context')
+    if context is not None and '@context' not in primary:
+        primary = dict(primary)
+        primary['@context'] = context
+    return primary, [n for n in nodes if n is not original]
+
+
+def companion_tabs(nodes, prefixes, type_index, used_slugs):
+    """One tab per @type group of companion graph nodes."""
+    groups = {}
+    for node in nodes:
+        types = node.get('@type')
+        types = types if isinstance(types, list) else [types]
+        label = local_name(next((t for t in types if isinstance(t, str)), 'Node'))
+        groups.setdefault(label, []).append(node)
+
+    tabs, panels = [], []
+    for label in sorted(groups):
+        members = groups[label]
+        body = ('<p class="lead">%d companion node%s in the document graph, '
+                'typed <code>%s</code>. These travel with the record rather than '
+                'inside it.</p>'
+                % (len(members), '' if len(members) == 1 else 's', esc(label)))
+        # Companion nodes are supporting material and there can be dozens of
+        # them, each deep: a concept-scheme graph rendered open produced 22k
+        # open <details> on one page. They start collapsed; "expand all" opens
+        # them on demand.
+        body += ''.join(render_node(n, prefixes, 0, type_index)
+                        for n in members).replace('<details class="node" open>',
+                                                  '<details class="node">')
+        slug = _slug(label, used_slugs)
+        tabs.append((slug, label, len(members)))
+        panels.append((slug, body))
+    return tabs, panels
+
+
 def _slug(text, used):
     base = re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-') or 'section'
     slug, n = base, 2
@@ -988,10 +1061,17 @@ def build_tabs(record, modules, prefixes, type_index=None, layouts=None):
 
 
 def render_html(record, modules, title=None, offline=True, type_index=None,
-                layouts=None):
+                layouts=None, filename=None):
+    record, companions = split_graph(record)
     prefixes = record_context(record, offline=offline)
     tabs, panels, selected, _ = build_tabs(record, modules, prefixes,
                                           type_index, layouts)
+    if companions:
+        used = {slug for slug, _, _ in tabs}
+        extra_tabs, extra_panels = companion_tabs(companions, prefixes,
+                                                  type_index, used)
+        tabs = tabs + extra_tabs
+        panels = panels + extra_panels
 
     name = record.get('schema:name')
     if isinstance(name, list):
@@ -1002,6 +1082,9 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
     types = type_names(record)
     identifier = record.get('@id')
     ids = []
+    if filename:
+        ids.append('<span class="srcfile" title="Source file">%s</span>'
+                   % esc(filename))
     if identifier:
         url = expand(identifier, prefixes)
         ids.append(render_link(url, identifier) if url else esc(identifier))
@@ -1197,7 +1280,8 @@ def main(argv=None):
         title = args.title if (args.title and not many) else None
         output.write_text(
             render_html(record, modules, title, offline=args.offline,
-                        type_index=type_index, layouts=layouts),
+                        type_index=type_index, layouts=layouts,
+                        filename=source.name),
             encoding='utf-8')
         print('wrote %s' % output)
         entries.append(_record_summary(record, source, output, modules,

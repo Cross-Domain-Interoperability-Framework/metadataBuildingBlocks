@@ -24,6 +24,7 @@ import threading
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import unquote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import cdif_record_to_html as R
@@ -145,9 +146,11 @@ class Handler(BaseHTTPRequestHandler):
             self._send(400, 'Not a JSON object -- a CDIF record is a single object.',
                        'text/plain; charset=utf-8')
             return
+        name = unquote(self.path.partition('name=')[2]) or '(record)'
         try:
             html = R.render_html(record, self.modules, offline=self.offline,
-                                 type_index=self.known, layouts=self.layouts)
+                                 type_index=self.known, layouts=self.layouts,
+                                 filename=name)
         except Exception as exc:               # a malformed record should not kill the app
             self._send(500, 'Could not render:\n%s: %s' % (type(exc).__name__, exc),
                        'text/plain; charset=utf-8')
@@ -155,7 +158,6 @@ class Handler(BaseHTTPRequestHandler):
         uris = R.declared_conformance(record)
         unknown = [u for u in uris if R.resolve_module(u, self.modules,
                                                        R.modules_by_stem(self.modules))[0] is None]
-        name = self.path.partition('name=')[2] or '(record)'
         print('rendered %s  [%d declared, %d unrecognised]'
               % (name, len(uris), len(unknown)))
         self._send(200, html)

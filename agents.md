@@ -1072,10 +1072,23 @@ real Core / Data Description / Provenance / Manifest split (properties left unpl
 243 -> 162). The version difference is reported in the Metadata Record tab as
 `<declared> (laid out as <known>)` rather than hidden.
 
+**`@graph` documents.** A CDIF document may be a named graph — `{"@context":…, "@graph":[…]}` —
+carrying the dataset alongside the concept schemes or codelists it refers to. The dataset node
+becomes the record and the remaining nodes are grouped by `@type` into their own tabs, so 60 concept
+schemes are browsable rather than one blob. The document-level `@context` is carried onto the
+primary node so its CURIEs still expand. Rendered as a single object these documents produced no
+profile match at all — `schema:subjectOf` lives inside the dataset node, not at the document root —
+and the whole graph landed in "Additional".
+
+**The source file name is shown in the page header**, as a chip beside the `@id`. Both the CLI and
+the picker app pass it through.
+
 **Collapsible sections.** Property sections and nested node cards are `<details>`, open on arrival
 so nothing is hidden, with `expand all` / `collapse all` in the tab bar acting on the visible tab.
 Collapsed, a long record reads as a scannable list of headings; each node card shows its row count
-so a collapsed card still says how much is inside.
+so a collapsed card still says how much is inside. Nodes nested two or more levels deep, and all
+companion graph nodes, start collapsed: a Dataverse survey record otherwise opened ~19,400
+`<details>` on one 15 MB page. That is now ~1,700.
 
 The disclosure markers are drawn with CSS borders rather than a glyph. They were briefly a CSS
 escape written into a non-raw Python string, where Python read `` as an **octal** escape and
