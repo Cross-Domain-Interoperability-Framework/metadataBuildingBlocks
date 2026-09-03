@@ -1,12 +1,18 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/dataset/minimal-dd> a schema1:Dataset ;
     schema1:name "Minimal data-description example" ;
-    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/data_description/1.1> ] ;
+    schema1:subjectOf <https://example.org/dataset/minimal-dd/metadata> ;
     schema1:variableMeasured <https://example.org/var/temperature> .
+
+<https://example.org/dataset/minimal-dd/metadata> a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/data_description/1.1> ;
+    schema1:about <https://example.org/dataset/minimal-dd> ;
+    schema1:additionalType dcat:CatalogRecord .
 
 <https://example.org/var/temperature> a cdi:InstanceVariable,
         schema1:PropertyValue ;

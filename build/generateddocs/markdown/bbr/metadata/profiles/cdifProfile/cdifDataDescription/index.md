@@ -27,7 +27,8 @@ minimum required CdifInstanceVariableNode shape.
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "dcterms": "http://purl.org/dc/terms/",
     "ex": "https://example.org/",
-    "cdif": "https://w3id.org/cdif/"
+    "cdif": "https://w3id.org/cdif/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@type": [
     "schema:Dataset"
@@ -35,6 +36,18 @@ minimum required CdifInstanceVariableNode shape.
   "@id": "ex:dataset/minimal-dd",
   "schema:name": "Minimal data-description example",
   "schema:subjectOf": {
+    "@id": "ex:dataset/minimal-dd/metadata",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "schema:about": {
+      "@id": "ex:dataset/minimal-dd"
+    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/data_description/1.1"
@@ -77,7 +90,8 @@ minimum required CdifInstanceVariableNode shape.
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "dcterms": "http://purl.org/dc/terms/",
       "ex": "https://example.org/",
-      "cdif": "https://w3id.org/cdif/"
+      "cdif": "https://w3id.org/cdif/",
+      "dcat": "http://www.w3.org/ns/dcat#"
     }
   ],
   "@type": [
@@ -86,6 +100,18 @@ minimum required CdifInstanceVariableNode shape.
   "@id": "ex:dataset/minimal-dd",
   "schema:name": "Minimal data-description example",
   "schema:subjectOf": {
+    "@id": "ex:dataset/minimal-dd/metadata",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "schema:about": {
+      "@id": "ex:dataset/minimal-dd"
+    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/data_description/1.1"
@@ -116,13 +142,19 @@ minimum required CdifInstanceVariableNode shape.
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/dataset/minimal-dd> a schema1:Dataset ;
     schema1:name "Minimal data-description example" ;
-    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/data_description/1.1> ] ;
+    schema1:subjectOf <https://example.org/dataset/minimal-dd/metadata> ;
     schema1:variableMeasured <https://example.org/var/temperature> .
+
+<https://example.org/dataset/minimal-dd/metadata> a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/data_description/1.1> ;
+    schema1:about <https://example.org/dataset/minimal-dd> ;
+    schema1:additionalType dcat:CatalogRecord .
 
 <https://example.org/var/temperature> a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -863,16 +895,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             schema1:name "Ocean temperature CSV" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:decimalPositions 2 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:isRequired false ;
                     cdi:maximumLength 10 ;
@@ -883,10 +906,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdif:index 2 ;
                     cdif:physicalDataType "Numeric" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "Integer" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
                 [ cdi:decimalPositions 1 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "-999.9" ;
@@ -894,7 +918,15 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:format "0.0" ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:index 1 ;
-                    cdif:physicalDataType "Numeric" ] ] ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:name "Ocean Temperature Monitoring Data" ;
