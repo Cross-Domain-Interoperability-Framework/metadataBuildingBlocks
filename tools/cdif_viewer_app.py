@@ -23,6 +23,7 @@ import ipaddress
 import collections
 import json
 import os
+import re
 import socket
 import sys
 import threading
@@ -59,8 +60,11 @@ PICKER = """<!doctype html>
       --accent:#7fb6dd;--card:#1b1f25;--bg:#14171b}}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,
      BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-     display:flex;align-items:center;justify-content:center;min-height:100vh}
-.wrap{max-width:40rem;padding:2rem;width:100%}
+     /* flex-start, not center: a centred flex item taller than the viewport is
+        clipped at the top and cannot be scrolled back to. The gallery made the
+        page tall enough for that to bite. */
+     display:flex;align-items:flex-start;justify-content:center;min-height:100vh}
+.wrap{max-width:40rem;padding:2rem 2rem 4rem;width:100%}
 h1{font-size:1.4rem;margin:0 0 .4rem}
 p.sub{color:var(--muted);margin:0 0 1.5rem}
 #drop{border:2px dashed var(--line);border-radius:10px;padding:3rem 1.5rem;
@@ -79,6 +83,16 @@ button:hover{border-color:var(--accent);color:var(--accent)}
 #url:focus{outline:none;border-color:#7aa2f7}
 #urlform button{padding:.5rem .9rem}
 .urlnote{margin:.5rem 0 0;font-size:.8rem}
+.g-head{font-size:.95rem;margin:1.8rem 0 .6rem;font-weight:600}
+.g-sub{font-size:.78rem;margin:1rem 0 .4rem;color:var(--muted);font-weight:600;
+       text-transform:uppercase;letter-spacing:.04em}
+.gallery{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.gallery a{display:block;padding:.6rem .8rem;border:1px solid var(--line);
+           border-radius:8px;text-decoration:none;color:inherit;
+           background:var(--card)}
+.gallery a:hover{border-color:var(--accent)}
+.s-name{display:block;font-weight:600;font-size:.9rem}
+.s-blurb{display:block;color:var(--muted);font-size:.82rem;margin-top:.15rem}
 .profiles{margin-top:1.6rem;font-size:.82rem;color:var(--muted)}
 .profiles code{font-size:.9em}
 </style></head><body><div class="wrap">
@@ -98,6 +112,7 @@ button:hover{border-color:var(--accent);color:var(--accent)}
 be a JSON-LD record or a page with an embedded
 <code>application/ld+json</code> record.</p>
 <div id="err"></div>
+__GALLERY__
 <div class="profiles">Layout is chosen from the record's
 <code>subjectOf &rarr; dcterms:conformsTo</code>. Profiles recognised:<br>__PROFILES__</div>
 </div>
@@ -267,8 +282,115 @@ def fetch_record(url, allowed_types):
     return record, _vocab_note(record, url, embedded=True)
 
 
+# Sample records offered on the picker page: (slug, path, blurb). Paths are
+# relative to the repo root, so they travel with the deployment.
+#
+# Chosen to span the range rather than to impress -- someone opening this
+# should be able to see a small record and a rich one, a table and a domain
+# profile, without hunting.
+# Raw-content bases for the sibling repositories. Note the doc-* repos are on
+# reviewRevision202606, not main -- a main URL there 404s.
+_GH = 'https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/'
+RAW_VALIDATION = _GH + 'validation/main/'
+RAW_DOC = _GH + '%s/reviewRevision202606/'
+
+# The gallery, grouped. `src` is either a path inside this repo or a URL fetched
+# through the same code a pasted URL uses. Chosen to span what CDIF has to
+# describe rather than to flatter it: hand-written profile examples, machine
+# conversions from four other formats, and records harvested from live
+# repositories that were never written with CDIF in mind.
+SAMPLES = [
+    ('Profile examples, written to show a profile', [
+        ('_sources/profiles/cdifCompositeProfile/CoreDiscovery/'
+         'exampleCDIFDiscoveryMinimal.json',
+         'The smallest useful record: core plus discovery, seven properties.'),
+        ('_sources/profiles/cdifCompositeProfile/CoreDiscovery/'
+         'exampleCDIFDiscoveryComplete.json',
+         'The same profile filled in: agents, coverage, distributions, funding.'),
+        ('_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/'
+         'exampleCDIFDataDescriptionComplete.json',
+         'Adds described variables -- what the dataset actually measures.'),
+        ('_sources/profiles/cdifCompositeProfile/'
+         'DiscoveryDataDescriptionStructure/'
+         'exampleCDIFDataStructureComplete.json',
+         'A long-format table: components, keys, and how a file maps to them.'),
+        ('_sources/profiles/cdifCompositeProfile/cdifComplete/'
+         'exampleCDIFcomplete.json',
+         'Every module at once -- six declared profiles, provenance included.'),
+        ('_sources/profiles/cdifCompositeProfile/xasDocument/'
+         'exampleCDIFxas.json',
+         'A domain profile: X-ray absorption spectroscopy, with its own tabs.'),
+    ]),
+
+    ('Converted from other metadata formats', [
+        (RAW_VALIDATION + 'converters/DDICodebook/Examples/cdif/'
+         'cdif_MWI_2019_MICS_v01_M.json',
+         'DDI Codebook: a household survey. 1793 variables and a physical '
+         'mapping per column, so the variable list gets its own paged view.'),
+        (RAW_VALIDATION + 'converters/croissant/MLCroissantExamples/'
+         'cdif-output/hf-imdb-cdif.jsonld',
+         'Croissant: a Hugging Face machine-learning dataset.'),
+        (RAW_VALIDATION + 'converters/DCAT/cdifOK/01-dcat-ap/3.0.0-hvd/'
+         'example-ms_dataset_2_distributions__dcat-the-population-of-bees.jsonld',
+         'DCAT-AP: two distributions, with high-value-dataset terms carried '
+         'through as extensions.'),
+        (RAW_VALIDATION + 'converters/DDI-CDI/Examples/cdif/'
+         'cdif_SPSS_Example.json',
+         'DDI-CDI XML: a data structure with coded value domains.'),
+    ]),
+
+    ('Harvested from live repositories', [
+        (RAW_DOC % 'doc-corediscovery' +
+         'examples/GeoCodes-earthchem-dataset.jsonld',
+         'EarthChem, via GeoCodes: electron microprobe glass analyses.'),
+        (RAW_DOC % 'doc-corediscovery' +
+         'examples/GeoCodes-opentopography-dataset.jsonld',
+         'OpenTopography: airborne lidar over Diablo Canyon.'),
+        (RAW_DOC % 'doc-corediscovery' +
+         'examples/GeoCodes-pangaea-dataset.jsonld',
+         'PANGAEA: a global map of nitrogen application.'),
+        (RAW_DOC % 'doc-corediscovery' + 'examples/ESIP-fullDataset.jsonld',
+         'The ESIP science-on-schema.org reference record.'),
+        (RAW_DOC % 'doc-discoverydatadescription' +
+         'examples/CMIP-NetCDF/NetCDF-CDIF-UKESM1-0-LL.jsonLD',
+         'A CMIP6 climate model run, described from its NetCDF headers.'),
+        (RAW_DOC % 'doc-discoverydatadescription' +
+         'examples/CDIF2026/cdif_10.60707-0y88-ps96.json',
+         'Astromat: titanium isotope measurements.'),
+    ]),
+]
+
+
+def available_samples(root):
+    """(slug, source, blurb, label) for each usable sample.
+
+    A local sample is checked on disk: a renamed example should quietly leave
+    the gallery rather than 404 for whoever clicks it. A remote one is not
+    fetched here -- reaching out to GitHub at boot would make this service's
+    health depend on someone else's -- so a dead link surfaces when clicked,
+    carrying the fetch error the URL path already produces.
+    """
+    out, used = [], set()
+    for group, entries in SAMPLES:
+        for src, blurb in entries:
+            name = src.rsplit('/', 1)[-1]
+            slug = re.sub(r'[^a-z0-9]+', '-',
+                          name.rsplit('.', 1)[0].lower()).strip('-') or 'sample'
+            while slug in used:
+                slug += '-2'
+            used.add(slug)
+            if src.startswith(('http://', 'https://')):
+                out.append((slug, src, blurb, name, group))
+            else:
+                path = root / src
+                if path.is_file():
+                    out.append((slug, path, blurb, path.stem, group))
+    return out
+
+
 class Handler(BaseHTTPRequestHandler):
     server_is_shared = False
+    samples = ()
     modules = {}
     known = set()
     layouts = []
@@ -286,6 +408,31 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(data)
 
     def do_GET(self):
+        if self.path.startswith('/sample/'):
+            slug = self.path[len('/sample/'):].split('?', 1)[0]
+            match = next((s for s in self.samples if s[0] == slug), None)
+            if match is None:
+                self._send(404, 'No such sample.', 'text/plain; charset=utf-8')
+                return
+            _, source, _, label, _group = match
+            if isinstance(source, str):          # converter output, fetched
+                try:
+                    record, note = fetch_record(source, R.record_types(self.modules))
+                except ValueError as exc:
+                    self._send(502, 'Could not fetch that sample:\n%s' % exc,
+                               'text/plain; charset=utf-8')
+                    return
+            else:                                 # ships with this repo
+                try:
+                    record = json.loads(source.read_text(encoding='utf-8'))
+                except Exception as exc:
+                    self._send(500, 'Could not read that sample: %s' % exc,
+                               'text/plain; charset=utf-8')
+                    return
+                note = ('Sample record shipped with the building blocks: '
+                        '<code>%s</code>.' % R.esc(label))
+            self._render_record(record, label, note)
+            return
         if self.path.startswith('/part/'):
             path, _, query = self.path[len('/part/'):].partition('?')
             token = path
@@ -315,8 +462,24 @@ class Handler(BaseHTTPRequestHandler):
         where = (' It renders on this server: the record is sent there, held only'
                  ' for the render, and not stored.' if self.server_is_shared
                  else ' It renders locally &mdash; nothing leaves your machine.')
+        groups = []
+        for _slug, _src, _blurb, _label, group in self.samples:
+            if group not in groups:
+                groups.append(group)
+        sections = []
+        for group in groups:
+            cards = ''.join(
+                '<li><a href="/sample/%s"><span class="s-name">%s</span>'
+                '<span class="s-blurb">%s</span></a></li>'
+                % (R.esc(slug), R.esc(label), R.esc(blurb))
+                for slug, _src, blurb, label, g in self.samples if g == group)
+            sections.append('<h3 class="g-sub">%s</h3><ul class="gallery">%s</ul>'
+                            % (R.esc(group), cards))
+        gallery = ('<h2 class="g-head">Or look at a sample</h2>%s'
+                   % ''.join(sections)) if sections else ''
         self._send(200, PICKER.replace('__PROFILES__', listed or '(none found)')
-                   .replace('__WHERE__', where))
+                   .replace('__WHERE__', where)
+                   .replace('__GALLERY__', gallery))
 
     def do_POST(self):
         if self.path.startswith('/open'):
@@ -427,6 +590,7 @@ def main(argv=None):
     Handler.layouts = R.load_layouts()
     Handler.offline = not args.fetch_context
     Handler.server_is_shared = args.host not in ('127.0.0.1', 'localhost', '::1')
+    Handler.samples = available_samples(R.REPO)
 
     # Only hunt for a free port locally. If a hosting platform names a port,
     # binding a different one means the service is never reachable -- silently,
