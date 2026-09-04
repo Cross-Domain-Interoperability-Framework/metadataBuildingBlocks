@@ -706,6 +706,28 @@ def _schema_vocab(context):
     return False
 
 
+def https_vocab_note(context):
+    """The https://schema.org/ namespace, when it is genuinely the wrong one.
+
+    A STRING context of "https://schema.org/" is a reference to schema.org's
+    context document, which defines schema: as http://schema.org/ -- so its
+    terms expand to the http form and nothing is wrong. An @vocab of
+    "https://schema.org/" expands terms to https://schema.org/, which is a
+    different IRI from the one CDIF uses. Only that earns a note.
+    """
+    if isinstance(context, list):
+        for part in context:
+            note = https_vocab_note(part)
+            if note:
+                return note
+        return None
+    if isinstance(context, dict):
+        vocab = context.get('@vocab')
+        if isinstance(vocab, str) and vocab.rstrip('/') == 'https://schema.org':
+            return vocab
+    return None
+
+
 def normalize_schemaorg(record):
     """Rewrite bare schema.org terms to the `schema:` CURIEs CDIF uses.
 
@@ -944,6 +966,9 @@ header.banner h1{margin:.1rem 0 .5rem;font-size:1.55rem;line-height:1.25}
    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.78rem;
    color:var(--fg)}
 .abstract{margin:.5rem 0 0;max-width:80ch}
+.source-note{border-left:3px solid var(--accent);padding:.5rem .8rem;
+             margin:.9rem 0 0;background:rgba(122,162,247,.07);max-width:90ch;
+             font-size:.85rem}
 .badge{display:inline-block;background:var(--badge);color:var(--fg);border-radius:3px;
        padding:.05rem .4rem;font-size:.75rem;margin-right:.3rem;white-space:nowrap}
 nav.tabs{display:flex;flex-wrap:wrap;gap:.25rem;border-bottom:1px solid var(--line);
@@ -1304,7 +1329,7 @@ def _slug(text, used):
 
 
 def _tabs_from_layout(record, layout, described, prefixes, type_index, unknown_uris,
-                      parts=None, record_title=None):
+                      parts=None, record_title=None, source_note=None):
     """Tabs from a profile's curated uischema: one per Category, sections per
     Group, in the order the profile's form declares."""
     handled = set(BANNER_PROPERTIES) | {'@context'}
@@ -1352,7 +1377,7 @@ def _tabs_from_layout(record, layout, described, prefixes, type_index, unknown_u
 
 
 def build_tabs(record, modules, prefixes, type_index=None, layouts=None,
-               parts=None, record_title=None):
+               parts=None, record_title=None, source_note=None):
     """Assign each root property to a tab and render the panels.
 
     When the record satisfies a profile that ships a JSON Forms uischema,
@@ -1394,7 +1419,8 @@ def build_tabs(record, modules, prefixes, type_index=None, layouts=None,
     if layout is not None:
         tabs, panels = _tabs_from_layout(record, layout, described, prefixes,
                                          type_index, unknown_uris,
-                                         parts=parts, record_title=record_title)
+                                         parts=parts, record_title=record_title,
+                                         source_note=source_note)
         if tabs:
             return tabs, panels, selected, unknown_uris
 
@@ -1533,7 +1559,7 @@ def render_part_page(part, record, modules, offline=True, back=None,
 
 
 def render_html(record, modules, title=None, offline=True, type_index=None,
-                layouts=None, filename=None, parts=None):
+                layouts=None, filename=None, parts=None, source_note=None):
     record, companions = split_graph(record)
     prefixes = record_context(record, offline=offline)
     # The display name is computed further down, but a split-out list needs it
@@ -1555,7 +1581,8 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
 
     tabs, panels, selected, _ = build_tabs(record, modules, prefixes,
                                           type_index, layouts,
-                                          parts=parts, record_title=display)
+                                          parts=parts, record_title=display,
+                                          source_note=source_note)
     if companions:
         used = {slug for slug, _, _ in tabs}
         extra_tabs, extra_panels = companion_tabs(companions, prefixes,
@@ -1584,6 +1611,14 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
     if description is not None:
         abstract = render_abstract(description, prefixes)
 
+    # Shown under the header, always. Putting it in the Metadata Record panel
+    # reads better but is unreliable: a record from the wild often declares no
+    # conformsTo and gets no such tab, and the module-bucket fallback does not
+    # build one either -- so a note placed there is sometimes silently dropped,
+    # which is worse than a note in a slightly less apt place.
+    banner_note = ('<p class="note source-note">%s</p>' % source_note
+                   ) if source_note else ''
+
     controls = ('<span class="bulk"><button type="button" id="expand-all">expand all</button><button type="button" id="collapse-all">collapse all</button></span>')
     tab_html = ''.join(
         '<button role="tab" data-tab="%s" aria-selected="%s">%s'
@@ -1606,13 +1641,14 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
         '<title>%s</title>\n<style>%s</style>\n</head>\n<body>\n'
         '<div class="wrap">\n'
         '<header class="banner">\n  <div>%s</div>\n  <h1>%s</h1>\n'
-        '  <div class="ids">%s</div>\n  %s\n</header>\n'
+        '  <div class="ids">%s</div>\n  %s\n</header>\n%s'
         '<nav class="tabs" role="tablist">%s%s</nav>\n%s\n'
         '<footer>Rendered from a CDIF JSON-LD record. Layout selected by declared '
         'conformance: %s.</footer>\n</div>\n<script>%s</script>\n</body>\n</html>\n'
         % (esc(title or name), CSS,
            ''.join('<span class="badge">%s</span>' % esc(t) for t in types),
-           esc(name), ' '.join(ids), abstract, tab_html, controls, panel_html,
+           esc(name), ' '.join(ids), abstract, banner_note,
+           tab_html, controls, panel_html,
            esc(profiles), JS)
     )
 

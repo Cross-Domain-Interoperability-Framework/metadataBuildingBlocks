@@ -141,6 +141,30 @@ function send(file) {
 """
 
 
+def _vocab_note(record, url, embedded=False):
+    """A note for the Metadata Record panel: where this came from, and whether
+    its @vocab put schema.org terms in the https namespace.
+
+    Only an @vocab of https://schema.org/ is flagged. A STRING context of
+    "https://schema.org/" references schema.org's own context document, which
+    defines schema: as http://schema.org/, so its terms already expand to the
+    IRIs CDIF uses and nothing is wrong with it.
+    """
+    where = 'Fetched from <code>%s</code>%s.' % (
+        R.esc(url), ' &mdash; from JSON-LD embedded in the page' if embedded else '')
+    vocab = R.https_vocab_note((record or {}).get('@context'))
+    if not vocab:
+        return where
+    return (
+        '%s The source declares <code>"@vocab": "%s"</code>, so its terms expand '
+        'to the <code>https://schema.org/</code> namespace. CDIF binds '
+        '<code>schema:</code> to <code>http://schema.org/</code>, which is a '
+        'different IRI; the terms were mapped to it for display. (A string '
+        '<code>"@context": "https://schema.org/"</code> would be fine &mdash; it '
+        'references the schema.org context document, which defines the http form.)'
+        % (where, R.esc(vocab)))
+
+
 FETCH_TIMEOUT = 20
 FETCH_MAX_BYTES = 32 * 1024 * 1024
 
@@ -217,14 +241,14 @@ def fetch_record(url, allowed_types):
         # Same normalization the HTML path gets. A server that honours our
         # Accept header -- PANGAEA does -- returns the JSON-LD directly, so this
         # branch sees exactly the schema.org-vocab records the other one does.
-        return R.normalize_schemaorg(record), None
+        return R.normalize_schemaorg(record), _vocab_note(record, url)
 
     record = R.extract_jsonld(text, allowed_types)
     if record is None:
         raise ValueError(
             'That page has no embedded JSON-LD typed as a CDIF record '
             '(one of: %s).' % ', '.join(t.split(':')[-1] for t in allowed_types))
-    return record, 'from JSON-LD embedded in the page'
+    return record, _vocab_note(record, url, embedded=True)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -322,7 +346,7 @@ class Handler(BaseHTTPRequestHandler):
         try:
             html = R.render_html(record, self.modules, offline=self.offline,
                                  type_index=self.known, layouts=self.layouts,
-                                 filename=name, parts=parts)
+                                 filename=name, parts=parts, source_note=note)
         except Exception as exc:               # a malformed record should not kill the app
             self._send(500, 'Could not render:\n%s: %s' % (type(exc).__name__, exc),
                        'text/plain; charset=utf-8')
