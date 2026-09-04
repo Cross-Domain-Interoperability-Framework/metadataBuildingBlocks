@@ -123,7 +123,7 @@ metadataBuildingBlocks/
 │   ├── validate_examples.py         # Validates all examples against resolved schemas (JSON Schema only)
 │   ├── validate_shacl.py            # Standalone SHACL validation for a BB/profile (gathers rules transitively, expands JSON-LD, runs pyshacl)
 │   ├── cdif_record_to_html.py       # Renders a CDIF record as tabbed HTML; tabs chosen from the record's declared conformsTo (see below)
-│   ├── cdif_viewer_app.py          # Local pick-and-render app for the above (stdlib http.server, loopback only)
+│   ├── cdif_viewer_app.py          # Pick-and-render app for the above; opens a file, a URL or a sample (stdlib http.server)
 │   ├── augment_register.py          # Adds resolvedSchema URLs to register.json
 │   ├── regenerate_schema_json.py    # Regenerates *Schema.json files from schema.yaml sources
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
@@ -1172,13 +1172,34 @@ its tab explains that and the structure itself renders under the tab owning `sch
 
 ## cdif_viewer_app.py
 
-A local pick-and-render app for `cdif_record_to_html.py`. Starts a server on `127.0.0.1`, opens a
-browser, and renders whichever record you drop on the page or choose with the file dialog. Rendering
-is the renderer's own — this adds only the picker, so the two cannot drift.
+A pick-and-render app for `cdif_record_to_html.py`. Renders whichever record you drop on the page,
+choose with the file dialog, open by URL, or pick from the sample gallery. Rendering is the
+renderer's own — this adds only the picker, so the two cannot drift.
 
-Standard library only: no Flask, nothing to install. The browser reads the file locally with
-`FileReader` and POSTs its text to `127.0.0.1`, so there is no multipart parsing and nothing leaves
-the machine. The server binds to loopback only.
+Standard library only: no Flask, nothing to install.
+
+**Three ways in.** A dropped or chosen file is read locally by the browser with `FileReader` and
+POSTed as text, so there is no multipart parsing and the file itself never leaves the machine. A
+**URL** is fetched by the *server*, and may be a JSON-LD record or an HTML page carrying an
+embedded `application/ld+json` record whose `@type` is one of the root types `cdifCore` allows.
+The **gallery** offers sixteen samples in three groups — profile examples from this repo, converter
+output from `CDIF/validation`, and records harvested from live repositories via the `doc-*` repos
+(branch `reviewRevision202606`, not `main`) — the remote ones fetched through the same path a
+pasted URL takes.
+
+**URL fetching is guarded**, because the server will fetch on a visitor's behalf: scheme allowlist,
+DNS resolution with private / loopback / link-local / reserved addresses refused, a 20-second
+timeout and a 32 MB cap.
+
+**Deployment.** `render.yaml` runs it on Render from `requirements-viewer.txt` (PyYAML only — the
+viewer neither validates nor needs pyshacl), with `HOST`/`PORT` from the environment and a
+`buildFilter` so only `tools/**` and `_sources/**` changes trigger a build. Bound to a non-loopback
+host the picker drops the "nothing leaves your machine" wording, which would be untrue there.
+
+**Large records.** A property with more than 100 items moves to its own companion page, paginated
+at 100 per page, leaving a preview and a link in place. The MICS record — 1793 variables with a
+physical mapping each — went from a 15 MB page to 1.8 MB. In-record anchors resolve to the right
+companion page.
 
 **Usage:**
 ```bash
@@ -1188,9 +1209,10 @@ python tools/cdif_viewer_app.py --no-browser
 python tools/cdif_viewer_app.py --fetch-context  # allow remote @context fetches (off by default)
 ```
 
-**CLI options:** `--port` (default 8765, falls back to any free port if taken), `--no-browser`,
-`--fetch-context`, `--profile-dir` (repeatable — point it at another repo's `_sources` to resolve
-that repo's profiles too, e.g. geochem's `ada:`/`geochem` URIs).
+**CLI options:** `--port` (default 8765, falls back to any free port if taken), `--host` (default
+`127.0.0.1`; `HOST`/`PORT` env vars override, for hosting), `--no-browser`, `--fetch-context`,
+`--profile-dir` (repeatable — point it at another repo's `_sources` to resolve that repo's profiles
+too, e.g. geochem's `ada:`/`geochem` URIs).
 
 A malformed record is reported in the page rather than killing the server: non-JSON gives 400 with
 the parse error, a non-object gives 400, a render failure gives 500 with the exception, and a body

@@ -119,6 +119,19 @@ their refs are resolved over the network at their build time, not ours.
   structural half (a `conformsTo` is present and is an IRI) is `cdifd:metadataConformsToPresent`
   and stays a Violation. The JSON Schema `contains` for the same constraint is still a hard
   failure, because JSON Schema has no advisory severity.
+- **A JSON Forms `defaults.json` is the only source of its records' conformance, and nothing
+  checks it.** `convert_for_jsonforms.py` copies `defaults.json` and `uischema.json` into `build/`
+  verbatim — no generator. Most of a defaults file exists to give form controls a shape to bind to
+  (`"schema:name": ""`, empty arrays), so it is deliberately not a valid record. But neither
+  uischema exposes `schema:subjectOf`'s `dcterms:conformsTo` or its `schema:additionalType`, so an
+  author can never reach them, and the generated form schema drops the `contains` constraint (JSON
+  Forms does not support it). Whatever the file says ships unedited and unflagged. Both files were
+  wrong until 2026-09-04: three different stale URI forms between them, one referencing a `cdif:`
+  prefix its own `@context` never declared, and neither carrying
+  `schema:additionalType: dcat:CatalogRecord` — without which `ConformanceValidate.extract_conforms_to`
+  skips the node and reads the record as declaring nothing. Both now default to `core/1.1`, the one
+  profile `cdifCore` requires by a hard `contains` and the most a blank record can honestly claim.
+
 - **Whether a `conformsTo` is *correct* is checked in `CDIF/validation`, not here.**
   `detect_conformance` derives conformance from content; `ConformanceValidate` and
   `FrameAndValidate -v` compare it against what the record declares and **fail an
