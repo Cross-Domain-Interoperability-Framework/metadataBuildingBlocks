@@ -470,11 +470,54 @@ def render_scalar(value, prefixes):
     return '<span class="lit">%s</span>' % esc(value)
 
 
+# Source descriptions routinely arrive with the whitespace of the markup they
+# were stripped from -- tabs and runs of blank lines. `.lit` is pre-wrap, so
+# every one of those became vertical space in the page. Collapse the runs but
+# keep single newlines, which usually are meant.
+_WS_RUN = re.compile(r'[ \t\x0b\f\r]+')
+_BLANK_RUN = re.compile(r'\n\s*\n\s*\n+')
+
+
+def normalize_text(text):
+    """Collapse incidental whitespace in a literal, preserving line structure."""
+    if not isinstance(text, str):
+        return text
+    out = _WS_RUN.sub(' ', text)
+    out = _BLANK_RUN.sub('\n\n', out)
+    return out.strip()
+
+
+ABSTRACT_CLAMP = 420
+
+
+def render_abstract(text, prefixes):
+    """The record description, clamped when it would fill the screen.
+
+    A long description pushed the tabs and every structured property below the
+    fold. The first paragraph shows; the rest is one click away.
+    """
+    if not isinstance(text, str):
+        return '<div class="abstract">%s</div>' % render_value(text, prefixes)
+    clean = normalize_text(text)
+    if len(clean) <= ABSTRACT_CLAMP:
+        return '<div class="abstract">%s</div>' % render_scalar(clean, prefixes)
+    head, _, tail = clean.partition('\n\n')
+    if len(head) > ABSTRACT_CLAMP or not tail:
+        head, tail = clean[:ABSTRACT_CLAMP].rsplit(' ', 1)[0], clean[len(
+            clean[:ABSTRACT_CLAMP].rsplit(' ', 1)[0]):]
+    return (
+        '<div class="abstract">%s'
+        '<details class="more"><summary>show the rest of the description</summary>'
+        '<div class="more-body">%s</div></details>'
+        '</div>' % (render_scalar(head, prefixes), render_scalar(tail.strip(), prefixes))
+    )
+
+
 def render_value(value, prefixes, depth=0, type_index=None):
     if value is None:
         return '<span class="empty">null</span>'
     if isinstance(value, (str, int, float, bool)):
-        return render_scalar(value, prefixes)
+        return render_scalar(normalize_text(value), prefixes)
     if isinstance(value, list):
         if not value:
             return '<span class="empty">(none)</span>'
@@ -558,18 +601,24 @@ COLLAPSE_OVER = 5
 def render_property(name, value, description, prefixes, type_index=None,
                     label=None):
     tip = ' title="%s"' % esc(description) if description else ''
-    note = '<div class="desc">%s</div>' % esc(description) if description else ''
+    # The definition is useful once, not above every value. It sits behind an
+    # info marker on the title line -- a full-width disclosure per property was
+    # the same noise in a smaller font -- and stays in the DOM and in the
+    # summary's tooltip, so nothing is lost.
+    info = ('<button type="button" class="info" aria-label="Show definition">'
+            'i</button>') if description else ''
+    note = ('<div class="desc" hidden>%s</div>' % esc(description)) if description else ''
     count = len(value) if isinstance(value, list) else None
     tally = ('<span class="rowcount">%d</span>' % count) if count is not None else ''
     return (
         '<details class="prop"%s>'
         '<summary%s><span class="prop-title">%s</span>'
-        '<span class="curie">%s</span>%s</summary>'
+        '<span class="curie">%s</span>%s%s</summary>'
         '%s'
         '<div class="prop-val">%s</div>'
         '</details>'
         % ('' if (count is not None and count > COLLAPSE_OVER) else ' open',
-           tip, esc(label or humanize(name)), esc(name), tally, note,
+           tip, esc(label or humanize(name)), esc(name), tally, info, note,
            render_value(value, prefixes, 0, type_index))
     )
 
@@ -643,10 +692,21 @@ nav.tabs .bulk{margin-left:auto;display:flex;gap:.3rem;align-self:center;
 nav.tabs .bulk button{font-size:.72rem;padding:.15rem .5rem;color:var(--muted);
    border:1px solid var(--line);border-radius:4px;background:none;margin-bottom:0}
 nav.tabs .bulk button:hover{color:var(--accent);border-color:var(--accent)}
+.prop-title{margin-right:.5rem}
 .curie{color:var(--muted);font-weight:400;font-size:.75rem;
+       font-family:ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.75;
        font-family:ui-monospace,SFMono-Regular,Consolas,monospace;margin-left:.5rem}
-.desc{color:var(--muted);font-size:.82rem;margin:.25rem 0 .45rem;max-width:80ch}
-.prop-val{margin-top:.35rem}
+.desc{color:var(--muted);font-size:.82rem;margin:.15rem 0 .5rem;max-width:80ch;
+      padding-left:.6rem;border-left:2px solid var(--rule)}
+.info{margin-left:.45rem;width:1.05em;height:1.05em;line-height:1;padding:0;
+      border:1px solid var(--rule);border-radius:50%;background:none;
+      color:var(--muted);font:600 .68rem/1 ui-monospace,Menlo,monospace;
+      cursor:pointer;vertical-align:.08em}
+.info:hover,.info[aria-expanded="true"]{color:var(--accent);border-color:var(--accent)}
+.more{margin:.4rem 0 0}
+.more > summary{cursor:pointer;color:var(--accent);font-size:.82rem}
+.more-body{margin-top:.4rem}
+.prop-val{margin-top:.4rem;padding-left:.05rem}
 ul.vals{list-style:none;margin:0;padding:0}
 ul.vals > li{margin:0 0 .4rem}
 ul.vals > li:last-child{margin-bottom:0}
@@ -698,8 +758,20 @@ document.querySelectorAll('nav.tabs button[data-tab]').forEach(function(b){
 });
 function setAll(open){
   var pane = document.querySelector('.panel:not([hidden])') || document;
+  // Not every <details>: the per-property definitions are deliberately closed,
+  // and opening them all is what "expand all" was trying to get away from.
   pane.querySelectorAll('details').forEach(function(d){ d.open = open; });
 }
+document.querySelectorAll('button.info').forEach(function(b){
+  b.addEventListener('click', function(ev){
+    // Inside the <summary>, so without this the click also toggles the property.
+    ev.preventDefault(); ev.stopPropagation();
+    var d = b.closest('summary').parentNode.querySelector(':scope > .desc');
+    if (!d) return;
+    d.hidden = !d.hidden;
+    b.setAttribute('aria-expanded', String(!d.hidden));
+  });
+});
 var ea = document.getElementById('expand-all'), ca = document.getElementById('collapse-all');
 if (ea) ea.addEventListener('click', function(){ setAll(true); });
 if (ca) ca.addEventListener('click', function(){ setAll(false); });
@@ -1101,7 +1173,7 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
     description = record.get('schema:description')
     abstract = ''
     if description is not None:
-        abstract = '<div class="abstract">%s</div>' % render_value(description, prefixes)
+        abstract = render_abstract(description, prefixes)
 
     controls = ('<span class="bulk"><button type="button" id="expand-all">expand all</button><button type="button" id="collapse-all">collapse all</button></span>')
     tab_html = ''.join(
