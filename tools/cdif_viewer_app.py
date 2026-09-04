@@ -178,7 +178,9 @@ class Handler(BaseHTTPRequestHandler):
         # A list too long to render inline comes back in `parts`; it is served
         # from memory at /part/<token> rather than inflating this response.
         stamp = '%d' % (time.time() * 1000)
-        parts = {'__href__': lambda slug, s=stamp: '/part/%s-%s' % (s, slug)}
+        parts = {'__href__': lambda slug, page=1, s=stamp:
+                 '/part/%s-%s' % (s, slug) + ('' if page == 1
+                                              else '?page=%d' % page)}
         try:
             html = R.render_html(record, self.modules, offline=self.offline,
                                  type_index=self.known, layouts=self.layouts,

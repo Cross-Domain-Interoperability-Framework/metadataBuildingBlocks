@@ -29,6 +29,7 @@ import argparse
 import html
 import json
 import re
+import threading
 import sys
 from pathlib import Path
 from urllib.request import Request, urlopen
@@ -517,6 +518,10 @@ def render_value(value, prefixes, depth=0, type_index=None):
     if value is None:
         return '<span class="empty">null</span>'
     if isinstance(value, (str, int, float, bool)):
+        internal = anchor_href(value) if isinstance(value, str) else None
+        if internal:
+            # e.g. cdif:formats_InstanceVariable: "#time"
+            return '<a class="ref" href="%s">%s</a>' % (esc(internal), esc(value))
         return render_scalar(normalize_text(value), prefixes)
     if isinstance(value, list):
         if not value:
@@ -529,10 +534,79 @@ def render_value(value, prefixes, depth=0, type_index=None):
     return '<span class="lit">%s</span>' % esc(value)
 
 
+# Where each @id in the record is rendered, for turning a reference into a link.
+# Thread-local: the viewer app serves concurrent renders, and a module global
+# would leak one request's anchors into another's page.
+_CTX = threading.local()
+
+
+def anchor_slug(node_id):
+    """A stable, URL-safe anchor for a node @id."""
+    return 'n-' + re.sub(r'[^A-Za-z0-9_-]+', '-', str(node_id)).strip('-').lower()
+
+
+def set_anchor_index(index):
+    """Install the {@id: href} map for the current render (None to clear)."""
+    _CTX.anchors = index or {}
+
+
+def anchor_href(node_id):
+    """Where `node_id` renders, or None if it is not a node in this document."""
+    return getattr(_CTX, 'anchors', {}).get(node_id)
+
+
+def build_anchor_index(record, part_href=None):
+    """{@id: href} for every node the output will render.
+
+    A node inside a list long enough to be split out lands on that list's own
+    page, so its href carries the page as well as the fragment. Everything else
+    is a same-page fragment.
+    """
+    index = {}
+
+    def walk(value, base):
+        if isinstance(value, dict):
+            ident = value.get('@id')
+            # Only nodes with substance get an anchor -- a bare {"@id": ...} is
+            # a reference to one, not a definition of it.
+            if isinstance(ident, str) and len(
+                    [k for k in value if k not in ('@id', '@context')]) > 0:
+                index.setdefault(ident, '%s#%s' % (base, anchor_slug(ident)))
+            for key, child in value.items():
+                if key != '@context':
+                    walk(child, base)
+        elif isinstance(value, list):
+            for item in value:
+                walk(item, base)
+
+    for key, value in record.items():
+        if key == '@context':
+            continue
+        if (part_href is not None and isinstance(value, list)
+                and len(value) > SPLIT_OVER):
+            # Each entry lands on a particular PAGE of the companion, and the
+            # anchor only exists there. Pointing every reference at page 1 would
+            # send most of them somewhere the target is not.
+            slug = re.sub(r'[^a-z0-9]+', '-', key.lower()).strip('-') or 'list'
+            for i, item in enumerate(value):
+                walk(item, part_href(slug, i // PART_PAGE + 1))
+        else:
+            walk(value, '')
+    for graph_key in ('@graph',):
+        if isinstance(record.get(graph_key), list):
+            walk(record[graph_key], '')
+    return index
+
+
 def render_node(node, prefixes, depth=0, type_index=None):
     """A JSON-LD object: a bare {@id} becomes a link, anything richer a card."""
     keys = [k for k in node if k != '@context']
     if keys == ['@id']:
+        internal = anchor_href(node['@id'])
+        if internal:
+            # The reference points at a node this output actually renders.
+            return ('<a class="ref" href="%s">%s</a>'
+                    % (esc(internal), esc(node['@id'])))
         url = expand(node['@id'], prefixes)
         return (render_link(url, node['@id']) if url
                 else '<span class="lit">%s</span>' % esc(node['@id']))
@@ -577,17 +651,21 @@ def render_node(node, prefixes, depth=0, type_index=None):
     header = ''.join(head)
     if not header and not rows:
         return '<span class="empty">(empty)</span>'
+    at = (' id="%s"' % anchor_slug(identifier)) if (
+        identifier and anchor_href(identifier)) else ''
     if not rows:
-        return '<div class="node"><div class="node-head">%s</div></div>' % header
+        return ('<div class="node"%s><div class="node-head">%s</div></div>'
+                % (at, header))
     # Collapsible, open by default: long records stay browsable without any
     # content being hidden on arrival.
     # Depth 0 and 1 open, deeper collapsed. A survey dataset produced ~19k
     # open <details> on one page otherwise; the top levels stay readable and
     # "expand all" opens the rest on demand.
-    return ('<details class="node"%s><summary class="node-head">%s'
+    return ('<details class="node"%s%s><summary class="node-head">%s'
             '<span class="rowcount">%d</span></summary>'
             '<div class="node-body">%s</div></details>'
-            % (' open' if depth < 2 else '',
+            % (at, ' open' if (depth < 2 and not getattr(_CTX, 'closed', False))
+               else '',
                header or '<span class="node-label">&hellip;</span>',
                len(rows), ''.join(rows)))
 
@@ -660,7 +738,8 @@ def render_property(name, value, description, prefixes, type_index=None,
     body = None
     if parts is not None and count is not None and count > SPLIT_OVER:
         slug = re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-') or 'list'
-        href = parts.setdefault('__href__', lambda sl: sl + '.html')(slug)
+        href = parts.setdefault(
+            '__href__', lambda sl, page=1: sl + '.html')(slug, 1)
         # The values, not rendered markup: only the consumer knows how to
         # address its own pages, so it renders the slice it needs.
         parts[slug] = {
@@ -772,6 +851,7 @@ nav.tabs .bulk button:hover{color:var(--accent);border-color:var(--accent)}
 a.pg:hover{border-color:var(--accent)}
 .pg-here{font-weight:700;border-color:var(--accent);color:var(--accent)}
 .pg-gap{border:none;color:var(--muted);padding:.2rem .1rem}
+.ref{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem}
 .crumb{margin:0 0 1rem}
 .part-title{margin:0 0 .2rem;font-size:1.5rem}
 .part-sub{margin:0 0 1.4rem;color:var(--muted)}
@@ -1261,6 +1341,9 @@ def render_part_page(part, record, modules, offline=True, back=None,
     record.
     """
     prefixes = part.get('prefixes') or record_context(record, offline=offline)
+    # Entries start closed here: a page of 100 variables opened at once is a
+    # wall of rows, and the point of this page is to scan the list.
+    _CTX.closed = True
     name = record.get('schema:name')
     if isinstance(name, list):
         name = name[0] if name else None
@@ -1279,6 +1362,7 @@ def render_part_page(part, record, modules, offline=True, back=None,
             % (start + 1, start + len(chunk), part['count'])) if pages > 1 else (
                 '%d entries' % part['count'])
     pager = _pager(page, pages, page_href)
+    _CTX.closed = False
     return (
         '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
@@ -1298,6 +1382,13 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
     prefixes = record_context(record, offline=offline)
     # The display name is computed further down, but a split-out list needs it
     # for its own page title -- otherwise every companion is called "record".
+    # References like "#time" or "#codelist/1" become links to wherever that
+    # node renders -- which may be a companion page, so the index records the
+    # page as well as the fragment.
+    set_anchor_index(build_anchor_index(
+        record, (parts or {}).get('__href__') if parts else None))
+    _CTX.closed = False
+
     display = title
     if not display:
         display = record.get('schema:name')
@@ -1523,7 +1614,9 @@ def main(argv=None):
         title = args.title if (args.title and not many) else None
         # A list too long to render inline goes to a sibling file; `parts`
         # comes back holding it. Keys beginning with __ are settings, not parts.
-        parts = {'__href__': lambda slug, stem=output.stem: '%s.%s.html' % (stem, slug)}
+        parts = {'__href__': lambda slug, page=1, stem=output.stem:
+                 '%s.%s.html' % (stem, slug) if page == 1
+                 else '%s.%s.%d.html' % (stem, slug, page)}
         html = render_html(record, modules, title, offline=args.offline,
                            type_index=type_index, layouts=layouts,
                            filename=source.name, parts=parts)
