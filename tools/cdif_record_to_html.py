@@ -872,8 +872,15 @@ def render_node(node, prefixes, depth=0, type_index=None):
     at = (' id="%s"' % anchor_slug(identifier)) if (
         identifier and anchor_href(identifier)) else ''
     if not rows:
-        return ('<div class="node"%s><div class="node-head">%s</div></div>'
-                % (at, header))
+        # A node whose only content is its label and type gets no disclosure
+        # triangle, because there is nothing behind one. On screen that looks
+        # almost identical to a collapsed node, so say which it is: PANGAEA
+        # lists four variables as {"@type": "PropertyValue", "name": ...} and
+        # nothing more, and they read as expanders that will not open.
+        return ('<div class="node leaf"%s><div class="node-head">%s'
+                '<span class="leafnote" title="The source record gives this '
+                'node no properties beyond those shown">nothing further in the '
+                'source</span></div></div>' % (at, header))
     # Collapsible, open by default: long records stay browsable without any
     # content being hidden on arrival.
     # Depth 0 and 1 open, deeper collapsed. A survey dataset produced ~19k
@@ -1095,6 +1102,9 @@ ul.vals > li:last-child{margin-bottom:0}
 .node .node{background:transparent}
 .node-head{margin-bottom:.3rem}
 .node-label{font-weight:600;margin-right:.45rem}
+.leafnote{color:var(--muted);font-size:.7rem;font-style:italic;margin-left:.5rem;
+          opacity:.75}
+.node.leaf > .node-head{padding-left:.95rem}
 .node-id{color:var(--muted);font-size:.78rem;
          font-family:ui-monospace,SFMono-Regular,Consolas,monospace;word-break:break-all}
 .row{display:grid;grid-template-columns:minmax(9rem,17rem) 1fr;gap:.4rem 1rem;
