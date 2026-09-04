@@ -598,6 +598,162 @@ def build_anchor_index(record, part_href=None):
     return index
 
 
+# Fallback for the CDIF record types, used only when cdifCore's schema.yaml
+# cannot be read. schema.yaml is the source of truth -- see record_types().
+_RECORD_TYPES_FALLBACK = (
+    'schema:CreativeWork', 'schema:SoftwareApplication',
+    'schema:SoftwareSourceCode', 'schema:Product', 'schema:WebAPI',
+    'schema:Dataset', 'schema:DigitalDocument', 'schema:Collection',
+    'schema:ImageObject', 'schema:DataCatalog', 'schema:DefinedTermSet',
+    'schema:MediaObject')
+
+
+def record_types(modules=None):
+    """The @type values a CDIF record may carry, from cdifCore's schema.yaml.
+
+    Read rather than copied: the same enum is restated in
+    CDIFSubjectOfPlacementShape, and `audit_building_blocks.py -c type-enum`
+    exists to keep those two in step. A third copy would need a third check.
+    """
+    for module in (modules or {}).values():
+        if getattr(module, 'name', '') != 'cdifCore':
+            continue
+        try:
+            import yaml
+            with open(Path(module.path) / 'schema.yaml', encoding='utf-8') as fh:
+                doc = yaml.safe_load(fh)
+            enum = (((doc.get('properties') or {}).get('@type') or {})
+                    .get('items') or {}).get('enum')
+            if enum:
+                return tuple(enum)
+        except Exception:
+            break
+    return _RECORD_TYPES_FALLBACK
+
+
+def _type_tokens_of(node):
+    value = node.get('@type') if isinstance(node, dict) else None
+    if isinstance(value, str):
+        return [value]
+    return [v for v in (value or []) if isinstance(v, str)]
+
+
+def find_record_node(doc, allowed):
+    """The first node in `doc` typed as a CDIF record, or None.
+
+    Accepts the shapes a landing page actually uses: the record itself, an
+    @graph, or a bare list of nodes.
+    """
+    allowed = {t.split(':')[-1] for t in allowed}
+    stack = [doc]
+    while stack:
+        node = stack.pop(0)
+        if isinstance(node, dict):
+            if any(t.split(':')[-1].split('/')[-1] in allowed
+                   for t in _type_tokens_of(node)):
+                return node
+            graph = node.get('@graph')
+            if isinstance(graph, list):
+                stack.extend(graph)
+            elif isinstance(graph, dict):
+                stack.append(graph)
+        elif isinstance(node, list):
+            stack.extend(node)
+    return None
+
+
+_LD_SCRIPT = re.compile(
+    r'<script[^>]+type\s*=\s*["\']application/ld\+json["\'][^>]*>(.*?)</script>',
+    re.I | re.S)
+
+
+def extract_jsonld(html_text, allowed):
+    """The first CDIF-typed record embedded in an HTML page, or None.
+
+    A landing page often carries several ld+json blocks -- a BreadcrumbList, an
+    Organization, and the dataset -- so the type enum decides which one is the
+    record rather than taking the first block and hoping.
+    """
+    for block in _LD_SCRIPT.findall(html_text):
+        try:
+            doc = json.loads(block.strip())
+        except Exception:
+            continue
+        found = find_record_node(doc, allowed)
+        if found is not None:
+            # Keep the surrounding @context: the block's context defines the
+            # prefixes the node's own keys use.
+            if isinstance(doc, dict) and '@context' in doc and '@context' not in found:
+                found = dict(found)
+                found['@context'] = doc['@context']
+            return normalize_schemaorg(found)
+    return None
+
+
+_SCHEMA_ORG = ('http://schema.org/', 'https://schema.org/',
+               'http://schema.org', 'https://schema.org')
+
+
+def _schema_vocab(context):
+    """True when `context` puts schema.org terms in scope unprefixed."""
+    if isinstance(context, str):
+        return context.rstrip('/') + '/' in _SCHEMA_ORG
+    if isinstance(context, dict):
+        vocab = context.get('@vocab')
+        return isinstance(vocab, str) and vocab.rstrip('/') + '/' in _SCHEMA_ORG
+    if isinstance(context, list):
+        return any(_schema_vocab(c) for c in context)
+    return False
+
+
+def normalize_schemaorg(record):
+    """Rewrite bare schema.org terms to the `schema:` CURIEs CDIF uses.
+
+    Only when the record's @context actually puts schema.org in scope
+    unprefixed; a record that already uses CURIEs is returned untouched. Keys
+    that are already prefixed, and JSON-LD keywords, are left alone -- a page
+    mixing `cr:column` with bare `name` keeps the former as it is.
+    """
+    context = record.get('@context') if isinstance(record, dict) else None
+    if not _schema_vocab(context):
+        return record
+
+    known = set()
+    if isinstance(context, dict):
+        known = {k for k in context if not k.startswith('@')}
+    elif isinstance(context, list):
+        for part in context:
+            if isinstance(part, dict):
+                known |= {k for k in part if not k.startswith('@')}
+
+    def rename(key):
+        if key.startswith('@') or ':' in key or key in known:
+            return key
+        return 'schema:' + key
+
+    def walk(node):
+        if isinstance(node, dict):
+            return {rename(k): (
+                [rename(t) if isinstance(t, str) else walk(t) for t in v]
+                if k == '@type' and isinstance(v, list)
+                else rename(v) if (k == '@type' and isinstance(v, str))
+                else v if k == '@context' else walk(v))
+                for k, v in node.items()}
+        if isinstance(node, list):
+            return [walk(v) for v in node]
+        return node
+
+    out = walk(record)
+    # Replace the vocab with the prefix binding the renderer expands against.
+    ctx = {'schema': 'http://schema.org/'}
+    if isinstance(context, dict):
+        for k, v in context.items():
+            if not k.startswith('@') and isinstance(v, str):
+                ctx.setdefault(k, v)
+    out['@context'] = ctx
+    return out
+
+
 def render_node(node, prefixes, depth=0, type_index=None):
     """A JSON-LD object: a bare {@id} becomes a link, anything richer a card."""
     keys = [k for k in node if k != '@context']

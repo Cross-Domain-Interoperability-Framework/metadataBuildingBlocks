@@ -17,16 +17,19 @@ USAGE:
 from __future__ import annotations
 
 import argparse
+import ipaddress
 import collections
 import json
 import socket
 import sys
 import threading
+import urllib.error
+import urllib.request
 import time
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import parse_qs, unquote
+from urllib.parse import parse_qs, unquote, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import cdif_record_to_html as R
@@ -67,6 +70,12 @@ button:hover{border-color:var(--accent);color:var(--accent)}
 #err{color:#b00;background:#fee;border:1px solid #fbb;border-radius:6px;
      padding:.7rem .9rem;margin-top:1rem;display:none;white-space:pre-wrap}
 @media (prefers-color-scheme:dark){#err{background:#2a1416;border-color:#63272b;color:#f3b0b0}}
+#urlform{display:flex;gap:.5rem;margin-top:1rem}
+#url{flex:1;padding:.5rem .6rem;border:1px solid #3a4353;border-radius:6px;
+     background:#151a22;color:inherit;font:inherit}
+#url:focus{outline:none;border-color:#7aa2f7}
+#urlform button{padding:.5rem .9rem}
+.urlnote{margin:.5rem 0 0;font-size:.8rem}
 .profiles{margin-top:1.6rem;font-size:.82rem;color:var(--muted)}
 .profiles code{font-size:.9em}
 </style></head><body><div class="wrap">
@@ -78,6 +87,14 @@ nothing leaves your machine.</p>
   <input id="file" type="file" accept=".json,.jsonld,application/json" hidden>
   <div class="hint">or drag a <code>.json</code> / <code>.jsonld</code> file onto this box</div>
 </div>
+<form id="urlform">
+  <input id="url" type="url" placeholder="https://example.org/dataset.jsonld or a landing page"
+         spellcheck="false">
+  <button type="submit">Open URL</button>
+</form>
+<p class="sub urlnote">A URL is fetched by this server, not your browser, and may
+be a JSON-LD record or a page with an embedded
+<code>application/ld+json</code> record.</p>
 <div id="err"></div>
 <div class="profiles">Layout is chosen from the record's
 <code>subjectOf &rarr; dcterms:conformsTo</code>. Profiles recognised:<br>__PROFILES__</div>
@@ -93,6 +110,18 @@ input.onchange = () => input.files[0] && send(input.files[0]);
   ev.preventDefault(); drop.classList.remove('over'); }));
 drop.addEventListener('drop', ev => {
   const f = ev.dataTransfer.files[0]; if (f) send(f);
+});
+document.getElementById('urlform').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const u = document.getElementById('url').value.trim();
+  if (!u) return;
+  err.style.display = 'none';
+  try {
+    const res = await fetch('/open', {method: 'POST', body: u});
+    const text = await res.text();
+    if (!res.ok) { err.textContent = text; err.style.display = 'block'; return; }
+    document.open(); document.write(text); document.close();
+  } catch (e) { err.textContent = String(e); err.style.display = 'block'; }
 });
 function send(file) {
   err.style.display = 'none';
@@ -110,6 +139,92 @@ function send(file) {
 }
 </script></body></html>
 """
+
+
+FETCH_TIMEOUT = 20
+FETCH_MAX_BYTES = 32 * 1024 * 1024
+
+
+def _is_public_host(host):
+    """False for anything that resolves only to a private or local address.
+
+    The viewer fetches on the caller's behalf, so without this a hosted
+    instance would happily read things on its own network -- cloud metadata
+    endpoints, internal admin pages -- that its caller cannot reach.
+    """
+    try:
+        infos = socket.getaddrinfo(host, None)
+    except socket.gaierror:
+        return False
+    for info in infos:
+        addr = info[4][0]
+        try:
+            ip = ipaddress.ip_address(addr.split('%')[0])
+        except ValueError:
+            return False
+        if (ip.is_private or ip.is_loopback or ip.is_link_local
+                or ip.is_multicast or ip.is_reserved or ip.is_unspecified):
+            return False
+    return True
+
+
+def fetch_record(url, allowed_types):
+    """(record, note) for a URL, or raises ValueError with a readable reason.
+
+    Accepts a JSON-LD document, or an HTML page carrying the record in a
+    <script type="application/ld+json">.
+    """
+    parsed = urlparse(url)
+    if parsed.scheme not in ('http', 'https'):
+        raise ValueError('Only http and https URLs can be opened.')
+    if not parsed.hostname:
+        raise ValueError('That URL has no host.')
+    if not _is_public_host(parsed.hostname):
+        raise ValueError('That host resolves to a private or local address, '
+                         'which this viewer will not fetch.')
+
+    req = urllib.request.Request(url, headers={
+        'User-Agent': 'CDIF-record-viewer/1.0',
+        'Accept': 'application/ld+json, application/json;q=0.9, text/html;q=0.8',
+    })
+    try:
+        with urllib.request.urlopen(req, timeout=FETCH_TIMEOUT) as resp:
+            ctype = (resp.headers.get('Content-Type') or '').lower()
+            body = resp.read(FETCH_MAX_BYTES + 1)
+    except urllib.error.HTTPError as exc:
+        raise ValueError('The server returned HTTP %s.' % exc.code)
+    except Exception as exc:
+        raise ValueError('Could not fetch that URL: %s' % exc)
+    if len(body) > FETCH_MAX_BYTES:
+        raise ValueError('That document is larger than %d MB.'
+                         % (FETCH_MAX_BYTES // (1024 * 1024)))
+
+    text = body.decode('utf-8', errors='replace')
+    looks_json = ('json' in ctype
+                  or parsed.path.endswith(('.json', '.jsonld'))
+                  or text.lstrip()[:1] in '{[')
+    if looks_json:
+        try:
+            doc = json.loads(text)
+        except json.JSONDecodeError as exc:
+            raise ValueError('That URL is not valid JSON: %s' % exc)
+        record = doc if isinstance(doc, dict) and '@graph' not in doc else None
+        if record is None:
+            record = R.find_record_node(doc, allowed_types) or (
+                doc if isinstance(doc, dict) else None)
+        if record is None:
+            raise ValueError('No CDIF record found in that JSON document.')
+        # Same normalization the HTML path gets. A server that honours our
+        # Accept header -- PANGAEA does -- returns the JSON-LD directly, so this
+        # branch sees exactly the schema.org-vocab records the other one does.
+        return R.normalize_schemaorg(record), None
+
+    record = R.extract_jsonld(text, allowed_types)
+    if record is None:
+        raise ValueError(
+            'That page has no embedded JSON-LD typed as a CDIF record '
+            '(one of: %s).' % ', '.join(t.split(':')[-1] for t in allowed_types))
+    return record, 'from JSON-LD embedded in the page'
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -156,6 +271,24 @@ class Handler(BaseHTTPRequestHandler):
         self._send(200, PICKER.replace('__PROFILES__', listed or '(none found)'))
 
     def do_POST(self):
+        if self.path.startswith('/open'):
+            length = int(self.headers.get('Content-Length') or 0)
+            url = (self.rfile.read(length).decode('utf-8', 'replace').strip()
+                   if 0 < length <= 4096 else '')
+            if not url:
+                self._send(400, 'No URL given.', 'text/plain; charset=utf-8')
+                return
+            try:
+                record, note = fetch_record(url, R.record_types(self.modules))
+            except ValueError as exc:
+                self._send(400, str(exc), 'text/plain; charset=utf-8')
+                return
+            if not isinstance(record, dict):
+                self._send(400, 'That URL did not yield a single record object.',
+                           'text/plain; charset=utf-8')
+                return
+            self._render_record(record, url.rsplit('/', 1)[-1] or url, note)
+            return
         if not self.path.startswith('/render'):
             self._send(404, 'not found', 'text/plain; charset=utf-8')
             return
@@ -175,6 +308,11 @@ class Handler(BaseHTTPRequestHandler):
                        'text/plain; charset=utf-8')
             return
         name = unquote(self.path.partition('name=')[2]) or '(record)'
+        self._render_record(record, name)
+        return
+
+    def _render_record(self, record, name, note=None):
+        """Render one record and reply. Shared by the file and URL paths."""
         # A list too long to render inline comes back in `parts`; it is served
         # from memory at /part/<token> rather than inflating this response.
         stamp = '%d' % (time.time() * 1000)
