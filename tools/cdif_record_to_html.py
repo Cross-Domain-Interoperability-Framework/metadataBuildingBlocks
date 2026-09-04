@@ -597,9 +597,48 @@ def render_node(node, prefixes, depth=0, type_index=None):
 # by property name, so a new long property needs no change here.
 COLLAPSE_OVER = 5
 
+# A list longer than this is rendered on its own page rather than inline. The
+# Dataverse survey record has 863 variables, which alone accounted for 88% of a
+# 15 MB page; at 100 the split only fires on lists that genuinely dominate.
+SPLIT_OVER = 100
+
+# How many names to show in the stub that replaces a split-out list.
+SPLIT_PREVIEW = 8
+
+
+def _entry_label(entry):
+    """A short human label for one entry of a split-out list."""
+    if isinstance(entry, dict):
+        for key in ('schema:name', 'cdif:name', 'schema:alternateName',
+                    'dcterms:title', '@id'):
+            val = entry.get(key)
+            if isinstance(val, list):
+                val = val[0] if val else None
+            if isinstance(val, dict):
+                val = val.get('@id') or val.get('schema:name')
+            if isinstance(val, str) and val.strip():
+                return val.strip()
+        return '(unnamed)'
+    return str(entry)
+
+
+def render_split_stub(name, value, href):
+    """What stands in for a list that was moved to its own page."""
+    names = [esc(_entry_label(v)) for v in value[:SPLIT_PREVIEW]]
+    more = len(value) - len(names)
+    preview = ', '.join(names) + (', and %d more' % more if more > 0 else '')
+    return (
+        '<div class="split">'
+        '<p class="split-count">%d entries — moved to its own page so this one '
+        'stays quick to load.</p>'
+        '<p class="split-names">%s</p>'
+        '<p><a class="split-link" href="%s">Open the full list</a></p>'
+        '</div>' % (len(value), preview, esc(href))
+    )
+
 
 def render_property(name, value, description, prefixes, type_index=None,
-                    label=None):
+                    label=None, parts=None, record_title=None):
     tip = ' title="%s"' % esc(description) if description else ''
     # The definition is useful once, not above every value. It sits behind an
     # info marker on the title line -- a full-width disclosure per property was
@@ -610,6 +649,21 @@ def render_property(name, value, description, prefixes, type_index=None,
     note = ('<div class="desc" hidden>%s</div>' % esc(description)) if description else ''
     count = len(value) if isinstance(value, list) else None
     tally = ('<span class="rowcount">%d</span>' % count) if count is not None else ''
+
+    # A list long enough to dominate the page goes to its own document. `parts`
+    # is how the caller receives it: the CLI writes a sibling file, the viewer
+    # app serves it from memory.
+    body = None
+    if parts is not None and count is not None and count > SPLIT_OVER:
+        slug = re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-') or 'list'
+        href = parts.setdefault('__href__', lambda sl: sl + '.html')(slug)
+        parts[slug] = {
+            'title': '%s — %s' % (label or humanize(name), record_title or 'record'),
+            'html': render_value(value, prefixes, 0, type_index),
+            'count': count,
+            'property': name,
+        }
+        body = render_split_stub(name, value, href)
     return (
         '<details class="prop"%s>'
         '<summary%s><span class="prop-title">%s</span>'
@@ -619,7 +673,8 @@ def render_property(name, value, description, prefixes, type_index=None,
         '</details>'
         % ('' if (count is not None and count > COLLAPSE_OVER) else ' open',
            tip, esc(label or humanize(name)), esc(name), tally, info, note,
-           render_value(value, prefixes, 0, type_index))
+           body if body is not None
+           else render_value(value, prefixes, 0, type_index))
     )
 
 
@@ -703,6 +758,14 @@ nav.tabs .bulk button:hover{color:var(--accent);border-color:var(--accent)}
       color:var(--muted);font:600 .68rem/1 ui-monospace,Menlo,monospace;
       cursor:pointer;vertical-align:.08em}
 .info:hover,.info[aria-expanded="true"]{color:var(--accent);border-color:var(--accent)}
+.crumb{margin:0 0 1rem}
+.part-title{margin:0 0 .2rem;font-size:1.5rem}
+.part-sub{margin:0 0 1.4rem;color:var(--muted)}
+.split{border:1px dashed var(--rule);border-radius:6px;padding:.7rem .9rem;
+       margin:.2rem 0 .1rem}
+.split-count{margin:0 0 .35rem;font-weight:600}
+.split-names{margin:0 0 .6rem;color:var(--muted);font-size:.85rem;max-width:90ch}
+.split-link{font-weight:600}
 .more{margin:.4rem 0 0}
 .more > summary{cursor:pointer;color:var(--accent);font-size:.82rem}
 .more-body{margin-top:.4rem}
@@ -990,7 +1053,8 @@ def _slug(text, used):
     return slug
 
 
-def _tabs_from_layout(record, layout, described, prefixes, type_index, unknown_uris):
+def _tabs_from_layout(record, layout, described, prefixes, type_index, unknown_uris,
+                      parts=None, record_title=None):
     """Tabs from a profile's curated uischema: one per Category, sections per
     Group, in the order the profile's form declares."""
     handled = set(BANNER_PROPERTIES) | {'@context'}
@@ -1006,7 +1070,8 @@ def _tabs_from_layout(record, layout, described, prefixes, type_index, unknown_u
                 continue
             body = ''.join(
                 render_property(n, record[n], described.get(n, ''), prefixes,
-                                type_index, layout.labels.get(n))
+                                type_index, layout.labels.get(n),
+                                parts=parts, record_title=record_title)
                 for n in present)
             heading = ('<h4 class="group">%s</h4>' % esc(group_label)) if group_label else ''
             sections.append(heading + body)
@@ -1027,7 +1092,8 @@ def _tabs_from_layout(record, layout, described, prefixes, type_index, unknown_u
         body = ('<p class="note">Present in the record but not placed by the '
                 '%s form layout. Shown so nothing is dropped.</p>' % esc(layout.name))
         body += ''.join(render_property(n, record[n], described.get(n, ''),
-                                        prefixes, type_index)
+                                        prefixes, type_index,
+                                        parts=parts, record_title=record_title)
                         for n in extra)
         tabs.append((_slug('additional', used), 'Additional', len(extra)))
         panels.append((tabs[-1][0], body))
@@ -1035,7 +1101,8 @@ def _tabs_from_layout(record, layout, described, prefixes, type_index, unknown_u
     return tabs, panels
 
 
-def build_tabs(record, modules, prefixes, type_index=None, layouts=None):
+def build_tabs(record, modules, prefixes, type_index=None, layouts=None,
+               parts=None, record_title=None):
     """Assign each root property to a tab and render the panels.
 
     When the record satisfies a profile that ships a JSON Forms uischema,
@@ -1076,7 +1143,8 @@ def build_tabs(record, modules, prefixes, type_index=None, layouts=None):
     layout = choose_layout(uris, layouts or [])
     if layout is not None:
         tabs, panels = _tabs_from_layout(record, layout, described, prefixes,
-                                         type_index, unknown_uris)
+                                         type_index, unknown_uris,
+                                         parts=parts, record_title=record_title)
         if tabs:
             return tabs, panels, selected, unknown_uris
 
@@ -1101,7 +1169,8 @@ def build_tabs(record, modules, prefixes, type_index=None, layouts=None):
                 % (esc(module.title), esc(module.uri)))
         if names:
             body = ''.join(render_property(n, record[n], described.get(n, ''),
-                                          prefixes, type_index)
+                                          prefixes, type_index,
+                                          parts=parts, record_title=record_title)
                            for n in names)
         elif module.name == 'cdifDataStructure':
             # This module adds no root properties; a structure is attached to a
@@ -1141,12 +1210,41 @@ def build_tabs(record, modules, prefixes, type_index=None, layouts=None):
     return tabs, panels, selected, unknown_uris
 
 
+def render_part_page(part, record, modules, offline=True, back=None):
+    """A standalone page for one split-out list.
+
+    Deliberately plain: the same stylesheet, a heading naming the property and
+    its count, a way back, and the rendered entries. It exists so the main page
+    does not have to carry them, not to be a second view of the record.
+    """
+    prefixes = record_context(record, offline=offline)
+    name = record.get('schema:name')
+    if isinstance(name, list):
+        name = name[0] if name else None
+    if isinstance(name, dict):
+        name = name.get('@value') or name.get('schema:name')
+    name = name if isinstance(name, str) and name.strip() else 'the record'
+    nav = ('<p class="crumb"><a href="%s">&#8592; back to %s</a></p>'
+           % (esc(back), esc(name))) if back else ''
+    return (
+        '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+        '<title>%s</title>\n<style>%s</style>\n</head>\n<body>\n'
+        '<main>\n%s<h1 class="part-title">%s</h1>\n'
+        '<p class="part-sub"><code>%s</code> &middot; %d entries</p>\n'
+        '<div class="prop-val">%s</div>\n</main>\n</body>\n</html>\n'
+        % (esc(part['title']), CSS, nav, esc(part['title']),
+           esc(part['property']), part['count'], part['html'])
+    )
+
+
 def render_html(record, modules, title=None, offline=True, type_index=None,
-                layouts=None, filename=None):
+                layouts=None, filename=None, parts=None):
     record, companions = split_graph(record)
     prefixes = record_context(record, offline=offline)
     tabs, panels, selected, _ = build_tabs(record, modules, prefixes,
-                                          type_index, layouts)
+                                          type_index, layouts,
+                                          parts=parts, record_title=title)
     if companions:
         used = {slug for slug, _, _ in tabs}
         extra_tabs, extra_panels = companion_tabs(companions, prefixes,
@@ -1359,12 +1457,23 @@ def main(argv=None):
             output = source.with_suffix('.html')
 
         title = args.title if (args.title and not many) else None
-        output.write_text(
-            render_html(record, modules, title, offline=args.offline,
-                        type_index=type_index, layouts=layouts,
-                        filename=source.name),
-            encoding='utf-8')
+        # A list too long to render inline goes to a sibling file; `parts`
+        # comes back holding it. Keys beginning with __ are settings, not parts.
+        parts = {'__href__': lambda slug, stem=output.stem: '%s.%s.html' % (stem, slug)}
+        html = render_html(record, modules, title, offline=args.offline,
+                           type_index=type_index, layouts=layouts,
+                           filename=source.name, parts=parts)
+        output.write_text(html, encoding='utf-8')
         print('wrote %s' % output)
+        for slug, part in sorted(parts.items()):
+            if slug.startswith('__'):
+                continue
+            side = output.with_name('%s.%s.html' % (output.stem, slug))
+            side.write_text(
+                render_part_page(part, record, modules, offline=args.offline,
+                                 back=output.name),
+                encoding='utf-8')
+            print('wrote %s  (%d entries)' % (side, part['count']))
         entries.append(_record_summary(record, source, output, modules,
                                        type_index, args.offline, layouts))
 

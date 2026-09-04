@@ -17,10 +17,12 @@ USAGE:
 from __future__ import annotations
 
 import argparse
+import collections
 import json
 import socket
 import sys
 import threading
+import time
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -28,6 +30,12 @@ from urllib.parse import unquote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import cdif_record_to_html as R
+
+# Split-out lists from recent renders, newest last: {token: html}. The record
+# itself is never stored -- only the rendered fragment the page links to -- and
+# the map is capped so a long session cannot grow without bound.
+PARTS = collections.OrderedDict()
+PARTS_KEEP = 12
 
 MAX_BYTES = 32 * 1024 * 1024
 
@@ -120,6 +128,16 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(data)
 
     def do_GET(self):
+        if self.path.startswith('/part/'):
+            token = self.path[len('/part/'):].split('?', 1)[0]
+            html = PARTS.get(token)
+            if html is None:
+                self._send(404, 'That list is no longer held in memory. '
+                           'Render the record again.',
+                           'text/plain; charset=utf-8')
+            else:
+                self._send(200, html)
+            return
         if self.path not in ('/', '/index.html'):
             self._send(404, 'not found', 'text/plain; charset=utf-8')
             return
@@ -147,14 +165,26 @@ class Handler(BaseHTTPRequestHandler):
                        'text/plain; charset=utf-8')
             return
         name = unquote(self.path.partition('name=')[2]) or '(record)'
+        # A list too long to render inline comes back in `parts`; it is served
+        # from memory at /part/<token> rather than inflating this response.
+        stamp = '%d' % (time.time() * 1000)
+        parts = {'__href__': lambda slug, s=stamp: '/part/%s-%s' % (s, slug)}
         try:
             html = R.render_html(record, self.modules, offline=self.offline,
                                  type_index=self.known, layouts=self.layouts,
-                                 filename=name)
+                                 filename=name, parts=parts)
         except Exception as exc:               # a malformed record should not kill the app
             self._send(500, 'Could not render:\n%s: %s' % (type(exc).__name__, exc),
                        'text/plain; charset=utf-8')
             return
+        for slug, part in parts.items():
+            if slug.startswith('__'):
+                continue
+            PARTS['%s-%s' % (stamp, slug)] = R.render_part_page(
+                part, record, self.modules, offline=self.offline)
+            while len(PARTS) > PARTS_KEEP:
+                PARTS.popitem(last=False)
+
         uris = R.declared_conformance(record)
         unknown = [u for u in uris if R.resolve_module(u, self.modules,
                                                        R.modules_by_stem(self.modules))[0] is None]
