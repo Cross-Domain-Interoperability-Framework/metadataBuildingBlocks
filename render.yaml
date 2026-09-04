@@ -18,6 +18,23 @@ services:
     buildCommand: pip install -r requirements-viewer.txt
     startCommand: python tools/cdif_viewer_app.py --no-browser
     healthCheckPath: /
+    # CI pushes to main several times a day -- "Building blocks postprocessing"
+    # and "Generate JSON Forms schemas" regenerate build/ and _sources/jsonforms/
+    # -- and without a filter every one of those redeploys a service whose code
+    # did not change, churning the deploy history and dropping the instance.
+    # Only the paths the running viewer actually reads should trigger a build.
+    buildFilter:
+      paths:
+        - tools/cdif_record_to_html.py
+        - tools/cdif_viewer_app.py
+        - _sources/profiles/**
+        - _sources/xasProperties/**
+        # The curated tab layouts the viewer reads at runtime (UISCHEMA_ROOT).
+        # Safe to include: the noisy CI jobs write to build/jsonforms/, not
+        # here, so this catches a real layout change without catching them.
+        - _sources/jsonforms/profiles/**
+        - requirements-viewer.txt
+        - render.yaml
     envVars:
       - key: PYTHON_VERSION
         value: "3.12.0"
