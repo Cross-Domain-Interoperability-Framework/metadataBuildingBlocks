@@ -89,6 +89,14 @@ LABEL_PREFERENCE = [
     'schema:legalName', 'schema:termCode', 'schema:value',
 ]
 
+# Nodes with no name of their own, identified instead by what they point at.
+# {property: title}. A cdif:PhysicalMapping is exactly this: what distinguishes
+# one from another is the instance variable it formats.
+REFERENCE_LABELS = {
+    'cdif:formats_InstanceVariable': 'Formats instanceVariable',
+    'cdi:formats_InstanceVariable': 'Formats instanceVariable',
+}
+
 
 # --------------------------------------------------------------------------
 # profile registry
@@ -833,9 +841,23 @@ def render_node(node, prefixes, depth=0, type_index=None):
     label = node_label(node)
     identifier = node.get('@id') if isinstance(node.get('@id'), str) else None
 
+    # A node with no name of its own but a defining reference is titled by that
+    # reference -- otherwise the card heads itself with a "..." placeholder and
+    # every mapping in a distribution looks identical.
+    ref_key = ref_title = None
+    if not label:
+        for key, title in REFERENCE_LABELS.items():
+            if key in node:
+                ref_key, ref_title = key, title
+                break
+
     head = []
     if label:
         head.append('<span class="node-label">%s</span>' % esc(label))
+    elif ref_key:
+        head.append('<span class="node-label">%s</span>' % esc(ref_title))
+        head.append('<span class="node-ref">%s</span>'
+                    % render_value(node[ref_key], prefixes, depth, type_index))
     for name in types:
         head.append('<span class="badge">%s</span>' % esc(name))
     if identifier:
@@ -844,6 +866,8 @@ def render_node(node, prefixes, depth=0, type_index=None):
         head.append('<span class="node-id">%s</span>' % shown)
 
     shown_keys = {'@type', '@id'}
+    if ref_key:
+        shown_keys.add(ref_key)      # it is the title; repeating it is noise
     if label:
         for key in LABEL_PREFERENCE:
             if key in node and node.get(key) == label:
@@ -889,7 +913,8 @@ def render_node(node, prefixes, depth=0, type_index=None):
     return ('<details class="node"%s%s><summary class="node-head">%s'
             '<span class="rowcount">%d</span></summary>'
             '<div class="node-body">%s</div></details>'
-            % (at, ' open' if (depth < 2 and not getattr(_CTX, 'closed', False))
+            % (at, ' open' if (depth < 2 and not ref_key
+                                and not getattr(_CTX, 'closed', False))
                else '',
                header or '<span class="node-label">&hellip;</span>',
                len(rows), ''.join(rows)))
@@ -1102,6 +1127,7 @@ ul.vals > li:last-child{margin-bottom:0}
 .node .node{background:transparent}
 .node-head{margin-bottom:.3rem}
 .node-label{font-weight:600;margin-right:.45rem}
+.node-ref{margin-left:.4rem;font-weight:400}
 .leafnote{color:var(--muted);font-size:.7rem;font-style:italic;margin-left:.5rem;
           opacity:.75}
 .node.leaf > .node-head{padding-left:.95rem}
@@ -1150,6 +1176,10 @@ function setAll(open){
   // and opening them all is what "expand all" was trying to get away from.
   pane.querySelectorAll('details').forEach(function(d){ d.open = open; });
 }
+// A reference link in a <summary> would toggle the card as well as navigate.
+document.querySelectorAll('summary a.ref').forEach(function(a){
+  a.addEventListener('click', function(ev){ ev.stopPropagation(); });
+});
 document.querySelectorAll('button.info').forEach(function(b){
   b.addEventListener('click', function(ev){
     // Inside the <summary>, so without this the click also toggles the property.
