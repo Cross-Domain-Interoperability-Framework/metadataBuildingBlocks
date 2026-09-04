@@ -5,8 +5,10 @@ Starts a small server on localhost, opens a browser, and renders whatever
 record you drop on the page or pick with the file dialog. The rendering is
 cdif_record_to_html's -- this only adds the picker, so both stay in step.
 
-Nothing is uploaded anywhere: the browser reads the file locally and posts its
-text to the server running on your own machine.
+Run on loopback, nothing is uploaded anywhere: the browser reads the file and
+posts its text to the server on your own machine. Bound to 0.0.0.0 (as the
+hosted deployment is), the record goes to whatever machine runs the server --
+the picker page says which of the two applies.
 
 USAGE:
   python tools/cdif_viewer_app.py                 # pick a file in the browser
@@ -20,6 +22,7 @@ import argparse
 import ipaddress
 import collections
 import json
+import os
 import socket
 import sys
 import threading
@@ -80,8 +83,7 @@ button:hover{border-color:var(--accent);color:var(--accent)}
 .profiles code{font-size:.9em}
 </style></head><body><div class="wrap">
 <h1>CDIF record viewer</h1>
-<p class="sub">Drop a CDIF JSON-LD record here, or pick one. It renders locally &mdash;
-nothing leaves your machine.</p>
+<p class="sub">Drop a CDIF JSON-LD record here, or pick one.__WHERE__</p>
 <div id="drop">
   <button id="pick">Choose a file&hellip;</button>
   <input id="file" type="file" accept=".json,.jsonld,application/json" hidden>
@@ -266,6 +268,7 @@ def fetch_record(url, allowed_types):
 
 
 class Handler(BaseHTTPRequestHandler):
+    server_is_shared = False
     modules = {}
     known = set()
     layouts = []
@@ -306,7 +309,14 @@ class Handler(BaseHTTPRequestHandler):
             return
         listed = ', '.join('<code>%s</code>' % R.esc(u.rsplit('/cdif/', 1)[-1])
                            for u in sorted(self.modules))
-        self._send(200, PICKER.replace('__PROFILES__', listed or '(none found)'))
+        # Say honestly where the record goes. Served on loopback it never
+        # leaves the machine; hosted, the browser posts its text to the server,
+        # and claiming otherwise on a public deployment would be a lie.
+        where = (' It renders on this server: the record is sent there, held only'
+                 ' for the render, and not stored.' if self.server_is_shared
+                 else ' It renders locally &mdash; nothing leaves your machine.')
+        self._send(200, PICKER.replace('__PROFILES__', listed or '(none found)')
+                   .replace('__WHERE__', where))
 
     def do_POST(self):
         if self.path.startswith('/open'):
@@ -396,7 +406,14 @@ def free_port(preferred):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('--port', type=int, default=8765)
+    # PORT and HOST come from the environment when hosted: Render assigns the
+    # port and requires binding 0.0.0.0, since 127.0.0.1 is unreachable from
+    # outside the container and the deploy is failed as unhealthy.
+    p.add_argument('--port', type=int,
+                   default=int(os.environ.get('PORT') or 8765))
+    p.add_argument('--host', default=os.environ.get('HOST') or '127.0.0.1',
+                   help='bind address (default loopback; 0.0.0.0 to serve '
+                        'others, which the hosted deployment sets)')
     p.add_argument('--no-browser', action='store_true')
     p.add_argument('--fetch-context', action='store_true',
                    help='allow fetching remote @context documents')
@@ -409,16 +426,21 @@ def main(argv=None):
     Handler.known = R.known_property_names(list(dict.fromkeys(Handler.modules.values())))
     Handler.layouts = R.load_layouts()
     Handler.offline = not args.fetch_context
+    Handler.server_is_shared = args.host not in ('127.0.0.1', 'localhost', '::1')
 
-    port = free_port(args.port)
-    url = 'http://127.0.0.1:%d/' % port
-    server = ThreadingHTTPServer(('127.0.0.1', port), Handler)
-    print('CDIF record viewer on %s' % url)
+    # Only hunt for a free port locally. If a hosting platform names a port,
+    # binding a different one means the service is never reachable -- silently,
+    # since the process starts fine.
+    port = args.port if os.environ.get('PORT') else free_port(args.port)
+    url = 'http://%s:%d/' % ('127.0.0.1' if args.host in ('0.0.0.0', '::')
+                             else args.host, port)
+    server = ThreadingHTTPServer((args.host, port), Handler)
+    print('CDIF record viewer on %s (bound to %s)' % (url, args.host))
     print('  %d profiles, %d curated layouts%s'
           % (len(Handler.modules), len(Handler.layouts),
              '' if Handler.offline else ', remote @context enabled'))
     print('  Ctrl-C to stop')
-    if not args.no_browser:
+    if not args.no_browser and not os.environ.get('PORT'):
         threading.Timer(0.4, webbrowser.open, args=(url,)).start()
     try:
         server.serve_forever()

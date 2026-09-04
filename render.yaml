@@ -1,0 +1,25 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+#
+# Hosts tools/cdif_viewer_app.py so the team can open a CDIF record without
+# checking the repo out. The viewer reads the profile modules and uischema
+# layouts from _sources/ in this repo, so no data has to be shipped separately.
+#
+# The app binds HOST:PORT from the environment. Render assigns PORT and requires
+# 0.0.0.0 — a service bound to 127.0.0.1 starts cleanly and is then failed as
+# unhealthy, because nothing outside the container can reach it.
+
+services:
+  - type: web
+    name: cdif-record-viewer
+    runtime: python
+    plan: free # sleeps after inactivity; first request then takes ~30s to wake
+    buildCommand: pip install -r requirements.txt
+    startCommand: python tools/cdif_viewer_app.py --no-browser
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: HOST
+        value: 0.0.0.0
+      # PORT is set by Render; the app reads it and skips its free-port search,
+      # which would otherwise bind a port nothing is routed to.
