@@ -300,9 +300,10 @@ ex:exampleSampel_357h a schema1:Product,
             schema1:propertyID xas:pointgroup ;
             schema1:value "mm2" ],
         [ a schema1:PropertyValue ;
-            schema1:name "sample material state" ;
-            schema1:propertyID xas:samplematerial ;
-            schema1:value "solid metal foil" ],
+            schema1:name "sample mass" ;
+            schema1:propertyID xas:samplemass ;
+            schema1:unitText "mg" ;
+            schema1:value "10" ],
         [ a schema1:PropertyValue ;
             schema1:name "stoichiometry" ;
             schema1:propertyID xas:samplechemicalcomposition ;
@@ -321,14 +322,13 @@ ex:exampleSampel_357h a schema1:Product,
             schema1:unitText "percent" ;
             schema1:value "27" ],
         [ a schema1:PropertyValue ;
-            schema1:name "sample mass" ;
-            schema1:propertyID xas:samplemass ;
-            schema1:unitText "mg" ;
-            schema1:value "10" ],
-        [ a schema1:PropertyValue ;
             schema1:name "crystal unit cell" ;
             schema1:propertyID xas:sampleunitcell ;
-            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ] ;
+            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "sample material state" ;
+            schema1:propertyID xas:samplematerial ;
+            schema1:value "solid metal foil" ] ;
     schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
         <https://www.wikidata.org/wiki/Q485146>,
         "MaterialSample" ;
