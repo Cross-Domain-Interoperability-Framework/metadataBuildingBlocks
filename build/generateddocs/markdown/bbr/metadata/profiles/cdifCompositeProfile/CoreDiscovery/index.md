@@ -1405,11 +1405,11 @@ ex:YOPx123 a schema1:Dataset ;
                     spdx:algorithm "MD5" ;
                     spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ],
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1417,11 +1417,11 @@ ex:YOPx123 a schema1:Dataset ;
                     schema1:value "lieopgXuumP" ] ;
             schema1:name "fhhbzh" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ] ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
@@ -1451,16 +1451,16 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:publisher ex:exampleOrg_fW ;
     schema1:publishingPrinciples <https://example.org/policies/data-retention> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "BOoRREnpDEUrdNaV" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "FNoslhw" ;
-                    schema1:name "atsDYJxuhHpivqLmw" ;
-                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:encodingFormat "gompgHAN" ;
                     schema1:name "oAuxEutsTEiB" ;
+                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "BOoRREnpDEUrdNaV" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "FNoslhw" ;
+                    schema1:name "atsDYJxuhHpivqLmw" ;
                     schema1:url "http://example.com/resource?foo=bar#fragment" ] ] ;
     schema1:sameAs "https://example.org/alt-id/YOPx123",
         "urn:idorg:test:p45689" ;
@@ -3135,12 +3135,6 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:publisher <https://ror.org/007hqnf44> ;
     schema1:publishingPrinciples <https://example.org/policies/dfo-open-data> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "service" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "application/x-netcdf" ;
-                    schema1:name "OPeNDAP access" ;
-                    schema1:url "https://example.org/opendap/nadw-ctd" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "documentation" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:contentType "text/html" ;
@@ -3149,7 +3143,13 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:httpMethod "GET" ;
                     schema1:name "NADW Cruise Reports" ;
                     schema1:url "https://example.org/docs/nadw-cruise-reports" ;
-                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ] ;
+                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "service" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "application/x-netcdf" ;
+                    schema1:name "OPeNDAP access" ;
+                    schema1:url "https://example.org/opendap/nadw-ctd" ] ] ;
     schema1:sameAs <https://n2t.net/ark:/99999/fk4nadw2024>,
         "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:spatialCoverage [ a schema1:Place ;
@@ -3190,19 +3190,19 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
         ex:varTemperature ;
     schema1:version "2.1" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf "Completeness" ;
-            dqv:value [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
-                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
-                    schema1:name "Complete" ;
-                    schema1:termCode "COMPLETE" ] ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf [ a schema1:DefinedTerm ;
                     schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
                     schema1:name "Temperature sensor accuracy" ;
                     schema1:termCode "TEMPACCR" ] ;
-            dqv:value "±0.001°C (ITS-90)" ] ;
+            dqv:value "±0.001°C (ITS-90)" ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf "Completeness" ;
+            dqv:value [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
+                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
+                    schema1:name "Complete" ;
+                    schema1:termCode "COMPLETE" ] ] ;
     prov:wasDerivedFrom ex:rawCTDCasts ;
     prov:wasGeneratedBy [ a prov:Activity ;
             prov:used ex:ar7wCruiseProgram,

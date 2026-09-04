@@ -461,11 +461,11 @@ ComponentPosition wrapper.
 
 <https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/measureName> ;
             cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ] .
