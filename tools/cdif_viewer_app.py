@@ -26,16 +26,18 @@ import time
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote
+from urllib.parse import parse_qs, unquote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import cdif_record_to_html as R
 
-# Split-out lists from recent renders, newest last: {token: html}. The record
-# itself is never stored -- only the rendered fragment the page links to -- and
-# the map is capped so a long session cannot grow without bound.
+# Split-out lists from recent renders, newest last:
+# {token: (part, {'schema:name': ...})}. Pages are rendered on demand rather
+# than up front, so a 9-page list costs one page of markup per request instead
+# of nine. Only the list's own values are held -- not the whole record -- and
+# the map is capped, since those values are the bulk of a large document.
 PARTS = collections.OrderedDict()
-PARTS_KEEP = 12
+PARTS_KEEP = 6
 
 MAX_BYTES = 32 * 1024 * 1024
 
@@ -129,14 +131,22 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path.startswith('/part/'):
-            token = self.path[len('/part/'):].split('?', 1)[0]
-            html = PARTS.get(token)
-            if html is None:
+            path, _, query = self.path[len('/part/'):].partition('?')
+            token = path
+            held = PARTS.get(token)
+            if held is None:
                 self._send(404, 'That list is no longer held in memory. '
                            'Render the record again.',
                            'text/plain; charset=utf-8')
-            else:
-                self._send(200, html)
+                return
+            part, stub = held
+            try:
+                page = int(parse_qs(query).get('page', ['1'])[0])
+            except (TypeError, ValueError):
+                page = 1
+            self._send(200, R.render_part_page(
+                part, stub, self.modules, offline=self.offline, page=page,
+                page_href=lambda n, t=token: '/part/%s?page=%d' % (t, n)))
             return
         if self.path not in ('/', '/index.html'):
             self._send(404, 'not found', 'text/plain; charset=utf-8')
@@ -180,8 +190,10 @@ class Handler(BaseHTTPRequestHandler):
         for slug, part in parts.items():
             if slug.startswith('__'):
                 continue
-            PARTS['%s-%s' % (stamp, slug)] = R.render_part_page(
-                part, record, self.modules, offline=self.offline)
+            # Keep the part, not a rendered page: the pager needs to render any
+            # page on request. Only the record's name travels with it.
+            PARTS['%s-%s' % (stamp, slug)] = (
+                part, {'schema:name': record.get('schema:name')})
             while len(PARTS) > PARTS_KEEP:
                 PARTS.popitem(last=False)
 

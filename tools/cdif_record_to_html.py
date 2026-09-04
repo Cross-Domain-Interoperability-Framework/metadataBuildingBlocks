@@ -605,6 +605,10 @@ SPLIT_OVER = 100
 # How many names to show in the stub that replaces a split-out list.
 SPLIT_PREVIEW = 8
 
+# Entries per page of a split-out list. 863 variables in one document is
+# 13.5 MB; at 100 the browser lays out about a megabyte at a time.
+PART_PAGE = 100
+
 
 def _entry_label(entry):
     """A short human label for one entry of a split-out list."""
@@ -657,11 +661,15 @@ def render_property(name, value, description, prefixes, type_index=None,
     if parts is not None and count is not None and count > SPLIT_OVER:
         slug = re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-') or 'list'
         href = parts.setdefault('__href__', lambda sl: sl + '.html')(slug)
+        # The values, not rendered markup: only the consumer knows how to
+        # address its own pages, so it renders the slice it needs.
         parts[slug] = {
             'title': '%s — %s' % (label or humanize(name), record_title or 'record'),
-            'html': render_value(value, prefixes, 0, type_index),
+            'values': value,
             'count': count,
             'property': name,
+            'prefixes': prefixes,
+            'type_index': type_index,
         }
         body = render_split_stub(name, value, href)
     return (
@@ -758,6 +766,12 @@ nav.tabs .bulk button:hover{color:var(--accent);border-color:var(--accent)}
       color:var(--muted);font:600 .68rem/1 ui-monospace,Menlo,monospace;
       cursor:pointer;vertical-align:.08em}
 .info:hover,.info[aria-expanded="true"]{color:var(--accent);border-color:var(--accent)}
+.pager{display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;margin:1rem 0}
+.pg{padding:.2rem .5rem;border:1px solid var(--rule);border-radius:4px;
+    font-size:.85rem;text-decoration:none}
+a.pg:hover{border-color:var(--accent)}
+.pg-here{font-weight:700;border-color:var(--accent);color:var(--accent)}
+.pg-gap{border:none;color:var(--muted);padding:.2rem .1rem}
 .crumb{margin:0 0 1rem}
 .part-title{margin:0 0 .2rem;font-size:1.5rem}
 .part-sub{margin:0 0 1.4rem;color:var(--muted)}
@@ -1210,14 +1224,43 @@ def build_tabs(record, modules, prefixes, type_index=None, layouts=None,
     return tabs, panels, selected, unknown_uris
 
 
-def render_part_page(part, record, modules, offline=True, back=None):
-    """A standalone page for one split-out list.
+def part_page_count(part, per_page=PART_PAGE):
+    """How many pages this split-out list needs."""
+    return max(1, (part['count'] + per_page - 1) // per_page)
+
+
+def _pager(page, pages, page_href):
+    """Previous / next and a numbered jump, or nothing for a single page."""
+    if pages < 2 or page_href is None:
+        return ''
+    bits = []
+    if page > 1:
+        bits.append('<a class="pg" href="%s">&#8592; previous</a>'
+                    % esc(page_href(page - 1)))
+    for n in range(1, pages + 1):
+        # Keep the first, the last, and a window around the current page, so a
+        # 40-page list does not render 40 links.
+        if n in (1, pages) or abs(n - page) <= 2:
+            bits.append('<span class="pg pg-here">%d</span>' % n if n == page
+                        else '<a class="pg" href="%s">%d</a>' % (esc(page_href(n)), n))
+        elif bits and bits[-1] != '<span class="pg pg-gap">&hellip;</span>':
+            bits.append('<span class="pg pg-gap">&hellip;</span>')
+    if page < pages:
+        bits.append('<a class="pg" href="%s">next &#8594;</a>'
+                    % esc(page_href(page + 1)))
+    return '<nav class="pager">%s</nav>' % ''.join(bits)
+
+
+def render_part_page(part, record, modules, offline=True, back=None,
+                     page=1, per_page=PART_PAGE, page_href=None):
+    """One page of a split-out list.
 
     Deliberately plain: the same stylesheet, a heading naming the property and
-    its count, a way back, and the rendered entries. It exists so the main page
-    does not have to carry them, not to be a second view of the record.
+    its count, a way back, a pager, and the entries for this page. It exists so
+    the main page does not have to carry them, not to be a second view of the
+    record.
     """
-    prefixes = record_context(record, offline=offline)
+    prefixes = part.get('prefixes') or record_context(record, offline=offline)
     name = record.get('schema:name')
     if isinstance(name, list):
         name = name[0] if name else None
@@ -1226,15 +1269,26 @@ def render_part_page(part, record, modules, offline=True, back=None):
     name = name if isinstance(name, str) and name.strip() else 'the record'
     nav = ('<p class="crumb"><a href="%s">&#8592; back to %s</a></p>'
            % (esc(back), esc(name))) if back else ''
+
+    pages = part_page_count(part, per_page)
+    page = min(max(1, page), pages)
+    start = (page - 1) * per_page
+    chunk = part['values'][start:start + per_page]
+    body = render_value(chunk, prefixes, 0, part.get('type_index'))
+    span = ('showing %d&ndash;%d of %d'
+            % (start + 1, start + len(chunk), part['count'])) if pages > 1 else (
+                '%d entries' % part['count'])
+    pager = _pager(page, pages, page_href)
     return (
         '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
-        '<title>%s</title>\n<style>%s</style>\n</head>\n<body>\n'
+        '<title>%s%s</title>\n<style>%s</style>\n</head>\n<body>\n'
         '<main>\n%s<h1 class="part-title">%s</h1>\n'
-        '<p class="part-sub"><code>%s</code> &middot; %d entries</p>\n'
-        '<div class="prop-val">%s</div>\n</main>\n</body>\n</html>\n'
-        % (esc(part['title']), CSS, nav, esc(part['title']),
-           esc(part['property']), part['count'], part['html'])
+        '<p class="part-sub"><code>%s</code> &middot; %s</p>\n'
+        '%s<div class="prop-val">%s</div>\n%s</main>\n</body>\n</html>\n'
+        % (esc(part['title']), (' (page %d of %d)' % (page, pages)) if pages > 1 else '',
+           CSS, nav, esc(part['title']), esc(part['property']), span,
+           pager, body, pager)
     )
 
 
@@ -1242,9 +1296,19 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
                 layouts=None, filename=None, parts=None):
     record, companions = split_graph(record)
     prefixes = record_context(record, offline=offline)
+    # The display name is computed further down, but a split-out list needs it
+    # for its own page title -- otherwise every companion is called "record".
+    display = title
+    if not display:
+        display = record.get('schema:name')
+        if isinstance(display, list):
+            display = next((n for n in display if isinstance(n, str)), None)
+        if not isinstance(display, str):
+            display = record.get('@id')
+
     tabs, panels, selected, _ = build_tabs(record, modules, prefixes,
                                           type_index, layouts,
-                                          parts=parts, record_title=title)
+                                          parts=parts, record_title=display)
     if companions:
         used = {slug for slug, _, _ in tabs}
         extra_tabs, extra_panels = companion_tabs(companions, prefixes,
@@ -1468,12 +1532,23 @@ def main(argv=None):
         for slug, part in sorted(parts.items()):
             if slug.startswith('__'):
                 continue
-            side = output.with_name('%s.%s.html' % (output.stem, slug))
-            side.write_text(
-                render_part_page(part, record, modules, offline=args.offline,
-                                 back=output.name),
-                encoding='utf-8')
-            print('wrote %s  (%d entries)' % (side, part['count']))
+            pages = part_page_count(part)
+
+            def page_name(n, stem=output.stem, slug=slug):
+                # Page 1 keeps the plain name so the stub's link never changes.
+                return ('%s.%s.html' % (stem, slug) if n == 1
+                        else '%s.%s.%d.html' % (stem, slug, n))
+
+            for n in range(1, pages + 1):
+                side = output.with_name(page_name(n))
+                side.write_text(
+                    render_part_page(part, record, modules, offline=args.offline,
+                                     back=output.name, page=n,
+                                     page_href=page_name),
+                    encoding='utf-8')
+            print('wrote %s  (%d entries over %d page%s)'
+                  % (output.with_name(page_name(1)), part['count'], pages,
+                     '' if pages == 1 else 's'))
         entries.append(_record_summary(record, source, output, modules,
                                        type_index, args.offline, layouts))
 
