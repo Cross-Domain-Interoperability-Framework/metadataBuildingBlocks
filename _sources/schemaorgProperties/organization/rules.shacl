@@ -11,6 +11,10 @@ cdifd:CDIFOrganizationShape
     a sh:NodeShape ;
     sh:targetClass schema:Organization ;
     sh:or (
+		# An organization identified by a dereferenceable IRI is fully identified;
+		# the message has always offered this as an option, but no branch tested
+		# it, so an IRI-identified agent failed on a technicality.
+		[sh:nodeKind sh:IRI ;]
 		[sh:property cdifd:nameProperty ;]
 		[sh:property [
 			sh:path schema:identifier;
