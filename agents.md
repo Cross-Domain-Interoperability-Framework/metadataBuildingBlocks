@@ -415,7 +415,11 @@ Both are `sh:Violation`. Free-label strings (no colon or don't match the URI sha
 
 ## Building Block Conformance URIs
 
-Building blocks that represent CDIF specification components declare required `dcterms:conformsTo` URIs in the metadata catalog record (`schema:subjectOf`). Each building block's `schema.yaml` adds a `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo` requiring its specific URI. Corresponding SHACL shapes enforce the same constraint via `sh:hasValue`.
+Building blocks that represent CDIF specification components declare required `dcterms:conformsTo` URIs in the metadata catalog record (`schema:subjectOf`). Each building block's `schema.yaml` adds a `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo` requiring its specific URI. Corresponding SHACL shapes state the same constraint with `sh:hasValue` — but **advisory, at `sh:Warning`** (2026-09-03).
+
+SHACL cannot tell whether a record actually meets a profile's requirements, so it is in no position to fail one for not *saying* it does; a record should declare core conformance only if it conforms. Whether a declaration is *correct* is checked where the evidence is, by `detect_conformance` — see **Declared vs detected conformance** below. The structural half of the old shape (a `conformsTo` is present, and is an IRI) split out into `cdifd:metadataConformsToPresent`, which stays a **Violation**: declaring *nothing* is still an error.
+
+The JSON Schema `contains` remains a hard failure. JSON Schema has no advisory severity, so the two encodings of this constraint deliberately differ in strictness.
 
 | Building Block | Conformance URI | SHACL Shape |
 |---|---|---|
@@ -428,6 +432,42 @@ Building blocks that represent CDIF specification components declare required `d
 | `xasOptional` | `https://w3id.org/cdif/xasOptional/1.0` (**conditional** — see below) | `XasOptionalConformsToShape` (XAS optional tier, advisory `sh:Warning`) |
 
 **URI convention:** Conformance URIs must NOT have a trailing `/` character.
+
+### Declared vs detected conformance
+
+`CDIF/validation` compares what a record **claims** against what its content actually
+supports (`detect_conformance`: presence ASK + per-class content SHACL), in
+`ConformanceValidate.run_conformance` and in `FrameAndValidate.py -v`.
+
+- **Over-claiming** — declaring a profile the content does not support — is **fatal**.
+  The declared URI is what selects the schema and shapes to validate against, so
+  "profile X: PASSED" for an over-claimed X describes a profile the record was never
+  going to satisfy.
+- **Under-declaring** is advisory.
+- Only the six profiles `detect_conformance` can emit are compared (core, discovery,
+  data_description, data_structure, provenance, manifest). A record declaring
+  `codelist/1.1` or `complexCitation/0.1` is reported as *not checked*, never as an
+  over-claim — no rule exists that could produce those.
+- Both halves are read from the **source** document, never the framed one. Framing
+  drops evidence below `schema:distribution`, so detecting from a framed result
+  under-reports and manufactures over-claims for correct records.
+
+Converters follow the same rule: emit a `conformsTo` only when detection supports it,
+rather than falling back to a claim the content does not earn.
+
+### Where `schema:subjectOf` may be attached
+
+`cdifd:CDIFSubjectOfPlacementShape` (in `cdifCore/rules.shacl`) targets any node
+carrying `schema:subjectOf` and requires that it be a documented resource: its
+`rdf:type` includes one of the classes the `cdifCore` `@type` enum allows, and it is
+**not** itself a `dcat:CatalogRecord` — the catalog record is what `subjectOf` points
+*at*, not a resource that has one. Without this, a bare `cdi:WideDataStructure`
+fragment could carry a catalog record and assert that a structure fragment is a
+documented resource.
+
+The shape restates the `@type` enum because SHACL cannot read `schema.yaml`.
+`audit_building_blocks.py -c type-enum` fails if the two drift apart, in either
+direction.
 
 **`cdifDataDescription` pins conditionally (2026-09-02).** Its `contains` on
 `schema:subjectOf` → `dcterms:conformsTo` fires only when the record has a **non-empty**

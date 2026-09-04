@@ -32,6 +32,7 @@ python tools/validate_examples.py                        # JSON Schema gate, all
 python tools/validate_examples.py -f spatialExtent       # single block / substring filter
 python tools/validate_shacl.py <profile-name> --strict   # opt-in SHACL, one target
 python tools/audit_building_blocks.py                    # files, freshness, examples, SHACL coverage
+python tools/audit_building_blocks.py -c type-enum       # @type enum vs the SHACL list restating it
 ```
 
 **The authoritative check is the OGC postprocessor, not the local tools** — it runs JSON Schema,
@@ -100,7 +101,7 @@ their refs are resolved over the network at their build time, not ours.
 - **Commit regenerated artifacts separately** from unrelated changes. When a regeneration sweeps up
   pre-existing drift, split it: revert your source edit, regenerate, commit the catch-up alone, then
   restore and commit your actual change.
-- **The JSON Schema gate is now clean: `validate_examples.py` should report 144 passed, 0 failed.**
+- **The JSON Schema gate is now clean: `validate_examples.py` should report 152 passed, 0 failed.**
   A failure means you broke something — this is no longer a run with expected noise to squint past.
   The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
   fixtures never referenced by their own `examples.yaml`, so nothing was validating them into
@@ -112,6 +113,17 @@ their refs are resolved over the network at their build time, not ours.
   file still passes locally while being invisible to CI and to the published block. Every block now
   wires its examples and **no `TODO: replace with a JSON-LD example` placeholder remains**; keep it
   that way when adding a block.
+- **SHACL severity is not uniform, and the JSON Schema twin of a rule may be stricter.**
+  "A record must declare conformance to <profile>" is `sh:Warning` — SHACL cannot tell
+  whether a record meets a profile, so it does not fail one for not saying it does. The
+  structural half (a `conformsTo` is present and is an IRI) is `cdifd:metadataConformsToPresent`
+  and stays a Violation. The JSON Schema `contains` for the same constraint is still a hard
+  failure, because JSON Schema has no advisory severity.
+- **Whether a `conformsTo` is *correct* is checked in `CDIF/validation`, not here.**
+  `detect_conformance` derives conformance from content; `ConformanceValidate` and
+  `FrameAndValidate -v` compare it against what the record declares and **fail an
+  over-claim**. Only the six detectable profiles are compared, and both halves are read
+  from the source document — framing drops evidence below `schema:distribution`.
 - **`ddiProperties` examples use the canonical DDI-CDI datatypes, not CDIF's simplifications** —
   `cdi:name` is an `ObjectName` (`{@type, cdi:name}`), `cdi:definition` an `InternationalString`
   wrapping a `LanguageString`, `cdi:encoding`/`cdi:physicalDataType` a `ControlledVocabularyEntry`.
