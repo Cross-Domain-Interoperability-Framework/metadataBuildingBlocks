@@ -694,13 +694,31 @@ _SCHEMA_ORG = ('http://schema.org/', 'https://schema.org/',
                'http://schema.org', 'https://schema.org')
 
 
+def _schema_org_base(value):
+    """('http'|'https', slashless) if `value` is a schema.org base, else None.
+
+    Host names are case-insensitive in URIs, so SCHEMA.org counts. Whether the
+    base ends in a slash matters: JSON-LD concatenates @vocab with the term
+    directly, so a slashless base yields https://schema.orgname rather than a
+    term in the https://schema.org/ namespace.
+    """
+    if not isinstance(value, str):
+        return None
+    text = value.strip()
+    lowered = text.lower()
+    for scheme in ('https', 'http'):
+        for base in ('%s://schema.org/' % scheme, '%s://schema.org' % scheme):
+            if lowered == base:
+                return scheme, not base.endswith('/')
+    return None
+
+
 def _schema_vocab(context):
     """True when `context` puts schema.org terms in scope unprefixed."""
     if isinstance(context, str):
-        return context.rstrip('/') + '/' in _SCHEMA_ORG
+        return _schema_org_base(context) is not None
     if isinstance(context, dict):
-        vocab = context.get('@vocab')
-        return isinstance(vocab, str) and vocab.rstrip('/') + '/' in _SCHEMA_ORG
+        return _schema_org_base(context.get('@vocab')) is not None
     if isinstance(context, list):
         return any(_schema_vocab(c) for c in context)
     return False
@@ -723,9 +741,31 @@ def https_vocab_note(context):
         return None
     if isinstance(context, dict):
         vocab = context.get('@vocab')
-        if isinstance(vocab, str) and vocab.rstrip('/') == 'https://schema.org':
+        base = _schema_org_base(vocab)
+        if base and base[0] == 'https':
             return vocab
     return None
+
+
+def vocab_expands_to(context):
+    """What a bare term expands to under this context's @vocab, or None.
+
+    Reported rather than assumed, because a slashless @vocab does not do what
+    it looks like it does: JSON-LD concatenates, so "https://schema.org" + name
+    is "https://schema.orgname".
+    """
+    if isinstance(context, list):
+        for part in context:
+            got = vocab_expands_to(part)
+            if got:
+                return got
+        return None
+    if not isinstance(context, dict):
+        return None
+    vocab = context.get('@vocab')
+    if _schema_org_base(vocab) is None:
+        return None
+    return vocab.strip() + 'name'
 
 
 def normalize_schemaorg(record):

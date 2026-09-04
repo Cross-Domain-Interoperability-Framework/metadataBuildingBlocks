@@ -152,17 +152,31 @@ def _vocab_note(record, url, embedded=False):
     """
     where = 'Fetched from <code>%s</code>%s.' % (
         R.esc(url), ' &mdash; from JSON-LD embedded in the page' if embedded else '')
-    vocab = R.https_vocab_note((record or {}).get('@context'))
+    ctx = (record or {}).get('@context')
+    vocab = R.https_vocab_note(ctx)
     if not vocab:
         return where
-    return (
-        '%s The source declares <code>"@vocab": "%s"</code>, so its terms expand '
-        'to the <code>https://schema.org/</code> namespace. CDIF binds '
-        '<code>schema:</code> to <code>http://schema.org/</code>, which is a '
-        'different IRI; the terms were mapped to it for display. (A string '
-        '<code>"@context": "https://schema.org/"</code> would be fine &mdash; it '
-        'references the schema.org context document, which defines the http form.)'
-        % (where, R.esc(vocab)))
+    expands = R.vocab_expands_to(ctx) or ''
+    if expands and not expands.startswith(vocab.rstrip('/') + '/'):
+        # A slashless @vocab is concatenated straight onto the term, so this is
+        # not merely the wrong namespace -- it is not a schema.org IRI at all.
+        detail = (
+            'The source declares <code>"@vocab": "%s"</code> with no trailing '
+            'slash, so JSON-LD concatenates it onto each term: <code>name</code> '
+            'expands to <code>%s</code>, which is not a schema.org IRI at all. '
+            'The terms were read as schema.org and mapped to '
+            '<code>http://schema.org/</code> for display.'
+            % (R.esc(vocab), R.esc(expands)))
+    else:
+        detail = (
+            'The source declares <code>"@vocab": "%s"</code>, so its terms expand '
+            'to the <code>https://schema.org/</code> namespace. CDIF binds '
+            '<code>schema:</code> to <code>http://schema.org/</code>, which is a '
+            'different IRI; the terms were mapped to it for display. (A string '
+            '<code>"@context": "https://schema.org/"</code> would be fine &mdash; '
+            'it references the schema.org context document, which defines the '
+            'http form.)' % R.esc(vocab))
+    return '%s %s' % (where, detail)
 
 
 FETCH_TIMEOUT = 20
