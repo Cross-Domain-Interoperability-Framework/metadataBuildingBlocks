@@ -622,35 +622,13 @@ xas:487y54 a schema1:Product,
     schema1:hasPart [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:alternateName "transmitted flux measurement method" ;
-                    schema1:name "detector mode it" ;
-                    schema1:propertyID xas:detectorit ;
-                    schema1:value "10cm  N2" ],
-                [ a schema1:PropertyValue ;
-                    schema1:alternateName "incident flux measurement method" ;
-                    schema1:name "detector mode i0" ;
-                    schema1:propertyID xas:detectori0 ;
-                    schema1:value "10cm  N2" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "monitor mode" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXmonitor/mode> ;
-                    schema1:value "monitor" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "monitor preset" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXmonitor/preset> ;
-                    schema1:value "N.A." ] ;
-            schema1:additionalType "nxs:BaseClass/NXmonitor" ;
-            schema1:name "Beam monitor and detectors" ],
-        [ a schema1:Product,
-                schema1:Thing ;
-            schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "harmonic_rejection" ;
-                    schema1:propertyID xas:harmonicrejection ;
-                    schema1:value "Rh-coated mirror, detuned" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "focusing" ;
                     schema1:propertyID xas:focusing ;
                     schema1:value "???" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "harmonic_rejection" ;
+                    schema1:propertyID xas:harmonicrejection ;
+                    schema1:value "Rh-coated mirror, detuned" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "collimation technique" ;
                     schema1:propertyID xas:collimation ;
@@ -659,6 +637,42 @@ xas:487y54 a schema1:Product,
                 wd:Q3099911 ;
             schema1:identifier "should have a registry with URIs" ;
             schema1:name "13-BM-D" ],
+        [ a schema1:Product,
+                schema1:Thing ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:alternateName "incident flux measurement method" ;
+                    schema1:name "detector mode i0" ;
+                    schema1:propertyID xas:detectori0 ;
+                    schema1:value "10cm  N2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "monitor preset" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXmonitor/preset> ;
+                    schema1:value "N.A." ],
+                [ a schema1:PropertyValue ;
+                    schema1:alternateName "transmitted flux measurement method" ;
+                    schema1:name "detector mode it" ;
+                    schema1:propertyID xas:detectorit ;
+                    schema1:value "10cm  N2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "monitor mode" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXmonitor/mode> ;
+                    schema1:value "monitor" ] ;
+            schema1:additionalType "nxs:BaseClass/NXmonitor" ;
+            schema1:name "Beam monitor and detectors" ],
+        [ a schema1:Product,
+                schema1:Thing ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "X-ray source" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXsource/type> ;
+                    schema1:value "Synchrotron X-ray Source" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Probe" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXsource/probe> ;
+                    schema1:value "x-ray" ] ;
+            schema1:additionalType wd:Q3099911,
+                "nxs:BaseClass/NXsource" ;
+            schema1:identifier "should have a registry with URIs" ;
+            schema1:name "source of x-ray excitation for analysis. Made up for this example" ],
         [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
@@ -680,21 +694,7 @@ xas:487y54 a schema1:Product,
                     schema1:value "channel-cut" ] ;
             schema1:additionalType wd:Q3099911,
                 "nxs:BaseClass/NXmonochromator" ;
-            schema1:name "Si 111" ],
-        [ a schema1:Product,
-                schema1:Thing ;
-            schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "Probe" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXsource/probe> ;
-                    schema1:value "x-ray" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "X-ray source" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXsource/type> ;
-                    schema1:value "Synchrotron X-ray Source" ] ;
-            schema1:additionalType wd:Q3099911,
-                "nxs:BaseClass/NXsource" ;
-            schema1:identifier "should have a registry with URIs" ;
-            schema1:name "source of x-ray excitation for analysis. Made up for this example" ] ;
+            schema1:name "Si 111" ] ;
     schema1:identifier "xas:487y54" ;
     schema1:name "x-ray absorption analysis system" .
 

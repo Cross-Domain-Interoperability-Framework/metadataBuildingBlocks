@@ -32,11 +32,11 @@
     "cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfile/cdifDataStructure/rules.shacl"
     ],
-    "cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDataStructureComponent/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.identifier": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
+    "cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDataStructureComponent/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
@@ -47,6 +47,9 @@
     "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifRepresentedVariable/rules.shacl"
     ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    ],
     "cdif.bbr.metadata.cdifDataType.cdifValueDomain": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifValueDomain/rules.shacl"
     ],
@@ -55,16 +58,13 @@
     ],
     "cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfile/cdifCodelist/rules.shacl"
-    ],
-    "cdif.bbr.metadata.skosProperties.skosConcept": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
     ]
   },
   "dependsOn": [
+    "cdif.bbr.metadata.schemaorgProperties.identifier",
     "cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent",
-    "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable",
     "cdif.bbr.metadata.cdifDataType.objectReference",
-    "cdif.bbr.metadata.schemaorgProperties.identifier"
+    "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/context.jsonld",
   "schema": {
@@ -162,7 +162,7 @@
           "language": "ttl",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/profiles/cdifProfile/cdifDataStructure/example_3_1.ttl",
           "sizeBytes": 3190,
-          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://w3id.org/cdif/> .\n@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n<https://example.org/struct/salesCube> a cdi:DimensionalDataStructure ;\n    cdi:has_DataStructureComponent <https://example.org/struct/salesCube/comp/country>,\n        <https://example.org/struct/salesCube/comp/currency>,\n        <https://example.org/struct/salesCube/comp/productCategory>,\n        <https://example.org/struct/salesCube/comp/quarter>,\n        <https://example.org/struct/salesCube/comp/salesAmount> ;\n    cdi:has_PrimaryKey <https://example.org/struct/salesCube/pk> .\n\n<https://example.org/struct/salesCube/comp/country> a cdi:DimensionComponent ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/country> .\n\n<https://example.org/struct/salesCube/comp/currency> a cdi:AttributeComponent ;\n    cdi:qualifies <https://example.org/struct/salesCube/comp/salesAmount> ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/currency> .\n\n<https://example.org/struct/salesCube/comp/productCategory> a cdi:DimensionComponent ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/productCategory> .\n\n<https://example.org/struct/salesCube/comp/quarter> a cdi:DimensionComponent ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/quarter> .\n\n<https://example.org/struct/salesCube/pk> a cdif:PrimaryKey ;\n    cdif:isComposedOf [ a cdi:ComponentPosition ;\n            cdi:indexes <https://example.org/var/quarter> ;\n            cdi:value 2 ],\n        [ a cdi:ComponentPosition ;\n            cdi:indexes <https://example.org/var/productCategory> ;\n            cdi:value 3 ],\n        [ a cdi:ComponentPosition ;\n            cdi:indexes <https://example.org/var/country> ;\n            cdi:value 1 ] .\n\n<https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType \"xsd:string\" ;\n    cdif:name \"country\" .\n\n<https://example.org/struct/salesCube/rv/currency> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType \"xsd:string\" ;\n    cdif:name \"currency\" .\n\n<https://example.org/struct/salesCube/rv/productCategory> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType \"xsd:string\" ;\n    cdif:name \"product_category\" .\n\n<https://example.org/struct/salesCube/rv/quarter> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType \"xsd:gYearMonth\" ;\n    cdif:name \"quarter\" .\n\n<https://example.org/struct/salesCube/rv/salesAmount> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType \"xsd:decimal\" ;\n    cdi:simpleUnitOfMeasure \"USD\" ;\n    cdif:name \"sales_amount\" .\n\n<https://example.org/struct/salesCube/comp/salesAmount> a cdi:MeasureComponent ;\n    cdi:semantic [ a skos:Concept ;\n            skos:definition \"Total monetary value of sales.\" ;\n            skos:inScheme <https://example.org/vocab/measure> ;\n            skos:notation \"monetary-total\" ;\n            skos:prefLabel \"Monetary Total\" ] ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/salesAmount> .\n\n"
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://w3id.org/cdif/> .\n@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n<https://example.org/struct/salesCube> a cdi:DimensionalDataStructure ;\n    cdi:has_DataStructureComponent <https://example.org/struct/salesCube/comp/country>,\n        <https://example.org/struct/salesCube/comp/currency>,\n        <https://example.org/struct/salesCube/comp/productCategory>,\n        <https://example.org/struct/salesCube/comp/quarter>,\n        <https://example.org/struct/salesCube/comp/salesAmount> ;\n    cdi:has_PrimaryKey <https://example.org/struct/salesCube/pk> .\n\n<https://example.org/struct/salesCube/comp/country> a cdi:DimensionComponent ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/country> .\n\n<https://example.org/struct/salesCube/comp/currency> a cdi:AttributeComponent ;\n    cdi:qualifies <https://example.org/struct/salesCube/comp/salesAmount> ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/currency> .\n\n<https://example.org/struct/salesCube/comp/productCategory> a cdi:DimensionComponent ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/productCategory> .\n\n<https://example.org/struct/salesCube/comp/quarter> a cdi:DimensionComponent ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/quarter> .\n\n<https://example.org/struct/salesCube/pk> a cdif:PrimaryKey ;\n    cdif:isComposedOf [ a cdi:ComponentPosition ;\n            cdi:indexes <https://example.org/var/country> ;\n            cdi:value 1 ],\n        [ a cdi:ComponentPosition ;\n            cdi:indexes <https://example.org/var/productCategory> ;\n            cdi:value 3 ],\n        [ a cdi:ComponentPosition ;\n            cdi:indexes <https://example.org/var/quarter> ;\n            cdi:value 2 ] .\n\n<https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType \"xsd:string\" ;\n    cdif:name \"country\" .\n\n<https://example.org/struct/salesCube/rv/currency> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType \"xsd:string\" ;\n    cdif:name \"currency\" .\n\n<https://example.org/struct/salesCube/rv/productCategory> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType \"xsd:string\" ;\n    cdif:name \"product_category\" .\n\n<https://example.org/struct/salesCube/rv/quarter> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType \"xsd:gYearMonth\" ;\n    cdif:name \"quarter\" .\n\n<https://example.org/struct/salesCube/rv/salesAmount> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType \"xsd:decimal\" ;\n    cdi:simpleUnitOfMeasure \"USD\" ;\n    cdif:name \"sales_amount\" .\n\n<https://example.org/struct/salesCube/comp/salesAmount> a cdi:MeasureComponent ;\n    cdi:semantic [ a skos:Concept ;\n            skos:definition \"Total monetary value of sales.\" ;\n            skos:inScheme <https://example.org/vocab/measure> ;\n            skos:notation \"monetary-total\" ;\n            skos:prefLabel \"Monetary Total\" ] ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/salesAmount> .\n\n"
         }
       ]
     },
