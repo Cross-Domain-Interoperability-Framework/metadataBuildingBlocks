@@ -142,6 +142,10 @@ def load_schema(schema_path: Path, live: bool):
 
 def validate_example(example_path: Path, schema: dict):
     """Validate a JSON example against a resolved schema. Returns list of error strings."""
+    # encoding is explicit: without it Python uses the platform default, which
+    # is cp1252 on Windows, and an example carrying any non-ASCII character
+    # (a degree sign, an accented author name) fails to open at all -- reported
+    # as an error rather than as the pass it is.
     with open(example_path, encoding="utf-8") as f:
         instance = json.load(f)
 
