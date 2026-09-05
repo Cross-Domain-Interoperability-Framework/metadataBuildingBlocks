@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import base64
 import json
 import re
 import threading
@@ -1629,13 +1630,101 @@ def render_part_page(part, record, modules, offline=True, back=None,
         '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
         '<title>%s%s</title>\n<style>%s</style>\n</head>\n<body>\n'
-        '<main>\n%s<h1 class="part-title">%s</h1>\n'
+        '<main>\n%s\n%s<h1 class="part-title">%s</h1>\n'
         '<p class="part-sub"><code>%s</code> &middot; %s</p>\n'
-        '%s<div class="prop-val">%s</div>\n%s</main>\n</body>\n</html>\n'
+        '%s<div class="prop-val">%s</div>\n%s\n%s</main>\n</body>\n</html>\n'
         % (esc(part['title']), (' (page %d of %d)' % (page, pages)) if pages > 1 else '',
-           CSS, nav, esc(part['title']), esc(part['property']), span,
-           pager, body, pager)
+           CSS, site_header(), nav, esc(part['title']), esc(part['property']), span,
+           pager, body, pager, site_footer())
     )
+
+
+# ---------------------------------------------------------------------------
+# CDIF site header and footer
+# ---------------------------------------------------------------------------
+#
+# Taken from cdifbook: the header is its site.options.logo, the footer its
+# _static/footer.md. Both images are inlined as data URIs because the renderer
+# writes standalone files meant to open offline -- and because inlining is
+# already what footer.md does with the EU logo.
+
+ASSETS = Path(__file__).resolve().parent / "assets"
+_ASSET_CACHE = {}
+
+HANDBOOK_URL = "https://book.cdif.org"
+FEEDBACK_EMAIL = "cdif-feedback@codata.org"
+ISSUES_URL = ("https://github.com/Cross-Domain-Interoperability-Framework/"
+              "cdifbook/issues/new/choose")
+
+
+def asset_data_uri(name, mime):
+    """An image from tools/assets as a data: URI, or '' when it is missing.
+
+    Missing is not fatal: a viewer that cannot find its logo should still
+    render the record, which is the thing anyone came for.
+    """
+    if name not in _ASSET_CACHE:
+        path = ASSETS / name
+        try:
+            _ASSET_CACHE[name] = "data:%s;base64,%s" % (
+                mime, base64.b64encode(path.read_bytes()).decode("ascii"))
+        except OSError:
+            _ASSET_CACHE[name] = ""
+    return _ASSET_CACHE[name]
+
+
+def site_header():
+    """The CDIF banner that sits above every page."""
+    logo = asset_data_uri("cdif-logo.png", "image/png")
+    img = ('<img class="cdif-logo" src="%s" alt="CDIF">' % logo) if logo \
+        else '<span class="cdif-wordmark">CDIF</span>'
+    return ('<header class="cdif-bar">'
+            '<a class="cdif-home" href="%s">%s</a>'
+            '<span class="cdif-tag">Cross-Domain Interoperability Framework</span>'
+            '</header>' % (HANDBOOK_URL, img))
+
+
+def site_footer():
+    """The CDIF footer, from cdifbook's _static/footer.md."""
+    eu = asset_data_uri("eu-funding.jpg", "image/jpeg")
+    eu_img = ('<img class="eu-logo" src="%s" alt="Funded by the EU">' % eu) if eu else ''
+    return (
+        '<footer class="cdif-footer">'
+        '<p>We appreciate constructive feedback. Contact us at '
+        '<a href="mailto:%s">%s</a> or file a '
+        '<a href="%s">GitHub Issue</a>.</p>'
+        '<p>Copyright (c) 2022-2026 Committee on Data of the International '
+        'Science Council (CODATA). The Cross Domain Interoperability Framework '
+        '(CDIF) is licenced under CC-BY-4.0.</p>'
+        '<div class="funding">%s'
+        '<p>CDIF v.1 was supported by the EU Horizon Europe funded WorldFAIR '
+        'project (GA 10105839). CDIF v.1.1 is a community effort coordinated by '
+        'CODATA. Further development will be supported by the EU Horizon Europe '
+        'funded CDIF4EOSC project (GA 101292473).</p></div>'
+        '</footer>'
+        % (FEEDBACK_EMAIL, FEEDBACK_EMAIL, ISSUES_URL, eu_img))
+
+
+# Styling for the two blocks above. Kept in its own string so the picker page,
+# which has its own stylesheet, can include exactly this and nothing else.
+BRAND_CSS = """
+.cdif-bar{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;
+          padding:.6rem 0 .8rem;margin-bottom:1.2rem;
+          border-bottom:1px solid var(--line)}
+.cdif-bar .cdif-home{display:inline-flex;align-items:center;text-decoration:none}
+.cdif-bar .cdif-logo{height:38px;width:auto;display:block}
+.cdif-bar .cdif-wordmark{font-weight:700;font-size:1.1rem;color:var(--fg)}
+.cdif-bar .cdif-tag{color:var(--muted);font-size:.82rem}
+.cdif-footer{margin-top:3em;padding-top:1rem;border-top:1px solid var(--line);
+             font-size:.85em;opacity:.85;color:var(--muted)}
+.cdif-footer p{margin:.5em 0;font-style:italic}
+.cdif-footer a{color:inherit}
+.cdif-footer .funding{overflow:hidden;margin-top:1em}
+.cdif-footer .eu-logo{height:60px;width:auto;float:left;margin:0 1em .5em 0}
+"""
+
+# The renderer's pages all share one stylesheet.
+CSS = CSS + BRAND_CSS
 
 
 def render_html(record, modules, title=None, offline=True, type_index=None,
@@ -1719,17 +1808,17 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
         '<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
         '<title>%s</title>\n<style>%s</style>\n</head>\n<body>\n'
-        '<div class="wrap">\n'
+        '<div class="wrap">\n%s\n'
         '<header class="banner">\n  <div>%s</div>\n  <h1>%s</h1>\n'
         '  <div class="ids">%s</div>\n  %s\n</header>\n%s'
         '<nav class="tabs" role="tablist">%s%s</nav>\n%s\n'
         '<footer>Rendered from a CDIF JSON-LD record. Layout selected by declared '
-        'conformance: %s.</footer>\n</div>\n<script>%s</script>\n</body>\n</html>\n'
-        % (esc(title or name), CSS,
+        'conformance: %s.</footer>\n%s\n</div>\n<script>%s</script>\n</body>\n</html>\n'
+        % (esc(title or name), CSS, site_header(),
            ''.join('<span class="badge">%s</span>' % esc(t) for t in types),
            esc(name), ' '.join(ids), abstract, banner_note,
            tab_html, controls, panel_html,
-           esc(profiles), JS)
+           esc(profiles), site_footer(), JS)
     )
 
 
@@ -1750,13 +1839,13 @@ def render_index(entries, title='CDIF records'):
         '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
         '<title>%s</title>\n<style>%s</style>\n</head>\n<body>\n<div class="wrap">\n'
-        '<header class="banner"><h1>%s</h1>'
+        '%s\n<header class="banner"><h1>%s</h1>'
         '<div class="ids">%d record%s</div></header>\n'
         '<ul class="cards">%s</ul>\n'
-        '<footer>Rendered from CDIF JSON-LD records.</footer>\n'
+        '<footer>Rendered from CDIF JSON-LD records.</footer>\n%s\n'
         '</div>\n</body>\n</html>\n'
-        % (esc(title), CSS, esc(title), len(entries),
-           '' if len(entries) == 1 else 's', ''.join(cards))
+        % (esc(title), CSS, site_header(), esc(title), len(entries),
+           '' if len(entries) == 1 else 's', ''.join(cards), site_footer())
     )
 
 

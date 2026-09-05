@@ -95,7 +95,8 @@ button:hover{border-color:var(--accent);color:var(--accent)}
 .s-blurb{display:block;color:var(--muted);font-size:.82rem;margin-top:.15rem}
 .profiles{margin-top:1.6rem;font-size:.82rem;color:var(--muted)}
 .profiles code{font-size:.9em}
-</style></head><body><div class="wrap">
+__BRANDCSS__</style></head><body><div class="wrap">
+__HEADER__
 <h1>CDIF record viewer</h1>
 <p class="sub">Drop a CDIF JSON-LD record here, or pick one.__WHERE__</p>
 <div id="drop">
@@ -115,6 +116,7 @@ be a JSON-LD record or a page with an embedded
 __GALLERY__
 <div class="profiles">Layout is chosen from the record's
 <code>subjectOf &rarr; dcterms:conformsTo</code>. Profiles recognised:<br>__PROFILES__</div>
+__FOOTER__
 </div>
 <script>
 const drop = document.getElementById('drop'), input = document.getElementById('file'),
@@ -154,7 +156,8 @@ function send(file) {
   };
   reader.readAsText(file);
 }
-</script></body></html>
+</script>
+</body></html>
 """
 
 
@@ -479,7 +482,12 @@ class Handler(BaseHTTPRequestHandler):
                    % ''.join(sections)) if sections else ''
         self._send(200, PICKER.replace('__PROFILES__', listed or '(none found)')
                    .replace('__WHERE__', where)
-                   .replace('__GALLERY__', gallery))
+                   .replace('__GALLERY__', gallery)
+                   # the CDIF banner and footer, from the renderer, so the
+                   # picker and the record pages carry the same site chrome
+                   .replace('__BRANDCSS__', R.BRAND_CSS)
+                   .replace('__HEADER__', R.site_header())
+                   .replace('__FOOTER__', R.site_footer()))
 
     def do_POST(self):
         if self.path.startswith('/open'):
