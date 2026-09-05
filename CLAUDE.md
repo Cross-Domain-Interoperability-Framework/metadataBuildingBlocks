@@ -101,9 +101,9 @@ their refs are resolved over the network at their build time, not ours.
 - **Commit regenerated artifacts separately** from unrelated changes. When a regeneration sweeps up
   pre-existing drift, split it: revert your source edit, regenerate, commit the catch-up alone, then
   restore and commit your actual change.
-- **The JSON Schema gate is now clean: `validate_examples.py` should report 152 passed, 0 failed.**
+- **The JSON Schema gate is now clean: `validate_examples.py` should report 150 passed, 0 failed.**
   A failure means you broke something — this is no longer a run with expected noise to squint past.
-  The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
+  `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it (152 -> 150): nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
   fixtures never referenced by their own `examples.yaml`, so nothing was validating them into
   conformance), and `ddicdiDataStructure` / `ddicdiRepresentedVariable` got fresh, validating
   replacements.
