@@ -314,21 +314,21 @@ ex:exampleSampel_357h a schema1:Product,
             schema1:propertyID xas:samplematerial ;
             schema1:value "solid metal foil" ],
         [ a schema1:PropertyValue ;
-            schema1:name "crystal point group" ;
-            schema1:propertyID xas:pointgroup ;
-            schema1:value "mm2" ],
-        [ a schema1:PropertyValue ;
             schema1:name "crystal unit cell" ;
             schema1:propertyID xas:sampleunitcell ;
             schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "stoichiometry" ;
+            schema1:propertyID xas:samplechemicalcomposition ;
+            schema1:value "Na2SeO4" ],
         [ a schema1:PropertyValue ;
             schema1:name "Parent sample" ;
             schema1:propertyID xas:parentsample ;
             schema1:value "igsn:10.3476/342573" ],
         [ a schema1:PropertyValue ;
-            schema1:name "stoichiometry" ;
-            schema1:propertyID xas:samplechemicalcomposition ;
-            schema1:value "Na2SeO4" ] ;
+            schema1:name "crystal point group" ;
+            schema1:propertyID xas:pointgroup ;
+            schema1:value "mm2" ] ;
     schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
         <https://www.wikidata.org/wiki/Q485146>,
         "MaterialSample" ;

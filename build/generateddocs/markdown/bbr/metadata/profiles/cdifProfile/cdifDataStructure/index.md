@@ -461,14 +461,14 @@ ComponentPosition wrapper.
 
 <https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ] .
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ] .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:decimal" ;
@@ -483,10 +483,10 @@ ComponentPosition wrapper.
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ] .
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ] .
 
 <https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/measureValue> .
@@ -849,14 +849,14 @@ each cell in the cube.
 
 <https://example.org/struct/salesCube/pk> a cdif:PrimaryKey ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/productCategory> ;
+            cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/country> ;
             cdi:value 1 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/quarter> ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/productCategory> ;
-            cdi:value 3 ] .
+            cdi:value 2 ] .
 
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:string" ;
@@ -1309,7 +1309,13 @@ $defs:
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
     required:
     - '@type'
-    - cdi:has_DataStructureComponent
+    anyOf:
+    - required:
+      - cdi:has_DataStructureComponent
+    - required:
+      - cdi:has_ForeignKey
+    - required:
+      - cdi:has_PrimaryKey
   DimensionalDataStructure:
     type: object
     description: Structure of a dimensional data set (organized collection of multidimensional
@@ -1477,41 +1483,74 @@ $defs:
     - '@type'
   ForeignKey:
     type: object
-    description: Role of a set of data structure components for content referencing
-      purposes
+    description: 'A set of variables whose values reference a primary key elsewhere.
+      cdif:, not cdi:, throughout: this is a CDIF simplification, not the DDI-CDI
+      shape. DDI-CDI composes a foreign key from cdi:ForeignKeyComponent nodes, each
+      with cdi:correspondsTo and cdi:references; this form composes the variables
+      directly, each carrying cdif:position. The prefix is what makes that divergence
+      visible, and it matches the sibling cdif:PrimaryKey. Until 2026-09-05 the definition
+      required ''cdif:isComposedOf'' while declaring ''cdi:isComposedOf'', so it could
+      only be satisfied by an undeclared and therefore unconstrained property.'
     properties:
       '@type':
         type: array
         items:
           type: string
         contains:
-          const: cdi:ForeignKey
+          const: cdif:ForeignKey
         minItems: 1
       '@id':
         type: string
         description: Identifier for this ForeignKey node
-      cdi:isComposedOf:
+      cdif:isComposedOf:
         type: array
-        items:
-          allOf:
-          - anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-          - type: object
-            properties:
-              cdif:position:
-                type: integer
-                minimum: 1
-                description: 1-based position of this component in the key.
-                x-jsonld-id: https://w3id.org/cdif/position
-            required:
-            - cdif:position
         minItems: 1
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isComposedOf
-      cdi:references:
+        description: 'Ordered list of cdi:ComponentPosition wrappers, one per key
+          component, matching the sibling cdif:PrimaryKey. The position sits on the
+          wrapper rather than on the variable, and that is load-bearing: an earlier
+          form required cdif:position on the item itself, which made the objectReference
+          branch unsatisfiable, because objectReference is sealed with additionalProperties
+          false. A key could then only be written by inlining whole variables, duplicating
+          what schema:variableMeasured already holds.'
+        items:
+          type: object
+          description: cdi:ComponentPosition wrapper indexing one variable's position
+            in the key.
+          properties:
+            '@type':
+              type: array
+              items:
+                type: string
+              contains:
+                const: cdi:ComponentPosition
+              minItems: 1
+            '@id':
+              type: string
+              description: Identifier for this ComponentPosition node.
+            cdi:indexes:
+              description: The variable this position indexes, usually an @id-reference
+                to one declared in schema:variableMeasured. An InstanceVariable is
+                accepted alongside a RepresentedVariable because it is a subclass
+                of one, and CDIF records describe instance variables -- requiring
+                a RepresentedVariable would leave the records that actually need a
+                key unable to write one.
+              anyOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+              x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes
+            cdi:value:
+              type: integer
+              minimum: 1
+              description: 1-based position of this variable in the ordered key.
+              x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value
+          required:
+          - '@type'
+        x-jsonld-id: https://w3id.org/cdif/isComposedOf
+      cdif:references:
         description: references a primary key in a different dataset
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/references
+        x-jsonld-id: https://w3id.org/cdif/references
     required:
     - '@type'
     - cdif:isComposedOf
@@ -1587,10 +1626,14 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "schema": "http://schema.org/",
     "cdif": "https://w3id.org/cdif/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "schema": "http://schema.org/",
+    "spdx": "http://spdx.org/rdf/terms#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
+    "prov": "http://www.w3.org/ns/prov#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "@version": 1.1

@@ -505,6 +505,228 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
+    "cdif.bbr.metadata.cdifDataType.cdifInstanceVariable": {
+      "title": "CDIF Instance Variable",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "cdi:InstanceVariable"
+            ]
+          }
+        },
+        "cdif:physicalDataType": {
+          "description": "identifier or name for the data type concept.",
+          "x-jsonld-id": "https://w3id.org/cdif/physicalDataType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString"
+            }
+          ]
+        },
+        "cdif:role": {
+          "type": "string",
+          "enum": [
+            "UnitIdentifier",
+            "Measure",
+            "Attribute",
+            "Dimension",
+            "Descriptor",
+            "ReferenceVariable"
+          ],
+          "description": "Specifies the role this variable plays in a data structure. UnitIdentifier names the unit a row describes; Measure holds observed/derived values; Attribute qualifies an observation; Dimension addresses a cell in a multi-dimensional cube; Descriptor names the variable that a Reference column records values for (long format); ReferenceVariable holds those recorded values.",
+          "x-jsonld-id": "https://w3id.org/cdif/role"
+        },
+        "cdif:simpleUnitOfMeasure": {
+          "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a simple string, in cases where no additional information is available (in the legacy system) or needed (as in the case of broad agreement within the community of use [i.e., ISO country codes, currencies, etc. in SDMX])",
+          "type": "string",
+          "x-jsonld-id": "https://w3id.org/cdif/simpleUnitOfMeasure"
+        },
+        "cdif:uses": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString"
+          },
+          "description": "Essentially the same as schema:propertyID. References to the concept(s) that this variable measures or represents. Concepts only -- to point at the RepresentedVariable that supplies the represented-variable-level properties, use cdif:isDefinedBy_RepresentedVariable. Splitting the two targets follows the CDIF convention of disambiguating the polymorphic DDI-CDI role names by target, so each JSON key has a single value type; it also keeps cdif:uses type-compatible with canonical cdi:uses on InstanceVariable, which is valued by a Concept.",
+          "x-jsonld-id": "https://w3id.org/cdif/uses"
+        },
+        "cdif:isDefinedBy_RepresentedVariable": {
+          "description": "The RepresentedVariable this InstanceVariable instantiates. A reference only (@id, nothing else): the point of the link is that the represented-variable-level properties are defined once on the RepresentedVariable and NOT duplicated here, so an inline copy would defeat it. Same property name as on cdifDataStructureComponent, which carries the equivalent link within a data structure; that one also accepts an inline RepresentedVariable because a structure may define one that exists nowhere else.",
+          "x-jsonld-id": "https://w3id.org/cdif/isDefinedBy_RepresentedVariable",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
+            }
+          ]
+        },
+        "cdi:function": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString"
+          },
+          "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function"
+        },
+        "cdi:platformType": {
+          "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString"
+            }
+          ]
+        },
+        "cdi:source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            }
+          ],
+          "description": "Reference capturing provenance information for this InstanceVariable (InstanceVariable.source).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/source"
+        },
+        "cdif:isDescribedBy_StatisticsCollection": {
+          "description": "The StatisticsCollection holding summary / category statistics for this InstanceVariable (direct JSON mapping of the DDI-CDI `InstanceVariable.isDescribedBy \u2192 StatisticsCollection` association). cdif: namespaced and target-suffixed because the DDI-CDI isDescribedBy association is polymorphic. This is the canonical CDIF path for **per-variable** statistics; dataset-scope aggregates (row count etc.) go under `Dataset.cdif:statistics` instead.",
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/StatisticsCollection"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ],
+          "x-jsonld-id": "https://w3id.org/cdif/isDescribedBy_StatisticsCollection"
+        },
+        "cdi:describedUnitOfMeasure": {
+          "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm"
+            }
+          ]
+        },
+        "cdi:qualifies": {
+          "type": "object",
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "@id": {
+              "type": "string"
+            }
+          },
+          "description": "reference to an instance variable defined for this dataset",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured"
+        },
+        {
+          "if": {
+            "required": [
+              "cdif:isDefinedBy_RepresentedVariable"
+            ]
+          },
+          "then": {
+            "properties": {
+              "cdi:takesSubstantiveValuesFrom": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSubstantiveValuesFrom"
+              },
+              "cdi:takesSentinelValuesFrom": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelValuesFrom"
+              },
+              "cdi:hasIntendedDataType": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType"
+              },
+              "cdi:describedUnitOfMeasure": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure"
+              },
+              "cdi:unitOfMeasureKind": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind"
+              },
+              "cdi:measures": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures"
+              },
+              "cdi:externalDefinition": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition"
+              },
+              "cdif:uses_Concept": {
+                "not": true,
+                "x-jsonld-id": "https://w3id.org/cdif/uses_Concept"
+              },
+              "cdif:definition": {
+                "not": true,
+                "x-jsonld-id": "https://w3id.org/cdif/definition"
+              }
+            },
+            "description": "When cdif:isDefinedBy_RepresentedVariable is present, the represented-variable-level properties live on that RepresentedVariable and may not be declared inline on the InstanceVariable."
+          }
+        }
+      ],
+      "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
+        "cdifConceptOrTerm": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "cdif": "https://w3id.org/cdif/",
+        "schema": "http://schema.org/",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "xas": "https://w3id.org/cdif/xas/",
+        "nxs": "https://manual.nexusformat.org/classes/",
+        "prov": "http://www.w3.org/ns/prov#"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
     "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable": {
       "title": "DDI-CDI Represented Variable",
       "description": "Conceptual variable with a substantive value domain specified.",
@@ -1525,6 +1747,597 @@
         "cdif": "https://w3id.org/cdif/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifDataType.cdifStatistics": {
+      "title": "CDIF Statistics",
+      "description": "CDIF profile of the DDI-CDI Statistics / CategoryStatistics / StatisticsCollection classes (2026-03 model). A Statistics node carries one or more Statistic value objects; CategoryStatistics carries per-category results; a StatisticsCollection groups Statistics nodes. The root validates any of the three. CDIF divergences from canonical DDI-CDI: properties valued by InternationalString / LabelForDisplay / ObjectName are simplified to plain strings and carried under the cdif: namespace (cdif:name, cdif:descriptiveText, cdif:definition, cdif:displayLabel); the polymorphic cdi:has association is split into target-specific cdif:has_* keys; cdif:appliesTo and cdif:indexedBy are CDIF additions (not present in the canonical model) that link statistics to the InstanceVariable(s) they describe.",
+      "type": "object",
+      "anyOf": [
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/Statistics"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/CategoryStatistics"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/StatisticsCollection"
+        }
+      ],
+      "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
+        "cdifConceptOrTerm": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
+        },
+        "Statistic": {
+          "title": "Statistic",
+          "description": "DDI-CDI Statistic dataType \u2014 a single computed value (mean, count, median, etc.). A value object with no identity; appears inline inside a cdi:statistic array.",
+          "type": "object",
+          "properties": {
+            "cdi:computationBase": {
+              "type": "string",
+              "enum": [
+                "MissingOnly",
+                "Total",
+                "ValidOnly"
+              ],
+              "description": "The cases included in determining the statistic \u2014 Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only).",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/computationBase"
+            },
+            "cdi:content": {
+              "type": "number",
+              "description": "The value of the statistic expressed as a real number.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/content"
+            },
+            "cdi:isWeighted": {
+              "type": "boolean",
+              "default": false,
+              "description": "True if the statistic was computed using a weighting variable.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isWeighted"
+            },
+            "cdi:typeOfNumericValue": {
+              "type": "string",
+              "description": "The type of numeric value carried in cdi:content \u2014 decimal, float, or double.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfNumericValue"
+            }
+          }
+        },
+        "Statistics": {
+          "title": "Statistics",
+          "description": "A named bundle of one or more Statistic value objects for an instance variable, optionally weighted, optionally broken down by Category.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this Statistics node."
+            },
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "cdi:Statistics"
+                ]
+              },
+              "minItems": 1
+            },
+            "cdi:typeOfStatistic": {
+              "description": "Controlled-vocabulary entry naming the kind of statistic \u2014 e.g. mean, median, count, sum, stdDev.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
+              "allOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTermOrString"
+                }
+              ]
+            },
+            "cdi:statistic": {
+              "type": "array",
+              "description": "Ordered list of Statistic value objects carried by this bundle. Order is significant \u2014 consumers MAY rely on array position.",
+              "items": {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/Statistic"
+              },
+              "minItems": 1,
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic"
+            },
+            "cdi:hasWeight": {
+              "description": "The InstanceVariable whose values were used as weights when computing the Statistic entries (inline cdifInstanceVariable node or an @id-reference).",
+              "anyOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@id"
+                  ]
+                }
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
+            },
+            "cdif:appliesTo": {
+              "type": "array",
+              "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) this Statistics bundle summarizes \u2014 the per-bundle \"what these numbers describe\" link. Used **only** when this Statistics bundle sits inside a StatisticsCollection that indexes more than one variable, to disambiguate which variable each bundle describes. It MUST NOT appear on a Statistics bundle attached at Dataset level via `cdif:statistics`; per-variable stats belong under `schema:variableMeasured[i].cdif:isDescribedBy_StatisticsCollection` (the direct JSON mapping of the DDI-CDI `InstanceVariable.isDescribedBy` association).",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ]
+                  }
+                ]
+              },
+              "minItems": 1,
+              "x-jsonld-id": "https://w3id.org/cdif/appliesTo"
+            },
+            "cdif:has_CategoryStatistics": {
+              "type": "array",
+              "description": "CategoryStatistics entries breaking this Statistics bundle down by Category. cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
+              "items": {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/CategoryStatistics"
+              },
+              "x-jsonld-id": "https://w3id.org/cdif/has_CategoryStatistics"
+            }
+          },
+          "required": [
+            "@type",
+            "cdi:statistic"
+          ]
+        },
+        "CategoryStatistics": {
+          "title": "CategoryStatistics",
+          "description": "Statistics for a specific Category of an instance variable within a data set.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this CategoryStatistics node."
+            },
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "cdi:CategoryStatistics"
+                ]
+              },
+              "minItems": 1
+            },
+            "cdi:for": {
+              "description": "The Category this CategoryStatistics is for (inline Category node or an @id-reference).",
+              "anyOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/Category"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@id"
+                  ]
+                }
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for"
+            },
+            "cdi:typeOfStatistic": {
+              "description": "Controlled-vocabulary entry naming the kind of statistic.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
+              "allOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTermOrString"
+                }
+              ]
+            },
+            "cdi:statistic": {
+              "type": "array",
+              "description": "Per-category Statistic value objects.",
+              "items": {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/Statistic"
+              },
+              "minItems": 1,
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic"
+            },
+            "cdi:hasWeight": {
+              "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
+              "anyOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@id"
+                  ]
+                }
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
+            }
+          },
+          "required": [
+            "@type",
+            "cdi:for",
+            "cdi:statistic"
+          ]
+        },
+        "StatisticsCollection": {
+          "title": "StatisticsCollection",
+          "description": "Groups one or more Statistics nodes for an instance variable. A typical use is a dataset-level collection holding row-count / mean / stddev Statistics for each measured variable.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this StatisticsCollection node."
+            },
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "cdi:StatisticsCollection"
+                ]
+              },
+              "minItems": 1
+            },
+            "cdi:hasWeight": {
+              "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
+              "anyOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@id"
+                  ]
+                }
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
+            },
+            "cdif:has_Statistics": {
+              "type": "array",
+              "description": "Statistics nodes carried by this collection (inline or @id-ref). cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/Statistics"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ]
+                  }
+                ]
+              },
+              "minItems": 1,
+              "x-jsonld-id": "https://w3id.org/cdif/has_Statistics"
+            },
+            "cdif:indexedBy": {
+              "type": "array",
+              "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) the contained Statistics index \u2014 the collection-level coordinate space. Marks the collection as per-variable-scoped: a StatisticsCollection carrying `cdif:indexedBy` MUST be attached via `schema:variableMeasured[i].cdif:isDescribedBy_StatisticsCollection` on one of the indexed variables, NOT at Dataset level via `cdif:statistics` (which is reserved for genuinely dataset-scope aggregates like row count).",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ]
+                  }
+                ]
+              },
+              "minItems": 1,
+              "x-jsonld-id": "https://w3id.org/cdif/indexedBy"
+            }
+          },
+          "required": [
+            "@type",
+            "cdif:has_Statistics"
+          ]
+        },
+        "Category": {
+          "title": "Category",
+          "description": "Minimal Category shape used as a CategoryStatistics target. CDIF simplifies the DDI-CDI InternationalString / LabelForDisplay / ObjectName valued properties to plain strings carried under the cdif: namespace. A full CDIF treatment of categories lives in cdifEnumerationDomain / SKOS Concept.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string"
+            },
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "cdi:Category"
+                ]
+              },
+              "minItems": 1
+            },
+            "cdif:name": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings.",
+              "x-jsonld-id": "https://w3id.org/cdif/name"
+            },
+            "cdif:descriptiveText": {
+              "type": "string",
+              "description": "Short natural-language account of the category. CDIF-simplified from DDI-CDI Category.descriptiveText (InternationalString).",
+              "x-jsonld-id": "https://w3id.org/cdif/descriptiveText"
+            },
+            "cdif:definition": {
+              "type": "string",
+              "description": "Natural-language definition of the category. CDIF-simplified from DDI-CDI Category.definition (InternationalString).",
+              "x-jsonld-id": "https://w3id.org/cdif/definition"
+            },
+            "cdif:displayLabel": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Human-readable display label(s). CDIF-simplified from DDI-CDI Category.displayLabel (LabelForDisplay).",
+              "x-jsonld-id": "https://w3id.org/cdif/displayLabel"
+            }
+          }
+        },
+        "SkosConcept": {
+          "title": "SKOS Concept (CDIF vocabulary-bound term reference)",
+          "description": "Vocabulary-bound term reference. CDIF policy implements the DDI-CDI ControlledVocabularyEntry / PairedControlledVocabularyEntry concept as a skos:Concept from the skosProperties building block. Under the union-type-policy a Concept value MUST be a controlled-vocabulary term \u2014 either an @id-only reference into a known scheme, a structured schema:DefinedTerm, or a full inline skos:Concept node. Plain strings are NOT permitted because vocabulary identity cannot be recovered from an unscoped string label.",
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
+            }
+          ]
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://w3id.org/cdif/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.variableMeasured": {
+      "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "description": "Must include schema:PropertyValue - a measured VALUE - or schema:PropertyValueSpecification - a SPECIFICATION of one, stating the permitted range, default or unit rather than an observed result. Protocol and method descriptions declare the latter, and pinning the array to PropertyValue alone left them no valid spelling. Additional type URIs may be included.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "anyOf": [
+              {
+                "enum": [
+                  "schema:PropertyValue"
+                ]
+              },
+              {
+                "enum": [
+                  "schema:PropertyValueSpecification"
+                ]
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "string label associated with the variable in the dataset serialization",
+          "x-jsonld-id": "http://schema.org/name"
+        },
+        "schema:description": {
+          "type": "string",
+          "default": "missing",
+          "x-jsonld-id": "http://schema.org/description"
+        },
+        "schema:alternateName": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "human intelligible name for variable that conveys semantics"
+          },
+          "x-jsonld-id": "http://schema.org/alternateName"
+        },
+        "schema:measurementTechnique": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to a skos concept"
+                }
+              }
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/DefinedTerm"
+            }
+          ],
+          "description": "Text description or URI specifying how values for the variable were obtained.",
+          "x-jsonld-id": "http://schema.org/measurementTechnique"
+        },
+        "schema:propertyID": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/DefinedTerm"
+              }
+            ]
+          },
+          "description": "identifier or name for the property concept",
+          "x-jsonld-id": "http://schema.org/propertyID"
+        },
+        "schema:unitText": {
+          "type": "string",
+          "description": "unit of measurement as text",
+          "x-jsonld-id": "http://schema.org/unitText"
+        },
+        "schema:unitCode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/DefinedTerm"
+            }
+          ],
+          "description": "URI or code identifying the unit of measure",
+          "x-jsonld-id": "http://schema.org/unitCode"
+        },
+        "schema:minValue": {
+          "type": "number",
+          "description": "minimum numeric value in the dataset",
+          "x-jsonld-id": "http://schema.org/minValue"
+        },
+        "schema:maxValue": {
+          "type": "number",
+          "description": "maximum numeric value in the dataset",
+          "x-jsonld-id": "http://schema.org/maxValue"
+        },
+        "schema:url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "description": "link to a web page useful for interpreting the variable"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/Reference"
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/url"
+        }
+      },
+      "required": [
+        "@type",
+        "schema:name"
+      ],
+      "$defs": {
+        "DefinedTerm": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+        },
+        "Reference": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.cdifDataType.cdifValueDomain": {
@@ -2822,6 +3635,269 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
+    "cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1": {
+      "title": "CDIF Instance Variable",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "cdi:InstanceVariable"
+            ]
+          }
+        },
+        "cdif:physicalDataType": {
+          "description": "identifier or name for the data type concept.",
+          "x-jsonld-id": "https://w3id.org/cdif/physicalDataType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTermOrString"
+            }
+          ]
+        },
+        "cdif:role": {
+          "type": "string",
+          "enum": [
+            "UnitIdentifier",
+            "Measure",
+            "Attribute",
+            "Dimension",
+            "Descriptor",
+            "ReferenceVariable"
+          ],
+          "description": "Specifies the role this variable plays in a data structure. UnitIdentifier names the unit a row describes; Measure holds observed/derived values; Attribute qualifies an observation; Dimension addresses a cell in a multi-dimensional cube; Descriptor names the variable that a Reference column records values for (long format); ReferenceVariable holds those recorded values.",
+          "x-jsonld-id": "https://w3id.org/cdif/role"
+        },
+        "cdif:simpleUnitOfMeasure": {
+          "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a simple string, in cases where no additional information is available (in the legacy system) or needed (as in the case of broad agreement within the community of use [i.e., ISO country codes, currencies, etc. in SDMX])",
+          "type": "string",
+          "x-jsonld-id": "https://w3id.org/cdif/simpleUnitOfMeasure"
+        },
+        "cdif:uses": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTermOrString"
+          },
+          "description": "Essentially the same as schema:propertyID. References to the concept(s) that this variable measures or represents. Concepts only -- to point at the RepresentedVariable that supplies the represented-variable-level properties, use cdif:isDefinedBy_RepresentedVariable. Splitting the two targets follows the CDIF convention of disambiguating the polymorphic DDI-CDI role names by target, so each JSON key has a single value type; it also keeps cdif:uses type-compatible with canonical cdi:uses on InstanceVariable, which is valued by a Concept.",
+          "x-jsonld-id": "https://w3id.org/cdif/uses"
+        },
+        "cdif:isDefinedBy_RepresentedVariable": {
+          "description": "The RepresentedVariable this InstanceVariable instantiates. A reference only (@id, nothing else): the point of the link is that the represented-variable-level properties are defined once on the RepresentedVariable and NOT duplicated here, so an inline copy would defeat it. Same property name as on cdifDataStructureComponent, which carries the equivalent link within a data structure; that one also accepts an inline RepresentedVariable because a structure may define one that exists nowhere else.",
+          "x-jsonld-id": "https://w3id.org/cdif/isDefinedBy_RepresentedVariable",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
+            }
+          ]
+        },
+        "cdi:function": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTermOrString"
+          },
+          "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function"
+        },
+        "cdi:platformType": {
+          "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTermOrString"
+            }
+          ]
+        },
+        "cdi:source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            }
+          ],
+          "description": "Reference capturing provenance information for this InstanceVariable (InstanceVariable.source).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/source"
+        },
+        "cdif:isDescribedBy_StatisticsCollection": {
+          "description": "The StatisticsCollection holding summary / category statistics for this InstanceVariable (direct JSON mapping of the DDI-CDI `InstanceVariable.isDescribedBy \u2192 StatisticsCollection` association). cdif: namespaced and target-suffixed because the DDI-CDI isDescribedBy association is polymorphic. This is the canonical CDIF path for **per-variable** statistics; dataset-scope aggregates (row count etc.) go under `Dataset.cdif:statistics` instead.",
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/StatisticsCollection"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ],
+          "x-jsonld-id": "https://w3id.org/cdif/isDescribedBy_StatisticsCollection"
+        },
+        "cdi:describedUnitOfMeasure": {
+          "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTerm"
+            }
+          ]
+        },
+        "cdi:qualifies": {
+          "type": "object",
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "@id": {
+              "type": "string"
+            }
+          },
+          "description": "reference to an instance variable defined for this dataset",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured"
+        },
+        {
+          "if": {
+            "required": [
+              "cdif:isDefinedBy_RepresentedVariable"
+            ]
+          },
+          "then": {
+            "properties": {
+              "cdi:takesSubstantiveValuesFrom": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSubstantiveValuesFrom"
+              },
+              "cdi:takesSentinelValuesFrom": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelValuesFrom"
+              },
+              "cdi:hasIntendedDataType": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType"
+              },
+              "cdi:describedUnitOfMeasure": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure"
+              },
+              "cdi:unitOfMeasureKind": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind"
+              },
+              "cdi:measures": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures"
+              },
+              "cdi:externalDefinition": {
+                "not": true,
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition"
+              },
+              "cdif:uses_Concept": {
+                "not": true,
+                "x-jsonld-id": "https://w3id.org/cdif/uses_Concept"
+              },
+              "cdif:definition": {
+                "not": true,
+                "x-jsonld-id": "https://w3id.org/cdif/definition"
+              }
+            },
+            "description": "When cdif:isDefinedBy_RepresentedVariable is present, the represented-variable-level properties live on that RepresentedVariable and may not be declared inline on the InstanceVariable."
+          }
+        }
+      ],
+      "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
+        "cdifConceptOrTerm": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "cdif": "https://w3id.org/cdif/",
+        "schema": "http://schema.org/",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "xas": "https://w3id.org/cdif/xas/",
+        "nxs": "https://manual.nexusformat.org/classes/",
+        "prov": "http://www.w3.org/ns/prov#"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.labeledLink": {
+      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:CreativeWork",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:CreativeWork"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/name"
+        },
+        "schema:description": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "x-jsonld-id": "http://schema.org/url"
+        }
+      },
+      "required": [
+        "@type",
+        "schema:url"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
     "cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain": {
       "title": "CDIF Enumeration Domain",
       "description": "A base class acting as an extension point to allow a codification vocabulary to be documented as enumerated value domain.",
@@ -3452,8 +4528,24 @@
         }
       },
       "required": [
-        "@type",
-        "cdi:has_DataStructureComponent"
+        "@type"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "cdi:has_DataStructureComponent"
+          ]
+        },
+        {
+          "required": [
+            "cdi:has_ForeignKey"
+          ]
+        },
+        {
+          "required": [
+            "cdi:has_PrimaryKey"
+          ]
+        }
       ]
     },
     "DimensionalDataStructure": {
@@ -3735,7 +4827,7 @@
     },
     "ForeignKey": {
       "type": "object",
-      "description": "Role of a set of data structure components for content referencing purposes",
+      "description": "A set of variables whose values reference a primary key elsewhere. cdif:, not cdi:, throughout: this is a CDIF simplification, not the DDI-CDI shape. DDI-CDI composes a foreign key from cdi:ForeignKeyComponent nodes, each with cdi:correspondsTo and cdi:references; this form composes the variables directly, each carrying cdif:position. The prefix is what makes that divergence visible, and it matches the sibling cdif:PrimaryKey. Until 2026-09-05 the definition required 'cdif:isComposedOf' while declaring 'cdi:isComposedOf', so it could only be satisfied by an undeclared and therefore unconstrained property.",
       "properties": {
         "@type": {
           "type": "array",
@@ -3744,7 +4836,7 @@
           },
           "contains": {
             "enum": [
-              "cdi:ForeignKey"
+              "cdif:ForeignKey"
             ]
           },
           "minItems": 1
@@ -3753,42 +4845,61 @@
           "type": "string",
           "description": "Identifier for this ForeignKey node"
         },
-        "cdi:isComposedOf": {
+        "cdif:isComposedOf": {
           "type": "array",
+          "minItems": 1,
+          "description": "Ordered list of cdi:ComponentPosition wrappers, one per key component, matching the sibling cdif:PrimaryKey. The position sits on the wrapper rather than on the variable, and that is load-bearing: an earlier form required cdif:position on the item itself, which made the objectReference branch unsatisfiable, because objectReference is sealed with additionalProperties false. A key could then only be written by inlining whole variables, duplicating what schema:variableMeasured already holds.",
           "items": {
-            "allOf": [
-              {
+            "type": "object",
+            "description": "cdi:ComponentPosition wrapper indexing one variable's position in the key.",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "enum": [
+                    "cdi:ComponentPosition"
+                  ]
+                },
+                "minItems": 1
+              },
+              "@id": {
+                "type": "string",
+                "description": "Identifier for this ComponentPosition node."
+              },
+              "cdi:indexes": {
+                "description": "The variable this position indexes, usually an @id-reference to one declared in schema:variableMeasured. An InstanceVariable is accepted alongside a RepresentedVariable because it is a subclass of one, and CDIF records describe instance variables -- requiring a RepresentedVariable would leave the records that actually need a key unable to write one.",
                 "anyOf": [
                   {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable"
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
                   },
                   {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable"
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable"
                   }
-                ]
+                ],
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes"
               },
-              {
-                "type": "object",
-                "properties": {
-                  "cdif:position": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "description": "1-based position of this component in the key.",
-                    "x-jsonld-id": "https://w3id.org/cdif/position"
-                  }
-                },
-                "required": [
-                  "cdif:position"
-                ]
+              "cdi:value": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "1-based position of this variable in the ordered key.",
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value"
               }
+            },
+            "required": [
+              "@type"
             ]
           },
-          "minItems": 1,
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isComposedOf"
+          "x-jsonld-id": "https://w3id.org/cdif/isComposedOf"
         },
-        "cdi:references": {
+        "cdif:references": {
           "description": "references a primary key in a different dataset",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/references",
+          "x-jsonld-id": "https://w3id.org/cdif/references",
           "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
