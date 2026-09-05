@@ -36,7 +36,6 @@ metadataBuildingBlocks/
 │   │   ├── cdifProvActivity/         # CDIF provenance activity (extends generatedBy)
 │   │   ├── cdifTabularData/         # CDIF tabular data description
 │   │   ├── cdifDataCube/            # CDIF data cube description
-│   │   ├── cdifLongData/            # CDIF long data description
 │   │   ├── cdifInstanceVariable/    # CDIF Instance Variable: profile of cdi:InstanceVariable / schema:PropertyValue for schema:variableMeasured items (with cdi:role / cdi:qualifies). Renamed 2026-05 from cdifVariableMeasured.
 │   │   ├── cdifPhysicalMapping/     # CDIF physical mapping — per-field physical representation of a variable in a distribution
 │   │   ├── cdifTextMapping/         # CDIF TextMapping — per-field text-format mapping (specialization of PhysicalMapping)

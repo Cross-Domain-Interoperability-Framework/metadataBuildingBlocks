@@ -76,3 +76,30 @@ example, which validated against `resolvedSchema.json` and failed the gate.
 otherwise). Switching resolvers changed no result — 152 passed / 0 failed either way — so the
 docstring claim that this resolver "correctly handles transitive internal `$defs`" is not a
 capability the tools resolver lacks.
+
+## cdifDataType/cdifLongData
+
+Archived 2026-09-05. Referenced by no schema in `_sources`, and its one distinctive
+property was misspelled.
+
+The block described a long/narrow dataset (`cdi:LongStructureDataSet`) and attached its
+structure with **`cdif:isStructuredBy`**, `$ref`-ing the very same
+`cdifDataStructure` `$defs/LongDataStructure` that the profile itself attaches with
+**`cdi:isStructuredBy`**. Same target, same semantics, two property IRIs — and
+`https://w3id.org/cdif/isStructuredBy` denotes nothing. The namespace policy is that
+`cdi:` is used where value types match the canonical DDI-CDI XMI, which here they do:
+every target is a `cdi:LongDataStructure` or `cdi:DimensionalDataStructure` carrying
+`cdi:has_DataStructureComponent`. So the `cdif:` spelling was drift, not a CDIF
+simplification.
+
+Eleven sites use `cdi:isStructuredBy` (the `cdifDataStructure` profile,
+`ddicdiDataStructureComponent`, `ddicdiKeyValueStructure`, `ddicdiLogicalRecord`,
+`ddicdiPhysicalDataSet`). This block was the only schema using the other form, and
+nothing composed it, so retiring it costs nothing that the profile does not already
+provide. The `cdif:` spelling was migrated to `cdi:` in the same change wherever it had
+spread: the DDI 2.5 mapping table, `ddi_mappings.json`, `CDIF-graph-schema-2026.json`
+and `MetadataExamples/nwis-water-quality-longdata.json` in the `validation` repo.
+
+Its `cdif:hasPhysicalMapping`, `cdi:arrayBase` and `csvw:` properties are not lost —
+they are the ordinary physical-mapping vocabulary, declared in `cdifPhysicalMapping` and
+used by every tabular block.

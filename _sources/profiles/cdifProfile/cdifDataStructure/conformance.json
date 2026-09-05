@@ -2,7 +2,7 @@
   "$schema": "https://w3id.org/cdif/schema/conformance-declaration/0.1",
   "conformsTo": "https://w3id.org/cdif/data_structure/1.1",
   "title": "CDIF Data Structure profile",
-  "description": "Marked by an explicit data-structure description: an isStructuredBy link to a DataStructure node, or a node typed as one of the DDI-CDI structure classes. BOTH prefixes are tested because the building blocks use both -- the cdifDataStructure profile declares cdi:isStructuredBy on a distribution item while cdifDataType/cdifLongData uses cdif:isStructuredBy, and a rule that knows only one silently fails to detect records written against the other. cdi:DataStructure is listed alongside the three specialisations: it is one of the profile's four variants and was missing, so a record using the base class went undetected. The validity gate is the cdifDataStructureComponent content shapes.",
-  "presence": "ASK {\n  { ?x cdif:isStructuredBy ?s }\n  UNION { ?x cdi:isStructuredBy ?s }\n  UNION { ?n a cdi:DataStructure }\n  UNION { ?n a cdi:LongDataStructure }\n  UNION { ?n a cdi:WideDataStructure }\n  UNION { ?n a cdi:DimensionalDataStructure }\n}",
+  "description": "Marked by an explicit data-structure description: a cdi:isStructuredBy link to a DataStructure node, or a node typed as one of the DDI-CDI structure classes. cdi: and not cdif:, because the property takes a canonical DDI-CDI structure. cdi:DataStructure is listed alongside the three specialisations: it is one of the profile's four variants and was missing, so a record using the base class went undetected. The validity gate is the cdifDataStructureComponent content shapes.",
+  "presence": "ASK {\n  { ?x cdi:isStructuredBy ?s }\n  UNION { ?n a cdi:DataStructure }\n  UNION { ?n a cdi:LongDataStructure }\n  UNION { ?n a cdi:WideDataStructure }\n  UNION { ?n a cdi:DimensionalDataStructure }\n}",
   "validityShapes": "cdifDataType/cdifDataStructureComponent/rules.shacl"
 }
