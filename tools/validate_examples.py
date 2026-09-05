@@ -2,12 +2,22 @@
 """
 Validate all example JSON files against their resolved schemas.
 
-Resolves each schema with resolve_schema.py's structured resolver -- the same
-code that writes resolvedSchema.json -- so an example is validated against the
-schema the published building block actually carries.
+Validates against the committed resolvedSchema.json beside each schema.yaml --
+the snapshot this repo actually ships -- so a run is deterministic and offline.
+
+--live re-resolves schema.yaml instead, following every $ref over the network.
+That used to be the only behaviour, and it made this suite a live test of other
+people's repos: a cross-repo $ref restructure upstream turned the run red with
+no commit here, and a green run said "matches upstream right now", not "matches
+what we ship". Use --live deliberately, to see whether upstream has moved; use
+`resolve_schema.py --all --check` to get that answer as a list of files.
+
+A block with no resolvedSchema.json falls back to resolving, since there is no
+snapshot to check against; the summary reports how many did.
 
 Usage:
-    python tools/validate_examples.py           # validate all examples
+    python tools/validate_examples.py            # validate against the snapshot
+    python tools/validate_examples.py --live     # re-resolve $refs over the network
     python tools/validate_examples.py --verbose  # show pass/fail for each
     python tools/validate_examples.py --filter person  # only matching paths
 """
@@ -114,6 +124,22 @@ def resolve_for_validation(schema_path: Path) -> dict:
         return resolved
 
 
+def load_schema(schema_path: Path, live: bool):
+    """Return (schema, source) for validation.
+
+    source is "snapshot" when the committed resolvedSchema.json was used and
+    "resolved" when the schema was re-resolved over the network -- either
+    because --live was passed or because the block has no snapshot yet.
+    """
+    if not live:
+        snapshot = schema_path.parent / "resolvedSchema.json"
+        if snapshot.exists():
+            schema = json.loads(snapshot.read_text(encoding="utf-8"))
+            schema.pop("$schema", None)
+            return schema, "snapshot"
+    return resolve_for_validation(schema_path), "resolved"
+
+
 def validate_example(example_path: Path, schema: dict):
     """Validate a JSON example against a resolved schema. Returns list of error strings."""
     with open(example_path, encoding="utf-8") as f:
@@ -131,6 +157,9 @@ def main():
     parser = argparse.ArgumentParser(description="Validate all example JSON files against their schemas.")
     parser.add_argument("--verbose", "-v", action="store_true", help="Show pass/fail for each example")
     parser.add_argument("--filter", "-f", type=str, default="", help="Only validate paths containing this string")
+    parser.add_argument("--live", action="store_true",
+                        help="Re-resolve $refs over the network instead of "
+                             "using the committed resolvedSchema.json")
     args = parser.parse_args()
 
     pairs = find_example_schema_pairs()
@@ -140,12 +169,15 @@ def main():
     passed = 0
     failed = 0
     errored = 0
+    resolved_live = 0
     failures = []
 
     for example_path, schema_path in pairs:
         rel = example_path.relative_to(REPO_ROOT)
         try:
-            schema = resolve_for_validation(schema_path)
+            schema, source = load_schema(schema_path, args.live)
+            if source == "resolved":
+                resolved_live += 1
             try:
                 errors = validate_example(example_path, schema)
             except RecursionError:
@@ -174,6 +206,15 @@ def main():
 
     print(f"\n{'='*60}")
     print(f"Results: {passed} passed, {failed} failed, {errored} errors (of {len(pairs)} total)")
+    # Say which schema each result came from. "17 passed" means something
+    # different offline than it does against a repo that moved this morning.
+    if args.live:
+        print(f"Source: re-resolved over the network (--live)")
+    elif resolved_live:
+        print(f"Source: committed resolvedSchema.json, except {resolved_live} "
+              f"with no snapshot, which were resolved")
+    else:
+        print(f"Source: committed resolvedSchema.json")
     print(f"{'='*60}")
 
     if failures:

@@ -7,6 +7,7 @@ Files synced:
   - resolve_schema.py
   - regenerate_schema_json.py
   - bb_locate.py (resolve_schema.py imports it to find a building block by name)
+  - validate_examples.py
 
 Usage:
     python tools/sync_resolve_schema.py          # dry-run (show what would be copied)
@@ -30,6 +31,10 @@ TOOLS = [
     "resolve_schema.py",
     "regenerate_schema_json.py",
     "bb_locate.py",
+    # Was hand-copied, so the domain repos drifted onto an older resolver than
+    # the one that writes resolvedSchema.json: an example could pass there and
+    # be invalid against the published block.
+    "validate_examples.py",
 ]
 
 # Target repos — paths relative to this repo root
