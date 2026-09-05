@@ -885,17 +885,6 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:index 1 ;
                     cdif:physicalDataType "Numeric" ],
-                [ cdi:decimalPositions 2 ;
-                    cdi:defaultValue "NaN" ;
-                    cdi:isRequired false ;
-                    cdi:maximumLength 10 ;
-                    cdi:minimumLength 1 ;
-                    cdi:nullSequence "-999.99" ;
-                    cdi:scale 2 ;
-                    cdif:format "0.00" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "Numeric" ],
                 [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
                     cdif:index 4 ;
@@ -908,7 +897,18 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdi:length 20 ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
                     cdif:index 0 ;
-                    cdif:physicalDataType "String" ] ],
+                    cdif:physicalDataType "String" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:defaultValue "NaN" ;
+                    cdi:isRequired false ;
+                    cdi:maximumLength 10 ;
+                    cdi:minimumLength 1 ;
+                    cdi:nullSequence "-999.99" ;
+                    cdi:scale 2 ;
+                    cdif:format "0.00" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "Numeric" ] ],
         [ a cdi:PhysicalDataSet,
                 cdi:StructuredDataSet,
                 schema1:DataDownload ;
