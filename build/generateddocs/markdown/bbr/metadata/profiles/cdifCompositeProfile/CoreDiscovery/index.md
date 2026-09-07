@@ -1405,17 +1405,17 @@ ex:YOPx123 a schema1:Dataset ;
                     spdx:algorithm "MD5" ;
                     spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "lieopgXuumP" ] ;
             schema1:name "fhhbzh" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -3112,15 +3112,15 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:identifier ex:datasetDOI42 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-            schema1:name "Sea water temperature" ;
-            schema1:termCode "TEMPPR01" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
             schema1:name "North Atlantic Deep Water" ;
             schema1:termCode "P02:DOXY" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+            schema1:name "Sea water temperature" ;
+            schema1:termCode "TEMPPR01" ],
         "Labrador Sea",
         "deep water formation" ;
     schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
@@ -3135,12 +3135,6 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:publisher <https://ror.org/007hqnf44> ;
     schema1:publishingPrinciples <https://example.org/policies/dfo-open-data> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "service" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "application/x-netcdf" ;
-                    schema1:name "OPeNDAP access" ;
-                    schema1:url "https://example.org/opendap/nadw-ctd" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "documentation" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:contentType "text/html" ;
@@ -3149,7 +3143,13 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:httpMethod "GET" ;
                     schema1:name "NADW Cruise Reports" ;
                     schema1:url "https://example.org/docs/nadw-cruise-reports" ;
-                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ] ;
+                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "service" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "application/x-netcdf" ;
+                    schema1:name "OPeNDAP access" ;
+                    schema1:url "https://example.org/opendap/nadw-ctd" ] ] ;
     schema1:sameAs <https://n2t.net/ark:/99999/fk4nadw2024>,
         "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:spatialCoverage [ a schema1:Place ;

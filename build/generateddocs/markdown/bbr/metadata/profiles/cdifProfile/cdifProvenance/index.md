@@ -1051,10 +1051,6 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
 <https://registry.onegeochemistry.org/methods/jeol-8530f-olivine-v1> a schema1:HowTo ;
     schema1:name "JEOL-8530F WDS olivine major elements v1.0" ;
     schema1:step [ a schema1:HowToStep ;
-            schema1:description "Analyze San Carlos olivine NMNH 111312/444 as secondary standard at start, middle, and end of each session. Accept session if all major elements within 1% relative of accepted values. Monitor Faraday cup current every 30 minutes; recalibrate if drift exceeds 1%." ;
-            schema1:name "Quality control" ;
-            schema1:position 5 ],
-        [ a schema1:HowToStep ;
             schema1:description "Apply ZAF matrix correction using Probe for EPMA v13.0.6 with LINEMU mass absorption coefficients. Report oxide weight percent with oxygen calculated by stoichiometry." ;
             schema1:name "Matrix correction and quantification" ;
             schema1:position 4 ],
@@ -1062,6 +1058,10 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
             schema1:description "Acquire major elements simultaneously on 5 WDS spectrometers: Sp1 TAP (SiO2 Ka 30s, Al2O3 Ka 40s), Sp2 LiFH (FeO Ka 30s, MnO Ka 30s), Sp3 PETJ (CaO Ka 30s, TiO2 Ka 40s, Cr2O3 Ka 30s), Sp4 TAP (MgO Ka 30s), Sp5 LiF (NiO Ka 40s). Backgrounds measured on both sides of each peak." ;
             schema1:name "WDS acquisition" ;
             schema1:position 3 ],
+        [ a schema1:HowToStep ;
+            schema1:description "Analyze San Carlos olivine NMNH 111312/444 as secondary standard at start, middle, and end of each session. Accept session if all major elements within 1% relative of accepted values. Monitor Faraday cup current every 30 minutes; recalibrate if drift exceeds 1%." ;
+            schema1:name "Quality control" ;
+            schema1:position 5 ],
         [ a schema1:HowToStep ;
             schema1:description "Set accelerating voltage to 15 kV, beam current to 20 nA measured on Faraday cup, focused beam (~1 um). Verify beam current stability within 0.5% over 5 minutes." ;
             schema1:name "Beam condition setup" ;
@@ -1077,10 +1077,6 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
     schema1:actionProcess <https://registry.onegeochemistry.org/methods/jeol-8530f-olivine-v1> ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Accelerating Voltage" ;
-            schema1:unitText "kV" ;
-            schema1:value 15 ],
-        [ a schema1:PropertyValue ;
             schema1:name "Matrix Correction Model" ;
             schema1:value "ZAF (LINEMU MACs)" ],
         [ a schema1:PropertyValue ;
@@ -1090,6 +1086,10 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
             schema1:name "Beam Current" ;
             schema1:unitText "nA" ;
             schema1:value 20 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Accelerating Voltage" ;
+            schema1:unitText "kV" ;
+            schema1:value 15 ],
         [ a schema1:PropertyValue ;
             schema1:name "Beam Diameter" ;
             schema1:value "focused (~1 um)" ] ;
