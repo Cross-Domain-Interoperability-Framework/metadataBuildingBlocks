@@ -169,41 +169,22 @@ properties:
                                     - xas:scanmode
                                     - xas:spotsize
                                     - xas:website
-# Conformance pin. A record that actually carries optional XAS content --
-# schema:variableMeasured -- must declare the optional tier; a record that
-# carries none is unaffected, so the module still adds no unconditional
-# requirement. This mirrors XasOptionalConformsToShape in rules.shacl, which
-# states the same rule as an advisory sh:Warning; JSON Schema has no advisory
-# severity, so here it is a hard constraint.
-if:
-  required:
-  - 'schema:variableMeasured'
-then:
-  required:
-  - 'schema:subjectOf'
-  properties:
-    'schema:subjectOf':
-      required:
-      - 'dcterms:conformsTo'
-      properties:
-        'dcterms:conformsTo':
-          type: array
-          items:
-            type: object
-            required: ['@id']
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: uri for specifications that this metadata record conforms to
-          minItems: 1
-          contains:
-            type: object
-            required: ['@id']
-            additionalProperties: false
-            properties:
-              '@id':
-                const: https://w3id.org/cdif/xasOptional/1.0
+# There is deliberately no conformance pin here. This module declares no
+# `required` at all -- every property it adds is optional -- so conformance to
+# https://w3id.org/cdif/xasOptional/1.0 is satisfied vacuously by any document,
+# and detect_conformance has no rule that can check such a claim. Requiring the
+# declaration made a record assert something unverifiable and meaningless.
+#
+# The pin that used to be here fired on `required: [schema:variableMeasured]`,
+# which cdifDataDescription requires unconditionally, so the guard never guarded
+# anything and the "recommended" tier was mandatory for every xasDocument. Its
+# SHACL twin, XasOptionalConformsToShape, was broken the other way -- its SPARQL
+# target matched schema:additionalType as the string literal "dcat:CatalogRecord",
+# a form no longer emitted, so the advisory fired on nothing. One twin fired on
+# everything, the other on nothing; both are removed.
+#
+# The module itself stays: it documents and permits the optional XAS fields, and
+# xasGeneratedBy and xasSample reference it.
 $defs:
   InstanceVariable:
     $ref: ../../cdifDataType/cdifInstanceVariable/schema.yaml

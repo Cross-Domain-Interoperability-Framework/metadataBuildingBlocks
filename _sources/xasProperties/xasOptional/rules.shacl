@@ -7,26 +7,17 @@
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
 
-# xasOptional is the fully-optional XAS tier: it imposes no requirements.
-# A record that provides optional XAS fields SHOULD (advisory) declare conformance
-# to the optional tier. This is a Warning, never a Violation.
-cdifd:XasOptionalConformsToShape a sh:NodeShape ;
-    sh:target [
-      a sh:SPARQLTarget ;
-        sh:select  """
-            PREFIX schema: <http://schema.org/>
-            SELECT ?this
-            WHERE {
-            ?this a schema:Dataset ;
-             schema:about ?parent ;
-             schema:additionalType "dcat:CatalogRecord" .
-            }
-        """;
-    ] ;
-    sh:property [
-        a sh:PropertyShape ;
-        sh:path dcterms:conformsTo ;
-        sh:hasValue <https://w3id.org/cdif/xasOptional/1.0> ;
-        sh:severity sh:Warning ;
-        sh:message "A record that uses optional XAS fields should declare conformance to the CDIF XAS optional tier (https://w3id.org/cdif/xasOptional/1.0)" ;
-    ] .
+# xasOptional is the fully-optional XAS tier: it imposes no requirements, so
+# there is deliberately no shape here.
+#
+# XasOptionalConformsToShape used to advise (sh:Warning) that a record using
+# optional XAS fields should declare conformance to the optional tier. It was
+# removed for two reasons. It had stopped working: its SPARQL target selected on
+# schema:additionalType being the string literal "dcat:CatalogRecord", and records
+# now carry {"@id": "dcat:CatalogRecord"}, which expands to an IRI -- so the target
+# matched nothing and the advisory fired on no document at all. And the advice was
+# not worth restoring: this module declares no `required`, so conformance to
+# xasOptional/1.0 is satisfied vacuously by every document and detect_conformance
+# has no rule that can check the claim.
+#
+# The JSON Schema twin of the same rule is gone from schema.yaml; see the note there.
