@@ -140,12 +140,6 @@ Allows for unstructured content which may be an entry from an externally maintai
 
 DDI-CDI Individual agent (person) with structured name, contact information, and identification. Uses DDI Cross-Domain Integration vocabulary.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiInstanceVariable` — DDI-CDI Instance Variable
-
-**Type:** schema
-
-Use of a represented variable within a data set.
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiMachine` — DDI-CDI Machine
 
 **Type:** schema
@@ -157,12 +151,6 @@ DDI-CDI Machine agent (software/hardware) with access location, function, and in
 **Type:** schema
 
 DDI-CDI Organization agent (group/institution) with structured name, contact information, and identification. Uses DDI Cross-Domain Integration vocabulary.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiPresentationalVariable` — DDI-CDI Presentational Variable
-
-**Type:** schema
-
-Variable that records values of multiple variables in the context of a data structure. Variable playing the role of a variable value component.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent` — DDI-CDI ProcessingAgent
 
@@ -230,12 +218,6 @@ Schema defining propertis for schema.org varialbleMeasured as defined for CDIF d
 
 CDIF profile of the DDI-CDI ValueDomain. A single node is either a cdif:SubstantiveValueDomain (subject-matter values) or a cdif:SentinelValueDomain (processing/missing-value codes). Each carries cdif:takesValuesFrom (refs cdifEnumerationDomain), cdif:displayLabel, and an array cdif:recommendedDataType of xsd: type tokens; at least one of takesValuesFrom or recommendedDataType is required.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiStatistics` — DDI-CDI Statistics
-
-**Type:** schema
-
-Statistics related to an instance variable within a data set.
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiAgent` — DDI-CDI Agent
 
 **Type:** schema
@@ -295,6 +277,12 @@ A typed relation describing a link to another resource, combining the schema.org
 **Type:** schema
 
 Conceptual variable with a substantive value domain specified.
+
+### `cdif.bbr.metadata.cdifDataType.cdifStatistics` — CDIF Statistics
+
+**Type:** schema
+
+Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifDataType).
 
 ### `cdif.bbr.metadata.profiles.cdifProfile.cdifDiscovery` — CDIF Discovery
 
@@ -374,6 +362,18 @@ Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a sch
 
 Schema defining propertis of a person, a profile of schema.org/Person. Defines properties: @id, @type, schema:name, schema:description, schema:identifier, schema:alternateName, schema:affiliation, schema:contactPoint, schema:sameAs. Uses building blocks: identifier (schemaorgProperties), organization (schemaorgProperties).
 
+### `cdif.bbr.metadata.ddiProperties.ddicdiInstanceVariable` — DDI-CDI Instance Variable
+
+**Type:** schema
+
+Use of a represented variable within a data set.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiPresentationalVariable` — DDI-CDI Presentational Variable
+
+**Type:** schema
+
+Variable that records values of multiple variables in the context of a data structure. Variable playing the role of a variable value component.
+
 ### `cdif.bbr.metadata.ddiProperties.ddicdiRepresentedVariable` — DDI-CDI Represented Variable
 
 **Type:** schema
@@ -397,12 +397,6 @@ Role given to a represented variable in the context of a long or wide data struc
 **Type:** schema
 
 Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance. Defines properties: @type, cdif:isComposedOf. Each cdif:ComponentPosition entry carries cdif:indexes (the InstanceVariable) and cdif:value (the integer position). Composes building block: cdifInstanceVariable (cdifDataType).
-
-### `cdif.bbr.metadata.cdifDataType.cdifStatistics` — CDIF Statistics
-
-**Type:** schema
-
-Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifDataType).
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiPhysicalMapping` — DDI-CDI Physical Mapping
 
@@ -439,6 +433,12 @@ Schema defining properties of a DataDownload. Used as value to describe a distri
 **Type:** schema
 
 properties for acknowledging funding, CDIF profile of schema.org/MonetaryGrant. Defines properties: @type, schema:identifier, schema:description, schema:name, schema:funder. Uses building blocks: person (schemaorgProperties), organization (schemaorgProperties), identifier (schemaorgProperties).
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiStatistics` — DDI-CDI Statistics
+
+**Type:** schema
+
+Statistics related to an instance variable within a data set.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
 
