@@ -813,11 +813,11 @@ referencing the code-list concept).
     cdif:indexedBy <https://example.org/mics/mwi2019/var/HH14> .
 
 <https://example.org/mics/mwi2019/var/HH14/statistics/count> a cdi:Statistics ;
-    cdi:statistic [ cdi:computationBase "ValidOnly" ;
-            cdi:content 25419 ;
-            cdi:typeOfNumericValue "decimal" ],
-        [ cdi:computationBase "Total" ;
+    cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 26882 ;
+            cdi:typeOfNumericValue "decimal" ],
+        [ cdi:computationBase "ValidOnly" ;
+            cdi:content 25419 ;
             cdi:typeOfNumericValue "decimal" ],
         [ cdi:computationBase "MissingOnly" ;
             cdi:content 1463 ;
@@ -830,21 +830,9 @@ referencing the code-list concept).
             cdi:typeOfNumericValue "decimal" ] ;
     cdi:typeOfStatistic "frequency" ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 3739 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 75 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 21497 ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
+            cdi:statistic [ cdi:computationBase "MissingOnly" ;
+                    cdi:content 1463 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
@@ -854,9 +842,21 @@ referencing the code-list concept).
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
-            cdi:statistic [ cdi:computationBase "MissingOnly" ;
-                    cdi:content 1463 ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 3739 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 21497 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 75 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ] .
 
@@ -1335,14 +1335,28 @@ properties:
   cdif:uses:
     type: array
     items:
-      $ref: '#/$defs/cdifConceptOrTermOrString'
-    description: Essentially the same as schema:propertyID. References to the concept(s)
-      that this variable measures or represents. Concepts only -- to point at the
-      RepresentedVariable that supplies the represented-variable-level properties,
-      use cdif:isDefinedBy_RepresentedVariable. Splitting the two targets follows
-      the CDIF convention of disambiguating the polymorphic DDI-CDI role names by
-      target, so each JSON key has a single value type; it also keeps cdif:uses type-compatible
-      with canonical cdi:uses on InstanceVariable, which is valued by a Concept.
+      anyOf:
+      - $ref: '#/$defs/cdifConceptOrTermOrString'
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+    description: 'Essentially the same as schema:propertyID. References the concept(s)
+      that this variable measures or represents and, under the Data Structure profile,
+      the RepresentedVariable it instantiates. The RepresentedVariable branch is not
+      new behaviour: it is what the rest of CDIF already documents and enforces. description.md
+      calls cdif:uses "concepts (or, under the Data Structure profile, the RepresentedVariable)";
+      agents.md describes the InstanceVariable as "a pointer (via cdif:uses) into
+      a richer RepresentedVariable"; the six NoDuplicate*Shape rules in cdifDataStructure
+      traverse cdif:uses to reach that RepresentedVariable; and RepresentedVariableMustBeInstantiatedShape
+      requires the link to exist. Only this schema said Concepts-only, and it was
+      the outlier -- documents conforming to those rules could not be expressed here.
+      A bare {@id} always matched via cdifConceptOrTerm; the branch is needed for
+      the embedded form, because framing inlines a node whose @id is defined in the
+      same document. cdif:isDefinedBy_RepresentedVariable remains the way to say that
+      this InstanceVariable DEFERS its represented-variable-level properties to that
+      RepresentedVariable; it is reference-only and carries the exclusivity rule.
+      The cost is that cdif:uses no longer has a single value type, so it is a partial
+      exception to the CDIF convention of disambiguating polymorphic DDI-CDI role
+      names by target, and no longer strictly type-compatible with canonical cdi:uses,
+      which is valued by a Concept.'
     x-jsonld-id: https://w3id.org/cdif/uses
   cdif:isDefinedBy_RepresentedVariable:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
@@ -1490,6 +1504,8 @@ Links to the schema:
     "xas": "cdif:xas/",
     "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
     "@version": 1.1
   }
 }

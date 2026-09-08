@@ -545,6 +545,7 @@ Links to the schema:
     "xas": "cdif:xas/",
     "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "@version": 1.1
   }
 }
