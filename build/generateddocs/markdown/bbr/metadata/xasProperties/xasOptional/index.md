@@ -138,9 +138,6 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       "@id": "xas:exampleOptionalFields"
     },
     "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/xasOptional/1.0"
-      }
     ]
   }
 }
@@ -242,11 +239,7 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
     "schema:about": {
       "@id": "xas:exampleOptionalFields"
     },
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/xasOptional/1.0"
-      }
-    ]
+    "dcterms:conformsTo": []
   }
 }
 ```
@@ -255,7 +248,6 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xas: <https://w3id.org/cdif/xas/> .
 
@@ -266,7 +258,6 @@ xas:exampleOptionalFields a schema1:Dataset,
         xas:monochromatorenergy .
 
 xas:exampleOptionalFieldsRecord a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/xasOptional/1.0> ;
     schema1:about xas:exampleOptionalFields ;
     schema1:additionalType dcat:CatalogRecord .
 
@@ -473,40 +464,6 @@ properties:
                   x-jsonld-id: http://schema.org/instrument
           x-jsonld-id: http://www.w3.org/ns/prov#used
     x-jsonld-id: http://www.w3.org/ns/prov#wasGeneratedBy
-if:
-  required:
-  - schema:variableMeasured
-then:
-  required:
-  - schema:subjectOf
-  properties:
-    schema:subjectOf:
-      required:
-      - dcterms:conformsTo
-      properties:
-        dcterms:conformsTo:
-          type: array
-          items:
-            type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: uri for specifications that this metadata record conforms
-                  to
-          minItems: 1
-          contains:
-            type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                const: https://w3id.org/cdif/xasOptional/1.0
-          x-jsonld-id: http://purl.org/dc/terms/conformsTo
-      x-jsonld-id: http://schema.org/subjectOf
 $defs:
   InstanceVariable:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
@@ -535,17 +492,17 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
+    "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "dcterms": "http://purl.org/dc/terms/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xas": "cdif:xas/",
     "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "xas": "cdif:xas/",
-    "cdif": "https://w3id.org/cdif/",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }
