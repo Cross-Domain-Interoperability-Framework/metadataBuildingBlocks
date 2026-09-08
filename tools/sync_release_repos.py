@@ -49,7 +49,25 @@ REPOS = [
      "cdifManifestStructuredSchema.json", "manifestRules.shacl"),
     ("profile-provenance", "_sources/profiles/cdifProfile/cdifProvenance",
      "cdifProvenanceStructuredSchema.json", "provenanceRules.shacl"),
+    # Publishable artifacts live under release/, not at the repo root. The first
+    # field is joined onto CDIF_ROOT, so naming the subdirectory here is all the
+    # path handling needed. Until 2026-09-08 this repo was simply absent, so
+    # nothing synced it and no --check covered it -- the same orphan the
+    # FrameAndValidate sync had.
+    ("XAS-CDIF/release", "_sources/profiles/cdifCompositeProfile/xasDocument",
+     "cdifXASDocumentResolvedSchema.json", "xasDocumentRules.shacl"),
 ]
+
+# Release repos that publish an mBB example under a different filename.
+# XAS-CDIF names its examples .jsonld for readers (its archive README records the
+# convention: "renamed to match user-facing name") and
+# CDIFXASDocumentImplementationGuide.md cites example_dds_framed.jsonld as the
+# profile-canonical reference, so the name is load-bearing and cannot be normalised
+# away. exampleCDIFxas.json keeps its .json name there, so this is per-file rather
+# than a blanket extension rule.
+EXAMPLE_RENAMES = {
+    "XAS-CDIF/release": {"example_dds_framed.json": "example_dds_framed.jsonld"},
+}
 
 
 def file_differs(src: Path, dst: Path) -> bool:
@@ -99,13 +117,15 @@ def sync_repo(repo: str, src_rel: str, schema_name: str, shacl_name: str, apply:
 
     # 3. Examples (mBB example*.json -> release/examples/)
     examples_dir.mkdir(exist_ok=True)
+    renames = EXAMPLE_RENAMES.get(repo, {})
     for ex in sorted(src.glob("example*.json")):
-        target = examples_dir / ex.name
+        target = examples_dir / renames.get(ex.name, ex.name)
         if file_differs(ex, target):
             action = "new" if not target.exists() else "overwrite"
             if apply:
                 shutil.copy2(ex, target)
-            result["examples"].append(f"{ex.name} ({action}{' WOULD' if not apply else ''})")
+            shown = ex.name if target.name == ex.name else f"{ex.name} -> {target.name}"
+            result["examples"].append(f"{shown} ({action}{' WOULD' if not apply else ''})")
 
     return result
 
