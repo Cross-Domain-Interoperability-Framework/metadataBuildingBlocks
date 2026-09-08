@@ -44,14 +44,17 @@ $defs:
       '@id':
         type: string
         description: Identifier for this IdentifierComponent node
-      cdif:isDefinedBy_RepresentedVariable:
+      cdif:isDefinedBy_Variable:
+        description: The variable this component is a role of -- a RepresentedVariable
+          or an InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Variable
     required:
     - '@type'
-    - cdif:isDefinedBy_RepresentedVariable
+    - cdif:isDefinedBy_Variable
   MeasureComponent:
     type: object
     description: Role given to a represented variable in the context of a data structure
@@ -81,11 +84,14 @@ $defs:
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-      cdif:isDefinedBy_RepresentedVariable:
+      cdif:isDefinedBy_Variable:
+        description: The variable this component is a role of -- a RepresentedVariable
+          or an InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Variable
       cdi:semantic:
         type: array
         items:
@@ -124,11 +130,14 @@ $defs:
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-      cdif:isDefinedBy_RepresentedVariable:
+      cdif:isDefinedBy_Variable:
+        description: The variable this component is a role of -- a RepresentedVariable
+          or an InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Variable
       cdi:semantic:
         type: array
         items:
@@ -160,14 +169,17 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DimensionComponent node
-      cdif:isDefinedBy_RepresentedVariable:
+      cdif:isDefinedBy_Variable:
+        description: The variable this component is a role of -- a RepresentedVariable
+          or an InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Variable
     required:
     - '@type'
-    - cdif:isDefinedBy_RepresentedVariable
+    - cdif:isDefinedBy_Variable
   VariableValueComponent:
     type: object
     description: Role given to a represented variable in the context of a data structure
@@ -188,11 +200,14 @@ $defs:
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-      cdif:isDefinedBy_RepresentedVariable:
+      cdif:isDefinedBy_Variable:
+        description: The variable this component is a role of -- a RepresentedVariable
+          or an InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Variable
       cdi:semantic:
         type: array
         items:
@@ -259,11 +274,14 @@ $defs:
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-      cdif:isDefinedBy_RepresentedVariable:
+      cdif:isDefinedBy_Variable:
+        description: The variable this component is a role of -- a RepresentedVariable
+          or an InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Variable
       cdi:semantic:
         type: array
         items:
@@ -297,6 +315,10 @@ Links to the schema:
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
+    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

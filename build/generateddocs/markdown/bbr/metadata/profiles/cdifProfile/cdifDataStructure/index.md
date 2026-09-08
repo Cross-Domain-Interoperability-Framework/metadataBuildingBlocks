@@ -33,7 +33,7 @@ Dimensional / Long / Wide shapes.
         "cdi:IdentifierComponent"
       ],
       "@id": "ex:struct/observations/comp/observationId",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -49,7 +49,7 @@ Dimensional / Long / Wide shapes.
         "cdi:MeasureComponent"
       ],
       "@id": "ex:struct/observations/comp/observationValue",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -89,7 +89,7 @@ Dimensional / Long / Wide shapes.
         "cdi:IdentifierComponent"
       ],
       "@id": "ex:struct/observations/comp/observationId",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -105,7 +105,7 @@ Dimensional / Long / Wide shapes.
         "cdi:MeasureComponent"
       ],
       "@id": "ex:struct/observations/comp/observationValue",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -130,10 +130,10 @@ Dimensional / Long / Wide shapes.
         <https://example.org/struct/observations/comp/observationValue> .
 
 <https://example.org/struct/observations/comp/observationId> a cdi:IdentifierComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/observations/rv/observationId> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/observations/rv/observationId> .
 
 <https://example.org/struct/observations/comp/observationValue> a cdi:MeasureComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/observations/rv/observationValue> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/observations/rv/observationValue> .
 
 <https://example.org/struct/observations/rv/observationId> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:string" ;
@@ -176,7 +176,7 @@ ComponentPosition wrapper.
         "cdi:IdentifierComponent"
       ],
       "@id": "ex:struct/vitalsLong/comp/patientId",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -230,7 +230,7 @@ ComponentPosition wrapper.
         "cdi:VariableValueComponent"
       ],
       "@id": "ex:struct/vitalsLong/comp/measureValue",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -251,7 +251,7 @@ ComponentPosition wrapper.
           "@id": "ex:struct/vitalsLong/comp/measureValue"
         }
       ],
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -306,7 +306,7 @@ ComponentPosition wrapper.
         "cdi:IdentifierComponent"
       ],
       "@id": "ex:struct/vitalsLong/comp/patientId",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -360,7 +360,7 @@ ComponentPosition wrapper.
         "cdi:VariableValueComponent"
       ],
       "@id": "ex:struct/vitalsLong/comp/measureValue",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -381,7 +381,7 @@ ComponentPosition wrapper.
           "@id": "ex:struct/vitalsLong/comp/measureValue"
         }
       ],
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -450,10 +450,10 @@ ComponentPosition wrapper.
 
 <https://example.org/struct/vitalsLong/comp/observedAt> a cdi:AttributeComponent ;
     cdi:qualifies <https://example.org/struct/vitalsLong/comp/measureValue> ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/observedAt> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/observedAt> .
 
 <https://example.org/struct/vitalsLong/comp/patientId> a cdi:IdentifierComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/patientId> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/patientId> .
 
 <https://example.org/struct/vitalsLong/dv/measureName> a cdi:DescriptorVariable ;
     cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> ;
@@ -461,14 +461,14 @@ ComponentPosition wrapper.
 
 <https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/measureName> ;
             cdi:value 2 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ] .
+            cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ] .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:decimal" ;
@@ -483,13 +483,13 @@ ComponentPosition wrapper.
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ] .
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ] .
 
 <https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/measureValue> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/measureValue> .
 
 
 ```
@@ -523,7 +523,7 @@ each cell in the cube.
         "cdi:DimensionComponent"
       ],
       "@id": "ex:struct/salesCube/comp/country",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -539,7 +539,7 @@ each cell in the cube.
         "cdi:DimensionComponent"
       ],
       "@id": "ex:struct/salesCube/comp/quarter",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -555,7 +555,7 @@ each cell in the cube.
         "cdi:DimensionComponent"
       ],
       "@id": "ex:struct/salesCube/comp/productCategory",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -571,7 +571,7 @@ each cell in the cube.
         "cdi:MeasureComponent"
       ],
       "@id": "ex:struct/salesCube/comp/salesAmount",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -606,7 +606,7 @@ each cell in the cube.
           "@id": "ex:struct/salesCube/comp/salesAmount"
         }
       ],
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -686,7 +686,7 @@ each cell in the cube.
         "cdi:DimensionComponent"
       ],
       "@id": "ex:struct/salesCube/comp/country",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -702,7 +702,7 @@ each cell in the cube.
         "cdi:DimensionComponent"
       ],
       "@id": "ex:struct/salesCube/comp/quarter",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -718,7 +718,7 @@ each cell in the cube.
         "cdi:DimensionComponent"
       ],
       "@id": "ex:struct/salesCube/comp/productCategory",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -734,7 +734,7 @@ each cell in the cube.
         "cdi:MeasureComponent"
       ],
       "@id": "ex:struct/salesCube/comp/salesAmount",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -769,7 +769,7 @@ each cell in the cube.
           "@id": "ex:struct/salesCube/comp/salesAmount"
         }
       ],
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -835,17 +835,17 @@ each cell in the cube.
     cdi:has_PrimaryKey <https://example.org/struct/salesCube/pk> .
 
 <https://example.org/struct/salesCube/comp/country> a cdi:DimensionComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/country> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/country> .
 
 <https://example.org/struct/salesCube/comp/currency> a cdi:AttributeComponent ;
     cdi:qualifies <https://example.org/struct/salesCube/comp/salesAmount> ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/currency> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/currency> .
 
 <https://example.org/struct/salesCube/comp/productCategory> a cdi:DimensionComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/productCategory> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/productCategory> .
 
 <https://example.org/struct/salesCube/comp/quarter> a cdi:DimensionComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/quarter> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/quarter> .
 
 <https://example.org/struct/salesCube/pk> a cdif:PrimaryKey ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
@@ -885,7 +885,7 @@ each cell in the cube.
             skos:inScheme <https://example.org/vocab/measure> ;
             skos:notation "monetary-total" ;
             skos:prefLabel "Monetary Total" ] ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/salesAmount> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/salesAmount> .
 
 
 ```
@@ -918,7 +918,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdi:IdentifierComponent"
       ],
       "@id": "ex:struct/vitalsWide/comp/patientId",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -934,7 +934,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdi:MeasureComponent"
       ],
       "@id": "ex:struct/vitalsWide/comp/systolicBP",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -951,7 +951,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdi:MeasureComponent"
       ],
       "@id": "ex:struct/vitalsWide/comp/diastolicBP",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -968,7 +968,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdi:MeasureComponent"
       ],
       "@id": "ex:struct/vitalsWide/comp/heartRate",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -985,7 +985,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdi:AttributeComponent"
       ],
       "@id": "ex:struct/vitalsWide/comp/observedAt",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -1046,7 +1046,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdi:IdentifierComponent"
       ],
       "@id": "ex:struct/vitalsWide/comp/patientId",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -1062,7 +1062,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdi:MeasureComponent"
       ],
       "@id": "ex:struct/vitalsWide/comp/systolicBP",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -1079,7 +1079,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdi:MeasureComponent"
       ],
       "@id": "ex:struct/vitalsWide/comp/diastolicBP",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -1096,7 +1096,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdi:MeasureComponent"
       ],
       "@id": "ex:struct/vitalsWide/comp/heartRate",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -1113,7 +1113,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdi:AttributeComponent"
       ],
       "@id": "ex:struct/vitalsWide/comp/observedAt",
-      "cdif:isDefinedBy_RepresentedVariable": {
+      "cdif:isDefinedBy_Variable": {
         "@type": [
           "cdi:RepresentedVariable"
         ],
@@ -1160,19 +1160,19 @@ array — wide-format rows are uniquely identified by patientId alone.
     cdi:has_PrimaryKey <https://example.org/struct/vitalsWide/pk> .
 
 <https://example.org/struct/vitalsWide/comp/diastolicBP> a cdi:MeasureComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/diastolicBP> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsWide/rv/diastolicBP> .
 
 <https://example.org/struct/vitalsWide/comp/heartRate> a cdi:MeasureComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/heartRate> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsWide/rv/heartRate> .
 
 <https://example.org/struct/vitalsWide/comp/observedAt> a cdi:AttributeComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/observedAt> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsWide/rv/observedAt> .
 
 <https://example.org/struct/vitalsWide/comp/patientId> a cdi:IdentifierComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/patientId> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsWide/rv/patientId> .
 
 <https://example.org/struct/vitalsWide/comp/systolicBP> a cdi:MeasureComponent ;
-    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/systolicBP> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsWide/rv/systolicBP> .
 
 <https://example.org/struct/vitalsWide/pk> a cdif:PrimaryKey ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
