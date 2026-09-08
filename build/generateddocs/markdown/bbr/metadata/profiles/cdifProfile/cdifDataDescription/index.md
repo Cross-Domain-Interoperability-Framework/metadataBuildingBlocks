@@ -877,12 +877,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             schema1:name "Ocean temperature CSV" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:decimalPositions 1 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "-999.9" ;
                     cdi:scale 1 ;
@@ -890,6 +885,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:index 1 ;
                     cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
                 [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
                     cdif:index 3 ;
