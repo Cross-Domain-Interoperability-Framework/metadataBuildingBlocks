@@ -42,7 +42,7 @@ cdifd:metadataProfileProperty
 # subset check, so we use the simplification: any overlap is forbidden.
 #
 # It also adds two structural-integrity rules for RepresentedVariables that are
-# referenced by a DataStructureComponent (cdif:isDefinedBy_RepresentedVariable):
+# referenced by a DataStructureComponent (cdif:isDefinedBy_Variable):
 #   - each such RepresentedVariable must have a stable @id (be an IRI node, not an
 #     inline blank node), so that it can be referenced; and
 #   - each such RepresentedVariable must be instantiated by at least one
@@ -209,7 +209,7 @@ cdifds:NoDuplicateQualifiesShape
                 ?this cdif:uses ?rv .
                 ?rv a cdi:RepresentedVariable .
                 ?ac a cdi:AttributeComponent .
-                ?ac cdif:isDefinedBy_RepresentedVariable ?rv .
+                ?ac cdif:isDefinedBy_Variable ?rv .
                 ?ac cdi:qualifies ?val .
             }""" ;
     ] ;
@@ -224,30 +224,39 @@ cdifds:NoDuplicateQualifiesShape
 # A RepresentedVariable referenced by a DataStructureComponent must be identified
 # by a stable @id (an IRI node), not an inline blank node. Without an @id it
 # cannot be the target of an InstanceVariable's cdif:uses, which the next rule
-# requires. Targets the objects of cdif:isDefinedBy_RepresentedVariable directly,
+# requires. Targets the objects of cdif:isDefinedBy_Variable directly,
 # so it applies whether the RepresentedVariable is inlined or referenced by @id.
 cdifds:RepresentedVariableMustHaveStableIdShape
     a sh:NodeShape ;
-    sh:targetObjectsOf cdif:isDefinedBy_RepresentedVariable ;
+    sh:targetObjectsOf cdif:isDefinedBy_Variable ;
     sh:nodeKind sh:IRI ;
     sh:severity sh:Violation ;
-    sh:message "A RepresentedVariable referenced by a DataStructureComponent (cdif:isDefinedBy_RepresentedVariable) must be identified by a stable @id (IRI), not an inline blank node, so that an InstanceVariable can reference it via cdif:uses." ;
+    sh:message "A RepresentedVariable referenced by a DataStructureComponent (cdif:isDefinedBy_Variable) must be identified by a stable @id (IRI), not an inline blank node, so that an InstanceVariable can reference it via cdif:uses." ;
     .
 
 # Every RepresentedVariable referenced by a DataStructureComponent must also be
 # instantiated: at least one InstanceVariable must reference it via cdif:uses.
 # Uses the inverse of cdif:uses from the RepresentedVariable (the target object)
 # and requires at least one such subject typed cdi:InstanceVariable.
+#
+# The sh:or exists because cdif:isDefinedBy_Variable now also accepts an
+# InstanceVariable directly. Such a target is already an instance, so requiring a
+# further InstanceVariable to cdif:uses it would demand a variable that instantiates
+# an instance. Without this branch the rule would fail every component that takes the
+# new direct route.
 cdifds:RepresentedVariableMustBeInstantiatedShape
     a sh:NodeShape ;
-    sh:targetObjectsOf cdif:isDefinedBy_RepresentedVariable ;
-    sh:property [
-        sh:path [ sh:inversePath cdif:uses ] ;
-        sh:qualifiedValueShape [ sh:class cdi:InstanceVariable ] ;
-        sh:qualifiedMinCount 1 ;
-        sh:severity sh:Violation ;
-        sh:message "This RepresentedVariable is referenced by a DataStructureComponent (cdif:isDefinedBy_RepresentedVariable) but no InstanceVariable references it via cdif:uses. Add an InstanceVariable in schema:variableMeasured whose cdif:uses points at this RepresentedVariable." ;
-    ]
+    sh:targetObjectsOf cdif:isDefinedBy_Variable ;
+    sh:or (
+        [ sh:class cdi:InstanceVariable ]
+        [ sh:property [
+            sh:path [ sh:inversePath cdif:uses ] ;
+            sh:qualifiedValueShape [ sh:class cdi:InstanceVariable ] ;
+            sh:qualifiedMinCount 1 ;
+        ] ]
+    ) ;
+    sh:severity sh:Violation ;
+    sh:message "This RepresentedVariable is referenced by a DataStructureComponent (cdif:isDefinedBy_Variable) but no InstanceVariable references it via cdif:uses. Add an InstanceVariable in schema:variableMeasured whose cdif:uses points at this RepresentedVariable, or point the component straight at the InstanceVariable." ;
     .
 
 # ------------------------------------------------------------

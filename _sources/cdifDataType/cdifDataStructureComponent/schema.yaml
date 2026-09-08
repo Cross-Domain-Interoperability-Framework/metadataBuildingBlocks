@@ -11,6 +11,16 @@ anyOf:
 - '$ref': '#/$defs/DimensionComponent'
 - '$ref': '#/$defs/VariableValueComponent'
 - '$ref': '#/$defs/VariableDescriptorComponent'
+# cdif:isDefinedBy_Variable (on every component below) was renamed from
+# cdif:isDefinedBy_RepresentedVariable, whose name implied only the superclass was
+# allowed. In DDI-CDI an InstanceVariable IS a RepresentedVariable (subclass), so an
+# InstanceVariable satisfies the property -- but JSON Schema has no inheritance and
+# cannot infer it, so both branches are listed explicitly in each anyOf.
+#
+# The same-named property on cdifInstanceVariable is NOT renamed: there it means
+# something narrower -- the RepresentedVariable that an InstanceVariable instantiates --
+# and that link is reference-only, with a conditional rule suppressing duplicated
+# represented-variable-level properties. The two are now distinguishable by name.
 '$defs':
   cdifConceptOrTermOrString:
     $ref: ../cdifConceptOrTermOrString/schema.yaml
@@ -33,13 +43,17 @@ anyOf:
       '@id':
         type: string
         description: Identifier for this IdentifierComponent node
-      'cdif:isDefinedBy_RepresentedVariable':
+      'cdif:isDefinedBy_Variable':
+        description: >-
+          The variable this component is a role of -- a RepresentedVariable or an
+          InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
+        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
         - '$ref': '../objectReference/schema.yaml'
     required:
     - '@type'
-    - 'cdif:isDefinedBy_RepresentedVariable'
+    - 'cdif:isDefinedBy_Variable'
   MeasureComponent:
     type: object
     description: >-
@@ -68,9 +82,13 @@ anyOf:
         '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdif:isDefinedBy_RepresentedVariable':
+      'cdif:isDefinedBy_Variable':
+        description: >-
+          The variable this component is a role of -- a RepresentedVariable or an
+          InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
+        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
         - '$ref': '../objectReference/schema.yaml'
       'cdi:semantic':
         type: array
@@ -108,9 +126,13 @@ anyOf:
         '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdif:isDefinedBy_RepresentedVariable':
+      'cdif:isDefinedBy_Variable':
+        description: >-
+          The variable this component is a role of -- a RepresentedVariable or an
+          InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
+        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
         - '$ref': '../objectReference/schema.yaml'
       'cdi:semantic':
         type: array
@@ -139,14 +161,18 @@ anyOf:
       '@id':
         type: string
         description: Identifier for this DimensionComponent node
-      'cdif:isDefinedBy_RepresentedVariable':
+      'cdif:isDefinedBy_Variable':
+        description: >-
+          The variable this component is a role of -- a RepresentedVariable or an
+          InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
+        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
         - '$ref': '../objectReference/schema.yaml'
 
     required:
     - '@type'
-    - 'cdif:isDefinedBy_RepresentedVariable'
+    - 'cdif:isDefinedBy_Variable'
   VariableValueComponent:
     type: object
     description: >-
@@ -167,9 +193,13 @@ anyOf:
         '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdif:isDefinedBy_RepresentedVariable':
+      'cdif:isDefinedBy_Variable':
+        description: >-
+          The variable this component is a role of -- a RepresentedVariable or an
+          InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
+        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
         - '$ref': '../objectReference/schema.yaml'
       'cdi:semantic':
         type: array
@@ -232,9 +262,13 @@ anyOf:
         '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdif:isDefinedBy_RepresentedVariable':
+      'cdif:isDefinedBy_Variable':
+        description: >-
+          The variable this component is a role of -- a RepresentedVariable or an
+          InstanceVariable, inline or by @id reference. See the note above $defs.
         anyOf:
         - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
+        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
         - '$ref': '../objectReference/schema.yaml'
       'cdi:semantic':
         type: array
