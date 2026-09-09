@@ -145,3 +145,48 @@ their refs are resolved over the network at their build time, not ours.
   the type — `cdi:isStructuredBy` is on `WideDataSet` while a `TabularTextDataSet` uses
   `cdi:correspondsTo`, and an abstract type such as `cdi:DataStructureComponent` is never a valid
   choice. Check the target `$defs` rather than copying a sibling example.
+
+- **A rule that stops working looks exactly like a rule that passes.** This is the failure mode
+  that cost the most time on 2026-09-08, in five different disguises. `sh:targetObjectsOf` on a
+  property that was renamed matches nothing and reports zero violations. A SPARQL target selecting
+  `schema:additionalType "dcat:CatalogRecord"` as a **string literal** stopped matching the moment
+  records switched to `{"@id": …}`, silently retiring the advisory that used it. An `if:
+  required: [schema:variableMeasured]` guard is *always* true, because `cdifDataDescription`
+  requires that property unconditionally — so a "conditional" pin was mandatory for every record.
+  A frame sub-frame that names an inner property is a **match filter**, so a component lacking it
+  was discarded and three data-structure components became one, with no warning. And
+  `sync_frameandvalidate.py`'s regression gate reported "N examples ok" when *no* example passed
+  under either side, so nothing could regress. When you change a property name, a marker's
+  serialization, or a frame, grep for every rule that mentions it and prove the rule still fires on
+  a case it should reject — a green result from an unfired rule is the default, not the exception.
+
+- **A `const` on a compact IRI only works if the *output context* declares that prefix.** The
+  schema and the context are different artifacts and nothing checks them against each other.
+  `xasInstrument` pins `{"@id": {"const": "wd:Q3099911"}}`, and the profiles validate the **framed**
+  document; the xasDocument frame did not declare `wd`, so framing expanded the value to
+  `https://www.wikidata.org/entity/Q3099911` and could not compact it back. Every emitted document
+  failed once per instrument on a value it carried correctly. Fixed by declaring `wd` in the frame,
+  but prefer matching the full IRI when writing a new one.
+
+- **`validate_examples.py` checks the raw example; `FrameAndValidate` checks the framed tree.**
+  The collapse happens in between, so this repo can report a clean 150/150 while every downstream
+  release example is broken. `ARRAY_PROPERTIES` in `validation/tools/FrameAndValidate.py` exists to
+  restore what compaction flattens; `cdif:name`, `schema:instrument`, an instrument's
+  `schema:identifier` and a DefinedTerm's `schema:about` were all added there on 2026-09-08 after
+  documents failed schemas they actually satisfied. A property that is an array in the schema and a
+  scalar after framing belongs in that list — but it is keyed on name alone, so a property that is
+  an array in one place and a scalar in another (`schema:identifier` on an instrument vs on a
+  Person) has to be keyed on `parent_key` or `type_list` instead.
+
+- **Renaming a property breaks emitters, not just schemas.** `cdif:isDefinedBy_RepresentedVariable`
+  → `cdif:isDefinedBy_Variable` reached the release SHACL the same day and `cdifnexmetadata` did
+  not, so every document it produced failed a rule that had not existed that morning — and its own
+  test suite stayed green because a test asserted the old key. Downstream *writers* are as exposed
+  as downstream *readers*; check `CDIF/cdifnexmetadata` and the converters under
+  `validation/converters/` alongside the profile repos.
+
+- **Deleting a block from a `schema.yaml` by cutting to end-of-file will take `$defs` with it.**
+  `$defs` is conventionally last. `resolve_schema.py` refuses to write anything when a `$ref` goes
+  unresolved, so the damage surfaces immediately rather than shipping — but a verification that
+  only checks for what you meant to remove will not notice what else went. Cut by explicit line
+  boundaries and diff the top-level keys before and after.

@@ -291,6 +291,7 @@ Audit rule: if a property in a `cdifProperties/` BB carries the `cdi:` prefix, t
 Three further `cdif:` conventions established in the 2026-03-model reconciliation:
 - **InternationalString / LabelForDisplay / ObjectName simplification.** Where a canonical DDI-CDI property is valued by one of those structured-string datatypes, the CDIF profile simplifies it to a plain `string` and renames the property to `cdif:`. Applied **repo-wide (2026-05): `cdi:name`/`cdi:displayLabel`/`cdi:definition`/`cdi:descriptiveText` → `cdif:*`** across cdifProperties + profiles (not just `cdi:Category` in `cdifStatistics`); examples were also flattened (structured `{@type:[cdi:ObjectName],cdi:name}` / LabelForDisplay / InternationalString objects → plain strings under the `cdif:*` keys). `cdi:regularExpression` on `ValueAndConceptDescription` was likewise simplified to a plain `string` (the `TypedString` $def was dropped from CDIF). The `TypedString → String` rule also lives in the DataStructure UML `datatypeSubstitutions`.
 - **Polymorphic role-name disambiguation.** The DDI-CDI association role names `has`, `uses`, `isDefinedBy`, `isDescribedBy` are polymorphic (their valid target depends on the owning class). In `cdifProperties` they are split into target-suffixed `cdif:` keys — `cdif:has_DataStructureComponent`, `cdif:has_Concept`, `cdif:uses_Concept`, `cdif:isDefinedBy_RepresentedVariable`, `cdif:isDefinedBy_DescriptorVariable`, `cdif:isDefinedBy_Concept`, `cdif:isDescribedBy_StatisticsCollection`, etc. — so each JSON key has a single, unambiguous value type.
+  Two deliberate exceptions (2026-09-08). A **DataStructureComponent**'s link to its variable is `cdif:isDefinedBy_Variable`, not `_RepresentedVariable`: in DDI-CDI an InstanceVariable IS a RepresentedVariable (subclass), so one satisfies the other, but JSON Schema has no inheritance and cannot infer it — the `anyOf` lists RepresentedVariable, InstanceVariable and objectReference explicitly, and the old name wrongly implied only the superclass was allowed. `cdif:isDefinedBy_RepresentedVariable` still exists on **cdifInstanceVariable**, where it means something narrower (the RepresentedVariable an InstanceVariable instantiates, by reference, with an exclusivity rule); the two no longer share a name. And `cdif:uses` now accepts a RepresentedVariable as well as a Concept — see below.
 - **ControlledVocabularyEntry → skos:Concept normalization (union-type policy).** Canonical DDI-CDI `cdi:ControlledVocabularyEntry` and `cdi:PairedControlledVocabularyEntry` values are implemented as `skos:Concept` from the skosProperties building block. Concept-typed slots — including `cdi:typeOfStatistic` (in `cdifStatistics`) and `cdi:semantic` (on Data Structure components) — accept an `@id`-only reference into a known scheme, a structured `schema:DefinedTerm`, or a full inline `skos:Concept` node. Plain strings are **not** permitted, because vocabulary identity cannot be recovered from an unscoped string label. Where CDIF instead chooses a plain-string shortcut for a ControlledVocabularyEntry attribute (e.g. `cdif:encoding` on `cdifStructuredDataSet` = a bare charset string), that is a divergence and is therefore `cdif:`, not `cdi:`.
 - **Enumerations stay `cdi:` with an `enum:` constraint.** A DDI-CDI enumeration (e.g. `TableDirectionValues`, `TextDirectionValues`, `TrimValues` on TabularTextDataSet) is type-faithful as a JSON `string` with an `enum:` listing the literal values, so it remains `cdi:` (matching the canonical `ddiProperties/ddicdiPhysicalDataSet`) — it is *not* a simplification. Verify `cdi:*` value types against the **1.1 canonical XMI** with `tools/audit_cdi_property_types.py` (note: that tool's hardcoded `XMI =` path is stale — repoint it at the current 1.1 XMI), cross-checking the generated `ddiProperties/ddicdi*` tree as the reference encoding.
 
@@ -313,18 +314,22 @@ A `cdi:PhysicalDataSet` is implemented as a `schema:DataDownload` distribution, 
 
 ### RepresentedVariable / InstanceVariable disambiguation (Data Structure profile)
 
-In the Data Structure profile, the InstanceVariable in `schema:variableMeasured` is conceptually a pointer (via `cdif:uses`) into a richer RepresentedVariable that lives inside `cdi:isStructuredBy.cdi:has_DataStructureComponent.cdif:isDefinedBy_RepresentedVariable`. The RepresentedVariable carries the conceptual/represented-level properties; the InstanceVariable carries the physical-column identity.
+In the Data Structure profile, the InstanceVariable in `schema:variableMeasured` is conceptually a pointer (via `cdif:uses`) into a richer RepresentedVariable that lives inside `cdi:isStructuredBy.cdi:has_DataStructureComponent.cdif:isDefinedBy_Variable`. The RepresentedVariable carries the conceptual/represented-level properties; the InstanceVariable carries the physical-column identity.
 
 To prevent the same property being declared in both places at this profile level, the Data Structure profile applies a **conditional SHACL rule per property** in `CDIFDataStructureProfile/rules.shacl` (six shapes: `NoDuplicateHasIntendedDataTypeShape`, `NoDuplicateDescribedUnitOfMeasureShape`, `NoDuplicateSimpleUnitOfMeasureShape`, `NoDuplicateTakesSentinelValuesFromShape`, `NoDuplicateTakesSubstantiveValuesFromShape`, `NoDuplicateQualifiesShape`):
 
 > If the RepresentedVariable referenced by the InstanceVariable's `cdif:uses` already specifies property *P* (for `cdi:qualifies`: if the wrapping AttributeComponent specifies it), then *P* MUST NOT also be set on the InstanceVariable.
 
+**`cdif:uses` carries that pointer (widened 2026-09-08).** `cdifInstanceVariable` described `cdif:uses` as Concepts-only, directing you to `cdif:isDefinedBy_RepresentedVariable` for the RepresentedVariable link. Every other part of CDIF disagreed: this section, `cdifInstanceVariable/description.md`, the six `NoDuplicate*Shape` rules below and `RepresentedVariableMustBeInstantiatedShape` all read `cdif:uses` as the link to the RepresentedVariable. Only the schema said otherwise, so a document conforming to those rules could not be expressed. `cdif:uses` items are now `anyOf[cdifConceptOrTermOrString, cdifRepresentedVariable]`. A bare `{"@id": …}` always matched; the branch is needed for the **embedded** form, because framing inlines a node whose `@id` is defined in the same document. The cost is that `cdif:uses` no longer has a single value type, making it a partial exception to the role-name disambiguation convention above and no longer strictly type-compatible with canonical `cdi:uses`, which is valued by a Concept.
+
 Simplification: JSON Schema and SHACL can't easily express "the InstanceVariable's value domain is a subset of the RepresentedVariable's" — so any duplication is forbidden rather than verifying subsetness. The JSON schema does NOT blanket-disallow these properties on the InstanceVariable; only the SHACL rules fire (and only when there is actually a RepresentedVariable to consult).
 
-`CDIFDataStructureProfile/rules.shacl` also carries two **cross-reference integrity** shapes for RepresentedVariables referenced by a component (`cdif:isDefinedBy_RepresentedVariable`), both `sh:Violation` and both using `sh:targetObjectsOf cdif:isDefinedBy_RepresentedVariable`:
+`CDIFDataStructureProfile/rules.shacl` also carries two **cross-reference integrity** shapes for RepresentedVariables referenced by a component (`cdif:isDefinedBy_Variable`), both `sh:Violation` and both using `sh:targetObjectsOf cdif:isDefinedBy_Variable`:
 
 - `RepresentedVariableMustHaveStableIdShape` — the RV must be an IRI node (`sh:nodeKind sh:IRI`), i.e. have a stable `@id`, not an inline blank node.
-- `RepresentedVariableMustBeInstantiatedShape` — the RV must be referenced by at least one `cdi:InstanceVariable` via `cdif:uses` (inverse-path qualified count).
+- `RepresentedVariableMustBeInstantiatedShape` — the RV must be referenced by at least one `cdi:InstanceVariable` via `cdif:uses` (inverse-path qualified count), **unless the component points straight at an InstanceVariable**, which is already an instance: an `sh:or` covers that branch, because without it the rule would demand a variable that instantiates an instance and would fail every component taking the widened route.
+
+Both shapes are named `RepresentedVariable*` and read like InstanceVariable rules, but they target the **component**'s property. When that property was renamed they had to be renamed with it: `sh:targetObjectsOf` on a property nobody uses matches nothing, and a rule matching nothing reports zero violations — indistinguishable from passing.
 
 These are coverage/identity constraints JSON Schema cannot express (they correlate sets of `@id`s across `schema:variableMeasured` and `cdi:isStructuredBy`), so they only run under SHACL — in CI, or locally via `tools/validate_shacl.py`, not in the JSON-Schema-only `validate_examples.py`.
 
@@ -428,7 +433,7 @@ The JSON Schema `contains` remains a hard failure. JSON Schema has no advisory s
 | `cdifManifest` | `https://w3id.org/cdif/manifest/1.1` | *(no rules.shacl — JSON Schema only)* |
 | `cdifProvenance` | `https://w3id.org/cdif/provenance/1.1` | *(no rules.shacl — JSON Schema only)* |
 | `xasCore` | `https://w3id.org/cdif/xasCore/1.0` | `XasCoreConformsToShape` (XAS mandatory tier) |
-| `xasOptional` | `https://w3id.org/cdif/xasOptional/1.0` (**conditional** — see below) | `XasOptionalConformsToShape` (XAS optional tier, advisory `sh:Warning`) |
+| `xasOptional` | *(none — no conformance claim; see below)* | *(none)* |
 
 **URI convention:** Conformance URIs must NOT have a trailing `/` character.
 
@@ -482,18 +487,26 @@ while `geochemProduct` — which reaches this constraint by `$ref` — required 
 `allOf` is conjunctive, a downstream profile can only add constraints, so the fix had to be in the
 module. Every other module still pins unconditionally: composing the module *is* the declaration.
 
-**`xasOptional` pins conditionally.** Every other block above pins its URI unconditionally via a
-`contains` constraint on `schema:subjectOf` → `dcterms:conformsTo`. `xasOptional` is the optional
-tier, so an unconditional pin would contradict it: a record carrying no optional XAS content would
-be forced to declare the tier anyway. Instead its `schema.yaml` carries a top-level `if`/`then` —
-**`if` the record has `schema:variableMeasured`, `then` the `xasOptional/1.0` URI is required.** A
-record with no optional content is unaffected.
+**`xasOptional` pins nothing (removed 2026-09-08).** It is the only module that makes no
+conformance claim, and the claim it used to make was broken in both of its forms at once.
 
-This mirrors `XasOptionalConformsToShape` in `rules.shacl`, which states the same rule as an
-advisory `sh:Warning` ("a record that uses optional XAS fields *should* declare conformance").
-JSON Schema has no advisory severity, so the schema form is a hard failure where the SHACL form is
-a warning. Before this pin existed the URI was enforced **only** in SHACL, so it was invisible to
-every JSON-Schema-only consumer, `validate_examples.py` included.
+The JSON Schema pin was a top-level `if`/`then` — *if* the record has `schema:variableMeasured`,
+*then* `xasOptional/1.0` is required — intended to leave a record with no optional content
+unaffected. But `cdifDataDescription` requires `schema:variableMeasured` **unconditionally**, so the
+guard was always true: the "recommended" tier was mandatory for every `xasDocument`.
+
+Its SHACL twin, `XasOptionalConformsToShape`, was broken the other way. Its SPARQL target selected
+on `schema:additionalType` being the **string literal** `"dcat:CatalogRecord"`; once records carried
+`{"@id": "dcat:CatalogRecord"}` — which expands to an IRI — the target matched nothing and the
+advisory fired on no document at all. Nothing announced that it had stopped running.
+
+Neither was worth repairing. `xasOptional` declares no `required` at all, so conformance to it is
+satisfied vacuously by any document, and `detect_conformance` has no rule that can check the claim
+— a profile with nothing to conform to cannot meaningfully be conformed to. The module remains
+(it documents and permits the optional XAS fields, and `xasGeneratedBy` / `xasSample` reference it);
+only the claim is gone, from the schema pin, from **both** copies of the shape — `xasDocument/rules.shacl`
+carries its own duplicate, so removing it from the module alone would have left the advisory alive in
+the composite — and from the examples that declared it.
 
 **Profile rollup:** When building blocks are composed into profiles via `allOf`, the `contains` constraints combine — the conformsTo array must include URIs for all constituent building blocks. For example:
 
@@ -1354,6 +1367,16 @@ The **published release repos** (GitHub org `Cross-Domain-Interoperability-Frame
 | `doc-corediscovery` | `cdifCompositeProfile/CoreDiscovery` |
 | `doc-discoverydatadescription` | `cdifCompositeProfile/DiscoveryDataDescription` |
 | `doc-discoverydatadescriptionstructure` | `cdifCompositeProfile/DiscoveryDataDescriptionStructure` |
+| `XAS-CDIF/release` | `cdifCompositeProfile/xasDocument` |
+
+`XAS-CDIF` is the twelfth target and the odd one: it lives in the `smrgeoinfo` org, its
+publishable artifacts sit under `release/` rather than at the repo root, and its examples are named
+`.jsonld` where mBB uses `.json`. It was absent from `tools/sync_release_repos.py` until 2026-09-08
+and was being copied by hand — the first tuple field is joined onto `CDIF_ROOT`, so naming the
+subdirectory there is the whole of the path handling, and an `EXAMPLE_RENAMES` map carries the one
+per-file extension difference (`CDIFXASDocumentImplementationGuide.md` cites
+`example_dds_framed.jsonld` as the profile-canonical reference, so that name is load-bearing).
+`tools/sync_release_repos.py --check` now reports 12.
 
 (Pre-2026-05 there were only 4 repos — `core`/`discovery`/`datadescription`/`codelist` — renamed + expanded in the reorg. `profile-discovery`, `profile-datadescription`, and `doc-discoverydatadescriptionstructure` are newly created and not yet populated.) Each holds `*StructuredSchema.json`, `*Rules.shacl`, `*ImplementationGuide.md` (+`.docx`), `*-frame.jsonld`, `examples/`, and a `FrameAndValidate.py`. The sync from this repo is **manual** (there is no automation for it):
 
@@ -1362,7 +1385,7 @@ The **published release repos** (GitHub org `Cross-Domain-Interoperability-Frame
 - **Implementation guides** — hand-maintained `.md`; regenerate `.docx` with `pandoc <md> --reference-doc=<copy of prior .docx> -o <docx>`.
 - **Examples** — validate with `python FrameAndValidate.py <ex> --validate --schema <S> --frame <F>` (frames the JSON-LD, array-wraps its `ARRAY_PROPERTIES`, then validates). Open-world, so unknown props pass.
 
-Conventions that bit us (keep examples + schema consistent): `schema:contentSize` is a **string**; `cdif:fileSize`/`fileSizeUofM` are **removed**; a WebAPI action result is the **actionResult** BB (`name`/`description`/`encodingFormat`/`conformsTo`, no `contentUrl`/`contentSize`); an object-form **cdifReference** must include `dcat:Relationship` in `@type`; codelist `@context` is an **object**, `skos:notation` is a single **string** required on every `CdifCodelistConcept` (do not array-wrap it). The May/June 2026 re-sync lives on a `reviewRevision202606` branch in each repo.
+Conventions that bit us (keep examples + schema consistent): `schema:contentSize` is a **string**; `cdif:fileSize`/`fileSizeUofM` are **removed**; a WebAPI action result is the **actionResult** BB (`name`/`description`/`encodingFormat`/`conformsTo`, no `contentUrl`/`contentSize`); an object-form **cdifReference** may include `dcat:Relationship` in `@type` but is no longer required to (that co-type was mandatory until 2026-09-08, alongside labeledLink's `schema:CreativeWork`, which made the block unsatisfiable for an ordinary labeled link — the very form `schema:license` recommends); codelist `@context` is an **object**, `skos:notation` is a single **string** required on every `CdifCodelistConcept` (do not array-wrap it). The May/June 2026 re-sync lives on a `reviewRevision202606` branch in each repo.
 
 ## generate_pv_comparison.py
 

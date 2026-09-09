@@ -11,7 +11,7 @@ Document-level CDIF profile for X-ray Absorption Spectroscopy datasets.
 | cdifDataDescription | measured variables and their semantics | `https://w3id.org/cdif/data_description/1.1` |
 | cdifDataStructure | physical / logical / tabular data structure | `https://w3id.org/cdif/data_structure/1.1` |
 | xasCore | XAS-mandatory instrument + sample metadata | `https://w3id.org/cdif/xasCore/1.0` |
-| xasOptional | XAS-recommended metadata (calibration, edge, etc.) | `https://w3id.org/cdif/xasOptional/1.0` |
+| xasOptional | XAS-recommended metadata (calibration, edge, etc.) | *(composed, but not declared — the module requires nothing, so conformance to it is vacuous)* |
 
 ## Conformance URI
 

@@ -1,5 +1,10 @@
 # cdif_dds_framed.jsonld — updates from the UKDS reference
 
+> **Historical record.** This log describes the profile as it stood when the adaptation was
+> made. `xasOptional/1.0` is no longer declared in `dcterms:conformsTo`: that module requires
+> nothing, so conformance to it is vacuous and undetectable, and the claim was removed on
+> 2026-09-08. The references below are left as written.
+
 Log of substantive changes applied to `cdif_dds_framed.jsonld` when adapting
 the UKDS reference file at
 <https://github.com/UKDSResearch/cdif-xas/blob/main/resources/cdif_dds_framed.jsonld>

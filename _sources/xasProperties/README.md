@@ -21,12 +21,16 @@ schema.org / JSON-LD implementation. These compose into the
 
 ## Conformance tiers
 
-XAS defines two conformance tiers (there is no "discovery" tier):
+XAS defines one conformance tier (there is no "discovery" tier):
 
 | Tier | Block | URI |
 |------|-------|-----|
 | Mandatory | `xasCore` | `https://w3id.org/cdif/xasCore/1.0` |
-| Optional | `xasOptional` | `https://w3id.org/cdif/xasOptional/1.0` |
+
+`xasOptional` is a module, not a conformance tier. Its URI
+`https://w3id.org/cdif/xasOptional/1.0` is no longer claimed by anything: the
+module declares no required content, so conformance to it is vacuous and
+undetectable (2026-09-08).
 
 Both resolve through w3id (see the [CDIF w3id redirects](https://github.com/perma-id/w3id.org/tree/master/cdif))
 to these live `_sources` files.
