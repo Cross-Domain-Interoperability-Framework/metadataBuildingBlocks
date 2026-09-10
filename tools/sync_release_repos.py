@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Sync mBB-generated artifacts to release repos' reviewRevision202606 branches.
+"""Sync mBB-generated artifacts into the release repos' working clones.
+
+Writes into whichever branch each clone has checked out -- since the 2026-09-10
+release that is `updates`, not `main` (main is the current release and is
+protected; changes reach it by pull request). Check the checked-out branch before
+running with --apply, or a sync lands somewhere unintended.
 
 For each (release_repo, mbb_source) pair:
   - Copy mbb_source/resolvedSchema.json -> release_repo/<StructuredSchema>
@@ -71,9 +76,28 @@ EXAMPLE_RENAMES = {
 
 
 def file_differs(src: Path, dst: Path) -> bool:
+    """True if the two files differ in content, ignoring line endings.
+
+    A raw byte comparison reported six repos as drifted on 2026-09-10 when
+    nothing had changed: git's autocrlf rewrote the release clones' line endings
+    on a branch switch, so mBB's LF-only copy and the release repo's CRLF copy
+    were byte-different and semantically identical -- same 354 lines, same JSON.
+    Acting on that would have rewritten every file in six repos to "fix" nothing.
+
+    Text is compared with CRLF normalized to LF. Anything that will not decode as
+    UTF-8 is compared byte-for-byte, so a genuinely binary artifact is never
+    silently treated as unchanged.
+    """
     if not dst.exists():
         return True
-    return src.read_bytes() != dst.read_bytes()
+    a, b = src.read_bytes(), dst.read_bytes()
+    if a == b:
+        return False
+    try:
+        norm = lambda x: x.decode("utf-8").replace("\r\n", "\n")
+        return norm(a) != norm(b)
+    except UnicodeDecodeError:
+        return True
 
 
 def sync_repo(repo: str, src_rel: str, schema_name: str, shacl_name: str, apply: bool) -> dict:
