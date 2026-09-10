@@ -23,9 +23,9 @@ on:
   workflow_dispatch:
     inputs:
       release_branch:
-        description: 'Release-repo branch to compare against'
+        description: 'Release-repo branch to compare against (profile-provenance is pinned separately)'
         required: false
-        default: 'reviewRevision202606'
+        default: 'main'
   schedule:
     # Weekly. The push trigger catches drift this repo causes; the schedule
     # catches drift a release repo causes by editing a generated file, which
@@ -53,77 +53,82 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/doc-corediscovery
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          ref: ${{ inputs.release_branch || 'main' }}
           path: cdif/doc-corediscovery
 
       - name: Checkout doc-discoverydatadescription
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/doc-discoverydatadescription
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          ref: ${{ inputs.release_branch || 'main' }}
           path: cdif/doc-discoverydatadescription
 
       - name: Checkout doc-discoverydatadescriptionstructure
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/doc-discoverydatadescriptionstructure
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          ref: ${{ inputs.release_branch || 'main' }}
           path: cdif/doc-discoverydatadescriptionstructure
 
       - name: Checkout profile-codelist
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/profile-codelist
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          ref: ${{ inputs.release_branch || 'main' }}
           path: cdif/profile-codelist
 
       - name: Checkout profile-conceptscheme
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/profile-conceptscheme
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          ref: ${{ inputs.release_branch || 'main' }}
           path: cdif/profile-conceptscheme
 
       - name: Checkout profile-core
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/profile-core
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          ref: ${{ inputs.release_branch || 'main' }}
           path: cdif/profile-core
 
       - name: Checkout profile-datadescription
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/profile-datadescription
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          ref: ${{ inputs.release_branch || 'main' }}
           path: cdif/profile-datadescription
 
       - name: Checkout profile-discovery
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/profile-discovery
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          ref: ${{ inputs.release_branch || 'main' }}
           path: cdif/profile-discovery
 
       - name: Checkout profile-datastructure
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/profile-datastructure
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          ref: ${{ inputs.release_branch || 'main' }}
           path: cdif/profile-datastructure
 
       - name: Checkout profile-manifest
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/profile-manifest
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          ref: ${{ inputs.release_branch || 'main' }}
           path: cdif/profile-manifest
 
       - name: Checkout profile-provenance
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/profile-provenance
-          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          # Pinned, not following release_branch: profile-provenance is still in
+          # review. It has no v1.1.0, its main is the pre-release state, and its
+          # reviewRevision202606 branch still exists -- the only one of the eleven
+          # that was not renamed to archive202609 on 2026-09-10. Move it to main
+          # when it is released.
+          ref: 'reviewRevision202606'
           path: cdif/profile-provenance
 
       - name: Set up Python

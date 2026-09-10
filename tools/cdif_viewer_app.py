@@ -291,11 +291,17 @@ def fetch_record(url, allowed_types):
 # Chosen to span the range rather than to impress -- someone opening this
 # should be able to see a small record and a rich one, a table and a domain
 # profile, without hunting.
-# Raw-content bases for the sibling repositories. Note the doc-* repos are on
-# reviewRevision202606, not main -- a main URL there 404s.
+# Raw-content bases for the sibling repositories. The doc-* repos are on main
+# since the 2026-09-10 release: main is the current release there, and the
+# reviewRevision202606 branch this used to name was renamed archive202609, so it
+# is a main URL that resolves now and the old one that 404s -- the reverse of
+# what the previous comment here said.
+#
+# Note the branch appears only inside this format string, so grepping the tree
+# for a full raw.githubusercontent URL will not find it.
 _GH = 'https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/'
 RAW_VALIDATION = _GH + 'validation/main/'
-RAW_DOC = _GH + '%s/reviewRevision202606/'
+RAW_DOC = _GH + '%s/main/'
 
 # The gallery, grouped. `src` is either a path inside this repo or a URL fetched
 # through the same code a pasted URL uses. Chosen to span what CDIF has to
