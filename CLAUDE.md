@@ -190,3 +190,24 @@ their refs are resolved over the network at their build time, not ours.
   unresolved, so the damage surfaces immediately rather than shipping — but a verification that
   only checks for what you meant to remove will not notice what else went. Cut by explicit line
   boundaries and diff the top-level keys before and after.
+
+- **Release repos: `main` is the current release, and it is protected.** Since 2026-09-10 each
+  `profile-*` / `doc-*` repo serves GitHub Pages from `main`, work happens on an `updates`
+  branch, and `main` only advances by pull request (PR required, `enforce_admins: true` — with
+  admins excluded the protection is decorative, since an admin just pushes past it). So the
+  **merge is the release**: Pages republishes at merge time, before the tag exists. Local clones
+  are on `updates`, and `tools/sync_release_repos.py --apply` writes into whichever branch is
+  checked out — check first. The old `reviewRevision202606` branches are now `archive202609`.
+  `profile-provenance` is the exception: still in review, untagged, still on the old branch with
+  Pages sourced from it.
+
+- **A versioned conformance URI points at Pages only while that version is current.** Pages
+  serves `main`, and `main` is always the newest release — so when a newer minor version ships,
+  the outgoing version's `w3id` rules must be repointed to its release tag. Miss it and
+  `core/1.1/schema` silently serves 1.2: no build fails, because a 1.2 schema is a perfectly
+  valid schema. `raw.githubusercontent.com` serves `text/plain`, which was measured harmless for
+  every consumer CDIF has (the JSON Schema and SHACL loaders name the format rather than sniffing,
+  and records carry an inline `@context`) — so **do not "fix" a tag-pointing rule back to Pages**.
+  Rules live in a fork of `perma-id/w3id.org` and reach production by PR on that project's
+  schedule; the checklist is in `w3id.org/cdif/CLAUDE.md` and the guard is
+  `validation/tools/check_w3id_redirects.py` (weekly workflow).

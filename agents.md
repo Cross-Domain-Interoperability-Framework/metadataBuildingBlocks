@@ -1196,8 +1196,10 @@ POSTed as text, so there is no multipart parsing and the file itself never leave
 embedded `application/ld+json` record whose `@type` is one of the root types `cdifCore` allows.
 The **gallery** offers sixteen samples in three groups — profile examples from this repo, converter
 output from `CDIF/validation`, and records harvested from live repositories via the `doc-*` repos
-(branch `reviewRevision202606`, not `main`) — the remote ones fetched through the same path a
-pasted URL takes.
+(branch `main` — since the 2026-09-10 release, `main` is the current release and the
+`reviewRevision202606` branches were renamed `archive202609`; any gallery URL still naming
+the old branch needs updating) — the remote ones fetched through the same path a pasted URL
+takes.
 
 **URL fetching is guarded**, because the server will fetch on a visitor's behalf: scheme allowlist,
 DNS resolution with private / loopback / link-local / reserved addresses refused, a 20-second
@@ -1378,6 +1380,26 @@ per-file extension difference (`CDIFXASDocumentImplementationGuide.md` cites
 `example_dds_framed.jsonld` as the profile-canonical reference, so that name is load-bearing).
 `tools/sync_release_repos.py --check` now reports 12.
 
+**Release model (from v1.1.0, 2026-09-10).** `main` in each release repo is the **current
+release**; GitHub Pages serves it, so the published URLs always show the newest release. New
+work goes on an `updates` branch and reaches `main` by pull request — `main` is protected
+(PR required, admins included), so the merge *is* the release, and Pages republishes at merge
+time, before the tag exists. Each release is tagged `v1.1.n` (annotated) with a GitHub Release.
+The old `reviewRevision202606` branches are retained as `archive202609`.
+
+Two consequences worth holding onto:
+
+- `sync_release_repos.py --apply` writes into whatever branch the local clone has checked
+  out. The clones are on `updates`; check before syncing, or a sync lands on the wrong branch.
+- `w3id.org/cdif/<profile>/<version>/*` points at Pages **only while that version is current**.
+  When a newer minor ships, the outgoing version's rules must be repointed to its release tag,
+  or the URI silently serves the newer spec. Guarded by
+  `validation/tools/check_w3id_redirects.py` and a weekly workflow; the checklist is in
+  `w3id.org/cdif/CLAUDE.md`.
+
+`profile-provenance` is deliberately outside all of this — still in review, no `v1.1.0`, still
+on `reviewRevision202606` with Pages sourced from it.
+
 (Pre-2026-05 there were only 4 repos — `core`/`discovery`/`datadescription`/`codelist` — renamed + expanded in the reorg. `profile-discovery`, `profile-datadescription`, and `doc-discoverydatadescriptionstructure` are newly created and not yet populated.) Each holds `*StructuredSchema.json`, `*Rules.shacl`, `*ImplementationGuide.md` (+`.docx`), `*-frame.jsonld`, `examples/`, and a `FrameAndValidate.py`. The sync from this repo is **manual** (there is no automation for it):
 
 - **StructuredSchema** ← `python tools/resolve_schema.py <Profile> --structured -o <release>/<file>StructuredSchema.json`. The `<Profile>` is the source dir name from the table above (e.g. `CoreDiscovery`, `DiscoveryDataDescription`, `cdifCore`, `cdifManifest`); for a bare module schema use `--file _sources/profiles/cdifProfile/<module>/schema.yaml`. The `-o` is required (otherwise it prints to stdout).
@@ -1385,7 +1407,10 @@ per-file extension difference (`CDIFXASDocumentImplementationGuide.md` cites
 - **Implementation guides** — hand-maintained `.md`; regenerate `.docx` with `pandoc <md> --reference-doc=<copy of prior .docx> -o <docx>`.
 - **Examples** — validate with `python FrameAndValidate.py <ex> --validate --schema <S> --frame <F>` (frames the JSON-LD, array-wraps its `ARRAY_PROPERTIES`, then validates). Open-world, so unknown props pass.
 
-Conventions that bit us (keep examples + schema consistent): `schema:contentSize` is a **string**; `cdif:fileSize`/`fileSizeUofM` are **removed**; a WebAPI action result is the **actionResult** BB (`name`/`description`/`encodingFormat`/`conformsTo`, no `contentUrl`/`contentSize`); an object-form **cdifReference** may include `dcat:Relationship` in `@type` but is no longer required to (that co-type was mandatory until 2026-09-08, alongside labeledLink's `schema:CreativeWork`, which made the block unsatisfiable for an ordinary labeled link — the very form `schema:license` recommends); codelist `@context` is an **object**, `skos:notation` is a single **string** required on every `CdifCodelistConcept` (do not array-wrap it). The May/June 2026 re-sync lives on a `reviewRevision202606` branch in each repo.
+Conventions that bit us (keep examples + schema consistent): `schema:contentSize` is a **string**; `cdif:fileSize`/`fileSizeUofM` are **removed**; a WebAPI action result is the **actionResult** BB (`name`/`description`/`encodingFormat`/`conformsTo`, no `contentUrl`/`contentSize`); an object-form **cdifReference** may include `dcat:Relationship` in `@type` but is no longer required to (that co-type was mandatory until 2026-09-08, alongside labeledLink's `schema:CreativeWork`, which made the block unsatisfiable for an ordinary labeled link — the very form `schema:license` recommends); codelist `@context` is an **object**, `skos:notation` is a single **string** required on every `CdifCodelistConcept` (do not array-wrap it). The May/June 2026 re-sync lived on a `reviewRevision202606` branch in each repo; on
+2026-09-10 that was merged to `main`, tagged `v1.1.0`, and the branch renamed
+`archive202609`. New work goes on `updates` and reaches `main` by PR — see the release-repo
+table above. `profile-provenance` is the exception: still in review, still on the old branch.
 
 ## generate_pv_comparison.py
 
