@@ -23,7 +23,8 @@ cdifd:CDIFManifestShape
               ?this a schema:Dataset .
               MINUS {
                 ?this schema:about ?x .
-                ?this schema:additionalType "dcat:CatalogRecord" .
+                ?this schema:additionalType ?at .
+                FILTER( ?at = <http://www.w3.org/ns/dcat#CatalogRecord> || STR(?at) = "dcat:CatalogRecord" )
               }
             }
           """ ;
@@ -67,7 +68,8 @@ cdifd:CDIFManifestConformsToShape a sh:NodeShape ;
             WHERE {
             ?this a schema:Dataset ;
              schema:about ?parent ;
-             schema:additionalType "dcat:CatalogRecord" .
+             schema:additionalType ?at .
+             FILTER( ?at = <http://www.w3.org/ns/dcat#CatalogRecord> || STR(?at) = "dcat:CatalogRecord" )
             }
         """;
     ] ;
@@ -76,4 +78,5 @@ cdifd:CDIFManifestConformsToShape a sh:NodeShape ;
         sh:path dcterms:conformsTo ;
         sh:hasValue <https://w3id.org/cdif/manifest/1.1> ;
         sh:message "Metadata record must declare conformance to the CDIF manifest profile (https://w3id.org/cdif/manifest/1.1)" ;
+    sh:severity sh:Warning ;
     ] .
