@@ -27,7 +27,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 
-W3ID_BASE = "https://w3id.org/cdif"
+W3ID_ORIGIN = "https://w3id.org"
+W3ID_BASE = f"{W3ID_ORIGIN}/cdif"
 
 # Sample values for capture groups in regex patterns.
 # Each key is a category/family name that appears in .htaccess patterns.
@@ -40,7 +41,11 @@ SAMPLE_CAPTURE_VALUES = {
     "schemaorgProperties": ["definedTerm"],
     # Three-segment profiles: bbr/metadata/profiles/{family}/{name}
     "cdifProfile": ["cdifCore", "cdifDiscovery"],
-    "cdifCompositeProfile": ["BasicDiscovery", "BasicDataDescription"],
+    # Kept in step with _sources/profiles/cdifCompositeProfile/ -- a sample
+    # name that no longer exists reports as a broken redirect when the
+    # rule is fine. BasicDiscovery/BasicDataDescription were renamed in the
+    # 2026 reorg and lingered here until 2026-09-11.
+    "cdifCompositeProfile": ["CoreDiscovery", "DiscoveryDataDescription"],
     # Domain-specific (matched by dedicated rules, not generic patterns)
     "adaProfiles": ["adaICPMS"],
     "DDEProfiles": ["DDEDiscovery"],
@@ -183,7 +188,26 @@ def instantiate_pattern(pattern: str) -> list[str]:
     # Try to fill capture groups with sample values
     results = []
     if len(groups) == 1:
-        # Single capture group — find matching samples from the path prefix
+        # Not every capture group is a name slot. Three shapes occur in this
+        # .htaccess, and substituting a sample name into the wrong one produces
+        # a URL no rule matches -- which then reports as a failure that is
+        # really a bad test case. Handle the two non-name shapes first.
+        group = groups[0]
+
+        # (a) Literal alternation, e.g. (schema|resolved|shacl|guide): the
+        #     alternatives ARE the values. Test each one.
+        inner = group[1:-1]
+        alts = inner.split("|")
+        if len(alts) > 1 and all(re.fullmatch(r"[A-Za-z0-9_.\-]+", a) for a in alts):
+            return [re.sub(r"\([^)]+\)", a, clean, count=1) for a in alts]
+
+        # (b) Optional path suffix, e.g. (/.*) from (/.*)? -- an alias for a
+        #     whole subtree. Test the bare path and one sub-path.
+        if inner in ("/.*", "/.+"):
+            base = clean.split("(")[0].rstrip("/")
+            return [base, base + "/schema"]
+
+        # (c) A name slot — find matching samples from the path prefix.
         prefix = clean.split("(")[0].rstrip("/")
         for category, names in SAMPLE_CAPTURE_VALUES.items():
             if category in prefix:
@@ -201,7 +225,11 @@ def instantiate_pattern(pattern: str) -> list[str]:
         # For generic two-segment rules (bbr/metadata/cat/name), pick a few combos
         if "profiles" in prefix:
             for family, names in SAMPLE_CAPTURE_VALUES.items():
-                if "Profiles" in family or "profiles" in family.lower():
+                # "profile" singular: the CDIF families are cdifProfile and
+                # cdifCompositeProfile, which a "profiles" test misses entirely
+                # -- leaving results empty, so the raw regex leaked into the
+                # test URL and every such case failed as a bad case.
+                if "profile" in family.lower():
                     if family in ("adaProfiles", "DDEProfiles", "ecrrProfiles"):
                         continue  # these have dedicated rules
                     for name in names:
@@ -258,7 +286,9 @@ def build_test_cases(env: EnvVars, rules: list[RewriteRule]) -> list[TestCase]:
                 if m:
                     expected = target_template
                     for i, g in enumerate(m.groups(), 1):
-                        expected = expected.replace(f"${i}", g)
+                        # An optional group that did not participate is None,
+                        # not "" -- str.replace would raise on it.
+                        expected = expected.replace(f"${i}", g or "")
                 else:
                     expected = target_template
             except re.error:
@@ -281,6 +311,14 @@ def build_test_cases(env: EnvVars, rules: list[RewriteRule]) -> list[TestCase]:
                 cat = "Base redirect"
             else:
                 cat = "Other"
+
+            # A rule may redirect within w3id itself (the unversioned aliases
+            # target /cdif/<component>/<version>/). Make it absolute here, once,
+            # so display, comparison against a live Location header, and the
+            # fetch all see a real URL -- otherwise every such rule reports an
+            # unfollowable error rather than being checked.
+            if expected.startswith("/"):
+                expected = W3ID_ORIGIN + expected
 
             key = (url, accept)
             if key not in seen:
@@ -321,29 +359,35 @@ def test_redirect(url: str, accept: str) -> tuple[int, str]:
         return 0, f"ERROR: {e}"
 
 
-def follow_url(url: str) -> tuple[int, str]:
-    """Follow a redirect target URL and return (final_status_code, content_type).
+def follow_url(url: str) -> tuple[int, str, str]:
+    """Follow a redirect target and return (status, content_type, final_url).
 
-    Follows all redirects (GitHub Pages may issue its own redirects) and
-    returns the final HTTP status code and Content-Type header.
+    Follows all redirects (GitHub Pages may issue its own redirects). The final
+    URL matters as well as the code: the bblocks-viewer SPA exception below has
+    to be judged on where the chain ENDED, not on the URL we started with. A
+    w3id alias that hops to a canonical BB URI and on into the viewer looks like
+    a plain 404 if you only ever test the first hop.
     """
     cmd = [
         "curl", "-s",
         "-o", os.devnull,
         "-L",                    # follow redirects
-        "-w", "%{http_code} %{content_type}",
+        # url_effective before content_type: a content type carries a space
+        # ("text/html; charset=utf-8"), so it must be the last, unsplit field.
+        "-w", "%{http_code} %{url_effective} %{content_type}",
         "--max-time", "15",
     ]
     cmd.append(url)
 
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=20)
-        parts = result.stdout.strip().split(" ", 1)
+        parts = result.stdout.strip().split(" ", 2)
         code = int(parts[0]) if parts[0].isdigit() else 0
-        content_type = parts[1].strip() if len(parts) > 1 else ""
-        return code, content_type
+        final_url = parts[1].strip() if len(parts) > 1 else url
+        content_type = parts[2].strip() if len(parts) > 2 else ""
+        return code, content_type, final_url
     except (subprocess.TimeoutExpired, Exception) as e:
-        return 0, f"ERROR: {e}"
+        return 0, f"ERROR: {e}", url
 
 
 def is_bblock_viewer_url(url: str) -> bool:
@@ -439,12 +483,12 @@ def run_tests(cases: list[TestCase], live: bool, follow: bool, outfile) -> None:
 
             # Follow the actual redirect target
             if follow and location and redir_code in (302, 303):
-                final_code, content_type = follow_url(location)
+                final_code, content_type, final_url = follow_url(location)
 
                 if final_code == 200:
                     follow_label = "OK"
                     follow_ok += 1
-                elif final_code == 404 and is_bblock_viewer_url(location):
+                elif final_code == 404 and is_bblock_viewer_url(final_url):
                     follow_label = "OK (SPA viewer — 404 expected via curl, works in browser)"
                     follow_ok += 1
                 elif final_code == 404:
@@ -467,12 +511,12 @@ def run_tests(cases: list[TestCase], live: bool, follow: bool, outfile) -> None:
             if idx % 10 == 0:
                 print(f"  Checking target {idx}/{len(cases)}...", file=sys.stderr)
 
-            final_code, content_type = follow_url(case.expected)
+            final_code, content_type, final_url = follow_url(case.expected)
 
             if final_code == 200:
                 follow_label = "OK"
                 follow_ok += 1
-            elif final_code == 404 and is_bblock_viewer_url(case.expected):
+            elif final_code == 404 and is_bblock_viewer_url(final_url):
                 follow_label = "OK (SPA viewer — 404 expected via curl, works in browser)"
                 follow_ok += 1
             elif final_code == 404:
@@ -489,7 +533,7 @@ def run_tests(cases: list[TestCase], live: bool, follow: bool, outfile) -> None:
                     follow_ok += 1
 
             status_icon = " OK " if final_code == 200 else f"{final_code:>4}"
-            if final_code == 404 and is_bblock_viewer_url(case.expected):
+            if final_code == 404 and is_bblock_viewer_url(final_url):
                 status_icon = " SPA"
             out(f"  [{status_icon}] {short_url}")
             out(f"           Accept:   {accept_label}")
