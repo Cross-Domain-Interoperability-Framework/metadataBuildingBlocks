@@ -148,7 +148,7 @@ Domain-specific building blocks (moved to separate repositories):
 
 ## Building Block Composition
 
-Profiles are defined as pure `allOf` compositions of building block `$ref`s, with no inline property definitions. All properties come from building block components.
+**Composites** (`profiles/cdifCompositeProfile/`) are pure `allOf` compositions of module `$ref`s, with no inline property definitions. **Modules** (`profiles/cdifProfile/`) are not: each carries inline properties, and `cdifCodelist` and `cdifConceptScheme` have no external `$ref` at all -- they are building blocks filed under `profiles/`. Verified 2026-09-11; the earlier blanket statement covered composites only.
 
 Some building blocks define **item-level schemas** (e.g., a provenance activity object, an archive distribution item) rather than root-level dataset properties. Placing these directly in a profile's `allOf` would apply their constraints to the root object. **Wrapper building blocks** solve this by defining the root-level property (e.g., `prov:wasGeneratedBy`, `schema:distribution`) whose items reference the item-level building block.
 

@@ -101,6 +101,24 @@ def gather_rule_files(schema_files) -> list:
     return rules
 
 
+def gather_conformance_file(target_dir) -> list:
+    """conformance.shacl for the TARGET block only -- never through the graph.
+
+    A profile's "your catalog record should declare <this profile>" advisory is
+    true of that profile and of nothing else. Kept in rules.shacl it travels
+    with the $ref graph: cdifEnumerationDomain references cdifCodelist, so
+    CDIFCodelistConformsToShape ended up in the data_description and
+    data_structure bundles, advising records about a profile they were not
+    using. Structural shapes SHOULD be inherited that way -- a codelist's
+    required properties apply wherever a codelist appears -- so only the
+    conformance claim moves out.
+    """
+    cf = target_dir / "conformance.shacl"
+    if cf.exists() and "sh:NodeShape" in cf.read_text(encoding="utf-8"):
+        return [cf]
+    return []
+
+
 def _normalize_literal_newlines(graph):
     """Strip CR from multi-line literals, in place.
 
@@ -262,6 +280,7 @@ def main():
     target_dir = find_target_dir(args.target)
     schema_files = gather_schema_files(target_dir / "schema.yaml")
     rule_files = gather_rule_files(schema_files)
+    rule_files += gather_conformance_file(target_dir)
 
     if args.emit_shapes:
         merged = merge_shapes_dedup(rule_files, target_dir.name)

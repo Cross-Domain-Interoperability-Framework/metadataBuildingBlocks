@@ -62,8 +62,18 @@ leaves the change in the source and in nothing that validates against it — the
 modules (`CoreDiscovery`, `cdifComplete`, `xasDocument`, …).
 
 **Composition rules** (violating these is the usual cause of a confusing validation error):
-- Profiles are pure `allOf` of BB `$ref`s — no inline properties.
-- BBs reference BBs; profiles never reference profiles; BBs never reference profiles.
+- **Composites** (`profiles/cdifCompositeProfile/`) are pure `allOf` of module `$ref`s, with no
+  inline properties. Measured 2026-09-11: true of all five.
+- **Modules** (`profiles/cdifProfile/`) are *not* — every one carries inline properties
+  (`cdifCore` 27, `cdifDiscovery` 7), and `cdifCodelist` and `cdifConceptScheme` are fully
+  self-contained, with no external `$ref` at all. Those two are building blocks that happen to
+  live under `profiles/`. The older blanket claim that "profiles are pure `allOf` of BB `$ref`s"
+  describes composites only; do not read it as a rule modules are breaking.
+- A BB may therefore reference a module's schema, and two do: `cdifEnumerationDomain` →
+  `cdifCodelist`, and (until 2026-09-11) `cdifConceptOrTerm` → `cdifConceptScheme`, now repointed
+  at the canonical `skosProperties/skosConcept`. Note that swap **tightened** validation —
+  `skosConcept`'s `Concept` requires `skos:definition` and `skos:inScheme`, the profile's
+  `cdifConcept` required neither.
 - A BB schema is a single node, no `@graph` wrapper. Class targets default to
   `anyOf [inline class, {@id} reference]`, and a reference is **sealed**
   (`additionalProperties: false`, `required: ['@id']`).
@@ -131,6 +141,19 @@ their refs are resolved over the network at their build time, not ours.
   `schema:additionalType: dcat:CatalogRecord` — without which `ConformanceValidate.extract_conforms_to`
   skips the node and reads the record as declaring nothing. Both now default to `core/1.1`, the one
   profile `cdifCore` requires by a hard `contains` and the most a blank record can honestly claim.
+
+- **A profile-conformance advisory belongs in `conformance.shacl`, not `rules.shacl`.**
+  `rules.shacl` travels with the `$ref` graph, which is right for structural shapes — a
+  codelist's required properties apply wherever a codelist appears. It is wrong for "your
+  catalog record should declare *this* profile", which is true of one profile only.
+  `cdifEnumerationDomain` references `cdifCodelist`, so `CDIFCodelistConformsToShape` was landing
+  in the `data_description` and `data_structure` bundles, advising records about a profile they
+  were not using. `validate_shacl.py` now also collects `conformance.shacl` **from the target
+  block only**, never through the graph (`gather_conformance_file`). `cdifCodelist` and
+  `cdifConceptScheme` use it. The equivalents in `cdifCore`, `cdifManifest`, `cdifProvenance` and
+  `cdifDataDescription` have not been migrated — `cdifCore`'s in particular cannot simply move,
+  because `metadataProfileProperty` is referenced by a NodeShape in the same file and splitting it
+  would leave a dangling reference in every consumer's bundle.
 
 - **Whether a `conformsTo` is *correct* is checked in `CDIF/validation`, not here.**
   `detect_conformance` derives conformance from content; `ConformanceValidate` and
