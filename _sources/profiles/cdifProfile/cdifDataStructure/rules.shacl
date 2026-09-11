@@ -5,6 +5,7 @@
 @prefix cdi:    <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif:   <https://w3id.org/cdif/> .
 @prefix cdifd:  <https://cdif.org/validation/0.1/shacl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema: <http://schema.org/> .
 @base <https://www.ogc.org/rules/template/> .
 
@@ -115,3 +116,28 @@ cdifd:cdifDataStructure_PrimaryKeyShape
 		sh:message "A cdif:PrimaryKey must carry at least one cdif:isComposedOf entry." ;
 	] ;
 	.
+
+# Conformance advisory. Until now this profile's released SHACL carried only
+# CDIFCodelistConformsToShape, inherited via cdifEnumerationDomain -- so a
+# data-structure record was advised about the codelist profile and never about
+# its own. Targeted through schema:subjectOf rather than by matching
+# schema:additionalType "dcat:CatalogRecord" as a string literal, which no
+# longer matches anything (records serialize that marker as an @id/IRI).
+cdifd:CDIFDataStructureConformsToShape a sh:NodeShape ;
+	sh:property [ a sh:PropertyShape ;
+		sh:path dcterms:conformsTo ;
+		sh:hasValue <https://w3id.org/cdif/data_structure/1.1> ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A catalog record on a dataset using CDIF data structure properties should include dcterms:conformsTo <https://w3id.org/cdif/data_structure/1.1>." ;
+	] ;
+	sh:target [ a sh:SPARQLTarget ;
+		sh:prefixes cdifd: ;
+		sh:select """
+			PREFIX schema: <http://schema.org/>
+			SELECT ?this WHERE {
+				?dataset schema:subjectOf ?this .
+				?dataset a schema:Dataset .
+			}
+		""" ;
+	] .

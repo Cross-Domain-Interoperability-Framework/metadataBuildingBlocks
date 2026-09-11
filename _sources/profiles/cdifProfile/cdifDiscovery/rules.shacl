@@ -1,0 +1,34 @@
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# cdifDiscovery declares no required properties of its own -- it is a thin
+# wrapper over cdifCore that adds optional discovery properties, and the shapes
+# constraining those live in the blocks it $refs (spatialExtent, temporalExtent,
+# qualityMeasure, cdifConceptOrTerm). So this file carries only the conformance
+# advisory, which has nowhere else to live: before it existed, the released
+# discoveryRules.shacl contained no dcterms:conformsTo rule at all.
+#
+# The target deliberately selects the catalog record through schema:subjectOf
+# rather than by matching schema:additionalType "dcat:CatalogRecord" as a
+# string. Records serialize that marker as {"@id": "dcat:CatalogRecord"}, which
+# expands to an IRI, so a literal match selects nothing and the rule silently
+# never fires -- which is the state cdifManifest's and cdifProvenance's
+# equivalents are in.
+cdifd:CDIFDiscoveryConformsToShape a sh:NodeShape ;
+    sh:property [ a sh:PropertyShape ;
+            sh:path dcterms:conformsTo ;
+            sh:hasValue <https://w3id.org/cdif/discovery/1.1> ;
+            sh:minCount 1 ;
+            sh:severity sh:Warning ;
+            sh:message "A catalog record on a dataset using CDIF discovery properties should include dcterms:conformsTo <https://w3id.org/cdif/discovery/1.1>." ] ;
+    sh:target [ a sh:SPARQLTarget ;
+            sh:prefixes cdifd: ;
+            sh:select """
+                PREFIX schema: <http://schema.org/>
+                SELECT ?this WHERE {
+                    ?dataset schema:subjectOf ?this .
+                    ?dataset a schema:Dataset .
+                }
+            """ ] .
