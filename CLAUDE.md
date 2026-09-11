@@ -210,4 +210,17 @@ their refs are resolved over the network at their build time, not ours.
   and records carry an inline `@context`) — so **do not "fix" a tag-pointing rule back to Pages**.
   Rules live in a fork of `perma-id/w3id.org` and reach production by PR on that project's
   schedule; the checklist is in `w3id.org/cdif/CLAUDE.md` and the guard is
-  `validation/tools/check_w3id_redirects.py` (weekly workflow).
+  `validation/tools/check_w3id_redirects.py` (weekly workflow). Two details that are easy to
+  get wrong: repoint to the **last** patch tag of the outgoing series (`v1.1.1`, not `v1.1.0`
+  — the first one archives a spec nobody shipped), and a *patch* release requires no
+  `.htaccess` edit at all, because every release-repo rule targets a Pages base and Pages
+  serves `main`.
+
+- **The CDIF book pins its artifact links to release tags, so every patch release leaves them a
+  version behind.** Pinning is deliberate — a reader gets the spec the prose was written
+  against — and it is why the pins need a guard: a stale tag does not 404, it serves a
+  correct-looking page for a superseded release, and the book's own build cannot notice
+  because every link still resolves. `check_w3id_redirects.py` also scans cdifbook's source
+  tarball (every tracked file, so a link in a new chapter is covered the day it lands) and
+  reports `STALE`, or `MIXED` when a sweep was only partly applied. The 2026-09-10 v1.1.1 sweep
+  moved 82 links across 11 files.

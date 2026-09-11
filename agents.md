@@ -1393,9 +1393,14 @@ Two consequences worth holding onto:
   out. The clones are on `updates`; check before syncing, or a sync lands on the wrong branch.
 - `w3id.org/cdif/<profile>/<version>/*` points at Pages **only while that version is current**.
   When a newer minor ships, the outgoing version's rules must be repointed to its release tag,
-  or the URI silently serves the newer spec. Guarded by
-  `validation/tools/check_w3id_redirects.py` and a weekly workflow; the checklist is in
-  `w3id.org/cdif/CLAUDE.md`.
+  or the URI silently serves the newer spec. Repoint to the **last** patch tag of the outgoing
+  series, not the first. A patch release needs no `.htaccess` edit: the rules target Pages, and
+  Pages serves `main`. Guarded by `validation/tools/check_w3id_redirects.py` and a weekly
+  workflow; the checklist is in `w3id.org/cdif/CLAUDE.md`.
+- The CDIF book (`CDIF/cdifbook`) links release artifacts **by tag**, so each patch release
+  leaves those links a version behind — and a stale tag serves a plausible page for a
+  superseded release rather than a 404. The same checker scans the book's sources and reports
+  `STALE` / `MIXED`; sweep the links to the new tag as part of the release.
 
 `profile-provenance` is deliberately outside all of this — still in review, no `v1.1.0`, still
 on `reviewRevision202606` with Pages sourced from it.
