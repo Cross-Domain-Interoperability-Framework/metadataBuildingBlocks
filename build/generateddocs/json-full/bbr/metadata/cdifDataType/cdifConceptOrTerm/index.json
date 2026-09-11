@@ -35,19 +35,19 @@
     "skos"
   ],
   "shaclShapes": {
-    "cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfile/cdifConceptScheme/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.identifier": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme",
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm"
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm",
+    "cdif.bbr.metadata.skosProperties.skosConcept"
   ],
   "license": {
     "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/LICENSE"
@@ -132,25 +132,25 @@
           "language": "json",
           "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifConceptOrTerm/exampleCdifConceptOrTermInlineConcept.json",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_3_1.json",
-          "sizeBytes": 342,
-          "code": "{\n  \"@context\": {\n    \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n    \"cdif\": \"https://w3id.org/cdif/\"\n  },\n  \"@type\": [\n    \"skos:Concept\"\n  ],\n  \"@id\": \"https://example.org/concepts/sea-water-temperature\",\n  \"skos:prefLabel\": \"Sea water temperature\",\n  \"skos:definition\": \"The temperature of a water sample collected from the ocean.\"\n}\n"
+          "sizeBytes": 425,
+          "code": "{\n  \"@context\": {\n    \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n    \"cdif\": \"https://w3id.org/cdif/\"\n  },\n  \"@type\": [\n    \"skos:Concept\"\n  ],\n  \"@id\": \"https://example.org/concepts/sea-water-temperature\",\n  \"skos:prefLabel\": \"Sea water temperature\",\n  \"skos:definition\": \"The temperature of a water sample collected from the ocean.\",\n  \"skos:inScheme\": {\n    \"@id\": \"https://example.org/concepts/oceanVariables\"\n  }\n}\n"
         },
         {
           "language": "jsonld",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_3_1.jsonld",
-          "sizeBytes": 626,
-          "code": "{\n  \"@context\": [\n    {\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"cdif\": \"https://w3id.org/cdif/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/context.jsonld\",\n    {\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"cdif\": \"https://w3id.org/cdif/\"\n    }\n  ],\n  \"@type\": [\n    \"skos:Concept\"\n  ],\n  \"@id\": \"https://example.org/concepts/sea-water-temperature\",\n  \"skos:prefLabel\": \"Sea water temperature\",\n  \"skos:definition\": \"The temperature of a water sample collected from the ocean.\"\n}"
+          "sizeBytes": 709,
+          "code": "{\n  \"@context\": [\n    {\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"cdif\": \"https://w3id.org/cdif/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/context.jsonld\",\n    {\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"cdif\": \"https://w3id.org/cdif/\"\n    }\n  ],\n  \"@type\": [\n    \"skos:Concept\"\n  ],\n  \"@id\": \"https://example.org/concepts/sea-water-temperature\",\n  \"skos:prefLabel\": \"Sea water temperature\",\n  \"skos:definition\": \"The temperature of a water sample collected from the ocean.\",\n  \"skos:inScheme\": {\n    \"@id\": \"https://example.org/concepts/oceanVariables\"\n  }\n}"
         },
         {
           "language": "ttl",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_3_1.ttl",
-          "sizeBytes": 256,
-          "code": "@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n\n<https://example.org/concepts/sea-water-temperature> a skos:Concept ;\n    skos:definition \"The temperature of a water sample collected from the ocean.\" ;\n    skos:prefLabel \"Sea water temperature\" .\n\n"
+          "sizeBytes": 322,
+          "code": "@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n\n<https://example.org/concepts/sea-water-temperature> a skos:Concept ;\n    skos:definition \"The temperature of a water sample collected from the ocean.\" ;\n    skos:inScheme <https://example.org/concepts/oceanVariables> ;\n    skos:prefLabel \"Sea water temperature\" .\n\n"
         }
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: A SKOS concept identified by URI, a schema:DefinedTerm, or an inline\n  cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary\n  reference or an inline concept definition.\nanyOf:\n- type: object\n  required:\n  - '@id'\n  additionalProperties: false\n  properties:\n    '@id':\n      type: string\n      description: reference to a skos concept for the data type\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: A SKOS concept identified by URI, a schema:DefinedTerm, or an inline\n  cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary\n  reference or an inline concept definition.\nanyOf:\n- type: object\n  required:\n  - '@id'\n  additionalProperties: false\n  properties:\n    '@id':\n      type: string\n      description: reference to a skos concept for the data type\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/Concept\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/cdifDataType/cdifConceptOrTerm"
 }

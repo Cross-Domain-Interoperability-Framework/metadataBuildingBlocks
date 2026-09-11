@@ -144,15 +144,15 @@ use cdi:locator HDF5-style paths for each variable.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:StructuredDataSet ;
-    cdif:hasPhysicalMapping [ cdi:locator "/pressure[*][*]" ;
-            cdif:format "float64" ;
-            cdif:formats_InstanceVariable ex:var-pressure ;
-            cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdi:locator "/temperature[*][*]" ;
+    cdif:hasPhysicalMapping [ cdi:locator "/temperature[*][*]" ;
             cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 0 ;
+            cdif:physicalDataType "Numeric" ],
+        [ cdi:locator "/pressure[*][*]" ;
+            cdif:format "float64" ;
+            cdif:formats_InstanceVariable ex:var-pressure ;
+            cdif:index 1 ;
             cdif:physicalDataType "Numeric" ] .
 
 
@@ -211,6 +211,7 @@ Links to the schema:
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "@version": 1.1
   }
 }

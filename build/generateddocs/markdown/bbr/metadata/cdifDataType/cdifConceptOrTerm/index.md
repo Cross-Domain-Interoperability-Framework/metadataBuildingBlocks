@@ -128,7 +128,10 @@ external vocabulary.
   ],
   "@id": "https://example.org/concepts/sea-water-temperature",
   "skos:prefLabel": "Sea water temperature",
-  "skos:definition": "The temperature of a water sample collected from the ocean."
+  "skos:definition": "The temperature of a water sample collected from the ocean.",
+  "skos:inScheme": {
+    "@id": "https://example.org/concepts/oceanVariables"
+  }
 }
 
 ```
@@ -152,7 +155,10 @@ external vocabulary.
   ],
   "@id": "https://example.org/concepts/sea-water-temperature",
   "skos:prefLabel": "Sea water temperature",
-  "skos:definition": "The temperature of a water sample collected from the ocean."
+  "skos:definition": "The temperature of a water sample collected from the ocean.",
+  "skos:inScheme": {
+    "@id": "https://example.org/concepts/oceanVariables"
+  }
 }
 ```
 
@@ -162,6 +168,7 @@ external vocabulary.
 
 <https://example.org/concepts/sea-water-temperature> a skos:Concept ;
     skos:definition "The temperature of a water sample collected from the ocean." ;
+    skos:inScheme <https://example.org/concepts/oceanVariables> ;
     skos:prefLabel "Sea water temperature" .
 
 
@@ -184,7 +191,7 @@ anyOf:
       type: string
       description: reference to a skos concept for the data type
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/Concept
 
 ```
 
@@ -200,6 +207,7 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "@version": 1.1
   }
 }
