@@ -265,6 +265,23 @@ def main():
 
     if args.emit_shapes:
         merged = merge_shapes_dedup(rule_files, target_dir.name)
+        # An empty shapes file is the worst possible output: it is valid
+        # Turtle, it serves HTTP 200, pyshacl reports zero violations against
+        # it, and sync_release_repos --check calls it "identical" forever. A
+        # profile whose SHACL validates nothing is indistinguishable from one
+        # every record satisfies. profile-conceptscheme shipped exactly that in
+        # v1.1.1 -- a 1-byte conceptSchemeRules.shacl -- because cdifConceptScheme
+        # has no rules.shacl of its own and $refs no block that has one, so
+        # there was nothing in the graph to collect. Fail instead of writing it.
+        if len(merged) == 0:
+            print(f"ERROR: would emit an EMPTY shapes file to {args.emit_shapes} "
+                  f"({len(rule_files)} rules.shacl found in the $ref graph).",
+                  file=sys.stderr)
+            print("An empty SHACL file validates nothing while looking like a "
+                  "passing one. Give the block its own rules.shacl, or $ref a "
+                  "block that has one. Nothing was written.", file=sys.stderr)
+            return 1
+
         merged.serialize(destination=args.emit_shapes, format="turtle")
         print(f"Wrote {len(merged)} triples from {len(rule_files)} rules.shacl "
               f"to {args.emit_shapes}")
