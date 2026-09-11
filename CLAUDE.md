@@ -169,6 +169,19 @@ their refs are resolved over the network at their build time, not ours.
   `cdi:correspondsTo`, and an abstract type such as `cdi:DataStructureComponent` is never a valid
   choice. Check the target `$defs` rather than copying a sibling example.
 
+- **A negative test that fails for the wrong reason asserts nothing.** The OGC layout puts
+  `tests/*-fail.json` beside each block, meaning "this must NOT validate". 34 exist here and
+  all 34 do fail -- but `tools/test_fail_cases.py` (added 2026-09-11) checks *why*, and only
+  **5** fail on the constraint their filename names. The rest are rejected by
+  `@type: '...' is not of type 'array'`, an incidental structural mismatch that would reject
+  them identically with the named rule deleted. **20 of the 34 are byte-identical copies** of a
+  case from another block -- `affiliation-fail.json` appears verbatim in eight, including
+  `spatialExtent` and `xasDocument`, where affiliation means nothing. **70 of 93 blocks have no
+  `tests/` at all.** Run it with `--strict` to fail on a case that asserts nothing, `--coverage`
+  to list untested blocks. Note the matcher's own limits: an error on `@type` and an
+  `anyOf` message (which prints the whole instance, so every token "matches") are both
+  discounted, while the error *path* counts as strong evidence.
+
 - **A rule that stops working looks exactly like a rule that passes.** This is the failure mode
   that cost the most time on 2026-09-08, in five different disguises. `sh:targetObjectsOf` on a
   property that was renamed matches nothing and reports zero violations. A SPARQL target selecting
