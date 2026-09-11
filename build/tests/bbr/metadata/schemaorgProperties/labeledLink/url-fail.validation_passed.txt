@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.schemaorgProperties.labeledLink - Labeled Link
-Generated 2026-09-11T18:43:15.255368+00:00
+Generated 2026-09-11T18:53:41.657578+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
@@ -14,17 +14,36 @@ Output Turtle url-fail.ttl created
 === JSON Schema ===
 
 ** Validation error **
-ValidationError: 'schema:CreativeWork' is not of type 'array'
+ValidationError: 'schema:url' is a required property
 
-Failed validating 'type' in schema['properties']['@type']:
-    {'contains': {'const': 'schema:CreativeWork'},
-     'default': 'schema:CreativeWork',
-     'items': {'type': 'string'},
-     'minItems': 1,
-     'type': 'array'}
+Failed validating 'required' in schema:
+    {'$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'description': 'schema for a labeled link, a profile of '
+                    'schema.org/CreativeWork',
+     'properties': {'@type': {'contains': {'const': 'schema:CreativeWork'},
+                              'default': 'schema:CreativeWork',
+                              'items': {'type': 'string'},
+                              'minItems': 1,
+                              'type': 'array'},
+                    'schema:description': {'type': 'string',
+                                           'x-jsonld-id': 'http://schema.org/description'},
+                    'schema:name': {'type': 'string',
+                                    'x-jsonld-id': 'http://schema.org/name'},
+                    'schema:url': {'format': 'uri',
+                                   'type': 'string',
+                                   'x-jsonld-id': 'http://schema.org/url'}},
+     'required': ['@type', 'schema:url'],
+     'type': 'object',
+     'x-jsonld-prefixes': {'schema': 'http://schema.org/'}}
 
-On instance['@type']:
-    'schema:CreativeWork'
+On instance:
+    {'@context': {'ex': 'https://example.org/',
+                  'schema': 'http://schema.org/',
+                  'xsd': 'http://www.w3.org/2001/XMLSchema#'},
+     '@id': 'ex:LabeledLinkExample_zZc',
+     '@type': ['schema:CreativeWork'],
+     'schema:description': 'URL to get the related resource',
+     'schema:name': 'Some related resource'}
 === End JSON Schema ===
 
 === SHACL ===
@@ -34,11 +53,10 @@ Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:
   Validation Report
   Conforms: False
   Results (1):
-  Constraint Violation in PatternConstraintComponent (http://www.w3.org/ns/shacl#PatternConstraintComponent):
+  Constraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
   	Severity: sh:Violation
   	Source Shape: [ sh:datatype xsd:string ; sh:message Literal("value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation...") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:path schema1:url ; sh:pattern Literal("^https?:\/\/[^\s]+$") ]
   	Focus Node: ex:LabeledLinkExample_zZc
-  	Value Node: Literal("")
   	Result Path: schema1:url
   	Message: value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation...
   

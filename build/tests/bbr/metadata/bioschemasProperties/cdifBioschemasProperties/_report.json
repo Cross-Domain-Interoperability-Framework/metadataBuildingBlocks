@@ -2,9 +2,107 @@
   "title": "Validation report for cdif.bbr.metadata.bioschemasProperties.cdifBioschemasProperties - CDIF Bioschemas Properties",
   "bblockName": "CDIF Bioschemas Properties",
   "bblockId": "cdif.bbr.metadata.bioschemasProperties.cdifBioschemasProperties",
-  "generated": "2026-09-11T18:43:15.058530+00:00",
+  "generated": "2026-09-11T18:53:41.413797+00:00",
   "result": true,
   "items": [
+    {
+      "source": {
+        "type": "TEST_RESOURCE",
+        "requireFail": true,
+        "filename": "_sources/bioschemasProperties/cdifBioschemasProperties/tests/parameterValue-fail.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/bioschemasProperties/cdifBioschemasProperties/tests/parameterValue-fail.json",
+        "language": "json"
+      },
+      "result": true,
+      "sections": [
+        {
+          "name": "GENERAL",
+          "title": "General",
+          "entries": [
+            {
+              "op": "require-fail",
+              "isError": false,
+              "message": "Test was expected to fail and it did."
+            }
+          ]
+        },
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using parameterValue-fail.json from test resources"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "parameterValue-fail.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD parameterValue-fail.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "parameterValue-fail.ttl",
+              "size": 17,
+              "isError": false,
+              "message": "Output Turtle parameterValue-fail.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": false,
+              "exception": "ValidationError",
+              "errorMessage": "42 is not of type 'array'",
+              "isError": true,
+              "message": "ValidationError: 42 is not of type 'array'\n\nFailed validating 'type' in schema['properties']['bios:parameterValue']:\n    {'description': 'Actual parameter values used during a lab process '\n                    'execution. Each entry is a schema:PropertyValue '\n                    'recording a specific instrument setting or '\n                    'measurement condition (temperature, flow rate, scan '\n                    'range, etc.).',\n     'items': {'$ref': '#/$defs/ParameterValue'},\n     'type': 'array',\n     'x-jsonld-id': 'https://bioschemas.org/parameterValue'}\n\nOn instance['bios:parameterValue']:\n    42"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/bioschemasProperties/cdifBioschemasProperties/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/bioschemasProperties/cdifBioschemasProperties/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/bioschemasProperties/cdifBioschemasProperties/rules.shacl",
+              "focusNodes": {
+                "cdifd:BioschemasParameterValueShape": {
+                  "nodes": []
+                },
+                "cdifd:BioschemasLabEquipmentShape": {
+                  "nodes": []
+                },
+                "cdifd:BioschemasComputationalToolShape": {
+                  "nodes": []
+                },
+                "cdifd:BioschemasLabProtocolShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/bioschemasProperties/cdifBioschemasProperties/rules.shacl:\n - Shape cdifd:BioschemasParameterValueShape: *none*\n - Shape cdifd:BioschemasLabEquipmentShape: *none*\n - Shape cdifd:BioschemasComputationalToolShape: *none*\n - Shape cdifd:BioschemasLabProtocolShape: *none*\n"
+            }
+          ]
+        }
+      ]
+    },
     {
       "source": {
         "type": "EXAMPLE",
@@ -72,21 +170,21 @@
             {
               "shaclFile": "_sources/bioschemasProperties/cdifBioschemasProperties/rules.shacl",
               "focusNodes": {
-                "cdifd:BioschemasComputationalToolShape": {
-                  "nodes": []
-                },
-                "cdifd:BioschemasLabProtocolShape": {
-                  "nodes": []
-                },
                 "cdifd:BioschemasParameterValueShape": {
                   "nodes": []
                 },
                 "cdifd:BioschemasLabEquipmentShape": {
                   "nodes": []
+                },
+                "cdifd:BioschemasComputationalToolShape": {
+                  "nodes": []
+                },
+                "cdifd:BioschemasLabProtocolShape": {
+                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/bioschemasProperties/cdifBioschemasProperties/rules.shacl:\n - Shape cdifd:BioschemasComputationalToolShape: *none*\n - Shape cdifd:BioschemasLabProtocolShape: *none*\n - Shape cdifd:BioschemasParameterValueShape: *none*\n - Shape cdifd:BioschemasLabEquipmentShape: *none*\n"
+              "message": "Focus nodes for _sources/bioschemasProperties/cdifBioschemasProperties/rules.shacl:\n - Shape cdifd:BioschemasParameterValueShape: *none*\n - Shape cdifd:BioschemasLabEquipmentShape: *none*\n - Shape cdifd:BioschemasComputationalToolShape: *none*\n - Shape cdifd:BioschemasLabProtocolShape: *none*\n"
             }
           ]
         }
@@ -95,8 +193,8 @@
   ],
   "globalErrors": {},
   "counts": {
-    "total": 1,
-    "passed": 1,
+    "total": 2,
+    "passed": 2,
     "failed": 0
   }
 }

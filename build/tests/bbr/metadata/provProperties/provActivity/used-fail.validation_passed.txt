@@ -1,0 +1,314 @@
+Validation report for cdif.bbr.metadata.provProperties.provActivity - PROV-O Provenance Activity
+Generated 2026-09-11T18:53:54.067458+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using used-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD used-fail.jsonld created
+Output Turtle used-fail.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: 42 is not of type 'array'
+
+Failed validating 'type' in schema['allOf'][0]['properties']['prov:used']:
+    {'description': 'Entities the activity used. Per PROV-O each value '
+                    'denotes a prov:Entity. An item may be (1) a string '
+                    'URI or free-text reference, (2) an {@id} reference, '
+                    '(3) an inline entity object carrying an @type that '
+                    'includes prov:Entity plus a schema.org type for the '
+                    'kind of thing used, e.g. '
+                    '["prov:Entity","schema:Thing"] (instrument), '
+                    '["prov:Entity","schema:CreativeWork"] '
+                    '(method/protocol), or '
+                    '["prov:Entity","schema:SoftwareApplication"] '
+                    '(software), or (4) a role-keyed wrapper naming what '
+                    'was used through one of the recognized "used" '
+                    'relations (schema:instrument, bios:computationalTool, '
+                    'prov:reagent). Base leaves the wrapped value loose; '
+                    'profiles/extensions (e.g. cdifProvActivity, '
+                    'adaProduct) pin its shape (Instrument, '
+                    'ComputationalTool, Reagent, ...).',
+     'items': {'anyOf': [{'type': 'string'},
+                         {'additionalProperties': False,
+                          'properties': {'@id': {'description': 'a '
+                                                                'resolvable '
+                                                                'reference '
+                                                                'to a '
+                                                                'representation '
+                                                                'of the '
+                                                                'software '
+                                                                'or '
+                                                                'instrument '
+                                                                'used',
+                                                 'type': 'string'}},
+                          'required': ['@id'],
+                          'type': 'object'},
+                         {'description': 'an inline prov:Entity used by '
+                                         'the activity (see prov:used '
+                                         'description)',
+                          'properties': {'@type': {'contains': {'const': 'prov:Entity'},
+                                                   'items': {'type': 'string'},
+                                                   'minItems': 1,
+                                                   'type': 'array'}},
+                          'required': ['@type'],
+                          'type': 'object'},
+                         {'description': 'a role-keyed wrapper naming an '
+                                         'instrument used by the activity; '
+                                         'the extension layer pins the '
+                                         'value to an Instrument '
+                                         'description.',
+                          'required': ['schema:instrument'],
+                          'type': 'object'},
+                         {'description': 'a role-keyed wrapper naming a '
+                                         'computational tool (software) '
+                                         'used; the extension layer pins '
+                                         'the value to a ComputationalTool '
+                                         'description.',
+                          'required': ['bios:computationalTool'],
+                          'type': 'object'},
+                         {'description': 'a role-keyed wrapper naming a '
+                                         'reagent / material used; the '
+                                         'extension layer pins the value '
+                                         'to a Reagent description.',
+                          'required': ['prov:reagent'],
+                          'type': 'object'}]},
+     'type': 'array',
+     'x-jsonld-id': 'http://www.w3.org/ns/prov#used'}
+
+On instance['prov:used']:
+    42
+=== End JSON Schema ===
+
+=== SHACL ===
+
+** Validation error **
+Validation result for _sources/provProperties/provActivity/rules.shacl:
+  Validation Report
+  Conforms: False
+  Results (1):
+  Constraint Violation in OrConstraintComponent (http://www.w3.org/ns/shacl#OrConstraintComponent):
+  	Severity: sh:Violation
+  	Source Shape: [ sh:message Literal("A provActivity must specify at least one resource that was used (prov:used)") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:nodeKind sh:BlankNode ] [ sh:datatype xsd:string ; sh:minLength Literal("3", datatype=xsd:integer) ] ) ; sh:path prov:used ; sh:severity sh:Violation ]
+  	Focus Node: ex:activity-soil-chem-analysis
+  	Value Node: Literal("42", datatype=xsd:integer)
+  	Result Path: prov:used
+  	Message: A provActivity must specify at least one resource that was used (prov:used)
+  
+Focus nodes for _sources/provProperties/provActivity/rules.shacl:
+ - Shape cdifd:provActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:provActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b36: *none*
+ - Shape cdifd:provActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b37: *none*
+ - Shape cdifd:provActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b4: *none*
+ - Shape cdifd:provActivityShape: *none*
+ - Shape cdifd:provActivityHowToStepShape: ex:activity-soil-chem-analysis/schema1:actionProcess/schema1:step,ex:activity-soil-chem-analysis/schema1:actionProcess/schema1:step
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b57: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b58: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b44: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b14: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b23: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b29: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b22: *none*
+ - Shape cdifd:provActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b13: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b30: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b43: *none*
+ - Shape cdifd:provActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b5: *none*
+ - Shape cdifd:provActivityHowToShape: ex:activity-soil-chem-analysis/schema1:actionProcess
+ - Shape cdifd:provActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nca02afc871ad4f0d87b13692ecc64842b45: *none*
+
+Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nea736241106d4d69a694c0c6a24cb84db8: *none*
+ - Shape _:nea736241106d4d69a694c0c6a24cb84db7: *none*
+ - Shape _:nea736241106d4d69a694c0c6a24cb84db4: *none*
+ - Shape _:nea736241106d4d69a694c0c6a24cb84db5: *none*
+ - Shape _:nea736241106d4d69a694c0c6a24cb84db26: *none*
+ - Shape _:nea736241106d4d69a694c0c6a24cb84db6: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nea736241106d4d69a694c0c6a24cb84db10: *none*
+ - Shape _:nea736241106d4d69a694c0c6a24cb84db19: *none*
+
+Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
+ - Shape _:n39a292d349c9406096c89d7ed47a2800b11: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:n39a292d349c9406096c89d7ed47a2800b22: *none*
+ - Shape _:n39a292d349c9406096c89d7ed47a2800b20: *none*
+ - Shape _:n39a292d349c9406096c89d7ed47a2800b21: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n39a292d349c9406096c89d7ed47a2800b10: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n39a292d349c9406096c89d7ed47a2800b23: *none*
+ - Shape _:n39a292d349c9406096c89d7ed47a2800b25: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+
+Validation result for _sources/cdifDataType/cdifReference/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifDataType/cdifReference/rules.shacl:
+ - Shape cdifd:CDIFRelationShape: *none*
+
+Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:conceptBroaderNotSelfShape: *none*
+ - Shape skosv:ConceptShape: *none*
+ - Shape skosv:prefLabelUniqueLangShape: *none*
+
+Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:
+ - Shape cdifd:CDIFLabeledLinkShape: *none*
+
+Validation result for _sources/schemaorgProperties/spatialExtent/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:
+ - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b10: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b40: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b15: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b41: *none*
+ - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b44: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b13: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b4: *none*
+ - Shape cdifd:geoCoordinatesNode: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b42: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b16: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b24: *none*
+ - Shape cdifd:geoShapeNode: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b3: *none*
+ - Shape cdifd:spatialExtentProperty: ex:activity-soil-chem-analysis/prov:atLocation
+ - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b39: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b9: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b38: *none*
+ - Shape _:nc35cc7d91d274f14b0a03d4ca2c2e9c3b29: *none*
+
+Validation result for _sources/schemaorgProperties/agentInRole/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/agentInRole/rules.shacl:
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:nd4c28b78b56241a199ade699e3eb7b03b4: *none*
+ - Shape cdifd:CDIFRoleShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:roleNameProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:roleNameProperty/sh:or/rdf:first: *none*
+ - Shape _:nd4c28b78b56241a199ade699e3eb7b03b18: *none*
+ - Shape _:nd4c28b78b56241a199ade699e3eb7b03b15: *none*
+ - Shape _:nd4c28b78b56241a199ade699e3eb7b03b20: *none*
+ - Shape cdifd:CDIFRoleShape: *none*
+ - Shape _:nd4c28b78b56241a199ade699e3eb7b03b3: *none*
+ - Shape _:nd4c28b78b56241a199ade699e3eb7b03b16: *none*
+ - Shape _:nd4c28b78b56241a199ade699e3eb7b03b14: *none*
+ - Shape _:nd4c28b78b56241a199ade699e3eb7b03b17: *none*
+
+Validation result for _sources/schemaorgProperties/person/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/person/rules.shacl:
+ - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
+ - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape: <mailto:maria.chen@unr.edu>
+ - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape: *none*
+ - Shape _:n8d7e2d13cdb54d62aa7b5f41a3c0f783b14: *none*
+ - Shape cdifd:CDIFPersonShape: ex:activity-soil-chem-analysis/prov:wasAssociatedWith
+
+Validation result for _sources/schemaorgProperties/organization/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:
+ - Shape _:n6ec68531d36747d98fa0a9b54ebbaa32b3: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFOrganizationShape: *none*
+
+Validation result for _sources/schemaorgProperties/instrument/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/instrument/rules.shacl:
+ - Shape cdifd:instrumentNode: *none*
+
+Validation result for _sources/schemaorgProperties/additionalProperty/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/additionalProperty/rules.shacl:
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b7: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape/sh:or/rdf:first: *none*
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b13: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape: *none*
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b30: *none*
+ - Shape cdifd:CDIFadditionalPropertyShape: *none*
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b33: *none*
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b6: *none*
+ - Shape cdifd:CDIFadditionalPropertyShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b20: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFAddPropertyTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b28: *none*
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b21: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape: <https://registry.identifiers.org/registry/orcid>
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b31: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b29: *none*
+ - Shape cdifd:CDIFAddPropertyTermShape: *none*
+ - Shape _:nb4c3a2258765483aa66fc7bb414108b7b14: *none*
+
+Validation result for _sources/provProperties/generatedBy/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/provProperties/generatedBy/rules.shacl:
+ - Shape _:ndbd0bce06b0547ac97713feec06316e5b4: *none*
+ - Shape cdifd:generatedByNode: *none*
+ - Shape cdifd:generatedByNode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:ndbd0bce06b0547ac97713feec06316e5b5: *none*
+
+=== End SHACL ===
+

@@ -1,0 +1,292 @@
+Validation report for cdif.bbr.metadata.cdifDataType.cdifKey - CDIF Key
+Generated 2026-09-11T18:53:48.701125+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using isComposedOf-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD isComposedOf-fail.jsonld created
+Output Turtle isComposedOf-fail.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: 'cdif:isComposedOf' is a required property
+
+Failed validating 'required' in schema:
+    {'$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'description': 'Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the '
+                    'role of an ordered set of cdi:InstanceVariables '
+                    '(referenced via cdifInstanceVariable) that uniquely '
+                    "identify a data instance. Each variable's position in "
+                    'the key is recorded with an explicit '
+                    'cdi:ComponentPosition wrapper carrying cdi:indexes '
+                    '(the variable) and cdi:value (the integer position), '
+                    'matching the canonical DDI-CDI PrimaryKey structure '
+                    'in ddicdiDataStructure.',
+     'properties': {'@id': {'description': 'Identifier for this Key node.',
+                            'type': 'string'},
+                    '@type': {'contains': {'const': 'cdif:Key'},
+                              'items': {'type': 'string'},
+                              'minItems': 1,
+                              'type': 'array'},
+                    'cdif:isComposedOf': {'description': 'Ordered list of '
+                                                         'cdi:ComponentPosition '
+                                                         'wrappers. Each '
+                                                         'wrapper carries '
+                                                         'cdi:indexes (an '
+                                                         'inline '
+                                                         'cdifInstanceVariable '
+                                                         'or @id-reference '
+                                                         'to one declared '
+                                                         'elsewhere in the '
+                                                         'dataset) and '
+                                                         'cdi:value (the '
+                                                         'integer position '
+                                                         'in the key, 0- '
+                                                         'or 1-based).',
+                                          'items': {'description': 'ComponentPosition '
+                                                                   'wrapper '
+                                                                   'indexing '
+                                                                   'one '
+                                                                   "variable's "
+                                                                   'position '
+                                                                   'in the '
+                                                                   'key.',
+                                                    'properties': {'@id': {'description': 'Identifier '
+                                                                                          'for '
+                                                                                          'this '
+                                                                                          'ComponentPosition '
+                                                                                          'node.',
+                                                                           'type': 'string'},
+                                                                   '@type': {'contains': {'const': 'cdi:ComponentPosition'},
+                                                                             'items': {'type': 'string'},
+                                                                             'minItems': 1,
+                                                                             'type': 'array'},
+                                                                   'cdi:indexes': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml'},
+                                                                                             {'additionalProperties': False,
+                                                                                              'description': 'object '
+                                                                                                             'reference '
+                                                                                                             'via '
+                                                                                                             '@id '
+                                                                                                             'to '
+                                                                                                             'a '
+                                                                                                             'cdifInstanceVariable '
+                                                                                                             'declared '
+                                                                                                             'elsewhere',
+                                                                                              'properties': {'@id': {'type': 'string'}},
+                                                                                              'required': ['@id'],
+                                                                                              'type': 'object'}],
+                                                                                   'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes'},
+                                                                   'cdi:value': {'description': 'Index '
+                                                                                                'value '
+                                                                                                '(position) '
+                                                                                                'of '
+                                                                                                'the '
+                                                                                                'variable '
+                                                                                                'in '
+                                                                                                'the '
+                                                                                                'ordered '
+                                                                                                'key.',
+                                                                                 'type': 'integer',
+                                                                                 'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value'}},
+                                                    'required': ['@type',
+                                                                 'cdi:indexes',
+                                                                 'cdi:value'],
+                                                    'type': 'object'},
+                                          'minItems': 1,
+                                          'type': 'array',
+                                          'x-jsonld-id': 'https://w3id.org/cdif/isComposedOf'}},
+     'required': ['@type', 'cdif:isComposedOf'],
+     'title': 'CDIF Key',
+     'type': 'object',
+     'x-jsonld-prefixes': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
+                           'cdif': 'https://w3id.org/cdif/',
+                           'schema': 'http://schema.org/'}}
+
+On instance:
+    {'@context': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
+                  'cdif': 'https://w3id.org/cdif/',
+                  'ex': 'https://example.org/',
+                  'schema': 'http://schema.org/',
+                  'xsd': 'http://www.w3.org/2001/XMLSchema#'},
+     '@id': 'ex:dataset/observations/key/primary',
+     '@type': ['cdif:Key']}
+=== End JSON Schema ===
+
+=== SHACL ===
+
+** Validation error **
+Validation result for _sources/cdifDataType/cdifKey/rules.shacl:
+  Validation Report
+  Conforms: False
+  Results (1):
+  Constraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Violation
+  	Source Shape: [ sh:message Literal("A cdif:Key must have at least one cdif:isComposedOf entry (a cdi:InstanceVariable inline or @id-reference).") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:path cdif:isComposedOf ; sh:severity sh:Violation ]
+  	Focus Node: <https://example.org/dataset/observations/key/primary>
+  	Result Path: cdif:isComposedOf
+  	Message: A cdif:Key must have at least one cdif:isComposedOf entry (a cdi:InstanceVariable inline or @id-reference).
+  
+Focus nodes for _sources/cdifDataType/cdifKey/rules.shacl:
+ - Shape cdifd:cdifKeyShape: <https://example.org/dataset/observations/key/primary>
+
+Validation result for _sources/cdifDataType/cdifInstanceVariable/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifDataType/cdifInstanceVariable/rules.shacl:
+ - Shape cdifd:CDIFInstanceVariableShape: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb11: *none*
+ - Shape cdifd:QualifiesRequiredForAttributeShape: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb71: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb72: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb15: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb69: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb67: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb75: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb17: *none*
+ - Shape cdifd:CDIFxasInstanceVariableShape: *none*
+ - Shape cdifd:QualifiesCoherenceShape: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb73: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb20: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb14: *none*
+ - Shape cdifd:QualifiesNotAllowedWithoutAttributeShape: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb70: *none*
+ - Shape cdifd:InstanceVariableRepresentedVariableExclusivityShape: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb16: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb18: *none*
+ - Shape cdifd:CDIFxasInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb66: *none*
+ - Shape cdifd:CDIFInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb13: *none*
+ - Shape _:n96ee5c12662c48cd9f5ce9c046c8e75cb10: *none*
+
+Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
+ - Shape _:nd65e97b1805b4b8a9250a46b7702c759b6: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:nd65e97b1805b4b8a9250a46b7702c759b19: *none*
+ - Shape _:nd65e97b1805b4b8a9250a46b7702c759b5: *none*
+ - Shape _:nd65e97b1805b4b8a9250a46b7702c759b10: *none*
+ - Shape _:nd65e97b1805b4b8a9250a46b7702c759b4: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nd65e97b1805b4b8a9250a46b7702c759b26: *none*
+ - Shape _:nd65e97b1805b4b8a9250a46b7702c759b7: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nd65e97b1805b4b8a9250a46b7702c759b8: *none*
+
+Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
+ - Shape _:n34d3517ef050468db24cfc5f47630683b11: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n34d3517ef050468db24cfc5f47630683b20: *none*
+ - Shape _:n34d3517ef050468db24cfc5f47630683b21: *none*
+ - Shape _:n34d3517ef050468db24cfc5f47630683b25: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n34d3517ef050468db24cfc5f47630683b22: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n34d3517ef050468db24cfc5f47630683b10: *none*
+ - Shape _:n34d3517ef050468db24cfc5f47630683b23: *none*
+
+Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:conceptBroaderNotSelfShape: *none*
+ - Shape skosv:ConceptShape: *none*
+ - Shape skosv:prefLabelUniqueLangShape: *none*
+
+Validation result for _sources/cdifDataType/cdifStatistics/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifDataType/cdifStatistics/rules.shacl:
+ - Shape cdifd:cdifCategoryStatisticShape: *none*
+ - Shape cdifd:cdifStatisticsShape: *none*
+ - Shape cdifd:cdifStatisticsCollectionShape: *none*
+
+Validation result for _sources/schemaorgProperties/variableMeasured/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/variableMeasured/rules.shacl:
+ - Shape _:n794cac58aa1f49d2a324758d17088366b7: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b44: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b29: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b52: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b30: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b5: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b37: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b38: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b51: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b11: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b45: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b10: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b8: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b14: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b4: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b12: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n794cac58aa1f49d2a324758d17088366b9: *none*
+
+Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:
+ - Shape cdifd:CDIFLabeledLinkShape: *none*
+
+Validation result for _sources/cdifDataType/cdifRepresentedVariable/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifDataType/cdifRepresentedVariable/rules.shacl:
+ - Shape cdifd:cdifRepresentedVariable_RepresentedVariableShape: *none*
+ - Shape cdifd:cdifRepresentedVariable_ConceptSystemShape: *none*
+ - Shape cdifd:cdifRepresentedVariable_UnitTypeShape: *none*
+
+Validation result for _sources/cdifDataType/cdifValueDomain/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifDataType/cdifValueDomain/rules.shacl:
+ - Shape cdifd:cdifSentinelValueDomainShape: *none*
+ - Shape cdifd:cdifSubstantiveValueDomainShape: *none*
+
+Validation result for _sources/cdifDataType/cdifEnumerationDomain/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifDataType/cdifEnumerationDomain/rules.shacl:
+ - Shape cdifd:cdifEnumerationDomainShape: *none*
+
+Validation result for _sources/profiles/cdifProfile/cdifCodelist/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/profiles/cdifProfile/cdifCodelist/rules.shacl:
+ - Shape cdifd:CDIFCodelistConceptShape: *none*
+ - Shape cdifd:CDIFCodelistShape: *none*
+
+=== End SHACL ===
+

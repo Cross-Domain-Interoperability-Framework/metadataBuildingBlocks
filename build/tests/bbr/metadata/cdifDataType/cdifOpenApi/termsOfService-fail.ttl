@@ -1,0 +1,16 @@
+@prefix oas: <https://spec.openapis.org/oas/3.1#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://example.org/api/minimal> a schema1:WebAPI ;
+    schema1:potentialAction [ a schema1:SearchAction ;
+            schema1:name "search" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:httpMethod "GET" ;
+                    schema1:urlTemplate "https://example.org/api/search?q={query}" ;
+                    oas:response [ schema1:description "Successful response." ;
+                            oas:code "200" ;
+                            oas:content [ schema1:encodingFormat "application/json" ] ] ] ] ;
+    schema1:serviceType [ a schema1:DefinedTerm ;
+            schema1:name "Minimal data service v1" ;
+            schema1:termCode "minimal-api/v1" ] .
+

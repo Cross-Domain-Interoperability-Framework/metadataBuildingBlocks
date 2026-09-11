@@ -1,0 +1,240 @@
+Validation report for cdif.bbr.metadata.schemaorgProperties.spatialExtent - Spatial Extent
+Generated 2026-09-11T18:53:43.797871+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using geo-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD geo-fail.jsonld created
+Output Turtle geo-fail.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: 42 is not valid under any of the given schemas
+
+Failed validating 'anyOf' in schema['properties']['schema:geo']:
+    {'anyOf': [{'description': 'A point location. Point locations are '
+                               'recommended for data that is associated '
+                               'with specific sample locations, '
+                               'particularly if these are widely spaced '
+                               'such that an enclosing bounding box would '
+                               'be a misleading representation of the '
+                               'spatial location. Be aware that some '
+                               'client applications might only index or '
+                               'display bounding box extents or a single '
+                               'point location.',
+                'properties': {'@type': {'contains': {'const': 'schema:GeoCoordinates'},
+                                         'default': 'schema:GeoCoordinates',
+                                         'items': {'type': 'string'},
+                                         'minItems': 1,
+                                         'type': 'array'},
+                               'schema:latitude': {'maximum': 90,
+                                                   'minimum': -90,
+                                                   'type': 'number',
+                                                   'x-jsonld-id': 'http://schema.org/latitude'},
+                               'schema:longitude': {'maximum': 180,
+                                                    'minimum': -180,
+                                                    'type': 'number',
+                                                    'x-jsonld-id': 'http://schema.org/longitude'}},
+                'required': ['@type',
+                             'schema:latitude',
+                             'schema:longitude'],
+                'type': 'object'},
+               {'description': 'A schema:GeoShape bounding box. The '
+                               'geometry is described with a set of '
+                               'latitude/longitude pairs (in that '
+                               'order).The documentation for '
+                               "schema:GeoShape states 'Either whitespace "
+                               'or commas can be used to separate latitude '
+                               'and longitude; whitespace should be used '
+                               'when writing a list of several such '
+                               "points.'",
+                'properties': {'@type': {'contains': {'const': 'schema:GeoShape'},
+                                         'default': 'schema:GeoShape',
+                                         'items': {'type': 'string'},
+                                         'minItems': 1,
+                                         'type': 'array'},
+                               'schema:box': {'description': 'A GeoShape '
+                                                             'box defines '
+                                                             'an area on '
+                                                             'the surface '
+                                                             'of the earth '
+                                                             'defined by '
+                                                             'point '
+                                                             'locations of '
+                                                             'the '
+                                                             'southwest '
+                                                             'corner and '
+                                                             'northeast '
+                                                             'corner of '
+                                                             'the '
+                                                             'rectangle in '
+                                                             'latitude-longitude '
+                                                             'coordinates. '
+                                                             'A space '
+                                                             'should be '
+                                                             'used to '
+                                                             'separate the '
+                                                             'latitude and '
+                                                             'longitude '
+                                                             'values. The '
+                                                             'two corner '
+                                                             'coordinate '
+                                                             'points are '
+                                                             'separated by '
+                                                             'a space. '
+                                                             "'East "
+                                                             "longitude' "
+                                                             'means '
+                                                             'positive '
+                                                             'longitude '
+                                                             'values are '
+                                                             'east of the '
+                                                             'prime '
+                                                             '(Greenwich) '
+                                                             'meridian.',
+                                              'type': 'string',
+                                              'x-jsonld-id': 'http://schema.org/box'}},
+                'required': ['@type', 'schema:box'],
+                'type': 'object'},
+               {'description': 'A schema:GeoShape curvilinear trace, for '
+                               'resource related to a linear trace like a '
+                               'ship track or airplane flight line',
+                'properties': {'@type': {'contains': {'const': 'schema:GeoShape'},
+                                         'default': 'schema:GeoShape',
+                                         'items': {'type': 'string'},
+                                         'minItems': 1,
+                                         'type': 'array'},
+                               'schema:line': {'description': 'A GeoShape '
+                                                              'box defines '
+                                                              'a '
+                                                              'curvilinear '
+                                                              'geometry as '
+                                                              'a string of '
+                                                              'latitude-longitude '
+                                                              'coordinates. '
+                                                              'A space '
+                                                              'should be '
+                                                              'used to '
+                                                              'separate '
+                                                              'the '
+                                                              'latitude '
+                                                              'and '
+                                                              'longitude '
+                                                              'values. The '
+                                                              'coordinate '
+                                                              'point pairs '
+                                                              'are also '
+                                                              'separated '
+                                                              'by a space. '
+                                                              "'East "
+                                                              "longitude' "
+                                                              'means '
+                                                              'positive '
+                                                              'longitude '
+                                                              'values are '
+                                                              'east of the '
+                                                              'prime '
+                                                              '(Greenwich) '
+                                                              'meridian. '
+                                                              "e.g. '39.33 "
+                                                              '120.77 '
+                                                              '40.44 '
+                                                              '123.96 '
+                                                              '41.00 '
+                                                              "121.34' ",
+                                               'type': 'string',
+                                               'x-jsonld-id': 'http://schema.org/line'}},
+                'required': ['@type', 'schema:line'],
+                'type': 'object'}],
+     'description': 'Either a bounding box or a point location.',
+     'x-jsonld-id': 'http://schema.org/geo'}
+
+On instance['schema:geo']:
+    42
+=== End JSON Schema ===
+
+=== SHACL ===
+
+** Validation error **
+Validation result for _sources/schemaorgProperties/spatialExtent/rules.shacl:
+  Validation Report
+  Conforms: False
+  Results (1):
+  Constraint Violation in OrConstraintComponent (http://www.w3.org/ns/shacl#OrConstraintComponent):
+  	Severity: sh:Violation
+  	Source Shape: cdifd:spatialExtentProperty
+  	Focus Node: ex:SpatialExtentBox_my8
+  	Value Node: ex:SpatialExtentBox_my8
+  	Message: Recommended: provide a spatial coverage description if applicable using schema:Place, identified by a place name, an identifier, point location(s) (GeoCoordinates), or GeoShape (bounding box, line profile location, or polygon).
+  
+Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb13: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb41: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb42: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb16: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb4: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb40: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:geoCoordinatesNode: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb29: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb38: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb9: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb3: *none*
+ - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:geoShapeNode: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb10: *none*
+ - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:spatialExtentProperty: ex:SpatialExtentBox_my8
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb44: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb24: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb15: *none*
+ - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n84d20ded34df4e8a9f1b0466feef4febb39: *none*
+
+Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:na6b31e3dac8548baa861b259bf313abbb4: *none*
+ - Shape _:na6b31e3dac8548baa861b259bf313abbb10: *none*
+ - Shape _:na6b31e3dac8548baa861b259bf313abbb5: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:na6b31e3dac8548baa861b259bf313abbb8: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:na6b31e3dac8548baa861b259bf313abbb19: *none*
+ - Shape _:na6b31e3dac8548baa861b259bf313abbb26: *none*
+ - Shape _:na6b31e3dac8548baa861b259bf313abbb6: *none*
+ - Shape _:na6b31e3dac8548baa861b259bf313abbb7: *none*
+
+Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape _:n266c6524e8f945e1af484af23f31e44db23: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
+ - Shape _:n266c6524e8f945e1af484af23f31e44db11: *none*
+ - Shape _:n266c6524e8f945e1af484af23f31e44db25: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:n266c6524e8f945e1af484af23f31e44db10: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n266c6524e8f945e1af484af23f31e44db20: *none*
+ - Shape _:n266c6524e8f945e1af484af23f31e44db22: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n266c6524e8f945e1af484af23f31e44db21: *none*
+
+=== End SHACL ===
+

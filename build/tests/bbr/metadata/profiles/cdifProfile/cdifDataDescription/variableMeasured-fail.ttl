@@ -1,0 +1,89 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ns1: <csvw:> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/dataset/oceanTemp2025> a schema1:Dataset ;
+    schema1:dateModified "2025-09-01" ;
+    schema1:distribution [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Ocean temperature NetCDF cube" ;
+            cdif:fileSize 2.4e+02 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:locator "/coordinates/depth" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/measurements/seaWaterTemperature" ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:physicalDataType "float32" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:TabularTextDataSet,
+                schema1:DataDownload ;
+            ns1:commentPrefix "#" ;
+            ns1:delimiter "," ;
+            ns1:header true ;
+            ns1:headerRowCount 1 ;
+            ns1:quoteChar "\"" ;
+            ns1:skipBlankRows true ;
+            ns1:skipRows 0 ;
+            ns1:trim "true" ;
+            cdi:characterSet "UTF-8" ;
+            cdi:isDelimited true ;
+            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Ocean temperature CSV" ;
+            cdif:fileSize 1.2e+00 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ],
+                [ cdi:decimalPositions 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "-999.9" ;
+                    cdi:scale 1 ;
+                    cdif:format "0.0" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:defaultValue "NaN" ;
+                    cdi:isRequired false ;
+                    cdi:maximumLength 10 ;
+                    cdi:minimumLength 1 ;
+                    cdi:nullSequence "-999.99" ;
+                    cdi:scale 2 ;
+                    cdif:format "0.00" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ] ] ;
+    schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
+    schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
+    schema1:name "Ocean Temperature Monitoring Data" ;
+    schema1:subjectOf <https://example.org/dataset/oceanTemp2025/metadata> ;
+    schema1:url "https://example.org/datasets/ocean-temp-2025" .
+
+<https://example.org/dataset/oceanTemp2025/metadata> a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/data_description/1.1> ;
+    schema1:about <https://example.org/dataset/oceanTemp2025> ;
+    schema1:additionalType dcat:CatalogRecord .
+

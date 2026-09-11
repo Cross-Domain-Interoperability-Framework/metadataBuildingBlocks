@@ -1,0 +1,421 @@
+Validation report for cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme - CDIF Concept Scheme
+Generated 2026-09-11T18:53:41.762001+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using prefLabel-fail.json from test resources
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: 'skos:prefLabel' is a required property
+
+Failed validating 'required' in schema:
+    {'$defs': {'ConceptRef': {'additionalProperties': False,
+                              'description': 'Reference (by URI) to a '
+                                             'skos:Concept defined '
+                                             'elsewhere. Used inside '
+                                             'skos:broader / skos:narrower '
+                                             'as the @id-reference '
+                                             'alternative to an inline '
+                                             'Concept.',
+                              'properties': {'@id': {'description': 'URI '
+                                                                    'of '
+                                                                    'the '
+                                                                    'referenced '
+                                                                    'concept.',
+                                                     'type': 'string'}},
+                              'required': ['@id'],
+                              'type': 'object'},
+               'LanguageTaggedValue': {'description': 'An RDF literal '
+                                                      'value with a '
+                                                      'language tag, '
+                                                      'serialized as a '
+                                                      'JSON-LD value '
+                                                      'object. Inlined '
+                                                      'from skosConcept '
+                                                      '(the resolver does '
+                                                      'not preserve '
+                                                      'cross-file '
+                                                      "'#/$defs/...' "
+                                                      'fragment refs).',
+                                       'properties': {'@language': {'description': 'BCP '
+                                                                                   '47 '
+                                                                                   'language '
+                                                                                   'tag '
+                                                                                   '(e.g. '
+                                                                                   'en, '
+                                                                                   'fr, '
+                                                                                   'de).',
+                                                                    'type': 'string'},
+                                                      '@value': {'description': 'The '
+                                                                                'text '
+                                                                                'content.',
+                                                                 'type': 'string'}},
+                                       'required': ['@value'],
+                                       'type': 'object'},
+               'cdifConcept': {'properties': {'@context': {'description': 'JSON-LD '
+                                                                          'context '
+                                                                          'declaring '
+                                                                          'the '
+                                                                          'skos '
+                                                                          'namespace '
+                                                                          'prefix. '
+                                                                          'May '
+                                                                          'be '
+                                                                          'a '
+                                                                          'single '
+                                                                          'object '
+                                                                          'or '
+                                                                          'an '
+                                                                          'array '
+                                                                          'of '
+                                                                          'strings '
+                                                                          'and '
+                                                                          'objects.',
+                                                           'properties': {'skos': {'const': 'http://www.w3.org/2004/02/skos/core#'}},
+                                                           'required': ['skos'],
+                                                           'type': 'object'},
+                                              '@id': {'description': 'URI '
+                                                                     'identifier '
+                                                                     'for '
+                                                                     'this '
+                                                                     'concept.',
+                                                      'type': 'string'},
+                                              '@type': {'contains': {'const': 'skos:Concept'},
+                                                        'items': {'type': 'string'},
+                                                        'minItems': 1,
+                                                        'type': 'array'},
+                                              'skos:broader': {'description': 'Broader '
+                                                                              '(parent) '
+                                                                              'concepts '
+                                                                              'in '
+                                                                              'the '
+                                                                              'hierarchy. '
+                                                                              'Items '
+                                                                              'are '
+                                                                              'inline '
+                                                                              'concept '
+                                                                              'objects '
+                                                                              'or '
+                                                                              '@id '
+                                                                              'references.',
+                                                               'items': {'anyOf': [{'$ref': '#/$defs/ConceptRef'},
+                                                                                   {'$ref': '#/$defs/cdifConcept'}]},
+                                                               'type': 'array'},
+                                              'skos:definition': {'anyOf': [{'type': 'string'},
+                                                                            {'$ref': '#/$defs/LanguageTaggedValue'},
+                                                                            {'items': {'anyOf': [{'type': 'string'},
+                                                                                                 {'$ref': '#/$defs/LanguageTaggedValue'}]},
+                                                                             'type': 'array'}],
+                                                                  'description': 'Formal '
+                                                                                 'explanation '
+                                                                                 'of '
+                                                                                 'the '
+                                                                                 'meaning '
+                                                                                 'of '
+                                                                                 'this '
+                                                                                 'concept.'},
+                                              'skos:inScheme': {'anyOf': [{'additionalProperties': False,
+                                                                           'properties': {'@id': {'type': 'string'}},
+                                                                           'required': ['@id'],
+                                                                           'type': 'object'},
+                                                                          {'items': {'additionalProperties': False,
+                                                                                     'properties': {'@id': {'type': 'string'}},
+                                                                                     'required': ['@id'],
+                                                                                     'type': 'object'},
+                                                                           'type': 'array'}],
+                                                                'description': 'Concept '
+                                                                               'scheme(s) '
+                                                                               'this '
+                                                                               'concept '
+                                                                               'belongs '
+                                                                               'to.'},
+                                              'skos:narrower': {'description': 'Narrower '
+                                                                               '(child) '
+                                                                               'concepts '
+                                                                               'in '
+                                                                               'the '
+                                                                               'hierarchy. '
+                                                                               'Items '
+                                                                               'are '
+                                                                               'inline '
+                                                                               'concept '
+                                                                               'objects '
+                                                                               'or '
+                                                                               '@id '
+                                                                               'references.',
+                                                                'items': {'anyOf': [{'$ref': '#/$defs/ConceptRef'},
+                                                                                    {'$ref': '#/$defs/cdifConcept'}]},
+                                                                'type': 'array'},
+                                              'skos:notation': {'description': 'Classification '
+                                                                               'code '
+                                                                               'for '
+                                                                               'this '
+                                                                               'concept '
+                                                                               'within '
+                                                                               'a '
+                                                                               'scheme '
+                                                                               '(a '
+                                                                               'single '
+                                                                               'notation '
+                                                                               'string, '
+                                                                               'consistent '
+                                                                               'with '
+                                                                               'CdifCodelistConcept).',
+                                                                'type': 'string'},
+                                              'skos:note': {'anyOf': [{'type': 'string'},
+                                                                      {'$ref': '#/$defs/LanguageTaggedValue'},
+                                                                      {'items': {'anyOf': [{'type': 'string'},
+                                                                                           {'$ref': '#/$defs/LanguageTaggedValue'}]},
+                                                                       'type': 'array'}],
+                                                            'description': 'General '
+                                                                           'note '
+                                                                           'about '
+                                                                           'this '
+                                                                           'concept.'},
+                                              'skos:prefLabel': {'anyOf': [{'type': 'string'},
+                                                                           {'$ref': '#/$defs/LanguageTaggedValue'},
+                                                                           {'items': {'$ref': '#/$defs/LanguageTaggedValue'},
+                                                                            'type': 'array'}],
+                                                                 'description': 'Preferred '
+                                                                                'lexical '
+                                                                                'label '
+                                                                                'for '
+                                                                                'this '
+                                                                                'concept. '
+                                                                                'A '
+                                                                                'single '
+                                                                                'string, '
+                                                                                'a '
+                                                                                'single '
+                                                                                'language-tagged '
+                                                                                'value, '
+                                                                                'or '
+                                                                                'an '
+                                                                                'array '
+                                                                                'of '
+                                                                                'language-tagged '
+                                                                                'values. '
+                                                                                'Each '
+                                                                                'language '
+                                                                                'should '
+                                                                                'appear '
+                                                                                'at '
+                                                                                'most '
+                                                                                'once.'}},
+                               'required': ['@type', 'skos:prefLabel'],
+                               'type': 'object'}},
+     '$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'description': 'Profile module for SKOS concept schemes used as '
+                    'controlled vocabularies in CDIF metadata. Thin '
+                    'wrapper around skosConceptScheme.',
+     'properties': {'@context': {'description': 'JSON-LD context declaring '
+                                                'the skos namespace prefix '
+                                                'and any additional '
+                                                'prefixes used in concept '
+                                                'URIs. May be a single '
+                                                'object or an array of '
+                                                'strings and objects.',
+                                 'properties': {'skos': {'const': 'http://www.w3.org/2004/02/skos/core#'}},
+                                 'required': ['skos'],
+                                 'type': 'object'},
+                    '@id': {'description': 'URI identifier for this '
+                                           'concept scheme.',
+                            'type': 'string'},
+                    '@type': {'contains': {'const': 'skos:ConceptScheme'},
+                              'items': {'type': 'string'},
+                              'minItems': 1,
+                              'type': 'array'},
+                    'schema:subjectOf': {'description': 'Catalog record '
+                                                        'describing this '
+                                                        'concept scheme as '
+                                                        'CDIF-conformant '
+                                                        'metadata. Must '
+                                                        'declare '
+                                                        'conformance to '
+                                                        'the '
+                                                        'cdifConceptScheme '
+                                                        'profile via '
+                                                        'dcterms:conformsTo '
+                                                        'and be typed as '
+                                                        'schema:Dataset '
+                                                        'with '
+                                                        'schema:additionalType '
+                                                        'including '
+                                                        'dcat:CatalogRecord.',
+                                         'properties': {'@id': {'description': 'Identifier '
+                                                                               'for '
+                                                                               'the '
+                                                                               'catalog '
+                                                                               'record.',
+                                                                'type': 'string'},
+                                                        '@type': {'contains': {'const': 'schema:Dataset'},
+                                                                  'items': {'type': 'string'},
+                                                                  'minItems': 1,
+                                                                  'type': 'array'},
+                                                        'dcterms:conformsTo': {'contains': {'additionalProperties': False,
+                                                                                            'properties': {'@id': {'const': 'https://w3id.org/cdif/conceptscheme/1.1'}},
+                                                                                            'required': ['@id'],
+                                                                                            'type': 'object'},
+                                                                               'items': {'additionalProperties': False,
+                                                                                         'properties': {'@id': {'type': 'string'}},
+                                                                                         'required': ['@id'],
+                                                                                         'type': 'object'},
+                                                                               'minItems': 1,
+                                                                               'type': 'array'},
+                                                        'schema:about': {'additionalProperties': False,
+                                                                         'properties': {'@id': {'type': 'string'}},
+                                                                         'required': ['@id'],
+                                                                         'type': 'object'},
+                                                        'schema:additionalType': {'contains': {'additionalProperties': False,
+                                                                                               'properties': {'@id': {'const': 'dcat:CatalogRecord'}},
+                                                                                               'required': ['@id'],
+                                                                                               'type': 'object'},
+                                                                                  'items': {'anyOf': [{'type': 'string'},
+                                                                                                      {'additionalProperties': False,
+                                                                                                       'properties': {'@id': {'type': 'string'}},
+                                                                                                       'required': ['@id'],
+                                                                                                       'type': 'object'}]},
+                                                                                  'minItems': 1,
+                                                                                  'type': 'array'}},
+                                         'required': ['@type',
+                                                      'schema:additionalType',
+                                                      'dcterms:conformsTo'],
+                                         'type': 'object'},
+                    'schema:version': {'description': 'Version identifier '
+                                                      'for the concept '
+                                                      'scheme.',
+                                       'type': ['string', 'number']},
+                    'skos:altLabel': {'anyOf': [{'type': 'string'},
+                                                {'$ref': '#/$defs/LanguageTaggedValue'},
+                                                {'items': {'anyOf': [{'type': 'string'},
+                                                                     {'$ref': '#/$defs/LanguageTaggedValue'}]},
+                                                 'type': 'array'}],
+                                      'description': 'Alternative lexical '
+                                                     'labels (acronyms, '
+                                                     'abbreviations, '
+                                                     'spelling variants).'},
+                    'skos:definition': {'anyOf': [{'type': 'string'},
+                                                  {'$ref': '#/$defs/LanguageTaggedValue'},
+                                                  {'items': {'anyOf': [{'type': 'string'},
+                                                                       {'$ref': '#/$defs/LanguageTaggedValue'}]},
+                                                   'type': 'array'}],
+                                        'description': 'Formal explanation '
+                                                       'of the meaning or '
+                                                       'purpose of this '
+                                                       'concept scheme.'},
+                    'skos:hasTopConcept': {'description': 'Top-level '
+                                                          'concepts in '
+                                                          'this scheme. '
+                                                          'Each item is a '
+                                                          'skos:Concept '
+                                                          '(inline or @id '
+                                                          'reference).',
+                                           'items': {'anyOf': [{'$ref': '#/$defs/cdifConcept'},
+                                                               {'additionalProperties': False,
+                                                                'properties': {'@id': {'description': 'URI '
+                                                                                                      'reference '
+                                                                                                      'to '
+                                                                                                      'a '
+                                                                                                      'concept '
+                                                                                                      'defined '
+                                                                                                      'elsewhere',
+                                                                                       'type': 'string'}},
+                                                                'required': ['@id'],
+                                                                'type': 'object'}]},
+                                           'minItems': 1,
+                                           'type': 'array'},
+                    'skos:notation': {'description': 'Classification code '
+                                                     'or notation for this '
+                                                     'concept scheme.',
+                                      'items': {'type': 'string'},
+                                      'type': 'array'},
+                    'skos:note': {'anyOf': [{'type': 'string'},
+                                            {'$ref': '#/$defs/LanguageTaggedValue'},
+                                            {'items': {'anyOf': [{'type': 'string'},
+                                                                 {'$ref': '#/$defs/LanguageTaggedValue'}]},
+                                             'type': 'array'}],
+                                  'description': 'General note about the '
+                                                 'concept scheme.'},
+                    'skos:prefLabel': {'anyOf': [{'type': 'string'},
+                                                 {'$ref': '#/$defs/LanguageTaggedValue'},
+                                                 {'items': {'$ref': '#/$defs/LanguageTaggedValue'},
+                                                  'type': 'array'}],
+                                       'description': 'Preferred lexical '
+                                                      'label for the '
+                                                      'concept scheme. A '
+                                                      'single string, a '
+                                                      'single '
+                                                      'language-tagged '
+                                                      'value, or an array '
+                                                      'of language-tagged '
+                                                      'values. Each '
+                                                      'language should '
+                                                      'appear at most '
+                                                      'once.'}},
+     'required': ['@type',
+                  'skos:prefLabel',
+                  'skos:definition',
+                  'skos:hasTopConcept'],
+     'title': 'CDIF Concept Scheme',
+     'type': 'object'}
+
+On instance:
+    {'@context': {'dcterms': 'http://purl.org/dc/terms/',
+                  'ex': 'https://example.org/vocab/datatype/',
+                  'schema': 'http://schema.org/',
+                  'skos': 'http://www.w3.org/2004/02/skos/core#'},
+     '@id': 'ex:datatypeScheme',
+     '@type': ['skos:ConceptScheme'],
+     'schema:version': '1.0',
+     'skos:definition': 'Controlled vocabulary of physical data type '
+                        'concepts used to qualify cdif:physicalDataType in '
+                        'CDIF physical mappings.',
+     'skos:hasTopConcept': [{'@id': 'ex:numeric',
+                             '@type': ['skos:Concept'],
+                             'skos:definition': 'A numeric value (integer '
+                                                'or floating point).',
+                             'skos:inScheme': {'@id': 'ex:datatypeScheme'},
+                             'skos:narrower': [{'@id': 'ex:integer',
+                                                '@type': ['skos:Concept'],
+                                                'skos:broader': [{'@id': 'ex:numeric'}],
+                                                'skos:definition': 'A '
+                                                                   'whole '
+                                                                   'number '
+                                                                   'with '
+                                                                   'no '
+                                                                   'fractional '
+                                                                   'part.',
+                                                'skos:inScheme': {'@id': 'ex:datatypeScheme'},
+                                                'skos:notation': 'integer',
+                                                'skos:prefLabel': 'Integer'},
+                                               {'@id': 'ex:float',
+                                                '@type': ['skos:Concept'],
+                                                'skos:broader': [{'@id': 'ex:numeric'}],
+                                                'skos:definition': 'A '
+                                                                   'floating-point '
+                                                                   'numeric '
+                                                                   'value.',
+                                                'skos:inScheme': {'@id': 'ex:datatypeScheme'},
+                                                'skos:notation': 'float',
+                                                'skos:prefLabel': 'Float'}],
+                             'skos:notation': 'numeric',
+                             'skos:prefLabel': 'Numeric'},
+                            {'@id': 'ex:text',
+                             '@type': ['skos:Concept'],
+                             'skos:definition': 'A character string.',
+                             'skos:inScheme': {'@id': 'ex:datatypeScheme'},
+                             'skos:notation': 'text',
+                             'skos:prefLabel': 'Text'},
+                            {'@id': 'ex:date',
+                             '@type': ['skos:Concept'],
+                             'skos:definition': 'A calendar date.',
+                             'skos:inScheme': {'@id': 'ex:datatypeScheme'},
+                             'skos:notation': 'date',
+                             'skos:prefLabel': 'Date'}]}
+=== End JSON Schema ===
+

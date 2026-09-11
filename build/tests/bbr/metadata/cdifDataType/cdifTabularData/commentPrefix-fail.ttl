@@ -1,0 +1,24 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a cdi:TabularTextDataSet,
+        schema1:Dataset ;
+    cdi:isDelimited true ;
+    csvw:commentPrefix 42 ;
+    csvw:delimiter "," ;
+    csvw:header true ;
+    csvw:headerRowCount 1 ;
+    csvw:skipBlankRows false ;
+    csvw:skipInitialSpace true ;
+    cdif:hasPhysicalMapping [ cdif:format "float64" ;
+            cdif:formats_InstanceVariable ex:var-temperature ;
+            cdif:index 1 ;
+            cdif:physicalDataType "Numeric" ],
+        [ cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ] .
+

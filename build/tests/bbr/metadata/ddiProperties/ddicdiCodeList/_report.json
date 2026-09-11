@@ -2,9 +2,391 @@
   "title": "Validation report for cdif.bbr.metadata.ddiProperties.ddicdiCodeList - DDI-CDI Code List",
   "bblockName": "DDI-CDI Code List",
   "bblockId": "cdif.bbr.metadata.ddiProperties.ddicdiCodeList",
-  "generated": "2026-09-11T18:43:18.327205+00:00",
+  "generated": "2026-09-11T18:53:45.118131+00:00",
   "result": false,
   "items": [
+    {
+      "source": {
+        "type": "TEST_RESOURCE",
+        "requireFail": true,
+        "filename": "_sources/ddiProperties/ddicdiCodeList/tests/allowsDuplicates-fail.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiCodeList/tests/allowsDuplicates-fail.json",
+        "language": "json"
+      },
+      "result": true,
+      "sections": [
+        {
+          "name": "GENERAL",
+          "title": "General",
+          "entries": [
+            {
+              "op": "require-fail",
+              "isError": false,
+              "message": "Test was expected to fail and it did."
+            }
+          ]
+        },
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using allowsDuplicates-fail.json from test resources"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "allowsDuplicates-fail.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD allowsDuplicates-fail.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "allowsDuplicates-fail.ttl",
+              "size": 67,
+              "isError": false,
+              "message": "Output Turtle allowsDuplicates-fail.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": false,
+              "exception": "ValidationError",
+              "errorMessage": "'not-a-boolean' is not of type 'boolean'",
+              "isError": true,
+              "message": "ValidationError: 'not-a-boolean' is not of type 'boolean'\n\nFailed validating 'type' in schema['properties']['cdi:allowsDuplicates']:\n    {'description': 'If value is False, the members are unique within the '\n                    'collection - if True, there may be duplicates. (Note '\n                    'that a mathematical \u201cbag\u201d permits duplicates and is '\n                    'unordered - a \u201cset\u201d does not have duplicates and may '\n                    'be ordered.)',\n     'type': 'boolean',\n     'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/allowsDuplicates'}\n\nOn instance['cdi:allowsDuplicates']:\n    'not-a-boolean'"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiCodeList/rules.shacl",
+              "graph": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode <https://example.org/codelist/qualityFlag> ;\n            sh:resultMessage \"A DDI-CDI CodeList should be defined by at least one cdi:isDefinedBy Concept (or id-reference)\" ;\n            sh:resultPath cdi:isDefinedBy ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape [ sh:message \"A DDI-CDI CodeList should be defined by at least one cdi:isDefinedBy Concept (or id-reference)\" ;\n                    sh:minCount 1 ;\n                    sh:path cdi:isDefinedBy ;\n                    sh:severity sh:Warning ] ],\n        [ a sh:ValidationResult ;\n            sh:focusNode <https://example.org/codelist/qualityFlag> ;\n            sh:resultMessage \"cdi:allowsDuplicates indicates whether duplicate members are permitted\" ;\n            sh:resultPath cdi:allowsDuplicates ;\n            sh:resultSeverity sh:Info ;\n            sh:sourceConstraintComponent sh:DatatypeConstraintComponent ;\n            sh:sourceShape [ sh:datatype xsd:boolean ;\n                    sh:message \"cdi:allowsDuplicates indicates whether duplicate members are permitted\" ;\n                    sh:path cdi:allowsDuplicates ;\n                    sh:severity sh:Info ] ;\n            sh:value \"not-a-boolean\" ] .\n\n",
+              "isError": true,
+              "message": "Validation result for _sources/ddiProperties/ddicdiCodeList/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (2):\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A DDI-CDI CodeList should be defined by at least one cdi:isDefinedBy Concept (or id-reference)\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:isDefinedBy ; sh:severity sh:Warning ]\n  \tFocus Node: <https://example.org/codelist/qualityFlag>\n  \tResult Path: cdi:isDefinedBy\n  \tMessage: A DDI-CDI CodeList should be defined by at least one cdi:isDefinedBy Concept (or id-reference)\n  Validation Result in DatatypeConstraintComponent (http://www.w3.org/ns/shacl#DatatypeConstraintComponent):\n  \tSeverity: sh:Info\n  \tSource Shape: [ sh:datatype xsd:boolean ; sh:message Literal(\"cdi:allowsDuplicates indicates whether duplicate members are permitted\") ; sh:path cdi:allowsDuplicates ; sh:severity sh:Info ]\n  \tFocus Node: <https://example.org/codelist/qualityFlag>\n  \tValue Node: Literal(\"not-a-boolean\")\n  \tResult Path: cdi:allowsDuplicates\n  \tMessage: cdi:allowsDuplicates indicates whether duplicate members are permitted\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiCodeList/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddicdiCodeListShape": {
+                  "nodes": [
+                    "<https://example.org/codelist/qualityFlag>"
+                  ]
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiCodeList/rules.shacl:\n - Shape cdifd:ddicdiCodeListShape: <https://example.org/codelist/qualityFlag>\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiMachine/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiProperties/ddicdiMachine/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiMachine/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddicdiMachineShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiMachine/rules.shacl:\n - Shape cdifd:ddicdiMachineShape: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiOrganization/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiProperties/ddicdiOrganization/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiOrganization/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddicdiOrganizationShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiOrganization/rules.shacl:\n - Shape cdifd:ddicdiOrganizationShape: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiIndividual/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiProperties/ddicdiIndividual/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiIndividual/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddicdiIndividualShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiIndividual/rules.shacl:\n - Shape cdifd:ddicdiIndividualShape: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl",
+              "focusNodes": {
+                "_:n85ca0ae261c3427f9c60ff19880ef8b6b3": {
+                  "nodes": []
+                },
+                "cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:ddicdiProcessingAgentShape": {
+                  "nodes": []
+                },
+                "_:n85ca0ae261c3427f9c60ff19880ef8b6b8": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n - Shape _:n85ca0ae261c3427f9c60ff19880ef8b6b3: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n85ca0ae261c3427f9c60ff19880ef8b6b8: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/skosProperties/skosConcept/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/skosProperties/skosConcept/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/skosProperties/skosConcept/rules.shacl",
+              "focusNodes": {
+                "skosv:conceptBroaderNotSelfShape": {
+                  "nodes": []
+                },
+                "skosv:ConceptShape": {
+                  "nodes": []
+                },
+                "skosv:prefLabelUniqueLangShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:conceptBroaderNotSelfShape: *none*\n - Shape skosv:ConceptShape: *none*\n - Shape skosv:prefLabelUniqueLangShape: *none*\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source": {
+        "type": "TEST_RESOURCE",
+        "requireFail": true,
+        "filename": "_sources/ddiProperties/ddicdiCodeList/tests/has_Code-fail.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiCodeList/tests/has_Code-fail.json",
+        "language": "json"
+      },
+      "result": true,
+      "sections": [
+        {
+          "name": "GENERAL",
+          "title": "General",
+          "entries": [
+            {
+              "op": "require-fail",
+              "isError": false,
+              "message": "Test was expected to fail and it did."
+            }
+          ]
+        },
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using has_Code-fail.json from test resources"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "has_Code-fail.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD has_Code-fail.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "has_Code-fail.ttl",
+              "size": 53,
+              "isError": false,
+              "message": "Output Turtle has_Code-fail.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": false,
+              "exception": "ValidationError",
+              "errorMessage": "42 is not of type 'array'",
+              "isError": true,
+              "message": "ValidationError: 42 is not of type 'array'\n\nFailed validating 'type' in schema['properties']['cdi:has_Code']:\n    {'items': {'anyOf': [{'$ref': '#/$defs/Code'},\n                         {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference'}]},\n     'minItems': 1,\n     'type': 'array',\n     'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_Code'}\n\nOn instance['cdi:has_Code']:\n    42"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiCodeList/rules.shacl",
+              "graph": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode <https://example.org/codelist/qualityFlag> ;\n            sh:resultMessage \"A DDI-CDI CodeList should be defined by at least one cdi:isDefinedBy Concept (or id-reference)\" ;\n            sh:resultPath cdi:isDefinedBy ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape [ sh:message \"A DDI-CDI CodeList should be defined by at least one cdi:isDefinedBy Concept (or id-reference)\" ;\n                    sh:minCount 1 ;\n                    sh:path cdi:isDefinedBy ;\n                    sh:severity sh:Warning ] ] .\n\n",
+              "isError": true,
+              "message": "Validation result for _sources/ddiProperties/ddicdiCodeList/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A DDI-CDI CodeList should be defined by at least one cdi:isDefinedBy Concept (or id-reference)\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:isDefinedBy ; sh:severity sh:Warning ]\n  \tFocus Node: <https://example.org/codelist/qualityFlag>\n  \tResult Path: cdi:isDefinedBy\n  \tMessage: A DDI-CDI CodeList should be defined by at least one cdi:isDefinedBy Concept (or id-reference)\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiCodeList/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddicdiCodeListShape": {
+                  "nodes": [
+                    "<https://example.org/codelist/qualityFlag>"
+                  ]
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiCodeList/rules.shacl:\n - Shape cdifd:ddicdiCodeListShape: <https://example.org/codelist/qualityFlag>\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiMachine/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiProperties/ddicdiMachine/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiMachine/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddicdiMachineShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiMachine/rules.shacl:\n - Shape cdifd:ddicdiMachineShape: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiOrganization/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiProperties/ddicdiOrganization/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiOrganization/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddicdiOrganizationShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiOrganization/rules.shacl:\n - Shape cdifd:ddicdiOrganizationShape: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiIndividual/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiProperties/ddicdiIndividual/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiIndividual/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddicdiIndividualShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiIndividual/rules.shacl:\n - Shape cdifd:ddicdiIndividualShape: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl",
+              "focusNodes": {
+                "_:n85ca0ae261c3427f9c60ff19880ef8b6b3": {
+                  "nodes": []
+                },
+                "cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:ddicdiProcessingAgentShape": {
+                  "nodes": []
+                },
+                "_:n85ca0ae261c3427f9c60ff19880ef8b6b8": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n - Shape _:n85ca0ae261c3427f9c60ff19880ef8b6b3: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n85ca0ae261c3427f9c60ff19880ef8b6b8: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/skosProperties/skosConcept/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/skosProperties/skosConcept/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/skosProperties/skosConcept/rules.shacl",
+              "focusNodes": {
+                "skosv:conceptBroaderNotSelfShape": {
+                  "nodes": []
+                },
+                "skosv:ConceptShape": {
+                  "nodes": []
+                },
+                "skosv:prefLabelUniqueLangShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:conceptBroaderNotSelfShape: *none*\n - Shape skosv:ConceptShape: *none*\n - Shape skosv:prefLabelUniqueLangShape: *none*\n"
+            }
+          ]
+        }
+      ]
+    },
     {
       "source": {
         "type": "EXAMPLE",
@@ -83,23 +465,6 @@
             },
             {
               "op": "shacl-report",
-              "shaclFile": "_sources/ddiProperties/ddicdiOrganization/rules.shacl",
-              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
-              "isError": false,
-              "message": "Validation result for _sources/ddiProperties/ddicdiOrganization/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
-            },
-            {
-              "shaclFile": "_sources/ddiProperties/ddicdiOrganization/rules.shacl",
-              "focusNodes": {
-                "cdifd:ddicdiOrganizationShape": {
-                  "nodes": []
-                }
-              },
-              "isError": false,
-              "message": "Focus nodes for _sources/ddiProperties/ddicdiOrganization/rules.shacl:\n - Shape cdifd:ddicdiOrganizationShape: *none*\n"
-            },
-            {
-              "op": "shacl-report",
               "shaclFile": "_sources/ddiProperties/ddicdiMachine/rules.shacl",
               "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
               "isError": false,
@@ -114,6 +479,23 @@
               },
               "isError": false,
               "message": "Focus nodes for _sources/ddiProperties/ddicdiMachine/rules.shacl:\n - Shape cdifd:ddicdiMachineShape: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiOrganization/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiProperties/ddicdiOrganization/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiOrganization/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddicdiOrganizationShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiOrganization/rules.shacl:\n - Shape cdifd:ddicdiOrganizationShape: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -142,21 +524,21 @@
             {
               "shaclFile": "_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl",
               "focusNodes": {
-                "_:na50abd860be9455f8be6a33f8dee7b2bb3": {
+                "_:n85ca0ae261c3427f9c60ff19880ef8b6b3": {
                   "nodes": []
                 },
-                "_:na50abd860be9455f8be6a33f8dee7b2bb8": {
+                "cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:ddicdiProcessingAgentShape": {
                   "nodes": []
                 },
-                "cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first": {
+                "_:n85ca0ae261c3427f9c60ff19880ef8b6b8": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n - Shape _:na50abd860be9455f8be6a33f8dee7b2bb3: *none*\n - Shape _:na50abd860be9455f8be6a33f8dee7b2bb8: *none*\n - Shape cdifd:ddicdiProcessingAgentShape: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n - Shape _:n85ca0ae261c3427f9c60ff19880ef8b6b3: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n85ca0ae261c3427f9c60ff19880ef8b6b8: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -168,10 +550,10 @@
             {
               "shaclFile": "_sources/skosProperties/skosConcept/rules.shacl",
               "focusNodes": {
-                "skosv:ConceptShape": {
+                "skosv:conceptBroaderNotSelfShape": {
                   "nodes": []
                 },
-                "skosv:conceptBroaderNotSelfShape": {
+                "skosv:ConceptShape": {
                   "nodes": []
                 },
                 "skosv:prefLabelUniqueLangShape": {
@@ -179,7 +561,7 @@
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:ConceptShape: *none*\n - Shape skosv:conceptBroaderNotSelfShape: *none*\n - Shape skosv:prefLabelUniqueLangShape: *none*\n"
+              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:conceptBroaderNotSelfShape: *none*\n - Shape skosv:ConceptShape: *none*\n - Shape skosv:prefLabelUniqueLangShape: *none*\n"
             }
           ]
         }
@@ -188,8 +570,8 @@
   ],
   "globalErrors": {},
   "counts": {
-    "total": 1,
-    "passed": 0,
+    "total": 3,
+    "passed": 2,
     "failed": 1
   }
 }

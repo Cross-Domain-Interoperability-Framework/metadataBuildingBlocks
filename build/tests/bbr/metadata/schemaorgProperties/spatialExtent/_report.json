@@ -2,15 +2,15 @@
   "title": "Validation report for cdif.bbr.metadata.schemaorgProperties.spatialExtent - Spatial Extent",
   "bblockName": "Spatial Extent",
   "bblockId": "cdif.bbr.metadata.schemaorgProperties.spatialExtent",
-  "generated": "2026-09-11T18:43:17.425564+00:00",
+  "generated": "2026-09-11T18:53:43.934807+00:00",
   "result": true,
   "items": [
     {
       "source": {
         "type": "TEST_RESOURCE",
         "requireFail": true,
-        "filename": "_sources/schemaorgProperties/spatialExtent/tests/affiliation-fail.json",
-        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/spatialExtent/tests/affiliation-fail.json",
+        "filename": "_sources/schemaorgProperties/spatialExtent/tests/geo-fail.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/spatialExtent/tests/geo-fail.json",
         "language": "json"
       },
       "result": true,
@@ -32,7 +32,7 @@
           "entries": [
             {
               "isError": false,
-              "message": "Using affiliation-fail.json from test resources"
+              "message": "Using geo-fail.json from test resources"
             },
             {
               "op": "jsonld-uplift",
@@ -41,17 +41,17 @@
             },
             {
               "op": "jsonld-create",
-              "filename": "affiliation-fail.jsonld",
+              "filename": "geo-fail.jsonld",
               "isError": false,
-              "message": "Output JSON-LD affiliation-fail.jsonld created"
+              "message": "Output JSON-LD geo-fail.jsonld created"
             },
             {
               "op": "ttl-create",
               "empty": false,
-              "filename": "affiliation-fail.ttl",
-              "size": 11,
+              "filename": "geo-fail.ttl",
+              "size": 2,
               "isError": false,
-              "message": "Output Turtle affiliation-fail.ttl created"
+              "message": "Output Turtle geo-fail.ttl created"
             }
           ]
         },
@@ -63,9 +63,9 @@
               "op": "validation",
               "result": false,
               "exception": "ValidationError",
-              "errorMessage": "'schema:Person' is not of type 'array'",
+              "errorMessage": "42 is not valid under any of the given schemas",
               "isError": true,
-              "message": "ValidationError: 'schema:Person' is not of type 'array'\n\nFailed validating 'type' in schema['properties']['@type']:\n    {'contains': {'const': 'schema:Place'},\n     'default': 'schema:Place',\n     'items': {'type': 'string'},\n     'minItems': 1,\n     'type': 'array'}\n\nOn instance['@type']:\n    'schema:Person'"
+              "message": "ValidationError: 42 is not valid under any of the given schemas\n\nFailed validating 'anyOf' in schema['properties']['schema:geo']:\n    {'anyOf': [{'description': 'A point location. Point locations are '\n                               'recommended for data that is associated '\n                               'with specific sample locations, '\n                               'particularly if these are widely spaced '\n                               'such that an enclosing bounding box would '\n                               'be a misleading representation of the '\n                               'spatial location. Be aware that some '\n                               'client applications might only index or '\n                               'display bounding box extents or a single '\n                               'point location.',\n                'properties': {'@type': {'contains': {'const': 'schema:GeoCoordinates'},\n                                         'default': 'schema:GeoCoordinates',\n                                         'items': {'type': 'string'},\n                                         'minItems': 1,\n                                         'type': 'array'},\n                               'schema:latitude': {'maximum': 90,\n                                                   'minimum': -90,\n                                                   'type': 'number',\n                                                   'x-jsonld-id': 'http://schema.org/latitude'},\n                               'schema:longitude': {'maximum': 180,\n                                                    'minimum': -180,\n                                                    'type': 'number',\n                                                    'x-jsonld-id': 'http://schema.org/longitude'}},\n                'required': ['@type',\n                             'schema:latitude',\n                             'schema:longitude'],\n                'type': 'object'},\n               {'description': 'A schema:GeoShape bounding box. The '\n                               'geometry is described with a set of '\n                               'latitude/longitude pairs (in that '\n                               'order).The documentation for '\n                               \"schema:GeoShape states 'Either whitespace \"\n                               'or commas can be used to separate latitude '\n                               'and longitude; whitespace should be used '\n                               'when writing a list of several such '\n                               \"points.'\",\n                'properties': {'@type': {'contains': {'const': 'schema:GeoShape'},\n                                         'default': 'schema:GeoShape',\n                                         'items': {'type': 'string'},\n                                         'minItems': 1,\n                                         'type': 'array'},\n                               'schema:box': {'description': 'A GeoShape '\n                                                             'box defines '\n                                                             'an area on '\n                                                             'the surface '\n                                                             'of the earth '\n                                                             'defined by '\n                                                             'point '\n                                                             'locations of '\n                                                             'the '\n                                                             'southwest '\n                                                             'corner and '\n                                                             'northeast '\n                                                             'corner of '\n                                                             'the '\n                                                             'rectangle in '\n                                                             'latitude-longitude '\n                                                             'coordinates. '\n                                                             'A space '\n                                                             'should be '\n                                                             'used to '\n                                                             'separate the '\n                                                             'latitude and '\n                                                             'longitude '\n                                                             'values. The '\n                                                             'two corner '\n                                                             'coordinate '\n                                                             'points are '\n                                                             'separated by '\n                                                             'a space. '\n                                                             \"'East \"\n                                                             \"longitude' \"\n                                                             'means '\n                                                             'positive '\n                                                             'longitude '\n                                                             'values are '\n                                                             'east of the '\n                                                             'prime '\n                                                             '(Greenwich) '\n                                                             'meridian.',\n                                              'type': 'string',\n                                              'x-jsonld-id': 'http://schema.org/box'}},\n                'required': ['@type', 'schema:box'],\n                'type': 'object'},\n               {'description': 'A schema:GeoShape curvilinear trace, for '\n                               'resource related to a linear trace like a '\n                               'ship track or airplane flight line',\n                'properties': {'@type': {'contains': {'const': 'schema:GeoShape'},\n                                         'default': 'schema:GeoShape',\n                                         'items': {'type': 'string'},\n                                         'minItems': 1,\n                                         'type': 'array'},\n                               'schema:line': {'description': 'A GeoShape '\n                                                              'box defines '\n                                                              'a '\n                                                              'curvilinear '\n                                                              'geometry as '\n                                                              'a string of '\n                                                              'latitude-longitude '\n                                                              'coordinates. '\n                                                              'A space '\n                                                              'should be '\n                                                              'used to '\n                                                              'separate '\n                                                              'the '\n                                                              'latitude '\n                                                              'and '\n                                                              'longitude '\n                                                              'values. The '\n                                                              'coordinate '\n                                                              'point pairs '\n                                                              'are also '\n                                                              'separated '\n                                                              'by a space. '\n                                                              \"'East \"\n                                                              \"longitude' \"\n                                                              'means '\n                                                              'positive '\n                                                              'longitude '\n                                                              'values are '\n                                                              'east of the '\n                                                              'prime '\n                                                              '(Greenwich) '\n                                                              'meridian. '\n                                                              \"e.g. '39.33 \"\n                                                              '120.77 '\n                                                              '40.44 '\n                                                              '123.96 '\n                                                              '41.00 '\n                                                              \"121.34' \",\n                                               'type': 'string',\n                                               'x-jsonld-id': 'http://schema.org/line'}},\n                'required': ['@type', 'schema:line'],\n                'type': 'object'}],\n     'description': 'Either a bounding box or a point location.',\n     'x-jsonld-id': 'http://schema.org/geo'}\n\nOn instance['schema:geo']:\n    42"
             }
           ]
         },
@@ -76,88 +76,90 @@
             {
               "op": "shacl-report",
               "shaclFile": "_sources/schemaorgProperties/spatialExtent/rules.shacl",
-              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
-              "isError": false,
-              "message": "Validation result for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+              "graph": "@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode <https://example.org/SpatialExtentBox_my8> ;\n            sh:resultMessage \"Recommended: provide a spatial coverage description if applicable using schema:Place, identified by a place name, an identifier, point location(s) (GeoCoordinates), or GeoShape (bounding box, line profile location, or polygon).\" ;\n            sh:resultSeverity sh:Violation ;\n            sh:sourceConstraintComponent sh:OrConstraintComponent ;\n            sh:sourceShape cdifd:spatialExtentProperty ;\n            sh:value <https://example.org/SpatialExtentBox_my8> ] .\n\n",
+              "isError": true,
+              "message": "Validation result for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Constraint Violation in OrConstraintComponent (http://www.w3.org/ns/shacl#OrConstraintComponent):\n  \tSeverity: sh:Violation\n  \tSource Shape: cdifd:spatialExtentProperty\n  \tFocus Node: ex:SpatialExtentBox_my8\n  \tValue Node: ex:SpatialExtentBox_my8\n  \tMessage: Recommended: provide a spatial coverage description if applicable using schema:Place, identified by a place name, an identifier, point location(s) (GeoCoordinates), or GeoShape (bounding box, line profile location, or polygon).\n  "
             },
             {
               "shaclFile": "_sources/schemaorgProperties/spatialExtent/rules.shacl",
               "focusNodes": {
-                "_:n67d63b781e384ffd83c3b76be7a72064b9": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb13": {
                   "nodes": []
                 },
-                "cdifd:geoCoordinatesNode": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb41": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b38": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb42": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb16": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb4": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb40": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b10": {
+                "cdifd:geoCoordinatesNode": {
                   "nodes": []
                 },
-                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb29": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b40": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b44": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b16": {
-                  "nodes": []
-                },
-                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b41": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b24": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b29": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b4": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b13": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b3": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb38": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b42": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb9": {
+                  "nodes": []
+                },
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb3": {
                   "nodes": []
                 },
                 "cdifd:geoShapeNode": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b15": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb10": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b39": {
+                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:spatialExtentProperty": {
+                  "nodes": [
+                    "ex:SpatialExtentBox_my8"
+                  ]
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb44": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb24": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb15": {
+                  "nodes": []
+                },
+                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb39": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b9: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b38: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b44: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b16: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b41: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b24: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b29: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b4: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b13: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b3: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b42: *none*\n - Shape cdifd:geoShapeNode: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b15: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b39: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb13: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb41: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb42: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb16: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb4: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb29: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb38: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb9: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb3: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:geoShapeNode: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentBox_my8\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb44: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb24: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb15: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb39: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -169,45 +171,45 @@
             {
               "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
               "focusNodes": {
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb6": {
+                "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                "_:na6b31e3dac8548baa861b259bf313abbb4": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb8": {
+                "_:na6b31e3dac8548baa861b259bf313abbb10": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb19": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb4": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb26": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb7": {
+                "_:na6b31e3dac8548baa861b259bf313abbb5": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape": {
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb10": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb5": {
+                "_:na6b31e3dac8548baa861b259bf313abbb8": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb19": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb26": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb6": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb7": {
+                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb6: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb8: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb19: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb4: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb26: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb7: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb10: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb4: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb10: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb8: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb19: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb26: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb6: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb7: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -219,309 +221,48 @@
             {
               "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
               "focusNodes": {
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
+                "cdifd:CDIFIdentifierTypeTermShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb22": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb20": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb21": {
+                "_:n266c6524e8f945e1af484af23f31e44db23": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb23": {
+                "_:n266c6524e8f945e1af484af23f31e44db11": {
                   "nodes": []
                 },
-                "cdifd:CDIFIdentifierTypeTermShape": {
+                "_:n266c6524e8f945e1af484af23f31e44db25": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
                   "nodes": []
                 },
+                "_:n266c6524e8f945e1af484af23f31e44db10": {
+                  "nodes": []
+                },
                 "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb11": {
+                "_:n266c6524e8f945e1af484af23f31e44db20": {
+                  "nodes": []
+                },
+                "_:n266c6524e8f945e1af484af23f31e44db22": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb10": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb25": {
-                  "nodes": []
-                }
-              },
-              "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb22: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb20: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb21: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb23: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb11: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb10: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb25: *none*\n"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "source": {
-        "type": "TEST_RESOURCE",
-        "requireFail": true,
-        "filename": "_sources/schemaorgProperties/spatialExtent/tests/shortName-fail.json",
-        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/spatialExtent/tests/shortName-fail.json",
-        "language": "json"
-      },
-      "result": true,
-      "sections": [
-        {
-          "name": "GENERAL",
-          "title": "General",
-          "entries": [
-            {
-              "op": "require-fail",
-              "isError": false,
-              "message": "Test was expected to fail and it did."
-            }
-          ]
-        },
-        {
-          "name": "FILES",
-          "title": "Files",
-          "entries": [
-            {
-              "isError": false,
-              "message": "Using shortName-fail.json from test resources"
-            },
-            {
-              "op": "jsonld-uplift",
-              "isError": false,
-              "message": "JSON-LD context is present - uplifting"
-            },
-            {
-              "op": "jsonld-create",
-              "filename": "shortName-fail.jsonld",
-              "isError": false,
-              "message": "Output JSON-LD shortName-fail.jsonld created"
-            },
-            {
-              "op": "ttl-create",
-              "empty": false,
-              "filename": "shortName-fail.ttl",
-              "size": 6,
-              "isError": false,
-              "message": "Output Turtle shortName-fail.ttl created"
-            }
-          ]
-        },
-        {
-          "name": "JSON_SCHEMA",
-          "title": "JSON Schema",
-          "entries": [
-            {
-              "op": "validation",
-              "result": false,
-              "exception": "ValidationError",
-              "errorMessage": "'schema:Person' is not of type 'array'",
-              "isError": true,
-              "message": "ValidationError: 'schema:Person' is not of type 'array'\n\nFailed validating 'type' in schema['properties']['@type']:\n    {'contains': {'const': 'schema:Place'},\n     'default': 'schema:Place',\n     'items': {'type': 'string'},\n     'minItems': 1,\n     'type': 'array'}\n\nOn instance['@type']:\n    'schema:Person'"
-            }
-          ]
-        },
-        {
-          "name": "SHACL",
-          "title": "SHACL",
-          "entries": [
-            {
-              "op": "shacl-report",
-              "shaclFile": "_sources/schemaorgProperties/spatialExtent/rules.shacl",
-              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
-              "isError": false,
-              "message": "Validation result for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
-            },
-            {
-              "shaclFile": "_sources/schemaorgProperties/spatialExtent/rules.shacl",
-              "focusNodes": {
-                "_:n67d63b781e384ffd83c3b76be7a72064b9": {
-                  "nodes": []
-                },
-                "cdifd:geoCoordinatesNode": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b38": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b10": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b40": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b44": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b16": {
-                  "nodes": []
-                },
-                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b41": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b24": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b29": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b4": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b13": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b3": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b42": {
-                  "nodes": []
-                },
-                "cdifd:geoShapeNode": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b15": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b39": {
-                  "nodes": []
-                }
-              },
-              "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b9: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b38: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b44: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b16: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b41: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b24: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b29: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b4: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b13: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b3: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b42: *none*\n - Shape cdifd:geoShapeNode: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b15: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b39: *none*\n"
-            },
-            {
-              "op": "shacl-report",
-              "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
-              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
-              "isError": false,
-              "message": "Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
-            },
-            {
-              "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
-              "focusNodes": {
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb6": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb8": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb19": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb4": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb26": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb7": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb10": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb5": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
-                }
-              },
-              "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb6: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb8: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb19: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb4: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb26: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb7: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb10: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n"
-            },
-            {
-              "op": "shacl-report",
-              "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
-              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
-              "isError": false,
-              "message": "Validation result for _sources/schemaorgProperties/identifier/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
-            },
-            {
-              "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
-              "focusNodes": {
                 "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb22": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb20": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb21": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierShape": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb23": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierTypeTermShape": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb11": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb10": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb25": {
+                "_:n266c6524e8f945e1af484af23f31e44db21": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb22: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb20: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb21: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb23: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb11: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb10: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb25: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db23: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db11: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db25: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db10: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db20: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db22: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db21: *none*\n"
             }
           ]
         }
@@ -594,7 +335,25 @@
             {
               "shaclFile": "_sources/schemaorgProperties/spatialExtent/rules.shacl",
               "focusNodes": {
-                "_:n67d63b781e384ffd83c3b76be7a72064b9": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb13": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb41": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb42": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb16": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb4": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb40": {
+                  "nodes": []
+                },
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:geoCoordinatesNode": {
@@ -602,22 +361,34 @@
                     "ex:SpatialExtentPoint_mdfd8/schema1:geo"
                   ]
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b38": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb29": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb38": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b10": {
+                "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b40": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb9": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb3": {
+                  "nodes": []
+                },
+                "cdifd:geoShapeNode": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb10": {
+                  "nodes": []
+                },
+                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:spatialExtentProperty": {
@@ -625,54 +396,24 @@
                     "ex:SpatialExtentPoint_mdfd8"
                   ]
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b44": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb44": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b16": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb24": {
                   "nodes": []
                 },
-                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb15": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b41": {
+                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b24": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b29": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b4": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b13": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b3": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b42": {
-                  "nodes": []
-                },
-                "cdifd:geoShapeNode": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b15": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b39": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb39": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b9: *none*\n - Shape cdifd:geoCoordinatesNode: ex:SpatialExtentPoint_mdfd8/schema1:geo\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b38: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentPoint_mdfd8\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b44: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b16: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b41: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b24: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b29: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b4: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b13: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b3: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b42: *none*\n - Shape cdifd:geoShapeNode: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b15: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b39: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb13: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb41: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb42: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb16: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb4: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode: ex:SpatialExtentPoint_mdfd8/schema1:geo\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb29: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb38: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb9: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb3: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:geoShapeNode: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentPoint_mdfd8\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb44: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb24: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb15: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb39: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -684,45 +425,45 @@
             {
               "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
               "focusNodes": {
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb6": {
+                "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                "_:na6b31e3dac8548baa861b259bf313abbb4": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb8": {
+                "_:na6b31e3dac8548baa861b259bf313abbb10": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb19": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb4": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb26": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb7": {
+                "_:na6b31e3dac8548baa861b259bf313abbb5": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape": {
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb10": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb5": {
+                "_:na6b31e3dac8548baa861b259bf313abbb8": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb19": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb26": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb6": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb7": {
+                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb6: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb8: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb19: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb4: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb26: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb7: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb10: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb4: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb10: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb8: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb19: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb26: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb6: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb7: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -734,48 +475,48 @@
             {
               "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
               "focusNodes": {
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
+                "cdifd:CDIFIdentifierTypeTermShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb22": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb20": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb21": {
+                "_:n266c6524e8f945e1af484af23f31e44db23": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb23": {
+                "_:n266c6524e8f945e1af484af23f31e44db11": {
                   "nodes": []
                 },
-                "cdifd:CDIFIdentifierTypeTermShape": {
+                "_:n266c6524e8f945e1af484af23f31e44db25": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
                   "nodes": []
                 },
+                "_:n266c6524e8f945e1af484af23f31e44db10": {
+                  "nodes": []
+                },
                 "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb11": {
+                "_:n266c6524e8f945e1af484af23f31e44db20": {
+                  "nodes": []
+                },
+                "_:n266c6524e8f945e1af484af23f31e44db22": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb10": {
+                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb25": {
+                "_:n266c6524e8f945e1af484af23f31e44db21": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb22: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb20: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb21: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb23: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb11: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb10: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb25: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db23: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db11: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db25: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db10: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db20: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db22: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db21: *none*\n"
             }
           ]
         }
@@ -848,28 +589,62 @@
             {
               "shaclFile": "_sources/schemaorgProperties/spatialExtent/rules.shacl",
               "focusNodes": {
-                "_:n67d63b781e384ffd83c3b76be7a72064b9": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb13": {
                   "nodes": []
                 },
-                "cdifd:geoCoordinatesNode": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb41": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b38": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb42": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb16": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb4": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb40": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b10": {
+                "cdifd:geoCoordinatesNode": {
                   "nodes": []
                 },
-                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb29": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b40": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb38": {
+                  "nodes": []
+                },
+                "cdifd:CDIFDefinedTermShape": {
+                  "nodes": [
+                    "ex:SpatialExtentPlaceName_45hwe6/schema1:name",
+                    "ex:SpatialExtentPlaceName_45hwe6/schema1:alternateName",
+                    "ex:SpatialExtentPlaceName_45hwe6/schema1:alternateName"
+                  ]
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb9": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb3": {
+                  "nodes": []
+                },
+                "cdifd:geoShapeNode": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb10": {
+                  "nodes": []
+                },
+                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:spatialExtentProperty": {
@@ -877,58 +652,24 @@
                     "ex:SpatialExtentPlaceName_45hwe6"
                   ]
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b44": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb44": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b16": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb24": {
                   "nodes": []
                 },
-                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb15": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b41": {
+                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b24": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b29": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b4": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b13": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b3": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape": {
-                  "nodes": [
-                    "ex:SpatialExtentPlaceName_45hwe6/schema1:alternateName",
-                    "ex:SpatialExtentPlaceName_45hwe6/schema1:alternateName",
-                    "ex:SpatialExtentPlaceName_45hwe6/schema1:name"
-                  ]
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b42": {
-                  "nodes": []
-                },
-                "cdifd:geoShapeNode": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b15": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b39": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb39": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b9: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b38: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentPlaceName_45hwe6\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b44: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b16: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b41: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b24: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b29: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b4: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b13: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b3: *none*\n - Shape cdifd:CDIFDefinedTermShape: ex:SpatialExtentPlaceName_45hwe6/schema1:alternateName,ex:SpatialExtentPlaceName_45hwe6/schema1:alternateName,ex:SpatialExtentPlaceName_45hwe6/schema1:name\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b42: *none*\n - Shape cdifd:geoShapeNode: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b15: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b39: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb13: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb41: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb42: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb16: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb4: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb29: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb38: *none*\n - Shape cdifd:CDIFDefinedTermShape: ex:SpatialExtentPlaceName_45hwe6/schema1:name,ex:SpatialExtentPlaceName_45hwe6/schema1:alternateName,ex:SpatialExtentPlaceName_45hwe6/schema1:alternateName\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb9: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb3: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:geoShapeNode: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentPlaceName_45hwe6\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb44: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb24: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb15: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb39: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -940,45 +681,45 @@
             {
               "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
               "focusNodes": {
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb6": {
+                "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                "_:na6b31e3dac8548baa861b259bf313abbb4": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb8": {
+                "_:na6b31e3dac8548baa861b259bf313abbb10": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb19": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb4": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb26": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb7": {
+                "_:na6b31e3dac8548baa861b259bf313abbb5": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape": {
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb10": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb5": {
+                "_:na6b31e3dac8548baa861b259bf313abbb8": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb19": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb26": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb6": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb7": {
+                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb6: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb8: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb19: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb4: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb26: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb7: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb10: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb4: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb10: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb8: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb19: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb26: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb6: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb7: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -990,48 +731,48 @@
             {
               "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
               "focusNodes": {
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
+                "cdifd:CDIFIdentifierTypeTermShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb22": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb20": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb21": {
+                "_:n266c6524e8f945e1af484af23f31e44db23": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb23": {
+                "_:n266c6524e8f945e1af484af23f31e44db11": {
                   "nodes": []
                 },
-                "cdifd:CDIFIdentifierTypeTermShape": {
+                "_:n266c6524e8f945e1af484af23f31e44db25": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
                   "nodes": []
                 },
+                "_:n266c6524e8f945e1af484af23f31e44db10": {
+                  "nodes": []
+                },
                 "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb11": {
+                "_:n266c6524e8f945e1af484af23f31e44db20": {
+                  "nodes": []
+                },
+                "_:n266c6524e8f945e1af484af23f31e44db22": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb10": {
+                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb25": {
+                "_:n266c6524e8f945e1af484af23f31e44db21": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb22: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb20: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb21: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb23: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb11: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb10: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb25: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db23: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db11: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db25: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db10: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db20: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db22: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db21: *none*\n"
             }
           ]
         }
@@ -1104,69 +845,49 @@
             {
               "shaclFile": "_sources/schemaorgProperties/spatialExtent/rules.shacl",
               "focusNodes": {
-                "_:n67d63b781e384ffd83c3b76be7a72064b9": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb13": {
                   "nodes": []
                 },
-                "cdifd:geoCoordinatesNode": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb41": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b38": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb42": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb16": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb4": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb40": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b10": {
+                "cdifd:geoCoordinatesNode": {
                   "nodes": []
                 },
-                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb29": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b40": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty": {
-                  "nodes": [
-                    "ex:SpatialExtentBox_my8"
-                  ]
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b44": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b16": {
-                  "nodes": []
-                },
-                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b41": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b24": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b29": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b4": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b13": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b3": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb38": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b42": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb9": {
+                  "nodes": []
+                },
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb3": {
                   "nodes": []
                 },
                 "cdifd:geoShapeNode": {
@@ -1174,15 +895,35 @@
                     "ex:SpatialExtentBox_my8/schema1:geo"
                   ]
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b15": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb10": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b39": {
+                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:spatialExtentProperty": {
+                  "nodes": [
+                    "ex:SpatialExtentBox_my8"
+                  ]
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb44": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb24": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb15": {
+                  "nodes": []
+                },
+                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb39": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b9: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b38: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentBox_my8\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b44: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b16: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b41: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b24: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b29: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b4: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b13: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b3: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b42: *none*\n - Shape cdifd:geoShapeNode: ex:SpatialExtentBox_my8/schema1:geo\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b15: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b39: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb13: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb41: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb42: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb16: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb4: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb29: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb38: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb9: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb3: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:geoShapeNode: ex:SpatialExtentBox_my8/schema1:geo\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentBox_my8\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb44: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb24: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb15: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb39: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -1194,45 +935,45 @@
             {
               "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
               "focusNodes": {
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb6": {
+                "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                "_:na6b31e3dac8548baa861b259bf313abbb4": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb8": {
+                "_:na6b31e3dac8548baa861b259bf313abbb10": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb19": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb4": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb26": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb7": {
+                "_:na6b31e3dac8548baa861b259bf313abbb5": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape": {
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb10": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb5": {
+                "_:na6b31e3dac8548baa861b259bf313abbb8": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb19": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb26": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb6": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb7": {
+                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb6: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb8: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb19: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb4: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb26: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb7: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb10: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb4: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb10: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb8: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb19: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb26: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb6: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb7: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -1244,48 +985,48 @@
             {
               "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
               "focusNodes": {
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
+                "cdifd:CDIFIdentifierTypeTermShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb22": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb20": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb21": {
+                "_:n266c6524e8f945e1af484af23f31e44db23": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb23": {
+                "_:n266c6524e8f945e1af484af23f31e44db11": {
                   "nodes": []
                 },
-                "cdifd:CDIFIdentifierTypeTermShape": {
+                "_:n266c6524e8f945e1af484af23f31e44db25": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
                   "nodes": []
                 },
+                "_:n266c6524e8f945e1af484af23f31e44db10": {
+                  "nodes": []
+                },
                 "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb11": {
+                "_:n266c6524e8f945e1af484af23f31e44db20": {
+                  "nodes": []
+                },
+                "_:n266c6524e8f945e1af484af23f31e44db22": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb10": {
+                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb25": {
+                "_:n266c6524e8f945e1af484af23f31e44db21": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb22: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb20: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb21: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb23: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb11: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb10: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb25: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db23: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db11: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db25: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db10: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db20: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db22: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db21: *none*\n"
             }
           ]
         }
@@ -1358,69 +1099,49 @@
             {
               "shaclFile": "_sources/schemaorgProperties/spatialExtent/rules.shacl",
               "focusNodes": {
-                "_:n67d63b781e384ffd83c3b76be7a72064b9": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb13": {
                   "nodes": []
                 },
-                "cdifd:geoCoordinatesNode": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb41": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b38": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb42": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb16": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb4": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb40": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b10": {
+                "cdifd:geoCoordinatesNode": {
                   "nodes": []
                 },
-                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb29": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b40": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty": {
-                  "nodes": [
-                    "ex:SpatialExtentBox_my8"
-                  ]
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b44": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b16": {
-                  "nodes": []
-                },
-                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b41": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b24": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b29": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b4": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b13": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b3": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb38": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b42": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb9": {
+                  "nodes": []
+                },
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb3": {
                   "nodes": []
                 },
                 "cdifd:geoShapeNode": {
@@ -1428,15 +1149,35 @@
                     "ex:SpatialExtentBox_my8/schema1:geo"
                   ]
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b15": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb10": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b39": {
+                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:spatialExtentProperty": {
+                  "nodes": [
+                    "ex:SpatialExtentBox_my8"
+                  ]
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb44": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb24": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb15": {
+                  "nodes": []
+                },
+                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb39": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b9: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b38: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentBox_my8\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b44: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b16: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b41: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b24: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b29: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b4: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b13: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b3: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b42: *none*\n - Shape cdifd:geoShapeNode: ex:SpatialExtentBox_my8/schema1:geo\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b15: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b39: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb13: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb41: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb42: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb16: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb4: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb29: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb38: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb9: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb3: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:geoShapeNode: ex:SpatialExtentBox_my8/schema1:geo\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentBox_my8\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb44: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb24: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb15: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb39: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -1448,45 +1189,45 @@
             {
               "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
               "focusNodes": {
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb6": {
+                "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                "_:na6b31e3dac8548baa861b259bf313abbb4": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb8": {
+                "_:na6b31e3dac8548baa861b259bf313abbb10": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb19": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb4": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb26": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb7": {
+                "_:na6b31e3dac8548baa861b259bf313abbb5": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape": {
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb10": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb5": {
+                "_:na6b31e3dac8548baa861b259bf313abbb8": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb19": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb26": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb6": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb7": {
+                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb6: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb8: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb19: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb4: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb26: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb7: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb10: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb4: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb10: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb8: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb19: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb26: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb6: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb7: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -1498,48 +1239,48 @@
             {
               "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
               "focusNodes": {
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
+                "cdifd:CDIFIdentifierTypeTermShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb22": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb20": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb21": {
+                "_:n266c6524e8f945e1af484af23f31e44db23": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb23": {
+                "_:n266c6524e8f945e1af484af23f31e44db11": {
                   "nodes": []
                 },
-                "cdifd:CDIFIdentifierTypeTermShape": {
+                "_:n266c6524e8f945e1af484af23f31e44db25": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
                   "nodes": []
                 },
+                "_:n266c6524e8f945e1af484af23f31e44db10": {
+                  "nodes": []
+                },
                 "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb11": {
+                "_:n266c6524e8f945e1af484af23f31e44db20": {
+                  "nodes": []
+                },
+                "_:n266c6524e8f945e1af484af23f31e44db22": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb10": {
+                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb25": {
+                "_:n266c6524e8f945e1af484af23f31e44db21": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb22: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb20: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb21: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb23: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb11: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb10: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb25: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db23: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db11: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db25: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db10: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db20: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db22: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db21: *none*\n"
             }
           ]
         }
@@ -1612,63 +1353,34 @@
             {
               "shaclFile": "_sources/schemaorgProperties/spatialExtent/rules.shacl",
               "focusNodes": {
-                "_:n67d63b781e384ffd83c3b76be7a72064b9": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb13": {
                   "nodes": []
                 },
-                "cdifd:geoCoordinatesNode": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb41": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b38": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb42": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb16": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb4": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb40": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b10": {
+                "cdifd:geoCoordinatesNode": {
                   "nodes": []
                 },
-                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb29": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b40": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty": {
-                  "nodes": [
-                    "ex:SpatialExtentComplete_001"
-                  ]
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b44": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b16": {
-                  "nodes": []
-                },
-                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b41": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b24": {
-                  "nodes": []
-                },
-                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b29": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b4": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b13": {
-                  "nodes": []
-                },
-                "_:n67d63b781e384ffd83c3b76be7a72064b3": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb38": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape": {
@@ -1676,7 +1388,16 @@
                     "ex:SpatialExtentComplete_001/schema1:name"
                   ]
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b42": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb9": {
+                  "nodes": []
+                },
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb3": {
                   "nodes": []
                 },
                 "cdifd:geoShapeNode": {
@@ -1684,15 +1405,35 @@
                     "ex:SpatialExtentComplete_001/schema1:geo"
                   ]
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b15": {
+                "_:n84d20ded34df4e8a9f1b0466feef4febb10": {
                   "nodes": []
                 },
-                "_:n67d63b781e384ffd83c3b76be7a72064b39": {
+                "cdifd:spatialExtentProperty/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:spatialExtentProperty": {
+                  "nodes": [
+                    "ex:SpatialExtentComplete_001"
+                  ]
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb44": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb24": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb15": {
+                  "nodes": []
+                },
+                "cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "_:n84d20ded34df4e8a9f1b0466feef4febb39": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b9: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b38: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentComplete_001\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b44: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b16: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b41: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b24: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b29: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b4: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b13: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b3: *none*\n - Shape cdifd:CDIFDefinedTermShape: ex:SpatialExtentComplete_001/schema1:name\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b42: *none*\n - Shape cdifd:geoShapeNode: ex:SpatialExtentComplete_001/schema1:geo\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b15: *none*\n - Shape _:n67d63b781e384ffd83c3b76be7a72064b39: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb13: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb41: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb42: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb16: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb4: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb40: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb29: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb38: *none*\n - Shape cdifd:CDIFDefinedTermShape: ex:SpatialExtentComplete_001/schema1:name\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb9: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb3: *none*\n - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:geoShapeNode: ex:SpatialExtentComplete_001/schema1:geo\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb10: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*\n - Shape cdifd:spatialExtentProperty: ex:SpatialExtentComplete_001\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb44: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb24: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb15: *none*\n - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n84d20ded34df4e8a9f1b0466feef4febb39: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -1704,45 +1445,45 @@
             {
               "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
               "focusNodes": {
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb6": {
+                "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                "_:na6b31e3dac8548baa861b259bf313abbb4": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb8": {
+                "_:na6b31e3dac8548baa861b259bf313abbb10": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb19": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb4": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb26": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb7": {
+                "_:na6b31e3dac8548baa861b259bf313abbb5": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape": {
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb10": {
-                  "nodes": []
-                },
-                "_:nca1dcc018eb841719e4298dc76ad6d6eb5": {
+                "_:na6b31e3dac8548baa861b259bf313abbb8": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb19": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb26": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb6": {
+                  "nodes": []
+                },
+                "_:na6b31e3dac8548baa861b259bf313abbb7": {
+                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb6: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb8: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb19: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb4: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb26: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb7: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb10: *none*\n - Shape _:nca1dcc018eb841719e4298dc76ad6d6eb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb4: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb10: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb8: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb19: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb26: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb6: *none*\n - Shape _:na6b31e3dac8548baa861b259bf313abbb7: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -1754,48 +1495,48 @@
             {
               "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
               "focusNodes": {
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
+                "cdifd:CDIFIdentifierTypeTermShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb22": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb20": {
-                  "nodes": []
-                },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb21": {
+                "_:n266c6524e8f945e1af484af23f31e44db23": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb23": {
+                "_:n266c6524e8f945e1af484af23f31e44db11": {
                   "nodes": []
                 },
-                "cdifd:CDIFIdentifierTypeTermShape": {
+                "_:n266c6524e8f945e1af484af23f31e44db25": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
                   "nodes": []
                 },
+                "_:n266c6524e8f945e1af484af23f31e44db10": {
+                  "nodes": []
+                },
                 "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb11": {
+                "_:n266c6524e8f945e1af484af23f31e44db20": {
+                  "nodes": []
+                },
+                "_:n266c6524e8f945e1af484af23f31e44db22": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb10": {
+                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:nf372ef3ede4d4a03b0c5296438efa05bb25": {
+                "_:n266c6524e8f945e1af484af23f31e44db21": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb22: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb20: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb21: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb23: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb11: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb10: *none*\n - Shape _:nf372ef3ede4d4a03b0c5296438efa05bb25: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db23: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db11: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db25: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db10: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db20: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db22: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n266c6524e8f945e1af484af23f31e44db21: *none*\n"
             }
           ]
         }
@@ -1804,8 +1545,8 @@
   ],
   "globalErrors": {},
   "counts": {
-    "total": 7,
-    "passed": 7,
+    "total": 6,
+    "passed": 6,
     "failed": 0
   }
 }

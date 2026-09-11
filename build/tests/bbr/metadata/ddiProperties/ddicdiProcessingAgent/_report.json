@@ -2,9 +2,209 @@
   "title": "Validation report for cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent - DDI-CDI ProcessingAgent",
   "bblockName": "DDI-CDI ProcessingAgent",
   "bblockId": "cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent",
-  "generated": "2026-09-11T18:43:16.473130+00:00",
+  "generated": "2026-09-11T18:53:43.043221+00:00",
   "result": true,
   "items": [
+    {
+      "source": {
+        "type": "TEST_RESOURCE",
+        "requireFail": true,
+        "filename": "_sources/ddiProperties/ddicdiProcessingAgent/tests/operatesOn-fail.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiProcessingAgent/tests/operatesOn-fail.json",
+        "language": "json"
+      },
+      "result": true,
+      "sections": [
+        {
+          "name": "GENERAL",
+          "title": "General",
+          "entries": [
+            {
+              "op": "require-fail",
+              "isError": false,
+              "message": "Test was expected to fail and it did."
+            }
+          ]
+        },
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using operatesOn-fail.json from test resources"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "operatesOn-fail.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD operatesOn-fail.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "operatesOn-fail.ttl",
+              "size": 15,
+              "isError": false,
+              "message": "Output Turtle operatesOn-fail.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": false,
+              "exception": "ValidationError",
+              "errorMessage": "42 is not of type 'array'",
+              "isError": true,
+              "message": "ValidationError: 42 is not of type 'array'\n\nFailed validating 'type' in schema['properties']['cdi:operatesOn']:\n    {'description': 'Production environments this agent operates on '\n                    '(cdi:ProductionEnvironment)',\n     'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference'},\n     'type': 'array',\n     'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/operatesOn'}\n\nOn instance['cdi:operatesOn']:\n    42"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl",
+              "graph": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode <https://example.org/agent-data-pipeline> ;\n            sh:resultMessage \"A DDI-CDI ProcessingAgent may specify cdi:operatesOn (ProductionEnvironment)\" ;\n            sh:resultPath cdi:operatesOn ;\n            sh:resultSeverity sh:Info ;\n            sh:sourceConstraintComponent sh:OrConstraintComponent ;\n            sh:sourceShape [ sh:message \"A DDI-CDI ProcessingAgent may specify cdi:operatesOn (ProductionEnvironment)\" ;\n                    sh:or ( [ sh:nodeKind sh:IRI ] [ sh:nodeKind sh:BlankNode ] ) ;\n                    sh:path cdi:operatesOn ;\n                    sh:severity sh:Info ] ;\n            sh:value 42 ] .\n\n",
+              "isError": true,
+              "message": "Validation result for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Validation Result in OrConstraintComponent (http://www.w3.org/ns/shacl#OrConstraintComponent):\n  \tSeverity: sh:Info\n  \tSource Shape: [ sh:message Literal(\"A DDI-CDI ProcessingAgent may specify cdi:operatesOn (ProductionEnvironment)\") ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:nodeKind sh:BlankNode ] ) ; sh:path cdi:operatesOn ; sh:severity sh:Info ]\n  \tFocus Node: ex:agent-data-pipeline\n  \tValue Node: Literal(\"42\", datatype=xsd:integer)\n  \tResult Path: cdi:operatesOn\n  \tMessage: A DDI-CDI ProcessingAgent may specify cdi:operatesOn (ProductionEnvironment)\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl",
+              "focusNodes": {
+                "_:nf25740b794a14d0997b7968a23150138b8": {
+                  "nodes": []
+                },
+                "cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:ddicdiProcessingAgentShape": {
+                  "nodes": [
+                    "ex:agent-data-pipeline"
+                  ]
+                },
+                "_:nf25740b794a14d0997b7968a23150138b3": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n - Shape _:nf25740b794a14d0997b7968a23150138b8: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape: ex:agent-data-pipeline\n - Shape _:nf25740b794a14d0997b7968a23150138b3: *none*\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source": {
+        "type": "TEST_RESOURCE",
+        "requireFail": true,
+        "filename": "_sources/ddiProperties/ddicdiProcessingAgent/tests/performs-fail.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiProcessingAgent/tests/performs-fail.json",
+        "language": "json"
+      },
+      "result": true,
+      "sections": [
+        {
+          "name": "GENERAL",
+          "title": "General",
+          "entries": [
+            {
+              "op": "require-fail",
+              "isError": false,
+              "message": "Test was expected to fail and it did."
+            }
+          ]
+        },
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using performs-fail.json from test resources"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "performs-fail.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD performs-fail.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "performs-fail.ttl",
+              "size": 15,
+              "isError": false,
+              "message": "Output Turtle performs-fail.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": false,
+              "exception": "ValidationError",
+              "errorMessage": "42 is not of type 'array'",
+              "isError": true,
+              "message": "ValidationError: 42 is not of type 'array'\n\nFailed validating 'type' in schema['properties']['cdi:performs']:\n    {'description': 'Activities this agent performs (cdi:Activity). Use '\n                    '@id references to Activity nodes defined elsewhere in '\n                    'the graph.',\n     'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference'},\n     'type': 'array',\n     'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/performs'}\n\nOn instance['cdi:performs']:\n    42"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl",
+              "graph": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode <https://example.org/agent-data-pipeline> ;\n            sh:resultMessage \"A DDI-CDI ProcessingAgent should specify at least one activity it performs\" ;\n            sh:resultPath cdi:performs ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:OrConstraintComponent ;\n            sh:sourceShape [ sh:message \"A DDI-CDI ProcessingAgent should specify at least one activity it performs\" ;\n                    sh:minCount 1 ;\n                    sh:or ( [ sh:nodeKind sh:IRI ] [ sh:nodeKind sh:BlankNode ] ) ;\n                    sh:path cdi:performs ;\n                    sh:severity sh:Warning ] ;\n            sh:value 42 ] .\n\n",
+              "isError": true,
+              "message": "Validation result for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Validation Result in OrConstraintComponent (http://www.w3.org/ns/shacl#OrConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A DDI-CDI ProcessingAgent should specify at least one activity it performs\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:nodeKind sh:BlankNode ] ) ; sh:path cdi:performs ; sh:severity sh:Warning ]\n  \tFocus Node: ex:agent-data-pipeline\n  \tValue Node: Literal(\"42\", datatype=xsd:integer)\n  \tResult Path: cdi:performs\n  \tMessage: A DDI-CDI ProcessingAgent should specify at least one activity it performs\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl",
+              "focusNodes": {
+                "_:nf25740b794a14d0997b7968a23150138b8": {
+                  "nodes": []
+                },
+                "cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:ddicdiProcessingAgentShape": {
+                  "nodes": [
+                    "ex:agent-data-pipeline"
+                  ]
+                },
+                "_:nf25740b794a14d0997b7968a23150138b3": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n - Shape _:nf25740b794a14d0997b7968a23150138b8: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape: ex:agent-data-pipeline\n - Shape _:nf25740b794a14d0997b7968a23150138b3: *none*\n"
+            }
+          ]
+        }
+      ]
+    },
     {
       "source": {
         "type": "EXAMPLE",
@@ -72,23 +272,23 @@
             {
               "shaclFile": "_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl",
               "focusNodes": {
-                "cdifd:ddicdiProcessingAgentShape": {
-                  "nodes": [
-                    "ex:agent-data-pipeline"
-                  ]
-                },
-                "_:nb1299fe210854acbbab67a2faefa04f8b8": {
+                "_:nf25740b794a14d0997b7968a23150138b8": {
                   "nodes": []
                 },
                 "cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nb1299fe210854acbbab67a2faefa04f8b3": {
+                "cdifd:ddicdiProcessingAgentShape": {
+                  "nodes": [
+                    "ex:agent-data-pipeline"
+                  ]
+                },
+                "_:nf25740b794a14d0997b7968a23150138b3": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n - Shape cdifd:ddicdiProcessingAgentShape: ex:agent-data-pipeline\n - Shape _:nb1299fe210854acbbab67a2faefa04f8b8: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nb1299fe210854acbbab67a2faefa04f8b3: *none*\n"
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiProcessingAgent/rules.shacl:\n - Shape _:nf25740b794a14d0997b7968a23150138b8: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:ddicdiProcessingAgentShape: ex:agent-data-pipeline\n - Shape _:nf25740b794a14d0997b7968a23150138b3: *none*\n"
             }
           ]
         }
@@ -97,8 +297,8 @@
   ],
   "globalErrors": {},
   "counts": {
-    "total": 1,
-    "passed": 1,
+    "total": 3,
+    "passed": 3,
     "failed": 0
   }
 }

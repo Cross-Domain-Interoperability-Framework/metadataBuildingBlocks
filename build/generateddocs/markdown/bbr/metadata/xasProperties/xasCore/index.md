@@ -924,26 +924,17 @@ ex:xas-dataset-001 a schema1:Dataset,
                                     schema1:propertyID xas:monochromatortype ;
                                     schema1:value "Si(111)" ],
                                 [ a schema1:PropertyValue ;
-                                    schema1:name "reflection plane (hkl)" ;
-                                    schema1:propertyID xas:reflectionplane ;
-                                    schema1:value "1,1,1" ],
-                                [ a schema1:PropertyValue ;
                                     schema1:name "d-spacing" ;
                                     schema1:propertyID xas:dspacing ;
                                     schema1:unitText "Angstrom" ;
-                                    schema1:value "3.13550" ] ;
+                                    schema1:value "3.13550" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "reflection plane (hkl)" ;
+                                    schema1:propertyID xas:reflectionplane ;
+                                    schema1:value "1,1,1" ] ;
                             schema1:additionalType xas:xraymonochromator,
                                 wd:Q3099911 ;
                             schema1:name "Si 111" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalType xas:beamline,
-                                wd:Q3099911 ;
-                            schema1:category [ a schema1:DefinedTerm ;
-                                    schema1:name "X-ray absorption spectroscopy beamline" ;
-                                    schema1:termCode "XAS-beamline" ] ;
-                            schema1:name "APS Sector 20-BM beamline instrument" ] ],
                 [ schema1:instrument [ a schema1:Product,
                                 schema1:Thing,
                                 prov:Entity ;
@@ -957,7 +948,16 @@ ex:xas-dataset-001 a schema1:Dataset,
                                     schema1:value "x-ray" ] ;
                             schema1:additionalType xas:source,
                                 wd:Q3099911 ;
-                            schema1:name "APS bending magnet source" ] ] ] .
+                            schema1:name "APS bending magnet source" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalType xas:beamline,
+                                wd:Q3099911 ;
+                            schema1:category [ a schema1:DefinedTerm ;
+                                    schema1:name "X-ray absorption spectroscopy beamline" ;
+                                    schema1:termCode "XAS-beamline" ] ;
+                            schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,

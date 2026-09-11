@@ -2,9 +2,100 @@
   "title": "Validation report for cdif.bbr.metadata.schemaorgProperties.labeledLink - Labeled Link",
   "bblockName": "Labeled Link",
   "bblockId": "cdif.bbr.metadata.schemaorgProperties.labeledLink",
-  "generated": "2026-09-11T18:43:15.262817+00:00",
+  "generated": "2026-09-11T18:53:41.664015+00:00",
   "result": true,
   "items": [
+    {
+      "source": {
+        "type": "TEST_RESOURCE",
+        "requireFail": true,
+        "filename": "_sources/schemaorgProperties/labeledLink/tests/name-fail.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/labeledLink/tests/name-fail.json",
+        "language": "json"
+      },
+      "result": true,
+      "sections": [
+        {
+          "name": "GENERAL",
+          "title": "General",
+          "entries": [
+            {
+              "op": "require-fail",
+              "isError": false,
+              "message": "Test was expected to fail and it did."
+            }
+          ]
+        },
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using name-fail.json from test resources"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "name-fail.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD name-fail.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "name-fail.ttl",
+              "size": 4,
+              "isError": false,
+              "message": "Output Turtle name-fail.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": false,
+              "exception": "ValidationError",
+              "errorMessage": "42 is not of type 'string'",
+              "isError": true,
+              "message": "ValidationError: 42 is not of type 'string'\n\nFailed validating 'type' in schema['properties']['schema:name']:\n    {'type': 'string', 'x-jsonld-id': 'http://schema.org/name'}\n\nOn instance['schema:name']:\n    42"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/schemaorgProperties/labeledLink/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/schemaorgProperties/labeledLink/rules.shacl",
+              "focusNodes": {
+                "cdifd:CDIFLabeledLinkShape": {
+                  "nodes": [
+                    "ex:LabeledLinkExample_zZc"
+                  ]
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:\n - Shape cdifd:CDIFLabeledLinkShape: ex:LabeledLinkExample_zZc\n"
+            }
+          ]
+        }
+      ]
+    },
     {
       "source": {
         "type": "TEST_RESOURCE",
@@ -49,7 +140,7 @@
               "op": "ttl-create",
               "empty": false,
               "filename": "url-fail.ttl",
-              "size": 4,
+              "size": 3,
               "isError": false,
               "message": "Output Turtle url-fail.ttl created"
             }
@@ -63,9 +154,9 @@
               "op": "validation",
               "result": false,
               "exception": "ValidationError",
-              "errorMessage": "'schema:CreativeWork' is not of type 'array'",
+              "errorMessage": "'schema:url' is a required property",
               "isError": true,
-              "message": "ValidationError: 'schema:CreativeWork' is not of type 'array'\n\nFailed validating 'type' in schema['properties']['@type']:\n    {'contains': {'const': 'schema:CreativeWork'},\n     'default': 'schema:CreativeWork',\n     'items': {'type': 'string'},\n     'minItems': 1,\n     'type': 'array'}\n\nOn instance['@type']:\n    'schema:CreativeWork'"
+              "message": "ValidationError: 'schema:url' is a required property\n\nFailed validating 'required' in schema:\n    {'$schema': 'https://json-schema.org/draft/2020-12/schema',\n     'description': 'schema for a labeled link, a profile of '\n                    'schema.org/CreativeWork',\n     'properties': {'@type': {'contains': {'const': 'schema:CreativeWork'},\n                              'default': 'schema:CreativeWork',\n                              'items': {'type': 'string'},\n                              'minItems': 1,\n                              'type': 'array'},\n                    'schema:description': {'type': 'string',\n                                           'x-jsonld-id': 'http://schema.org/description'},\n                    'schema:name': {'type': 'string',\n                                    'x-jsonld-id': 'http://schema.org/name'},\n                    'schema:url': {'format': 'uri',\n                                   'type': 'string',\n                                   'x-jsonld-id': 'http://schema.org/url'}},\n     'required': ['@type', 'schema:url'],\n     'type': 'object',\n     'x-jsonld-prefixes': {'schema': 'http://schema.org/'}}\n\nOn instance:\n    {'@context': {'ex': 'https://example.org/',\n                  'schema': 'http://schema.org/',\n                  'xsd': 'http://www.w3.org/2001/XMLSchema#'},\n     '@id': 'ex:LabeledLinkExample_zZc',\n     '@type': ['schema:CreativeWork'],\n     'schema:description': 'URL to get the related resource',\n     'schema:name': 'Some related resource'}"
             }
           ]
         },
@@ -76,9 +167,9 @@
             {
               "op": "shacl-report",
               "shaclFile": "_sources/schemaorgProperties/labeledLink/rules.shacl",
-              "graph": "@prefix schema1: <http://schema.org/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode <https://example.org/LabeledLinkExample_zZc> ;\n            sh:resultMessage \"value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation...\" ;\n            sh:resultPath schema1:url ;\n            sh:resultSeverity sh:Violation ;\n            sh:sourceConstraintComponent sh:PatternConstraintComponent ;\n            sh:sourceShape [ sh:datatype xsd:string ;\n                    sh:message \"value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation...\" ;\n                    sh:minCount 1 ;\n                    sh:path schema1:url ;\n                    sh:pattern \"^https?:\\\\/\\\\/[^\\\\s]+$\" ] ;\n            sh:value \"\" ] .\n\n",
+              "graph": "@prefix schema1: <http://schema.org/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode <https://example.org/LabeledLinkExample_zZc> ;\n            sh:resultMessage \"value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation...\" ;\n            sh:resultPath schema1:url ;\n            sh:resultSeverity sh:Violation ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape [ sh:datatype xsd:string ;\n                    sh:message \"value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation...\" ;\n                    sh:minCount 1 ;\n                    sh:path schema1:url ;\n                    sh:pattern \"^https?:\\\\/\\\\/[^\\\\s]+$\" ] ] .\n\n",
               "isError": true,
-              "message": "Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Constraint Violation in PatternConstraintComponent (http://www.w3.org/ns/shacl#PatternConstraintComponent):\n  \tSeverity: sh:Violation\n  \tSource Shape: [ sh:datatype xsd:string ; sh:message Literal(\"value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation...\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path schema1:url ; sh:pattern Literal(\"^https?:\\/\\/[^\\s]+$\") ]\n  \tFocus Node: ex:LabeledLinkExample_zZc\n  \tValue Node: Literal(\"\")\n  \tResult Path: schema1:url\n  \tMessage: value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation...\n  "
+              "message": "Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Constraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Violation\n  \tSource Shape: [ sh:datatype xsd:string ; sh:message Literal(\"value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation...\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path schema1:url ; sh:pattern Literal(\"^https?:\\/\\/[^\\s]+$\") ]\n  \tFocus Node: ex:LabeledLinkExample_zZc\n  \tResult Path: schema1:url\n  \tMessage: value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation...\n  "
             },
             {
               "shaclFile": "_sources/schemaorgProperties/labeledLink/rules.shacl",
@@ -259,8 +350,8 @@
   ],
   "globalErrors": {},
   "counts": {
-    "total": 3,
-    "passed": 3,
+    "total": 4,
+    "passed": 4,
     "failed": 0
   }
 }

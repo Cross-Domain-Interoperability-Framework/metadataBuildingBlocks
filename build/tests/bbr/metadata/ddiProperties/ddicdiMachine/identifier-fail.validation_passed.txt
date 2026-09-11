@@ -1,0 +1,54 @@
+Validation report for cdif.bbr.metadata.ddiProperties.ddicdiMachine - DDI-CDI Machine
+Generated 2026-09-11T18:53:42.800749+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using identifier-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD identifier-fail.jsonld created
+Output Turtle identifier-fail.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: 42 is not of type 'object'
+
+Failed validating 'type' in schema['properties']['cdi:identifier']:
+    {'description': 'DDI-CDI composite identifier (dt-Identifier)',
+     'properties': {'@type': {'contains': {'const': 'cdi:Identifier'},
+                              'items': {'type': 'string'},
+                              'minItems': 1,
+                              'type': 'array'},
+                    'cdi:ddiIdentifier': {'$ref': '#/$defs/InternationalRegistrationDataIdentifier',
+                                          'description': 'DDI-specific '
+                                                         'IRDI identifier',
+                                          'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/ddiIdentifier'},
+                    'cdi:nonDdiIdentifier': {'anyOf': [{'$ref': '#/$defs/NonDdiIdentifier'},
+                                                       {'items': {'$ref': '#/$defs/NonDdiIdentifier'},
+                                                        'type': 'array'}],
+                                             'description': 'Non-DDI '
+                                                            'identifier',
+                                             'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/nonDdiIdentifier'},
+                    'cdi:uri': {'description': 'URI form of the identifier',
+                                'format': 'uri',
+                                'type': 'string',
+                                'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uri'}},
+     'type': 'object'}
+
+On instance['cdi:identifier']:
+    42
+=== End JSON Schema ===
+
+=== SHACL ===
+Validation result for _sources/ddiProperties/ddicdiMachine/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/ddiProperties/ddicdiMachine/rules.shacl:
+ - Shape cdifd:ddicdiMachineShape: ex:machine-hpc-cluster
+
+=== End SHACL ===
+

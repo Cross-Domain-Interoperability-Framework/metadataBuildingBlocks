@@ -2,9 +2,100 @@
   "title": "Validation report for cdif.bbr.metadata.ddiProperties.ddicdiIndividual - DDI-CDI Individual",
   "bblockName": "DDI-CDI Individual",
   "bblockId": "cdif.bbr.metadata.ddiProperties.ddicdiIndividual",
-  "generated": "2026-09-11T18:43:16.057401+00:00",
+  "generated": "2026-09-11T18:53:42.487739+00:00",
   "result": true,
   "items": [
+    {
+      "source": {
+        "type": "TEST_RESOURCE",
+        "requireFail": true,
+        "filename": "_sources/ddiProperties/ddicdiIndividual/tests/identifier-fail.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiIndividual/tests/identifier-fail.json",
+        "language": "json"
+      },
+      "result": true,
+      "sections": [
+        {
+          "name": "GENERAL",
+          "title": "General",
+          "entries": [
+            {
+              "op": "require-fail",
+              "isError": false,
+              "message": "Test was expected to fail and it did."
+            }
+          ]
+        },
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using identifier-fail.json from test resources"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "identifier-fail.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD identifier-fail.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "identifier-fail.ttl",
+              "size": 23,
+              "isError": false,
+              "message": "Output Turtle identifier-fail.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": false,
+              "exception": "ValidationError",
+              "errorMessage": "42 is not of type 'object'",
+              "isError": true,
+              "message": "ValidationError: 42 is not of type 'object'\n\nFailed validating 'type' in schema['properties']['cdi:identifier']:\n    {'description': 'DDI-CDI composite identifier (dt-Identifier)',\n     'properties': {'@type': {'contains': {'const': 'cdi:Identifier'},\n                              'items': {'type': 'string'},\n                              'minItems': 1,\n                              'type': 'array'},\n                    'cdi:ddiIdentifier': {'$ref': '#/$defs/InternationalRegistrationDataIdentifier',\n                                          'description': 'DDI-specific '\n                                                         'IRDI identifier',\n                                          'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/ddiIdentifier'},\n                    'cdi:nonDdiIdentifier': {'anyOf': [{'$ref': '#/$defs/NonDdiIdentifier'},\n                                                       {'items': {'$ref': '#/$defs/NonDdiIdentifier'},\n                                                        'type': 'array'}],\n                                             'description': 'Non-DDI '\n                                                            'identifier',\n                                             'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/nonDdiIdentifier'},\n                    'cdi:uri': {'description': 'URI form of the identifier',\n                                'format': 'uri',\n                                'type': 'string',\n                                'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uri'}},\n     'type': 'object'}\n\nOn instance['cdi:identifier']:\n    42"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiProperties/ddicdiIndividual/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiProperties/ddicdiIndividual/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiProperties/ddicdiIndividual/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddicdiIndividualShape": {
+                  "nodes": [
+                    "ex:researcher-jane-doe"
+                  ]
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiProperties/ddicdiIndividual/rules.shacl:\n - Shape cdifd:ddicdiIndividualShape: ex:researcher-jane-doe\n"
+            }
+          ]
+        }
+      ]
+    },
     {
       "source": {
         "type": "EXAMPLE",
@@ -88,8 +179,8 @@
   ],
   "globalErrors": {},
   "counts": {
-    "total": 1,
-    "passed": 1,
+    "total": 2,
+    "passed": 2,
     "failed": 0
   }
 }

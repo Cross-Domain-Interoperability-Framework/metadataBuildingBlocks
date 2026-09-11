@@ -1,0 +1,132 @@
+Validation report for cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain - CDIF Enumeration Domain
+Generated 2026-09-11T18:53:42.175741+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using identifier-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD identifier-fail.jsonld created
+Output Turtle identifier-fail.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: 42 is not of type 'object'
+
+Failed validating 'type' in schema['properties']['cdif:identifier']:
+    {'$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'allOf': [{'required': ['@type']},
+               {'anyOf': [{'required': ['schema:value']},
+                          {'required': ['schema:url']}]}],
+     'description': 'Properties for a schema.org identifier '
+                    '(schema:PropertyValue pattern).\n'
+                    '**Union-type policy:** In CDIF profile UML models an '
+                    'attribute typed as\n'
+                    'schema:Identifier / schema:PropertyValue is '
+                    'represented by a single attribute\n'
+                    'of that class type. The JSON Schema implementation '
+                    'permits the property value\n'
+                    'to be EITHER a plain string (interpreted as the bare '
+                    'identifier value) OR a\n'
+                    'full schema:PropertyValue object (with explicit '
+                    '@type, propertyID, value).\n'
+                    'Consumers should accept either form.\n',
+     'properties': {'@type': {'contains': {'const': 'schema:PropertyValue'},
+                              'items': {'type': 'string'},
+                              'minItems': 1,
+                              'type': 'array'},
+                    'schema:propertyID': {'anyOf': [{'type': 'string'},
+                                                    {'additionalProperties': False,
+                                                     'properties': {'@id': {'type': 'string'}},
+                                                     'required': ['@id'],
+                                                     'type': 'object'}],
+                                          'description': 'In this context '
+                                                         'for the '
+                                                         'schema:PropertyValue, '
+                                                         'this field is an '
+                                                         'identifier for '
+                                                         'the identifier '
+                                                         'schema, e.g. '
+                                                         'DOI, ARK.  Get '
+                                                         'values from '
+                                                         'https://registry.identifiers.org/registry/ '
+                                                         'for '
+                                                         'interoperability. '
+                                                         'URI-shape values '
+                                                         'MUST be '
+                                                         'serialized as '
+                                                         'JSON-LD IRI '
+                                                         'references '
+                                                         '({"@id":"..."}) '
+                                                         'so they '
+                                                         'participate in '
+                                                         'RDF entailment; '
+                                                         'free-label '
+                                                         'strings remain '
+                                                         'valid as '
+                                                         'strings.',
+                                          'x-jsonld-id': 'http://schema.org/propertyID'},
+                    'schema:url': {'description': 'web-resolveable string '
+                                                  'for the identifier; '
+                                                  'host name part is '
+                                                  'location of a resolver '
+                                                  'that will return some '
+                                                  'representation for the '
+                                                  'given identifier value. '
+                                                  'E.g. '
+                                                  'https://doi.org/10.5066/F7VX0DMQ ',
+                                   'format': 'uri',
+                                   'type': 'string',
+                                   'x-jsonld-id': 'http://schema.org/url'},
+                    'schema:value': {'description': 'the identifier '
+                                                    'string. E.g. '
+                                                    '10.5066/F7VX0DMQ',
+                                     'type': 'string',
+                                     'x-jsonld-id': 'http://schema.org/value'}},
+     'type': 'object',
+     'x-jsonld-prefixes': {'schema': 'http://schema.org/'}}
+
+On instance['cdif:identifier']:
+    42
+=== End JSON Schema ===
+
+=== SHACL ===
+Validation result for _sources/cdifDataType/cdifEnumerationDomain/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifDataType/cdifEnumerationDomain/rules.shacl:
+ - Shape cdifd:cdifEnumerationDomainShape: <https://example.org/enum-domain/iso3166-eu>
+
+Validation result for _sources/profiles/cdifProfile/cdifCodelist/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/profiles/cdifProfile/cdifCodelist/rules.shacl:
+ - Shape cdifd:CDIFCodelistConceptShape: *none*
+ - Shape cdifd:CDIFCodelistShape: *none*
+
+Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape _:n9c9ab693356f455e973c913c4034488fb23: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
+ - Shape _:n9c9ab693356f455e973c913c4034488fb11: *none*
+ - Shape _:n9c9ab693356f455e973c913c4034488fb10: *none*
+ - Shape _:n9c9ab693356f455e973c913c4034488fb22: *none*
+ - Shape _:n9c9ab693356f455e973c913c4034488fb25: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n9c9ab693356f455e973c913c4034488fb20: *none*
+ - Shape _:n9c9ab693356f455e973c913c4034488fb21: *none*
+
+=== End SHACL ===
+

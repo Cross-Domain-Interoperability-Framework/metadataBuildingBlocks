@@ -1,0 +1,60 @@
+Validation report for cdif.bbr.metadata.skosProperties.skosConceptScheme - SKOS Concept Scheme
+Generated 2026-09-11T18:53:42.078861+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using hasTopConcept-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD hasTopConcept-fail.jsonld created
+Output Turtle hasTopConcept-fail.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: 42 is not of type 'array'
+
+Failed validating 'type' in schema['properties']['skos:hasTopConcept']:
+    {'description': 'Top-level concepts in this scheme. Each item is a '
+                    'skos:Concept (inline or @id reference).',
+     'items': {'anyOf': [{'$ref': '#/$defs/Concept'},
+                         {'additionalProperties': False,
+                          'properties': {'@id': {'description': 'URI '
+                                                                'reference '
+                                                                'to a '
+                                                                'concept '
+                                                                'defined '
+                                                                'elsewhere',
+                                                 'type': 'string'}},
+                          'required': ['@id'],
+                          'type': 'object'}]},
+     'minItems': 1,
+     'type': 'array',
+     'x-jsonld-id': 'http://www.w3.org/2004/02/skos/core#hasTopConcept'}
+
+On instance['skos:hasTopConcept']:
+    42
+=== End JSON Schema ===
+
+=== SHACL ===
+Validation result for _sources/skosProperties/skosConceptScheme/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConceptScheme/rules.shacl:
+ - Shape skosv:ConceptSchemeShape: mat:materialsvocabulary
+ - Shape skosv:schemePrefLabelUniqueLangShape: mat:materialsvocabulary
+
+Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:conceptBroaderNotSelfShape: *none*
+ - Shape skosv:ConceptShape: *none*
+ - Shape skosv:prefLabelUniqueLangShape: *none*
+
+=== End SHACL ===
+
