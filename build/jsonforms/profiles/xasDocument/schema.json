@@ -248,7 +248,7 @@
                                 ]
                               },
                               {
-                                "$ref": "#/$defs/cdifConcept"
+                                "$ref": "#/$defs/Concept"
                               }
                             ]
                           }
@@ -395,7 +395,7 @@
                                 ]
                               },
                               {
-                                "$ref": "#/$defs/cdifConcept"
+                                "$ref": "#/$defs/Concept"
                               }
                             ]
                           }
@@ -562,7 +562,7 @@
                                 ]
                               },
                               {
-                                "$ref": "#/$defs/cdifConcept"
+                                "$ref": "#/$defs/Concept"
                               }
                             ]
                           }
@@ -892,7 +892,7 @@
                 ]
               },
               {
-                "$ref": "#/$defs/cdifConcept"
+                "$ref": "#/$defs/Concept"
               }
             ]
           }
@@ -1631,7 +1631,7 @@
                                           ]
                                         },
                                         {
-                                          "$ref": "#/$defs/cdifConcept"
+                                          "$ref": "#/$defs/Concept"
                                         }
                                       ]
                                     }
@@ -2553,7 +2553,7 @@
                                           ]
                                         },
                                         {
-                                          "$ref": "#/$defs/cdifConcept"
+                                          "$ref": "#/$defs/Concept"
                                         }
                                       ]
                                     }
@@ -3118,7 +3118,7 @@
                                         ]
                                       },
                                       {
-                                        "$ref": "#/$defs/cdifConcept"
+                                        "$ref": "#/$defs/Concept"
                                       }
                                     ]
                                   }
@@ -4040,7 +4040,7 @@
                                         ]
                                       },
                                       {
-                                        "$ref": "#/$defs/cdifConcept"
+                                        "$ref": "#/$defs/Concept"
                                       }
                                     ]
                                   }
@@ -4432,7 +4432,7 @@
                             ]
                           },
                           {
-                            "$ref": "#/$defs/cdifConcept"
+                            "$ref": "#/$defs/Concept"
                           }
                         ]
                       }
@@ -4974,7 +4974,7 @@
                               ]
                             },
                             {
-                              "$ref": "#/$defs/cdifConcept"
+                              "$ref": "#/$defs/Concept"
                             }
                           ]
                         }
@@ -6446,7 +6446,7 @@
                         ]
                       },
                       {
-                        "$ref": "#/$defs/cdifConcept"
+                        "$ref": "#/$defs/Concept"
                       }
                     ]
                   }
@@ -6705,7 +6705,7 @@
                 ]
               },
               {
-                "$ref": "#/$defs/cdifConcept"
+                "$ref": "#/$defs/Concept"
               }
             ]
           }
@@ -8164,6 +8164,92 @@
     }
   },
   "$defs": {
+    "CdifCodelistConcept": {
+      "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "Globally unique, resolvable URI for this concept."
+        },
+        "skos:inScheme": {
+          "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this concept. A single string,\na single language-tagged value, or an array of language-tagged values.\nEach language should appear at most once.\n\n**Uniqueness rule.** Each language should appear at most once in the\nset of prefLabel values. Two prefLabel values with duplicate `@language`\ntags are non-conformant. Consumers may reject or arbitrarily pick one.\n\n**Relationship to skos:altLabel.** Alternate labels (acronyms,\nspelling variants, obsolete names) go on `skos:altLabel`, NOT on\n`prefLabel`. A concept has exactly one preferred label per language.\n",
+          "type": "string"
+        },
+        "skos:notation": {
+          "description": "Classification code for this concept within a scheme.",
+          "type": "string"
+        },
+        "skos:definition": {
+          "description": "Formal definition of this concept. Optional for CDIF codelist concepts. A plain string.",
+          "type": "string"
+        },
+        "skos:narrower": {
+          "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "$ref": "#/$defs/CdifCodelistConcept",
+                "required": [
+                  "skos:broader"
+                ]
+              }
+            ]
+          }
+        },
+        "skos:broader": {
+          "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        }
+      },
+      "required": [
+        "@id",
+        "skos:inScheme",
+        "skos:prefLabel",
+        "skos:notation"
+      ]
+    },
     "CategoryStatistics": {
       "title": "CategoryStatistics",
       "description": "Statistics for a specific Category of an instance variable within a data set.",
@@ -8314,7 +8400,7 @@
                   ]
                 },
                 {
-                  "$ref": "#/$defs/cdifConcept"
+                  "$ref": "#/$defs/Concept"
                 }
               ]
             }
@@ -8377,6 +8463,193 @@
       "required": [
         "@type",
         "cdi:for",
+        "cdi:statistic"
+      ]
+    },
+    "Statistics": {
+      "title": "Statistics",
+      "description": "A named bundle of one or more Statistic value objects for an instance variable, optionally weighted, optionally broken down by Category.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Statistics node."
+        },
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "cdi:Statistics"
+            ]
+          }
+        },
+        "cdi:typeOfStatistic": {
+          "title": "CDIF Concept-or-Term-or-String",
+          "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept for the data type"
+                    }
+                  }
+                },
+                {
+                  "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "schema:DefinedTerm"
+                        ]
+                      }
+                    },
+                    "schema:name": {
+                      "type": "string",
+                      "description": "text label for the term that is useful to human user"
+                    },
+                    "schema:identifier": {
+                      "type": "string",
+                      "description": "Identifier"
+                    },
+                    "schema:inDefinedTermSet": {
+                      "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "@id"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "schema:termCode": {
+                      "type": "string",
+                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                    }
+                  },
+                  "required": [
+                    "@type"
+                  ]
+                },
+                {
+                  "$ref": "#/$defs/Concept"
+                }
+              ]
+            }
+          ]
+        },
+        "cdi:statistic": {
+          "type": "array",
+          "description": "Ordered list of Statistic value objects carried by this bundle. Order is significant — consumers MAY rely on array position.",
+          "items": {
+            "title": "Statistic",
+            "description": "DDI-CDI Statistic dataType — a single computed value (mean, count, median, etc.). A value object with no identity; appears inline inside a cdi:statistic array.",
+            "type": "object",
+            "properties": {
+              "cdi:computationBase": {
+                "type": "string",
+                "enum": [
+                  "MissingOnly",
+                  "Total",
+                  "ValidOnly"
+                ],
+                "description": "The cases included in determining the statistic — Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only)."
+              },
+              "cdi:content": {
+                "type": "number",
+                "description": "The value of the statistic expressed as a real number."
+              },
+              "cdi:isWeighted": {
+                "type": "boolean",
+                "default": false,
+                "description": "True if the statistic was computed using a weighting variable."
+              },
+              "cdi:typeOfNumericValue": {
+                "type": "string",
+                "description": "The type of numeric value carried in cdi:content — decimal, float, or double."
+              }
+            }
+          }
+        },
+        "cdi:hasWeight": {
+          "description": "The InstanceVariable whose values were used as weights when computing the Statistic entries (inline cdifInstanceVariable node or an @id-reference).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CdifInstanceVariable"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        },
+        "cdif:appliesTo": {
+          "type": "array",
+          "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) this Statistics bundle summarizes — the per-bundle \"what these numbers describe\" link. Used **only** when this Statistics bundle sits inside a StatisticsCollection that indexes more than one variable, to disambiguate which variable each bundle describes. It MUST NOT appear on a Statistics bundle attached at Dataset level via `cdif:statistics`; per-variable stats belong under `schema:variableMeasured[i].cdif:isDescribedBy_StatisticsCollection` (the direct JSON mapping of the DDI-CDI `InstanceVariable.isDescribedBy` association).",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CdifInstanceVariable"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            ]
+          }
+        },
+        "cdif:has_CategoryStatistics": {
+          "type": "array",
+          "description": "CategoryStatistics entries breaking this Statistics bundle down by Category. cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
+          "items": {
+            "$ref": "#/$defs/CategoryStatistics"
+          }
+        }
+      },
+      "required": [
+        "@type",
         "cdi:statistic"
       ]
     },
@@ -8468,7 +8741,7 @@
                   ]
                 },
                 {
-                  "$ref": "#/$defs/cdifConcept"
+                  "$ref": "#/$defs/Concept"
                 }
               ]
             }
@@ -8568,7 +8841,7 @@
                         ]
                       },
                       {
-                        "$ref": "#/$defs/cdifConcept"
+                        "$ref": "#/$defs/Concept"
                       }
                     ]
                   }
@@ -8666,7 +8939,7 @@
                             ]
                           },
                           {
-                            "$ref": "#/$defs/cdifConcept"
+                            "$ref": "#/$defs/Concept"
                           }
                         ]
                       }
@@ -8746,7 +9019,7 @@
                             ]
                           },
                           {
-                            "$ref": "#/$defs/cdifConcept"
+                            "$ref": "#/$defs/Concept"
                           }
                         ]
                       }
@@ -9951,7 +10224,7 @@
                             ]
                           },
                           {
-                            "$ref": "#/$defs/cdifConcept"
+                            "$ref": "#/$defs/Concept"
                           }
                         ]
                       }
@@ -10180,7 +10453,7 @@
                     ]
                   },
                   {
-                    "$ref": "#/$defs/cdifConcept"
+                    "$ref": "#/$defs/Concept"
                   }
                 ]
               }
@@ -10262,7 +10535,7 @@
                   ]
                 },
                 {
-                  "$ref": "#/$defs/cdifConcept"
+                  "$ref": "#/$defs/Concept"
                 }
               ]
             }
@@ -10375,7 +10648,7 @@
               ]
             },
             {
-              "$ref": "#/$defs/cdifConcept"
+              "$ref": "#/$defs/Concept"
             }
           ]
         },
@@ -11244,92 +11517,6 @@
         "skos:inScheme"
       ]
     },
-    "CdifCodelistConcept": {
-      "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "Globally unique, resolvable URI for this concept."
-        },
-        "skos:inScheme": {
-          "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "@id"
-            ]
-          }
-        },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for this concept. A single string,\na single language-tagged value, or an array of language-tagged values.\nEach language should appear at most once.\n\n**Uniqueness rule.** Each language should appear at most once in the\nset of prefLabel values. Two prefLabel values with duplicate `@language`\ntags are non-conformant. Consumers may reject or arbitrarily pick one.\n\n**Relationship to skos:altLabel.** Alternate labels (acronyms,\nspelling variants, obsolete names) go on `skos:altLabel`, NOT on\n`prefLabel`. A concept has exactly one preferred label per language.\n",
-          "type": "string"
-        },
-        "skos:notation": {
-          "description": "Classification code for this concept within a scheme.",
-          "type": "string"
-        },
-        "skos:definition": {
-          "description": "Formal definition of this concept. Optional for CDIF codelist concepts. A plain string.",
-          "type": "string"
-        },
-        "skos:narrower": {
-          "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              {
-                "$ref": "#/$defs/CdifCodelistConcept",
-                "required": [
-                  "skos:broader"
-                ]
-              }
-            ]
-          }
-        },
-        "skos:broader": {
-          "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "@id"
-            ]
-          }
-        }
-      },
-      "required": [
-        "@id",
-        "skos:inScheme",
-        "skos:prefLabel",
-        "skos:notation"
-      ]
-    },
     "StatisticsCollection": {
       "title": "StatisticsCollection",
       "description": "Groups one or more Statistics nodes for an instance variable. A typical use is a dataset-level collection holding row-count / mean / stddev Statistics for each measured variable.",
@@ -11418,463 +11605,6 @@
       "required": [
         "@type",
         "cdif:has_Statistics"
-      ]
-    },
-    "cdifConcept": {
-      "type": "object",
-      "properties": {
-        "@context": {
-          "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
-          "type": "object",
-          "properties": {
-            "skos": {
-              "default": "http://www.w3.org/2004/02/skos/core#",
-              "type": "string"
-            }
-          },
-          "required": [
-            "skos"
-          ]
-        },
-        "@id": {
-          "type": "string",
-          "description": "URI identifier for this concept."
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "skos:Concept"
-            ]
-          }
-        },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                "properties": {
-                  "@value": {
-                    "type": "string",
-                    "description": "The text content."
-                  },
-                  "@language": {
-                    "type": "string",
-                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                  }
-                },
-                "required": [
-                  "@value"
-                ]
-              }
-            }
-          ]
-        },
-        "skos:notation": {
-          "description": "Classification code for this concept within a scheme (a single notation string, consistent with CdifCodelistConcept).",
-          "type": "string"
-        },
-        "skos:definition": {
-          "description": "Formal explanation of the meaning of this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value"
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:note": {
-          "description": "General note about this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value"
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:inScheme": {
-          "description": "Concept scheme(s) this concept belongs to.",
-          "anyOf": [
-            {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            }
-          ]
-        },
-        "skos:broader": {
-          "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              {
-                "$ref": "#/$defs/cdifConcept"
-              }
-            ]
-          }
-        },
-        "skos:narrower": {
-          "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              {
-                "$ref": "#/$defs/cdifConcept"
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "@type",
-        "skos:prefLabel"
-      ]
-    },
-    "Statistics": {
-      "title": "Statistics",
-      "description": "A named bundle of one or more Statistic value objects for an instance variable, optionally weighted, optionally broken down by Category.",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this Statistics node."
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "cdi:Statistics"
-            ]
-          }
-        },
-        "cdi:typeOfStatistic": {
-          "title": "CDIF Concept-or-Term-or-String",
-          "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
-              "anyOf": [
-                {
-                  "type": "object",
-                  "required": [
-                    "@id"
-                  ],
-                  "additionalProperties": false,
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "reference to a skos concept for the data type"
-                    }
-                  }
-                },
-                {
-                  "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "schema:DefinedTerm"
-                        ]
-                      }
-                    },
-                    "schema:name": {
-                      "type": "string",
-                      "description": "text label for the term that is useful to human user"
-                    },
-                    "schema:identifier": {
-                      "type": "string",
-                      "description": "Identifier"
-                    },
-                    "schema:inDefinedTermSet": {
-                      "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "object",
-                          "required": [
-                            "@id"
-                          ],
-                          "additionalProperties": false,
-                          "properties": {
-                            "@id": {
-                              "type": "string"
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    "schema:termCode": {
-                      "type": "string",
-                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-                    }
-                  },
-                  "required": [
-                    "@type"
-                  ]
-                },
-                {
-                  "$ref": "#/$defs/cdifConcept"
-                }
-              ]
-            }
-          ]
-        },
-        "cdi:statistic": {
-          "type": "array",
-          "description": "Ordered list of Statistic value objects carried by this bundle. Order is significant — consumers MAY rely on array position.",
-          "items": {
-            "title": "Statistic",
-            "description": "DDI-CDI Statistic dataType — a single computed value (mean, count, median, etc.). A value object with no identity; appears inline inside a cdi:statistic array.",
-            "type": "object",
-            "properties": {
-              "cdi:computationBase": {
-                "type": "string",
-                "enum": [
-                  "MissingOnly",
-                  "Total",
-                  "ValidOnly"
-                ],
-                "description": "The cases included in determining the statistic — Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only)."
-              },
-              "cdi:content": {
-                "type": "number",
-                "description": "The value of the statistic expressed as a real number."
-              },
-              "cdi:isWeighted": {
-                "type": "boolean",
-                "default": false,
-                "description": "True if the statistic was computed using a weighting variable."
-              },
-              "cdi:typeOfNumericValue": {
-                "type": "string",
-                "description": "The type of numeric value carried in cdi:content — decimal, float, or double."
-              }
-            }
-          }
-        },
-        "cdi:hasWeight": {
-          "description": "The InstanceVariable whose values were used as weights when computing the Statistic entries (inline cdifInstanceVariable node or an @id-reference).",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/CdifInstanceVariable"
-            },
-            {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            }
-          ]
-        },
-        "cdif:appliesTo": {
-          "type": "array",
-          "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) this Statistics bundle summarizes — the per-bundle \"what these numbers describe\" link. Used **only** when this Statistics bundle sits inside a StatisticsCollection that indexes more than one variable, to disambiguate which variable each bundle describes. It MUST NOT appear on a Statistics bundle attached at Dataset level via `cdif:statistics`; per-variable stats belong under `schema:variableMeasured[i].cdif:isDescribedBy_StatisticsCollection` (the direct JSON mapping of the DDI-CDI `InstanceVariable.isDescribedBy` association).",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/CdifInstanceVariable"
-              },
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            ]
-          }
-        },
-        "cdif:has_CategoryStatistics": {
-          "type": "array",
-          "description": "CategoryStatistics entries breaking this Statistics bundle down by Category. cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
-          "items": {
-            "$ref": "#/$defs/CategoryStatistics"
-          }
-        }
-      },
-      "required": [
-        "@type",
-        "cdi:statistic"
       ]
     }
   },
@@ -12118,7 +11848,7 @@
                                                       ]
                                                     },
                                                     {
-                                                      "$ref": "#/$defs/cdifConcept"
+                                                      "$ref": "#/$defs/Concept"
                                                     }
                                                   ]
                                                 }
@@ -12198,7 +11928,7 @@
                                                       ]
                                                     },
                                                     {
-                                                      "$ref": "#/$defs/cdifConcept"
+                                                      "$ref": "#/$defs/Concept"
                                                     }
                                                   ]
                                                 }
@@ -13403,7 +13133,7 @@
                                                       ]
                                                     },
                                                     {
-                                                      "$ref": "#/$defs/cdifConcept"
+                                                      "$ref": "#/$defs/Concept"
                                                     }
                                                   ]
                                                 }
@@ -13709,7 +13439,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -13789,7 +13519,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -14994,7 +14724,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -15320,7 +15050,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -15400,7 +15130,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -16605,7 +16335,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -16835,7 +16565,7 @@
                                               ]
                                             },
                                             {
-                                              "$ref": "#/$defs/cdifConcept"
+                                              "$ref": "#/$defs/Concept"
                                             }
                                           ]
                                         }
@@ -17028,7 +16758,7 @@
                                                               ]
                                                             },
                                                             {
-                                                              "$ref": "#/$defs/cdifConcept"
+                                                              "$ref": "#/$defs/Concept"
                                                             }
                                                           ]
                                                         }
@@ -17108,7 +16838,7 @@
                                                               ]
                                                             },
                                                             {
-                                                              "$ref": "#/$defs/cdifConcept"
+                                                              "$ref": "#/$defs/Concept"
                                                             }
                                                           ]
                                                         }
@@ -18313,7 +18043,7 @@
                                                               ]
                                                             },
                                                             {
-                                                              "$ref": "#/$defs/cdifConcept"
+                                                              "$ref": "#/$defs/Concept"
                                                             }
                                                           ]
                                                         }
@@ -18543,7 +18273,7 @@
                                                         ]
                                                       },
                                                       {
-                                                        "$ref": "#/$defs/cdifConcept"
+                                                        "$ref": "#/$defs/Concept"
                                                       }
                                                     ]
                                                   }
@@ -18716,7 +18446,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -18796,7 +18526,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -20001,7 +19731,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -20231,7 +19961,7 @@
                                               ]
                                             },
                                             {
-                                              "$ref": "#/$defs/cdifConcept"
+                                              "$ref": "#/$defs/Concept"
                                             }
                                           ]
                                         }
@@ -20356,7 +20086,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -20436,7 +20166,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -21641,7 +21371,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -21960,7 +21690,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -22040,7 +21770,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -23245,7 +22975,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -23475,7 +23205,7 @@
                                               ]
                                             },
                                             {
-                                              "$ref": "#/$defs/cdifConcept"
+                                              "$ref": "#/$defs/Concept"
                                             }
                                           ]
                                         }
@@ -23644,7 +23374,7 @@
                                                                   ]
                                                                 },
                                                                 {
-                                                                  "$ref": "#/$defs/cdifConcept"
+                                                                  "$ref": "#/$defs/Concept"
                                                                 }
                                                               ]
                                                             }
@@ -23724,7 +23454,7 @@
                                                                   ]
                                                                 },
                                                                 {
-                                                                  "$ref": "#/$defs/cdifConcept"
+                                                                  "$ref": "#/$defs/Concept"
                                                                 }
                                                               ]
                                                             }
@@ -24929,7 +24659,7 @@
                                                                   ]
                                                                 },
                                                                 {
-                                                                  "$ref": "#/$defs/cdifConcept"
+                                                                  "$ref": "#/$defs/Concept"
                                                                 }
                                                               ]
                                                             }
@@ -25242,7 +24972,7 @@
                                               ]
                                             },
                                             {
-                                              "$ref": "#/$defs/cdifConcept"
+                                              "$ref": "#/$defs/Concept"
                                             }
                                           ]
                                         }
@@ -25502,7 +25232,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -25582,7 +25312,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -26787,7 +26517,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -27113,7 +26843,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -27193,7 +26923,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -28398,7 +28128,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -28628,7 +28358,7 @@
                                           ]
                                         },
                                         {
-                                          "$ref": "#/$defs/cdifConcept"
+                                          "$ref": "#/$defs/Concept"
                                         }
                                       ]
                                     }
@@ -28821,7 +28551,7 @@
                                                           ]
                                                         },
                                                         {
-                                                          "$ref": "#/$defs/cdifConcept"
+                                                          "$ref": "#/$defs/Concept"
                                                         }
                                                       ]
                                                     }
@@ -28901,7 +28631,7 @@
                                                           ]
                                                         },
                                                         {
-                                                          "$ref": "#/$defs/cdifConcept"
+                                                          "$ref": "#/$defs/Concept"
                                                         }
                                                       ]
                                                     }
@@ -30106,7 +29836,7 @@
                                                           ]
                                                         },
                                                         {
-                                                          "$ref": "#/$defs/cdifConcept"
+                                                          "$ref": "#/$defs/Concept"
                                                         }
                                                       ]
                                                     }
@@ -30336,7 +30066,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -30509,7 +30239,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -30589,7 +30319,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -31794,7 +31524,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -32024,7 +31754,7 @@
                                           ]
                                         },
                                         {
-                                          "$ref": "#/$defs/cdifConcept"
+                                          "$ref": "#/$defs/Concept"
                                         }
                                       ]
                                     }
@@ -32149,7 +31879,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -32229,7 +31959,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -33434,7 +33164,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -33822,7 +33552,7 @@
                                                       ]
                                                     },
                                                     {
-                                                      "$ref": "#/$defs/cdifConcept"
+                                                      "$ref": "#/$defs/Concept"
                                                     }
                                                   ]
                                                 }
@@ -33902,7 +33632,7 @@
                                                       ]
                                                     },
                                                     {
-                                                      "$ref": "#/$defs/cdifConcept"
+                                                      "$ref": "#/$defs/Concept"
                                                     }
                                                   ]
                                                 }
@@ -35107,7 +34837,7 @@
                                                       ]
                                                     },
                                                     {
-                                                      "$ref": "#/$defs/cdifConcept"
+                                                      "$ref": "#/$defs/Concept"
                                                     }
                                                   ]
                                                 }
@@ -35433,7 +35163,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -35513,7 +35243,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -36718,7 +36448,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -37034,7 +36764,7 @@
                                                               ]
                                                             },
                                                             {
-                                                              "$ref": "#/$defs/cdifConcept"
+                                                              "$ref": "#/$defs/Concept"
                                                             }
                                                           ]
                                                         }
@@ -37114,7 +36844,7 @@
                                                               ]
                                                             },
                                                             {
-                                                              "$ref": "#/$defs/cdifConcept"
+                                                              "$ref": "#/$defs/Concept"
                                                             }
                                                           ]
                                                         }
@@ -38319,7 +38049,7 @@
                                                               ]
                                                             },
                                                             {
-                                                              "$ref": "#/$defs/cdifConcept"
+                                                              "$ref": "#/$defs/Concept"
                                                             }
                                                           ]
                                                         }
@@ -38632,7 +38362,7 @@
                                           ]
                                         },
                                         {
-                                          "$ref": "#/$defs/cdifConcept"
+                                          "$ref": "#/$defs/Concept"
                                         }
                                       ]
                                     }
@@ -38805,7 +38535,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -38885,7 +38615,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -40090,7 +39820,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -40320,7 +40050,7 @@
                                           ]
                                         },
                                         {
-                                          "$ref": "#/$defs/cdifConcept"
+                                          "$ref": "#/$defs/Concept"
                                         }
                                       ]
                                     }
@@ -40513,7 +40243,7 @@
                                                           ]
                                                         },
                                                         {
-                                                          "$ref": "#/$defs/cdifConcept"
+                                                          "$ref": "#/$defs/Concept"
                                                         }
                                                       ]
                                                     }
@@ -40593,7 +40323,7 @@
                                                           ]
                                                         },
                                                         {
-                                                          "$ref": "#/$defs/cdifConcept"
+                                                          "$ref": "#/$defs/Concept"
                                                         }
                                                       ]
                                                     }
@@ -41798,7 +41528,7 @@
                                                           ]
                                                         },
                                                         {
-                                                          "$ref": "#/$defs/cdifConcept"
+                                                          "$ref": "#/$defs/Concept"
                                                         }
                                                       ]
                                                     }
@@ -42028,7 +41758,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -42201,7 +41931,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -42281,7 +42011,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -43486,7 +43216,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -43716,7 +43446,7 @@
                                           ]
                                         },
                                         {
-                                          "$ref": "#/$defs/cdifConcept"
+                                          "$ref": "#/$defs/Concept"
                                         }
                                       ]
                                     }
@@ -43944,7 +43674,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -44024,7 +43754,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -45229,7 +44959,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -45555,7 +45285,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -45635,7 +45365,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -46840,7 +46570,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -47070,7 +46800,7 @@
                                           ]
                                         },
                                         {
-                                          "$ref": "#/$defs/cdifConcept"
+                                          "$ref": "#/$defs/Concept"
                                         }
                                       ]
                                     }
@@ -47263,7 +46993,7 @@
                                                           ]
                                                         },
                                                         {
-                                                          "$ref": "#/$defs/cdifConcept"
+                                                          "$ref": "#/$defs/Concept"
                                                         }
                                                       ]
                                                     }
@@ -47343,7 +47073,7 @@
                                                           ]
                                                         },
                                                         {
-                                                          "$ref": "#/$defs/cdifConcept"
+                                                          "$ref": "#/$defs/Concept"
                                                         }
                                                       ]
                                                     }
@@ -48548,7 +48278,7 @@
                                                           ]
                                                         },
                                                         {
-                                                          "$ref": "#/$defs/cdifConcept"
+                                                          "$ref": "#/$defs/Concept"
                                                         }
                                                       ]
                                                     }
@@ -48778,7 +48508,7 @@
                                                     ]
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/cdifConcept"
+                                                    "$ref": "#/$defs/Concept"
                                                   }
                                                 ]
                                               }
@@ -48951,7 +48681,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -49031,7 +48761,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -50236,7 +49966,7 @@
                                                 ]
                                               },
                                               {
-                                                "$ref": "#/$defs/cdifConcept"
+                                                "$ref": "#/$defs/Concept"
                                               }
                                             ]
                                           }
@@ -50466,7 +50196,7 @@
                                           ]
                                         },
                                         {
-                                          "$ref": "#/$defs/cdifConcept"
+                                          "$ref": "#/$defs/Concept"
                                         }
                                       ]
                                     }
@@ -50722,7 +50452,7 @@
                                                       ]
                                                     },
                                                     {
-                                                      "$ref": "#/$defs/cdifConcept"
+                                                      "$ref": "#/$defs/Concept"
                                                     }
                                                   ]
                                                 }
@@ -50802,7 +50532,7 @@
                                                       ]
                                                     },
                                                     {
-                                                      "$ref": "#/$defs/cdifConcept"
+                                                      "$ref": "#/$defs/Concept"
                                                     }
                                                   ]
                                                 }
@@ -52007,7 +51737,7 @@
                                                       ]
                                                     },
                                                     {
-                                                      "$ref": "#/$defs/cdifConcept"
+                                                      "$ref": "#/$defs/Concept"
                                                     }
                                                   ]
                                                 }
