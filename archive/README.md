@@ -103,3 +103,23 @@ and `MetadataExamples/nwis-water-quality-longdata.json` in the `validation` repo
 Its `cdif:hasPhysicalMapping`, `cdi:arrayBase` and `csvw:` properties are not lost —
 they are the ordinary physical-mapping vocabulary, declared in `cdifPhysicalMapping` and
 used by every tabular block.
+
+## profiles/cdifCompositeProfile/xasDocument/rules.shacl
+
+Archived 2026-09-11. A 1546-line **merged bundle checked in as source**: 81 NodeShapes, of
+which 80 were already supplied by `xasDocument`'s own `$ref` graph. A composite is a thin
+`allOf` over modules, so its shapes come from those modules; this file duplicated them.
+
+It was not merely redundant, it had drifted. Three shapes carried older, smaller versions than
+their canonical source -- `CDIFDefinedTermShape` 6 triples against 10, `CDIFCatalogRecordShape`
+7 against 9, `CDIFDataDownloadShape` 4 against 5 -- so an improvement made to a shape upstream
+was silently shadowed here, with nothing to report the divergence.
+
+The 81st shape, `CDIFCodelistConformsToShape`, was a **codelist** conformance advisory sitting
+in an **XAS** bundle. It is the one thing removal drops, and dropping it is the point: a
+profile-conformance advisory belongs to one profile only (see `conformance.shacl` in CLAUDE.md).
+
+Removing it changed nothing else: the emitted bundle went from 2092 triples / 42 rule files to
+2094 / 41 -- *up*, because the canonical shapes are fuller than the stale copies -- and
+`validate_shacl --strict` reports the same 0 violations, 19 warnings, 4 info across both
+examples.
