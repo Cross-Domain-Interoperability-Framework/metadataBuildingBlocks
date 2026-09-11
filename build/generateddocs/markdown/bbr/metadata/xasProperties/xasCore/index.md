@@ -920,6 +920,29 @@ ex:xas-dataset-001 a schema1:Dataset,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
+                                    schema1:name "x-ray source" ;
+                                    schema1:propertyID xas:xraysourcetype ;
+                                    schema1:value "Synchrotron X-ray Source" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "Probe" ;
+                                    schema1:propertyID xas:probe ;
+                                    schema1:value "x-ray" ] ;
+                            schema1:additionalType xas:source,
+                                wd:Q3099911 ;
+                            schema1:name "APS bending magnet source" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalType xas:beamline,
+                                wd:Q3099911 ;
+                            schema1:category [ a schema1:DefinedTerm ;
+                                    schema1:name "X-ray absorption spectroscopy beamline" ;
+                                    schema1:termCode "XAS-beamline" ] ;
+                            schema1:name "APS Sector 20-BM beamline instrument" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalProperty [ a schema1:PropertyValue ;
                                     schema1:name "d-spacing" ;
                                     schema1:propertyID xas:dspacing ;
                                     schema1:unitText "Angstrom" ;
@@ -934,30 +957,7 @@ ex:xas-dataset-001 a schema1:Dataset,
                                     schema1:value "Si(111)" ] ;
                             schema1:additionalType xas:xraymonochromator,
                                 wd:Q3099911 ;
-                            schema1:name "Si 111" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalType xas:beamline,
-                                wd:Q3099911 ;
-                            schema1:category [ a schema1:DefinedTerm ;
-                                    schema1:name "X-ray absorption spectroscopy beamline" ;
-                                    schema1:termCode "XAS-beamline" ] ;
-                            schema1:name "APS Sector 20-BM beamline instrument" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "x-ray source" ;
-                                    schema1:propertyID xas:xraysourcetype ;
-                                    schema1:value "Synchrotron X-ray Source" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "Probe" ;
-                                    schema1:propertyID xas:probe ;
-                                    schema1:value "x-ray" ] ;
-                            schema1:additionalType xas:source,
-                                wd:Q3099911 ;
-                            schema1:name "APS bending magnet source" ] ] ] .
+                            schema1:name "Si 111" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
