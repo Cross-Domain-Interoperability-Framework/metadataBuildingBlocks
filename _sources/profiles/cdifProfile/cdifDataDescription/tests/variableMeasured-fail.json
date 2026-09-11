@@ -1,0 +1,154 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "ex": "https://example.org/",
+    "cdif": "https://w3id.org/cdif/"
+  },
+  "@id": "ex:dataset/oceanTemp2025",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Ocean Temperature Monitoring Data",
+  "schema:identifier": "https://doi.org/10.1234/ocean-temp-2025",
+  "schema:url": "https://example.org/datasets/ocean-temp-2025",
+  "schema:dateModified": "2025-09-01",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "@id": "ex:dataset/oceanTemp2025/metadata",
+    "schema:about": {
+      "@id": "ex:dataset/oceanTemp2025"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      }
+    ]
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:TabularTextDataSet",
+        "cdi:PhysicalDataSet"
+      ],
+      "schema:name": "Ocean temperature CSV",
+      "schema:contentUrl": "https://example.org/downloads/ocean-temp-2025.csv",
+      "schema:encodingFormat": [
+        "text/csv"
+      ],
+      "cdi:characterSet": "UTF-8",
+      "cdif:fileSize": 1.2,
+      "cdif:fileSizeUofM": "MB",
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "csvw:header": true,
+      "csvw:headerRowCount": 1,
+      "csvw:skipRows": 0,
+      "csvw:skipBlankRows": true,
+      "csvw:commentPrefix": "#",
+      "csvw:quoteChar": "\"",
+      "csvw:trim": "true",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 0,
+          "cdif:physicalDataType": "String",
+          "cdi:length": 20,
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/stationId"
+          }
+        },
+        {
+          "cdif:index": 1,
+          "cdif:physicalDataType": "Numeric",
+          "cdif:format": "0.0",
+          "cdi:scale": 1,
+          "cdi:decimalPositions": 1,
+          "cdi:nullSequence": "-999.9",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/measurementDepth"
+          }
+        },
+        {
+          "cdif:index": 2,
+          "cdif:physicalDataType": "Numeric",
+          "cdif:format": "0.00",
+          "cdi:scale": 2,
+          "cdi:decimalPositions": 2,
+          "cdi:nullSequence": "-999.99",
+          "cdi:defaultValue": "NaN",
+          "cdi:minimumLength": 1,
+          "cdi:maximumLength": 10,
+          "cdi:isRequired": false,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
+          }
+        },
+        {
+          "cdif:index": 3,
+          "cdif:physicalDataType": "Integer",
+          "cdi:isRequired": false,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/qcFlag"
+          }
+        },
+        {
+          "cdif:index": 4,
+          "cdif:physicalDataType": "String",
+          "cdi:isRequired": false,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/sourceCruise"
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:StructuredDataSet",
+        "cdi:PhysicalDataSet"
+      ],
+      "schema:name": "Ocean temperature NetCDF cube",
+      "schema:contentUrl": "https://example.org/downloads/ocean-temp-2025.nc",
+      "schema:encodingFormat": [
+        "application/x-netcdf"
+      ],
+      "cdi:characterSet": "UTF-8",
+      "cdif:fileSize": 240.0,
+      "cdif:fileSizeUofM": "MB",
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:physicalDataType": "float32",
+          "cdi:locator": "/measurements/seaWaterTemperature",
+          "cdi:nullSequence": "NaN",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
+          }
+        },
+        {
+          "cdif:physicalDataType": "float32",
+          "cdi:locator": "/coordinates/depth",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/measurementDepth"
+          }
+        }
+      ]
+    }
+  ]
+}
