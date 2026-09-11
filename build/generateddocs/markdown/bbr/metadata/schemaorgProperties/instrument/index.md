@@ -1052,15 +1052,15 @@ ex:component-gas-chromatograph a schema1:Product,
 ex:component-mass-spectrometer a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Full scan time" ;
-            schema1:propertyID "scanTime" ;
-            schema1:unitText "s" ;
-            schema1:value 1e-01 ],
-        [ a schema1:PropertyValue ;
             schema1:name "Ion source temperature" ;
             schema1:propertyID "ionSourceTemperature" ;
             schema1:unitText "°C" ;
             schema1:value 300 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Full scan time" ;
+            schema1:propertyID "scanTime" ;
+            schema1:unitText "s" ;
+            schema1:value 1e-01 ],
         [ a schema1:PropertyValue ;
             schema1:name "Detector gain" ;
             schema1:propertyID "detectorGain" ;
@@ -1107,6 +1107,10 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
             schema1:propertyID "ionizationMode" ;
             schema1:value "Electron Ionization (EI), positive polarity" ],
         [ a schema1:PropertyValue ;
+            schema1:name "Full scan m/z range" ;
+            schema1:propertyID "scanRange" ;
+            schema1:value "50-500" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Measured variables" ;
             schema1:propertyID "MeasuredVariable" ;
             schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
@@ -1114,27 +1118,23 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
             schema1:name "Full scan detection limit" ;
             schema1:propertyID "detectionLimit" ;
             schema1:unitText "ng" ;
-            schema1:value "sub-nanogram" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Full scan m/z range" ;
-            schema1:propertyID "scanRange" ;
-            schema1:value "50-500" ] ;
+            schema1:value "sub-nanogram" ] ;
     schema1:additionalType wd:Q3099911,
         wd:Q420427 ;
     schema1:alternateName "GSFC Astrobiology Lab Pyrolysis GC-MS System",
         "Py-GC-MS/MS" ;
     schema1:category [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
+            schema1:termCode "Py-GC-MS" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://vocab.nerc.ac.uk/collection/L05/current/> ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/" ;
                     schema1:value "LAB02" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "GCMS" ],
-        [ a schema1:DefinedTerm ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "Py-GC-MS" ] ;
+            schema1:termCode "GCMS" ] ;
     schema1:contributor [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0002-4805-7062> ;
             schema1:roleName [ a schema1:DefinedTerm ;
@@ -1149,12 +1149,12 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         ex:component-mass-spectrometer,
         ex:component-pyrolysis-oven ;
     schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "inventoryNumber" ;
+            schema1:value "GSFC-AAL-PYGCMS-001" ],
+        [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001" ;
-            schema1:value "10.xxxx/instrument.pygcms.gsfc.001" ],
-        [ a schema1:PropertyValue ;
-            schema1:propertyID "inventoryNumber" ;
-            schema1:value "GSFC-AAL-PYGCMS-001" ] ;
+            schema1:value "10.xxxx/instrument.pygcms.gsfc.001" ] ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:contactPoint [ a schema1:ContactPoint ;
                     schema1:email "info@thermofisher.com" ;

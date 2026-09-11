@@ -2576,16 +2576,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:datePublished "2026-02-01" ;
     schema1:description "Comprehensive geochemistry dataset demonstrating the CDIF complete profile with single-file downloads, archive distribution with component files, and WebAPI access. Includes tabular CSV results, NetCDF data cubes, and an OGC API Features endpoint." ;
     schema1:distribution [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry summary results" ;
-            schema1:provider <https://ror.org/02fjgr047> ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
-        [ a cdi:PhysicalDataSet,
                 cdi:StructuredDataSet,
                 schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
@@ -2622,6 +2612,16 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     spdx:algorithm "SHA256" ;
                     spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
         [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry summary results" ;
+            schema1:provider <https://ror.org/02fjgr047> ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
+        [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:arrayBase 0 ;
@@ -2650,15 +2650,7 @@ ex:complete-dataset-001 a schema1:Dataset ;
             csvw:tableDirection "Ltr" ;
             csvw:textDirection "Auto" ;
             csvw:trim "true" ;
-            cdif:hasPhysicalMapping [ cdi:defaultValue "UNKNOWN" ;
-                    cdi:isRequired true ;
-                    cdi:maximumLength 40 ;
-                    cdi:minimumLength 3 ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-sampleID ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
-                [ cdi:decimalPositions 4 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
                     cdi:isRequired false ;
                     cdi:length 12 ;
                     cdi:nullSequence "-9999" ;
@@ -2666,6 +2658,14 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-uncertainty ;
                     cdif:index 2 ;
                     cdif:physicalDataType "float64" ],
+                [ cdi:defaultValue "UNKNOWN" ;
+                    cdi:isRequired true ;
+                    cdi:maximumLength 40 ;
+                    cdi:minimumLength 3 ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-sampleID ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
                 [ cdi:decimalPositions 4 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "NA" ;
@@ -2683,10 +2683,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:object [ a schema1:DataFeed ;
                             schema1:description "Geochemistry observations collection" ] ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination" ;
-                            schema1:valueName "offset" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
@@ -2694,6 +2690,10 @@ ex:complete-dataset-001 a schema1:Dataset ;
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Maximum number of features to return" ;
                             schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination" ;
+                            schema1:valueName "offset" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:isDelimited true ;
@@ -2704,15 +2704,15 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             csvw:delimiter "," ;
                             csvw:header true ;
                             csvw:headerRowCount 1 ;
-                            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                                    cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable ex:var-concentration ;
-                                    cdif:index 0 ;
-                                    cdif:physicalDataType "float64" ],
-                                [ cdi:isRequired false ;
+                            cdif:hasPhysicalMapping [ cdi:isRequired false ;
                                     cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable ex:var-uncertainty ;
                                     cdif:index 1 ;
+                                    cdif:physicalDataType "float64" ],
+                                [ cdi:isRequired true ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:var-concentration ;
+                                    cdif:index 0 ;
                                     cdif:physicalDataType "float64" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "application/geo+json",
