@@ -1396,7 +1396,7 @@ Two consequences worth holding onto:
   or the URI silently serves the newer spec. Repoint to the **last** patch tag of the outgoing
   series, not the first. A patch release needs no `.htaccess` edit: the rules target Pages, and
   Pages serves `main`. Guarded by `validation/tools/check_w3id_redirects.py` and a weekly
-  workflow; the checklist is in `w3id.org/cdif/CLAUDE.md`.
+  workflow; the checklist is in `w3id.org/ids/cdif/CLAUDE.md`.
 - The CDIF book (`CDIF/cdifbook`) links release artifacts **by tag**, so each patch release
   leaves those links a version behind — and a stale tag serves a plausible page for a
   superseded release rather than a 404. The same checker scans the book's sources and reports

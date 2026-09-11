@@ -209,7 +209,10 @@ their refs are resolved over the network at their build time, not ours.
   every consumer CDIF has (the JSON Schema and SHACL loaders name the format rather than sniffing,
   and records carry an inline `@context`) — so **do not "fix" a tag-pointing rule back to Pages**.
   Rules live in a fork of `perma-id/w3id.org` and reach production by PR on that project's
-  schedule; the checklist is in `w3id.org/cdif/CLAUDE.md` and the guard is
+  schedule. **Upstream moved every rule directory under `ids/` on 2026-09-04**, so a PR must
+  target `ids/cdif/`; a fork that has not synced still shows the old top-level `cdif/`, and a
+  PR against that path re-creates a directory upstream deleted while leaving the live rules
+  untouched. The checklist is in `w3id.org/ids/cdif/CLAUDE.md` and the guard is
   `validation/tools/check_w3id_redirects.py` (weekly workflow). Two details that are easy to
   get wrong: repoint to the **last** patch tag of the outgoing series (`v1.1.1`, not `v1.1.0`
   — the first one archives a spec nobody shipped), and a *patch* release requires no
