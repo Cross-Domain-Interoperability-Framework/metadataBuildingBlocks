@@ -24,11 +24,15 @@ cdifd:CDIFDiscoveryConformsToShape a sh:NodeShape ;
             sh:severity sh:Warning ;
             sh:message "A catalog record on a dataset using CDIF discovery properties should include dcterms:conformsTo <https://w3id.org/cdif/discovery/1.1>." ] ;
     sh:target [ a sh:SPARQLTarget ;
-            sh:prefixes cdifd: ;
-            sh:select """
-                PREFIX schema: <http://schema.org/>
-                SELECT ?this WHERE {
-                    ?dataset schema:subjectOf ?this .
-                    ?dataset a schema:Dataset .
-                }
-            """ ] .
+    	sh:prefixes cdifd: ;
+    	sh:select """
+    		PREFIX schema: <http://schema.org/>
+    		PREFIX dcat: <http://www.w3.org/ns/dcat#>
+    		PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+    		SELECT ?this WHERE {
+    			?subject schema:subjectOf ?this .
+    			?subject a schema:Dataset .
+    			?this schema:additionalType ?at .
+    			FILTER( ?at = dcat:CatalogRecord || STR(?at) = "dcat:CatalogRecord" )
+    		}
+    	""" ] .
