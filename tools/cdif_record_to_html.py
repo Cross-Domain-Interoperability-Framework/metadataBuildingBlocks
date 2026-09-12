@@ -186,14 +186,29 @@ SHACL_CONFORMANCE = re.compile(r'sh:hasValue\s+<(' + re.escape(CDIF_URI_PREFIX) 
 
 
 def _shacl_conformance_uris(directory):
-    rules = directory / 'rules.shacl'
-    if not rules.is_file():
-        return set()
-    try:
-        text = rules.read_text(encoding='utf-8')
-    except OSError:
-        return set()
-    return {m for m in SHACL_CONFORMANCE.findall(text) if _is_conformance_uri(m)}
+    """Conformance URIs pinned in a module's SHACL, from either shape file.
+
+    Both names matter. `conformance.shacl` is where a profile-conformance
+    advisory belongs -- it is collected only when that block is the validation
+    target, so the claim does not travel the $ref graph into unrelated bundles
+    -- and `cdifCodelist` and `cdifConceptScheme` moved theirs there on
+    2026-09-11. Reading only `rules.shacl` returned nothing for those two from
+    that day on. It went unnoticed because both also pin the URI as a JSON
+    Schema `const`, so the const scan still found them; this scan exists for the
+    module that has no such const, which is exactly the one a rules.shacl-only
+    read would silently drop.
+    """
+    uris = set()
+    for name in ('rules.shacl', 'conformance.shacl'):
+        path = directory / name
+        if not path.is_file():
+            continue
+        try:
+            text = path.read_text(encoding='utf-8')
+        except OSError:
+            continue
+        uris |= {m for m in SHACL_CONFORMANCE.findall(text) if _is_conformance_uri(m)}
+    return uris
 
 
 def _load_source(directory):
