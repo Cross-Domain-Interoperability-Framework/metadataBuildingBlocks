@@ -375,13 +375,13 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
 
 <https://example.org/stats/temperature-mean> a cdi:Statistics ;
     cdi:hasWeight ex:var-sample-weight ;
-    cdi:statistic [ cdi:computationBase "Total" ;
-            cdi:content 1.21e+01 ;
-            cdi:isWeighted false ;
-            cdi:typeOfNumericValue "double" ],
-        [ cdi:computationBase "ValidOnly" ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 1.243e+01 ;
             cdi:isWeighted true ;
+            cdi:typeOfNumericValue "double" ],
+        [ cdi:computationBase "Total" ;
+            cdi:content 1.21e+01 ;
+            cdi:isWeighted false ;
             cdi:typeOfNumericValue "double" ] ;
     cdi:typeOfStatistic [ a schema1:DefinedTerm ;
             schema1:identifier "https://example.org/vocab/stat-types/mean" ;
