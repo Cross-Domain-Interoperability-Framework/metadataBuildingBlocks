@@ -13,8 +13,9 @@ services:
     name: cdif-record-viewer
     runtime: python
     plan: free # sleeps after inactivity; first request then takes ~30s to wake
-    # requirements-viewer.txt, not requirements.txt: the viewer needs only
-    # PyYAML, while the full toolchain pulls pyshacl -> rdflib and more.
+    # requirements-viewer.txt, not requirements.txt: the viewer needs PyYAML
+    # and pyshacl (for the SHACL findings shown on each record), while the full
+    # toolchain additionally pulls jsonschema and the build tooling.
     buildCommand: pip install -r requirements-viewer.txt
     startCommand: python tools/cdif_viewer_app.py --no-browser
     healthCheckPath: /
@@ -33,6 +34,13 @@ services:
         # Safe to include: the noisy CI jobs write to build/jsonforms/, not
         # here, so this catches a real layout change without catching them.
         - _sources/jsonforms/profiles/**
+        # SHACL validation merges rules.shacl / conformance.shacl from the
+        # whole $ref graph, and only 16 of those 89 files are under profiles/ --
+        # ddiProperties has 22, schemaorgProperties 17, cdifDataType 16. Without
+        # this the service would serve stale rules against fresh records, with
+        # nothing to show anything was wrong. Safe to add: the noisy CI jobs
+        # write build/ and _sources/jsonforms/, never a .shacl file.
+        - _sources/**/*.shacl
         - requirements-viewer.txt
         - render.yaml
     envVars:
