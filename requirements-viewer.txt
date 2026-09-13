@@ -1,10 +1,18 @@
-# Runtime dependencies for tools/cdif_viewer_app.py only.
+# Runtime dependencies for tools/cdif_viewer_app.py and the rendering it wraps.
 #
-# Deliberately separate from requirements.txt, which covers the whole toolchain:
-# the viewer needs neither jsonschema (it does not validate) nor pyshacl (which
-# pulls rdflib, owlrl and more). Installing those on the hosted deployment would
-# add minutes to every build and a lot of surface for no benefit.
+# Deliberately separate from requirements.txt, which covers the whole toolchain.
+# The viewer still does not need jsonschema: it validates with SHACL, not JSON
+# Schema, because SHACL works on the RDF graph and so avoids the framing step
+# that the JSON Schema path depends on.
+#
+# pyshacl pulls rdflib, owlrl and a few smaller packages -- about 14 MB
+# installed. Measured 2026-09-13: importing them costs ~0.7 s once per process,
+# and a warm validation is ~0.15 s, which is negligible beside the ~30 s this
+# service already takes to wake from sleep. The earlier note here said adding it
+# would cost "minutes on every build for no benefit"; the build cost is real but
+# small, and the benefit is that a record's SHACL findings now show in the page.
 #
 # Everything else the viewer uses is standard library.
 
 PyYAML>=6.0
+pyshacl>=0.31

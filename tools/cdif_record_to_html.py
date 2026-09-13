@@ -28,11 +28,17 @@ from __future__ import annotations
 import argparse
 import html
 import base64
+import ipaddress
 import json
 import re
+import socket
+import subprocess
+import tempfile
 import threading
 import sys
+from collections import namedtuple
 from pathlib import Path
+from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 import yaml
@@ -1168,6 +1174,20 @@ ul.cards .card-meta{color:var(--muted);font-size:.78rem;margin-top:.25rem;
 ul.cards .card-desc{font-size:.85rem;margin-top:.4rem}
 .note{background:var(--warnbg);color:var(--warn);border:1px solid var(--line);
       border-radius:5px;padding:.5rem .7rem;margin:0 0 1.25rem;font-size:.85rem;max-width:80ch}
+/* Validation. A skipped check and a clean one must not look alike: "not
+   validated" is neutral-grey and never green, so an unchecked record can never
+   be mistaken for a passing one at a glance. */
+.validation ul{margin:.5rem 0 0;padding-left:1.1rem}
+.validation li{margin:.2rem 0}
+.validation summary{cursor:pointer}
+.validation.clean{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}
+.validation.skipped{background:var(--card);color:var(--muted)}
+.validation.findings{background:var(--card);color:var(--fg)}
+.validation .sev{display:inline-block;min-width:5.5em;font-weight:600;font-size:.75rem;
+      text-transform:uppercase;letter-spacing:.02em}
+.sev-violation .sev{color:#b91c1c}
+.sev-warning .sev{color:#b45309}
+.sev-info .sev{color:var(--muted)}
 footer{margin-top:2.5rem;padding-top:.75rem;border-top:1px solid var(--line);
        color:var(--muted);font-size:.78rem}
 @media(max-width:620px){.row{grid-template-columns:1fr;gap:.1rem}
@@ -1742,8 +1762,247 @@ BRAND_CSS = """
 CSS = CSS + BRAND_CSS
 
 
+# --------------------------------------------------------------------------
+# SHACL validation (optional)
+#
+# Off unless asked for. pyshacl pulls rdflib and ~14 MB besides, and the hosted
+# deployment installs requirements-viewer.txt, so the import is deferred to the
+# point of use and its absence is reported rather than raised.
+#
+# The invariant that matters: never show a clean result this did not earn. A
+# graph that failed to expand -- a remote @context that could not be resolved,
+# shapes that could not be built -- yields zero violations and is
+# indistinguishable from a valid record. Every path that cannot validate says
+# so instead of returning an empty findings list.
+# --------------------------------------------------------------------------
+
+TOOLS = Path(__file__).resolve().parent
+FETCH_TIMEOUT = 20
+CONTEXT_MAX_BYTES = 4 * 1024 * 1024
+
+Finding = namedtuple('Finding', 'severity focus path message')
+
+_CONTEXT_DOC_CACHE = {}
+_SHAPES_CACHE = {}
+
+
+def _is_public_host(host):
+    """False for anything that resolves only to a private or local address.
+
+    The viewer fetches on the caller's behalf, so without this a hosted
+    instance would happily read things on its own network -- cloud metadata
+    endpoints, internal admin pages -- that its caller cannot reach.
+    """
+    try:
+        infos = socket.getaddrinfo(host, None)
+    except socket.gaierror:
+        return False
+    for info in infos:
+        addr = info[4][0]
+        try:
+            ip = ipaddress.ip_address(addr.split('%')[0])
+        except ValueError:
+            return False
+        if (ip.is_private or ip.is_loopback or ip.is_link_local
+                or ip.is_multicast or ip.is_reserved or ip.is_unspecified):
+            return False
+    return True
+
+
+def _fetch_json_guarded(url):
+    """(document, None) or (None, reason). Every remote read goes through here."""
+    parsed = urlparse(url)
+    if parsed.scheme not in ('http', 'https'):
+        return None, 'only http and https contexts can be fetched'
+    if not parsed.hostname:
+        return None, 'that context URL has no host'
+    if not _is_public_host(parsed.hostname):
+        return None, 'that context host resolves to a private or local address'
+    try:
+        request = Request(url, headers={
+            'Accept': 'application/ld+json, application/json;q=0.9, */*;q=0.1',
+            'User-Agent': 'cdif_record_to_html',
+        })
+        with urlopen(request, timeout=FETCH_TIMEOUT) as response:
+            body = response.read(CONTEXT_MAX_BYTES + 1)
+    except Exception as exc:                       # network, TLS, HTTP status
+        return None, '%s: %s' % (type(exc).__name__, exc)
+    if len(body) > CONTEXT_MAX_BYTES:
+        return None, 'context document is larger than %d bytes' % CONTEXT_MAX_BYTES
+    try:
+        return json.loads(body.decode('utf-8')), None
+    except ValueError as exc:
+        return None, 'context is not JSON (%s)' % exc
+
+
+def _inline_context(value, allow_fetch, problems):
+    if isinstance(value, str):
+        if not allow_fetch:
+            problems.append('@context %s is remote and fetching is off' % value)
+            return value
+        if value not in _CONTEXT_DOC_CACHE:
+            doc, reason = _fetch_json_guarded(value)
+            if doc is None:
+                problems.append('could not resolve @context %s (%s)' % (value, reason))
+                return value
+            _CONTEXT_DOC_CACHE[value] = doc
+        doc = _CONTEXT_DOC_CACHE[value]
+        inner = doc.get('@context') if isinstance(doc, dict) else None
+        return inner if inner is not None else doc
+    if isinstance(value, list):
+        return [_inline_context(v, allow_fetch, problems) for v in value]
+    return value
+
+
+def inline_contexts(record, allow_fetch):
+    """(record with every @context inlined, problems).
+
+    rdflib's JSON-LD parser resolves remote contexts itself, with no host check
+    and no size limit. Inlining them first means the parser never reaches the
+    network, so every fetch passes _fetch_json_guarded. A record whose context
+    could not be inlined is NOT validated -- an unexpanded graph reports no
+    violations, which reads exactly like a clean record.
+    """
+    problems = []
+
+    def walk(node):
+        if isinstance(node, dict):
+            return {k: (_inline_context(v, allow_fetch, problems) if k == '@context'
+                        else walk(v)) for k, v in node.items()}
+        if isinstance(node, list):
+            return [walk(v) for v in node]
+        return node
+
+    return walk(record), problems
+
+
+def _shapes_graph(module):
+    """(graph, None) or (None, reason) -- emitted once per module, then cached.
+
+    Emitting costs about a second, so it happens on first use rather than at
+    startup: pre-building every profile would add that to each cold start of a
+    service that already sleeps.
+    """
+    key = str(module.path)
+    if key in _SHAPES_CACHE:
+        return _SHAPES_CACHE[key]
+    from rdflib import Graph
+    out = Path(tempfile.gettempdir()) / ('cdif-shapes-%s.ttl' % module.name)
+    proc = subprocess.run(
+        [sys.executable, str(TOOLS / 'validate_shacl.py'), str(module.path),
+         '--emit-shapes', str(out)], capture_output=True, text=True)
+    if proc.returncode != 0 or not out.is_file():
+        reason = ((proc.stderr or proc.stdout).strip() or 'emit failed')[:200]
+        _SHAPES_CACHE[key] = (None, reason)
+        return None, reason
+    try:
+        graph = Graph().parse(out, format='turtle')
+    except Exception as exc:
+        reason = '%s: %s' % (type(exc).__name__, exc)
+        _SHAPES_CACHE[key] = (None, reason)
+        return None, reason
+    _SHAPES_CACHE[key] = (graph, None)
+    return graph, None
+
+
+_SH = 'http://www.w3.org/ns/shacl#'
+
+
+def _report_findings(report):
+    """Findings read from the report GRAPH.
+
+    Not from pyshacl's text summary: that labels every result "Constraint
+    Violation" whatever its severity, so a sh:Warning read out of the text
+    reads as a failure.
+    """
+    from rdflib import URIRef
+    out = []
+    for node, severity in report.subject_objects(URIRef(_SH + 'resultSeverity')):
+        def first(name):
+            value = next(report.objects(node, URIRef(_SH + name)), None)
+            return str(value) if value is not None else ''
+        out.append(Finding(str(severity).rsplit('#', 1)[-1], first('focusNode'),
+                           first('resultPath'), first('resultMessage')))
+    return out
+
+
+def shacl_findings(record, selected, allow_fetch=False):
+    """(findings, skipped_reason).
+
+    A non-None reason means NOTHING was checked -- render it as such, never as
+    a pass. An empty list with reason None is a genuine clean result.
+    """
+    try:
+        from pyshacl import validate as _run
+        from rdflib import Graph
+    except ImportError:
+        return [], 'pyshacl is not installed (pip install pyshacl)'
+    if not selected:
+        return [], 'the record declares no recognised CDIF profile'
+
+    prepared, problems = inline_contexts(record, allow_fetch)
+    if problems:
+        return [], '; '.join(problems)
+    try:
+        data = Graph().parse(data=json.dumps(prepared), format='json-ld')
+    except Exception as exc:
+        return [], 'could not read the record as RDF (%s: %s)' % (
+            type(exc).__name__, exc)
+
+    findings, seen = [], set()
+    for module in selected:
+        shapes, reason = _shapes_graph(module)
+        if shapes is None:
+            return [], 'could not build shapes for %s (%s)' % (module.title, reason)
+        _ok, report, _text = _run(data, shacl_graph=shapes, advanced=True,
+                                  inference='none')
+        for finding in _report_findings(report):
+            # A property constrained by two declared profiles reports twice.
+            if finding not in seen:
+                seen.add(finding)
+                findings.append(finding)
+
+    rank = {'Violation': 0, 'Warning': 1, 'Info': 2}
+    findings.sort(key=lambda f: (rank.get(f.severity, 3), f.path, f.message))
+    return findings, None
+
+
+def _short(uri):
+    if not uri:
+        return ''
+    tail = uri.rsplit('#', 1)[-1] if '#' in uri else uri.rsplit('/', 1)[-1]
+    return tail or uri
+
+
+def render_validation(findings, reason):
+    """The validation block, or an honest statement that nothing was checked."""
+    if reason:
+        return ('<p class="note validation skipped"><strong>Not validated.</strong> %s</p>'
+                % esc(reason))
+    if not findings:
+        return ('<p class="note validation clean"><strong>SHACL: no findings.</strong> '
+                'Checked against every profile this record declares.</p>')
+    counts = {}
+    for f in findings:
+        counts[f.severity] = counts.get(f.severity, 0) + 1
+    summary = ', '.join('%d %s%s' % (counts[s], s.lower(), '' if counts[s] == 1 else 's')
+                        for s in ('Violation', 'Warning', 'Info') if s in counts)
+    rows = ''.join(
+        '<li class="sev-%s"><span class="sev">%s</span> %s%s</li>'
+        % (esc(f.severity.lower()), esc(f.severity),
+           ('<code>%s</code> ' % esc(_short(f.path))) if f.path else '',
+           esc(f.message or _short(f.focus)))
+        for f in findings)
+    return ('<details class="note validation findings" open>'
+            '<summary><strong>SHACL: %s.</strong> A warning is advisory -- SHACL '
+            'cannot tell whether a record meets a profile, only whether it breaks '
+            'a rule it is subject to.</summary><ul>%s</ul></details>'
+            % (esc(summary), rows))
+
+
 def render_html(record, modules, title=None, offline=True, type_index=None,
-                layouts=None, filename=None, parts=None, source_note=None):
+                layouts=None, filename=None, parts=None, source_note=None,
+                validate=False, allow_fetch=False):
     record, companions = split_graph(record)
     prefixes = record_context(record, offline=offline)
     # The display name is computed further down, but a split-out list needs it
@@ -1802,6 +2061,14 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
     # which is worse than a note in a slightly less apt place.
     banner_note = ('<p class="note source-note">%s</p>' % source_note
                    ) if source_note else ''
+
+    # Sits beside the source note for the same reason that one does: a record
+    # from the wild often declares no conformsTo and gets no Metadata Record
+    # tab, so a validation result placed there would sometimes be dropped -- and
+    # a validation result that silently fails to appear is the worst of all.
+    if validate:
+        findings, reason = shacl_findings(record, selected, allow_fetch=allow_fetch)
+        banner_note += render_validation(findings, reason)
 
     controls = ('<span class="bulk"><button type="button" id="expand-all">expand all</button><button type="button" id="collapse-all">collapse all</button></span>')
     tab_html = ''.join(
@@ -1928,6 +2195,9 @@ def main(argv=None):
                              'rendered in this run')
     parser.add_argument('--offline', action='store_true',
                         help='do not fetch remote @context documents')
+    parser.add_argument('--validate', action='store_true',
+                        help='run SHACL against every profile the record '
+                             'declares (needs pyshacl)')
     parser.add_argument('--profile-dir', action='append', type=Path,
                         help='directory of profile modules; repeatable')
     parser.add_argument('--list-profiles', action='store_true',
@@ -1995,7 +2265,9 @@ def main(argv=None):
                  else '%s.%s.%d.html' % (stem, slug, page)}
         html = render_html(record, modules, title, offline=args.offline,
                            type_index=type_index, layouts=layouts,
-                           filename=source.name, parts=parts)
+                           filename=source.name, parts=parts,
+                           validate=args.validate,
+                           allow_fetch=not args.offline)
         output.write_text(html, encoding='utf-8')
         print('wrote %s' % output)
         for slug, part in sorted(parts.items()):

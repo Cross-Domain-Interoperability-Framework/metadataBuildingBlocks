@@ -203,27 +203,10 @@ FETCH_TIMEOUT = 20
 FETCH_MAX_BYTES = 32 * 1024 * 1024
 
 
-def _is_public_host(host):
-    """False for anything that resolves only to a private or local address.
-
-    The viewer fetches on the caller's behalf, so without this a hosted
-    instance would happily read things on its own network -- cloud metadata
-    endpoints, internal admin pages -- that its caller cannot reach.
-    """
-    try:
-        infos = socket.getaddrinfo(host, None)
-    except socket.gaierror:
-        return False
-    for info in infos:
-        addr = info[4][0]
-        try:
-            ip = ipaddress.ip_address(addr.split('%')[0])
-        except ValueError:
-            return False
-        if (ip.is_private or ip.is_loopback or ip.is_link_local
-                or ip.is_multicast or ip.is_reserved or ip.is_unspecified):
-            return False
-    return True
+# The SSRF guard lives in the renderer, which also needs it for @context
+# fetches during SHACL validation. Defined once: a duplicated security check
+# is one that gets hardened in one copy and silently not in the other.
+_is_public_host = R._is_public_host
 
 
 def fetch_record(url, allowed_types):
@@ -404,6 +387,7 @@ class Handler(BaseHTTPRequestHandler):
     known = set()
     layouts = []
     offline = True
+    validate = True
 
     def log_message(self, fmt, *args):        # quiet: one line per render instead
         pass
@@ -547,7 +531,9 @@ class Handler(BaseHTTPRequestHandler):
         try:
             html = R.render_html(record, self.modules, offline=self.offline,
                                  type_index=self.known, layouts=self.layouts,
-                                 filename=name, parts=parts, source_note=note)
+                                 filename=name, parts=parts, source_note=note,
+                                 validate=self.validate,
+                                 allow_fetch=not self.offline)
         except Exception as exc:               # a malformed record should not kill the app
             self._send(500, 'Could not render:\n%s: %s' % (type(exc).__name__, exc),
                        'text/plain; charset=utf-8')
@@ -592,6 +578,8 @@ def main(argv=None):
                    help='bind address (default loopback; 0.0.0.0 to serve '
                         'others, which the hosted deployment sets)')
     p.add_argument('--no-browser', action='store_true')
+    p.add_argument('--no-validate', action='store_true',
+                   help='skip SHACL validation of each record')
     p.add_argument('--fetch-context', action='store_true',
                    help='allow fetching remote @context documents')
     p.add_argument('--profile-dir', action='append', type=Path,
@@ -603,6 +591,7 @@ def main(argv=None):
     Handler.known = R.known_property_names(list(dict.fromkeys(Handler.modules.values())))
     Handler.layouts = R.load_layouts()
     Handler.offline = not args.fetch_context
+    Handler.validate = not args.no_validate
     Handler.server_is_shared = args.host not in ('127.0.0.1', 'localhost', '::1')
     Handler.samples = available_samples(R.REPO)
 
