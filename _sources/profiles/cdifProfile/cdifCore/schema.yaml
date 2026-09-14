@@ -333,6 +333,37 @@ allOf:
     - schema:url
   - required:
     - schema:distribution
+# A bundle distribution -- one additionally typed schema:Collection -- may omit
+# schema:contentUrl, because an archive retrieved through an API that returns a
+# time-limited signed URL, or through a landing page, has no href that can be published.
+# See schemaorgProperties/dataDownload, which carries that half of the rule. This is the
+# other half: if a record uses that allowance, it must say where to go instead, so the
+# landing page becomes mandatory exactly when it is the only address the record publishes.
+# Written here rather than on the distribution item because JSON Schema has no parent
+# reference: an item cannot see the dataset's schema:url.
+- description: a bundle distribution with no schema:contentUrl obliges the dataset to publish a landing
+    page in schema:url, so that the record still states a way to reach the data
+  if:
+    required:
+    - schema:distribution
+    properties:
+      'schema:distribution':
+        type: array
+        contains:
+          type: object
+          required:
+          - '@type'
+          properties:
+            '@type':
+              type: array
+              contains:
+                const: schema:Collection
+          not:
+            required:
+            - 'schema:contentUrl'
+  then:
+    required:
+    - schema:url
 $defs:
   cdifConceptOrTermOrString:
     $ref: ../../../cdifDataType/cdifConceptOrTermOrString/schema.yaml

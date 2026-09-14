@@ -111,7 +111,36 @@
         }
     },
     "required": [
-        "schema:contentUrl",
         "@type"
+    ],
+    "allOf": [
+        {
+            "if": {
+                "not": {
+                    "type": "object",
+                    "required": [
+                        "@type"
+                    ],
+                    "properties": {
+                        "@type": {
+                            "type": "array",
+                            "contains": {
+                                "const": "schema:Collection"
+                            }
+                        }
+                    }
+                }
+            },
+            "then": {
+                "required": [
+                    "schema:contentUrl"
+                ]
+            },
+            "else": {
+                "required": [
+                    "schema:hasPart"
+                ]
+            }
+        }
     ]
 }

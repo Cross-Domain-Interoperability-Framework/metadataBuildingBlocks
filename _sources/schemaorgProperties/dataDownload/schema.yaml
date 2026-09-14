@@ -77,5 +77,36 @@ properties:
       - $ref: ../person/schema.yaml
       - $ref: ../organization/schema.yaml
 required:
-- 'schema:contentUrl'
 - '@type'
+allOf:
+# schema:contentUrl is required for an ordinary download, and is what makes a DataDownload
+# useful. It cannot be required of a bundle that is retrieved indirectly: an archive whose
+# only route is an API returning a time-limited signed URL, or a landing page, has no href
+# that can be published. cdifCore's own prose already allows for that case --
+#
+#   schema:url  "...If a direct link is available to get the data, put in
+#                distribution/contentUrl"
+#   distribution "...If user must access data through a landing page, provide link to
+#                landing page in the 'url' property for the dataset"
+#
+# -- but until now the schema had no way to express it. A distribution additionally typed
+# schema:Collection is that case, and must instead enumerate its members in schema:hasPart,
+# so it stays self-describing rather than simply losing its address. cdifCore carries the
+# other half of the rule: a Collection with no contentUrl obliges the dataset to publish a
+# landing page in schema:url.
+- if:
+    not:
+      type: object
+      required:
+      - '@type'
+      properties:
+        '@type':
+          type: array
+          contains:
+            const: schema:Collection
+  then:
+    required:
+    - 'schema:contentUrl'
+  else:
+    required:
+    - 'schema:hasPart'
