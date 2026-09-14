@@ -291,8 +291,39 @@
         }
       },
       "required": [
-        "schema:contentUrl",
         "@type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "not": {
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "contains": {
+                    "enum": [
+                      "schema:Collection"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "schema:contentUrl"
+            ]
+          },
+          "else": {
+            "required": [
+              "schema:hasPart"
+            ]
+          }
+        }
       ],
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
@@ -2859,6 +2890,45 @@
           ]
         }
       ]
+    },
+    {
+      "description": "a bundle distribution with no schema:contentUrl obliges the dataset to publish a landing page in schema:url, so that the record still states a way to reach the data",
+      "if": {
+        "required": [
+          "schema:distribution"
+        ],
+        "properties": {
+          "schema:distribution": {
+            "type": "array",
+            "contains": {
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "contains": {
+                    "enum": [
+                      "schema:Collection"
+                    ]
+                  }
+                }
+              },
+              "not": {
+                "required": [
+                  "schema:contentUrl"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "schema:url"
+        ]
+      }
     }
   ],
   "$defs": {

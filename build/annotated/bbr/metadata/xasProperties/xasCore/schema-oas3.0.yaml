@@ -439,8 +439,25 @@ x-defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
         x-jsonld-id: http://schema.org/provider
     required:
-    - schema:contentUrl
     - '@type'
+    allOf:
+    - if:
+        not:
+          type: object
+          required:
+          - '@type'
+          properties:
+            '@type':
+              type: array
+              contains:
+                enum:
+                - schema:Collection
+      then:
+        required:
+        - schema:contentUrl
+      else:
+        required:
+        - schema:hasPart
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml

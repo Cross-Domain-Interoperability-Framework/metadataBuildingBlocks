@@ -383,6 +383,30 @@ allOf:
     - schema:url
   - required:
     - schema:distribution
+- description: a bundle distribution with no schema:contentUrl obliges the dataset
+    to publish a landing page in schema:url, so that the record still states a way
+    to reach the data
+  if:
+    required:
+    - schema:distribution
+    properties:
+      schema:distribution:
+        type: array
+        contains:
+          type: object
+          required:
+          - '@type'
+          properties:
+            '@type':
+              type: array
+              contains:
+                const: schema:Collection
+          not:
+            required:
+            - schema:contentUrl
+  then:
+    required:
+    - schema:url
 $defs:
   cdifConceptOrTermOrString:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml

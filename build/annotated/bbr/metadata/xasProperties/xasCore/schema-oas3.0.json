@@ -645,8 +645,39 @@
         }
       },
       "required": [
-        "schema:contentUrl",
         "@type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "not": {
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "contains": {
+                    "enum": [
+                      "schema:Collection"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "schema:contentUrl"
+            ]
+          },
+          "else": {
+            "required": [
+              "schema:hasPart"
+            ]
+          }
+        }
       ],
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
