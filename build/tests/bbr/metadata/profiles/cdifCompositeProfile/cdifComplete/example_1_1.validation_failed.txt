@@ -1,32 +1,29 @@
 Validation report for cdif.bbr.metadata.profiles.cdifCompositeProfile.cdifComplete - CDIF complete metadata
-Generated 2026-09-14T00:55:49.110906+00:00
-=== General ===
-Test was expected to fail and it did.
-=== End General ===
-
+Generated 2026-09-14T00:55:49.975402+00:00
 === Files ===
-Using name-fail.json from test resources
+Using exampleCDIFcomplete.json from examples
 JSON-LD context is present - uplifting
-Output JSON-LD name-fail.jsonld created
-Output Turtle name-fail.ttl created
+Output JSON-LD example_1_1.jsonld created
+Output Turtle example_1_1.ttl created
 === End Files ===
 
 === JSON Schema ===
 
 ** Validation error **
-ValidationError: 42 is not of type 'string'
+ValidationError: [{'@id': 'https://w3id.org/cdif/core/1.1'}, {'@id': 'https://w3id.org/cdif/discovery/1.1'}, {'@id': 'https://w3id.org/cdif/data_description/1.1'}, {'@id': 'https://w3id.org/cdif/manifest/1.1'}, {'@id': 'https://w3id.org/cdif/provenance/1.1'}] does not contain items matching the given schema
 
-Failed validating 'type' in schema['allOf'][0]['properties']['schema:name']:
-    {'description': "A descriptive name of a dataset (e.g., 'Snow depth in "
-                    "Northern Hemisphere'). The name should uniquely "
-                    'identify the described resource for human use, in the '
-                    'scope of the metadata catalog containing this '
-                    'metadata record.',
-     'type': 'string',
-     'x-jsonld-id': 'http://schema.org/name'}
+Failed validating 'contains' in schema['allOf'][3]['else']['properties']['schema:subjectOf']['properties']['dcterms:conformsTo']:
+    {'contains': {'additionalProperties': False,
+                  'properties': {'@id': {'const': 'https://w3id.org/cdif/data_structure/1.1'}},
+                  'required': ['@id'],
+                  'type': 'object'}}
 
-On instance['schema:name']:
-    42
+On instance['schema:subjectOf']['dcterms:conformsTo']:
+    [{'@id': 'https://w3id.org/cdif/core/1.1'},
+     {'@id': 'https://w3id.org/cdif/discovery/1.1'},
+     {'@id': 'https://w3id.org/cdif/data_description/1.1'},
+     {'@id': 'https://w3id.org/cdif/manifest/1.1'},
+     {'@id': 'https://w3id.org/cdif/provenance/1.1'}]
 === End JSON Schema ===
 
 === SHACL ===
@@ -192,7 +189,7 @@ Focus nodes for _sources/schemaorgProperties/agentInRole/rules.shacl:
  - Shape _:n403700a7a76d43d98b4d00397332b263b17: *none*
  - Shape _:n403700a7a76d43d98b4d00397332b263b14: *none*
  - Shape _:n403700a7a76d43d98b4d00397332b263b3: *none*
- - Shape cdifd:CDIFDefinedTermShape: ex:complete-dataset-001/schema1:spatialCoverage/schema1:name,ex:complete-dataset-001/schema1:relatedLink/schema1:linkRelationship,ex:activity-geochem-analysis/prov:used/schema1:instrument,ex:activity-geochem-analysis/prov:used/schema1:instrument/schema1:category,ex:complete-dataset-001/schema1:distribution/schema1:serviceType,ex:complete-dataset-001/dqv:hasQualityMeasurement/dqv:isMeasurementOf,ex:complete-dataset-001/schema1:keywords,ex:complete-dataset-001/schema1:measurementTechnique,ex:complete-dataset-001/schema1:keywords,ex:complete-dataset-001/schema1:contributor/schema1:roleName,ex:complete-dataset-001/dqv:hasQualityMeasurement/dqv:value
+ - Shape cdifd:CDIFDefinedTermShape: ex:complete-dataset-001/schema1:keywords,ex:complete-dataset-001/dqv:hasQualityMeasurement/dqv:value,ex:complete-dataset-001/schema1:contributor/schema1:roleName,ex:complete-dataset-001/schema1:keywords,ex:activity-geochem-analysis/prov:used/schema1:instrument/schema1:category,ex:activity-geochem-analysis/prov:used/schema1:instrument,ex:complete-dataset-001/schema1:spatialCoverage/schema1:name,ex:complete-dataset-001/schema1:measurementTechnique,ex:complete-dataset-001/dqv:hasQualityMeasurement/dqv:isMeasurementOf,ex:complete-dataset-001/schema1:relatedLink/schema1:linkRelationship,ex:complete-dataset-001/schema1:distribution/schema1:serviceType
  - Shape _:n403700a7a76d43d98b4d00397332b263b20: *none*
 
 Validation result for _sources/cdifDataType/cdifReference/rules.shacl:
@@ -200,21 +197,21 @@ Validation result for _sources/cdifDataType/cdifReference/rules.shacl:
   Conforms: True
   
 Focus nodes for _sources/cdifDataType/cdifReference/rules.shacl:
- - Shape cdifd:CDIFRelationShape: ex:complete-dataset-001/schema1:publishingPrinciples,ex:complete-dataset-001/schema1:distribution/schema1:documentation,ex:complete-dataset-001/prov:wasDerivedFrom
+ - Shape cdifd:CDIFRelationShape: ex:complete-dataset-001/prov:wasDerivedFrom,ex:complete-dataset-001/schema1:distribution/schema1:documentation,ex:complete-dataset-001/schema1:publishingPrinciples
 
 Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:
- - Shape cdifd:CDIFLabeledLinkShape: ex:complete-dataset-001/schema1:publishingPrinciples,ex:complete-dataset-001/schema1:distribution/schema1:documentation,ex:complete-dataset-001/prov:wasDerivedFrom
+ - Shape cdifd:CDIFLabeledLinkShape: ex:complete-dataset-001/prov:wasDerivedFrom,ex:complete-dataset-001/schema1:distribution/schema1:documentation,ex:complete-dataset-001/schema1:publishingPrinciples
 
 Validation result for _sources/schemaorgProperties/spatialExtent/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:
- - Shape cdifd:spatialExtentProperty: ex:complete-dataset-001/schema1:spatialCoverage,ex:activity-geochem-analysis/schema1:location
+ - Shape cdifd:spatialExtentProperty: ex:activity-geochem-analysis/schema1:location,ex:complete-dataset-001/schema1:spatialCoverage
  - Shape _:nd6dbff018f4a4a28a9b529f8fdbfab21b40: *none*
  - Shape cdifd:geoShapeNode: ex:complete-dataset-001/schema1:spatialCoverage/schema1:geo
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
@@ -237,7 +234,7 @@ Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:
  - Shape _:nd6dbff018f4a4a28a9b529f8fdbfab21b13: *none*
  - Shape _:nd6dbff018f4a4a28a9b529f8fdbfab21b9: *none*
  - Shape _:nd6dbff018f4a4a28a9b529f8fdbfab21b38: *none*
- - Shape cdifd:CDIFDefinedTermShape: ex:complete-dataset-001/schema1:spatialCoverage/schema1:name,ex:complete-dataset-001/schema1:relatedLink/schema1:linkRelationship,ex:activity-geochem-analysis/prov:used/schema1:instrument,ex:activity-geochem-analysis/prov:used/schema1:instrument/schema1:category,ex:complete-dataset-001/schema1:distribution/schema1:serviceType,ex:complete-dataset-001/dqv:hasQualityMeasurement/dqv:isMeasurementOf,ex:complete-dataset-001/schema1:keywords,ex:complete-dataset-001/schema1:measurementTechnique,ex:complete-dataset-001/schema1:keywords,ex:complete-dataset-001/schema1:contributor/schema1:roleName,ex:complete-dataset-001/dqv:hasQualityMeasurement/dqv:value
+ - Shape cdifd:CDIFDefinedTermShape: ex:complete-dataset-001/schema1:keywords,ex:complete-dataset-001/dqv:hasQualityMeasurement/dqv:value,ex:complete-dataset-001/schema1:contributor/schema1:roleName,ex:complete-dataset-001/schema1:keywords,ex:activity-geochem-analysis/prov:used/schema1:instrument/schema1:category,ex:activity-geochem-analysis/prov:used/schema1:instrument,ex:complete-dataset-001/schema1:spatialCoverage/schema1:name,ex:complete-dataset-001/schema1:measurementTechnique,ex:complete-dataset-001/dqv:hasQualityMeasurement/dqv:isMeasurementOf,ex:complete-dataset-001/schema1:relatedLink/schema1:linkRelationship,ex:complete-dataset-001/schema1:distribution/schema1:serviceType
  - Shape _:nd6dbff018f4a4a28a9b529f8fdbfab21b3: *none*
 
 Validation result for _sources/provProperties/generatedBy/rules.shacl:
@@ -380,26 +377,9 @@ Validation result for _sources/cdifDataType/cdifKey/rules.shacl:
 Focus nodes for _sources/cdifDataType/cdifKey/rules.shacl:
  - Shape cdifd:cdifKeyShape: *none*
 
-
-** Validation error **
 Validation result for _sources/profiles/cdifProfile/cdifCore/rules.shacl:
   Validation Report
-  Conforms: False
-  Results (2):
-  Constraint Violation in DatatypeConstraintComponent (http://www.w3.org/ns/shacl#DatatypeConstraintComponent):
-  	Severity: sh:Violation
-  	Source Shape: cdifd:nameProperty
-  	Focus Node: ex:complete-dataset-001
-  	Value Node: Literal("42", datatype=xsd:integer)
-  	Result Path: schema1:name
-  	Message: a name for the dataset must be provided, and have a length of at least 3 characters.
-  Constraint Violation in MinLengthConstraintComponent (http://www.w3.org/ns/shacl#MinLengthConstraintComponent):
-  	Severity: sh:Violation
-  	Source Shape: cdifd:nameProperty
-  	Focus Node: ex:complete-dataset-001
-  	Value Node: Literal("42", datatype=xsd:integer)
-  	Result Path: schema1:name
-  	Message: a name for the dataset must be provided, and have a length of at least 3 characters.
+  Conforms: True
   
 Focus nodes for _sources/profiles/cdifProfile/cdifCore/rules.shacl:
  - Shape cdifd:CDIFCatalogRecordShape: *none*
@@ -498,8 +478,8 @@ Validation result for _sources/schemaorgProperties/dataDownload/rules.shacl:
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/dataDownload/rules.shacl:
- - Shape <https://www.ogc.org/rules/template/#ConformsToInfo>: ex:complete-dataset-001/schema1:distribution/schema1:potentialAction/schema1:result,ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution
- - Shape cdifd:CDIFDataDownloadShape: ex:complete-dataset-001/schema1:distribution/schema1:potentialAction/schema1:result,ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution
+ - Shape <https://www.ogc.org/rules/template/#ConformsToInfo>: ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution/schema1:potentialAction/schema1:result,ex:complete-dataset-001/schema1:distribution
+ - Shape cdifd:CDIFDataDownloadShape: ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution,ex:complete-dataset-001/schema1:distribution/schema1:potentialAction/schema1:result,ex:complete-dataset-001/schema1:distribution
 
 Validation result for _sources/profiles/cdifProfile/cdifDiscovery/rules.shacl:
   Validation Report
@@ -539,9 +519,18 @@ Focus nodes for _sources/schemaorgProperties/temporalExtent/rules.shacl:
  - Shape cdifd:timePositionNode/sh:property/sh:or/rdf:first: *none*
  - Shape cdifd:timeIntervalNode: ex:complete-dataset-001/schema1:temporalCoverage
 
+
+** Validation error **
 Validation result for _sources/profiles/cdifProfile/cdifDataStructure/rules.shacl:
   Validation Report
-  Conforms: True
+  Conforms: False
+  Results (1):
+  Validation Result in HasValueConstraintComponent (http://www.w3.org/ns/shacl#HasValueConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ rdf:type sh:PropertyShape ; sh:hasValue <https://w3id.org/cdif/data_structure/1.1> ; sh:message Literal("A catalog record on a dataset using CDIF data structure properties should include dcterms:conformsTo <https://w3id.org/cdif/data_structure/1.1>.") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:path dcterms:conformsTo ; sh:severity sh:Warning ]
+  	Focus Node: ex:metadata-record-001
+  	Result Path: dcterms:conformsTo
+  	Message: A catalog record on a dataset using CDIF data structure properties should include dcterms:conformsTo <https://w3id.org/cdif/data_structure/1.1>.
   
 Focus nodes for _sources/profiles/cdifProfile/cdifDataStructure/rules.shacl:
  - Shape cdifd:CDIFDataStructureConformsToShape: *none*
@@ -585,7 +574,7 @@ Validation result for _sources/cdifDataType/cdifTabularData/rules.shacl:
 Focus nodes for _sources/cdifDataType/cdifTabularData/rules.shacl:
  - Shape cdifd:tabularDataShape/sh:or/rdf:first: *none*
  - Shape cdifd:tabularDataShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:tabularDataShape: <file:///github/workspace/#part-measurements-csv>,ex:complete-dataset-001/schema1:distribution
+ - Shape cdifd:tabularDataShape: ex:complete-dataset-001/schema1:distribution,<file:///github/workspace/#part-measurements-csv>
 
 Validation result for _sources/cdifDataType/cdifDataCube/rules.shacl:
   Validation Report
