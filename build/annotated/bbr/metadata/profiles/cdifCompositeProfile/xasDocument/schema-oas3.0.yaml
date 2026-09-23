@@ -199,46 +199,12 @@ x-defs:
         x-jsonld-id: http://schema.org/distribution
       schema:relatedLink:
         type: array
-        description: links to related resources; linkRelationship specifies how the
-          resource is related.
+        description: Links to related resources. schema:linkRelationship says how
+          the target relates to this resource. Defined by schemaorgProperties/linkRole
+          since 2026-09-23; it was inline here, which is why schemaorgProperties/instrument
+          could not reuse it and defined the same property as a labeled link instead.
         items:
-          type: object
-          properties:
-            '@type':
-              type: array
-              items:
-                type: string
-              contains:
-                enum:
-                - schema:LinkRole
-              minItems: 1
-            schema:linkRelationship:
-              x-jsonld-id: http://schema.org/linkRelationship
-              allOf:
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTermOrString
-            schema:target:
-              type: object
-              properties:
-                '@type':
-                  type: array
-                  items:
-                    type: string
-                  contains:
-                    enum:
-                    - schema:EntryPoint
-                  minItems: 1
-                schema:encodingFormat:
-                  type: string
-                  description: registered MIME types are expected
-                  x-jsonld-id: http://schema.org/encodingFormat
-                schema:name:
-                  type: string
-                  x-jsonld-id: http://schema.org/name
-                schema:url:
-                  type: string
-                  format: uri
-                  x-jsonld-id: http://schema.org/url
-              x-jsonld-id: http://schema.org/target
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/LinkRole
         x-jsonld-id: http://schema.org/relatedLink
       schema:publishingPrinciples:
         description: FDOF digitalObjectMutability, RDA digitalObjectPolicy, FDOF PersistencyPolicy.
@@ -426,10 +392,12 @@ x-defs:
         required:
         - schema:url
     $defs:
+      LinkRole:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.linkRole
       cdifConceptOrTermOrString:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       Reference:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
       Identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       cdifConceptOrTerm:
@@ -1872,6 +1840,77 @@ x-defs:
       xas: https://w3id.org/cdif/xas/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.linkRole:
+    description: 'A typed link, implemented as a schema.org LinkRole: schema:linkRelationship
+      names how the target relates to the subject, and schema:target carries the EntryPoint
+      actually being linked to.
+
+      This is the right shape when the relationship itself is the point -- "this is
+      the canonical version of", "this is the download endpoint for". Where the value
+      is simply a work at a URL, such as a license or a terms-of-service document,
+      use schemaorgProperties/labeledLink instead: a licence is a work, not a role,
+      and wrapping it in a Role forces every consumer through an indirection to reach
+      the thing itself.
+
+      Defined here as a block rather than inline in a profile (where it lived until
+      2026-09-23) so that more than one consumer can reuse it. While it was inline
+      in cdifCore, schemaorgProperties/instrument could not reach it and defined schema:relatedLink
+      as a labeled link instead -- the same property carrying two different shapes
+      depending on which node held it.'
+    type: object
+    properties:
+      '@type':
+        default: schema:LinkRole
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:LinkRole
+        minItems: 1
+      schema:linkRelationship:
+        description: How the target relates to the subject, as a controlled-vocabulary
+          value or a plain string label.
+        x-jsonld-id: http://schema.org/linkRelationship
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.linkRole/$defs/cdifConceptOrTermOrString
+      schema:target:
+        type: object
+        description: 'The entry point being linked to. Deliberately not sealed: real
+          targets also carry schema:httpMethod, schema:urlTemplate, schema:contentType
+          and domain-specific properties, and JSON-LD is open-world.'
+        properties:
+          '@type':
+            default: schema:EntryPoint
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - schema:EntryPoint
+            minItems: 1
+          schema:name:
+            type: string
+            x-jsonld-id: http://schema.org/name
+          schema:url:
+            type: string
+            format: uri
+            x-jsonld-id: http://schema.org/url
+          schema:encodingFormat:
+            type: string
+            description: registered MIME types are expected
+            x-jsonld-id: http://schema.org/encodingFormat
+        x-jsonld-id: http://schema.org/target
+    required:
+    - '@type'
+    $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      skos: http://www.w3.org/2004/02/skos/core#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString:
     title: CDIF Concept-or-Term-or-String
     description: Shared shape for a CDIF property that carries either a controlled-vocabulary
@@ -1883,56 +1922,66 @@ x-defs:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifDataType.cdifReference:
+  cdif.bbr.metadata.schemaorgProperties.labeledLink:
+    description: 'Schema for a labeled link, a profile of schema.org/CreativeWork:
+      a resolvable URL with an optional name and description. Optionally carries the
+      DCAT relation surface (dcat:hadRole, dcterms:relation) for a link that expresses
+      a typed relationship rather than a plain reference.
+
+      Those two properties were a separate block, cdifDataType/cdifReference, which
+      was an allOf of this schema plus exactly those two optional properties and nothing
+      else -- its dcat:Relationship co-type mandate had already been removed because
+      it made every labeled link unsatisfiable and broke every schema:license example
+      that followed schema.org''s own advice. Since both are optional, folding them
+      in here changes no document''s validity while removing a block and five levels
+      of $defs/Reference indirection. cdifReference was retired 2026-09-23.'
     type: object
-    description: Building block to implement relations to other resources using a
-      URL and some semantics.
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference/$defs/Relation
+    properties:
+      '@type':
+        default: schema:CreativeWork
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:CreativeWork
+        minItems: 1
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      schema:description:
+        type: string
+        x-jsonld-id: http://schema.org/description
+      schema:url:
+        type: string
+        format: uri
+        x-jsonld-id: http://schema.org/url
+      dcat:hadRole:
+        description: Role of the related resource as a SKOS Concept (DCAT canonical
+          role slot). Present only on a link that expresses a relationship; a plain
+          labeled link such as a license omits it.
+        x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink/$defs/cdifConceptOrTermOrString
+      dcterms:relation:
+        type: string
+        format: uri
+        description: URI of the related resource -- the DCAT canonical pointer to
+          what is being related to, which is distinct from schema:url, the presentation
+          URL of the link itself.
+        x-jsonld-id: http://purl.org/dc/terms/relation
+    required:
+    - '@type'
+    - schema:url
     $defs:
       cdifConceptOrTermOrString:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
-      cdifConceptOrTerm:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
-      Relation:
-        type: object
-        description: 'DCAT Relationship surface added on top of the schema.org labeled
-          link construct. This block is an allOf of labeledLink and this surface,
-          so a "@type" with contains: dcat:Relationship here applied to EVERY cdifReference
-          -- alongside labeledLink''s contains: schema:CreativeWork -- making the
-          two co-types mandatory and the block unsatisfiable for an ordinary labeled
-          link. schema:license recommends exactly such a link ("recommend using schema:CreativeWork
-          to provide a label (name) for the license"), and every example that followed
-          that advice failed. The co-type mandate is therefore gone: @type is governed
-          solely by labeledLink, which already requires schema:CreativeWork and permits
-          dcat:Relationship alongside it. This matches rules.shacl, where cdifReferenceShape
-          targets dcat:Relationship as a class -- the relation rules apply to nodes
-          that declare it, rather than forcing every labeled link to.'
-        properties:
-          dcat:hadRole:
-            description: Role of the related resource as a SKOS Concept (DCAT canonical
-              role slot).
-            x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
-            allOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference/$defs/cdifConceptOrTermOrString
-          dcterms:relation:
-            type: string
-            format: uri
-            description: URI of the related resource (DCAT canonical pointer to what
-              is being related to; distinct from schema:url which is the presentation
-              URL inherited from labeledLink).
-            x-jsonld-id: http://purl.org/dc/terms/relation
     x-jsonld-prefixes:
       schema: http://schema.org/
       skos: http://www.w3.org/2004/02/skos/core#
-      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-      cdif: https://w3id.org/cdif/
-      ex: https://example.org/
-      xsd: http://www.w3.org/2001/XMLSchema#
       dcterms: http://purl.org/dc/terms/
       dcat: http://www.w3.org/ns/dcat#
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.identifier:
     description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
@@ -2198,7 +2247,7 @@ x-defs:
     - schema:termsOfService
     $defs:
       Reference:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
       DefinedTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
       Action:
@@ -2562,7 +2611,7 @@ x-defs:
           type: string
           description: a resolvable reference to a representation of the software
             or instrument used
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
     x-jsonld-prefixes:
       schema: http://schema.org/
       prov: http://www.w3.org/ns/prov#
@@ -3776,9 +3825,9 @@ x-defs:
           cdi:measures:
             not: true
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures
-          cdi:externalDefinition:
+          cdif:externalDefinition:
             not: true
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
+            x-jsonld-id: https://w3id.org/cdif/externalDefinition
           cdif:uses_Concept:
             not: true
             x-jsonld-id: https://w3id.org/cdif/uses_Concept
@@ -4846,13 +4895,13 @@ x-defs:
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
         x-jsonld-id: https://w3id.org/cdif/displayLabel
-      cdi:externalDefinition:
+      cdif:externalDefinition:
         description: A reference to an external definition of a concept (that is,
           a concept which is described outside the content of the DDI-CDI metadata
           description). An example is a SKOS concept. The definition property is assumed
           to duplicate the external one referenced if externalDefinition is used.
           Other corresponding properties are assumed to be included unchanged if used.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
+        x-jsonld-id: https://w3id.org/cdif/externalDefinition
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/Reference
       cdi:identifier:
@@ -4886,30 +4935,7 @@ x-defs:
       cdifConceptOrTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
       Reference:
-        type: object
-        description: CDIF reference to an external resource by URL, with optional
-          name and description.
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - cdif:Reference
-            minItems: 1
-          schema:url:
-            type: string
-            format: uri
-            description: URL of the referenced resource.
-          schema:name:
-            type: string
-            description: Human-readable name of the referenced resource.
-          schema:description:
-            type: string
-            description: Human-readable description of the reference.
-        required:
-        - '@type'
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
       ConceptSystem:
         type: object
         description: Set of concepts structured by the relations among them [GSIM
@@ -4933,14 +4959,14 @@ x-defs:
               permits duplicates and is unordered - a \u201Cset\u201D does not have
               duplicates and may be ordered.)"
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/allowsDuplicates
-          cdi:externalDefinition:
+          cdif:externalDefinition:
             description: A reference to an external definition of a concept (that
               is, a concept which is described outside the content of the DDI-CDI
               metadata description). An example is a SKOS concept. The definition
               property is assumed to duplicate the external one referenced if externalDefinition
               is used. Other corresponding properties are assumed to be included unchanged
               if used.
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
+            x-jsonld-id: https://w3id.org/cdif/externalDefinition
             allOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/Reference
           cdi:identifier:
@@ -5016,14 +5042,14 @@ x-defs:
               use of multiple languages. Repeat for labels with different content,
               for example, labels with differing length limitations.
             x-jsonld-id: https://w3id.org/cdif/displayLabel
-          cdi:externalDefinition:
+          cdif:externalDefinition:
             description: A reference to an external definition of a concept (that
               is, a concept which is described outside the content of the DDI-CDI
               metadata description). An example is a SKOS concept. The definition
               property is assumed to duplicate the external one referenced if externalDefinition
               is used. Other corresponding properties are assumed to be included unchanged
               if used.
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
+            x-jsonld-id: https://w3id.org/cdif/externalDefinition
             allOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/Reference
           cdi:identifier:
@@ -5483,36 +5509,6 @@ x-defs:
       nxs: https://manual.nexusformat.org/classes/
       xas: https://w3id.org/cdif/xas/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.labeledLink:
-    description: schema for a labeled link, a profile of schema.org/CreativeWork
-    type: object
-    properties:
-      '@type':
-        default: schema:CreativeWork
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:CreativeWork
-        minItems: 1
-      schema:name:
-        type: string
-        x-jsonld-id: http://schema.org/name
-      schema:description:
-        type: string
-        x-jsonld-id: http://schema.org/description
-      schema:url:
-        type: string
-        format: uri
-        x-jsonld-id: http://schema.org/url
-    required:
-    - '@type'
-    - schema:url
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.skosProperties.skosConcept:
     title: SKOS Concept
@@ -7029,9 +7025,11 @@ x-defs:
       schema:relatedLink:
         type: array
         description: Links to related resources (manuals, datasheets, calibration
-          records, related instruments).
+          records, related instruments), each naming how the target relates to the
+          instrument. Uses the same linkRole block as cdifCore; before 2026-09-23
+          this property was a labeled link here and a LinkRole there.
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Reference
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/LinkRole
         x-jsonld-id: http://schema.org/relatedLink
       schema:subjectOf:
         description: Catalog record metadata-about-metadata for this instrument description.
@@ -7113,7 +7111,9 @@ x-defs:
         - '@type'
         - schema:name
       Reference:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
+      LinkRole:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.linkRole
       InstrumentComponent:
         type: object
         description: A sub-component of an instrument system. Uses the same structure

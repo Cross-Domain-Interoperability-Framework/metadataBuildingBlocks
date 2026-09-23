@@ -172,9 +172,11 @@ properties:
   schema:relatedLink:
     type: array
     description: Links to related resources (manuals, datasheets, calibration records,
-      related instruments).
+      related instruments), each naming how the target relates to the instrument.
+      Uses the same linkRole block as cdifCore; before 2026-09-23 this property was
+      a labeled link here and a LinkRole there.
     items:
-      $ref: '#/$defs/Reference'
+      $ref: '#/$defs/LinkRole'
     x-jsonld-id: http://schema.org/relatedLink
   schema:subjectOf:
     description: Catalog record metadata-about-metadata for this instrument description.
@@ -254,7 +256,9 @@ $defs:
     - '@type'
     - schema:name
   Reference:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+  LinkRole:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/schema.yaml
   InstrumentComponent:
     type: object
     description: A sub-component of an instrument system. Uses the same structure

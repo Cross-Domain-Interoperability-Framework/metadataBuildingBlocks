@@ -1,0 +1,123 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.schemaorgProperties.linkRole",
+  "$schema": "metaschema.yaml",
+  "name": "Link Role",
+  "abstract": "Schema for a typed link, implemented as a schema.org LinkRole: schema:linkRelationship names how the target relates to the subject, and schema:target carries the schema:EntryPoint being linked to. Use for a link whose relationship is the point; use labeledLink where the value is simply a work at a URL, such as a license. Defines properties: @type, schema:linkRelationship, schema:target. Uses building blocks: cdifConceptOrTermOrString (cdifDataType).",
+  "status": "under-development",
+  "dateTimeAddition": "2026-09-23T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-09-23",
+  "sources": [
+    {
+      "title": "schema.org LinkRole",
+      "link": "https://schema.org/LinkRole"
+    },
+    {
+      "title": "schema.org EntryPoint",
+      "link": "https://schema.org/EntryPoint"
+    }
+  ],
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "templates"
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.schemaorgProperties.linkRole": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/linkRole/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+  ],
+  "license": {
+    "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/LICENSE"
+  },
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/linkRole/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/linkRole/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/linkRole/",
+  "validationPassed": true,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/schemaorgProperties/linkRole/",
+  "description": "# Link Role\n\nA typed link. `schema:linkRelationship` names how the target relates to the\nsubject; `schema:target` carries the `schema:EntryPoint` being linked to.\n\n## When to use this, and when not to\n\nUse `linkRole` where the **relationship is the point** -- \"the canonical version\nof this\", \"the download endpoint for this\". Use\n[`labeledLink`](../labeledLink/) where the value is simply **a work at a URL**:\na license, a terms-of-service document, a manual. A license is a work, not a\nrole, and wrapping one in a Role forces every consumer through an indirection to\nreach the document itself.\n\nThat division is why this block does not replace `labeledLink`. In the corpus,\n`schema:license` and `schema:conditionsOfAccess` appear 36 times as plain strings\nor `CreativeWork`s and never as a `LinkRole`.\n\n## History\n\nUntil 2026-09-23 this shape was defined inline inside the `cdifCore` profile, so\nnothing else could reuse it. `schemaorgProperties/instrument` consequently\ndefined `schema:relatedLink` as a labeled link instead -- the same property\ncarrying two different shapes depending on which node held it. Both now\nreference this block.\n",
+  "examples": [
+    {
+      "title": "Link role building block.",
+      "content": "A typed link whose relationship is given as a plain string label.",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/linkRole/exampleLinkRole.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/linkRole/example_1_1.json",
+          "sizeBytes": 438,
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\n    \"schema:LinkRole\"\n  ],\n  \"schema:linkRelationship\": \"canonical version\",\n  \"schema:target\": {\n    \"@type\": [\n      \"schema:EntryPoint\"\n    ],\n    \"schema:name\": \"Landing page for the published version of record\",\n    \"schema:url\": \"https://example.org/datasets/soil-moisture-2026\",\n    \"schema:encodingFormat\": \"text/html\"\n  }\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/linkRole/example_1_1.jsonld",
+          "sizeBytes": 664,
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"schema:LinkRole\"\n  ],\n  \"schema:linkRelationship\": \"canonical version\",\n  \"schema:target\": {\n    \"@type\": [\n      \"schema:EntryPoint\"\n    ],\n    \"schema:name\": \"Landing page for the published version of record\",\n    \"schema:url\": \"https://example.org/datasets/soil-moisture-2026\",\n    \"schema:encodingFormat\": \"text/html\"\n  }\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/linkRole/example_1_1.ttl",
+          "sizeBytes": 366,
+          "code": "@prefix schema1: <http://schema.org/> .\n\n[] a schema1:LinkRole ;\n    schema1:linkRelationship \"canonical version\" ;\n    schema1:target [ a schema1:EntryPoint ;\n            schema1:encodingFormat \"text/html\" ;\n            schema1:name \"Landing page for the published version of record\" ;\n            schema1:url \"https://example.org/datasets/soil-moisture-2026\" ] .\n\n"
+        }
+      ]
+    },
+    {
+      "title": "Complete link role example.",
+      "content": "The relationship given as a SKOS concept rather than a string, with a fully\ndescribed EntryPoint target.",
+      "prefixes": {
+        "schema": "http://schema.org/",
+        "skos": "http://www.w3.org/2004/02/skos/core#"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/linkRole/exampleLinkRoleComplete.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/linkRole/example_2_1.json",
+          "sizeBytes": 863,
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\n    \"schema:LinkRole\"\n  ],\n  \"schema:linkRelationship\": {\n    \"@id\": \"ex:concepts/isDocumentedBy\",\n    \"@type\": [\n      \"skos:Concept\"\n    ],\n    \"skos:prefLabel\": {\n      \"@value\": \"is documented by\",\n      \"@language\": \"en\"\n    },\n    \"skos:definition\": {\n      \"@value\": \"The target documents the described resource.\",\n      \"@language\": \"en\"\n    },\n    \"skos:inScheme\": {\n      \"@id\": \"ex:vocab/linkRelationships\"\n    },\n    \"skos:notation\": \"isDocumentedBy\"\n  },\n  \"schema:target\": {\n    \"@type\": [\n      \"schema:EntryPoint\"\n    ],\n    \"schema:name\": \"Instrument handbook, revision 4\",\n    \"schema:url\": \"https://example.org/docs/handbook-r4.pdf\",\n    \"schema:encodingFormat\": \"application/pdf\"\n  }\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/linkRole/example_2_1.jsonld",
+          "sizeBytes": 1145,
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\",\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"schema:LinkRole\"\n  ],\n  \"schema:linkRelationship\": {\n    \"@id\": \"ex:concepts/isDocumentedBy\",\n    \"@type\": [\n      \"skos:Concept\"\n    ],\n    \"skos:prefLabel\": {\n      \"@value\": \"is documented by\",\n      \"@language\": \"en\"\n    },\n    \"skos:definition\": {\n      \"@value\": \"The target documents the described resource.\",\n      \"@language\": \"en\"\n    },\n    \"skos:inScheme\": {\n      \"@id\": \"ex:vocab/linkRelationships\"\n    },\n    \"skos:notation\": \"isDocumentedBy\"\n  },\n  \"schema:target\": {\n    \"@type\": [\n      \"schema:EntryPoint\"\n    ],\n    \"schema:name\": \"Instrument handbook, revision 4\",\n    \"schema:url\": \"https://example.org/docs/handbook-r4.pdf\",\n    \"schema:encodingFormat\": \"application/pdf\"\n  }\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/linkRole/example_2_1.ttl",
+          "sizeBytes": 711,
+          "code": "@prefix schema1: <http://schema.org/> .\n@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n\n<https://example.org/concepts/isDocumentedBy> a skos:Concept ;\n    skos:definition \"The target documents the described resource.\"@en ;\n    skos:inScheme <https://example.org/vocab/linkRelationships> ;\n    skos:notation \"isDocumentedBy\" ;\n    skos:prefLabel \"is documented by\"@en .\n\n[] a schema1:LinkRole ;\n    schema1:linkRelationship <https://example.org/concepts/isDocumentedBy> ;\n    schema1:target [ a schema1:EntryPoint ;\n            schema1:encodingFormat \"application/pdf\" ;\n            schema1:name \"Instrument handbook, revision 4\" ;\n            schema1:url \"https://example.org/docs/handbook-r4.pdf\" ] .\n\n"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: 'A typed link, implemented as a schema.org LinkRole: schema:linkRelationship\n  names how the target relates to the subject, and schema:target carries the EntryPoint\n  actually being linked to.\n\n  This is the right shape when the relationship itself is the point -- \"this is the\n  canonical version of\", \"this is the download endpoint for\". Where the value is simply\n  a work at a URL, such as a license or a terms-of-service document, use schemaorgProperties/labeledLink\n  instead: a licence is a work, not a role, and wrapping it in a Role forces every\n  consumer through an indirection to reach the thing itself.\n\n  Defined here as a block rather than inline in a profile (where it lived until 2026-09-23)\n  so that more than one consumer can reuse it. While it was inline in cdifCore, schemaorgProperties/instrument\n  could not reach it and defined schema:relatedLink as a labeled link instead -- the\n  same property carrying two different shapes depending on which node held it.'\ntype: object\nproperties:\n  '@type':\n    default: schema:LinkRole\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:LinkRole\n    minItems: 1\n  schema:linkRelationship:\n    description: How the target relates to the subject, as a controlled-vocabulary\n      value or a plain string label.\n    $ref: '#/$defs/cdifConceptOrTermOrString'\n    x-jsonld-id: http://schema.org/linkRelationship\n  schema:target:\n    type: object\n    description: 'The entry point being linked to. Deliberately not sealed: real targets\n      also carry schema:httpMethod, schema:urlTemplate, schema:contentType and domain-specific\n      properties, and JSON-LD is open-world.'\n    properties:\n      '@type':\n        default: schema:EntryPoint\n        type: array\n        items:\n          type: string\n        contains:\n          const: schema:EntryPoint\n        minItems: 1\n      schema:name:\n        type: string\n        x-jsonld-id: http://schema.org/name\n      schema:url:\n        type: string\n        format: uri\n        x-jsonld-id: http://schema.org/url\n      schema:encodingFormat:\n        type: string\n        description: registered MIME types are expected\n        x-jsonld-id: http://schema.org/encodingFormat\n    x-jsonld-id: http://schema.org/target\nrequired:\n- '@type'\n$defs:\n  cdifConceptOrTermOrString:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  skos: http://www.w3.org/2004/02/skos/core#\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/schemaorgProperties/linkRole"
+}

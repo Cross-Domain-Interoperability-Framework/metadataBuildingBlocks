@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.schemaorgProperties.webAPI` *v0.1*
 
-Schema defining properties for documenting a WebAPI used as a resource distribution option. Defines properties: @type, schema:serviceType, schema:termsOfService, schema:documentation, schema:potentialAction. Uses building blocks: cdifReference (cdifDataType), definedTerm (schemaorgProperties), action (schemaorgProperties).
+Schema defining properties for documenting a WebAPI used as a resource distribution option. Defines properties: @type, schema:serviceType, schema:termsOfService, schema:documentation, schema:potentialAction. Uses building blocks: labeledLink (schemaorgProperties), definedTerm (schemaorgProperties), action (schemaorgProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -23,7 +23,11 @@ Documents a web service API endpoint using the schema.org WebAPI pattern. Specif
 
 ### Dependencies
 
-- [cdifReference](../../cdifProperties/cdifReference/) — typed reference combining labeled-link surface with DDI-CDI dt-Reference semantics
+- [labeledLink](../labeledLink/) — a resolvable URL with an optional name and
+  description, plus the optional DCAT relation surface (`dcat:hadRole`,
+  `dcterms:relation`). Absorbed the former `cdifDataType/cdifReference` block on
+  2026-09-23; the old link here pointed at `cdifProperties/`, a directory that has
+  not existed for some time.
 - [definedTerm](../definedTerm/) — controlled vocabulary term for service type
 - [action](../action/) — action definitions for potentialAction
 
@@ -831,7 +835,7 @@ required:
 - schema:termsOfService
 $defs:
   Reference:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
   Action:
@@ -854,12 +858,9 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://w3id.org/cdif/",
-    "ex": "https://example.org/",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
+    "cdif": "https://w3id.org/cdif/",
     "@version": 1.1
   }
 }

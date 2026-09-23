@@ -298,14 +298,14 @@ wrapper) and a non-trivial code → variable mapping.
     cdif:name "systolic_blood_pressure" .
 
 <https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
-            cdif:value "temp_c" ],
-        [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
-            cdif:value "heart_rate" ],
         [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
-            cdif:value "systolic_bp" ] .
+            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
+            cdif:value "temp_c" ],
+        [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
+            cdif:value "heart_rate" ] .
 
 
 ```
@@ -424,6 +424,7 @@ Links to the schema:
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

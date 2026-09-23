@@ -315,6 +315,7 @@ Links to the schema:
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "spdx": "http://spdx.org/rdf/terms#",
     "xas": "cdif:xas/",
     "nxs": "https://manual.nexusformat.org/classes/",

@@ -816,11 +816,11 @@ referencing the code-list concept).
     cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 25419 ;
             cdi:typeOfNumericValue "decimal" ],
-        [ cdi:computationBase "MissingOnly" ;
-            cdi:content 1463 ;
-            cdi:typeOfNumericValue "decimal" ],
         [ cdi:computationBase "Total" ;
             cdi:content 26882 ;
+            cdi:typeOfNumericValue "decimal" ],
+        [ cdi:computationBase "MissingOnly" ;
+            cdi:content 1463 ;
             cdi:typeOfNumericValue "decimal" ] ;
     cdi:typeOfStatistic "count" .
 
@@ -830,6 +830,12 @@ referencing the code-list concept).
             cdi:typeOfNumericValue "decimal" ] ;
     cdi:typeOfStatistic "frequency" ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
+            cdi:statistic [ cdi:computationBase "MissingOnly" ;
+                    cdi:content 1463 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 21497 ;
@@ -842,21 +848,15 @@ referencing the code-list concept).
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 3739 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/1> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 108 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
-            cdi:statistic [ cdi:computationBase "MissingOnly" ;
-                    cdi:content 1463 ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 3739 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ] .
 
@@ -1246,10 +1246,10 @@ valid count (26882).
     cdif:indexedBy <https://example.org/mics/mwi2019/var/HH6> .
 
 <https://example.org/mics/mwi2019/var/HH6/statistics/count> a cdi:Statistics ;
-    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+    cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ],
-        [ cdi:computationBase "Total" ;
+        [ cdi:computationBase "ValidOnly" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
     cdi:typeOfStatistic "count" .
@@ -1456,9 +1456,9 @@ allOf:
       cdi:measures:
         not: true
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures
-      cdi:externalDefinition:
+      cdif:externalDefinition:
         not: true
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
+        x-jsonld-id: https://w3id.org/cdif/externalDefinition
       cdif:uses_Concept:
         not: true
         x-jsonld-id: https://w3id.org/cdif/uses_Concept
@@ -1504,8 +1504,9 @@ Links to the schema:
     "xas": "cdif:xas/",
     "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "@version": 1.1
   }
 }

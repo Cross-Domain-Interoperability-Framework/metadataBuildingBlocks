@@ -389,18 +389,18 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
             schema1:name "arithmetic mean" ] ;
     cdif:appliesTo ex:var-temperature ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/surface> ;
+            cdi:for <https://example.org/category/deep> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.581e+01 ;
+                    cdi:content 1.007e+01 ;
                     cdi:isWeighted true ] ;
             cdi:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
                     schema1:name "Mean" ;
                     schema1:termCode "mean" ] ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/deep> ;
+            cdi:for <https://example.org/category/surface> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.007e+01 ;
+                    cdi:content 1.581e+01 ;
                     cdi:isWeighted true ] ;
             cdi:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
@@ -907,8 +907,9 @@ Links to the schema:
     "xas": "cdif:xas/",
     "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "@version": 1.1
   }
 }

@@ -93,14 +93,14 @@ properties:
       multiple languages. Repeat for labels with different content, for example, labels
       with differing length limitations.
     x-jsonld-id: https://w3id.org/cdif/displayLabel
-  cdi:externalDefinition:
+  cdif:externalDefinition:
     $ref: '#/$defs/Reference'
     description: A reference to an external definition of a concept (that is, a concept
       which is described outside the content of the DDI-CDI metadata description).
       An example is a SKOS concept. The definition property is assumed to duplicate
       the external one referenced if externalDefinition is used. Other corresponding
       properties are assumed to be included unchanged if used.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
+    x-jsonld-id: https://w3id.org/cdif/externalDefinition
   cdi:identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     description: Identifier for objects requiring short- or long-lasting referencing
@@ -131,29 +131,7 @@ $defs:
   cdifConceptOrTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
   Reference:
-    type: object
-    description: CDIF reference to an external resource by URL, with optional name
-      and description.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdif:Reference
-        minItems: 1
-      schema:url:
-        type: string
-        format: uri
-        description: URL of the referenced resource.
-      schema:name:
-        type: string
-        description: Human-readable name of the referenced resource.
-      schema:description:
-        type: string
-        description: Human-readable description of the reference.
-    required:
-    - '@type'
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
   ConceptSystem:
     type: object
     description: Set of concepts structured by the relations among them [GSIM 1.1].
@@ -175,14 +153,14 @@ $defs:
           permits duplicates and is unordered - a \u201Cset\u201D does not have duplicates
           and may be ordered.)"
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/allowsDuplicates
-      cdi:externalDefinition:
+      cdif:externalDefinition:
         $ref: '#/$defs/Reference'
         description: A reference to an external definition of a concept (that is,
           a concept which is described outside the content of the DDI-CDI metadata
           description). An example is a SKOS concept. The definition property is assumed
           to duplicate the external one referenced if externalDefinition is used.
           Other corresponding properties are assumed to be included unchanged if used.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
+        x-jsonld-id: https://w3id.org/cdif/externalDefinition
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
@@ -254,14 +232,14 @@ $defs:
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
         x-jsonld-id: https://w3id.org/cdif/displayLabel
-      cdi:externalDefinition:
+      cdif:externalDefinition:
         $ref: '#/$defs/Reference'
         description: A reference to an external definition of a concept (that is,
           a concept which is described outside the content of the DDI-CDI metadata
           description). An example is a SKOS concept. The definition property is assumed
           to duplicate the external one referenced if externalDefinition is used.
           Other corresponding properties are assumed to be included unchanged if used.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
+        x-jsonld-id: https://w3id.org/cdif/externalDefinition
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
@@ -309,6 +287,7 @@ Links to the schema:
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

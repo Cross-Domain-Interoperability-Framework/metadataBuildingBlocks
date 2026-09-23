@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.profiles.cdifProfile.cdifCore` *v0.1*
 
-Core properties for CDIF metadata, applicable to any resource type. Required properties: @id, @type, schema:name, schema:identifier, schema:dateModified, schema:conditionsOfAccess or schema:license, schema:url or schema:distribution, schema:subjectOf. Optional core properties: schema:description, schema:additionalType, schema:sameAs, schema:version, schema:inLanguage, schema:datePublished, schema:relatedLink, schema:publishingPrinciples, schema:keywords, schema:creator, schema:contributor, schema:publisher, schema:provider, schema:funding, prov:wasGeneratedBy, prov:wasDerivedFrom. Uses building blocks: cdifReference, identifier, definedTerm, dataDownload, webAPI, person, organization, agentInRole, funder, generatedBy, derivedFrom, cdifCatalogRecord.
+Core properties for CDIF metadata, applicable to any resource type. Required properties: @id, @type, schema:name, schema:identifier, schema:dateModified, schema:conditionsOfAccess or schema:license, schema:url or schema:distribution, schema:subjectOf. Optional core properties: schema:description, schema:additionalType, schema:sameAs, schema:version, schema:inLanguage, schema:datePublished, schema:relatedLink, schema:publishingPrinciples, schema:keywords, schema:creator, schema:contributor, schema:publisher, schema:provider, schema:funding, prov:wasGeneratedBy, prov:wasDerivedFrom. Uses building blocks: labeledLink, identifier, definedTerm, dataDownload, webAPI, person, organization, agentInRole, funder, generatedBy, derivedFrom, cdifCatalogRecord.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -1228,15 +1228,15 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:identifier ex:datasetIdentifier001 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-            schema1:name "Sea water temperature" ;
-            schema1:termCode "TEMPPR01" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/L06/current/46/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L06/current/" ;
             schema1:name "Argo" ;
             schema1:termCode "L06:46" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+            schema1:name "Sea water temperature" ;
+            schema1:termCode "TEMPPR01" ],
         "ocean temperature" ;
     schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
     schema1:name "Global Ocean Temperature Profiles 2010-2024" ;
@@ -1535,43 +1535,12 @@ properties:
     x-jsonld-id: http://schema.org/distribution
   schema:relatedLink:
     type: array
-    description: links to related resources; linkRelationship specifies how the resource
-      is related.
+    description: Links to related resources. schema:linkRelationship says how the
+      target relates to this resource. Defined by schemaorgProperties/linkRole since
+      2026-09-23; it was inline here, which is why schemaorgProperties/instrument
+      could not reuse it and defined the same property as a labeled link instead.
     items:
-      type: object
-      properties:
-        '@type':
-          type: array
-          items:
-            type: string
-          contains:
-            const: schema:LinkRole
-          minItems: 1
-        schema:linkRelationship:
-          $ref: '#/$defs/cdifConceptOrTermOrString'
-          x-jsonld-id: http://schema.org/linkRelationship
-        schema:target:
-          type: object
-          properties:
-            '@type':
-              type: array
-              items:
-                type: string
-              contains:
-                const: schema:EntryPoint
-              minItems: 1
-            schema:encodingFormat:
-              type: string
-              description: registered MIME types are expected
-              x-jsonld-id: http://schema.org/encodingFormat
-            schema:name:
-              type: string
-              x-jsonld-id: http://schema.org/name
-            schema:url:
-              type: string
-              format: uri
-              x-jsonld-id: http://schema.org/url
-          x-jsonld-id: http://schema.org/target
+      $ref: '#/$defs/LinkRole'
     x-jsonld-id: http://schema.org/relatedLink
   schema:publishingPrinciples:
     description: FDOF digitalObjectMutability, RDA digitalObjectPolicy, FDOF PersistencyPolicy.
@@ -1755,10 +1724,12 @@ allOf:
     required:
     - schema:url
 $defs:
+  LinkRole:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/schema.yaml
   cdifConceptOrTermOrString:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   Reference:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   cdifConceptOrTerm:
@@ -1799,13 +1770,12 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://w3id.org/cdif/",
-    "ex": "https://example.org/",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
+    "cdif": "https://w3id.org/cdif/",
     "prov": "http://www.w3.org/ns/prov#",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "@version": 1.1
   }
 }
