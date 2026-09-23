@@ -74,6 +74,17 @@ modules (`CoreDiscovery`, `cdifComplete`, `xasDocument`, …).
   at the canonical `skosProperties/skosConcept`. Note that swap **tightened** validation —
   `skosConcept`'s `Concept` requires `skos:definition` and `skos:inScheme`, the profile's
   `cdifConcept` required neither.
+- **Two link blocks, with a clean division.** `schemaorgProperties/labeledLink` is **a work at a
+  URL** — a licence, a terms-of-service document, a manual; the value *is* the thing pointed at,
+  and it optionally carries `dcat:hadRole`/`dcterms:relation`.
+  `schemaorgProperties/linkRole` is **a typed relationship to a target** —
+  `schema:linkRelationship` names the relation, `schema:target` is a `schema:EntryPoint`. The test
+  is whether the relationship carries information: a licence needs no role, a related resource is
+  meaningless without one. `cdifDataType/cdifReference` was folded into `labeledLink` on
+  2026-09-23 (it added two optional properties and nothing else) and is in `archive/`; `linkRole`
+  was inline in `cdifCore` until the same date, which is why `instrument` had defined
+  `schema:relatedLink` with a different shape. `ddiProperties` keeps its own canonical
+  `dt-Reference` and is not part of this.
 - A BB schema is a single node, no `@graph` wrapper. Class targets default to
   `anyOf [inline class, {@id} reference]`, and a reference is **sealed**
   (`additionalProperties: false`, `required: ['@id']`).

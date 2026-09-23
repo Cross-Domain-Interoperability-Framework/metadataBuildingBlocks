@@ -12,6 +12,10 @@ Documents a web service API endpoint using the schema.org WebAPI pattern. Specif
 
 ### Dependencies
 
-- [cdifReference](../../cdifProperties/cdifReference/) — typed reference combining labeled-link surface with DDI-CDI dt-Reference semantics
+- [labeledLink](../labeledLink/) — a resolvable URL with an optional name and
+  description, plus the optional DCAT relation surface (`dcat:hadRole`,
+  `dcterms:relation`). Absorbed the former `cdifDataType/cdifReference` block on
+  2026-09-23; the old link here pointed at `cdifProperties/`, a directory that has
+  not existed for some time.
 - [definedTerm](../definedTerm/) — controlled vocabulary term for service type
 - [action](../action/) — action definitions for potentialAction

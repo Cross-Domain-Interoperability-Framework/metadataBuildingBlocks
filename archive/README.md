@@ -123,3 +123,28 @@ Removing it changed nothing else: the emitted bundle went from 2092 triples / 42
 2094 / 41 -- *up*, because the canonical shapes are fuller than the stale copies -- and
 `validate_shacl --strict` reports the same 0 violations, 19 warnings, 4 info across both
 examples.
+
+## cdifDataType/cdifReference
+
+Archived 2026-09-23, folded into
+[`schemaorgProperties/labeledLink`](../_sources/schemaorgProperties/labeledLink/).
+
+The block was an `allOf` of `labeledLink` plus a `Relation` surface that added exactly two
+properties, `dcat:hadRole` and `dcterms:relation`, both optional. Its earlier
+`dcat:Relationship` co-type mandate had already been removed -- it applied to every
+`cdifReference`, making the block unsatisfiable for an ordinary labeled link and breaking
+every `schema:license` example that followed schema.org's own advice to label a license
+with a `CreativeWork`.
+
+With that gone, the block added two optional properties and nothing else, behind five
+`$defs/Reference` alias hops in six consumers. Both properties now live on `labeledLink`
+directly. Because they are optional, no document's validity changes.
+
+`CDIFRelationShape` moved to `labeledLink/rules.shacl`. It targets `dcat:Relationship` as a
+class, so it applies to any node declaring that type regardless of which block the node's
+schema came from -- but `rules.shacl` travels with the `$ref` graph, so leaving it here
+would have removed it from every consumer's bundle with no rule left to fire and nothing
+to report the loss.
+
+Both examples moved to `labeledLink` as `exampleLabeledLinkRelation.json` and
+`exampleLabeledLinkRelationComplete.json`, keeping the relation surface exercised.
