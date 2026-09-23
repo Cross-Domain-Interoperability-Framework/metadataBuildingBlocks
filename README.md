@@ -313,6 +313,38 @@ Schema.org vocabulary building blocks for reusable metadata components.
 | `instrument` | Generic instrument or instrument system -- uses `schema:Thing` base type with optional `schema:Product` typing. Supports hierarchical instrument systems via `schema:hasPart` for sub-components. Instruments are nested within `prov:used` items via a `schema:instrument` sub-key (instruments are `prov:Entity` subclasses). Referenced by `cdifProvActivity`, `provActivity`, and `xasInstrument`. |
 | `statisticalVariable` | `schema:StatisticalVariable` — a variable representing a statistical measure. Properties: `@type`, `@id`, `schema:name`, `schema:description`, `schema:measurementTechnique`, `schema:statType`, `schema:measuredProperty`. Uses `definedTerm` building block. |
 | `actionResult` | The `schema:result` of a `schema:Action` on a WebAPI distribution — the format/serialization of the data the service returns. Typed `schema:DataDownload` but with **no** `schema:contentUrl`/`schema:contentSize` (the response is generated per request). Properties: `@type`, `schema:name`, `schema:description`, `schema:encodingFormat`, `dcterms:conformsTo`. Referenced by the `action` BB's `schema:result`. |
+| `labeledLink` | A resolvable URL with an optional `schema:name` and `schema:description`, typed `schema:CreativeWork`. Optionally carries the DCAT relation surface (`dcat:hadRole`, `dcterms:relation`) for a link expressing a typed relationship. Absorbed the former `cdifDataType/cdifReference` block (2026-09-23). |
+| `linkRole` | A typed link, `schema:LinkRole`: `schema:linkRelationship` names how the target relates to the subject, `schema:target` carries the `schema:EntryPoint` linked to. Used by `cdifCore` and `instrument` for `schema:relatedLink`. |
+
+#### Choosing between `labeledLink` and `linkRole`
+
+Two link blocks, with a clean division:
+
+- **`labeledLink`** — for **a work at a URL**. A licence, a terms-of-service
+  document, a manual, a landing page. The value *is* the thing being pointed at.
+- **`linkRole`** — for **a typed relationship to a target**. "The canonical
+  version of this", "the download endpoint for this", "the calibration record for
+  this instrument". The relationship is the point, and `schema:linkRelationship`
+  names it.
+
+The test is whether the relationship carries information. A licence link needs no
+role -- it is a licence -- so wrapping it in a `schema:LinkRole` only forces every
+consumer through an indirection to reach the document. A related-resource link is
+meaningless without one: "related how?"
+
+This is why one block does not serve both. In the corpus, `schema:license` and
+`schema:conditionsOfAccess` appear 36 times as plain strings or `CreativeWork`s
+and never as a `LinkRole`; `schema:relatedLink` is the reverse.
+
+Both were consolidated on 2026-09-23 from four overlapping definitions.
+`cdifDataType/cdifReference` was `labeledLink` plus two optional properties and is
+now retired to `archive/`; `linkRole` was defined inline inside the `cdifCore`
+profile, where nothing else could reuse it, which is why `instrument` had defined
+the same property with a different shape.
+
+Note that `ddiProperties` keeps its own `dt-Reference` (`cdi:uri`,
+`cdi:ddiReference`, `cdi:semantic`). That is the canonical DDI-CDI datatype, not a
+CDIF link, and it is deliberately not part of this consolidation.
 
 ### provProperties
 

@@ -25,7 +25,8 @@ metadataBuildingBlocks/
 │   │   ├── spatialExtent/           # schema:Place (bounding box, facility/lab base)
 │   │   ├── temporalExtent/          # schema:temporalCoverage
 │   │   ├── dataDownload/            # schema:DataDownload
-│   │   ├── labeledLink/             # schema:LinkRole
+│   │   ├── labeledLink/             # schema:CreativeWork -- a work at a URL (+ optional DCAT relation surface)
+│   │   ├── linkRole/               # schema:LinkRole -- a typed relationship to a schema:EntryPoint target
 │   │   ├── monetaryGrant/            # schema:MonetaryGrant (funding acknowledgement)
 │   │   ├── webAPI/                  # schema:WebAPI
 │   │   ├── action/                  # schema:Action
@@ -50,8 +51,7 @@ metadataBuildingBlocks/
 │   │   ├── cdifValueDomain/         # CDIF Value Domain — cdi:SubstantiveValueDomain + cdi:SentinelValueDomain
 │   │   ├── cdifRepresentedVariable/ # CDIF RepresentedVariable — conceptual variable definition referenced by Data Structure components
 │   │   ├── cdifDataStructureComponent/  # CDIF DataStructureComponent — component subclasses (Identifier / Measure / Attribute / Dimension / VariableValue / VariableDescriptor)
-│   │   ├── cdifDescriptorVariable/  # CDIF DescriptorVariable + DescriptorValueDomain — long-format pattern
-│   │   └── cdifReference/           # CDIF Reference — typed external reference
+│   │   └── cdifDescriptorVariable/  # CDIF DescriptorVariable + DescriptorValueDomain — long-format pattern
 │   ├── provProperties/              # W3C PROV provenance types
 │   │   ├── generatedBy/             # prov:wasGeneratedBy (Activity)
 │   │   ├── provActivity/            # PROV-O native activity (extends generatedBy)
@@ -1412,7 +1412,7 @@ on `reviewRevision202606` with Pages sourced from it.
 - **Implementation guides** — hand-maintained `.md`; regenerate `.docx` with `pandoc <md> --reference-doc=<copy of prior .docx> -o <docx>`.
 - **Examples** — validate with `python FrameAndValidate.py <ex> --validate --schema <S> --frame <F>` (frames the JSON-LD, array-wraps its `ARRAY_PROPERTIES`, then validates). Open-world, so unknown props pass.
 
-Conventions that bit us (keep examples + schema consistent): `schema:contentSize` is a **string**; `cdif:fileSize`/`fileSizeUofM` are **removed**; a WebAPI action result is the **actionResult** BB (`name`/`description`/`encodingFormat`/`conformsTo`, no `contentUrl`/`contentSize`); an object-form **cdifReference** may include `dcat:Relationship` in `@type` but is no longer required to (that co-type was mandatory until 2026-09-08, alongside labeledLink's `schema:CreativeWork`, which made the block unsatisfiable for an ordinary labeled link — the very form `schema:license` recommends); codelist `@context` is an **object**, `skos:notation` is a single **string** required on every `CdifCodelistConcept` (do not array-wrap it). The May/June 2026 re-sync lived on a `reviewRevision202606` branch in each repo; on
+Conventions that bit us (keep examples + schema consistent): `schema:contentSize` is a **string**; `cdif:fileSize`/`fileSizeUofM` are **removed**; a WebAPI action result is the **actionResult** BB (`name`/`description`/`encodingFormat`/`conformsTo`, no `contentUrl`/`contentSize`); a **labeledLink** may include `dcat:Relationship` in `@type` but is not required to (that co-type was mandatory on the former `cdifReference` block until 2026-09-08, alongside labeledLink's `schema:CreativeWork`, which made it unsatisfiable for an ordinary labeled link — the very form `schema:license` recommends; `cdifReference` was folded into `labeledLink` on 2026-09-23, since it added only `dcat:hadRole` and `dcterms:relation`, both optional); codelist `@context` is an **object**, `skos:notation` is a single **string** required on every `CdifCodelistConcept` (do not array-wrap it). The May/June 2026 re-sync lived on a `reviewRevision202606` branch in each repo; on
 2026-09-10 that was merged to `main`, tagged `v1.1.0`, and the branch renamed
 `archive202609`. New work goes on `updates` and reaches `main` by PR — see the release-repo
 table above. `profile-provenance` is the exception: still in review, still on the old branch.
