@@ -3,6 +3,9 @@
 @prefix sh:          <http://www.w3.org/ns/shacl#> .
 @prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
 @prefix schema:      <http://schema.org/>.
+@prefix skos:        <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms:     <http://purl.org/dc/terms/> .
+@prefix dcat:        <http://www.w3.org/ns/dcat#> .
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
 
@@ -19,3 +22,66 @@ cdifd:CDIFLabeledLinkShape
         sh:message "value must be a resolvable URL, but we aren't testing to see if the URL resolves..... Can't get xsd:anyURI to work with JSON Schema validation..."
         ] 
         .
+
+# ============================================================
+# Relation surface (dcat:Relationship targeting)
+# ============================================================
+#
+# Moved here from cdifDataType/cdifReference when that block was folded into
+# this one (2026-09-23). The shape targets dcat:Relationship as a CLASS, so it
+# applies to any node declaring that type and is indifferent to which block the
+# node's schema came from -- but rules.shacl travels with the $ref graph, so
+# leaving it in a retired directory would have removed it from every consumer's
+# bundle silently, with no rule left to fire and nothing to say so.
+#
+# schema:url is restated here rather than left to CDIFLabeledLinkShape above.
+# That shape targets schema:CreativeWork, and a schema-valid relation always
+# carries both co-types -- but SHACL runs independently of JSON Schema, so a
+# hand-written node typed only dcat:Relationship would otherwise have no url
+# requirement at all. Keeping it costs one property shape and preserves the
+# behaviour cdifReference had before the merge.
+
+cdifd:CDIFRelationShape
+    a sh:NodeShape ;
+    sh:targetClass dcat:Relationship ;
+    sh:message "A relation link must carry a resolvable schema:url. dcterms:relation (URI of the related resource) and dcat:hadRole (SKOS-typed role) are recommended when the relation distinguishes the related resource from its presentation URL or carries an explicit role." ;
+
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path schema:url ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^https?://[^\\s]+$" ;
+        sh:message "A relation link must have at least one schema:url that resolves over http(s)."
+    ] ;
+
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path dcat:hadRole ;
+        sh:class skos:Concept ;
+        sh:severity sh:Warning ;
+        sh:message "If dcat:hadRole is provided, its value must be a skos:Concept classifying the role of the related resource."
+    ] ;
+
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path dcterms:relation ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[a-zA-Z][a-zA-Z0-9+.-]*:[^\\s]*$" ;
+        sh:severity sh:Warning ;
+        sh:message "If dcterms:relation is provided, it must be a syntactically valid URI."
+    ] ;
+
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path schema:name ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path schema:description ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] .

@@ -19,224 +19,212 @@
       }
     },
     {
+      "description": "Schema for a labeled link, a profile of schema.org/CreativeWork: a resolvable URL with an optional name and description. Optionally carries the DCAT relation surface (dcat:hadRole, dcterms:relation) for a link that expresses a typed relationship rather than a plain reference.\nThose two properties were a separate block, cdifDataType/cdifReference, which was an allOf of this schema plus exactly those two optional properties and nothing else -- its dcat:Relationship co-type mandate had already been removed because it made every labeled link unsatisfiable and broke every schema:license example that followed schema.org's own advice. Since both are optional, folding them in here changes no document's validity while removing a block and five levels of $defs/Reference indirection. cdifReference was retired 2026-09-23.",
       "type": "object",
-      "description": "Building block to implement relations to other resources using a URL and some semantics.",
-      "allOf": [
-        {
-          "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "default": "schema:CreativeWork",
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "schema:CreativeWork"
-              },
-              "minItems": 1
-            },
-            "schema:name": {
-              "type": "string"
-            },
-            "schema:description": {
-              "type": "string"
-            },
-            "schema:url": {
-              "type": "string",
-              "format": "uri"
-            }
+      "properties": {
+        "@type": {
+          "default": "schema:CreativeWork",
+          "type": "array",
+          "items": {
+            "type": "string"
           },
-          "required": [
-            "@type",
-            "schema:url"
-          ]
+          "contains": {
+            "const": "schema:CreativeWork"
+          },
+          "minItems": 1
         },
-        {
-          "type": "object",
-          "description": "DCAT Relationship surface added on top of the schema.org labeled link construct. This block is an allOf of labeledLink and this surface, so a \"@type\" with contains: dcat:Relationship here applied to EVERY cdifReference -- alongside labeledLink's contains: schema:CreativeWork -- making the two co-types mandatory and the block unsatisfiable for an ordinary labeled link. schema:license recommends exactly such a link (\"recommend using schema:CreativeWork to provide a label (name) for the license\"), and every example that followed that advice failed. The co-type mandate is therefore gone: @type is governed solely by labeledLink, which already requires schema:CreativeWork and permits dcat:Relationship alongside it. This matches rules.shacl, where cdifReferenceShape targets dcat:Relationship as a class -- the relation rules apply to nodes that declare it, rather than forcing every labeled link to.",
-          "properties": {
-            "dcat:hadRole": {
-              "title": "CDIF Concept-or-Term-or-String",
-              "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "dcat:hadRole": {
+          "title": "CDIF Concept-or-Term-or-String",
+          "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot). Present only on a link that expresses a relationship; a plain labeled link such as a license omits it.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "object",
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept for the data type"
+                    }
+                  }
                 },
                 {
-                  "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "required": [
-                        "@id"
-                      ],
-                      "additionalProperties": false,
-                      "properties": {
-                        "@id": {
-                          "type": "string",
-                          "description": "reference to a skos concept for the data type"
-                        }
-                      }
+                  "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "schema:DefinedTerm"
+                      },
+                      "minItems": 1
                     },
-                    {
-                      "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
-                      "type": "object",
-                      "properties": {
-                        "@type": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          },
-                          "contains": {
-                            "const": "schema:DefinedTerm"
-                          },
-                          "minItems": 1
+                    "schema:name": {
+                      "type": "string",
+                      "description": "text label for the term that is useful to human user"
+                    },
+                    "schema:identifier": {
+                      "anyOf": [
+                        {
+                          "type": "string"
                         },
-                        "schema:name": {
-                          "type": "string",
-                          "description": "text label for the term that is useful to human user"
-                        },
-                        "schema:identifier": {
-                          "anyOf": [
+                        {
+                          "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+                          "type": "object",
+                          "properties": {
+                            "@type": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "contains": {
+                                "const": "schema:PropertyValue"
+                              },
+                              "minItems": 1
+                            },
+                            "schema:propertyID": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "@id"
+                                  ],
+                                  "properties": {
+                                    "@id": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              ],
+                              "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
+                            },
+                            "schema:value": {
+                              "type": "string",
+                              "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                            },
+                            "schema:url": {
+                              "type": "string",
+                              "format": "uri",
+                              "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                            }
+                          },
+                          "allOf": [
                             {
-                              "type": "string"
+                              "required": [
+                                "@type"
+                              ]
                             },
                             {
-                              "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
-                              "type": "object",
-                              "properties": {
-                                "@type": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "contains": {
-                                    "const": "schema:PropertyValue"
-                                  },
-                                  "minItems": 1
-                                },
-                                "schema:propertyID": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string"
-                                    },
-                                    {
-                                      "type": "object",
-                                      "additionalProperties": false,
-                                      "required": [
-                                        "@id"
-                                      ],
-                                      "properties": {
-                                        "@id": {
-                                          "type": "string"
-                                        }
-                                      }
-                                    }
-                                  ],
-                                  "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
-                                },
-                                "schema:value": {
-                                  "type": "string",
-                                  "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                                },
-                                "schema:url": {
-                                  "type": "string",
-                                  "format": "uri",
-                                  "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                                }
-                              },
-                              "allOf": [
+                              "anyOf": [
                                 {
                                   "required": [
-                                    "@type"
+                                    "schema:value"
                                   ]
                                 },
                                 {
-                                  "anyOf": [
-                                    {
-                                      "required": [
-                                        "schema:value"
-                                      ]
-                                    },
-                                    {
-                                      "required": [
-                                        "schema:url"
-                                      ]
-                                    }
+                                  "required": [
+                                    "schema:url"
                                   ]
                                 }
-                              ]
-                            }
-                          ]
-                        },
-                        "schema:inDefinedTermSet": {
-                          "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "type": "object",
-                              "required": [
-                                "@id"
-                              ],
-                              "additionalProperties": false,
-                              "properties": {
-                                "@id": {
-                                  "type": "string"
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        "schema:termCode": {
-                          "type": "string",
-                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-                        }
-                      },
-                      "allOf": [
-                        {
-                          "required": [
-                            "@type"
-                          ]
-                        },
-                        {
-                          "anyOf": [
-                            {
-                              "required": [
-                                "schema:name"
-                              ]
-                            },
-                            {
-                              "required": [
-                                "schema:identifier"
-                              ]
-                            },
-                            {
-                              "required": [
-                                "schema:termCode"
                               ]
                             }
                           ]
                         }
                       ]
                     },
+                    "schema:inDefinedTermSet": {
+                      "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "@id"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "schema:termCode": {
+                      "type": "string",
+                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                    }
+                  },
+                  "allOf": [
                     {
-                      "$ref": "#/$defs/Concept"
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "schema:name"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "schema:identifier"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "schema:termCode"
+                          ]
+                        }
+                      ]
                     }
                   ]
+                },
+                {
+                  "$ref": "#/$defs/Concept"
                 }
               ]
-            },
-            "dcterms:relation": {
-              "type": "string",
-              "format": "uri",
-              "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
             }
-          }
+          ]
+        },
+        "dcterms:relation": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the related resource -- the DCAT canonical pointer to what is being related to, which is distinct from schema:url, the presentation URL of the link itself."
         }
+      },
+      "required": [
+        "@type",
+        "schema:url"
       ]
     }
   ],
