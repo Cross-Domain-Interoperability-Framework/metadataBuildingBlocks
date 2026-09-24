@@ -157,6 +157,7 @@ def index_schema(schema):
     """
     declared, required_scopes, property_scopes, repeatable = set(), {}, {}, set()
     required_anywhere = set()
+    choice_groups = {}          # prop -> {frozenset of the 'at least one of' group}
 
     def note(scope, props, required, conditional_required=()):
         for name, spec in (props or {}).items():
@@ -191,6 +192,29 @@ def index_schema(schema):
                 walk(br, scope, unconditional)
             for key in ("anyOf", "oneOf"):
                 branches = node.get(key, []) or []
+                reqs = [set(b.get("required") or ())
+                        for b in branches if isinstance(b, dict)]
+                if len(reqs) >= 2 and all(reqs):
+                    common = set.intersection(*reqs)
+                    union = set.union(*reqs)
+                    if common and unconditional:
+                        # Required by EVERY branch, so required outright however
+                        # the choice resolves -- e.g. @type across a subclass union.
+                        for n in common:
+                            required_scopes.setdefault(n, set()).add(scope)
+                        required_anywhere.update(common)
+                    elif not common and len(union) >= 2:
+                        # Disjoint per-branch requirements: the "at least one of"
+                        # idiom. No member is required alone, but the GROUP is --
+                        # documenting a member as plain "Optional" is wrong,
+                        # because omitting every member fails the record.
+                        # @id/@type come from sealed-reference branches mixed
+                        # into a >2-branch anyOf; they are not alternatives.
+                        members = frozenset(n for n in union
+                                            if n not in ("@id", "@type"))
+                        if len(members) >= 2:
+                            for n in members:
+                                choice_groups.setdefault(n, set()).add((scope, members))
                 inline = _inline_of_ref_idiom(branches)
                 if inline is not None:
                     # `anyOf: [inline class, sealed {@id} reference]` is a CONTENT
@@ -218,7 +242,8 @@ def index_schema(schema):
     walk({k: v for k, v in schema.items() if k != "$defs"}, "$root")
     for cls, sub in (schema.get("$defs") or {}).items():
         walk(sub, f"$defs.{cls}")
-    return declared, required_scopes, property_scopes, repeatable, required_anywhere
+    return (declared, required_scopes, property_scopes, repeatable,
+            required_anywhere, choice_groups)
 
 
 def states_required(card):
@@ -247,8 +272,8 @@ def audit(selected_checks, only_guide):
             findings.append(("missing-schema", repo_key, 0, "", f"{schema_name} not found"))
             continue
         schema = json.loads(schema_file.read_text(encoding="utf-8"))
-        (declared, required_scopes, property_scopes,
-         repeatable, required_anywhere) = index_schema(schema)
+        (declared, required_scopes, property_scopes, repeatable,
+         required_anywhere, choice_groups) = index_schema(schema)
 
         for blk in read_guide(gp):
             name, line, f = blk["name"], blk["line"], blk["fields"]
@@ -289,7 +314,34 @@ def audit(selected_checks, only_guide):
                 # of a subclass union -- contradicts a Required claim. Guides
                 # document per class, and cdi:has_DataStructureComponent is
                 # genuinely required by three of four DataStructure subclasses.
-                if states_required(card) and hit not in required_anywhere:
+                # Only report a choice group when the class is unambiguous: the
+                # property is declared in exactly one scope and belongs to exactly
+                # one group there. Guides document per class, and a name like
+                # schema:name is required outright on the root Dataset while also
+                # being one alternative inside a nested DefinedTerm -- without a
+                # guide-block -> schema-class mapping, judging the ambiguous ones
+                # produces noise, not findings.
+                groups = choice_groups.get(hit) or set()
+                unambiguous = (len(groups) == 1
+                               and len(property_scopes.get(hit, ())) == 1
+                               and next(iter(groups))[0] in property_scopes.get(hit, ()))
+                if unambiguous:
+                    groups = {next(iter(groups))[1]}
+                    # "at least one of" -- the group is mandatory, no member is.
+                    # A conditional phrasing ("Required if no X") states this
+                    # correctly and states_required/states_optional both reject it.
+                    others = sorted(n for g in groups for n in g if n != hit)
+                    alts = ", ".join(others)
+                    if states_required(card):
+                        findings.append(("cardinality", repo_key, line, name,
+                                         f"guide says Required flatly; schema requires at least "
+                                         f"one of this and {alts} -- phrase it "
+                                         f"'Required if no {others[0]}'"))
+                    elif states_optional(card):
+                        findings.append(("cardinality", repo_key, line, name,
+                                         f"guide says Optional; schema requires at least one of "
+                                         f"this and {alts}, so omitting them all FAILS the record"))
+                elif states_required(card) and hit not in required_anywhere:
                     findings.append(("cardinality", repo_key, line, name,
                                      "guide says Required; schema never requires it, "
                                      "in any class or branch"))
@@ -445,6 +497,12 @@ SELF_TEST_GUIDE = """# Fixture
 - **Content:** string
 - **Description:** Required by a class sitting behind the sealed-reference idiom.
 
+### schema:unionDiscriminator
+
+- **Cardinality:** Required
+- **Content:** string
+- **Description:** Required by every branch of the union, so required outright.
+
 ### schema:choiceOther
 
 - **Cardinality:** Required
@@ -462,6 +520,7 @@ SELF_TEST_SCHEMA = {
         "schema:alwaysRequired": {"type": "string"},
         "schema:noDescription": {"type": "string"},
         "cdif:sameLocalName": {"type": "string"},
+        "schema:unionDiscriminator": {"type": "string"},
         "schema:choiceMember": {"type": "string"},
         "schema:choiceOther": {"type": "string"},
     },
@@ -469,6 +528,9 @@ SELF_TEST_SCHEMA = {
         {"required": ["schema:alwaysRequired"]},
         {"anyOf": [{"required": ["schema:choiceMember"]},
                    {"required": ["schema:choiceOther"]}]},
+        # every branch requires the discriminator -> unconditional
+        {"anyOf": [{"required": ["schema:unionDiscriminator", "schema:realProp"]},
+                   {"required": ["schema:unionDiscriminator", "schema:noDescription"]}]},
     ],
     "$defs": {
         "Thing": {
@@ -493,8 +555,8 @@ def self_test():
     with tempfile.TemporaryDirectory() as td:
         gp = Path(td) / "XImplementationGuide.md"
         gp.write_text(SELF_TEST_GUIDE, encoding="utf-8")
-        (declared, required_scopes, property_scopes,
-         _rep, required_anywhere) = index_schema(SELF_TEST_SCHEMA)
+        (declared, required_scopes, property_scopes, _rep,
+         required_anywhere, choice_groups) = index_schema(SELF_TEST_SCHEMA)
         blocks = {b["name"]: b for b in read_guide(gp)}
 
         expectations = [
@@ -531,6 +593,21 @@ def self_test():
             # as Required under that subclass is correct, so nothing may fire.
             ("schema:choiceOther", "branch requirement counts as required-somewhere",
              lambda n: n in required_anywhere),
+            # `anyOf: [{required:[a]}, {required:[b]}]` is "at least one of": the
+            # GROUP is mandatory even though neither member is. Documenting a
+            # member as plain "Optional" is wrong -- omit them all and the record
+            # fails -- and the tool was silent on every phrasing until 2026-09-24.
+            ("schema:choiceMember", "'at least one of' group is detected",
+             lambda n: {m for _scope, m in choice_groups.get(n, set())}
+                       == {frozenset({"schema:choiceMember", "schema:choiceOther"})}),
+            # The correct phrasing states the disjunction and must stay silent.
+            ("schema:choiceMember", "conditional phrasing accepted",
+             lambda n: not states_required("Required if no schema:choiceOther")
+                       and not states_optional("Required if no schema:choiceOther")),
+            # A name required by EVERY branch is required however the choice
+            # resolves -- @type across a subclass union.
+            ("schema:unionDiscriminator", "required in all branches => unconditional",
+             lambda n: bool(required_scopes.get(n))),
         ]
         for name, label, pred in expectations:
             if name not in blocks:
