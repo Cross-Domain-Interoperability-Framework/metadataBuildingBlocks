@@ -229,16 +229,20 @@ def index_schema(schema):
                         for n in common:
                             required_scopes.setdefault(n, set()).add(scope)
                         required_anywhere.update(common)
-                    elif not common and len(union) >= 2:
-                        # Disjoint per-branch requirements: the "at least one of"
-                        # idiom. No member is required alone, but the GROUP is --
-                        # documenting a member as plain "Optional" is wrong,
-                        # because omitting every member fails the record.
-                        # @id/@type come from sealed-reference branches mixed
-                        # into a >2-branch anyOf; they are not alternatives.
-                        members = frozenset(n for n in union
-                                            if n not in ("@id", "@type"))
-                        if len(members) >= 2:
+                    elif not common and all(len(r) == 1 for r in reqs):
+                        # The "at least one of" idiom, and ONLY this shape: every
+                        # branch requires exactly one property. A branch requiring
+                        # several means "this whole set, or that whole set" --
+                        # schema:distribution is `[[@type], [potentialAction,
+                        # serviceType, termsOfService]]`, where the second branch
+                        # needs all three together. Taking the union across
+                        # branches called that "at least one of the three" and
+                        # produced 12 confidently wrong findings.
+                        members = frozenset(next(iter(r)) for r in reqs)
+                        # A branch satisfied by @id/@type alone is an escape
+                        # hatch: the group can be met without any real member, so
+                        # it constrains none of them.
+                        if not (members & {"@id", "@type"}) and len(members) >= 2:
                             for n in members:
                                 choice_groups.setdefault(n, set()).add((scope, members))
                 inline = _inline_of_ref_idiom(branches)
@@ -558,11 +562,20 @@ SELF_TEST_SCHEMA = {
         "schema:unionDiscriminator": {"type": "string"},
         "schema:choiceMember": {"type": "string"},
         "schema:choiceOther": {"type": "string"},
+        "schema:multiA": {"type": "string"},
+        "schema:multiB": {"type": "string"},
+        "schema:escapeHatch": {"type": "string"},
     },
     "allOf": [
         {"required": ["schema:alwaysRequired", "schema:name"]},
         {"anyOf": [{"required": ["schema:choiceMember"]},
                    {"required": ["schema:choiceOther"]}]},
+        # a branch requiring SEVERAL properties is not "at least one of"
+        {"anyOf": [{"required": ["@type"]},
+                   {"required": ["schema:multiA", "schema:multiB"]}]},
+        # a branch satisfied by @id alone constrains nothing
+        {"anyOf": [{"required": ["@id"]},
+                   {"required": ["schema:escapeHatch"]}]},
         # every branch requires the discriminator -> unconditional
         {"anyOf": [{"required": ["schema:unionDiscriminator", "schema:realProp"]},
                    {"required": ["schema:unionDiscriminator", "schema:noDescription"]}]},
@@ -646,6 +659,13 @@ def self_test():
             # A bare heading means the schema.org property. Resolving "name"
             # to cdif:name (alphabetically first) reported schema:name --
             # required in two scopes -- as never required.
+            # union-across-branches wrongly read "@type OR (a AND b)" as
+            # "at least one of @type, a, b" -- 12 confident false findings.
+            ("schema:choiceMember", "multi-property branch is NOT a choice group",
+             lambda n: not any("schema:multiA" in m
+                               for _s, m in choice_groups.get("schema:multiA", set()))),
+            ("schema:choiceMember", "@id escape hatch is NOT a choice group",
+             lambda n: not choice_groups.get("schema:escapeHatch")),
             ("name", "bare heading resolves to schema:, not the first prefix",
              lambda n: resolve_bare(n, declared) == "schema:name"
                        and not (states_required(blocks[n]["fields"]["cardinality"])
