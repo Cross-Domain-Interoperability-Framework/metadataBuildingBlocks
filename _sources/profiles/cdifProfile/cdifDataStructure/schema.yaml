@@ -31,18 +31,27 @@ if:
         - 'cdi:LongDataStructure'
         - 'cdi:WideDataStructure'
 then:
-  description: Standalone data-structure object (one of the four variants).
-  anyOf:
-  - '$ref': '#/$defs/DataStructure'
-  - '$ref': '#/$defs/DimensionalDataStructure'
-  - '$ref': '#/$defs/LongDataStructure'
-  - '$ref': '#/$defs/WideDataStructure'
+  description: >-
+    Standalone data-structure object (one of the four variants). The structure
+    is the subject of the record, not something attached to downloadable data,
+    so no schema:DataDownload appears: a distribution here would be describing
+    a different resource than the one the record is about.
+  allOf:
+  - anyOf:
+    - '$ref': '#/$defs/DataStructure'
+    - '$ref': '#/$defs/DimensionalDataStructure'
+    - '$ref': '#/$defs/LongDataStructure'
+    - '$ref': '#/$defs/WideDataStructure'
+  - not:
+      required:
+      - 'schema:distribution'
 else:
   description: >-
     A CDIF dataset described by a data structure. Must declare conformance to
     data_structure/1.1 and attach the structure to a distribution.
   required:
   - 'schema:subjectOf'
+  - 'schema:distribution'
   properties:
     'schema:subjectOf':
       required:
@@ -56,25 +65,152 @@ else:
             properties:
               '@id':
                 const: 'https://w3id.org/cdif/data_structure/1.1'
+  # Distribution-level schema:hasPart is a cdifManifest construct: the parts are
+  # archivePartItem (schema:MediaObject, deliberately not schema:DataDownload --
+  # they are not independently retrievable). This profile can see that a part
+  # declares a structure, but nothing validates the part itself unless the
+  # manifest profile is composed in, so a record using the bundle form must
+  # declare conformance to it.
+  allOf:
+  - if:
+      required:
+      - 'schema:distribution'
+      properties:
+        'schema:distribution':
+          type: array
+          contains:
+            type: object
+            required:
+            - 'schema:hasPart'
+    then:
+      properties:
+        'schema:subjectOf':
+          required:
+          - 'dcterms:conformsTo'
+          properties:
+            'dcterms:conformsTo':
+              contains:
+                type: object
+                required: ['@id']
+                additionalProperties: false
+                properties:
+                  '@id':
+                    const: 'https://w3id.org/cdif/manifest/1.1'
     'schema:distribution':
       type: array
+      # At least ONE download in the record must say what structure its data
+      # has -- not every one. A dataset may also distribute documentation, a
+      # landing page or a checksum file, none of which have a structure to
+      # declare, and requiring one of each would reject a correct record.
+      #
+      # A schema:WebAPI carries no data itself: the thing that does is the
+      # result of the action it exposes, which actionResult types as a
+      # schema:DataDownload. So either shape can satisfy the requirement.
+      contains:
+        anyOf:
+        - '$ref': '#/$defs/StructuredDataDownload'
+        - '$ref': '#/$defs/WebAPIWithStructuredResult'
+        - '$ref': '#/$defs/DistributionWithStructuredParts'
       items:
         type: object
         properties:
           'cdi:isStructuredBy':
-            description: >-
-              Reusable data-structure description for this distribution. One of
-              the four DataStructure variants (DataStructure, Dimensional,
-              Long, Wide) as an inline definition, or an @id reference to one
-              declared elsewhere in the document or published at a resolvable
-              URI. (A profile may further require the inline form via SHACL.)
-            anyOf:
-            - '$ref': '#/$defs/DataStructure'
-            - '$ref': '#/$defs/DimensionalDataStructure'
-            - '$ref': '#/$defs/LongDataStructure'
-            - '$ref': '#/$defs/WideDataStructure'
-            - '$ref': '../../../cdifDataType/objectReference/schema.yaml'
+            '$ref': '#/$defs/IsStructuredByProperty'
+          # A bundle distribution holds several datasets that need not share a
+          # layout, so the structure is asserted on each part rather than on the
+          # container: one structure over the whole archive would say something
+          # of the file that is true of only some of its members. The parts are
+          # cdifManifest's archivePartItem (schema:MediaObject, deliberately not
+          # schema:DataDownload -- they are not independently retrievable).
+          'schema:hasPart':
+            type: array
+            items:
+              type: object
+              properties:
+                'cdi:isStructuredBy':
+                  '$ref': '#/$defs/IsStructuredByProperty'
+          'schema:potentialAction':
+            type: array
+            items:
+              type: object
+              properties:
+                'schema:result':
+                  type: object
+                  properties:
+                    'cdi:isStructuredBy':
+                      '$ref': '#/$defs/IsStructuredByProperty'
 '$defs':
+  # Factored out so the same value schema applies to a distribution's own
+  # cdi:isStructuredBy and to the one on a WebAPI action's result.
+  # The property as written on a node: one structure, or several. A single file
+  # may hold more than one dataset without being a bundle of parts -- a NeXus
+  # file carrying both a dimensional view and the raw wide table is one download
+  # with two structures, and neither is "the" structure of the file.
+  # minItems is 1 because an empty array would otherwise satisfy the
+  # "declares a structure" test while declaring nothing.
+  IsStructuredByProperty:
+    anyOf:
+    - '$ref': '#/$defs/IsStructuredByValue'
+    - type: array
+      minItems: 1
+      items:
+        '$ref': '#/$defs/IsStructuredByValue'
+  IsStructuredByValue:
+    description: >-
+      Reusable data-structure description for this distribution. One of
+      the four DataStructure variants (DataStructure, Dimensional,
+      Long, Wide) as an inline definition, or an @id reference to one
+      declared elsewhere in the document or published at a resolvable
+      URI. (A profile may further require the inline form via SHACL.)
+    anyOf:
+    - '$ref': '#/$defs/DataStructure'
+    - '$ref': '#/$defs/DimensionalDataStructure'
+    - '$ref': '#/$defs/LongDataStructure'
+    - '$ref': '#/$defs/WideDataStructure'
+    - '$ref': '../../../cdifDataType/objectReference/schema.yaml'
+  # A download that declares its structure. Used as a `contains` target, so it
+  # says "at least one item looks like this", never "every item must".
+  StructuredDataDownload:
+    type: object
+    required:
+    - '@type'
+    - 'cdi:isStructuredBy'
+    properties:
+      '@type':
+        type: array
+        contains:
+          const: 'schema:DataDownload'
+  # A bundle whose parts declare their structures. Where several parts share a
+  # layout, one states it inline and the others carry an @id reference to that
+  # node -- IsStructuredByValue admits the objectReference form, so only one
+  # part need define it and the rest point at it.
+  DistributionWithStructuredParts:
+    type: object
+    required:
+    - 'schema:hasPart'
+    properties:
+      'schema:hasPart':
+        type: array
+        contains:
+          type: object
+          required:
+          - 'cdi:isStructuredBy'
+  # The same, reached through a service: the API's action returns a download
+  # that declares its structure.
+  WebAPIWithStructuredResult:
+    type: object
+    required:
+    - 'schema:potentialAction'
+    properties:
+      'schema:potentialAction':
+        type: array
+        contains:
+          type: object
+          required:
+          - 'schema:result'
+          properties:
+            'schema:result':
+              '$ref': '#/$defs/StructuredDataDownload'
   DataStructure:
     type: object
     description: Data organization based on reusable data structure components.
