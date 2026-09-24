@@ -131,6 +131,19 @@ jobs:
           ref: 'reviewRevision202606'
           path: cdif/profile-provenance
 
+      - name: Checkout XAS-CDIF
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/XAS-CDIF
+          # Pinned like profile-provenance: XAS-CDIF has no v1.1 release line,
+          # its publishable artifacts live under release/ rather than the repo
+          # root, and its Pages is served from gh-pages. It was added to
+          # sync_release_repos.py's table on 2026-09-08 but never given a
+          # checkout step here, so every run since raised FileNotFoundError on
+          # its examples directory and reported nothing at all.
+          ref: 'cdifxasRelease1.1'
+          path: cdif/XAS-CDIF
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
