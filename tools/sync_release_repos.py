@@ -107,6 +107,15 @@ def sync_repo(repo: str, src_rel: str, schema_name: str, shacl_name: str, apply:
 
     result = {"repo": repo, "schema": "—", "shacl": "—", "examples": []}
 
+    # A release repo that is not checked out is not "no drift". Report it and
+    # carry on: one absent repo used to raise FileNotFoundError from the
+    # examples mkdir below and abort the whole comparison, so the eleven repos
+    # that WERE present went unreported -- a missing checkout looked like a
+    # crash rather than the coverage gap it is.
+    if not release.is_dir():
+        result["schema"] = result["shacl"] = "MISSING: repo not checked out"
+        return result
+
     # 1. Schema
     mbb_schema = src / "resolvedSchema.json"
     rel_schema = release / schema_name
@@ -140,7 +149,11 @@ def sync_repo(repo: str, src_rel: str, schema_name: str, shacl_name: str, apply:
             tmp_shacl.unlink()
 
     # 3. Examples (mBB example*.json -> release/examples/)
-    examples_dir.mkdir(exist_ok=True)
+    # Only create it when actually syncing: a dry run must not write.
+    if apply:
+        examples_dir.mkdir(parents=True, exist_ok=True)
+    elif not examples_dir.is_dir():
+        result["examples"] = []
     renames = EXAMPLE_RENAMES.get(repo, {})
     for ex in sorted(src.glob("example*.json")):
         target = examples_dir / renames.get(ex.name, ex.name)
@@ -174,9 +187,12 @@ def main():
     print(f"Mode: {'APPLY' if args.apply else 'CHECK' if args.check else 'DRY-RUN'}")
     print()
     drifted = []
+    missing = []
     for repo, src_rel, schema, shacl in repos:
         r = sync_repo(repo, src_rel, schema, shacl, args.apply)
-        if r["schema"] != "identical" or r["shacl"] != "identical" or r["examples"]:
+        if str(r["schema"]).startswith("MISSING"):
+            missing.append(r)
+        elif r["schema"] != "identical" or r["shacl"] != "identical" or r["examples"]:
             drifted.append(r)
         print(f"=== {r['repo']} ===")
         print(f"  schema:   {r['schema']}")
@@ -190,9 +206,19 @@ def main():
         print()
 
     if args.check:
-        if not drifted:
+        if missing:
+            print(f"::error::{len(missing)} release repo(s) were not checked out, "
+                  f"so nothing was compared for them.")
+            for r in missing:
+                print(f"    {r['repo']}")
+            print("Add a checkout step for each in "
+                  ".github/workflows/check-release-drift.yml.")
+            print()
+        if not drifted and not missing:
             print(f"All {len(repos)} release repos match metadataBuildingBlocks.")
             return
+        if not drifted:
+            sys.exit(1)
         print(f"::error::{len(drifted)} release repo(s) have drifted from "
               f"metadataBuildingBlocks.")
         for r in drifted:
