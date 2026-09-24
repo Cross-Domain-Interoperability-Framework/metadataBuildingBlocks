@@ -1,13 +1,11 @@
 '$schema': 'https://json-schema.org/draft/2020-12/schema'
 title: DDI-CDI Data Structure
 description: >-
-  Adds data-structure description to a CDIF metadata record. Defines the
-  cdi:DataStructure family of types ($defs DataStructure /
-  DimensionalDataStructure / LongDataStructure / WideDataStructure, plus the
-  supporting Component / Key / RepresentedVariable types). A distribution
-  attaches a structure via cdi:isStructuredBy on its schema:DataDownload
-  item; the structure value is any of the four DataStructure variants.
-  Metadata records must declare conformance to cdif/data_structure/1.0.
+  Adds data-structure description to a CDIF metadata record. Defines the cdi:DataStructure family of types
+  ($defs DataStructure / DimensionalDataStructure / LongDataStructure / WideDataStructure, plus the supporting
+  Component / Key / RepresentedVariable types). A distribution attaches a structure via cdi:isStructuredBy
+  on its schema:DataDownload item; the structure value is any of the four DataStructure variants. Metadata
+  records must declare conformance to cdif/data_structure/1.0.
 type: object
 # Dispatch on the root @type:
 #   - root is one of the DataStructure variants  -> validate a STANDALONE
@@ -32,10 +30,9 @@ if:
         - 'cdi:WideDataStructure'
 then:
   description: >-
-    Standalone data-structure object (one of the four variants). The structure
-    is the subject of the record, not something attached to downloadable data,
-    so no schema:DataDownload appears: a distribution here would be describing
-    a different resource than the one the record is about.
+    Standalone data-structure object (one of the four variants). The structure is the subject of the record,
+    not something attached to downloadable data, so no schema:DataDownload appears: a distribution here
+    would be describing a different resource than the one the record is about.
   allOf:
   - anyOf:
     - '$ref': '#/$defs/DataStructure'
@@ -47,8 +44,8 @@ then:
       - 'schema:distribution'
 else:
   description: >-
-    A CDIF dataset described by a data structure. Must declare conformance to
-    data_structure/1.1 and attach the structure to a distribution.
+    A CDIF dataset described by a data structure. Must declare conformance to data_structure/1.1 and attach
+    the structure to a distribution.
   required:
   - 'schema:subjectOf'
   - 'schema:distribution'
@@ -65,12 +62,55 @@ else:
             properties:
               '@id':
                 const: 'https://w3id.org/cdif/data_structure/1.1'
-  # Distribution-level schema:hasPart is a cdifManifest construct: the parts are
-  # archivePartItem (schema:MediaObject, deliberately not schema:DataDownload --
-  # they are not independently retrievable). This profile can see that a part
-  # declares a structure, but nothing validates the part itself unless the
-  # manifest profile is composed in, so a record using the bundle form must
-  # declare conformance to it.
+                # Distribution-level schema:hasPart is a cdifManifest construct: the parts are
+                # archivePartItem (schema:MediaObject, deliberately not schema:DataDownload --
+                # they are not independently retrievable). This profile can see that a part
+                # declares a structure, but nothing validates the part itself unless the
+                # manifest profile is composed in, so a record using the bundle form must
+                # declare conformance to it.
+    'schema:distribution':
+      type: array
+      # At least ONE download in the record must say what structure its data
+      # has -- not every one. A dataset may also distribute documentation, a
+      # landing page or a checksum file, none of which have a structure to
+      # declare, and requiring one of each would reject a correct record.
+      #
+      # A schema:WebAPI carries no data itself: the thing that does is the
+      # result of the action it exposes, which actionResult types as a
+      # schema:DataDownload. So either shape can satisfy the requirement.
+      contains:
+        anyOf:
+        - '$ref': '#/$defs/StructuredDataDownload'
+        - '$ref': '#/$defs/WebAPIWithStructuredResult'
+        - '$ref': '#/$defs/DistributionWithStructuredParts'
+      items:
+        type: object
+        properties:
+          'cdi:isStructuredBy':
+            '$ref': '#/$defs/IsStructuredByProperty'
+            # A bundle distribution holds several datasets that need not share a
+            # layout, so the structure is asserted on each part rather than on the
+            # container: one structure over the whole archive would say something
+            # of the file that is true of only some of its members. The parts are
+            # cdifManifest's archivePartItem (schema:MediaObject, deliberately not
+            # schema:DataDownload -- they are not independently retrievable).
+          'schema:hasPart':
+            type: array
+            items:
+              type: object
+              properties:
+                'cdi:isStructuredBy':
+                  '$ref': '#/$defs/IsStructuredByProperty'
+          'schema:potentialAction':
+            type: array
+            items:
+              type: object
+              properties:
+                'schema:result':
+                  type: object
+                  properties:
+                    'cdi:isStructuredBy':
+                      '$ref': '#/$defs/IsStructuredByProperty'
   allOf:
   - if:
       required:
@@ -96,49 +136,6 @@ else:
                 properties:
                   '@id':
                     const: 'https://w3id.org/cdif/manifest/1.1'
-    'schema:distribution':
-      type: array
-      # At least ONE download in the record must say what structure its data
-      # has -- not every one. A dataset may also distribute documentation, a
-      # landing page or a checksum file, none of which have a structure to
-      # declare, and requiring one of each would reject a correct record.
-      #
-      # A schema:WebAPI carries no data itself: the thing that does is the
-      # result of the action it exposes, which actionResult types as a
-      # schema:DataDownload. So either shape can satisfy the requirement.
-      contains:
-        anyOf:
-        - '$ref': '#/$defs/StructuredDataDownload'
-        - '$ref': '#/$defs/WebAPIWithStructuredResult'
-        - '$ref': '#/$defs/DistributionWithStructuredParts'
-      items:
-        type: object
-        properties:
-          'cdi:isStructuredBy':
-            '$ref': '#/$defs/IsStructuredByProperty'
-          # A bundle distribution holds several datasets that need not share a
-          # layout, so the structure is asserted on each part rather than on the
-          # container: one structure over the whole archive would say something
-          # of the file that is true of only some of its members. The parts are
-          # cdifManifest's archivePartItem (schema:MediaObject, deliberately not
-          # schema:DataDownload -- they are not independently retrievable).
-          'schema:hasPart':
-            type: array
-            items:
-              type: object
-              properties:
-                'cdi:isStructuredBy':
-                  '$ref': '#/$defs/IsStructuredByProperty'
-          'schema:potentialAction':
-            type: array
-            items:
-              type: object
-              properties:
-                'schema:result':
-                  type: object
-                  properties:
-                    'cdi:isStructuredBy':
-                      '$ref': '#/$defs/IsStructuredByProperty'
 '$defs':
   # Factored out so the same value schema applies to a distribution's own
   # cdi:isStructuredBy and to the one on a WebAPI action's result.
@@ -157,19 +154,18 @@ else:
         '$ref': '#/$defs/IsStructuredByValue'
   IsStructuredByValue:
     description: >-
-      Reusable data-structure description for this distribution. One of
-      the four DataStructure variants (DataStructure, Dimensional,
-      Long, Wide) as an inline definition, or an @id reference to one
-      declared elsewhere in the document or published at a resolvable
-      URI. (A profile may further require the inline form via SHACL.)
+      Reusable data-structure description for this distribution. One of the four DataStructure variants
+      (DataStructure, Dimensional, Long, Wide) as an inline definition, or an @id reference to one declared
+      elsewhere in the document or published at a resolvable URI. (A profile may further require the inline
+      form via SHACL.)
     anyOf:
     - '$ref': '#/$defs/DataStructure'
     - '$ref': '#/$defs/DimensionalDataStructure'
     - '$ref': '#/$defs/LongDataStructure'
     - '$ref': '#/$defs/WideDataStructure'
     - '$ref': '../../../cdifDataType/objectReference/schema.yaml'
-  # A download that declares its structure. Used as a `contains` target, so it
-  # says "at least one item looks like this", never "every item must".
+      # A download that declares its structure. Used as a `contains` target, so it
+      # says "at least one item looks like this", never "every item must".
   StructuredDataDownload:
     type: object
     required:
@@ -180,10 +176,10 @@ else:
         type: array
         contains:
           const: 'schema:DataDownload'
-  # A bundle whose parts declare their structures. Where several parts share a
-  # layout, one states it inline and the others carry an @id reference to that
-  # node -- IsStructuredByValue admits the objectReference form, so only one
-  # part need define it and the rest point at it.
+          # A bundle whose parts declare their structures. Where several parts share a
+          # layout, one states it inline and the others carry an @id reference to that
+          # node -- IsStructuredByValue admits the objectReference form, so only one
+          # part need define it and the rest point at it.
   DistributionWithStructuredParts:
     type: object
     required:
@@ -195,8 +191,8 @@ else:
           type: object
           required:
           - 'cdi:isStructuredBy'
-  # The same, reached through a service: the API's action returns a download
-  # that declares its structure.
+          # The same, reached through a service: the API's action returns a download
+          # that declares its structure.
   WebAPIWithStructuredResult:
     type: object
     required:
@@ -259,8 +255,8 @@ else:
   DimensionalDataStructure:
     type: object
     description: >-
-      Structure of a dimensional data set (organized collection of multidimensional data).
-      It is described by dimension, measure and attribute components.
+      Structure of a dimensional data set (organized collection of multidimensional data). It is described
+      by dimension, measure and attribute components.
     properties:
       '@type':
         type: array
@@ -296,8 +292,8 @@ else:
   LongDataStructure:
     type: object
     description: >-
-      Structure of a long dataset (organized collection of long data). It is described by
-      identifier, measure, attribute, variable descriptor and variable value components.
+      Structure of a long dataset (organized collection of long data). It is described by identifier,
+      measure, attribute, variable descriptor and variable value components.
     properties:
       '@type':
         type: array
@@ -312,9 +308,8 @@ else:
       'cdi:has_DataStructureComponent':
         type: array
         description: >-
-          A LongDataStructure must include exactly one IdentifierComponent,
-          exactly one VariableDescriptorComponent, exactly one VariableValueComponent,
-          plus zero or more AttributeComponents.
+          A LongDataStructure must include exactly one IdentifierComponent, exactly one VariableDescriptorComponent,
+          exactly one VariableValueComponent, plus zero or more AttributeComponents.
         items:
           anyOf:
           - '$ref': '../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/IdentifierComponent'
@@ -343,8 +338,8 @@ else:
   WideDataStructure:
     type: object
     description: >-
-      Structure of a wide dataset (organized collection of wide data). It is described by
-      identifier, measure and attribute components.
+      Structure of a wide dataset (organized collection of wide data). It is described by identifier,
+      measure and attribute components.
     properties:
       '@type':
         type: array
@@ -402,8 +397,8 @@ else:
           type: string
         minItems: 1
         description: >-
-          Human understandable name (liguistic signifier, word, phrase, or mnemonic). May
-          follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.
+          Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC
+          11179-5 naming principles, and have context provided to specify usage.
       'cdif:has_DataStructureComponent':
         type: array
         items:
@@ -416,15 +411,12 @@ else:
   ForeignKey:
     type: object
     description: >-
-      A set of variables whose values reference a primary key elsewhere.
-      cdif:, not cdi:, throughout: this is a CDIF simplification, not the
-      DDI-CDI shape. DDI-CDI composes a foreign key from cdi:ForeignKeyComponent
-      nodes, each with cdi:correspondsTo and cdi:references; this form composes
-      the variables directly, each carrying cdif:position. The prefix is what
-      makes that divergence visible, and it matches the sibling cdif:PrimaryKey.
-      Until 2026-09-05 the definition required 'cdif:isComposedOf' while
-      declaring 'cdi:isComposedOf', so it could only be satisfied by an
-      undeclared and therefore unconstrained property.
+      A set of variables whose values reference a primary key elsewhere. cdif:, not cdi:, throughout:
+      this is a CDIF simplification, not the DDI-CDI shape. DDI-CDI composes a foreign key from cdi:ForeignKeyComponent
+      nodes, each with cdi:correspondsTo and cdi:references; this form composes the variables directly,
+      each carrying cdif:position. The prefix is what makes that divergence visible, and it matches the
+      sibling cdif:PrimaryKey. Until 2026-09-05 the definition required 'cdif:isComposedOf' while declaring
+      'cdi:isComposedOf', so it could only be satisfied by an undeclared and therefore unconstrained property.
     properties:
       '@type':
         type: array
@@ -440,78 +432,12 @@ else:
         type: array
         minItems: 1
         description: >-
-          Ordered list of cdi:ComponentPosition wrappers, one per key component,
-          matching the sibling cdif:PrimaryKey. The position sits on the wrapper
-          rather than on the variable, and that is load-bearing: an earlier form
-          required cdif:position on the item itself, which made the
-          objectReference branch unsatisfiable, because objectReference is
-          sealed with additionalProperties false. A key could then only be
-          written by inlining whole variables, duplicating what
-          schema:variableMeasured already holds.
-        items:
-          type: object
-          description: >-
-            cdi:ComponentPosition wrapper indexing one variable's position in
-            the key.
-          properties:
-            '@type':
-              type: array
-              items:
-                type: string
-              contains:
-                const: 'cdi:ComponentPosition'
-              minItems: 1
-            '@id':
-              type: string
-              description: Identifier for this ComponentPosition node.
-            'cdi:indexes':
-              description: >-
-                The variable this position indexes, usually an @id-reference to
-                one declared in schema:variableMeasured. An InstanceVariable is
-                accepted alongside a RepresentedVariable because it is a
-                subclass of one, and CDIF records describe instance variables --
-                requiring a RepresentedVariable would leave the records that
-                actually need a key unable to write one.
-              anyOf:
-                - $ref: '../../../cdifDataType/objectReference/schema.yaml'
-                - $ref: '../../../cdifDataType/cdifInstanceVariable/schema.yaml'
-                - $ref: '../../../cdifDataType/cdifRepresentedVariable/schema.yaml'
-            'cdi:value':
-              type: integer
-              minimum: 1
-              description: 1-based position of this variable in the ordered key.
-          required:
-            - '@type'
-      'cdif:references':
-        description: references a primary key in a different dataset
-        '$ref': '../../../cdifDataType/objectReference/schema.yaml'
-    required:
-    - '@type'
-    - 'cdif:isComposedOf'
-  PrimaryKey:
-    type: object
-    description: >-
-      set of Variables that uniquely identify a data instance, expressed as an
-      ordered list of cdi:ComponentPosition wrappers (unified with cdifKey's
-      cdi:ComponentPosition model).
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdif:PrimaryKey'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this PrimaryKey node
-      'cdif:isComposedOf':
-        type: array
-        minItems: 1
-        description: >-
-          Ordered list of cdi:ComponentPosition wrappers, one per key component.
-          Each wrapper indexes one representedVariable (cdi:indexes) at its
-          cdi:value position in the key.
+          Ordered list of cdi:ComponentPosition wrappers, one per key component, matching the sibling
+          cdif:PrimaryKey. The position sits on the wrapper rather than on the variable, and that is load-bearing:
+          an earlier form required cdif:position on the item itself, which made the objectReference branch
+          unsatisfiable, because objectReference is sealed with additionalProperties false. A key could
+          then only be written by inlining whole variables, duplicating what schema:variableMeasured already
+          holds.
         items:
           type: object
           description: >-
@@ -529,19 +455,79 @@ else:
               description: Identifier for this ComponentPosition node.
             'cdi:indexes':
               description: >-
-                The representedVariable this position indexes — an @id-reference
-                to a variable declared elsewhere in the dataStructure.
+                The variable this position indexes, usually an @id-reference to one declared in schema:variableMeasured.
+                An InstanceVariable is accepted alongside a RepresentedVariable because it is a subclass
+                of one, and CDIF records describe instance variables -- requiring a RepresentedVariable
+                would leave the records that actually need a key unable to write one.
+              anyOf:
+              - $ref: '../../../cdifDataType/objectReference/schema.yaml'
+              - $ref: '../../../cdifDataType/cdifInstanceVariable/schema.yaml'
+              - $ref: '../../../cdifDataType/cdifRepresentedVariable/schema.yaml'
+            'cdi:value':
+              type: integer
+              minimum: 1
+              description: 1-based position of this variable in the ordered key.
+          required:
+          - '@type'
+      'cdif:references':
+        description: references a primary key in a different dataset
+        '$ref': '../../../cdifDataType/objectReference/schema.yaml'
+    required:
+    - '@type'
+    - 'cdif:isComposedOf'
+  PrimaryKey:
+    type: object
+    description: >-
+      set of Variables that uniquely identify a data instance, expressed as an ordered list of cdi:ComponentPosition
+      wrappers (unified with cdifKey's cdi:ComponentPosition model).
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: 'cdif:PrimaryKey'
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this PrimaryKey node
+      'cdif:isComposedOf':
+        type: array
+        minItems: 1
+        description: >-
+          Ordered list of cdi:ComponentPosition wrappers, one per key component. Each wrapper indexes
+          one representedVariable (cdi:indexes) at its cdi:value position in the key.
+        items:
+          type: object
+          description: >-
+            cdi:ComponentPosition wrapper indexing one variable's position in the key.
+          properties:
+            '@type':
+              type: array
+              items:
+                type: string
+              contains:
+                const: 'cdi:ComponentPosition'
+              minItems: 1
+            '@id':
+              type: string
+              description: Identifier for this ComponentPosition node.
+            'cdi:indexes':
+              description: >-
+                The representedVariable this position indexes — an @id-reference to a variable declared
+                elsewhere in the dataStructure.
               $ref: '../../../cdifDataType/objectReference/schema.yaml'
             'cdi:value':
               type: integer
               minimum: 1
               description: 1-based position of this variable in the ordered key.
           required:
-            - '@type'
-            - 'cdi:indexes'
-            - 'cdi:value'
+          - '@type'
+          - 'cdi:indexes'
+          - 'cdi:value'
     required:
     - '@type'
     - 'cdif:isComposedOf'
-
-
+    
+    
+    
