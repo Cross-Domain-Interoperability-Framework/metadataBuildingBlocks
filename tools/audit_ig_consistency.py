@@ -147,6 +147,32 @@ def _inline_of_ref_idiom(branches):
     return None
 
 
+def resolve_bare(name, declared):
+    """Which declared property an UNPREFIXED guide heading means.
+
+    The guides write schema.org properties bare (`name`, `identifier`, `url`)
+    and give everything else an explicit prefix: measured across the 12 guides,
+    352 bare headings resolve to exactly one `schema:` property and 4 to
+    `dcterms:`. So `schema:<name>` wins whenever it is declared.
+
+    This matters more than it looks. 53 bare headings have several candidates
+    (`name` is both `cdif:name` and `schema:name`), and picking by sort order
+    chose `cdif:name` -- never required -- and reported `schema:name`, required
+    in two scopes, as a property "the schema never requires". Sorting had fixed
+    an earlier non-determinism here, which made the wrong answer a *stable*
+    wrong answer rather than a correct one.
+
+    Where `schema:` is not among the candidates and there is more than one, the
+    heading is genuinely ambiguous and this returns None rather than guessing.
+    """
+    cands = [d for d in declared if d.split(":")[-1] == name]
+    if not cands:
+        return None
+    if len(cands) == 1:
+        return cands[0]
+    return next((d for d in cands if d.startswith("schema:")), None)
+
+
 def index_schema(schema):
     """Every property the profile declares, and where it is required.
 
@@ -291,14 +317,14 @@ def audit(selected_checks, only_guide):
             elif ":" in name:
                 hit = None
             else:
-                # sorted(), not set iteration: an unprefixed heading such as
-                # "description" matches several declared properties (schema:,
-                # cdif:, dcterms:), and picking one by set order made the run
-                # non-deterministic -- the same corpus reported different counts
-                # from one invocation to the next.
-                hit = next((d for d in sorted(declared)
-                            if d.split(":")[-1] == name), None)
+                hit = resolve_bare(name, declared)
 
+            if hit is None and ":" not in name and any(
+                    d.split(":")[-1] == name for d in declared):
+                # Declared under several prefixes, none of them schema: -- the
+                # heading is ambiguous, not missing. Reporting it as undeclared
+                # would be false; judging its cardinality would be a guess.
+                continue
             if "undeclared" in selected_checks and hit is None:
                 findings.append(("undeclared", repo_key, line, name,
                                  f"documented but absent from {schema_name}"))
@@ -479,6 +505,13 @@ SELF_TEST_GUIDE = """# Fixture
 - **Cardinality:** Optional
 - **Content:** string
 
+### name
+
+- **Cardinality:** Required
+- **Content:** string
+- **Description:** Bare heading: means schema:name, which is required.
+  cdif:name also exists and is never required.
+
 ### schema:sameLocalName
 
 - **Cardinality:** Optional
@@ -520,12 +553,14 @@ SELF_TEST_SCHEMA = {
         "schema:alwaysRequired": {"type": "string"},
         "schema:noDescription": {"type": "string"},
         "cdif:sameLocalName": {"type": "string"},
+        "cdif:name": {"type": "string"},
+        "schema:name": {"type": "string"},
         "schema:unionDiscriminator": {"type": "string"},
         "schema:choiceMember": {"type": "string"},
         "schema:choiceOther": {"type": "string"},
     },
     "allOf": [
-        {"required": ["schema:alwaysRequired"]},
+        {"required": ["schema:alwaysRequired", "schema:name"]},
         {"anyOf": [{"required": ["schema:choiceMember"]},
                    {"required": ["schema:choiceOther"]}]},
         # every branch requires the discriminator -> unconditional
@@ -608,6 +643,13 @@ def self_test():
             # resolves -- @type across a subclass union.
             ("schema:unionDiscriminator", "required in all branches => unconditional",
              lambda n: bool(required_scopes.get(n))),
+            # A bare heading means the schema.org property. Resolving "name"
+            # to cdif:name (alphabetically first) reported schema:name --
+            # required in two scopes -- as never required.
+            ("name", "bare heading resolves to schema:, not the first prefix",
+             lambda n: resolve_bare(n, declared) == "schema:name"
+                       and not (states_required(blocks[n]["fields"]["cardinality"])
+                                and resolve_bare(n, declared) not in required_anywhere)),
         ]
         for name, label, pred in expectations:
             if name not in blocks:
