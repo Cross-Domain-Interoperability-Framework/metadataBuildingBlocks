@@ -1842,11 +1842,11 @@ xas:487y54 a schema1:Dataset,
             schema1:contributor <https://orcid.org/3547ulkj> ;
             schema1:roleName "dataCollector" ],
         [ a schema1:Role ;
-            schema1:contributor <https://orcid.org/35735ul> ;
-            schema1:roleName "principleInvestigator" ],
-        [ a schema1:Role ;
             schema1:contributor <https://ror.org/aps> ;
-            schema1:roleName "Facility" ] ;
+            schema1:roleName "Facility" ],
+        [ a schema1:Role ;
+            schema1:contributor <https://orcid.org/35735ul> ;
+            schema1:roleName "principleInvestigator" ] ;
     schema1:creator ( <https://orcid.org/3547ulkj> ) ;
     schema1:dateModified "2025-06-22" ;
     schema1:description "Example metadata including all properties in the CDIF XAS profile" ;
@@ -1863,16 +1863,16 @@ xas:487y54 a schema1:Dataset,
                                     cdi:hasIndex 2 ;
                                     cdi:length 12 ] ;
                             cdif:isDefinedBy_Variable <file:///github/workspace/#itrans> ],
-                        [ a cdi:IdentifierComponent ;
-                            cdi:has [ a cdi:ValueMapping ;
-                                    cdi:hasIndex 1 ;
-                                    cdi:length 12 ] ;
-                            cdif:isDefinedBy_Variable <file:///github/workspace/#rv-energy> ],
                         [ a cdi:MeasureComponent ;
                             cdi:has [ a cdi:ValueMapping ;
                                     cdi:hasIndex 3 ;
                                     cdi:length 13 ] ;
-                            cdif:isDefinedBy_Variable <file:///github/workspace/#i0> ] ;
+                            cdif:isDefinedBy_Variable <file:///github/workspace/#i0> ],
+                        [ a cdi:IdentifierComponent ;
+                            cdi:has [ a cdi:ValueMapping ;
+                                    cdi:hasIndex 1 ;
+                                    cdi:length 12 ] ;
+                            cdif:isDefinedBy_Variable <file:///github/workspace/#rv-energy> ] ;
                     cdi:headerRowCount 27 ;
                     cdi:isDelimited false ;
                     cdi:isFixedWidth true ;
@@ -1898,14 +1898,14 @@ xas:487y54 a schema1:Dataset,
             schema1:termCode "K" ] ;
     schema1:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "missing" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
             schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
             schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ] ;
+            schema1:termCode "XAS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "missing" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ] ;
     schema1:name "X-ray absorption spectra for K edge, Iron metal, XDI CDIF example" ;
     schema1:relatedLink [ a schema1:LinkRole ;
             schema1:linkRelationship "projectProposal" ;
@@ -1921,30 +1921,30 @@ xas:487y54 a schema1:Dataset,
     prov:wasGeneratedBy [ a schema1:Action,
                 prov:Activity ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "calibration method" ;
-                    schema1:propertyID xas:calibrationmethod ;
-                    schema1:url "http://protocols.io/link/to/calibrationMethod" ;
-                    schema1:value "description of calibration procedure" ],
+                    schema1:name "Absorption edge" ;
+                    schema1:propertyID xas:edgeenergy ;
+                    schema1:unitText "eV" ;
+                    schema1:value "12658.0" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Installed Options" ;
+                    schema1:propertyID xas:installedoptions ;
+                    schema1:value "Description of extra equipment installed on the base instrument(?)" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "Instrument configuration" ;
                     schema1:propertyID xas:experimentdocumentation ;
                     schema1:url "http://protocols.io/link/to/calibrationMethod" ;
                     schema1:value "description of instrument configuration" ],
                 [ a schema1:PropertyValue ;
+                    schema1:name "calibration method" ;
+                    schema1:propertyID xas:calibrationmethod ;
+                    schema1:url "http://protocols.io/link/to/calibrationMethod" ;
+                    schema1:value "description of calibration procedure" ],
+                [ a schema1:PropertyValue ;
                     schema1:description "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential" ;
                     schema1:name "experiment environment-pressure" ;
                     schema1:propertyID xas:pressure ;
                     schema1:unitText "KPa" ;
-                    schema1:value "3567" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "Installed Options" ;
-                    schema1:propertyID xas:installedoptions ;
-                    schema1:value "Description of extra equipment installed on the base instrument(?)" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "Absorption edge" ;
-                    schema1:propertyID xas:edgeenergy ;
-                    schema1:unitText "eV" ;
-                    schema1:value "12658.0" ] ;
+                    schema1:value "3567" ] ;
             schema1:additionalType xas:analysisevent ;
             schema1:endTime "2008-04-10T22:14:37" ;
             schema1:identifier "20241111_DSC_NU_OREX-803224-0_1" ;
@@ -1956,31 +1956,31 @@ xas:487y54 a schema1:Dataset,
                             schema1:propertyID xas:sampleunitcell ;
                             schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
                         [ a schema1:PropertyValue ;
-                            schema1:name "Porosity" ;
-                            schema1:propertyID xas:porosity ;
-                            schema1:unitText "percent" ;
-                            schema1:value "27" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "samaple preparation method" ;
                             schema1:propertyID xas:samplepreparation ;
                             schema1:value "powder on tape, 6 layers" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "sample mass" ;
-                            schema1:propertyID xas:samplemass ;
-                            schema1:unitText "mg" ;
-                            schema1:value "10" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Stoichiometry" ;
-                            schema1:propertyID xas:samplechemicalcomposition ;
-                            schema1:value "Na2SeO4" ],
                         [ a schema1:PropertyValue ;
                             schema1:name "parent sample identifier" ;
                             schema1:propertyID xas:parentsample ;
                             schema1:value "igsn:10.3476/342573" ],
                         [ a schema1:PropertyValue ;
+                            schema1:name "Stoichiometry" ;
+                            schema1:propertyID xas:samplechemicalcomposition ;
+                            schema1:value "Na2SeO4" ],
+                        [ a schema1:PropertyValue ;
                             schema1:name "crystallographic point group" ;
                             schema1:propertyID xas:pointgroup ;
                             schema1:value "mm2" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Porosity" ;
+                            schema1:propertyID xas:porosity ;
+                            schema1:unitText "percent" ;
+                            schema1:value "27" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "sample mass" ;
+                            schema1:propertyID xas:samplemass ;
+                            schema1:unitText "mg" ;
+                            schema1:value "10" ],
                         [ a schema1:PropertyValue ;
                             schema1:name "material state" ;
                             schema1:propertyID xas:samplematerial ;
@@ -1995,14 +1995,6 @@ xas:487y54 a schema1:Dataset,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "reflection plane (hkl)" ;
-                                    schema1:propertyID xas:reflectionplane ;
-                                    schema1:value "1,1,1" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "crystal type" ;
-                                    schema1:propertyID xas:monochromatortype ;
-                                    schema1:value "missing" ],
-                                [ a schema1:PropertyValue ;
                                     schema1:name "chemical formula" ;
                                     schema1:propertyID xas:monochromatorchemicalformula ;
                                     schema1:value "Si" ],
@@ -2010,7 +2002,15 @@ xas:487y54 a schema1:Dataset,
                                     schema1:name "d-spacing" ;
                                     schema1:propertyID xas:dspacing ;
                                     schema1:unitText "Angstrom" ;
-                                    schema1:value "3.13550" ] ;
+                                    schema1:value "3.13550" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "crystal type" ;
+                                    schema1:propertyID xas:monochromatortype ;
+                                    schema1:value "missing" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "reflection plane (hkl)" ;
+                                    schema1:propertyID xas:reflectionplane ;
+                                    schema1:value "1,1,1" ] ;
                             schema1:additionalType xas:xraymonochromator,
                                 wd:Q3099911 ;
                             schema1:name "Si 111" ] ],
@@ -2037,6 +2037,30 @@ xas:487y54 a schema1:Dataset,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
+                                    schema1:alternateName "incident flux measurement method" ;
+                                    schema1:name "detector mode i0" ;
+                                    schema1:propertyID xas:detectori0 ;
+                                    schema1:value "10cm  N2" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "monitor preset" ;
+                                    schema1:propertyID xas:monitorpreset ;
+                                    schema1:value "N.A." ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "monitor mode" ;
+                                    schema1:propertyID xas:monitormode ;
+                                    schema1:value "monitor" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:alternateName "transmitted flux measurement method" ;
+                                    schema1:name "detector mode it" ;
+                                    schema1:propertyID xas:detectorit ;
+                                    schema1:value "10cm  N2" ] ;
+                            schema1:additionalType xas:xraymonitor,
+                                wd:Q3099911 ;
+                            schema1:name "x-ray intensity monitor" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalProperty [ a schema1:PropertyValue ;
                                     schema1:name "x-ray source" ;
                                     schema1:propertyID xas:xraysourcetype ;
                                     schema1:value "Synchrotron X-ray Source" ],
@@ -2047,31 +2071,7 @@ xas:487y54 a schema1:Dataset,
                             schema1:additionalType xas:source,
                                 wd:Q3099911 ;
                             schema1:identifier "should have a registry with URIs" ;
-                            schema1:name "source, made up for this example" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "monitor mode" ;
-                                    schema1:propertyID xas:monitormode ;
-                                    schema1:value "monitor" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "monitor preset" ;
-                                    schema1:propertyID xas:monitorpreset ;
-                                    schema1:value "N.A." ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:alternateName "incident flux measurement method" ;
-                                    schema1:name "detector mode i0" ;
-                                    schema1:propertyID xas:detectori0 ;
-                                    schema1:value "10cm  N2" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:alternateName "transmitted flux measurement method" ;
-                                    schema1:name "detector mode it" ;
-                                    schema1:propertyID xas:detectorit ;
-                                    schema1:value "10cm  N2" ] ;
-                            schema1:additionalType xas:xraymonitor,
-                                wd:Q3099911 ;
-                            schema1:name "x-ray intensity monitor" ] ] ] .
+                            schema1:name "source, made up for this example" ] ] ] .
 
 <file:///github/workspace/#energy> a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -2093,15 +2093,15 @@ ex:xasfacility_37yht a schema1:Place ;
             schema1:propertyID xas:xraysourcetype ;
             schema1:value "APS bending magnet" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Facility energy" ;
-            schema1:propertyID xas:facilityenergy ;
-            schema1:unitText "GeV" ;
-            schema1:value "7.00" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Facility current" ;
             schema1:propertyID xas:facilitycurrent ;
             schema1:unitText "Amps" ;
-            schema1:value "120" ] ;
+            schema1:value "120" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Facility energy" ;
+            schema1:propertyID xas:facilityenergy ;
+            schema1:unitText "GeV" ;
+            schema1:value "7.00" ] ;
     schema1:additionalType xas:facility ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .
@@ -4513,14 +4513,14 @@ ex:xasfacility_37yht a schema1:Place ;
 xas:487y54123 a schema1:Dataset,
         schema1:Product ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor <https://ror.org/aps> ;
-            schema1:roleName "Facility" ],
-        [ a schema1:Role ;
             schema1:contributor <https://orcid.org/35735ul> ;
             schema1:roleName "principleInvestigator" ],
         [ a schema1:Role ;
             schema1:contributor <https://orcid.org/3547ulkj> ;
-            schema1:roleName "dataCollector" ] ;
+            schema1:roleName "dataCollector" ],
+        [ a schema1:Role ;
+            schema1:contributor <https://ror.org/aps> ;
+            schema1:roleName "Facility" ] ;
     schema1:creator ( <https://orcid.org/3547ulkj> ) ;
     schema1:dateModified "2025-06-22" ;
     schema1:datePublished "2025-06-22" ;
@@ -4540,13 +4540,13 @@ xas:487y54123 a schema1:Dataset,
                     cdif:physicalDataType "float64" ],
                 [ cdi:isRequired true ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable xas:transmittedintensity ;
-                    cdif:index 1 ;
+                    cdif:formats_InstanceVariable xas:monochromatorenergy ;
+                    cdif:index 0 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:isRequired true ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable xas:monochromatorenergy ;
-                    cdif:index 0 ;
+                    cdif:formats_InstanceVariable xas:transmittedintensity ;
+                    cdif:index 1 ;
                     cdif:physicalDataType "float64" ] ] ;
     schema1:identifier "https://doi.org/10.9999/aqweropjh" ;
     schema1:keywords [ a schema1:DefinedTerm ;
@@ -4563,14 +4563,14 @@ xas:487y54123 a schema1:Dataset,
             schema1:termCode "Se" ] ;
     schema1:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "xas:transmissionMode" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
             schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
             schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ] ;
+            schema1:termCode "XAS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "xas:transmissionMode" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ] ;
     schema1:name "X-ray absorption spectra for K edge, Iron metal, XDI CDIF example" ;
     schema1:relatedLink [ a schema1:LinkRole ;
             schema1:linkRelationship "projectProposal" ;
@@ -4586,24 +4586,24 @@ xas:487y54123 a schema1:Dataset,
     prov:wasGeneratedBy [ a schema1:Action,
                 prov:Activity ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "Installed Options" ;
+                    schema1:propertyID xas:installedoptions ;
+                    schema1:value "Description of extra equipment installed on the base instrument(?)" ],
+                [ a schema1:PropertyValue ;
                     schema1:name "calibration method" ;
                     schema1:propertyID xas:calibrationmethod ;
                     schema1:url "http://protocols.io/link/to/calibrationMethod" ;
                     schema1:value "description of calibration procedure" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "Instrument configuration" ;
-                    schema1:propertyID xas:experimentdocumentation ;
-                    schema1:url "http://protocols.io/link/to/calibrationMethod" ;
-                    schema1:value "description of instrument configuration" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "Absorption edge" ;
                     schema1:propertyID xas:edgeenergy ;
                     schema1:unitText "eV" ;
                     schema1:value "12658.0" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "Installed Options" ;
-                    schema1:propertyID xas:installedoptions ;
-                    schema1:value "Description of extra equipment installed on the base instrument(?)" ],
+                    schema1:name "Instrument configuration" ;
+                    schema1:propertyID xas:experimentdocumentation ;
+                    schema1:url "http://protocols.io/link/to/calibrationMethod" ;
+                    schema1:value "description of instrument configuration" ],
                 [ a schema1:PropertyValue ;
                     schema1:description "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential" ;
                     schema1:name "experiment environment-pressure" ;
@@ -4617,59 +4617,100 @@ xas:487y54123 a schema1:Dataset,
             schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "volume" ;
-                            schema1:propertyID xas:volume ;
-                            schema1:unitText "cm^3" ;
-                            schema1:value "0.005" ],
+                            schema1:name "material state" ;
+                            schema1:propertyID xas:samplematerial ;
+                            schema1:value "solid metal foil" ],
                         [ a schema1:PropertyValue ;
-                            schema1:name "Crystal unit cell dimensions" ;
-                            schema1:propertyID xas:sampleunitcell ;
-                            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
+                            schema1:name "magnetic field" ;
+                            schema1:propertyID xas:magneticfield ;
+                            schema1:unitText "T" ;
+                            schema1:value "0" ],
                         [ a schema1:PropertyValue ;
                             schema1:name "temperature" ;
                             schema1:propertyID xas:temperature ;
                             schema1:unitText "K" ;
                             schema1:value "298" ],
                         [ a schema1:PropertyValue ;
+                            schema1:name "parent sample identifier" ;
+                            schema1:propertyID xas:parentsample ;
+                            schema1:value "igsn:10.3476/342573" ],
+                        [ a schema1:PropertyValue ;
                             schema1:name "concentration" ;
                             schema1:propertyID xas:concentration ;
                             schema1:unitText "mol/L" ;
                             schema1:value "0.05" ],
                         [ a schema1:PropertyValue ;
+                            schema1:name "sample mass" ;
+                            schema1:propertyID xas:samplemass ;
+                            schema1:unitText "mg" ;
+                            schema1:value "10" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "resistivity" ;
+                            schema1:propertyID xas:resistivity ;
+                            schema1:unitText "ohm cm" ;
+                            schema1:value "1e6" ],
+                        [ a schema1:PropertyValue ;
                             schema1:name "samaple preparation method" ;
                             schema1:propertyID xas:samplepreparation ;
                             schema1:value "powder on tape, 6 layers" ],
                         [ a schema1:PropertyValue ;
-                            schema1:name "magnetic moment" ;
-                            schema1:propertyID xas:magneticmoment ;
-                            schema1:unitText "Bohr magneton" ;
-                            schema1:value "0" ],
+                            schema1:name "pressure" ;
+                            schema1:propertyID xas:pressure ;
+                            schema1:unitText "Pa" ;
+                            schema1:value "1.013e5" ],
                         [ a schema1:PropertyValue ;
-                            schema1:name "electrochemical potential" ;
-                            schema1:propertyID xas:electrochemicalpotential ;
-                            schema1:unitText "V" ;
-                            schema1:value "0" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "crystallographic point group" ;
-                            schema1:propertyID xas:pointgroup ;
-                            schema1:value "mm2" ],
+                            schema1:name "Crystal unit cell dimensions" ;
+                            schema1:propertyID xas:sampleunitcell ;
+                            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
                         [ a schema1:PropertyValue ;
                             schema1:name "redox potential (Eh)" ;
                             schema1:propertyID xas:eh ;
                             schema1:unitText "V" ;
                             schema1:value "0.35" ],
                         [ a schema1:PropertyValue ;
-                            schema1:name "parent sample identifier" ;
-                            schema1:propertyID xas:parentsample ;
-                            schema1:value "igsn:10.3476/342573" ],
+                            schema1:name "Porosity" ;
+                            schema1:propertyID xas:porosity ;
+                            schema1:unitText "percent" ;
+                            schema1:value 27 ],
                         [ a schema1:PropertyValue ;
                             schema1:name "Stoichiometry" ;
                             schema1:propertyID xas:samplechemicalcomposition ;
                             schema1:value "Na2SeO4" ],
                         [ a schema1:PropertyValue ;
+                            schema1:name "volume" ;
+                            schema1:propertyID xas:volume ;
+                            schema1:unitText "cm^3" ;
+                            schema1:value "0.005" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "density" ;
+                            schema1:propertyID xas:density ;
+                            schema1:unitText "g/cm^3" ;
+                            schema1:value "2.20" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "pH (acidity)" ;
+                            schema1:propertyID xas:ph ;
+                            schema1:value "7.4" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "crystallographic point group" ;
+                            schema1:propertyID xas:pointgroup ;
+                            schema1:value "mm2" ],
+                        [ a schema1:PropertyValue ;
                             schema1:name "sample preparation (XDI Sample.prep)" ;
                             schema1:propertyID xas:samplepreparation ;
                             schema1:value "ground powder pressed to 6-layer tape mount" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "opacity" ;
+                            schema1:propertyID xas:opacity ;
+                            schema1:value "opaque" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "viscosity" ;
+                            schema1:propertyID xas:viscosity ;
+                            schema1:value "not applicable (solid)" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "electrochemical potential" ;
+                            schema1:propertyID xas:electrochemicalpotential ;
+                            schema1:unitText "V" ;
+                            schema1:value "0" ],
                         [ a schema1:PropertyValue ;
                             schema1:name "crystal structure" ;
                             schema1:propertyID xas:samplecrystalstructure ;
@@ -4680,51 +4721,10 @@ xas:487y54123 a schema1:Dataset,
                             schema1:unitText "V/m" ;
                             schema1:value "0" ],
                         [ a schema1:PropertyValue ;
-                            schema1:name "opacity" ;
-                            schema1:propertyID xas:opacity ;
-                            schema1:value "opaque" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "pressure" ;
-                            schema1:propertyID xas:pressure ;
-                            schema1:unitText "Pa" ;
-                            schema1:value "1.013e5" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Porosity" ;
-                            schema1:propertyID xas:porosity ;
-                            schema1:unitText "percent" ;
-                            schema1:value 27 ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "density" ;
-                            schema1:propertyID xas:density ;
-                            schema1:unitText "g/cm^3" ;
-                            schema1:value "2.20" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "sample mass" ;
-                            schema1:propertyID xas:samplemass ;
-                            schema1:unitText "mg" ;
-                            schema1:value "10" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "pH (acidity)" ;
-                            schema1:propertyID xas:ph ;
-                            schema1:value "7.4" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "material state" ;
-                            schema1:propertyID xas:samplematerial ;
-                            schema1:value "solid metal foil" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "viscosity" ;
-                            schema1:propertyID xas:viscosity ;
-                            schema1:value "not applicable (solid)" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "magnetic field" ;
-                            schema1:propertyID xas:magneticfield ;
-                            schema1:unitText "T" ;
-                            schema1:value "0" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "resistivity" ;
-                            schema1:propertyID xas:resistivity ;
-                            schema1:unitText "ohm cm" ;
-                            schema1:value "1e6" ] ;
+                            schema1:name "magnetic moment" ;
+                            schema1:propertyID xas:magneticmoment ;
+                            schema1:unitText "Bohr magneton" ;
+                            schema1:value "0" ] ;
                     schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
                         "MaterialSample" ;
                     schema1:description "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list..." ;
@@ -4735,57 +4735,10 @@ xas:487y54123 a schema1:Dataset,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "Probe" ;
-                                    schema1:propertyID xas:probe ;
-                                    schema1:value "x-ray" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "x-ray source" ;
-                                    schema1:propertyID xas:xraysourcetype ;
-                                    schema1:value "Synchrotron X-ray Source" ] ;
-                            schema1:additionalType xas:source,
-                                wd:Q3099911 ;
-                            schema1:identifier "should have a registry with URIs" ;
-                            schema1:name "source, made up for this example" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "monitor mode" ;
-                                    schema1:propertyID xas:monitormode ;
-                                    schema1:value "monitor" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:alternateName "incident flux measurement method" ;
-                                    schema1:name "detector mode i0" ;
-                                    schema1:propertyID xas:detectori0 ;
-                                    schema1:value "10cm  N2" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:alternateName "transmitted flux measurement method" ;
-                                    schema1:name "detector mode it" ;
-                                    schema1:propertyID xas:detectorit ;
-                                    schema1:value "10cm  N2" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "monitor preset" ;
-                                    schema1:propertyID xas:monitorpreset ;
-                                    schema1:value "N.A." ] ;
-                            schema1:additionalType xas:xraymonitor,
-                                wd:Q3099911 ;
-                            schema1:name "x-ray intensity monitor" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "photon flux" ;
-                                    schema1:propertyID xas:flux ;
-                                    schema1:unitText "photons/s" ;
-                                    schema1:value "1e11" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "collimation technique" ;
-                                    schema1:propertyID xas:collimation ;
-                                    schema1:value "none" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "beamline website" ;
-                                    schema1:propertyID xas:website ;
-                                    schema1:value "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D" ],
+                                    schema1:name "energy range" ;
+                                    schema1:propertyID xas:energyrange ;
+                                    schema1:unitText "keV" ;
+                                    schema1:value "4.5 - 27" ],
                                 [ a schema1:PropertyValue ;
                                     schema1:name "beam spot size" ;
                                     schema1:propertyID xas:spotsize ;
@@ -4796,14 +4749,18 @@ xas:487y54123 a schema1:Dataset,
                                     schema1:propertyID xas:focusing ;
                                     schema1:value "???" ],
                                 [ a schema1:PropertyValue ;
-                                    schema1:name "detector" ;
-                                    schema1:propertyID xas:detectortype ;
-                                    schema1:value "Vortex ME4 silicon drift detector" ],
+                                    schema1:name "beamline website" ;
+                                    schema1:propertyID xas:website ;
+                                    schema1:value "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D" ],
                                 [ a schema1:PropertyValue ;
-                                    schema1:name "energy range" ;
-                                    schema1:propertyID xas:energyrange ;
-                                    schema1:unitText "keV" ;
-                                    schema1:value "4.5 - 27" ],
+                                    schema1:name "collimation technique" ;
+                                    schema1:propertyID xas:collimation ;
+                                    schema1:value "none" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "photon flux" ;
+                                    schema1:propertyID xas:flux ;
+                                    schema1:unitText "photons/s" ;
+                                    schema1:value "1e11" ],
                                 [ a schema1:PropertyValue ;
                                     schema1:name "harmonic_rejection" ;
                                     schema1:propertyID xas:harmonicrejection ;
@@ -4812,6 +4769,10 @@ xas:487y54123 a schema1:Dataset,
                                     schema1:name "scan mode" ;
                                     schema1:propertyID xas:scanmode ;
                                     schema1:value "step" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "detector" ;
+                                    schema1:propertyID xas:detectortype ;
+                                    schema1:value "Vortex ME4 silicon drift detector" ],
                                 [ a schema1:PropertyValue ;
                                     schema1:description "delta_E/E" ;
                                     schema1:name "energy resolution" ;
@@ -4825,14 +4786,30 @@ xas:487y54123 a schema1:Dataset,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "crystal type" ;
-                                    schema1:propertyID xas:monochromatortype ;
-                                    schema1:value "missing" ],
+                                    schema1:alternateName "incident flux measurement method" ;
+                                    schema1:name "detector mode i0" ;
+                                    schema1:propertyID xas:detectori0 ;
+                                    schema1:value "10cm  N2" ],
                                 [ a schema1:PropertyValue ;
-                                    schema1:name "chemical formula" ;
-                                    schema1:propertyID xas:monochromatorchemicalformula ;
-                                    schema1:value "Si" ],
+                                    schema1:alternateName "transmitted flux measurement method" ;
+                                    schema1:name "detector mode it" ;
+                                    schema1:propertyID xas:detectorit ;
+                                    schema1:value "10cm  N2" ],
                                 [ a schema1:PropertyValue ;
+                                    schema1:name "monitor preset" ;
+                                    schema1:propertyID xas:monitorpreset ;
+                                    schema1:value "N.A." ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "monitor mode" ;
+                                    schema1:propertyID xas:monitormode ;
+                                    schema1:value "monitor" ] ;
+                            schema1:additionalType xas:xraymonitor,
+                                wd:Q3099911 ;
+                            schema1:name "x-ray intensity monitor" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalProperty [ a schema1:PropertyValue ;
                                     schema1:name "d-spacing" ;
                                     schema1:propertyID xas:dspacing ;
                                     schema1:unitText "Angstrom" ;
@@ -4840,10 +4817,33 @@ xas:487y54123 a schema1:Dataset,
                                 [ a schema1:PropertyValue ;
                                     schema1:name "reflection plane (hkl)" ;
                                     schema1:propertyID xas:reflectionplane ;
-                                    schema1:value "1,1,1" ] ;
+                                    schema1:value "1,1,1" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "crystal type" ;
+                                    schema1:propertyID xas:monochromatortype ;
+                                    schema1:value "missing" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "chemical formula" ;
+                                    schema1:propertyID xas:monochromatorchemicalformula ;
+                                    schema1:value "Si" ] ;
                             schema1:additionalType xas:xraymonochromator,
                                 wd:Q3099911 ;
-                            schema1:name "Si 111" ] ] ] .
+                            schema1:name "Si 111" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalProperty [ a schema1:PropertyValue ;
+                                    schema1:name "Probe" ;
+                                    schema1:propertyID xas:probe ;
+                                    schema1:value "x-ray" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "x-ray source" ;
+                                    schema1:propertyID xas:xraysourcetype ;
+                                    schema1:value "Synchrotron X-ray Source" ] ;
+                            schema1:additionalType xas:source,
+                                wd:Q3099911 ;
+                            schema1:identifier "should have a registry with URIs" ;
+                            schema1:name "source, made up for this example" ] ] ] .
 
 xas:ja51-pz63 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -6368,6 +6368,26 @@ xas:provevent a schema1:Action,
                         schema1:Thing,
                         prov:Entity ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
+                            schema1:name "crystal type" ;
+                            schema1:propertyID xas:monochromatortype ;
+                            schema1:value "Si" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "reflection plane" ;
+                            schema1:propertyID xas:reflectionplane ;
+                            schema1:value "1,1,1" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "d-spacing" ;
+                            schema1:propertyID xas:dspacing ;
+                            schema1:unitText "Angstrom" ;
+                            schema1:value "3.13550" ] ;
+                    schema1:additionalType xas:xraymonochromator,
+                        wd:Q3099911 ;
+                    schema1:identifier "xas:Mono/Si 111" ;
+                    schema1:name "Si 111" ] ],
+        [ schema1:instrument [ a schema1:Product,
+                        schema1:Thing,
+                        prov:Entity ;
+                    schema1:additionalProperty [ a schema1:PropertyValue ;
                             schema1:name "transmitted-flux detection method" ;
                             schema1:propertyID xas:detectorit ;
                             schema1:value "10cm  N2 (?)" ],
@@ -6411,27 +6431,7 @@ xas:provevent a schema1:Action,
                     schema1:additionalType xas:beamline,
                         wd:Q3099911 ;
                     schema1:identifier "xas:Beamline/13-BM-D" ;
-                    schema1:name "13-BM-D" ] ],
-        [ schema1:instrument [ a schema1:Product,
-                        schema1:Thing,
-                        prov:Entity ;
-                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "reflection plane" ;
-                            schema1:propertyID xas:reflectionplane ;
-                            schema1:value "1,1,1" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "crystal type" ;
-                            schema1:propertyID xas:monochromatortype ;
-                            schema1:value "Si" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "d-spacing" ;
-                            schema1:propertyID xas:dspacing ;
-                            schema1:unitText "Angstrom" ;
-                            schema1:value "3.13550" ] ;
-                    schema1:additionalType xas:xraymonochromator,
-                        wd:Q3099911 ;
-                    schema1:identifier "xas:Mono/Si 111" ;
-                    schema1:name "Si 111" ] ] .
+                    schema1:name "13-BM-D" ] ] .
 
 <https://example.org/DV/BYSPHH/iv/Column_1> a cdi:InstanceVariable,
         schema1:PropertyValue ;
