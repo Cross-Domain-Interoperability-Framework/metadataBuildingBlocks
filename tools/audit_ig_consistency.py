@@ -315,6 +315,69 @@ def audit(selected_checks, only_guide):
     return findings
 
 
+CHECK_BLURB = {
+    "undeclared": "The guide documents a property the profile schema does not declare. "
+                  "The profiles are open-world, so a record copied from the guide validates "
+                  "green while the property carries no meaning. Either the guide is stale "
+                  "(a rename it never received) or the schema is missing something the "
+                  "guide promises -- which of the two is a spec decision, not a doc fix.",
+    "cardinality": "A Required/Optional claim the schema contradicts. 'Optional; schema "
+                   "requires it wherever declared' is the direction that FAILS records: an "
+                   "author following the guide omits the property and validation rejects "
+                   "the result. 'Required; schema never requires it' over-promises instead, "
+                   "which is harmless to validation but misleads implementers.",
+    "divergence": "Either the same property documented at very different length in two "
+                  "guides, or a property with a Cardinality bullet and no Description at "
+                  "all. Some depth difference is legitimate -- a composite guide reasonably "
+                  "says more than a module guide -- so this check needs human triage more "
+                  "than the other two.",
+}
+
+
+def write_markdown(findings, path):
+    """A grouped report for reading, rather than the flat stdout list."""
+    from collections import defaultdict
+    import datetime
+    by_check = defaultdict(list)
+    for kind, guide, line, name, msg in findings:
+        by_check[kind].append((guide, line, name, msg))
+
+    out = ["# Implementation guide consistency report", "",
+           f"Generated {datetime.date.today().isoformat()} by `tools/audit_ig_consistency.py`.",
+           "", f"**{len(findings)} findings** across {len(by_check)} checks.", "",
+           "| check | findings | ", "|---|---|"]
+    for kind in sorted(by_check):
+        out.append(f"| [{kind}](#{kind}) | {len(by_check[kind])} |")
+    out.append("")
+    out.append("This tool detects; it does not rewrite. Every finding below is a place where "
+               "a guide and the schema it describes disagree, or where two guides disagree "
+               "with each other.")
+    out.append("")
+
+    for kind in sorted(by_check):
+        rows = by_check[kind]
+        out += [f"## {kind}", "", CHECK_BLURB.get(kind, ""), "",
+                f"{len(rows)} findings.", ""]
+        per_guide = defaultdict(list)
+        for guide, line, name, msg in rows:
+            per_guide[guide].append((line, name, msg))
+        for guide in sorted(per_guide):
+            out += [f"### {guide}", "", "| line | property | finding |", "|---|---|---|"]
+            for line, name, msg in sorted(per_guide[guide]):
+                loc = str(line) if line else "--"
+                out.append(f"| {loc} | `{name}` | {msg} |")
+            out.append("")
+    Path(path).write_text("\n".join(out) + "\n", encoding="utf-8")
+    print(f"Wrote {path} ({len(findings)} findings)")
+
+
+def write_json(findings, path):
+    rows = [{"check": k, "guide": g, "line": l, "property": n, "message": m}
+            for k, g, l, n, m in findings]
+    Path(path).write_text(json.dumps(rows, indent=2), encoding="utf-8")
+    print(f"Wrote {path} ({len(rows)} findings)")
+
+
 def report(findings):
     if not findings:
         print("No findings.")
@@ -488,13 +551,21 @@ def main():
     ap.add_argument("--strict", action="store_true", help="exit 1 if anything is found")
     ap.add_argument("--self-test", action="store_true",
                     help="prove each check still fires on a case it must reject")
+    ap.add_argument("-o", "--out", help="write a grouped report to this path "
+                                        "(.md for markdown, .json for JSON)")
     args = ap.parse_args()
 
     if args.self_test:
         return self_test()
 
     findings = audit(set(args.check or CHECKS), args.guide)
-    report(findings)
+    if args.out:
+        if args.out.endswith(".json"):
+            write_json(findings, args.out)
+        else:
+            write_markdown(findings, args.out)
+    else:
+        report(findings)
     return 1 if (args.strict and findings) else 0
 
 
