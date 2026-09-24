@@ -792,6 +792,41 @@ x-defs:
                   '@id':
                     enum:
                     - https://w3id.org/cdif/data_structure/1.1
+        schema:distribution:
+          type: array
+          contains:
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/StructuredDataDownload
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/WebAPIWithStructuredResult
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DistributionWithStructuredParts
+          items:
+            type: object
+            properties:
+              cdi:isStructuredBy:
+                x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy
+                allOf:
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByProperty
+              schema:hasPart:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    cdi:isStructuredBy:
+                      x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy
+                      allOf:
+                      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByProperty
+              schema:potentialAction:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    schema:result:
+                      type: object
+                      properties:
+                        cdi:isStructuredBy:
+                          x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy
+                          allOf:
+                          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByProperty
       allOf:
       - if:
           required:
@@ -819,35 +854,6 @@ x-defs:
                       '@id':
                         enum:
                         - https://w3id.org/cdif/manifest/1.1
-        schema:distribution:
-          type: array
-          contains:
-            anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/StructuredDataDownload
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/WebAPIWithStructuredResult
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DistributionWithStructuredParts
-          items:
-            type: object
-            properties:
-              cdi:isStructuredBy:
-                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByProperty
-              schema:hasPart:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    cdi:isStructuredBy:
-                      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByProperty
-              schema:potentialAction:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    schema:result:
-                      type: object
-                      properties:
-                        cdi:isStructuredBy:
-                          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByProperty
     $defs:
       IsStructuredByProperty:
         anyOf:

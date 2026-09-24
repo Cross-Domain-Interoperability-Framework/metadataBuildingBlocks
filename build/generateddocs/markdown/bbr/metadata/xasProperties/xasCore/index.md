@@ -887,14 +887,14 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:termCode "K" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
             schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
             schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ] ;
+            schema1:termCode "XAS" ] ;
     schema1:name "Se K-edge XANES of Na2SeO4 reference compound" ;
     schema1:subjectOf <urn:uuid:xas-required-catalog-record> ;
     schema1:url "http://example.com/resource?foo=bar#fragment" ;
@@ -917,6 +917,15 @@ ex:xas-dataset-001 a schema1:Dataset,
                     schema1:identifier "igsn:10.6620/se-selenate-001" ;
                     schema1:name "Na2SeO4" ] ;
             prov:used [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalType xas:beamline,
+                                wd:Q3099911 ;
+                            schema1:category [ a schema1:DefinedTerm ;
+                                    schema1:name "X-ray absorption spectroscopy beamline" ;
+                                    schema1:termCode "XAS-beamline" ] ;
+                            schema1:name "APS Sector 20-BM beamline instrument" ] ],
+                [ schema1:instrument [ a schema1:Product,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
@@ -948,16 +957,7 @@ ex:xas-dataset-001 a schema1:Dataset,
                                     schema1:value "Synchrotron X-ray Source" ] ;
                             schema1:additionalType xas:source,
                                 wd:Q3099911 ;
-                            schema1:name "APS bending magnet source" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalType xas:beamline,
-                                wd:Q3099911 ;
-                            schema1:category [ a schema1:DefinedTerm ;
-                                    schema1:name "X-ray absorption spectroscopy beamline" ;
-                                    schema1:termCode "XAS-beamline" ] ;
-                            schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
+                            schema1:name "APS bending magnet source" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,

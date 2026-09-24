@@ -464,11 +464,11 @@ ComponentPosition wrapper.
             cdi:indexes <https://example.org/var/measureName> ;
             cdi:value 2 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ] .
+            cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ] .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:decimal" ;
@@ -1263,6 +1263,38 @@ else:
             properties:
               '@id':
                 const: https://w3id.org/cdif/data_structure/1.1
+    schema:distribution:
+      type: array
+      contains:
+        anyOf:
+        - $ref: '#/$defs/StructuredDataDownload'
+        - $ref: '#/$defs/WebAPIWithStructuredResult'
+        - $ref: '#/$defs/DistributionWithStructuredParts'
+      items:
+        type: object
+        properties:
+          cdi:isStructuredBy:
+            $ref: '#/$defs/IsStructuredByProperty'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy
+          schema:hasPart:
+            type: array
+            items:
+              type: object
+              properties:
+                cdi:isStructuredBy:
+                  $ref: '#/$defs/IsStructuredByProperty'
+                  x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy
+          schema:potentialAction:
+            type: array
+            items:
+              type: object
+              properties:
+                schema:result:
+                  type: object
+                  properties:
+                    cdi:isStructuredBy:
+                      $ref: '#/$defs/IsStructuredByProperty'
+                      x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy
   allOf:
   - if:
       required:
@@ -1289,35 +1321,6 @@ else:
                 properties:
                   '@id':
                     const: https://w3id.org/cdif/manifest/1.1
-    schema:distribution:
-      type: array
-      contains:
-        anyOf:
-        - $ref: '#/$defs/StructuredDataDownload'
-        - $ref: '#/$defs/WebAPIWithStructuredResult'
-        - $ref: '#/$defs/DistributionWithStructuredParts'
-      items:
-        type: object
-        properties:
-          cdi:isStructuredBy:
-            $ref: '#/$defs/IsStructuredByProperty'
-          schema:hasPart:
-            type: array
-            items:
-              type: object
-              properties:
-                cdi:isStructuredBy:
-                  $ref: '#/$defs/IsStructuredByProperty'
-          schema:potentialAction:
-            type: array
-            items:
-              type: object
-              properties:
-                schema:result:
-                  type: object
-                  properties:
-                    cdi:isStructuredBy:
-                      $ref: '#/$defs/IsStructuredByProperty'
 $defs:
   IsStructuredByProperty:
     anyOf:
