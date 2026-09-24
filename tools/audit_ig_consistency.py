@@ -211,6 +211,8 @@ def index_schema(schema, base_dir=None):
     required_anywhere = set()
     choice_groups = {}          # prop -> {(scope, frozenset) 'at least one of'}
     type_unions = {}            # prop -> {named type that requires it}
+    type_names = set()          # $defs / block names -- these are CLASSES,
+                                # not properties, however a guide heads them
 
     def note(scope, props, required, conditional_required=()):
         for name, spec in (props or {}).items():
@@ -303,9 +305,12 @@ def index_schema(schema, base_dir=None):
         count as declared; only their requiredness is scoped.
         """
         if isinstance(node, dict):
+            if isinstance(node.get("$defs"), dict):
+                type_names.update(node["$defs"])
             got = deref(node, cur_dir, root)
             if got is not None:
                 target, name, new_dir, new_root = got
+                type_names.add(name)
                 key = (str(new_dir), name)
                 seen_key = key + (scope, unconditional)
                 # `stack` stops recursive types looping; `done` stops the
@@ -400,12 +405,13 @@ def index_schema(schema, base_dir=None):
             for v in node:
                 walk(v, scope, unconditional, cur_dir, root)
 
+    type_names.update(schema.get("$defs") or {})
     walk({k: v for k, v in schema.items() if k != "$defs"}, "$root",
          True, base_dir, schema)
     for cls, sub in (schema.get("$defs") or {}).items():
         walk(sub, f"$defs.{cls}", True, base_dir, schema)
     return (declared, required_scopes, property_scopes, repeatable,
-            required_anywhere, choice_groups, type_unions)
+            required_anywhere, choice_groups, type_unions, type_names)
 
 
 def states_required(card):
@@ -438,8 +444,8 @@ def audit(selected_checks, only_guide):
             continue
         schema = resolve_schema.load_schema_file(src)
         schema_name = f"{src_rel}/schema.yaml"
-        (declared, required_scopes, property_scopes, repeatable,
-         required_anywhere, choice_groups, type_unions) = index_schema(schema, src.parent)
+        (declared, required_scopes, property_scopes, repeatable, required_anywhere,
+         choice_groups, type_unions, type_names) = index_schema(schema, src.parent)
 
         for blk in read_guide(gp):
             name, line, f = blk["name"], blk["line"], blk["fields"]
@@ -459,6 +465,13 @@ def audit(selected_checks, only_guide):
             else:
                 hit = resolve_bare(name, declared)
 
+            if hit is None and name in type_names:
+                # A guide heads its class sections the same way it heads
+                # properties -- `### cdifConceptOrTerm`, `### xsdDataType`.
+                # Those name $defs in the register, not properties, so
+                # demanding they be declared as properties reports the guide
+                # for documenting a type.
+                continue
             if hit is None and ":" not in name and any(
                     d.split(":")[-1] == name for d in declared):
                 # Declared under several prefixes, none of them schema: -- the
@@ -778,7 +791,7 @@ def _graph_self_test():
                 $ref: ../webAPI/schema.yaml
             """), encoding="utf-8")
         sch = resolve_schema.load_schema_file(prof / "schema.yaml")
-        decl, req_sc, prop_sc, _rep, req_any, groups, unions = index_schema(sch, prof)
+        decl, req_sc, prop_sc, _rep, req_any, groups, unions, _tn = index_schema(sch, prof)
 
         checks = [
             ("branch identity survives the chained ref",
@@ -805,8 +818,8 @@ def self_test():
     with tempfile.TemporaryDirectory() as td:
         gp = Path(td) / "XImplementationGuide.md"
         gp.write_text(SELF_TEST_GUIDE, encoding="utf-8")
-        (declared, required_scopes, property_scopes, _rep,
-         required_anywhere, choice_groups, type_unions) = index_schema(SELF_TEST_SCHEMA)
+        (declared, required_scopes, property_scopes, _rep, required_anywhere,
+         choice_groups, type_unions, type_names) = index_schema(SELF_TEST_SCHEMA)
         blocks = {b["name"]: b for b in read_guide(gp)}
 
         expectations = [
