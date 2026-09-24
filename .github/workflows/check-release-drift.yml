@@ -133,8 +133,17 @@ jobs:
 
       - name: Checkout XAS-CDIF
         uses: actions/checkout@v4
+        # A failed checkout aborts the job before the comparison runs, which is
+        # how a missing XAS-CDIF produced a traceback and no report at all.
+        # Degrade instead: sync_release_repos.py reports the repo as MISSING and
+        # still exits 1, so the gap is named rather than fatal.
+        continue-on-error: true
         with:
-          repository: ${{ github.repository_owner }}/XAS-CDIF
+          # NOT ${{ github.repository_owner }}: unlike the eleven profile/doc
+          # repos, XAS-CDIF lives under smrgeoinfo, not the CDIF org. The
+          # org path 404s, which fails the checkout and the whole job.
+          # It is public, so no token is needed.
+          repository: smrgeoinfo/XAS-CDIF
           # Pinned like profile-provenance: XAS-CDIF has no v1.1 release line,
           # its publishable artifacts live under release/ rather than the repo
           # root, and its Pages is served from gh-pages. It was added to
