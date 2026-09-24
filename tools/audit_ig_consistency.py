@@ -25,6 +25,15 @@ Property blocks are located with ``clean_ig.py``'s parser so this tool and the
 cleaner agree on what a property block is; the guide/profile mapping is taken
 from ``sync_release_repos.py`` so there is one table, not two.
 
+It reads the **$ref graph** under ``_sources/``, not the generated
+``*StructuredSchema.json``. The resolver inlines every ``$ref`` into an
+anonymous object, so ``schema:distribution`` arrives as ``anyOf: [{required:
+[@type]}, {required: [serviceType, potentialAction, termsOfService]}]`` when the
+source says ``anyOf: [{$ref: DataDownload}, {$ref: WebAPI}]`` -- a union of two
+named types whose three properties are the WebAPI block's own contract. Reading
+the flattened form, the tool reported each of them, in four guides, as wrongly
+documented. Walking the graph keeps the branch identity.
+
 Usage:
     python tools/audit_ig_consistency.py                  # all guides, all checks
     python tools/audit_ig_consistency.py -c undeclared    # one check
@@ -53,6 +62,7 @@ def _load(name):
 
 clean_ig = _load("clean_ig")
 sync_release_repos = _load("sync_release_repos")
+resolve_schema = _load("resolve_schema")   # load_schema_file, resolve_fragment
 
 FIELD_RE = re.compile(r"^\s*[-*]?\s*\*\*([A-Za-z][A-Za-z /]*?)\s*:?\*\*\s*(.*)$")
 
@@ -173,17 +183,34 @@ def resolve_bare(name, declared):
     return next((d for d in cands if d.startswith("schema:")), None)
 
 
-def index_schema(schema):
+def index_schema(schema, base_dir=None):
     """Every property the profile declares, and where it is required.
 
-    Returns (declared, required_scopes, property_scopes, repeatable) where
-    required_scopes[prop] is the set of scope ids requiring it and
-    property_scopes[prop] the set declaring it. A property may be required in one
-    class and optional in another, so 'required' is only meaningful per scope.
+    With `base_dir`, `$ref`s are followed across files and the **$ref graph** is
+    walked rather than a resolved schema. That difference is not cosmetic. The
+    generated `*StructuredSchema.json` inlines every `$ref` into an anonymous
+    object, so `schema:distribution` arrives as
+
+        anyOf: [ {required: [@type]}, {required: [serviceType, potentialAction,
+                 termsOfService]} ]
+
+    where the source says
+
+        anyOf: [ {$ref: DataDownload}, {$ref: WebAPI} ]
+
+    -- a union of two named types, in which the three properties are the WebAPI
+    block's own contract. Reading the flattened form, the tool could only guess
+    at a relationship between the branches, and guessed wrong. Walking the graph
+    keeps the branch's identity, so requiredness can be stated as "required when
+    the distribution is a WebAPI".
+
+    Returns (declared, required_scopes, property_scopes, repeatable,
+    required_anywhere, choice_groups, type_unions).
     """
     declared, required_scopes, property_scopes, repeatable = set(), {}, {}, set()
     required_anywhere = set()
-    choice_groups = {}          # prop -> {frozenset of the 'at least one of' group}
+    choice_groups = {}          # prop -> {(scope, frozenset) 'at least one of'}
+    type_unions = {}            # prop -> {named type that requires it}
 
     def note(scope, props, required, conditional_required=()):
         for name, spec in (props or {}).items():
@@ -196,7 +223,76 @@ def index_schema(schema):
         required_anywhere.update(required or ())
         required_anywhere.update(conditional_required)
 
-    def walk(node, scope, unconditional=True):
+    stack = set()     # (file, pointer) currently being walked -- recursive types
+    done = set()      # (file, pointer, scope, unconditional) already indexed
+    cache = {}        # path -> parsed schema, so a shared block parses once
+
+    def deref(node, cur_dir, root):
+        """Follow a $ref, returning (target_node, name, new_dir, new_root).
+
+        Name is the referenced block's identity: the directory name for an
+        external file (webAPI/ -> WebAPI), the $defs key for an internal one.
+        Returns None when there is no ref or it cannot be followed.
+        """
+        ref = node.get("$ref")
+        if not ref or cur_dir is None or ref.startswith(("http://", "https://")):
+            return None
+        if ref.startswith("#/"):
+            try:
+                target = resolve_schema.resolve_fragment(root, ref[1:])
+            except (KeyError, IndexError, ValueError):
+                return None
+            return target, ref.rsplit("/", 1)[-1], cur_dir, root
+        file_part, _, frag = ref.partition("#")
+        path = (cur_dir / file_part).resolve()
+        if not path.is_file():
+            return None
+        if path in cache:
+            target_root = cache[path]
+        else:
+            try:
+                target_root = cache[path] = resolve_schema.load_schema_file(path)
+            except Exception:
+                return None
+        target = target_root
+        if frag:
+            try:
+                target = resolve_schema.resolve_fragment(target_root, frag)
+            except (KeyError, IndexError, ValueError):
+                return None
+        return target, resolve_schema._derive_def_name(path), path.parent, target_root
+
+    def deref_chain(branch, cur_dir, root, hops=8):
+        """Follow a chain of $refs to the node that actually carries content.
+
+        A profile names its types through a two-hop chain: `#/$defs/WebAPI` ->
+        `{$ref: ../../schemaorgProperties/webAPI/schema.yaml}`. Stopping at the
+        first hop finds a node holding nothing but another $ref, so the block's
+        own `required` list is invisible. The NAME comes from the first hop --
+        that is what the profile calls the branch.
+        """
+        if not isinstance(branch, dict):
+            return None
+        got = deref(branch, cur_dir, root)
+        if not got:
+            return None
+        name = got[1]
+        for _ in range(hops):
+            target, _n, d, r = got
+            if not (isinstance(target, dict) and "$ref" in target):
+                break
+            nxt = deref(target, d, r)
+            if not nxt:
+                break
+            got = nxt
+        return got[0], name, got[2], got[3]
+
+    def branch_identity(branch, cur_dir, root):
+        """The named type a union branch refers to, or None for an inline branch."""
+        got = deref_chain(branch, cur_dir, root)
+        return got[1] if got else None
+
+    def walk(node, scope, unconditional=True, cur_dir=None, root=None):
         """`unconditional` is False inside anyOf/oneOf/if/then/else/not.
 
         Only the node itself and its allOf chain impose requirements that always
@@ -207,6 +303,25 @@ def index_schema(schema):
         count as declared; only their requiredness is scoped.
         """
         if isinstance(node, dict):
+            got = deref(node, cur_dir, root)
+            if got is not None:
+                target, name, new_dir, new_root = got
+                key = (str(new_dir), name)
+                seen_key = key + (scope, unconditional)
+                # `stack` stops recursive types looping; `done` stops the
+                # exponential re-walk of diamond $ref patterns -- indexing the
+                # same target in the same configuration twice adds nothing.
+                if key not in stack and seen_key not in done:
+                    stack.add(key); done.add(seen_key)
+                    # Entering a NAMED type starts a new scope, and inside that
+                    # scope its own `required` is unconditional: LanguageTaggedValue
+                    # requires @language whenever a value is a LanguageTaggedValue.
+                    # Whether the branch is taken at all is a fact about the
+                    # reference, not about the type's contract -- inheriting the
+                    # reference's conditionality silently erased those contracts.
+                    walk(target, name, True, new_dir, new_root)
+                    stack.discard(key)
+                # a node may carry $ref plus sibling keywords; fall through
             # A branch may carry `required` with no `properties` of its own --
             # cdifCore's real required list lives in allOf[1] exactly that way.
             # Keying this off `properties` made every such requirement invisible.
@@ -215,9 +330,25 @@ def index_schema(schema):
                      node.get("required") if unconditional else None,
                      () if unconditional else (node.get("required") or ()))
             for br in node.get("allOf", []) or []:
-                walk(br, scope, unconditional)
+                walk(br, scope, unconditional, cur_dir, root)
             for key in ("anyOf", "oneOf"):
                 branches = node.get(key, []) or []
+                names = [branch_identity(b, cur_dir, root) for b in branches]
+                if sum(1 for n in names if n) >= 2:
+                    # A union of NAMED types: `anyOf: [{$ref: DataDownload},
+                    # {$ref: WebAPI}]`. Each branch carries its own contract, so
+                    # a property required inside one is "required when the value
+                    # is that type" -- not an alternative to its siblings. The
+                    # resolved schema erases these names, which is what made the
+                    # union look like an at-least-one-of over the WebAPI block's
+                    # three required properties.
+                    for b, nm in zip(branches, names):
+                        if not nm:
+                            continue
+                        got = deref_chain(b, cur_dir, root)
+                        tgt = got[0] if got else {}
+                        for rq in (tgt.get("required") or ()):
+                            type_unions.setdefault(rq, set()).add(nm)
                 reqs = [set(b.get("required") or ())
                         for b in branches if isinstance(b, dict)]
                 if len(reqs) >= 2 and all(reqs):
@@ -253,27 +384,28 @@ def index_schema(schema):
                     # contract. Treating it as conditional made every class whose
                     # body sits behind the idiom -- GeoCoordinates, the DDI-CDI
                     # components -- look like it required nothing.
-                    walk(inline, scope, unconditional)
+                    walk(inline, scope, unconditional, cur_dir, root)
                     continue
                 for br in branches:
-                    walk(br, scope, False)
+                    walk(br, scope, False, cur_dir, root)
             for key in ("if", "then", "else", "not"):
                 if isinstance(node.get(key), dict):
-                    walk(node[key], scope, False)
+                    walk(node[key], scope, False, cur_dir, root)
             if isinstance(node.get("items"), dict):
-                walk(node["items"], scope, unconditional)
+                walk(node["items"], scope, unconditional, cur_dir, root)
             for name, sub in (node.get("properties") or {}).items():
                 if isinstance(sub, dict):
-                    walk(sub, f"{scope}/{name}", unconditional)
+                    walk(sub, f"{scope}/{name}", unconditional, cur_dir, root)
         elif isinstance(node, list):
             for v in node:
-                walk(v, scope, unconditional)
+                walk(v, scope, unconditional, cur_dir, root)
 
-    walk({k: v for k, v in schema.items() if k != "$defs"}, "$root")
+    walk({k: v for k, v in schema.items() if k != "$defs"}, "$root",
+         True, base_dir, schema)
     for cls, sub in (schema.get("$defs") or {}).items():
-        walk(sub, f"$defs.{cls}")
+        walk(sub, f"$defs.{cls}", True, base_dir, schema)
     return (declared, required_scopes, property_scopes, repeatable,
-            required_anywhere, choice_groups)
+            required_anywhere, choice_groups, type_unions)
 
 
 def states_required(card):
@@ -297,13 +429,17 @@ def audit(selected_checks, only_guide):
         if gp is None:
             findings.append(("missing-guide", repo_key, 0, "", "no *ImplementationGuide.md in this repo"))
             continue
-        schema_file = CDIF_ROOT / repo_rel / schema_name
-        if not schema_file.exists():
-            findings.append(("missing-schema", repo_key, 0, "", f"{schema_name} not found"))
+        # The $ref graph, not the flattened artifact: the source keeps each
+        # branch's identity (DataDownload / WebAPI), which the generated
+        # *StructuredSchema.json inlines away.
+        src = MBB_ROOT / src_rel / "schema.yaml"
+        if not src.exists():
+            findings.append(("missing-schema", repo_key, 0, "", f"{src_rel}/schema.yaml not found"))
             continue
-        schema = json.loads(schema_file.read_text(encoding="utf-8"))
+        schema = resolve_schema.load_schema_file(src)
+        schema_name = f"{src_rel}/schema.yaml"
         (declared, required_scopes, property_scopes, repeatable,
-         required_anywhere, choice_groups) = index_schema(schema)
+         required_anywhere, choice_groups, type_unions) = index_schema(schema, src.parent)
 
         for blk in read_guide(gp):
             name, line, f = blk["name"], blk["line"], blk["fields"]
@@ -352,6 +488,11 @@ def audit(selected_checks, only_guide):
                 # guide-block -> schema-class mapping, judging the ambiguous ones
                 # produces noise, not findings.
                 groups = choice_groups.get(hit) or set()
+                if hit in type_unions:
+                    # Required by a NAMED branch of a type union: the honest
+                    # statement is "required when the value is a WebAPI", not
+                    # "one of these siblings". Don't judge the guide on it.
+                    groups = set()
                 unambiguous = (len(groups) == 1
                                and len(property_scopes.get(hit, ())) == 1
                                and next(iter(groups))[0] in property_scopes.get(hit, ()))
@@ -594,6 +735,67 @@ SELF_TEST_SCHEMA = {
 }
 
 
+def _graph_self_test():
+    """Prove the $ref graph keeps branch identity across a chained ref.
+
+    The in-memory fixture cannot exercise this: it needs real files, because the
+    thing being tested is that `#/$defs/WebAPI` -> `{$ref: ../webAPI/schema.yaml}`
+    is followed to the block that owns the `required` list.
+    """
+    import tempfile, textwrap
+    ok = True
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "webAPI").mkdir()
+        (root / "webAPI" / "schema.yaml").write_text(textwrap.dedent("""            type: object
+            properties:
+              'schema:serviceType': {type: string}
+              'schema:termsOfService': {type: string}
+            required:
+            - 'schema:serviceType'
+            - 'schema:termsOfService'
+            """), encoding="utf-8")
+        (root / "dataDownload").mkdir()
+        (root / "dataDownload" / "schema.yaml").write_text(textwrap.dedent("""            type: object
+            properties:
+              'schema:contentUrl': {type: string}
+            required: ['@type']
+            """), encoding="utf-8")
+        prof = root / "profile"
+        prof.mkdir()
+        (prof / "schema.yaml").write_text(textwrap.dedent("""            type: object
+            properties:
+              'schema:distribution':
+                type: array
+                items:
+                  anyOf:
+                  - $ref: '#/$defs/DataDownload'
+                  - $ref: '#/$defs/WebAPI'
+            $defs:
+              DataDownload:
+                $ref: ../dataDownload/schema.yaml
+              WebAPI:
+                $ref: ../webAPI/schema.yaml
+            """), encoding="utf-8")
+        sch = resolve_schema.load_schema_file(prof / "schema.yaml")
+        decl, req_sc, prop_sc, _rep, req_any, groups, unions = index_schema(sch, prof)
+
+        checks = [
+            ("branch identity survives the chained ref",
+             unions.get("schema:serviceType") == {"WebAPI"}),
+            ("the other branch is named too",
+             "DataDownload" in {n for v in unions.values() for n in v}),
+            ("a type union is NOT an at-least-one-of group",
+             not groups.get("schema:serviceType")),
+            ("properties behind the ref are reached",
+             "schema:contentUrl" in decl and "schema:termsOfService" in decl),
+        ]
+        for label, passed in checks:
+            print(f"  {'ok  ' if passed else 'FAIL'}  {label}")
+            ok = ok and passed
+    return ok
+
+
 def self_test():
     """Prove each check rejects a case it should. A check that has stopped
     matching reports zero findings, which is indistinguishable from a clean
@@ -604,7 +806,7 @@ def self_test():
         gp = Path(td) / "XImplementationGuide.md"
         gp.write_text(SELF_TEST_GUIDE, encoding="utf-8")
         (declared, required_scopes, property_scopes, _rep,
-         required_anywhere, choice_groups) = index_schema(SELF_TEST_SCHEMA)
+         required_anywhere, choice_groups, type_unions) = index_schema(SELF_TEST_SCHEMA)
         blocks = {b["name"]: b for b in read_guide(gp)}
 
         expectations = [
@@ -677,6 +879,7 @@ def self_test():
             fired = pred(name)
             print(f"  {'ok  ' if fired else 'FAIL'}  {label:28s} {name}")
             ok = ok and fired
+    ok = _graph_self_test() and ok
     print("\nself-test PASSED" if ok else "\nself-test FAILED")
     return 0 if ok else 1
 
