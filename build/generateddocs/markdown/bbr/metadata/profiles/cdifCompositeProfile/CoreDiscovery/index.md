@@ -1386,6 +1386,15 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:distribution [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "kpZDvhyVo",
                 "sMUGwSqxWzJOYEb",
                 "tNdpXaJgDeWbFkNM" ;
@@ -1394,16 +1403,7 @@ ex:YOPx123 a schema1:Dataset ;
                 ex:sr68lgy ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
+                    spdx:checksumValue "h" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1411,37 +1411,37 @@ ex:YOPx123 a schema1:Dataset ;
                     schema1:value "fMuiBjneudpV" ] ;
             schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ] ;
+            schema1:name "fhhbzh" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID ex:rIPXjaCPQX ;
-                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
-                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
-            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
-            schema1:name "MiSqvcp" ;
-            schema1:termCode "bzOl" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://resource.org/identifier> ;
                     schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
                     schema1:value "tdUMYBItIwdJe" ] ;
             schema1:inDefinedTermSet "sqH" ;
             schema1:name "TiMuawt" ;
-            schema1:termCode "RUUxHY" ] ;
+            schema1:termCode "RUUxHY" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID ex:rIPXjaCPQX ;
+                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
+                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
+            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
+            schema1:name "MiSqvcp" ;
+            schema1:termCode "bzOl" ] ;
     schema1:license "Kmp",
         "dXhuFoqL" ;
     schema1:name "Test dataset" ;
@@ -3153,6 +3153,11 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:sameAs <https://n2t.net/ark:/99999/fk4nadw2024>,
         "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:spatialCoverage [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoCoordinates ;
+                    schema1:latitude 5.655e+01 ;
+                    schema1:longitude -5.258e+01 ] ;
+            schema1:name "AR7W Transect Station 12" ],
+        [ a schema1:Place ;
             schema1:additionalType "ocean basin" ;
             schema1:alternateName "Labrador Sea",
                 "Mer du Labrador" ;
@@ -3166,12 +3171,7 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:termCode "mrgid:4287" ] ;
             geosparql:hasGeometry [ a sf:Polygon ;
                     geosparql:asWKT "POLYGON((-60 53, -45 53, -45 65, -60 65, -60 53))"^^<['geosparql:wktLiteral']> ;
-                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ],
-        [ a schema1:Place ;
-            schema1:geo [ a schema1:GeoCoordinates ;
-                    schema1:latitude 5.655e+01 ;
-                    schema1:longitude -5.258e+01 ] ;
-            schema1:name "AR7W Transect Station 12" ] ;
+                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ] ;
     schema1:subjectOf ex:metadataRecord42 ;
     schema1:temporalCoverage [ a time:ProperInterval ;
             schema1:description "Observation period spanning 10 winter convection seasons" ;
@@ -3190,19 +3190,19 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
         ex:varTemperature ;
     schema1:version "2.1" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
-                    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-                    schema1:name "Temperature sensor accuracy" ;
-                    schema1:termCode "TEMPACCR" ] ;
-            dqv:value "±0.001°C (ITS-90)" ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf "Completeness" ;
             dqv:value [ a schema1:DefinedTerm ;
                     schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
                     schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
                     schema1:name "Complete" ;
-                    schema1:termCode "COMPLETE" ] ] ;
+                    schema1:termCode "COMPLETE" ] ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
+                    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+                    schema1:name "Temperature sensor accuracy" ;
+                    schema1:termCode "TEMPACCR" ] ;
+            dqv:value "±0.001°C (ITS-90)" ] ;
     prov:wasDerivedFrom ex:rawCTDCasts ;
     prov:wasGeneratedBy [ a prov:Activity ;
             prov:used ex:ar7wCruiseProgram,

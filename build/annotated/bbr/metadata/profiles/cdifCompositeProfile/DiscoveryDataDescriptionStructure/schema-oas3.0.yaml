@@ -758,17 +758,25 @@ x-defs:
             - cdi:LongDataStructure
             - cdi:WideDataStructure
     then:
-      description: Standalone data-structure object (one of the four variants).
-      anyOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DataStructure
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DimensionalDataStructure
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/LongDataStructure
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/WideDataStructure
+      description: 'Standalone data-structure object (one of the four variants). The
+        structure is the subject of the record, not something attached to downloadable
+        data, so no schema:DataDownload appears: a distribution here would be describing
+        a different resource than the one the record is about.'
+      allOf:
+      - anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DataStructure
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DimensionalDataStructure
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/LongDataStructure
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/WideDataStructure
+      - not:
+          required:
+          - schema:distribution
     else:
       description: A CDIF dataset described by a data structure. Must declare conformance
         to data_structure/1.1 and attach the structure to a distribution.
       required:
       - schema:subjectOf
+      - schema:distribution
       properties:
         schema:subjectOf:
           required:
@@ -784,25 +792,118 @@ x-defs:
                   '@id':
                     enum:
                     - https://w3id.org/cdif/data_structure/1.1
+      allOf:
+      - if:
+          required:
+          - schema:distribution
+          properties:
+            schema:distribution:
+              type: array
+              contains:
+                type: object
+                required:
+                - schema:hasPart
+        then:
+          properties:
+            schema:subjectOf:
+              required:
+              - dcterms:conformsTo
+              properties:
+                dcterms:conformsTo:
+                  contains:
+                    type: object
+                    required:
+                    - '@id'
+                    additionalProperties: false
+                    properties:
+                      '@id':
+                        enum:
+                        - https://w3id.org/cdif/manifest/1.1
         schema:distribution:
           type: array
+          contains:
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/StructuredDataDownload
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/WebAPIWithStructuredResult
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DistributionWithStructuredParts
           items:
             type: object
             properties:
               cdi:isStructuredBy:
-                description: Reusable data-structure description for this distribution.
-                  One of the four DataStructure variants (DataStructure, Dimensional,
-                  Long, Wide) as an inline definition, or an @id reference to one
-                  declared elsewhere in the document or published at a resolvable
-                  URI. (A profile may further require the inline form via SHACL.)
-                anyOf:
-                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DataStructure
-                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DimensionalDataStructure
-                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/LongDataStructure
-                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/WideDataStructure
-                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-                x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByProperty
+              schema:hasPart:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    cdi:isStructuredBy:
+                      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByProperty
+              schema:potentialAction:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    schema:result:
+                      type: object
+                      properties:
+                        cdi:isStructuredBy:
+                          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByProperty
     $defs:
+      IsStructuredByProperty:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByValue
+        - type: array
+          minItems: 1
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/IsStructuredByValue
+      IsStructuredByValue:
+        description: Reusable data-structure description for this distribution. One
+          of the four DataStructure variants (DataStructure, Dimensional, Long, Wide)
+          as an inline definition, or an @id reference to one declared elsewhere in
+          the document or published at a resolvable URI. (A profile may further require
+          the inline form via SHACL.)
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DataStructure
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/DimensionalDataStructure
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/LongDataStructure
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/WideDataStructure
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+      StructuredDataDownload:
+        type: object
+        required:
+        - '@type'
+        - cdi:isStructuredBy
+        properties:
+          '@type':
+            type: array
+            contains:
+              enum:
+              - schema:DataDownload
+      DistributionWithStructuredParts:
+        type: object
+        required:
+        - schema:hasPart
+        properties:
+          schema:hasPart:
+            type: array
+            contains:
+              type: object
+              required:
+              - cdi:isStructuredBy
+      WebAPIWithStructuredResult:
+        type: object
+        required:
+        - schema:potentialAction
+        properties:
+          schema:potentialAction:
+            type: array
+            contains:
+              type: object
+              required:
+              - schema:result
+              properties:
+                schema:result:
+                  $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure/$defs/StructuredDataDownload
       DataStructure:
         type: object
         description: Data organization based on reusable data structure components.
