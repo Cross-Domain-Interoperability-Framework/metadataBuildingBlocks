@@ -77,6 +77,29 @@ otherwise). Switching resolvers changed no result — 152 passed / 0 failed eith
 docstring claim that this resolver "correctly handles transitive internal `$defs`" is not a
 capability the tools resolver lacks.
 
+## update_conformsto_uris.py
+
+Archived 2026-09-24. A one-time migration utility whose target URI scheme no longer exists.
+It wrote `https://w3id.org/cdif/bbr/metadata/<directory path>` identifiers, derived from each
+example's location under `_sources/`. CDIF moved to per-profile, per-version conformance URIs
+(`https://w3id.org/cdif/<profile>/<version>`) and **no file in the repo uses the old form** --
+measured 0 occurrences on the day this was archived, against 58 for `core/1.1` alone.
+
+Three of its four `BB_LEVEL_DIRS` (`cdifProperties/cdifCore`, `DDEproperties/ddeRequired`,
+`xasProperties/xasRequired`) no longer exist either, so most of it could not run at all.
+
+Running it now would corrupt records rather than migrate them, for two reasons beyond the dead
+URIs. `update_existing_conformsto` assigns `target["dcterms:conformsTo"] = [{"@id": w3id_uri}]`
+-- it *replaces* the array, and a record may legitimately declare several profiles
+(`exampleCDIFcomplete.json` declares six). And `inject_ecrr_subject_of` writes
+`schema:additionalType: ["dcat:CatalogRecord"]` as plain strings, where the current schemas
+require `{"@id": "dcat:CatalogRecord"}` objects -- the string form is the one that made
+`ConformanceValidate.extract_conforms_to` skip the node entirely.
+
+Its replacement is `CDIF/validation/detect_conformance.py`, which derives conformance from what
+a record actually contains rather than from where its file sits, and which handles the
+multi-profile case this tool could not express.
+
 ## cdifDataType/cdifLongData
 
 Archived 2026-09-05. Referenced by no schema in `_sources`, and its one distinctive

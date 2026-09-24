@@ -126,7 +126,6 @@ metadataBuildingBlocks/
 │   ├── augment_register.py          # Adds resolvedSchema URLs to register.json
 │   ├── regenerate_schema_json.py    # Regenerates *Schema.json files from schema.yaml sources
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
-│   ├── update_conformsto_uris.py    # Updates conformsTo URIs in building block schemas
 │   ├── audit_building_blocks.py     # Comprehensive BB repo audit (pluggable to any repo)
 │   ├── audit_shacl_coverage.py      # Compares schema.yaml properties vs rules.shacl shapes
 │   ├── audit_cdi_property_types.py  # Audits cdi:* properties in cdifProperties vs canonical DDI-CDI XMI
