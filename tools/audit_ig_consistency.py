@@ -1,0 +1,502 @@
+#!/usr/bin/env python3
+"""Audit the release-repo Implementation Guides against the schemas they describe.
+
+Phase 1 of the IG generator work: this tool *detects* drift, it never rewrites a
+guide. The guides were produced once by ``generate_ig_draft.py`` and hand-edited
+thereafter, so nothing has connected them to their schema since. Three failure
+modes follow from that, and this checks for all three:
+
+  undeclared   a guide documents a property that appears nowhere in the profile
+               schema. The profiles are open-world, so a record copied from the
+               guide validates green while the property carries no meaning --
+               the defect is invisible to every validator CDIF runs.
+  cardinality  a guide states Required for a property the schema never requires,
+               or Optional for one it always requires. The second direction
+               fails records outright.
+  divergence   the same property documented at materially different depth in two
+               guides, or carrying a Cardinality bullet with no Description.
+
+What it deliberately does NOT check: the free-text **Content:** bullet. The
+guides describe content in a prose vocabulary ("string, object reference, or
+DefinedTerm") that does not map onto JSON Schema types without a translation
+table, and a check that guesses would report noise rather than defects.
+
+Property blocks are located with ``clean_ig.py``'s parser so this tool and the
+cleaner agree on what a property block is; the guide/profile mapping is taken
+from ``sync_release_repos.py`` so there is one table, not two.
+
+Usage:
+    python tools/audit_ig_consistency.py                  # all guides, all checks
+    python tools/audit_ig_consistency.py -c undeclared    # one check
+    python tools/audit_ig_consistency.py -g profile-core  # one guide
+    python tools/audit_ig_consistency.py --strict         # exit 1 on any finding
+    python tools/audit_ig_consistency.py --self-test      # prove the checks fire
+"""
+import argparse
+import importlib.util
+import json
+import re
+import sys
+from pathlib import Path
+
+MBB_ROOT = Path(__file__).resolve().parent.parent
+CDIF_ROOT = MBB_ROOT.parent
+CHECKS = ("undeclared", "cardinality", "divergence")
+
+
+def _load(name):
+    spec = importlib.util.spec_from_file_location(name, MBB_ROOT / "tools" / f"{name}.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+clean_ig = _load("clean_ig")
+sync_release_repos = _load("sync_release_repos")
+
+FIELD_RE = re.compile(r"^\s*[-*]?\s*\*\*([A-Za-z][A-Za-z /]*?)\s*:?\*\*\s*(.*)$")
+
+
+def guide_path(repo_rel):
+    """The single *ImplementationGuide.md in a release repo, or None."""
+    d = CDIF_ROOT / repo_rel
+    hits = sorted(p for p in d.glob("*ImplementationGuide.md") if p.is_file())
+    return hits[0] if hits else None
+
+
+def prop_name(title):
+    """Property name from a heading: drop anchors and markdown emphasis.
+
+    Underscores are preserved -- cdi:has_DataStructureComponent is a real DDI-CDI
+    name, and stripping `_` as emphasis turns it into a phantom missing property.
+    """
+    t = re.sub(r"\{#[^}]+\}", "", title or "")
+    t = t.replace("\\", "").replace('"', "").replace("'", "")
+    t = re.sub(r"\*\*|\*|`", "", t)
+    # `prov: wasGeneratedBy` is a heading typo for a real property, not a
+    # different property -- normalise so it resolves instead of reporting a
+    # phantom missing one.
+    t = re.sub(r"\s*:\s*", ":", t)
+    return t.strip().rstrip(":").strip()
+
+
+# A property heading is a single token, optionally prefixed. clean_ig.is_property
+# also accepts any lowercase-initial heading, which sweeps in narrative titles
+# ("identifier and version identify different things"); those are not properties
+# and reporting them as undeclared is noise, not a finding.
+PROP_TOKEN_RE = re.compile(r"^@?[A-Za-z][\w.\-]*(?::[A-Za-z_@][\w.\-]*)?$")
+
+
+def parse_fields(body_text):
+    """The **Label:** bullets of a property block, lowercased keys."""
+    out, cur = {}, None
+    for ln in body_text.splitlines():
+        m = FIELD_RE.match(ln)
+        if m:
+            cur = m.group(1).strip().lower()
+            out[cur] = m.group(2).strip()
+        elif cur and ln.strip():
+            out[cur] += " " + ln.strip()
+    return out
+
+
+def read_guide(path):
+    """[{name, line, fields, body}] for each property block in a guide."""
+    text = path.read_text(encoding="utf-8", errors="replace")
+    blocks = clean_ig.parse_blocks(text)
+    # parse_blocks drops line numbers; recover them by walking headings in order.
+    heading_lines = [i + 1 for i, l in enumerate(text.splitlines())
+                     if clean_ig.HEADING_RE.match(l)]
+    out, hi = [], 0
+    for b in blocks:
+        if b["level"] == 0:
+            continue
+        line = heading_lines[hi] if hi < len(heading_lines) else 0
+        hi += 1
+        if not clean_ig.is_property(b):
+            continue
+        body = "".join(b["body"])
+        name = prop_name(b["title"])
+        if not name or name in ("@type", "@id", "@context"):
+            continue
+        if not PROP_TOKEN_RE.match(name):
+            continue
+        out.append({"name": name, "line": line, "fields": parse_fields(body), "body": body})
+    return out
+
+
+def _is_sealed_ref(branch):
+    """The `{'@id': ...}` reference form: sealed, and requiring only @id."""
+    return (isinstance(branch, dict)
+            and branch.get("additionalProperties") is False
+            and list(branch.get("required") or []) == ["@id"])
+
+
+def _inline_of_ref_idiom(branches):
+    """For `anyOf: [inline class, sealed @id reference]`, return the inline branch.
+
+    Returns None when this is a genuine choice between alternatives, in which
+    case no branch's `required` holds unconditionally.
+    """
+    if len(branches) != 2:
+        return None
+    sealed = [b for b in branches if _is_sealed_ref(b)]
+    others = [b for b in branches if not _is_sealed_ref(b)]
+    if len(sealed) == 1 and len(others) == 1 and isinstance(others[0], dict):
+        return others[0]
+    return None
+
+
+def index_schema(schema):
+    """Every property the profile declares, and where it is required.
+
+    Returns (declared, required_scopes, property_scopes, repeatable) where
+    required_scopes[prop] is the set of scope ids requiring it and
+    property_scopes[prop] the set declaring it. A property may be required in one
+    class and optional in another, so 'required' is only meaningful per scope.
+    """
+    declared, required_scopes, property_scopes, repeatable = set(), {}, {}, set()
+    required_anywhere = set()
+
+    def note(scope, props, required, conditional_required=()):
+        for name, spec in (props or {}).items():
+            declared.add(name)
+            property_scopes.setdefault(name, set()).add(scope)
+            if isinstance(spec, dict) and spec.get("type") == "array":
+                repeatable.add(name)
+        for name in (required or []):
+            required_scopes.setdefault(name, set()).add(scope)
+        required_anywhere.update(required or ())
+        required_anywhere.update(conditional_required)
+
+    def walk(node, scope, unconditional=True):
+        """`unconditional` is False inside anyOf/oneOf/if/then/else/not.
+
+        Only the node itself and its allOf chain impose requirements that always
+        hold. An anyOf of required-branches is a CHOICE -- `anyOf: [{required:
+        [license]}, {required: [conditionsOfAccess]}]` requires neither on its
+        own, and counting both as mandatory turns every choice group into a
+        phantom "the guide is wrong" finding. Properties named anywhere still
+        count as declared; only their requiredness is scoped.
+        """
+        if isinstance(node, dict):
+            # A branch may carry `required` with no `properties` of its own --
+            # cdifCore's real required list lives in allOf[1] exactly that way.
+            # Keying this off `properties` made every such requirement invisible.
+            if isinstance(node.get("properties"), dict) or node.get("required"):
+                note(scope, node.get("properties"),
+                     node.get("required") if unconditional else None,
+                     () if unconditional else (node.get("required") or ()))
+            for br in node.get("allOf", []) or []:
+                walk(br, scope, unconditional)
+            for key in ("anyOf", "oneOf"):
+                branches = node.get(key, []) or []
+                inline = _inline_of_ref_idiom(branches)
+                if inline is not None:
+                    # `anyOf: [inline class, sealed {@id} reference]` is a CONTENT
+                    # alternative, not a cardinality choice: whichever form you
+                    # use, the inline branch's required list is the class's real
+                    # contract. Treating it as conditional made every class whose
+                    # body sits behind the idiom -- GeoCoordinates, the DDI-CDI
+                    # components -- look like it required nothing.
+                    walk(inline, scope, unconditional)
+                    continue
+                for br in branches:
+                    walk(br, scope, False)
+            for key in ("if", "then", "else", "not"):
+                if isinstance(node.get(key), dict):
+                    walk(node[key], scope, False)
+            if isinstance(node.get("items"), dict):
+                walk(node["items"], scope, unconditional)
+            for name, sub in (node.get("properties") or {}).items():
+                if isinstance(sub, dict):
+                    walk(sub, f"{scope}/{name}", unconditional)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v, scope, unconditional)
+
+    walk({k: v for k, v in schema.items() if k != "$defs"}, "$root")
+    for cls, sub in (schema.get("$defs") or {}).items():
+        walk(sub, f"$defs.{cls}")
+    return declared, required_scopes, property_scopes, repeatable, required_anywhere
+
+
+def states_required(card):
+    c = (card or "").lower()
+    return "required" in c and "if no" not in c and "if " not in c
+
+
+def states_optional(card):
+    return (card or "").lower().strip().startswith("optional")
+
+
+def audit(selected_checks, only_guide):
+    findings = []
+    descriptions = {}          # prop -> {guide: description}
+
+    for repo_rel, src_rel, schema_name, _shacl in sync_release_repos.REPOS:
+        repo_key = repo_rel.split("/")[0]
+        if only_guide and only_guide not in repo_rel:
+            continue
+        gp = guide_path(repo_rel)
+        if gp is None:
+            findings.append(("missing-guide", repo_key, 0, "", "no *ImplementationGuide.md in this repo"))
+            continue
+        schema_file = CDIF_ROOT / repo_rel / schema_name
+        if not schema_file.exists():
+            findings.append(("missing-schema", repo_key, 0, "", f"{schema_name} not found"))
+            continue
+        schema = json.loads(schema_file.read_text(encoding="utf-8"))
+        (declared, required_scopes, property_scopes,
+         repeatable, required_anywhere) = index_schema(schema)
+
+        for blk in read_guide(gp):
+            name, line, f = blk["name"], blk["line"], blk["fields"]
+            desc = f.get("description", "")
+            if desc:
+                descriptions.setdefault(name, {})[repo_key] = desc
+
+            # An explicit prefix is a claim about the exact property IRI, so only
+            # an unprefixed heading ("name", "identifier") may match on the local
+            # name. Matching `schema:identifier` against any declared *:identifier
+            # made the undeclared check unable to fail -- it reported zero on a
+            # corpus known to contain documented-but-undeclared properties.
+            if name in declared:
+                hit = name
+            elif ":" in name:
+                hit = None
+            else:
+                # sorted(), not set iteration: an unprefixed heading such as
+                # "description" matches several declared properties (schema:,
+                # cdif:, dcterms:), and picking one by set order made the run
+                # non-deterministic -- the same corpus reported different counts
+                # from one invocation to the next.
+                hit = next((d for d in sorted(declared)
+                            if d.split(":")[-1] == name), None)
+
+            if "undeclared" in selected_checks and hit is None:
+                findings.append(("undeclared", repo_key, line, name,
+                                 f"documented but absent from {schema_name}"))
+                continue
+            if hit is None:
+                continue
+
+            if "cardinality" in selected_checks and "cardinality" in f:
+                card = f["cardinality"]
+                req_in = required_scopes.get(hit, set())
+                decl_in = property_scopes.get(hit, set())
+                # Only a property required NOWHERE -- not even inside one branch
+                # of a subclass union -- contradicts a Required claim. Guides
+                # document per class, and cdi:has_DataStructureComponent is
+                # genuinely required by three of four DataStructure subclasses.
+                if states_required(card) and hit not in required_anywhere:
+                    findings.append(("cardinality", repo_key, line, name,
+                                     "guide says Required; schema never requires it, "
+                                     "in any class or branch"))
+                elif states_optional(card) and decl_in and req_in >= decl_in:
+                    findings.append(("cardinality", repo_key, line, name,
+                                     "guide says Optional; schema requires it wherever declared "
+                                     "-- records following the guide will FAIL"))
+
+            if "divergence" in selected_checks and "cardinality" in f and not desc:
+                findings.append(("divergence", repo_key, line, name,
+                                 "has a Cardinality bullet but no Description"))
+
+    if "divergence" in selected_checks:
+        for prop, by_guide in sorted(descriptions.items()):
+            if len(by_guide) < 2:
+                continue
+            lens = sorted(len(v) for v in by_guide.values())
+            if lens[-1] >= 40 and lens[-1] >= 3 * max(lens[0], 1):
+                spread = ", ".join(f"{g}:{len(v)}" for g, v in
+                                   sorted(by_guide.items(), key=lambda kv: -len(kv[1])))
+                findings.append(("divergence", "(cross-guide)", 0, prop,
+                                 f"description depth varies {lens[0]}->{lens[-1]} chars [{spread}]"))
+    return findings
+
+
+def report(findings):
+    if not findings:
+        print("No findings.")
+        return
+    by_check = {}
+    for kind, guide, line, name, msg in findings:
+        by_check.setdefault(kind, []).append((guide, line, name, msg))
+    for kind in sorted(by_check):
+        rows = by_check[kind]
+        print(f"\n== {kind}  ({len(rows)})")
+        for guide, line, name, msg in rows:
+            loc = f"{guide}:{line}" if line else guide
+            print(f"   {loc:34s} {name:38s} {msg}")
+    print(f"\n{len(findings)} finding(s) across {len(by_check)} check(s).")
+
+
+SELF_TEST_GUIDE = """# Fixture
+
+## schema:Dataset
+
+### schema:realProp
+
+- **Cardinality:** Optional
+- **Content:** string
+- **Description:** A property the schema declares and does not require.
+
+### schema:phantomProp
+
+- **Cardinality:** Optional
+- **Content:** string
+- **Description:** A property no schema declares.
+
+### schema:neverRequired
+
+- **Cardinality:** Required
+- **Content:** string
+- **Description:** Guide claims required; schema never requires it.
+
+### schema:alwaysRequired
+
+- **Cardinality:** Optional
+- **Content:** string
+- **Description:** Guide claims optional; schema always requires it.
+
+### schema:noDescription
+
+- **Cardinality:** Optional
+- **Content:** string
+
+### schema:sameLocalName
+
+- **Cardinality:** Optional
+- **Content:** string
+- **Description:** Only cdif:sameLocalName exists; the prefix makes these different IRIs.
+
+### schema:choiceMember
+
+- **Cardinality:** Optional
+- **Content:** string
+- **Description:** Required only inside an anyOf branch, so genuinely optional.
+
+### schema:inlineRequired
+
+- **Cardinality:** Required
+- **Content:** string
+- **Description:** Required by a class sitting behind the sealed-reference idiom.
+
+### schema:choiceOther
+
+- **Cardinality:** Required
+- **Content:** string
+- **Description:** Required by one branch of a union; documenting it as Required
+  under that branch's class is correct and must not be reported.
+"""
+
+SELF_TEST_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "schema:realProp": {"type": "string"},
+        "schema:phantomPropNOT": {"type": "string"},
+        "schema:neverRequired": {"type": "string"},
+        "schema:alwaysRequired": {"type": "string"},
+        "schema:noDescription": {"type": "string"},
+        "cdif:sameLocalName": {"type": "string"},
+        "schema:choiceMember": {"type": "string"},
+        "schema:choiceOther": {"type": "string"},
+    },
+    "allOf": [
+        {"required": ["schema:alwaysRequired"]},
+        {"anyOf": [{"required": ["schema:choiceMember"]},
+                   {"required": ["schema:choiceOther"]}]},
+    ],
+    "$defs": {
+        "Thing": {
+            "anyOf": [
+                {"type": "object",
+                 "properties": {"schema:inlineRequired": {"type": "string"}},
+                 "required": ["schema:inlineRequired"]},
+                {"type": "object", "additionalProperties": False,
+                 "properties": {"@id": {"type": "string"}}, "required": ["@id"]},
+            ]
+        }
+    },
+}
+
+
+def self_test():
+    """Prove each check rejects a case it should. A check that has stopped
+    matching reports zero findings, which is indistinguishable from a clean
+    run -- so the tool must demonstrate it still fires."""
+    import tempfile
+    ok = True
+    with tempfile.TemporaryDirectory() as td:
+        gp = Path(td) / "XImplementationGuide.md"
+        gp.write_text(SELF_TEST_GUIDE, encoding="utf-8")
+        (declared, required_scopes, property_scopes,
+         _rep, required_anywhere) = index_schema(SELF_TEST_SCHEMA)
+        blocks = {b["name"]: b for b in read_guide(gp)}
+
+        expectations = [
+            ("schema:phantomProp", "undeclared",
+             lambda n: n not in declared and not any(
+                 d.split(":")[-1] == n.split(":")[-1] for d in declared)),
+            ("schema:neverRequired", "cardinality-required",
+             lambda n: states_required(blocks[n]["fields"]["cardinality"])
+                       and n not in required_anywhere),
+            ("schema:alwaysRequired", "cardinality-optional",
+             lambda n: states_optional(blocks[n]["fields"]["cardinality"])
+                       and required_scopes.get(n, set()) >= property_scopes.get(n, set())),
+            ("schema:noDescription", "missing-description",
+             lambda n: "cardinality" in blocks[n]["fields"]
+                       and not blocks[n]["fields"].get("description")),
+            ("schema:realProp", "clean (must NOT fire)",
+             lambda n: not (states_required(blocks[n]["fields"]["cardinality"])
+                            and n not in required_anywhere)
+                       and bool(blocks[n]["fields"].get("description"))),
+            # A prefixed name must not match a different prefix's local name,
+            # or the undeclared check silently stops being able to fail.
+            ("schema:sameLocalName", "undeclared despite local-name twin",
+             lambda n: n not in declared),
+            # Required inside an anyOf branch is a choice, not a mandate.
+            ("schema:choiceMember", "anyOf choice is NOT mandatory",
+             lambda n: not (required_scopes.get(n, set())
+                            >= property_scopes.get(n, set()))),
+            # ...but the sealed-reference idiom is a content alternative, so the
+            # inline branch's requirements are real. "Required" here is correct
+            # and must not be reported.
+            ("schema:inlineRequired", "ref-idiom inline requirement is real",
+             lambda n: bool(required_scopes.get(n))),
+            # Required in one branch of a subclass union: a guide documenting it
+            # as Required under that subclass is correct, so nothing may fire.
+            ("schema:choiceOther", "branch requirement counts as required-somewhere",
+             lambda n: n in required_anywhere),
+        ]
+        for name, label, pred in expectations:
+            if name not in blocks:
+                print(f"  FAIL  {label}: fixture block {name} not parsed"); ok = False; continue
+            fired = pred(name)
+            print(f"  {'ok  ' if fired else 'FAIL'}  {label:28s} {name}")
+            ok = ok and fired
+    print("\nself-test PASSED" if ok else "\nself-test FAILED")
+    return 0 if ok else 1
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("-c", "--check", action="append", choices=CHECKS,
+                    help="run only this check (repeatable); default is all")
+    ap.add_argument("-g", "--guide", help="limit to one release repo, e.g. profile-core")
+    ap.add_argument("--strict", action="store_true", help="exit 1 if anything is found")
+    ap.add_argument("--self-test", action="store_true",
+                    help="prove each check still fires on a case it must reject")
+    args = ap.parse_args()
+
+    if args.self_test:
+        return self_test()
+
+    findings = audit(set(args.check or CHECKS), args.guide)
+    report(findings)
+    return 1 if (args.strict and findings) else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1388,6 +1388,41 @@ The old `reviewRevision202606` branches are retained as `archive202609`.
 
 Two consequences worth holding onto:
 
+**Implementation guides drift from the schemas they describe, and nothing used to notice.**
+Each release repo ships a `*ImplementationGuide.md` documenting properties as
+`**Cardinality:** / **Content:** / **Description:**` bullets. `tools/generate_ig_draft.py`
+wrote those guides once, from a resolved schema; every one has been hand-edited since and no
+tool has connected them back. Measured 2026-09-24 across the 12 guides: 58 properties
+documented that the profile schema does not declare, 35 cardinality claims the schema
+contradicts, and 120 depth divergences (the same property documented at very different length
+in two guides, or a Cardinality bullet with no Description at all).
+
+`tools/audit_ig_consistency.py` detects all three; it never rewrites a guide. Run
+`--self-test` first — it proves each check still rejects a case it must, because a check that
+has stopped matching reports zero findings and looks exactly like a clean run. Four traps are
+baked into its own history and covered by that fixture:
+
+- A branch may carry `required` with **no `properties` of its own** — `cdifCore`'s real
+  required list lives in `allOf[1]` exactly that way. Keying requiredness off `properties`
+  makes every such requirement invisible.
+- `anyOf: [{required: [license]}, {required: [conditionsOfAccess]}]` is a **choice**: neither
+  is required on its own. Counting both as mandatory turns every choice group into a phantom
+  finding.
+- But `anyOf: [inline class, sealed {@id} reference]` is a **content alternative**, not a
+  choice — the inline branch's `required` is the class's real contract. Treating it as
+  conditional makes every class behind the idiom (GeoCoordinates, the DDI-CDI components)
+  look like it requires nothing.
+- A property required in one branch of a subclass union is genuinely required *for that
+  subclass*, and the guides document per class. So only a property required **nowhere**
+  contradicts a Required claim.
+
+It deliberately does not check the free-text `**Content:**` bullet: the guides use a prose
+vocabulary ("string, object reference, or DefinedTerm") that does not map onto JSON Schema
+types without a translation table, and a check that guesses reports noise, not defects.
+
+No CI workflow runs it yet — a `--strict` gate would fail on the 213 findings that already
+stand. Wire it once those are triaged, or wire it report-only first.
+
 - `sync_release_repos.py --apply` writes into whatever branch the local clone has checked
   out. The clones are on `updates`; check before syncing, or a sync lands on the wrong branch.
 - `w3id.org/cdif/<profile>/<version>/*` points at Pages **only while that version is current**.
