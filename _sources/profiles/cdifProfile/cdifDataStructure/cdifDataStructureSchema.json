@@ -579,7 +579,7 @@
         },
         "ForeignKey": {
             "type": "object",
-            "description": "A set of variables whose values reference a primary key elsewhere. cdif:, not cdi:, throughout: this is a CDIF simplification, not the DDI-CDI shape. DDI-CDI composes a foreign key from cdi:ForeignKeyComponent nodes, each with cdi:correspondsTo and cdi:references; this form composes the variables directly, each carrying cdif:position. The prefix is what makes that divergence visible, and it matches the sibling cdif:PrimaryKey. Until 2026-09-05 the definition required 'cdif:isComposedOf' while declaring 'cdi:isComposedOf', so it could only be satisfied by an undeclared and therefore unconstrained property.",
+            "description": "A set of variables whose values reference a primary key elsewhere. cdif:, not cdi:, throughout: this is a CDIF simplification, not the DDI-CDI shape. DDI-CDI composes a foreign key from cdi:ForeignKeyComponent nodes, each with cdi:correspondsTo and cdi:references; this form composes the variables directly, each carrying cdif:position. The prefix is what makes that divergence visible, and it matches the sibling cdif:Key. Until 2026-09-05 the definition required 'cdif:isComposedOf' while declaring 'cdi:isComposedOf', so it could only be satisfied by an undeclared and therefore unconstrained property.",
             "properties": {
                 "@type": {
                     "type": "array",
@@ -598,7 +598,7 @@
                 "cdif:isComposedOf": {
                     "type": "array",
                     "minItems": 1,
-                    "description": "Ordered list of cdi:ComponentPosition wrappers, one per key component, matching the sibling cdif:PrimaryKey. The position sits on the wrapper rather than on the variable, and that is load-bearing: an earlier form required cdif:position on the item itself, which made the objectReference branch unsatisfiable, because objectReference is sealed with additionalProperties false. A key could then only be written by inlining whole variables, duplicating what schema:variableMeasured already holds.",
+                    "description": "Ordered list of cdi:ComponentPosition wrappers, one per key component, matching the sibling cdif:Key. The position sits on the wrapper rather than on the variable, and that is load-bearing: an earlier form required cdif:position on the item itself, which made the objectReference branch unsatisfiable, because objectReference is sealed with additionalProperties false. A key could then only be written by inlining whole variables, duplicating what schema:variableMeasured already holds.",
                     "items": {
                         "type": "object",
                         "description": "cdi:ComponentPosition wrapper indexing one variable's position in the key.",
@@ -624,11 +624,14 @@
                             "cdi:value": {
                                 "type": "integer",
                                 "minimum": 1,
+                                "default": 1,
                                 "description": "1-based position of this variable in the ordered key."
                             }
                         },
                         "required": [
-                            "@type"
+                            "@type",
+                            "cdi:indexes",
+                            "cdi:value"
                         ]
                     }
                 },
@@ -639,71 +642,13 @@
             },
             "required": [
                 "@type",
-                "cdif:isComposedOf"
+                "cdif:isComposedOf",
+                "cdif:references"
             ]
         },
         "PrimaryKey": {
-            "type": "object",
-            "description": "set of Variables that uniquely identify a data instance, expressed as an ordered list of cdi:ComponentPosition wrappers (unified with cdifKey's cdi:ComponentPosition model).",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdif:PrimaryKey"
-                    },
-                    "minItems": 1
-                },
-                "@id": {
-                    "type": "string",
-                    "description": "Identifier for this PrimaryKey node"
-                },
-                "cdif:isComposedOf": {
-                    "type": "array",
-                    "minItems": 1,
-                    "description": "Ordered list of cdi:ComponentPosition wrappers, one per key component. Each wrapper indexes one representedVariable (cdi:indexes) at its cdi:value position in the key.",
-                    "items": {
-                        "type": "object",
-                        "description": "cdi:ComponentPosition wrapper indexing one variable's position in the key.",
-                        "properties": {
-                            "@type": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "contains": {
-                                    "const": "cdi:ComponentPosition"
-                                },
-                                "minItems": 1
-                            },
-                            "@id": {
-                                "type": "string",
-                                "description": "Identifier for this ComponentPosition node."
-                            },
-                            "cdi:indexes": {
-                                "description": "The representedVariable this position indexes — an @id-reference to a variable declared elsewhere in the dataStructure.",
-                                "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
-                            },
-                            "cdi:value": {
-                                "type": "integer",
-                                "minimum": 1,
-                                "description": "1-based position of this variable in the ordered key."
-                            }
-                        },
-                        "required": [
-                            "@type",
-                            "cdi:indexes",
-                            "cdi:value"
-                        ]
-                    }
-                }
-            },
-            "required": [
-                "@type",
-                "cdif:isComposedOf"
-            ]
+            "description": "Set of variables that uniquely identify a data instance. The same cdif:Key as cdif:hasPrimaryKey takes at dataset level, so a structure-level key and a dataset-level key can be one node referenced twice.",
+            "$ref": "../../../cdifDataType/cdifKey/cdifKeySchema.json"
         }
     }
 }

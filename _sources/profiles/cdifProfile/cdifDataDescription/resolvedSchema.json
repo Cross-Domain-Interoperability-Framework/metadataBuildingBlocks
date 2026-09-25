@@ -42,7 +42,7 @@
             },
             "cdif:isComposedOf": {
               "type": "array",
-              "description": "Ordered list of cdi:ComponentPosition wrappers. Each wrapper carries cdi:indexes (an @id-reference to a cdi:InstanceVariable declared elsewhere in the dataset) and cdi:value (the integer position in the key, 0- or 1-based).",
+              "description": "Ordered list of cdi:ComponentPosition wrappers. Each wrapper carries cdi:indexes (an @id-reference to a cdi:InstanceVariable declared elsewhere in the dataset) and cdi:value (the 1-based integer position in the key).",
               "items": {
                 "type": "object",
                 "description": "ComponentPosition wrapper indexing one variable's position in the key.",
@@ -63,11 +63,13 @@
                   },
                   "cdi:indexes": {
                     "$ref": "#/$defs/ObjectReference",
-                    "description": "The variable this position indexes -- an @id-reference to a cdi:InstanceVariable declared elsewhere in the document, normally in schema:variableMeasured. A key names variables that are defined once and referenced from the key, so an inline variable here would be a second copy of a node that already exists."
+                    "description": "The variable this position indexes -- an @id-reference to one declared elsewhere in the document. At dataset level (cdif:hasPrimaryKey) that is a cdi:InstanceVariable in schema:variableMeasured; at data-structure level (cdif:has_PrimaryKey, cdif:has_ForeignKey) it is a cdi:RepresentedVariable in the structure. The value is a bare objectReference either way: a key names variables that are defined once and referenced from the key, so an inline variable here would be a second copy of a node that already exists."
                   },
                   "cdi:value": {
                     "type": "integer",
-                    "description": "Index value (position) of the variable in the ordered key."
+                    "minimum": 1,
+                    "default": 1,
+                    "description": "1-based position of this variable in the ordered key. Pinned to a minimum of 1 because a key that might be 0- or 1-based has ambiguous ordering, which defeats the purpose of recording a position at all -- and because both structure-level key definitions already rejected 0, so the latitude this description used to advertise was never honoured anywhere."
                   }
                 },
                 "required": [
