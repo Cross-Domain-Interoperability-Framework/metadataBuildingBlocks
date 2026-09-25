@@ -33,7 +33,7 @@ cdifd:metadataProfileProperty
 # cdifDataStructureComponent, cdifRepresentedVariable, cdifValueDomain). This file
 # adds the profile-level cross-cutting rule:
 #
-#   When an InstanceVariable's cdif:uses points at a RepresentedVariable, any
+#   When an InstanceVariable's cdif:isDefinedBy_RepresentedVariable points at a RepresentedVariable, any
 #   represented-variable-level property already specified on the RepresentedVariable
 #   must NOT also be duplicated on the InstanceVariable.
 #
@@ -46,7 +46,7 @@ cdifd:metadataProfileProperty
 #   - each such RepresentedVariable must have a stable @id (be an IRI node, not an
 #     inline blank node), so that it can be referenced; and
 #   - each such RepresentedVariable must be instantiated by at least one
-#     InstanceVariable via cdif:uses.
+#     InstanceVariable via cdif:isDefinedBy_RepresentedVariable.
 # These are SHACL-only (no JSON Schema equivalent): they are cross-reference
 # coverage/identity constraints that JSON Schema cannot express.
 
@@ -64,7 +64,7 @@ cdifds:NoDuplicateHasIntendedDataTypeShape
             SELECT DISTINCT ?this
             WHERE {
                 ?this a cdi:InstanceVariable .
-                ?this cdif:uses ?rv .
+                ?this cdif:isDefinedBy_RepresentedVariable ?rv .
                 ?rv a cdi:RepresentedVariable .
                 ?rv cdi:hasIntendedDataType ?val .
             }""" ;
@@ -73,7 +73,7 @@ cdifds:NoDuplicateHasIntendedDataTypeShape
         sh:path cdi:hasIntendedDataType ;
         sh:maxCount 0 ;
         sh:severity sh:Violation ;
-        sh:message "cdi:hasIntendedDataType is already defined on the RepresentedVariable that this InstanceVariable cdif:uses; remove the duplicate from the InstanceVariable." ;
+        sh:message "cdi:hasIntendedDataType is already defined on the RepresentedVariable that this InstanceVariable cdif:isDefinedBy_RepresentedVariable; remove the duplicate from the InstanceVariable." ;
     ]
     .
 
@@ -91,7 +91,7 @@ cdifds:NoDuplicateDescribedUnitOfMeasureShape
             SELECT DISTINCT ?this
             WHERE {
                 ?this a cdi:InstanceVariable .
-                ?this cdif:uses ?rv .
+                ?this cdif:isDefinedBy_RepresentedVariable ?rv .
                 ?rv a cdi:RepresentedVariable .
                 ?rv cdi:describedUnitOfMeasure ?val .
             }""" ;
@@ -100,7 +100,7 @@ cdifds:NoDuplicateDescribedUnitOfMeasureShape
         sh:path cdi:describedUnitOfMeasure ;
         sh:maxCount 0 ;
         sh:severity sh:Violation ;
-        sh:message "cdi:describedUnitOfMeasure is already defined on the RepresentedVariable that this InstanceVariable cdif:uses; remove the duplicate from the InstanceVariable." ;
+        sh:message "cdi:describedUnitOfMeasure is already defined on the RepresentedVariable that this InstanceVariable cdif:isDefinedBy_RepresentedVariable; remove the duplicate from the InstanceVariable." ;
     ]
     .
 
@@ -122,7 +122,7 @@ cdifds:NoDuplicateSimpleUnitOfMeasureShape
             SELECT DISTINCT ?this
             WHERE {
                 ?this a cdi:InstanceVariable .
-                ?this cdif:uses ?rv .
+                ?this cdif:isDefinedBy_RepresentedVariable ?rv .
                 ?rv a cdi:RepresentedVariable .
                 { ?rv cdi:simpleUnitOfMeasure ?val } UNION { ?rv cdif:simpleUnitOfMeasure ?val }
             }""" ;
@@ -131,7 +131,7 @@ cdifds:NoDuplicateSimpleUnitOfMeasureShape
         sh:path cdif:simpleUnitOfMeasure ;
         sh:maxCount 0 ;
         sh:severity sh:Violation ;
-        sh:message "A simple unit of measure is already defined on the RepresentedVariable that this InstanceVariable cdif:uses; remove the duplicate cdif:simpleUnitOfMeasure from the InstanceVariable." ;
+        sh:message "A simple unit of measure is already defined on the RepresentedVariable that this InstanceVariable cdif:isDefinedBy_RepresentedVariable; remove the duplicate cdif:simpleUnitOfMeasure from the InstanceVariable." ;
     ]
     .
 
@@ -149,7 +149,7 @@ cdifds:NoDuplicateTakesSentinelValuesFromShape
             SELECT DISTINCT ?this
             WHERE {
                 ?this a cdi:InstanceVariable .
-                ?this cdif:uses ?rv .
+                ?this cdif:isDefinedBy_RepresentedVariable ?rv .
                 ?rv a cdi:RepresentedVariable .
                 ?rv cdi:takesSentinelValuesFrom ?val .
             }""" ;
@@ -158,7 +158,7 @@ cdifds:NoDuplicateTakesSentinelValuesFromShape
         sh:path cdi:takesSentinelValuesFrom ;
         sh:maxCount 0 ;
         sh:severity sh:Violation ;
-        sh:message "cdi:takesSentinelValuesFrom is already defined on the RepresentedVariable that this InstanceVariable cdif:uses; remove the duplicate from the InstanceVariable." ;
+        sh:message "cdi:takesSentinelValuesFrom is already defined on the RepresentedVariable that this InstanceVariable cdif:isDefinedBy_RepresentedVariable; remove the duplicate from the InstanceVariable." ;
     ]
     .
 
@@ -176,7 +176,7 @@ cdifds:NoDuplicateTakesSubstantiveValuesFromShape
             SELECT DISTINCT ?this
             WHERE {
                 ?this a cdi:InstanceVariable .
-                ?this cdif:uses ?rv .
+                ?this cdif:isDefinedBy_RepresentedVariable ?rv .
                 ?rv a cdi:RepresentedVariable .
                 ?rv cdi:takesSubstantiveValuesFrom ?val .
             }""" ;
@@ -185,13 +185,13 @@ cdifds:NoDuplicateTakesSubstantiveValuesFromShape
         sh:path cdi:takesSubstantiveValuesFrom ;
         sh:maxCount 0 ;
         sh:severity sh:Violation ;
-        sh:message "cdi:takesSubstantiveValuesFrom is already defined on the RepresentedVariable that this InstanceVariable cdif:uses; remove the duplicate from the InstanceVariable." ;
+        sh:message "cdi:takesSubstantiveValuesFrom is already defined on the RepresentedVariable that this InstanceVariable cdif:isDefinedBy_RepresentedVariable; remove the duplicate from the InstanceVariable." ;
     ]
     .
 
 cdifds:NoDuplicateQualifiesShape
 # cdi:qualifies on an InstanceVariable is redundant if the AttributeComponent that
-# wraps the RepresentedVariable this InstanceVariable cdif:uses already carries
+# wraps the RepresentedVariable this InstanceVariable cdif:isDefinedBy_RepresentedVariable already carries
 # cdi:qualifies (pointing at the qualified component). Disallow the duplicate.
     a sh:NodeShape ;
     sh:target [
@@ -206,7 +206,7 @@ cdifds:NoDuplicateQualifiesShape
             SELECT DISTINCT ?this
             WHERE {
                 ?this a cdi:InstanceVariable .
-                ?this cdif:uses ?rv .
+                ?this cdif:isDefinedBy_RepresentedVariable ?rv .
                 ?rv a cdi:RepresentedVariable .
                 ?ac a cdi:AttributeComponent .
                 ?ac cdif:isDefinedBy_Variable ?rv .
@@ -217,13 +217,13 @@ cdifds:NoDuplicateQualifiesShape
         sh:path cdi:qualifies ;
         sh:maxCount 0 ;
         sh:severity sh:Violation ;
-        sh:message "cdi:qualifies is already defined on the AttributeComponent that wraps the RepresentedVariable this InstanceVariable cdif:uses; remove the duplicate from the InstanceVariable." ;
+        sh:message "cdi:qualifies is already defined on the AttributeComponent that wraps the RepresentedVariable this InstanceVariable cdif:isDefinedBy_RepresentedVariable; remove the duplicate from the InstanceVariable." ;
     ]
     .
 
 # A RepresentedVariable referenced by a DataStructureComponent must be identified
 # by a stable @id (an IRI node), not an inline blank node. Without an @id it
-# cannot be the target of an InstanceVariable's cdif:uses, which the next rule
+# cannot be the target of an InstanceVariable's cdif:isDefinedBy_RepresentedVariable, which the next rule
 # requires. Targets the objects of cdif:isDefinedBy_Variable directly,
 # so it applies whether the RepresentedVariable is inlined or referenced by @id.
 cdifds:RepresentedVariableMustHaveStableIdShape
@@ -231,17 +231,17 @@ cdifds:RepresentedVariableMustHaveStableIdShape
     sh:targetObjectsOf cdif:isDefinedBy_Variable ;
     sh:nodeKind sh:IRI ;
     sh:severity sh:Violation ;
-    sh:message "A RepresentedVariable referenced by a DataStructureComponent (cdif:isDefinedBy_Variable) must be identified by a stable @id (IRI), not an inline blank node, so that an InstanceVariable can reference it via cdif:uses." ;
+    sh:message "A RepresentedVariable referenced by a DataStructureComponent (cdif:isDefinedBy_Variable) must be identified by a stable @id (IRI), not an inline blank node, so that an InstanceVariable can reference it via cdif:isDefinedBy_RepresentedVariable." ;
     .
 
 # Every RepresentedVariable referenced by a DataStructureComponent must also be
-# instantiated: at least one InstanceVariable must reference it via cdif:uses.
-# Uses the inverse of cdif:uses from the RepresentedVariable (the target object)
+# instantiated: at least one InstanceVariable must reference it via cdif:isDefinedBy_RepresentedVariable.
+# Uses the inverse of cdif:isDefinedBy_RepresentedVariable from the RepresentedVariable (the target object)
 # and requires at least one such subject typed cdi:InstanceVariable.
 #
 # The sh:or exists because cdif:isDefinedBy_Variable now also accepts an
 # InstanceVariable directly. Such a target is already an instance, so requiring a
-# further InstanceVariable to cdif:uses it would demand a variable that instantiates
+# further InstanceVariable to cdif:isDefinedBy_RepresentedVariable it would demand a variable that instantiates
 # an instance. Without this branch the rule would fail every component that takes the
 # new direct route.
 cdifds:RepresentedVariableMustBeInstantiatedShape
@@ -250,13 +250,13 @@ cdifds:RepresentedVariableMustBeInstantiatedShape
     sh:or (
         [ sh:class cdi:InstanceVariable ]
         [ sh:property [
-            sh:path [ sh:inversePath cdif:uses ] ;
+            sh:path [ sh:inversePath cdif:isDefinedBy_RepresentedVariable ] ;
             sh:qualifiedValueShape [ sh:class cdi:InstanceVariable ] ;
             sh:qualifiedMinCount 1 ;
         ] ]
     ) ;
     sh:severity sh:Violation ;
-    sh:message "This RepresentedVariable is referenced by a DataStructureComponent (cdif:isDefinedBy_Variable) but no InstanceVariable references it via cdif:uses. Add an InstanceVariable in schema:variableMeasured whose cdif:uses points at this RepresentedVariable, or point the component straight at the InstanceVariable." ;
+    sh:message "This RepresentedVariable is referenced by a DataStructureComponent (cdif:isDefinedBy_Variable) but no InstanceVariable references it via cdif:isDefinedBy_RepresentedVariable. Add an InstanceVariable in schema:variableMeasured whose cdif:isDefinedBy_RepresentedVariable points at this RepresentedVariable, or point the component straight at the InstanceVariable." ;
     .
 
 # ------------------------------------------------------------
@@ -279,7 +279,7 @@ cdifd:cdifDataStructure_inlineStructureShape
 # a bare @id reference, i.e. it carries no cdi:has_DataStructureComponent here),
 # then the structure's RepresentedVariables live in that external structure. So
 # the dataset's InstanceVariables must reference them by @id, NOT inline a
-# cdi:RepresentedVariable object via cdif:uses. SPARQL uses full IRIs to avoid
+# cdi:RepresentedVariable object via cdif:isDefinedBy_RepresentedVariable. SPARQL uses full IRIs to avoid
 # needing sh:prefixes.
 # ------------------------------------------------------------
 cdifds:ReferencedStructureImpliesReferencedRVShape
@@ -287,7 +287,7 @@ cdifds:ReferencedStructureImpliesReferencedRVShape
     sh:targetClass schema:Dataset ;
     sh:sparql [
         sh:severity sh:Violation ;
-        sh:message "This dataset references an external data structure (cdi:isStructuredBy is a bare @id reference), so its RepresentedVariables belong to that external structure: an InstanceVariable's cdif:uses must be an @id reference, not an inline cdi:RepresentedVariable." ;
+        sh:message "This dataset references an external data structure (cdi:isStructuredBy is a bare @id reference), so its RepresentedVariables belong to that external structure: an InstanceVariable's cdif:isDefinedBy_RepresentedVariable must be an @id reference, not an inline cdi:RepresentedVariable." ;
         sh:select """
             SELECT $this WHERE {
                 $this <http://schema.org/distribution> ?dist .
