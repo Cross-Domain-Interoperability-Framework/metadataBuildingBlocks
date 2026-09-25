@@ -221,7 +221,7 @@ else:
       '@id':
         type: string
         description: Identifier for this DataStructure node
-      'cdi:has_ForeignKey':
+      'cdif:has_ForeignKey':
         type: array
         items:
           anyOf:
@@ -235,7 +235,7 @@ else:
           - '$ref': ../../../cdifDataType/cdifDataStructureComponent/schema.yaml
           - '$ref': '../../../cdifDataType/objectReference/schema.yaml'
         minItems: 1
-      'cdi:has_PrimaryKey':
+      'cdif:has_PrimaryKey':
         '$ref': '#/$defs/PrimaryKey'
     required:
     - '@type'
@@ -250,8 +250,8 @@ else:
     # describes nothing -- there the requirement is doing real work.
     anyOf:
     - required: ['cdi:has_DataStructureComponent']
-    - required: ['cdi:has_ForeignKey']
-    - required: ['cdi:has_PrimaryKey']
+    - required: ['cdif:has_ForeignKey']
+    - required: ['cdif:has_PrimaryKey']
   DimensionalDataStructure:
     type: object
     description: >-
@@ -277,9 +277,9 @@ else:
           - '$ref': '../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent'
           - '$ref': '../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/DimensionComponent'
         minItems: 1
-      'cdi:has_PrimaryKey':
+      'cdif:has_PrimaryKey':
         '$ref': '#/$defs/PrimaryKey'
-      'cdi:has_ForeignKey':
+      'cdif:has_ForeignKey':
         type: array
         items:
           anyOf:
@@ -330,7 +330,7 @@ else:
           minContains: 1
           maxContains: 1
         minItems: 3
-      'cdi:has_PrimaryKey':
+      'cdif:has_PrimaryKey':
         '$ref': '#/$defs/PrimaryKey'
     required:
     - '@type'
@@ -360,9 +360,9 @@ else:
           - '$ref': '../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent'
           - '$ref': '../../../cdifDataType/objectReference/schema.yaml'
         minItems: 1
-      'cdi:has_PrimaryKey':
+      'cdif:has_PrimaryKey':
         '$ref': '#/$defs/PrimaryKey'
-      'cdi:has_ForeignKey':
+      'cdif:has_ForeignKey':
         type: array
         items:
           anyOf:
@@ -455,14 +455,12 @@ else:
               description: Identifier for this ComponentPosition node.
             'cdi:indexes':
               description: >-
-                The variable this position indexes, usually an @id-reference to one declared in schema:variableMeasured.
-                An InstanceVariable is accepted alongside a RepresentedVariable because it is a subclass
-                of one, and CDIF records describe instance variables -- requiring a RepresentedVariable
-                would leave the records that actually need a key unable to write one.
-              anyOf:
-              - $ref: '../../../cdifDataType/objectReference/schema.yaml'
-              - $ref: '../../../cdifDataType/cdifInstanceVariable/schema.yaml'
-              - $ref: '../../../cdifDataType/cdifRepresentedVariable/schema.yaml'
+                The variable this position indexes -- an @id-reference to one declared elsewhere in the
+                document, matching cdi:indexes on PrimaryKey. A key names variables that are defined
+                once and referenced from the key, so an inline variable here would be a second copy of
+                a node that already exists; framing inlines the target and the embedded copy then had
+                to be told apart from authored content.
+              $ref: '../../../cdifDataType/objectReference/schema.yaml'
             'cdi:value':
               type: integer
               minimum: 1

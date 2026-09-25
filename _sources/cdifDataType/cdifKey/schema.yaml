@@ -23,8 +23,8 @@ properties:
     type: array
     description: >-
       Ordered list of cdi:ComponentPosition wrappers. Each wrapper carries cdi:indexes
-      (an inline cdifInstanceVariable or @id-reference to one declared elsewhere in
-      the dataset) and cdi:value (the integer position in the key, 0- or 1-based).
+      (an @id-reference to a cdi:InstanceVariable declared elsewhere in the dataset)
+      and cdi:value (the integer position in the key, 0- or 1-based).
     items:
       type: object
       description: >-
@@ -41,15 +41,13 @@ properties:
           type: string
           description: Identifier for this ComponentPosition node.
         'cdi:indexes':
-          anyOf:
-          - '$ref': '../../cdifDataType/cdifInstanceVariable/schema.yaml'
-          - type: object
-            additionalProperties: false
-            description: object reference via @id to a cdifInstanceVariable declared elsewhere
-            properties:
-              '@id':
-                type: string
-            required: ['@id']
+          description: >-
+            The variable this position indexes -- an @id-reference to a
+            cdi:InstanceVariable declared elsewhere in the document, normally in
+            schema:variableMeasured. A key names variables that are defined once
+            and referenced from the key, so an inline variable here would be a
+            second copy of a node that already exists.
+          '$ref': '../../cdifDataType/objectReference/schema.yaml'
         'cdi:value':
           type: integer
           description: Index value (position) of the variable in the ordered key.

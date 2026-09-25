@@ -220,7 +220,7 @@ Profile content is split across two trees (2026-05 reorg):
 | `cdifCore` | Foundational schema:Dataset shape — identifiers, name/description, distribution, license, agents, dateModified, subjectOf → CatalogRecord |
 | `cdifDiscovery` | `schema:measurementTechnique`, `schema:variableMeasured` (PropertyValue), `schema:spatialCoverage`, `schema:temporalCoverage`, `dqv:hasQualityMeasurement` |
 | `cdifDataDescription` | `cdif:hasPrimaryKey`, `cdif:statistics`, InstanceVariable with `cdif:physicalDataType`, `cdif:hasPhysicalMapping` (PhysicalMapping / TextMapping / LocatorMapping), `cdi:characterSet`, `cdi:fingerprint`, DataDownload co-typing as `cdi:TabularTextDataSet` / `cdi:StructuredDataSet` |
-| `cdifDataStructure` | Distribution-level `cdi:isStructuredBy` → DataStructure / Dimensional / Long / Wide; six component subtypes; `cdi:has_PrimaryKey` + `cdi:has_ForeignKey` over RepresentedVariables (membership wrapped with required `cdif:position` integer) |
+| `cdifDataStructure` | Distribution-level `cdi:isStructuredBy` → DataStructure / Dimensional / Long / Wide; six component subtypes; `cdif:has_PrimaryKey` + `cdif:has_ForeignKey` over RepresentedVariables (membership wrapped with required `cdif:position` integer) |
 | `cdifManifest` | `schema:hasPart` on a DataDownload listing schema:MediaObject component files. Conditional: when `schema:encodingFormat` contains `application/zip`, `schema:hasPart` is required. Requires `cdif:manifest/1.0` conformsTo. (Merged from the previous `cdifArchive` BB.) |
 | `cdifProvenance` | `prov:wasGeneratedBy` → ProvActivity array (instruments, agents, temporal bounds, methodology, action chaining) |
 | `cdifCodelist` | `skos:ConceptScheme` shape constrained for CDIF codelist use |

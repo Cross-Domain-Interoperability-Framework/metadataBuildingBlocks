@@ -7,9 +7,9 @@ This is a CDIF profile of DDI-CDI's `Key` / `PrimaryKey` concept. Where the cano
 ## Structure
 
 - `@type` must contain `"cdif:Key"`.
-- `cdif:isComposedOf` is an ordered array of one or more `cdif:ComponentPosition` entries.
-- Each `cdif:ComponentPosition` carries:
-  - `cdif:indexes` — the `cdi:InstanceVariable` (inline `cdifInstanceVariable` node, or an `@id`-only reference);
-  - `cdif:value` — an integer indicating the position of this component within the key, counting upward from `0` or `1`.
+- `cdif:isComposedOf` is an ordered array of one or more `cdi:ComponentPosition` entries.
+- Each `cdi:ComponentPosition` carries:
+  - `cdi:indexes` — an `@id`-only reference to the `cdi:InstanceVariable`, which is declared elsewhere in the document (normally in `schema:variableMeasured`);
+  - `cdi:value` — an integer indicating the position of this component within the key, counting upward from `0` or `1`.
 
-The `cdif:value` ordering matters for composite (multi-column) keys: it determines the canonical sort/lookup order so that `(year, country)` and `(country, year)` keys are distinguishable.
+The `cdi:value` ordering matters for composite (multi-column) keys: it determines the canonical sort/lookup order so that `(year, country)` and `(country, year)` keys are distinguishable.

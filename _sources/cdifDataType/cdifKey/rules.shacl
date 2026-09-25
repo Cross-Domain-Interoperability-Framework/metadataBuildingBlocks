@@ -9,9 +9,11 @@
 
 # ------------------------------------------------------------
 # cdif:Key — ordered set of cdi:InstanceVariables that uniquely
-# identify a data instance. cdif:isComposedOf is a flat ordered
-# array of InstanceVariable refs (inline or @id); position is
-# implicit in array order — no ComponentPosition wrapper.
+# identify a data instance. cdif:isComposedOf is an array of
+# cdi:ComponentPosition wrappers, each carrying cdi:indexes (an
+# @id-reference to the variable) and cdi:value (its position in the
+# key). Position is explicit in cdi:value, not implicit in array
+# order.
 # ------------------------------------------------------------
 
 cdifd:cdifKeyShape
@@ -22,6 +24,6 @@ cdifd:cdifKeyShape
 		sh:path cdif:isComposedOf ;
 		sh:minCount 1 ;
 		sh:severity sh:Violation ;
-		sh:message "A cdif:Key must have at least one cdif:isComposedOf entry (a cdi:InstanceVariable inline or @id-reference)." ;
+		sh:message "A cdif:Key must have at least one cdif:isComposedOf entry (an @id-reference to a cdi:InstanceVariable)." ;
 	] ;
 	.
