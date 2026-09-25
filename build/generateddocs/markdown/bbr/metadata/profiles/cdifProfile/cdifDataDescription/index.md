@@ -895,7 +895,28 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             schema1:name "Ocean temperature CSV" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "-999.9" ;
+                    cdi:scale 1 ;
+                    cdif:format "0.0" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:isRequired false ;
                     cdi:maximumLength 10 ;
@@ -905,28 +926,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:format "0.00" ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdif:index 2 ;
-                    cdif:physicalDataType "Numeric" ],
-                [ cdi:decimalPositions 1 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "-999.9" ;
-                    cdi:scale 1 ;
-                    cdif:format "0.0" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "Numeric" ],
-                [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "Integer" ] ] ;
+                    cdif:physicalDataType "Numeric" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:name "Ocean Temperature Monitoring Data" ;
@@ -1280,11 +1280,11 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
-    "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "spdx": "http://spdx.org/rdf/terms#",
     "xas": "cdif:xas/",
     "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",

@@ -830,15 +830,9 @@ referencing the code-list concept).
             cdi:typeOfNumericValue "decimal" ] ;
     cdi:typeOfStatistic "frequency" ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/1> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 3739 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 75 ;
+                    cdi:content 108 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
@@ -848,15 +842,21 @@ referencing the code-list concept).
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/1> ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 108 ;
+                    cdi:content 75 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 21497 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdi:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 3739 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdi:typeOfStatistic "frequency" ] .
 
@@ -1335,12 +1335,18 @@ properties:
   cdif:uses:
     type: array
     items:
-      anyOf:
-      - $ref: '#/$defs/cdifConceptOrTermOrString'
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     description: 'Essentially the same as schema:propertyID. References the concept(s)
-      that this variable measures or represents and, under the Data Structure profile,
-      the RepresentedVariable it instantiates. The RepresentedVariable branch is not
+      this variable measures or represents -- and nothing else. A RepresentedVariable
+      is NOT a legal value: that link is cdif:isDefinedBy_RepresentedVariable, which
+      is reference-only and carries the no-duplication rule. The RepresentedVariable
+      branch was removed 2026-09-25. It never widened what could be *written*, because
+      cdifConceptOrTerm''s first branch is already a sealed {@id} reference, so it
+      only ever admitted an inline RepresentedVariable node -- which framing produced
+      and nothing authored. Keeping it cost the property its single value type, made
+      it a partial exception to the CDIF convention of disambiguating polymorphic
+      DDI-CDI role names by target, and left it not type-compatible with canonical
+      cdi:uses, which is valued by a Concept. The RepresentedVariable branch is not
       new behaviour: it is what the rest of CDIF already documents and enforces. description.md
       calls cdif:uses "concepts (or, under the Data Structure profile, the RepresentedVariable)";
       agents.md describes the InstanceVariable as "a pointer (via cdif:uses) into
@@ -1506,7 +1512,6 @@ Links to the schema:
     "prov": "http://www.w3.org/ns/prov#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "@version": 1.1
   }
 }

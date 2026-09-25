@@ -16,7 +16,7 @@ The **CDIF Data Structure profile** extends the [Data Description profile](../CD
 ## What it adds beyond Data Description
 
 - **Component subclasses.** [cdifDataStructureComponent](../../../cdifProperties/cdifDataStructureComponent/) defines `cdi:IdentifierComponent`, `cdi:MeasureComponent`, `cdi:AttributeComponent`, `cdi:DimensionComponent`, `cdi:VariableValueComponent`, and `cdi:VariableDescriptorComponent` as Node classes — the structural counterparts to the role values carried directly on InstanceVariables in the Data Description profile.
-- **Polymorphic DataStructure root.** [cdifDataStructure](../../../cdifProperties/cdifDataStructure/) carries `cdi:DataStructure`, `cdi:DimensionalDataStructure`, `cdi:LongDataStructure`, and `cdi:WideDataStructure`, plus shared structural types (`cdi:DimensionGroup`, `cdi:ForeignKey`, `cdi:ForeignKeyComponent`, `cdif:PrimaryKey`, `cdi:PrimaryKeyComponent`).
+- **Polymorphic DataStructure root.** [cdifDataStructure](../../../cdifProperties/cdifDataStructure/) carries `cdi:DataStructure`, `cdi:DimensionalDataStructure`, `cdi:LongDataStructure`, and `cdi:WideDataStructure`, plus shared structural types (`cdi:DimensionGroup`, `cdi:ForeignKey`, `cdi:ForeignKeyComponent`, `cdif:Key`, `cdi:PrimaryKeyComponent`).
 - **Represented variables and value domains.** [cdifRepresentedVariable](../../../cdifProperties/cdifRepresentedVariable/) and [cdifValueDomain](../../../cdifProperties/cdifValueDomain/) provide the conceptual variable definitions and substantive/sentinel value domains referenced from components.
 - **Descriptor variable.** [cdifDescriptorVariable](../../../cdifProperties/cdifDescriptorVariable/) defines the `cdi:DescriptorVariable` + `cdi:DescriptorValueDomain` pattern that maps descriptor-column codes to the RepresentedVariables they name (long-format datasets).
 - **Distribution is structured.** Every `schema:distribution` item must carry `cdi:isStructuredBy` pointing at a Data Structure node (Data Description allows it but does not require it).
@@ -91,11 +91,9 @@ elsewhere. The conformsTo array carries the three required URIs
         "cdi:InstanceVariable"
       ],
       "schema:name": "patient_id",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsWide/rv/patientId"
-        }
-      ]
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@id": "ex:struct/vitalsWide/rv/patientId"
+      }
     },
     {
       "@id": "ex:var/systolicBP",
@@ -104,11 +102,9 @@ elsewhere. The conformsTo array carries the three required URIs
         "cdi:InstanceVariable"
       ],
       "schema:name": "systolic_bp",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsWide/rv/systolicBP"
-        }
-      ]
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@id": "ex:struct/vitalsWide/rv/systolicBP"
+      }
     }
   ],
   "schema:distribution": [
@@ -238,11 +234,9 @@ elsewhere. The conformsTo array carries the three required URIs
         "cdi:InstanceVariable"
       ],
       "schema:name": "patient_id",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsWide/rv/patientId"
-        }
-      ]
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@id": "ex:struct/vitalsWide/rv/patientId"
+      }
     },
     {
       "@id": "ex:var/systolicBP",
@@ -251,11 +245,9 @@ elsewhere. The conformsTo array carries the three required URIs
         "cdi:InstanceVariable"
       ],
       "schema:name": "systolic_bp",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsWide/rv/systolicBP"
-        }
-      ]
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@id": "ex:struct/vitalsWide/rv/systolicBP"
+      }
     }
   ],
   "schema:distribution": [
@@ -388,12 +380,12 @@ elsewhere. The conformsTo array carries the three required URIs
 <https://example.org/var/patientId> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     schema1:name "patient_id" ;
-    cdif:uses <https://example.org/struct/vitalsWide/rv/patientId> .
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/patientId> .
 
 <https://example.org/var/systolicBP> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     schema1:name "systolic_bp" ;
-    cdif:uses <https://example.org/struct/vitalsWide/rv/systolicBP> .
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/systolicBP> .
 
 <https://example.org/struct/vitalsWide/rv/patientId> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:string" ;
@@ -421,7 +413,7 @@ physical layout properties, and inlines a full cdi:LongDataStructure
 via cdi:isStructuredBy — the structure carries all four components
 (matching the LongDataStructure cardinality constraint of exactly one
 each UnitIdentifier / VariableDescriptor / VariableValue plus the
-optional Attribute) and its own cdif:PrimaryKey.
+optional Attribute) and its own cdif:Key.
 #### json
 ```json
 {
@@ -668,11 +660,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       ],
       "schema:name": "patient_id",
       "cdif:physicalDataType": "xsd:string",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsLong/rv/patientId"
-        }
-      ]
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@id": "ex:struct/vitalsLong/rv/patientId"
+      }
     },
     {
       "@id": "ex:var/measureName",
@@ -681,12 +671,7 @@ optional Attribute) and its own cdif:PrimaryKey.
         "cdi:InstanceVariable"
       ],
       "schema:name": "measure_name",
-      "cdif:physicalDataType": "xsd:string",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsLong/dv/measureName"
-        }
-      ]
+      "cdif:physicalDataType": "xsd:string"
     },
     {
       "@id": "ex:var/measureValue",
@@ -696,11 +681,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       ],
       "schema:name": "measure_value",
       "cdif:physicalDataType": "xsd:decimal",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsLong/rv/measureValue"
-        }
-      ]
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@id": "ex:struct/vitalsLong/rv/measureValue"
+      }
     },
     {
       "@id": "ex:var/observedAt",
@@ -710,11 +693,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       ],
       "schema:name": "observed_at",
       "cdif:physicalDataType": "xsd:dateTime",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsLong/rv/observedAt"
-        }
-      ]
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@id": "ex:struct/vitalsLong/rv/observedAt"
+      }
     }
   ],
   "cdif:hasPrimaryKey": {
@@ -950,9 +931,9 @@ optional Attribute) and its own cdif:PrimaryKey.
             }
           }
         ],
-        "cdi:has_PrimaryKey": {
+        "cdif:has_PrimaryKey": {
           "@type": [
-            "cdif:PrimaryKey"
+            "cdif:Key"
           ],
           "@id": "ex:struct/vitalsLong/pk",
           "cdif:isComposedOf": [
@@ -1451,11 +1432,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       ],
       "schema:name": "patient_id",
       "cdif:physicalDataType": "xsd:string",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsLong/rv/patientId"
-        }
-      ]
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@id": "ex:struct/vitalsLong/rv/patientId"
+      }
     },
     {
       "@id": "ex:var/measureName",
@@ -1464,12 +1443,7 @@ optional Attribute) and its own cdif:PrimaryKey.
         "cdi:InstanceVariable"
       ],
       "schema:name": "measure_name",
-      "cdif:physicalDataType": "xsd:string",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsLong/dv/measureName"
-        }
-      ]
+      "cdif:physicalDataType": "xsd:string"
     },
     {
       "@id": "ex:var/measureValue",
@@ -1479,11 +1453,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       ],
       "schema:name": "measure_value",
       "cdif:physicalDataType": "xsd:decimal",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsLong/rv/measureValue"
-        }
-      ]
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@id": "ex:struct/vitalsLong/rv/measureValue"
+      }
     },
     {
       "@id": "ex:var/observedAt",
@@ -1493,11 +1465,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       ],
       "schema:name": "observed_at",
       "cdif:physicalDataType": "xsd:dateTime",
-      "cdif:uses": [
-        {
-          "@id": "ex:struct/vitalsLong/rv/observedAt"
-        }
-      ]
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@id": "ex:struct/vitalsLong/rv/observedAt"
+      }
     }
   ],
   "cdif:hasPrimaryKey": {
@@ -1733,9 +1703,9 @@ optional Attribute) and its own cdif:PrimaryKey.
             }
           }
         ],
-        "cdi:has_PrimaryKey": {
+        "cdif:has_PrimaryKey": {
           "@type": [
-            "cdif:PrimaryKey"
+            "cdif:Key"
           ],
           "@id": "ex:struct/vitalsLong/pk",
           "cdif:isComposedOf": [
@@ -2046,10 +2016,6 @@ optional Attribute) and its own cdif:PrimaryKey.
             schema1:potentialAction [ a schema1:Action ;
                     schema1:name "Query vitals as long-format CSV" ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of observations to return (default 100)." ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination." ;
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ],
@@ -2057,6 +2023,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                             schema1:description "Response format token (csv only for this example)." ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of observations to return (default 100)." ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a cdi:PhysicalDataSet,
                                 cdi:TabularTextDataSet,
@@ -2073,21 +2043,21 @@ optional Attribute) and its own cdif:PrimaryKey.
                             cdif:fileSize 5e-01 ;
                             cdif:fileSizeUofM "MB" ;
                             cdif:hasPhysicalMapping [ cdif:format "string" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
-                                    cdif:index 1 ;
-                                    cdif:physicalDataType "string" ],
-                                [ cdif:format "ISO8601" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
-                                    cdif:index 3 ;
-                                    cdif:physicalDataType "dateTime" ],
-                                [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
                                     cdif:index 0 ;
+                                    cdif:physicalDataType "string" ],
+                                [ cdif:format "string" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
+                                    cdif:index 1 ;
                                     cdif:physicalDataType "string" ],
                                 [ cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                                     cdif:index 2 ;
-                                    cdif:physicalDataType "decimal" ] ] ;
+                                    cdif:physicalDataType "decimal" ],
+                                [ cdif:format "ISO8601" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
+                                    cdif:index 3 ;
+                                    cdif:physicalDataType "dateTime" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "text/csv" ;
                             schema1:description "OGC API Features endpoint returning vitals observations as long-format CSV." ;
@@ -2163,11 +2133,11 @@ optional Attribute) and its own cdif:PrimaryKey.
 
 <https://example.org/dataset/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/observedAt> ;
+            cdi:value 3 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/measureName> ;
             cdi:value 2 ] .
@@ -2191,7 +2161,11 @@ optional Attribute) and its own cdif:PrimaryKey.
 <https://example.org/struct/vitalsLong/comp/patientId> a cdi:IdentifierComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/patientId> .
 
-<https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;
+<https://example.org/struct/vitalsLong/dv/measureName> a cdi:DescriptorVariable ;
+    cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> ;
+    cdif:name "measure_name" .
+
+<https://example.org/struct/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ],
@@ -2227,10 +2201,10 @@ optional Attribute) and its own cdif:PrimaryKey.
             cdif:value "diastolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
             cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
-            cdif:value "temp_c" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ] .
+            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
+            cdif:value "temp_c" ] .
 
 <https://orcid.org/0000-0001-8898-3457> a schema1:Person ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -2260,11 +2234,7 @@ optional Attribute) and its own cdif:PrimaryKey.
         <https://example.org/struct/vitalsLong/comp/measureValue>,
         <https://example.org/struct/vitalsLong/comp/observedAt>,
         <https://example.org/struct/vitalsLong/comp/patientId> ;
-    cdi:has_PrimaryKey <https://example.org/struct/vitalsLong/pk> .
-
-<https://example.org/struct/vitalsLong/dv/measureName> a cdi:DescriptorVariable ;
-    cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> ;
-    cdif:name "measure_name" .
+    cdif:has_PrimaryKey <https://example.org/struct/vitalsLong/pk> .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:decimal" ;
@@ -2298,26 +2268,25 @@ optional Attribute) and its own cdif:PrimaryKey.
 <https://example.org/var/measureValue> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     schema1:name "measure_value" ;
-    cdif:physicalDataType "xsd:decimal" ;
-    cdif:uses <https://example.org/struct/vitalsLong/rv/measureValue> .
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/measureValue> ;
+    cdif:physicalDataType "xsd:decimal" .
 
 <https://example.org/var/measureName> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     schema1:name "measure_name" ;
-    cdif:physicalDataType "xsd:string" ;
-    cdif:uses <https://example.org/struct/vitalsLong/dv/measureName> .
+    cdif:physicalDataType "xsd:string" .
 
 <https://example.org/var/observedAt> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     schema1:name "observed_at" ;
-    cdif:physicalDataType "xsd:dateTime" ;
-    cdif:uses <https://example.org/struct/vitalsLong/rv/observedAt> .
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/observedAt> ;
+    cdif:physicalDataType "xsd:dateTime" .
 
 <https://example.org/var/patientId> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     schema1:name "patient_id" ;
-    cdif:physicalDataType "xsd:string" ;
-    cdif:uses <https://example.org/struct/vitalsLong/rv/patientId> .
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/patientId> ;
+    cdif:physicalDataType "xsd:string" .
 
 
 ```
@@ -2361,8 +2330,8 @@ Links to the schema:
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "time": "http://www.w3.org/2006/time#",
-    "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "spdx": "http://spdx.org/rdf/terms#",
     "xas": "cdif:xas/",
     "nxs": "https://manual.nexusformat.org/classes/",
     "ada": "https://ada.astromat.org/metadata/",

@@ -180,14 +180,14 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DataStructure node
-      cdi:has_ForeignKey:
+      cdif:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
+        x-jsonld-id: https://w3id.org/cdif/has_ForeignKey
       cdi:has_DataStructureComponent:
         type: array
         items:
@@ -196,18 +196,18 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
-      cdi:has_PrimaryKey:
+      cdif:has_PrimaryKey:
         $ref: '#/$defs/PrimaryKey'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
+        x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
     required:
     - '@type'
     anyOf:
     - required:
       - cdi:has_DataStructureComponent
     - required:
-      - cdi:has_ForeignKey
+      - cdif:has_ForeignKey
     - required:
-      - cdi:has_PrimaryKey
+      - cdif:has_PrimaryKey
   DimensionalDataStructure:
     type: object
     description: Structure of a dimensional data set (organized collection of multidimensional
@@ -233,17 +233,17 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/DimensionComponent
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
-      cdi:has_PrimaryKey:
+      cdif:has_PrimaryKey:
         $ref: '#/$defs/PrimaryKey'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
-      cdi:has_ForeignKey:
+        x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
+      cdif:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
+        x-jsonld-id: https://w3id.org/cdif/has_ForeignKey
     required:
     - '@type'
     - cdi:has_DataStructureComponent
@@ -289,9 +289,9 @@ $defs:
           maxContains: 1
         minItems: 3
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
-      cdi:has_PrimaryKey:
+      cdif:has_PrimaryKey:
         $ref: '#/$defs/PrimaryKey'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
+        x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
     required:
     - '@type'
     - cdi:has_DataStructureComponent
@@ -320,17 +320,17 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
-      cdi:has_PrimaryKey:
+      cdif:has_PrimaryKey:
         $ref: '#/$defs/PrimaryKey'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
-      cdi:has_ForeignKey:
+        x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
+      cdif:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
+        x-jsonld-id: https://w3id.org/cdif/has_ForeignKey
     required:
     - '@type'
     - cdi:has_DataStructureComponent
@@ -380,7 +380,7 @@ $defs:
       shape. DDI-CDI composes a foreign key from cdi:ForeignKeyComponent nodes, each
       with cdi:correspondsTo and cdi:references; this form composes the variables
       directly, each carrying cdif:position. The prefix is what makes that divergence
-      visible, and it matches the sibling cdif:PrimaryKey. Until 2026-09-05 the definition
+      visible, and it matches the sibling cdif:Key. Until 2026-09-05 the definition
       required ''cdif:isComposedOf'' while declaring ''cdi:isComposedOf'', so it could
       only be satisfied by an undeclared and therefore unconstrained property.'
     properties:
@@ -398,10 +398,10 @@ $defs:
         type: array
         minItems: 1
         description: 'Ordered list of cdi:ComponentPosition wrappers, one per key
-          component, matching the sibling cdif:PrimaryKey. The position sits on the
-          wrapper rather than on the variable, and that is load-bearing: an earlier
-          form required cdif:position on the item itself, which made the objectReference
-          branch unsatisfiable, because objectReference is sealed with additionalProperties
+          component, matching the sibling cdif:Key. The position sits on the wrapper
+          rather than on the variable, and that is load-bearing: an earlier form required
+          cdif:position on the item itself, which made the objectReference branch
+          unsatisfiable, because objectReference is sealed with additionalProperties
           false. A key could then only be written by inlining whole variables, duplicating
           what schema:variableMeasured already holds.'
         items:
@@ -420,24 +420,24 @@ $defs:
               type: string
               description: Identifier for this ComponentPosition node.
             cdi:indexes:
-              description: The variable this position indexes, usually an @id-reference
-                to one declared in schema:variableMeasured. An InstanceVariable is
-                accepted alongside a RepresentedVariable because it is a subclass
-                of one, and CDIF records describe instance variables -- requiring
-                a RepresentedVariable would leave the records that actually need a
-                key unable to write one.
-              anyOf:
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+              description: The variable this position indexes -- an @id-reference
+                to one declared elsewhere in the document, matching cdi:indexes on
+                PrimaryKey. A key names variables that are defined once and referenced
+                from the key, so an inline variable here would be a second copy of
+                a node that already exists; framing inlines the target and the embedded
+                copy then had to be told apart from authored content.
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
               x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes
             cdi:value:
               type: integer
               minimum: 1
+              default: 1
               description: 1-based position of this variable in the ordered key.
               x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value
           required:
           - '@type'
+          - cdi:indexes
+          - cdi:value
         x-jsonld-id: https://w3id.org/cdif/isComposedOf
       cdif:references:
         description: references a primary key in a different dataset
@@ -446,61 +446,12 @@ $defs:
     required:
     - '@type'
     - cdif:isComposedOf
+    - cdif:references
   PrimaryKey:
-    type: object
-    description: set of Variables that uniquely identify a data instance, expressed
-      as an ordered list of cdi:ComponentPosition wrappers (unified with cdifKey's
-      cdi:ComponentPosition model).
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdif:PrimaryKey
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this PrimaryKey node
-      cdif:isComposedOf:
-        type: array
-        minItems: 1
-        description: Ordered list of cdi:ComponentPosition wrappers, one per key component.
-          Each wrapper indexes one representedVariable (cdi:indexes) at its cdi:value
-          position in the key.
-        items:
-          type: object
-          description: cdi:ComponentPosition wrapper indexing one variable's position
-            in the key.
-          properties:
-            '@type':
-              type: array
-              items:
-                type: string
-              contains:
-                const: cdi:ComponentPosition
-              minItems: 1
-            '@id':
-              type: string
-              description: Identifier for this ComponentPosition node.
-            cdi:indexes:
-              description: "The representedVariable this position indexes \u2014 an
-                @id-reference to a variable declared elsewhere in the dataStructure."
-              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-              x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes
-            cdi:value:
-              type: integer
-              minimum: 1
-              description: 1-based position of this variable in the ordered key.
-              x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value
-          required:
-          - '@type'
-          - cdi:indexes
-          - cdi:value
-        x-jsonld-id: https://w3id.org/cdif/isComposedOf
-    required:
-    - '@type'
-    - cdif:isComposedOf
+    description: Set of variables that uniquely identify a data instance. The same
+      cdif:Key as cdif:hasPrimaryKey takes at dataset level, so a structure-level
+      key and a dataset-level key can be one node referenced twice.
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml
 x-jsonld-prefixes:
   cdif: https://w3id.org/cdif/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/

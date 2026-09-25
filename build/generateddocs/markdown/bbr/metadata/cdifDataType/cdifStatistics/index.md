@@ -909,7 +909,6 @@ Links to the schema:
     "prov": "http://www.w3.org/ns/prov#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "@version": 1.1
   }
 }

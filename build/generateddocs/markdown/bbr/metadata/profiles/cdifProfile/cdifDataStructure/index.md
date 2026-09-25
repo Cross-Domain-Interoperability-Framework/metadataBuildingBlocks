@@ -153,7 +153,7 @@ exactly one IdentifierComponent (patient id), exactly one
 VariableDescriptorComponent (the column naming which vital sign is in each
 row), exactly one VariableValueComponent (the value column), plus one
 optional AttributeComponent (observation timestamp) that cdi:qualifies the
-value column. The cdif:PrimaryKey is given as a flat ordered array of three
+value column. The cdif:Key is given as a flat ordered array of three
 @id-references to InstanceVariables — array order is position; no
 ComponentPosition wrapper.
 #### json
@@ -263,9 +263,9 @@ ComponentPosition wrapper.
       }
     }
   ],
-  "cdi:has_PrimaryKey": {
+  "cdif:has_PrimaryKey": {
     "@type": [
-      "cdif:PrimaryKey"
+      "cdif:Key"
     ],
     "@id": "ex:struct/vitalsLong/pk",
     "cdif:isComposedOf": [
@@ -393,9 +393,9 @@ ComponentPosition wrapper.
       }
     }
   ],
-  "cdi:has_PrimaryKey": {
+  "cdif:has_PrimaryKey": {
     "@type": [
-      "cdif:PrimaryKey"
+      "cdif:Key"
     ],
     "@id": "ex:struct/vitalsLong/pk",
     "cdif:isComposedOf": [
@@ -442,7 +442,7 @@ ComponentPosition wrapper.
         <https://example.org/struct/vitalsLong/comp/measureValue>,
         <https://example.org/struct/vitalsLong/comp/observedAt>,
         <https://example.org/struct/vitalsLong/comp/patientId> ;
-    cdi:has_PrimaryKey <https://example.org/struct/vitalsLong/pk> .
+    cdif:has_PrimaryKey <https://example.org/struct/vitalsLong/pk> .
 
 <https://example.org/struct/vitalsLong/comp/measureName> a cdi:VariableDescriptorComponent ;
     cdi:refersTo <https://example.org/struct/vitalsLong/comp/measureValue> ;
@@ -459,16 +459,16 @@ ComponentPosition wrapper.
     cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> ;
     cdif:name "measure_name" .
 
-<https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;
+<https://example.org/struct/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ],
+            cdi:indexes <https://example.org/var/observedAt> ;
+            cdi:value 3 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/measureName> ;
             cdi:value 2 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ] .
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ] .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:decimal" ;
@@ -483,10 +483,10 @@ ComponentPosition wrapper.
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ] .
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ] .
 
 <https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/measureValue> .
@@ -499,7 +499,7 @@ ComponentPosition wrapper.
 A cdi:DimensionalDataStructure describing a sales cube. Three
 DimensionComponents form the addressing axes (country, quarter, product
 category), one MeasureComponent holds the sales amount, and one
-AttributeComponent (currency) qualifies the measure. The cdif:PrimaryKey
+AttributeComponent (currency) qualifies the measure. The cdif:Key
 composes the three dimension variables — together they uniquely address
 each cell in the cube.
 #### json
@@ -618,9 +618,9 @@ each cell in the cube.
       }
     }
   ],
-  "cdi:has_PrimaryKey": {
+  "cdif:has_PrimaryKey": {
     "@type": [
-      "cdif:PrimaryKey"
+      "cdif:Key"
     ],
     "@id": "ex:struct/salesCube/pk",
     "cdif:isComposedOf": [
@@ -781,9 +781,9 @@ each cell in the cube.
       }
     }
   ],
-  "cdi:has_PrimaryKey": {
+  "cdif:has_PrimaryKey": {
     "@type": [
-      "cdif:PrimaryKey"
+      "cdif:Key"
     ],
     "@id": "ex:struct/salesCube/pk",
     "cdif:isComposedOf": [
@@ -832,7 +832,7 @@ each cell in the cube.
         <https://example.org/struct/salesCube/comp/productCategory>,
         <https://example.org/struct/salesCube/comp/quarter>,
         <https://example.org/struct/salesCube/comp/salesAmount> ;
-    cdi:has_PrimaryKey <https://example.org/struct/salesCube/pk> .
+    cdif:has_PrimaryKey <https://example.org/struct/salesCube/pk> .
 
 <https://example.org/struct/salesCube/comp/country> a cdi:DimensionComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/country> .
@@ -847,16 +847,16 @@ each cell in the cube.
 <https://example.org/struct/salesCube/comp/quarter> a cdi:DimensionComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/quarter> .
 
-<https://example.org/struct/salesCube/pk> a cdif:PrimaryKey ;
+<https://example.org/struct/salesCube/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/quarter> ;
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/country> ;
             cdi:value 1 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/productCategory> ;
-            cdi:value 3 ],
-        [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/quarter> ;
-            cdi:value 2 ] .
+            cdi:value 3 ] .
 
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:string" ;
@@ -896,7 +896,7 @@ A cdi:WideDataStructure for a patient-vitals wide table: one
 IdentifierComponent (patientId) identifies the row, three
 MeasureComponents hold systolic BP, diastolic BP, and heart rate as
 separate columns, and one AttributeComponent (observedAt) attaches the
-measurement time to the row. The cdif:PrimaryKey is a single-element
+measurement time to the row. The cdif:Key is a single-element
 array — wide-format rows are uniquely identified by patientId alone.
 #### json
 ```json
@@ -997,9 +997,9 @@ array — wide-format rows are uniquely identified by patientId alone.
       }
     }
   ],
-  "cdi:has_PrimaryKey": {
+  "cdif:has_PrimaryKey": {
     "@type": [
-      "cdif:PrimaryKey"
+      "cdif:Key"
     ],
     "@id": "ex:struct/vitalsWide/pk",
     "cdif:isComposedOf": [
@@ -1125,9 +1125,9 @@ array — wide-format rows are uniquely identified by patientId alone.
       }
     }
   ],
-  "cdi:has_PrimaryKey": {
+  "cdif:has_PrimaryKey": {
     "@type": [
-      "cdif:PrimaryKey"
+      "cdif:Key"
     ],
     "@id": "ex:struct/vitalsWide/pk",
     "cdif:isComposedOf": [
@@ -1157,7 +1157,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         <https://example.org/struct/vitalsWide/comp/observedAt>,
         <https://example.org/struct/vitalsWide/comp/patientId>,
         <https://example.org/struct/vitalsWide/comp/systolicBP> ;
-    cdi:has_PrimaryKey <https://example.org/struct/vitalsWide/pk> .
+    cdif:has_PrimaryKey <https://example.org/struct/vitalsWide/pk> .
 
 <https://example.org/struct/vitalsWide/comp/diastolicBP> a cdi:MeasureComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/vitalsWide/rv/diastolicBP> .
@@ -1174,7 +1174,7 @@ array — wide-format rows are uniquely identified by patientId alone.
 <https://example.org/struct/vitalsWide/comp/systolicBP> a cdi:MeasureComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/vitalsWide/rv/systolicBP> .
 
-<https://example.org/struct/vitalsWide/pk> a cdif:PrimaryKey ;
+<https://example.org/struct/vitalsWide/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ] .
@@ -1390,14 +1390,14 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DataStructure node
-      cdi:has_ForeignKey:
+      cdif:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
+        x-jsonld-id: https://w3id.org/cdif/has_ForeignKey
       cdi:has_DataStructureComponent:
         type: array
         items:
@@ -1406,18 +1406,18 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
-      cdi:has_PrimaryKey:
+      cdif:has_PrimaryKey:
         $ref: '#/$defs/PrimaryKey'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
+        x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
     required:
     - '@type'
     anyOf:
     - required:
       - cdi:has_DataStructureComponent
     - required:
-      - cdi:has_ForeignKey
+      - cdif:has_ForeignKey
     - required:
-      - cdi:has_PrimaryKey
+      - cdif:has_PrimaryKey
   DimensionalDataStructure:
     type: object
     description: Structure of a dimensional data set (organized collection of multidimensional
@@ -1443,17 +1443,17 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/DimensionComponent
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
-      cdi:has_PrimaryKey:
+      cdif:has_PrimaryKey:
         $ref: '#/$defs/PrimaryKey'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
-      cdi:has_ForeignKey:
+        x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
+      cdif:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
+        x-jsonld-id: https://w3id.org/cdif/has_ForeignKey
     required:
     - '@type'
     - cdi:has_DataStructureComponent
@@ -1499,9 +1499,9 @@ $defs:
           maxContains: 1
         minItems: 3
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
-      cdi:has_PrimaryKey:
+      cdif:has_PrimaryKey:
         $ref: '#/$defs/PrimaryKey'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
+        x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
     required:
     - '@type'
     - cdi:has_DataStructureComponent
@@ -1530,17 +1530,17 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
-      cdi:has_PrimaryKey:
+      cdif:has_PrimaryKey:
         $ref: '#/$defs/PrimaryKey'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
-      cdi:has_ForeignKey:
+        x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
+      cdif:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
+        x-jsonld-id: https://w3id.org/cdif/has_ForeignKey
     required:
     - '@type'
     - cdi:has_DataStructureComponent
@@ -1590,7 +1590,7 @@ $defs:
       shape. DDI-CDI composes a foreign key from cdi:ForeignKeyComponent nodes, each
       with cdi:correspondsTo and cdi:references; this form composes the variables
       directly, each carrying cdif:position. The prefix is what makes that divergence
-      visible, and it matches the sibling cdif:PrimaryKey. Until 2026-09-05 the definition
+      visible, and it matches the sibling cdif:Key. Until 2026-09-05 the definition
       required ''cdif:isComposedOf'' while declaring ''cdi:isComposedOf'', so it could
       only be satisfied by an undeclared and therefore unconstrained property.'
     properties:
@@ -1608,10 +1608,10 @@ $defs:
         type: array
         minItems: 1
         description: 'Ordered list of cdi:ComponentPosition wrappers, one per key
-          component, matching the sibling cdif:PrimaryKey. The position sits on the
-          wrapper rather than on the variable, and that is load-bearing: an earlier
-          form required cdif:position on the item itself, which made the objectReference
-          branch unsatisfiable, because objectReference is sealed with additionalProperties
+          component, matching the sibling cdif:Key. The position sits on the wrapper
+          rather than on the variable, and that is load-bearing: an earlier form required
+          cdif:position on the item itself, which made the objectReference branch
+          unsatisfiable, because objectReference is sealed with additionalProperties
           false. A key could then only be written by inlining whole variables, duplicating
           what schema:variableMeasured already holds.'
         items:
@@ -1630,24 +1630,24 @@ $defs:
               type: string
               description: Identifier for this ComponentPosition node.
             cdi:indexes:
-              description: The variable this position indexes, usually an @id-reference
-                to one declared in schema:variableMeasured. An InstanceVariable is
-                accepted alongside a RepresentedVariable because it is a subclass
-                of one, and CDIF records describe instance variables -- requiring
-                a RepresentedVariable would leave the records that actually need a
-                key unable to write one.
-              anyOf:
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
+              description: The variable this position indexes -- an @id-reference
+                to one declared elsewhere in the document, matching cdi:indexes on
+                PrimaryKey. A key names variables that are defined once and referenced
+                from the key, so an inline variable here would be a second copy of
+                a node that already exists; framing inlines the target and the embedded
+                copy then had to be told apart from authored content.
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
               x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes
             cdi:value:
               type: integer
               minimum: 1
+              default: 1
               description: 1-based position of this variable in the ordered key.
               x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value
           required:
           - '@type'
+          - cdi:indexes
+          - cdi:value
         x-jsonld-id: https://w3id.org/cdif/isComposedOf
       cdif:references:
         description: references a primary key in a different dataset
@@ -1656,61 +1656,12 @@ $defs:
     required:
     - '@type'
     - cdif:isComposedOf
+    - cdif:references
   PrimaryKey:
-    type: object
-    description: set of Variables that uniquely identify a data instance, expressed
-      as an ordered list of cdi:ComponentPosition wrappers (unified with cdifKey's
-      cdi:ComponentPosition model).
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdif:PrimaryKey
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this PrimaryKey node
-      cdif:isComposedOf:
-        type: array
-        minItems: 1
-        description: Ordered list of cdi:ComponentPosition wrappers, one per key component.
-          Each wrapper indexes one representedVariable (cdi:indexes) at its cdi:value
-          position in the key.
-        items:
-          type: object
-          description: cdi:ComponentPosition wrapper indexing one variable's position
-            in the key.
-          properties:
-            '@type':
-              type: array
-              items:
-                type: string
-              contains:
-                const: cdi:ComponentPosition
-              minItems: 1
-            '@id':
-              type: string
-              description: Identifier for this ComponentPosition node.
-            cdi:indexes:
-              description: "The representedVariable this position indexes \u2014 an
-                @id-reference to a variable declared elsewhere in the dataStructure."
-              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-              x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes
-            cdi:value:
-              type: integer
-              minimum: 1
-              description: 1-based position of this variable in the ordered key.
-              x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value
-          required:
-          - '@type'
-          - cdi:indexes
-          - cdi:value
-        x-jsonld-id: https://w3id.org/cdif/isComposedOf
-    required:
-    - '@type'
-    - cdif:isComposedOf
+    description: Set of variables that uniquely identify a data instance. The same
+      cdif:Key as cdif:hasPrimaryKey takes at dataset level, so a structure-level
+      key and a dataset-level key can be one node referenced twice.
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml
 x-jsonld-prefixes:
   cdif: https://w3id.org/cdif/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -1731,14 +1682,14 @@ Links to the schema:
     "cdif": "https://w3id.org/cdif/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "schema": "http://schema.org/",
-    "spdx": "http://spdx.org/rdf/terms#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "spdx": "http://spdx.org/rdf/terms#",
     "xas": "cdif:xas/",
     "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
-    "dcterms": "http://purl.org/dc/terms/",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "@version": 1.1
   }
 }
