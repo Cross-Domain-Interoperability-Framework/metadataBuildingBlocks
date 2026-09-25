@@ -122,9 +122,9 @@ their refs are resolved over the network at their build time, not ours.
 - **Commit regenerated artifacts separately** from unrelated changes. When a regeneration sweeps up
   pre-existing drift, split it: revert your source edit, regenerate, commit the catch-up alone, then
   restore and commit your actual change.
-- **The JSON Schema gate is now clean: `validate_examples.py` should report 150 passed, 0 failed.**
+- **The JSON Schema gate is now clean: `validate_examples.py` should report 152 passed, 0 failed.**
   A failure means you broke something — this is no longer a run with expected noise to squint past.
-  `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it (152 -> 150): nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
+  The count tracks the corpus, so treat it as "0 failed" rather than a fixed number: it was 152 before 2026-09-05, 150 after, and 152 again as of 2026-09-25. `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it: nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
   fixtures never referenced by their own `examples.yaml`, so nothing was validating them into
   conformance), and `ddicdiDataStructure` / `ddicdiRepresentedVariable` got fresh, validating
   replacements.
@@ -181,15 +181,15 @@ their refs are resolved over the network at their build time, not ours.
   choice. Check the target `$defs` rather than copying a sibling example.
 
 - **A negative test that fails for the wrong reason asserts nothing.** The OGC layout puts
-  `tests/*-fail.json` beside each block, meaning "this must NOT validate". 34 exist here and
-  all 34 do fail -- but `tools/test_fail_cases.py` (added 2026-09-11) checks *why*, and only
-  **5** fail on the constraint their filename names. The rest are rejected by
-  `@type: '...' is not of type 'array'`, an incidental structural mismatch that would reject
-  them identically with the named rule deleted. **20 of the 34 are byte-identical copies** of a
-  case from another block -- `affiliation-fail.json` appears verbatim in eight, including
-  `spatialExtent` and `xasDocument`, where affiliation means nothing. **70 of 93 blocks have no
-  `tests/` at all.** Run it with `--strict` to fail on a case that asserts nothing, `--coverage`
-  to list untested blocks. Note the matcher's own limits: an error on `@type` and an
+  `tests/*-fail.json` beside each block, meaning "this must NOT validate". `tools/test_fail_cases.py`
+  (added 2026-09-11) checks *why* each one fails, not just that it does. **This has since been
+  fixed and must stay fixed: as of 2026-09-25 it reports 125 of 125 cases failing on the
+  constraint their filename names, 0 asserting nothing, 0 byte-identical copies.** It was far
+  worse when the tool was written -- 34 cases of which only 5 asserted their own constraint, 20
+  byte-identical copies (`affiliation-fail.json` appeared verbatim in eight blocks, including
+  `spatialExtent` and `xasDocument`, where affiliation means nothing), and 70 of 93 blocks with no
+  `tests/` at all. **23 of 93 blocks still have none.** Run it with `--strict` to fail on a case
+  that asserts nothing, `--coverage` to list untested blocks. Note the matcher's own limits: an error on `@type` and an
   `anyOf` message (which prints the whole instance, so every token "matches") are both
   discounted, while the error *path* counts as strong evidence.
 
@@ -274,3 +274,39 @@ their refs are resolved over the network at their build time, not ours.
   tarball (every tracked file, so a link in a new chapter is covered the day it lands) and
   reports `STALE`, or `MIXED` when a sweep was only partly applied. The 2026-09-10 v1.1.1 sweep
   moved 82 links across 11 files.
+
+- **A key names variables by reference only, and there is one key class.** Settled 2026-09-25.
+  `cdi:indexes` is an `objectReference` (sealed `{@id}`) at all three CDIF sites -- `cdifKey`, and
+  `ForeignKey` / `PrimaryKey` in `cdifDataStructure` -- because a key's variables are declared once
+  in `schema:variableMeasured` and referenced from each `cdi:ComponentPosition`. An inline variable
+  there was a second copy of an existing node, and framing's embedded copy could not be told apart
+  from authored content. That uniformity is what makes `cdi:indexes` safe in
+  `FrameAndValidate.REFERENCE_ONLY_KEYS`, which matches on **property name alone**: all 14
+  definitions of the name now permit a bare reference (the eleven canonical `ddiProperties` ones
+  via `ddicdiDataTypes#/$defs/id-reference`, which is exactly `{@id}`). Narrow any new
+  `cdi:indexes` the same way or that collapse starts destroying data.
+  `$defs/PrimaryKey` in `cdifDataStructure` is now a `$ref` to `cdifKey`: the two were structurally
+  identical apart from the type token and a `cdi:value` minimum, and **`cdif:PrimaryKey` no longer
+  exists as a class** -- nodes are `cdif:Key`, so a dataset-level and a structure-level key can be
+  one node referenced twice. `cdifKey` is the survivor because five `ddiProperties` blocks `$ref`
+  it. `cdif:ForeignKey` stays separate: `cdif:references` is a real difference, and it is now
+  required, as are `cdi:indexes` and `cdi:value` on its wrappers (until 2026-09-25 only `@type`
+  was, so a wrapper naming no variable and no position validated). `cdi:value` is `minimum: 1,
+  default: 1` everywhere; the "0- or 1-based" latitude `cdifKey` used to document was never
+  accepted by either structure-level definition.
+  The properties are `cdif:has_PrimaryKey` / `cdif:has_ForeignKey`, **not** `cdi:`, by the
+  namespace rule at the top of this file -- their values diverge from the DDI-CDI XMI. The
+  canonical `cdi:has_*` in `ddiProperties` are correct as they stand.
+
+- **`generate_shacl_shapes.py` output depends on your checkout's line endings, and the symptom
+  points at the wrong culprit.** A Windows working copy has CRLF in 39 of 81 `rules.shacl` files
+  (`core.autocrlf=true` overriding the repo's own `* text=auto eol=lf`), which puts CR *inside* the
+  SPARQL string literals of `sh:select`. rdflib keeps those CRs in the literal **value** and
+  re-emits them escaped, so a regenerated bundle differed from the committed one by 120-162 lines
+  per file with no semantic change. In a diff those look like line-ending noise, and "fixing" the
+  output encoding changes nothing -- `cat -A` is what distinguishes a real CR (`^M`) from the
+  two-character escape rdflib writes. Every committed `rules.shacl` blob is pure LF; only working
+  copies differ. Fixed 2026-09-25 by normalizing CR on read, so output no longer depends on the
+  consumer's git config; the same commit stopped the header stamping `--bb-dir` verbatim (it could
+  bake a local absolute path into a committed artifact) and pinned the output to LF. Before
+  trusting a regenerated bundle, check the per-file diff is single digits, not three.
