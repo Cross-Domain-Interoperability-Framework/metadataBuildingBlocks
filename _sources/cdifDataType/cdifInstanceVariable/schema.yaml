@@ -36,10 +36,18 @@ properties:
       anyOf:
       - $ref: '#/$defs/cdifConceptOrTermOrString'
       - $ref: ../cdifRepresentedVariable/schema.yaml
+      - $ref: ../cdifDescriptorVariable/schema.yaml
     description: >-
       Essentially the same as schema:propertyID. References the concept(s) that this
       variable measures or represents and, under the Data Structure profile, the
-      RepresentedVariable it instantiates.
+      RepresentedVariable it instantiates -- or, for the descriptor column of a long
+      data set, the cdi:DescriptorVariable that supplies its codes. The
+      DescriptorVariable branch was added 2026-09-25: it is not a RepresentedVariable
+      subclass, so JSON Schema needs it listed explicitly, and without it a long
+      structure's descriptor column had no legal cdif:uses target. Nothing caught that
+      in the raw examples, because a bare {@id} matches the reference branch of
+      cdifConceptOrTerm whatever it points at; only framing resolves the target and
+      exposes its real @type.
       The RepresentedVariable branch is not new behaviour: it is what the rest of CDIF
       already documents and enforces. description.md calls cdif:uses "concepts (or, under
       the Data Structure profile, the RepresentedVariable)"; agents.md describes the
