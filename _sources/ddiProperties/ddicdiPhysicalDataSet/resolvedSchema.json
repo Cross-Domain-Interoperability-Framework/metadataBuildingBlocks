@@ -4789,7 +4789,7 @@
         },
         "cdif:isComposedOf": {
           "type": "array",
-          "description": "Ordered list of cdi:ComponentPosition wrappers. Each wrapper carries cdi:indexes (an inline cdifInstanceVariable or @id-reference to one declared elsewhere in the dataset) and cdi:value (the integer position in the key, 0- or 1-based).",
+          "description": "Ordered list of cdi:ComponentPosition wrappers. Each wrapper carries cdi:indexes (an @id-reference to a cdi:InstanceVariable declared elsewhere in the dataset) and cdi:value (the integer position in the key, 0- or 1-based).",
           "items": {
             "type": "object",
             "description": "ComponentPosition wrapper indexing one variable's position in the key.",
@@ -4809,24 +4809,8 @@
                 "description": "Identifier for this ComponentPosition node."
               },
               "cdi:indexes": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/CdifInstanceVariable"
-                  },
-                  {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "object reference via @id to a cdifInstanceVariable declared elsewhere",
-                    "properties": {
-                      "@id": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "@id"
-                    ]
-                  }
-                ]
+                "$ref": "#/$defs/ObjectReference",
+                "description": "The variable this position indexes -- an @id-reference to a cdi:InstanceVariable declared elsewhere in the document, normally in schema:variableMeasured. A key names variables that are defined once and referenced from the key, so an inline variable here would be a second copy of a node that already exists."
               },
               "cdi:value": {
                 "type": "integer",
@@ -4845,6 +4829,719 @@
       "required": [
         "@type",
         "cdif:isComposedOf"
+      ]
+    },
+    "ObjectReference": {
+      "title": "Object Reference",
+      "description": "A reference to a node defined elsewhere, by its @id.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "resolvable @id of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ],
+      "additionalProperties": false
+    },
+    "DdicdiDataStructure": {
+      "title": "DDI-CDI Data Structure",
+      "description": "Data organization based on reusable data structure components.",
+      "anyOf": [
+        {
+          "type": "object",
+          "description": "Data organization based on reusable data structure components.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:DataStructure"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this DataStructure node"
+            },
+            "cdi:has_ForeignKey": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ForeignKey"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_DataStructureComponent": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/DdicdiDataStructureComponent"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_ComponentPosition": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ComponentPosition"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_PrimaryKey": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/PrimaryKey"
+                },
+                {
+                  "$ref": "#/$defs/id-reference"
+                }
+              ]
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:semantic": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PairedControlledVocabularyEntry"
+              },
+              "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+            },
+            "cdi:specialization": {
+              "$ref": "#/$defs/DdicdiDataStructure_SpecializationRole",
+              "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "type": "object",
+          "description": "Structure of a dimensional data set (organized collection of multidimensional data). It is described by dimension, measure and attribute components.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:DimensionalDataStructure"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this DimensionalDataStructure node"
+            },
+            "cdi:uses": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "description": "Collection of dimensions that can be reused across multiple dimensional structures.",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:DimensionGroup"
+                        },
+                        "minItems": 1
+                      },
+                      "@id": {
+                        "type": "string",
+                        "description": "Identifier for this DimensionGroup node"
+                      },
+                      "cdi:identifier": {
+                        "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+                        "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                      },
+                      "cdi:name": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/$defs/ObjectName"
+                        },
+                        "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+                      },
+                      "cdi:has": {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/DdicdiDataStructureComponent"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "@type"
+                    ]
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_ForeignKey": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ForeignKey"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_DataStructureComponent": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/DdicdiDataStructureComponent"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_ComponentPosition": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ComponentPosition"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_PrimaryKey": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/PrimaryKey"
+                },
+                {
+                  "$ref": "#/$defs/id-reference"
+                }
+              ]
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:semantic": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PairedControlledVocabularyEntry"
+              },
+              "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+            },
+            "cdi:specialization": {
+              "$ref": "#/$defs/DdicdiDataStructure_SpecializationRole",
+              "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "type": "object",
+          "description": "Structure of a long dataset (organized collection of long data). It is described by identifier, measure, attribute, variable descriptor and variable value components.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:LongDataStructure"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this LongDataStructure node"
+            },
+            "cdi:has_ForeignKey": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ForeignKey"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_DataStructureComponent": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/DdicdiDataStructureComponent"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_ComponentPosition": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ComponentPosition"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_PrimaryKey": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/PrimaryKey"
+                },
+                {
+                  "$ref": "#/$defs/id-reference"
+                }
+              ]
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:semantic": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PairedControlledVocabularyEntry"
+              },
+              "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+            },
+            "cdi:specialization": {
+              "$ref": "#/$defs/DdicdiDataStructure_SpecializationRole",
+              "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "type": "object",
+          "description": "Structure of a wide dataset (organized collection of wide data). It is described by identifier, measure and attribute components.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:WideDataStructure"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this WideDataStructure node"
+            },
+            "cdi:has_ForeignKey": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ForeignKey"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_DataStructureComponent": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/DdicdiDataStructureComponent"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_ComponentPosition": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ComponentPosition"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            },
+            "cdi:has_PrimaryKey": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/PrimaryKey"
+                },
+                {
+                  "$ref": "#/$defs/id-reference"
+                }
+              ]
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:semantic": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PairedControlledVocabularyEntry"
+              },
+              "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+            },
+            "cdi:specialization": {
+              "$ref": "#/$defs/DdicdiDataStructure_SpecializationRole",
+              "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        }
+      ]
+    },
+    "DdicdiPhysicalMapping": {
+      "title": "DDI-CDI Physical Mapping",
+      "description": "Describes how the value of an InstanceVariable is physically represented in a dataset - format, length, decimal handling, null sequences, and the W3C tabular-data-model parameters. Successor to the DDI-CDI 1.0 ValueMapping class; in the 2026-03 model it was renamed PhysicalMapping and the relationship to the variable reversed (PhysicalMapping formats InstanceVariable). PhysicalMapping has two subclasses: TextMapping (adds text-dialect detail) and LocatorMapping (adds a locator string for non-tabular physical layouts). The root validates any of the three.",
+      "type": "object",
+      "anyOf": [
+        {
+          "type": "object",
+          "description": "The base physical mapping - format and representation detail for an InstanceVariable's values in a dataset.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:PhysicalMapping"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this PhysicalMapping node"
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:format": {
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "The format of the physical representation of the value (W3C tabular-metadata format; DDI 3.2 ManagedNumericRepresentation@format)."
+            },
+            "cdi:physicalDataType": {
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "The base datatype of the physical representation (e.g. an integer variable stored as a floating point number)."
+            },
+            "cdi:decimalPositions": {
+              "type": "integer",
+              "description": "The number of decimal positions, used when the decimal position is implied (no decimal separator present)."
+            },
+            "cdi:scale": {
+              "type": "integer",
+              "description": "The scale of the number - a multiplier used with the value to determine the measurement."
+            },
+            "cdi:numberPattern": {
+              "type": "string",
+              "description": "A pattern description of the format of a numeric value (W3C tabular-metadata pattern / UAX35 number format pattern)."
+            },
+            "cdi:defaultValue": {
+              "type": "string",
+              "description": "A default string indicating the value to substitute for an empty string."
+            },
+            "cdi:nullSequence": {
+              "type": "string",
+              "description": "A string indicating a null value."
+            },
+            "cdi:isRequired": {
+              "type": "boolean",
+              "description": "If True, a value is required for the referenced instance variable."
+            },
+            "cdi:length": {
+              "type": "integer",
+              "description": "The length in characters of the physical representation of the value."
+            },
+            "cdi:minimumLength": {
+              "type": "integer",
+              "description": "The smallest possible length of the physical representation of the value."
+            },
+            "cdi:maximumLength": {
+              "type": "integer",
+              "description": "The largest possible length of the physical representation of the value."
+            },
+            "cdi:position": {
+              "type": "integer",
+              "description": "The position of this mapping in an ordered sequence of mappings."
+            },
+            "cdi:formats": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/CdifInstanceVariable"
+                },
+                {
+                  "$ref": "#/$defs/id-reference"
+                }
+              ],
+              "description": "The InstanceVariable whose values this mapping physically represents."
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "type": "object",
+          "description": "A PhysicalMapping for delimited or fixed-width text - adds the decimal/digit-group separators, a display label, and the field length.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:TextMapping"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this TextMapping node"
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:format": {
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "The format of the physical representation of the value."
+            },
+            "cdi:physicalDataType": {
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "The base datatype of the physical representation."
+            },
+            "cdi:decimalPositions": {
+              "type": "integer",
+              "description": "The number of decimal positions, used when the decimal position is implied (no decimal separator present)."
+            },
+            "cdi:scale": {
+              "type": "integer",
+              "description": "The scale of the number."
+            },
+            "cdi:numberPattern": {
+              "type": "string",
+              "description": "A pattern description of the format of a numeric value."
+            },
+            "cdi:defaultValue": {
+              "type": "string",
+              "description": "A default string indicating the value to substitute for an empty string."
+            },
+            "cdi:nullSequence": {
+              "type": "string",
+              "description": "A string indicating a null value."
+            },
+            "cdi:isRequired": {
+              "type": "boolean",
+              "description": "If True, a value is required for the referenced instance variable."
+            },
+            "cdi:length": {
+              "type": "integer",
+              "description": "The length in characters of the physical representation of the value."
+            },
+            "cdi:minimumLength": {
+              "type": "integer",
+              "description": "The smallest possible length of the physical representation."
+            },
+            "cdi:maximumLength": {
+              "type": "integer",
+              "description": "The largest possible length of the physical representation."
+            },
+            "cdi:position": {
+              "type": "integer",
+              "description": "The position of this mapping in an ordered sequence of mappings."
+            },
+            "cdi:defaultDecimalSeparator": {
+              "type": "string",
+              "description": "The character separating the integer part from the fractional part of a decimal or real number. Default is \".\" (period)."
+            },
+            "cdi:defaultDigitGroupSeparator": {
+              "type": "string",
+              "description": "A character separating groups of digits (for readability). Default is null."
+            },
+            "cdi:mappingLabel": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LabelForDisplay"
+              },
+              "minItems": 1,
+              "description": "A human-readable display label for this mapping. Ordered; repeat for labels with different content."
+            },
+            "cdi:formats": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/CdifInstanceVariable"
+                },
+                {
+                  "$ref": "#/$defs/id-reference"
+                }
+              ],
+              "description": "The InstanceVariable whose values this mapping physically represents."
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "type": "object",
+          "description": "A PhysicalMapping that carries a locator string addressing the value's position in a non-tabular physical layout (e.g. an XPath, JSON pointer, or array index expression).",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:LocatorMapping"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this LocatorMapping node"
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:locator": {
+              "type": "string",
+              "description": "A string that addresses the value's position in the physical layout (e.g. an XPath, JSON pointer, or array index expression)."
+            },
+            "cdi:format": {
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "The format of the physical representation of the value."
+            },
+            "cdi:physicalDataType": {
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "The base datatype of the physical representation."
+            },
+            "cdi:decimalPositions": {
+              "type": "integer",
+              "description": "The number of decimal positions, used when the decimal position is implied."
+            },
+            "cdi:scale": {
+              "type": "integer",
+              "description": "The scale of the number."
+            },
+            "cdi:numberPattern": {
+              "type": "string",
+              "description": "A pattern description of the format of a numeric value."
+            },
+            "cdi:defaultValue": {
+              "type": "string",
+              "description": "A default string indicating the value to substitute for an empty string."
+            },
+            "cdi:nullSequence": {
+              "type": "string",
+              "description": "A string indicating a null value."
+            },
+            "cdi:isRequired": {
+              "type": "boolean",
+              "description": "If True, a value is required for the referenced instance variable."
+            },
+            "cdi:length": {
+              "type": "integer",
+              "description": "The length in characters of the physical representation of the value."
+            },
+            "cdi:minimumLength": {
+              "type": "integer",
+              "description": "The smallest possible length of the physical representation."
+            },
+            "cdi:maximumLength": {
+              "type": "integer",
+              "description": "The largest possible length of the physical representation."
+            },
+            "cdi:position": {
+              "type": "integer",
+              "description": "The position of this mapping in an ordered sequence of mappings."
+            },
+            "cdi:formats": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/CdifInstanceVariable"
+                },
+                {
+                  "$ref": "#/$defs/id-reference"
+                }
+              ],
+              "description": "The InstanceVariable whose values this mapping physically represents."
+            }
+          },
+          "required": [
+            "@type",
+            "cdi:locator"
+          ]
+        }
       ]
     },
     "CdifInstanceVariable": {
@@ -6558,719 +7255,6 @@
       "required": [
         "@type",
         "schema:url"
-      ]
-    },
-    "ObjectReference": {
-      "title": "Object Reference",
-      "description": "A reference to a node defined elsewhere, by its @id.",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "resolvable @id of the referenced node"
-        }
-      },
-      "required": [
-        "@id"
-      ],
-      "additionalProperties": false
-    },
-    "DdicdiDataStructure": {
-      "title": "DDI-CDI Data Structure",
-      "description": "Data organization based on reusable data structure components.",
-      "anyOf": [
-        {
-          "type": "object",
-          "description": "Data organization based on reusable data structure components.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:DataStructure"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this DataStructure node"
-            },
-            "cdi:has_ForeignKey": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/ForeignKey"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_DataStructureComponent": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/DdicdiDataStructureComponent"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_ComponentPosition": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/ComponentPosition"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_PrimaryKey": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/PrimaryKey"
-                },
-                {
-                  "$ref": "#/$defs/id-reference"
-                }
-              ]
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-            },
-            "cdi:semantic": {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/PairedControlledVocabularyEntry"
-              },
-              "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-            },
-            "cdi:specialization": {
-              "$ref": "#/$defs/DdicdiDataStructure_SpecializationRole",
-              "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "type": "object",
-          "description": "Structure of a dimensional data set (organized collection of multidimensional data). It is described by dimension, measure and attribute components.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:DimensionalDataStructure"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this DimensionalDataStructure node"
-            },
-            "cdi:uses": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "description": "Collection of dimensions that can be reused across multiple dimensional structures.",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "const": "cdi:DimensionGroup"
-                        },
-                        "minItems": 1
-                      },
-                      "@id": {
-                        "type": "string",
-                        "description": "Identifier for this DimensionGroup node"
-                      },
-                      "cdi:identifier": {
-                        "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-                        "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                      },
-                      "cdi:name": {
-                        "type": "array",
-                        "items": {
-                          "$ref": "#/$defs/ObjectName"
-                        },
-                        "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
-                      },
-                      "cdi:has": {
-                        "type": "array",
-                        "items": {
-                          "anyOf": [
-                            {
-                              "$ref": "#/$defs/DdicdiDataStructureComponent"
-                            },
-                            {
-                              "$ref": "#/$defs/id-reference"
-                            }
-                          ]
-                        },
-                        "minItems": 1
-                      }
-                    },
-                    "required": [
-                      "@type"
-                    ]
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_ForeignKey": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/ForeignKey"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_DataStructureComponent": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/DdicdiDataStructureComponent"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_ComponentPosition": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/ComponentPosition"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_PrimaryKey": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/PrimaryKey"
-                },
-                {
-                  "$ref": "#/$defs/id-reference"
-                }
-              ]
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-            },
-            "cdi:semantic": {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/PairedControlledVocabularyEntry"
-              },
-              "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-            },
-            "cdi:specialization": {
-              "$ref": "#/$defs/DdicdiDataStructure_SpecializationRole",
-              "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "type": "object",
-          "description": "Structure of a long dataset (organized collection of long data). It is described by identifier, measure, attribute, variable descriptor and variable value components.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:LongDataStructure"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this LongDataStructure node"
-            },
-            "cdi:has_ForeignKey": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/ForeignKey"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_DataStructureComponent": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/DdicdiDataStructureComponent"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_ComponentPosition": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/ComponentPosition"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_PrimaryKey": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/PrimaryKey"
-                },
-                {
-                  "$ref": "#/$defs/id-reference"
-                }
-              ]
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-            },
-            "cdi:semantic": {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/PairedControlledVocabularyEntry"
-              },
-              "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-            },
-            "cdi:specialization": {
-              "$ref": "#/$defs/DdicdiDataStructure_SpecializationRole",
-              "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "type": "object",
-          "description": "Structure of a wide dataset (organized collection of wide data). It is described by identifier, measure and attribute components.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:WideDataStructure"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this WideDataStructure node"
-            },
-            "cdi:has_ForeignKey": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/ForeignKey"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_DataStructureComponent": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/DdicdiDataStructureComponent"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_ComponentPosition": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/ComponentPosition"
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              }
-            },
-            "cdi:has_PrimaryKey": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/PrimaryKey"
-                },
-                {
-                  "$ref": "#/$defs/id-reference"
-                }
-              ]
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-            },
-            "cdi:semantic": {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/PairedControlledVocabularyEntry"
-              },
-              "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-            },
-            "cdi:specialization": {
-              "$ref": "#/$defs/DdicdiDataStructure_SpecializationRole",
-              "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        }
-      ]
-    },
-    "DdicdiPhysicalMapping": {
-      "title": "DDI-CDI Physical Mapping",
-      "description": "Describes how the value of an InstanceVariable is physically represented in a dataset - format, length, decimal handling, null sequences, and the W3C tabular-data-model parameters. Successor to the DDI-CDI 1.0 ValueMapping class; in the 2026-03 model it was renamed PhysicalMapping and the relationship to the variable reversed (PhysicalMapping formats InstanceVariable). PhysicalMapping has two subclasses: TextMapping (adds text-dialect detail) and LocatorMapping (adds a locator string for non-tabular physical layouts). The root validates any of the three.",
-      "type": "object",
-      "anyOf": [
-        {
-          "type": "object",
-          "description": "The base physical mapping - format and representation detail for an InstanceVariable's values in a dataset.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:PhysicalMapping"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this PhysicalMapping node"
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-            },
-            "cdi:format": {
-              "$ref": "#/$defs/ControlledVocabularyEntry",
-              "description": "The format of the physical representation of the value (W3C tabular-metadata format; DDI 3.2 ManagedNumericRepresentation@format)."
-            },
-            "cdi:physicalDataType": {
-              "$ref": "#/$defs/ControlledVocabularyEntry",
-              "description": "The base datatype of the physical representation (e.g. an integer variable stored as a floating point number)."
-            },
-            "cdi:decimalPositions": {
-              "type": "integer",
-              "description": "The number of decimal positions, used when the decimal position is implied (no decimal separator present)."
-            },
-            "cdi:scale": {
-              "type": "integer",
-              "description": "The scale of the number - a multiplier used with the value to determine the measurement."
-            },
-            "cdi:numberPattern": {
-              "type": "string",
-              "description": "A pattern description of the format of a numeric value (W3C tabular-metadata pattern / UAX35 number format pattern)."
-            },
-            "cdi:defaultValue": {
-              "type": "string",
-              "description": "A default string indicating the value to substitute for an empty string."
-            },
-            "cdi:nullSequence": {
-              "type": "string",
-              "description": "A string indicating a null value."
-            },
-            "cdi:isRequired": {
-              "type": "boolean",
-              "description": "If True, a value is required for the referenced instance variable."
-            },
-            "cdi:length": {
-              "type": "integer",
-              "description": "The length in characters of the physical representation of the value."
-            },
-            "cdi:minimumLength": {
-              "type": "integer",
-              "description": "The smallest possible length of the physical representation of the value."
-            },
-            "cdi:maximumLength": {
-              "type": "integer",
-              "description": "The largest possible length of the physical representation of the value."
-            },
-            "cdi:position": {
-              "type": "integer",
-              "description": "The position of this mapping in an ordered sequence of mappings."
-            },
-            "cdi:formats": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/CdifInstanceVariable"
-                },
-                {
-                  "$ref": "#/$defs/id-reference"
-                }
-              ],
-              "description": "The InstanceVariable whose values this mapping physically represents."
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "type": "object",
-          "description": "A PhysicalMapping for delimited or fixed-width text - adds the decimal/digit-group separators, a display label, and the field length.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:TextMapping"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this TextMapping node"
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-            },
-            "cdi:format": {
-              "$ref": "#/$defs/ControlledVocabularyEntry",
-              "description": "The format of the physical representation of the value."
-            },
-            "cdi:physicalDataType": {
-              "$ref": "#/$defs/ControlledVocabularyEntry",
-              "description": "The base datatype of the physical representation."
-            },
-            "cdi:decimalPositions": {
-              "type": "integer",
-              "description": "The number of decimal positions, used when the decimal position is implied (no decimal separator present)."
-            },
-            "cdi:scale": {
-              "type": "integer",
-              "description": "The scale of the number."
-            },
-            "cdi:numberPattern": {
-              "type": "string",
-              "description": "A pattern description of the format of a numeric value."
-            },
-            "cdi:defaultValue": {
-              "type": "string",
-              "description": "A default string indicating the value to substitute for an empty string."
-            },
-            "cdi:nullSequence": {
-              "type": "string",
-              "description": "A string indicating a null value."
-            },
-            "cdi:isRequired": {
-              "type": "boolean",
-              "description": "If True, a value is required for the referenced instance variable."
-            },
-            "cdi:length": {
-              "type": "integer",
-              "description": "The length in characters of the physical representation of the value."
-            },
-            "cdi:minimumLength": {
-              "type": "integer",
-              "description": "The smallest possible length of the physical representation."
-            },
-            "cdi:maximumLength": {
-              "type": "integer",
-              "description": "The largest possible length of the physical representation."
-            },
-            "cdi:position": {
-              "type": "integer",
-              "description": "The position of this mapping in an ordered sequence of mappings."
-            },
-            "cdi:defaultDecimalSeparator": {
-              "type": "string",
-              "description": "The character separating the integer part from the fractional part of a decimal or real number. Default is \".\" (period)."
-            },
-            "cdi:defaultDigitGroupSeparator": {
-              "type": "string",
-              "description": "A character separating groups of digits (for readability). Default is null."
-            },
-            "cdi:mappingLabel": {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/LabelForDisplay"
-              },
-              "minItems": 1,
-              "description": "A human-readable display label for this mapping. Ordered; repeat for labels with different content."
-            },
-            "cdi:formats": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/CdifInstanceVariable"
-                },
-                {
-                  "$ref": "#/$defs/id-reference"
-                }
-              ],
-              "description": "The InstanceVariable whose values this mapping physically represents."
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "type": "object",
-          "description": "A PhysicalMapping that carries a locator string addressing the value's position in a non-tabular physical layout (e.g. an XPath, JSON pointer, or array index expression).",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:LocatorMapping"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this LocatorMapping node"
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-            },
-            "cdi:locator": {
-              "type": "string",
-              "description": "A string that addresses the value's position in the physical layout (e.g. an XPath, JSON pointer, or array index expression)."
-            },
-            "cdi:format": {
-              "$ref": "#/$defs/ControlledVocabularyEntry",
-              "description": "The format of the physical representation of the value."
-            },
-            "cdi:physicalDataType": {
-              "$ref": "#/$defs/ControlledVocabularyEntry",
-              "description": "The base datatype of the physical representation."
-            },
-            "cdi:decimalPositions": {
-              "type": "integer",
-              "description": "The number of decimal positions, used when the decimal position is implied."
-            },
-            "cdi:scale": {
-              "type": "integer",
-              "description": "The scale of the number."
-            },
-            "cdi:numberPattern": {
-              "type": "string",
-              "description": "A pattern description of the format of a numeric value."
-            },
-            "cdi:defaultValue": {
-              "type": "string",
-              "description": "A default string indicating the value to substitute for an empty string."
-            },
-            "cdi:nullSequence": {
-              "type": "string",
-              "description": "A string indicating a null value."
-            },
-            "cdi:isRequired": {
-              "type": "boolean",
-              "description": "If True, a value is required for the referenced instance variable."
-            },
-            "cdi:length": {
-              "type": "integer",
-              "description": "The length in characters of the physical representation of the value."
-            },
-            "cdi:minimumLength": {
-              "type": "integer",
-              "description": "The smallest possible length of the physical representation."
-            },
-            "cdi:maximumLength": {
-              "type": "integer",
-              "description": "The largest possible length of the physical representation."
-            },
-            "cdi:position": {
-              "type": "integer",
-              "description": "The position of this mapping in an ordered sequence of mappings."
-            },
-            "cdi:formats": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/CdifInstanceVariable"
-                },
-                {
-                  "$ref": "#/$defs/id-reference"
-                }
-              ],
-              "description": "The InstanceVariable whose values this mapping physically represents."
-            }
-          },
-          "required": [
-            "@type",
-            "cdi:locator"
-          ]
-        }
       ]
     },
     "ControlledVocabularyEntry": {
