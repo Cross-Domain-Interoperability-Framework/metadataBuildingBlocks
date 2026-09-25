@@ -57,9 +57,18 @@ cdifd:CDIFDatasetRecommendedShape a sh:NodeShape ;
 		cdifd:responsiblePartyProperty,
 		cdifd:contributorProperty,
 		cdifd:datePublishedProperty,
-		cdifd:descriptionProperty,
-		cdifd:creatorProperty,
-		cdifd:keywordsProperty,
+		# NOT listed here: cdifd:descriptionProperty, cdifd:creatorProperty and
+		# cdifd:keywordsProperty. They are DEFINED in cdifProfile/cdifCore/rules.shacl,
+		# not in this file, and the postprocessor applies each rules.shacl separately
+		# rather than merging them -- so referencing them here left three IRIs with no
+		# sh:path, and pySHACL rejected this entire file with "exists but is not a
+		# well-formed SHACL PropertyShape". That aborted SHACL for the whole block: all
+		# five CoreDiscovery items failed, including the two requireFail negative tests,
+		# which then failed for the wrong reason and asserted nothing.
+		# No coverage is lost. cdifCore's CDIFDatasetMandatoryShape enforces the same
+		# three properties against the same examples, with a STRICTER target: it also
+		# excludes datasets referenced only as provenance/source. If they are ever needed
+		# here, define them in this file -- do not reference them across files.
 		cdifd:keywordsNoCommaTest,
 		cdifd:distributionProperty,
 		cdifd:providerProperty,
