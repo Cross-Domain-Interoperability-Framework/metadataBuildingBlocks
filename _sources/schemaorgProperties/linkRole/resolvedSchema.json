@@ -16,7 +16,7 @@
     },
     "schema:linkRelationship": {
       "title": "CDIF Concept-or-Term-or-String",
-      "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label.",
+      "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label. Required: a typed link whose relationship is unstated carries no more information than a bare URL, which is what schemaorgProperties/labeledLink is for.",
       "anyOf": [
         {
           "type": "string"
@@ -185,7 +185,8 @@
             }
           ]
         }
-      ]
+      ],
+      "default": "missing"
     },
     "schema:target": {
       "type": "object",
@@ -217,7 +218,8 @@
     }
   },
   "required": [
-    "@type"
+    "@type",
+    "schema:linkRelationship"
   ],
   "$defs": {
     "Concept": {

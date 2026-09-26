@@ -30,7 +30,10 @@ properties:
   schema:linkRelationship:
     description: >-
       How the target relates to the subject, as a controlled-vocabulary value or
-      a plain string label.
+      a plain string label. Required: a typed link whose relationship is unstated
+      carries no more information than a bare URL, which is what
+      schemaorgProperties/labeledLink is for.
+    default: 'missing'
     $ref: '#/$defs/cdifConceptOrTermOrString'
   schema:target:
     type: object
@@ -57,6 +60,7 @@ properties:
         description: registered MIME types are expected
 required:
 - '@type'
+- schema:linkRelationship
 $defs:
   cdifConceptOrTermOrString:
     $ref: ../../cdifDataType/cdifConceptOrTermOrString/schema.yaml
