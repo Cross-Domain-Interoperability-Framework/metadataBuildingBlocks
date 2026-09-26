@@ -244,6 +244,46 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "@type"
+        ],
+        "properties": {
+          "@type": {
+            "contains": {
+              "const": "cdif:TextMapping"
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "cdif:index"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "@type"
+        ],
+        "properties": {
+          "@type": {
+            "contains": {
+              "const": "cdif:LocatorMapping"
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "cdi:locator"
+        ]
+      }
+    }
+  ],
   "$defs": {
     "Concept": {
       "type": "object",
