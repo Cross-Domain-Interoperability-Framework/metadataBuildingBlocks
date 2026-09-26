@@ -625,10 +625,47 @@ def write_markdown(findings, path):
 
 
 def write_json(findings, path):
-    rows = [{"check": k, "guide": g, "line": l, "property": n, "message": m}
+    """Write the findings as JSON, each with a `fix` field to annotate.
+
+    An existing file's `fix` text is CARRIED FORWARD onto the matching finding,
+    so re-running the audit never discards annotation work -- which is the whole
+    reason this format is useful: a reviewer writes the fix once, the fix
+    survives every later run, and a fix that no longer has a finding has either
+    been implemented or gone stale.
+
+    Rows are matched on (check, guide, property), not on `line`: line numbers
+    move as soon as anything above them is edited. Where one guide carries the
+    same property twice, the fixes are handed back in document order.
+    """
+    rows = [{"check": k, "guide": g, "line": l, "property": n, "message": m, "fix": ""}
             for k, g, l, n, m in findings]
+
+    carried = dropped = 0
+    prev = Path(path)
+    if prev.exists():
+        try:
+            old_rows = json.loads(prev.read_text(encoding="utf-8"))
+        except (ValueError, OSError) as e:
+            print(f"  ! could not read {path} to carry fixes forward: {e}")
+            old_rows = []
+        pool = {}
+        for r in old_rows:
+            if isinstance(r, dict) and (r.get("fix") or "").strip():
+                pool.setdefault((r.get("check"), r.get("guide"), r.get("property")),
+                                []).append(r["fix"])
+        for row in rows:
+            key = (row["check"], row["guide"], row["property"])
+            if pool.get(key):
+                row["fix"] = pool[key].pop(0)
+                carried += 1
+        dropped = sum(len(v) for v in pool.values())
+
     Path(path).write_text(json.dumps(rows, indent=2), encoding="utf-8")
     print(f"Wrote {path} ({len(rows)} findings)")
+    if carried or dropped:
+        print(f"  carried {carried} existing fix(es) forward; "
+              f"{dropped} fix(es) had no matching finding "
+              f"(implemented, or the finding changed)")
 
 
 def report(findings):
