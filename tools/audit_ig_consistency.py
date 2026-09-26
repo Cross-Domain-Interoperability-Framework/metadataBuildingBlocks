@@ -416,8 +416,22 @@ def index_schema(schema, base_dir=None):
             required_anywhere, choice_groups, type_unions, type_names)
 
 
+# A correctly-stated choice. "Choice-at least one of a, b is required" contains
+# "required" but is not a flat Required claim -- it states exactly the constraint
+# an `anyOf` of required-lists imposes, and flagging it would be telling the
+# author to un-say something true. Kept separate from the "if no" / "if " tests
+# so the accepted phrasings are visible in one place.
+CHOICE_PHRASE_RE = re.compile(r"at least one of|choice", re.I)
+
+
+def states_choice(card):
+    return bool(CHOICE_PHRASE_RE.search(card or ""))
+
+
 def states_required(card):
     c = (card or "").lower()
+    if states_choice(c):
+        return False
     return "required" in c and "if no" not in c and "if " not in c
 
 
@@ -522,7 +536,8 @@ def audit(selected_checks, only_guide):
                         findings.append(("cardinality", repo_key, line, name,
                                          f"guide says Required flatly; schema requires at least "
                                          f"one of this and {alts} -- phrase it "
-                                         f"'Required if no {others[0]}'"))
+                                         f"'Required if no {others[0]}' or "
+                                         f"'Choice-at least one of {hit}, {alts} is required'"))
                     elif states_optional(card):
                         findings.append(("cardinality", repo_key, line, name,
                                          f"guide says Optional; schema requires at least one of "
@@ -925,6 +940,26 @@ def self_test():
         for nm, ln in misplaced:
             print(f"        {nm} reported at line {ln}")
         ok = ok and not misplaced
+
+        # The four cardinality phrasings the guides use, and what each must mean.
+        # "Choice-at least one of a, b is required" contains "required" and tripped
+        # states_required before states_choice existed -- so correcting a guide to
+        # state the constraint properly swapped one finding for another instead of
+        # clearing it. A regression here is invisible in the finding count.
+        for text, want_req, want_opt in [
+            ("Required", True, False),
+            ("Optional", False, True),
+            ("Optional, Repeatable", False, True),
+            ("Required if no schema:choiceOther", False, False),
+            ("Required if `@type` is `cdif:TextMapping`", False, False),
+            ("Choice-at least one of schema:choiceMember, schema:choiceOther is required",
+             False, False),
+        ]:
+            got = (states_required(text), states_optional(text))
+            good = got == (want_req, want_opt)
+            print(f"  {'ok  ' if good else 'FAIL'}  {'cardinality phrasing':28s} "
+                  f"{text[:46]!r} -> {got}")
+            ok = ok and good
 
         for name, label, pred in expectations:
             if name not in blocks:
