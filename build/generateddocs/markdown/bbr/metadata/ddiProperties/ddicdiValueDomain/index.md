@@ -494,17 +494,17 @@ SentinelValueDomain with missing value codes for the SAS platform.
 <https://example.org/vd/temperatureCelsius> a cdi:SubstantiveValueDomain ;
     cdi:displayLabel [ a cdi:LabelForDisplay ;
             cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Temperatura del agua de mar (grados Celsius)" ;
-                    cdi:language "es" ] ;
-            cdi:maxLength 60 ],
-        [ a cdi:LabelForDisplay ;
-            cdi:languageSpecificString [ a cdi:LanguageString ;
                     cdi:content "Sea Water Temperature (degrees Celsius)" ;
                     cdi:language "en" ] ;
             cdi:locationVariant [ a cdi:ControlledVocabularyEntry ;
                     cdi:entryValue "en-US" ;
                     cdi:name "BCP47" ] ;
-            cdi:maxLength 40 ] ;
+            cdi:maxLength 40 ],
+        [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Temperatura del agua de mar (grados Celsius)" ;
+                    cdi:language "es" ] ;
+            cdi:maxLength 60 ] ;
     cdi:identifier [ a cdi:Identifier ;
             cdi:ddiIdentifier [ a cdi:InternationalRegistrationDataIdentifier ;
                     cdi:dataIdentifier "OCEAN-VD-TEMP-C" ;
@@ -545,11 +545,11 @@ SentinelValueDomain with missing value codes for the SAS platform.
     cdi:classificationLevel "Continuous" ;
     cdi:description [ a cdi:InternationalString ;
             cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Temperatures du seuil oceanographique en degres Celsius." ;
-                    cdi:language "fr" ],
-                [ a cdi:LanguageString ;
                     cdi:content "Real-valued sea water temperatures, expressed in degrees Celsius, in the plausible oceanographic range from -2 (freezing seawater) up to 35.5 (warm tropical surface)." ;
-                    cdi:language "en" ] ] ;
+                    cdi:language "en" ],
+                [ a cdi:LanguageString ;
+                    cdi:content "Temperatures du seuil oceanographique en degres Celsius." ;
+                    cdi:language "fr" ] ] ;
     cdi:formatPattern [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "#0.00" ;
             cdi:name "LDML number pattern" ;

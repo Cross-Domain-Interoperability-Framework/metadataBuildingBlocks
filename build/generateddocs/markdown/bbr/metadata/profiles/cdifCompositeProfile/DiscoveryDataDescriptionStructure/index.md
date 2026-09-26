@@ -1995,6 +1995,10 @@ optional Attribute) and its own cdif:Key.
                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                     cdif:index 1 ;
                     cdif:physicalDataType "string" ],
+                [ cdif:format "ISO8601" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "dateTime" ],
                 [ cdif:format "decimal" ;
                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                     cdif:index 2 ;
@@ -2002,11 +2006,7 @@ optional Attribute) and its own cdif:Key.
                 [ cdif:format "string" ;
                     cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
                     cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
-                [ cdif:format "ISO8601" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "dateTime" ] ],
+                    cdif:physicalDataType "string" ] ],
         [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
@@ -2016,13 +2016,13 @@ optional Attribute) and its own cdif:Key.
             schema1:potentialAction [ a schema1:Action ;
                     schema1:name "Query vitals as long-format CSV" ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination." ;
+                            schema1:valueName "offset" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format token (csv only for this example)." ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination." ;
-                            schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Maximum number of observations to return (default 100)." ;
@@ -2047,12 +2047,12 @@ optional Attribute) and its own cdif:Key.
                                     cdif:index 3 ;
                                     cdif:physicalDataType "dateTime" ],
                                 [ cdif:format "string" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
-                                    cdif:index 1 ;
-                                    cdif:physicalDataType "string" ],
-                                [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
                                     cdif:index 0 ;
+                                    cdif:physicalDataType "string" ],
+                                [ cdif:format "string" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
+                                    cdif:index 1 ;
                                     cdif:physicalDataType "string" ],
                                 [ cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
@@ -2136,11 +2136,11 @@ optional Attribute) and its own cdif:Key.
             cdi:indexes <https://example.org/var/measureName> ;
             cdi:value 2 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ] .
+            cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ] .
 
 <https://example.org/grant/nih-R01-XXXX> a schema1:MonetaryGrant ;
     schema1:funder <https://ror.org/01cwqze88> ;
@@ -2170,11 +2170,11 @@ optional Attribute) and its own cdif:Key.
             cdi:indexes <https://example.org/var/measureName> ;
             cdi:value 2 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ] .
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/observedAt> ;
+            cdi:value 3 ] .
 
 <https://example.org/struct/vitalsLong/rv/diastolicBP> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:decimal" ;
