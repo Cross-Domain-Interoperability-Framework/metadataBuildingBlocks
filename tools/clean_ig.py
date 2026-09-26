@@ -59,15 +59,22 @@ FENCE_RE = re.compile(r"^(```|~~~)")
 
 
 def parse_blocks(text):
-    """Split markdown into heading blocks: list of dicts {level, title, anchor, body}.
-    Lines inside fenced code blocks (``` or ~~~) are never treated as headings."""
+    """Split markdown into heading blocks: list of dicts {level, title, anchor, body, line}.
+    Lines inside fenced code blocks (``` or ~~~) are never treated as headings.
+
+    ``line`` is the 1-based line of the block's heading (1 for the level-0
+    preamble). It is recorded here rather than recovered by a second scan
+    because a caller re-running ``HEADING_RE`` over the raw text has no fence
+    tracking, so a ``#`` comment inside a code fence becomes a phantom heading
+    and shifts every later block's line by one -- silently, since the reported
+    line still lands on *a* heading."""
     lines = text.splitlines(keepends=True)
     blocks = []
     preamble_lines = []
     current = None
     in_fence = False
 
-    for line in lines:
+    for lineno, line in enumerate(lines, 1):
         # Track fenced code blocks so bash/Python comments aren't mistaken for headings
         if FENCE_RE.match(line):
             in_fence = not in_fence
@@ -77,13 +84,15 @@ def parse_blocks(text):
             if current is not None:
                 blocks.append(current)
             elif preamble_lines:
-                blocks.append({"level": 0, "title": None, "anchor": None, "body": preamble_lines})
+                blocks.append({"level": 0, "title": None, "anchor": None,
+                               "body": preamble_lines, "line": 1})
                 preamble_lines = []
             current = {
                 "level": len(m.group(1)),
                 "title": m.group(2).strip(),
                 "anchor": m.group(3),
                 "body": [],
+                "line": lineno,
             }
         else:
             if current is None:
@@ -94,7 +103,8 @@ def parse_blocks(text):
     if current is not None:
         blocks.append(current)
     elif preamble_lines:
-        blocks.append({"level": 0, "title": None, "anchor": None, "body": preamble_lines})
+        blocks.append({"level": 0, "title": None, "anchor": None,
+                       "body": preamble_lines, "line": 1})
 
     return blocks
 

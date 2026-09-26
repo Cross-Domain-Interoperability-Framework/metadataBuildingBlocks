@@ -114,15 +114,17 @@ def read_guide(path):
     """[{name, line, fields, body}] for each property block in a guide."""
     text = path.read_text(encoding="utf-8", errors="replace")
     blocks = clean_ig.parse_blocks(text)
-    # parse_blocks drops line numbers; recover them by walking headings in order.
-    heading_lines = [i + 1 for i, l in enumerate(text.splitlines())
-                     if clean_ig.HEADING_RE.match(l)]
-    out, hi = [], 0
+    out = []
     for b in blocks:
         if b["level"] == 0:
             continue
-        line = heading_lines[hi] if hi < len(heading_lines) else 0
-        hi += 1
+        # parse_blocks records this; do not recover it by re-scanning for
+        # HEADING_RE, which has no fence tracking. A `#` comment inside a code
+        # fence is then counted as a heading and every later block reports the
+        # line of the PREVIOUS one -- which still looks like a heading, so the
+        # error is invisible until you read the block it names. One such comment
+        # in CDIFDiscoveryImplementationGuide.md misplaced edits three times.
+        line = b["line"]
         if not clean_ig.is_property(b):
             continue
         body = "".join(b["body"])
@@ -632,6 +634,16 @@ def report(findings):
 
 SELF_TEST_GUIDE = """# Fixture
 
+The fenced block below is why block line numbers are recorded by
+parse_blocks rather than recovered by re-scanning for headings: the `#`
+comment in it is not a heading, and a fence-blind scan that counts it
+shifts every block after this point onto the PREVIOUS heading.
+
+```bash
+# not a heading
+python tools/audit_ig_consistency.py
+```
+
 ## schema:Dataset
 
 ### schema:realProp
@@ -886,6 +898,34 @@ def self_test():
                        and not (states_required(blocks[n]["fields"]["cardinality"])
                                 and resolve_bare(n, declared) not in required_anywhere)),
         ]
+        # Every reported line must land on the heading that names the property.
+        # parse_blocks ignores headings inside code fences; a caller recovering
+        # line numbers by re-scanning HEADING_RE does not, so a single `#`
+        # comment in a fence shifts every later block onto the PREVIOUS heading
+        # -- a wrong line that still looks like a heading, so the output gives
+        # no sign of it. 23 blocks in CDIFDiscoveryImplementationGuide.md were
+        # misreported this way, which misplaced three rounds of guide edits.
+        guide_lines = SELF_TEST_GUIDE.splitlines()
+        naive = sum(1 for l in guide_lines if clean_ig.HEADING_RE.match(l))
+        real = sum(1 for b in clean_ig.parse_blocks(SELF_TEST_GUIDE)
+                   if b["level"] != 0)
+        if naive <= real:
+            print("  FAIL  fixture has no fenced `#`, so the line-mapping case "
+                  "asserts nothing")
+            ok = False
+        parsed = read_guide(gp)
+        misplaced = []
+        for b in parsed:
+            m = (clean_ig.HEADING_RE.match(guide_lines[b["line"] - 1])
+                 if 0 < b["line"] <= len(guide_lines) else None)
+            if not m or prop_name(m.group(2)) != b["name"]:
+                misplaced.append((b["name"], b["line"]))
+        print(f"  {'ok  ' if not misplaced else 'FAIL'}  "
+              f"{'line lands on its own heading':28s} {len(parsed)} blocks")
+        for nm, ln in misplaced:
+            print(f"        {nm} reported at line {ln}")
+        ok = ok and not misplaced
+
         for name, label, pred in expectations:
             if name not in blocks:
                 print(f"  FAIL  {label}: fixture block {name} not parsed"); ok = False; continue
