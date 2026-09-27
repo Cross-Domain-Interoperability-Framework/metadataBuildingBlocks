@@ -400,6 +400,22 @@ def index_schema(schema, base_dir=None):
                     walk(node[key], scope, False, cur_dir, root)
             if isinstance(node.get("items"), dict):
                 walk(node["items"], scope, unconditional, cur_dir, root)
+            # `contains` was not walked at all until 2026-09-26, and it is used in
+            # 76 of the register's schema files -- every `@type` token check is one.
+            # Conditional, like an anyOf branch: `contains: X` says at least one item
+            # matches X, so a property X requires is required OF THAT ITEM, not of
+            # every item. That still registers it in required_anywhere, which is what
+            # stops "guide says Required; schema never requires it" firing falsely.
+            #
+            # The gap stayed hidden because a root schema's $defs are enumerated
+            # directly further down, so anything reachable only through `contains`
+            # was still indexed when that file WAS the root. It broke the moment a
+            # module was indexed as part of its composite instead:
+            # cdifDataStructure reaches $defs/StructuredDataDownload -- which is
+            # where cdi:isStructuredBy is required -- only via
+            # `contains: {anyOf: [{$ref: '#/$defs/StructuredDataDownload'}, ...]}`.
+            if isinstance(node.get("contains"), dict):
+                walk(node["contains"], scope, False, cur_dir, root)
             for name, sub in (node.get("properties") or {}).items():
                 if isinstance(sub, dict):
                     walk(sub, f"{scope}/{name}", unconditional, cur_dir, root)
@@ -439,6 +455,75 @@ def states_optional(card):
     return (card or "").lower().strip().startswith("optional")
 
 
+COMPOSITE_DIR = "_sources/profiles/cdifCompositeProfile"
+
+
+def _composite_members():
+    """{composite src_rel: {module src_rel}} read from each composite's own allOf.
+
+    Derived rather than hand-listed: a composite that gains or loses a module
+    would otherwise silently keep the old mapping, and the whole point of this
+    map is to stop the audit judging a guide against the wrong schema.
+    """
+    out = {}
+    root = MBB_ROOT / COMPOSITE_DIR
+    if not root.is_dir():
+        return out
+    for d in sorted(root.iterdir()):
+        src = d / "schema.yaml"
+        if not src.is_file():
+            continue
+        try:
+            sch = resolve_schema.load_schema_file(src)
+        except Exception:
+            continue
+        mods = set()
+        for branch in (sch.get("allOf") or []):
+            ref = isinstance(branch, dict) and branch.get("$ref")
+            if not ref:
+                continue
+            tgt = (src.parent / ref).resolve()
+            try:
+                rel = tgt.parent.relative_to(MBB_ROOT).as_posix()
+            except ValueError:
+                continue
+            mods.add(rel)
+        if mods:
+            out[f"{COMPOSITE_DIR}/{d.name}"] = mods
+    return out
+
+
+def resolution_target(src_rel):
+    """The schema a guide should be judged against: (src_rel, note).
+
+    A release guide describes a conforming RECORD, not one module in isolation.
+    profile-datastructure documents the catalog record because a reader of that
+    profile needs it -- but schema:about, schema:sdDatePublished and
+    schema:encodingFormat are declared by cdifCore and dataDownload, so judging
+    that guide against cdifDataStructure alone reported three properties as
+    undocumented-by-the-schema and schema:about as never-required. Measured
+    2026-09-26: a record whose catalog record omits schema:about FAILS the
+    composite and PASSES the module. The guide was right and the audit was
+    asking the wrong schema.
+
+    Resolving against the NARROWEST composite containing the module keeps the
+    check honest in the other direction: cdifDataDescription is not part of
+    CoreDiscovery, so a cdifDataDescription property documented in
+    profile-core is still reported.
+
+    A module in no composite -- cdifCodelist and cdifConceptScheme are
+    self-contained -- is judged against itself, as before.
+    """
+    members = _composite_members()
+    if src_rel in members:
+        return src_rel, ""           # already a composite
+    holding = {c: m for c, m in members.items() if src_rel in m}
+    if not holding:
+        return src_rel, ""
+    best = min(holding, key=lambda c: (len(holding[c]), c))
+    return best, f" (via {best.rsplit('/', 1)[-1]})"
+
+
 def audit(selected_checks, only_guide):
     findings = []
     descriptions = {}          # prop -> {guide: description}
@@ -454,12 +539,13 @@ def audit(selected_checks, only_guide):
         # The $ref graph, not the flattened artifact: the source keeps each
         # branch's identity (DataDownload / WebAPI), which the generated
         # *StructuredSchema.json inlines away.
-        src = MBB_ROOT / src_rel / "schema.yaml"
+        target_rel, via = resolution_target(src_rel)
+        src = MBB_ROOT / target_rel / "schema.yaml"
         if not src.exists():
-            findings.append(("missing-schema", repo_key, 0, "", f"{src_rel}/schema.yaml not found"))
+            findings.append(("missing-schema", repo_key, 0, "", f"{target_rel}/schema.yaml not found"))
             continue
         schema = resolve_schema.load_schema_file(src)
-        schema_name = f"{src_rel}/schema.yaml"
+        schema_name = f"{target_rel}/schema.yaml"
         (declared, required_scopes, property_scopes, repeatable, required_anywhere,
          choice_groups, type_unions, type_names) = index_schema(schema, src.parent)
 
@@ -812,6 +898,97 @@ SELF_TEST_SCHEMA = {
 }
 
 
+def _composite_self_test():
+    """Prove composite resolution, and that `contains` is followed.
+
+    Both need real files: the thing under test is that a MODULE indexed as part
+    of its composite still yields everything it yields as a root. A root schema's
+    $defs are enumerated directly, which masked the `contains` gap entirely --
+    anything reachable only through `contains` was still found when the file was
+    the root, and vanished the moment it was a $ref target.
+    """
+    import tempfile, textwrap
+    ok = True
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "modA").mkdir()
+        # propRequiredViaContains is required ONLY inside a $defs entry that is
+        # reachable ONLY through `contains`. As a root this is found by the $defs
+        # enumeration; as a $ref target it is found only if `contains` is walked.
+        (root / "modA" / "schema.yaml").write_text(textwrap.dedent("""            type: object
+            properties:
+              'ex:fromA': {type: string}
+              'ex:parts':
+                type: array
+                contains:
+                  anyOf:
+                  - '$ref': '#/$defs/StructuredPart'
+            $defs:
+              StructuredPart:
+                type: object
+                properties:
+                  'ex:propRequiredViaContains': {type: string}
+                required:
+                - 'ex:propRequiredViaContains'
+            """), encoding="utf-8")
+        (root / "modB").mkdir()
+        (root / "modB" / "schema.yaml").write_text(textwrap.dedent("""            type: object
+            properties:
+              'ex:fromB': {type: string}
+            required:
+            - 'ex:fromB'
+            """), encoding="utf-8")
+        (root / "composite").mkdir()
+        (root / "composite" / "schema.yaml").write_text(textwrap.dedent("""            type: object
+            allOf:
+            - '$ref': '../modA/schema.yaml'
+            - '$ref': '../modB/schema.yaml'
+            """), encoding="utf-8")
+
+        def idx(rel):
+            src = root / rel / "schema.yaml"
+            return index_schema(resolve_schema.load_schema_file(src), src.parent)
+
+        a_decl, _, _, _, a_req, _, _, _ = idx("modA")
+        c_decl, _, _, _, c_req, _, _, _ = idx("composite")
+
+        checks = [
+            # the point of resolving against the composite: a guide may document a
+            # property its own module does not declare but a sibling module does
+            ("sibling module's property is declared in the composite",
+             "ex:fromB" in c_decl and "ex:fromB" not in a_decl),
+            ("sibling module's requirement counts in the composite",
+             "ex:fromB" in c_req),
+            # the `contains` fix: identical answer as root and as $ref target
+            ("contains-only requirement found when the module IS the root",
+             "ex:propRequiredViaContains" in a_req),
+            ("contains-only requirement found when the module is a $ref target",
+             "ex:propRequiredViaContains" in c_req),
+            ("the module's own property survives composition",
+             "ex:fromA" in c_decl),
+        ]
+        for label, passed in checks:
+            print(f"  {'ok  ' if passed else 'FAIL'}  {label}")
+            ok = ok and passed
+
+    # the module -> composite map is derived from the composites' own allOf, so a
+    # composite that gains or loses a module cannot leave a stale mapping behind.
+    # Check it still resolves the real register the way the guides need.
+    expected = {
+        "_sources/profiles/cdifProfile/cdifDataStructure":
+            "_sources/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure",
+        "_sources/profiles/cdifProfile/cdifCodelist":
+            "_sources/profiles/cdifProfile/cdifCodelist",      # self-contained
+    }
+    for mod, want in expected.items():
+        got, _ = resolution_target(mod)
+        passed = got == want
+        print(f"  {'ok  ' if passed else 'FAIL'}  resolution target "
+              f"{mod.rsplit('/', 1)[-1]} -> {got.rsplit('/', 1)[-1]}")
+        ok = ok and passed
+    return ok
+
+
 def _graph_self_test():
     """Prove the $ref graph keeps branch identity across a chained ref.
 
@@ -1005,6 +1182,7 @@ def self_test():
             print(f"  {'ok  ' if fired else 'FAIL'}  {label:28s} {name}")
             ok = ok and fired
     ok = _graph_self_test() and ok
+    ok = _composite_self_test() and ok
     print("\nself-test PASSED" if ok else "\nself-test FAILED")
     return 0 if ok else 1
 
