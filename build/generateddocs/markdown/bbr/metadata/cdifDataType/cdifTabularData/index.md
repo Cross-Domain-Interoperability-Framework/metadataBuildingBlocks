@@ -314,11 +314,11 @@ and three physical-mapping entries.
     csvw:tableDirection "Ltr" ;
     csvw:textDirection "Inherit" ;
     csvw:trim "true" ;
-    cdif:hasPhysicalMapping [ cdi:isRequired true ;
-            cdi:length 16 ;
-            cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ],
+    cdif:hasPhysicalMapping [ cdi:nullSequence "NA" ;
+            cdif:format "YYYY-MM-DD" ;
+            cdif:formats_InstanceVariable ex:var-date ;
+            cdif:index 1 ;
+            cdif:physicalDataType "Date" ],
         [ cdi:decimalPositions 2 ;
             cdi:length 12 ;
             cdi:scale 1 ;
@@ -326,11 +326,11 @@ and three physical-mapping entries.
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 2 ;
             cdif:physicalDataType "Numeric" ],
-        [ cdi:nullSequence "NA" ;
-            cdif:format "YYYY-MM-DD" ;
-            cdif:formats_InstanceVariable ex:var-date ;
-            cdif:index 1 ;
-            cdif:physicalDataType "Date" ] .
+        [ cdi:isRequired true ;
+            cdi:length 16 ;
+            cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ] .
 
 
 ```
