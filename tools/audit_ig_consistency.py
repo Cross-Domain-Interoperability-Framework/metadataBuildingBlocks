@@ -400,6 +400,22 @@ def index_schema(schema, base_dir=None):
                     walk(node[key], scope, False, cur_dir, root)
             if isinstance(node.get("items"), dict):
                 walk(node["items"], scope, unconditional, cur_dir, root)
+            # `contains` was not walked at all until 2026-09-26, and it is used in
+            # 76 of the register's schema files -- every `@type` token check is one.
+            # Conditional, like an anyOf branch: `contains: X` says at least one item
+            # matches X, so a property X requires is required OF THAT ITEM, not of
+            # every item. That still registers it in required_anywhere, which is what
+            # stops "guide says Required; schema never requires it" firing falsely.
+            #
+            # The gap stayed hidden because a root schema's $defs are enumerated
+            # directly further down, so anything reachable only through `contains`
+            # was still indexed when that file WAS the root. It broke the moment a
+            # module was indexed as part of its composite instead:
+            # cdifDataStructure reaches $defs/StructuredDataDownload -- which is
+            # where cdi:isStructuredBy is required -- only via
+            # `contains: {anyOf: [{$ref: '#/$defs/StructuredDataDownload'}, ...]}`.
+            if isinstance(node.get("contains"), dict):
+                walk(node["contains"], scope, False, cur_dir, root)
             for name, sub in (node.get("properties") or {}).items():
                 if isinstance(sub, dict):
                     walk(sub, f"{scope}/{name}", unconditional, cur_dir, root)
@@ -416,13 +432,141 @@ def index_schema(schema, base_dir=None):
             required_anywhere, choice_groups, type_unions, type_names)
 
 
+# A correctly-stated choice. "Choice-at least one of a, b is required" contains
+# "required" but is not a flat Required claim -- it states exactly the constraint
+# an `anyOf` of required-lists imposes, and flagging it would be telling the
+# author to un-say something true. Kept separate from the "if no" / "if " tests
+# so the accepted phrasings are visible in one place.
+CHOICE_PHRASE_RE = re.compile(r"at least one of|choice", re.I)
+
+
+def states_choice(card):
+    return bool(CHOICE_PHRASE_RE.search(card or ""))
+
+
 def states_required(card):
     c = (card or "").lower()
+    if states_choice(c):
+        return False
     return "required" in c and "if no" not in c and "if " not in c
 
 
 def states_optional(card):
     return (card or "").lower().strip().startswith("optional")
+
+
+COMPOSITE_DIR = "_sources/profiles/cdifCompositeProfile"
+
+
+def _composite_members():
+    """{composite src_rel: {module src_rel}} read from each composite's own allOf.
+
+    Derived rather than hand-listed: a composite that gains or loses a module
+    would otherwise silently keep the old mapping, and the whole point of this
+    map is to stop the audit judging a guide against the wrong schema.
+    """
+    out = {}
+    root = MBB_ROOT / COMPOSITE_DIR
+    if not root.is_dir():
+        return out
+    for d in sorted(root.iterdir()):
+        src = d / "schema.yaml"
+        if not src.is_file():
+            continue
+        try:
+            sch = resolve_schema.load_schema_file(src)
+        except Exception:
+            continue
+        mods = set()
+        for branch in (sch.get("allOf") or []):
+            ref = isinstance(branch, dict) and branch.get("$ref")
+            if not ref:
+                continue
+            tgt = (src.parent / ref).resolve()
+            try:
+                rel = tgt.parent.relative_to(MBB_ROOT).as_posix()
+            except ValueError:
+                continue
+            mods.add(rel)
+        if mods:
+            out[f"{COMPOSITE_DIR}/{d.name}"] = mods
+    return out
+
+
+def resolution_target(src_rel):
+    """The schema a guide should be judged against: (src_rel, note).
+
+    A release guide describes a conforming RECORD, not one module in isolation.
+    profile-datastructure documents the catalog record because a reader of that
+    profile needs it -- but schema:about, schema:sdDatePublished and
+    schema:encodingFormat are declared by cdifCore and dataDownload, so judging
+    that guide against cdifDataStructure alone reported three properties as
+    undocumented-by-the-schema and schema:about as never-required. Measured
+    2026-09-26: a record whose catalog record omits schema:about FAILS the
+    composite and PASSES the module. The guide was right and the audit was
+    asking the wrong schema.
+
+    Resolving against the NARROWEST composite containing the module keeps the
+    check honest in the other direction: cdifDataDescription is not part of
+    CoreDiscovery, so a cdifDataDescription property documented in
+    profile-core is still reported.
+
+    A module in no composite -- cdifCodelist and cdifConceptScheme are
+    self-contained -- is judged against itself, as before.
+    """
+    members = _composite_members()
+    if src_rel in members:
+        return src_rel, ""           # already a composite
+    holding = {c: m for c, m in members.items() if src_rel in m}
+    if not holding:
+        return src_rel, ""
+    best = min(holding, key=lambda c: (len(holding[c]), c))
+    return best, f" (via {best.rsplit('/', 1)[-1]})"
+
+
+# Properties whose description legitimately differs between guides, with the
+# reason. The divergence check measures description-LENGTH variance, which cannot
+# tell "the guides disagree" from "the property means different things in
+# different places" -- and these do. `url` on a Dataset is the landing page; on an
+# Identifier it is "web-resolveable string for the identifier; host name part is
+# location of a resolver". Flattening those is not consistency, it is an error.
+#
+# Reviewed and accepted 2026-09-26. A name is listed here only because a person
+# looked at the variants and judged them correct, so the list is a record of
+# decisions, not a way to quieten the check: adding to it without that review
+# turns the divergence check into one that cannot fail.
+# Raised only by the self-test, to prove the divergence check can still fire.
+DIVERGENCE_PREFIX_MIN = 60
+
+DIVERGENCE_ACCEPTED = {
+    "name": "used in different contexts; the distinct descriptions are correct",
+    "schema:name": "used in different contexts; the distinct descriptions are correct",
+    "identifier": "used in different contexts; the distinct descriptions are correct",
+    "schema:identifier": "used in different contexts; the distinct descriptions are correct",
+    "propertyID": "used in different contexts; the distinct descriptions are correct",
+    "skos:definition": "used in different contexts; the distinct descriptions are correct",
+    # Two genuinely different properties sharing a name: on cdif:ForeignKey it is
+    # the key's target, on a value domain it is the codelist supplying the allowed
+    # values. Both texts are set deliberately; the divergence is the point.
+    "cdif:references": "two senses -- ForeignKey target vs enumeration-domain codelist",
+}
+
+
+def _common_prefix_len(texts):
+    """Length of the longest opening shared by every description, whitespace- and
+    markup-normalised so ``x`` and `x` count as the same word."""
+    norm = [re.sub(r"\s+", " ", t.replace("`", "").replace("*", "")).strip().lower()
+            for t in texts]
+    if len(norm) < 2:
+        return 0
+    first, rest = norm[0], norm[1:]
+    n = 0
+    for i, ch in enumerate(first):
+        if all(len(o) > i and o[i] == ch for o in rest):
+            n = i + 1
+        else:
+            break
+    return n
 
 
 def audit(selected_checks, only_guide):
@@ -440,12 +584,13 @@ def audit(selected_checks, only_guide):
         # The $ref graph, not the flattened artifact: the source keeps each
         # branch's identity (DataDownload / WebAPI), which the generated
         # *StructuredSchema.json inlines away.
-        src = MBB_ROOT / src_rel / "schema.yaml"
+        target_rel, via = resolution_target(src_rel)
+        src = MBB_ROOT / target_rel / "schema.yaml"
         if not src.exists():
-            findings.append(("missing-schema", repo_key, 0, "", f"{src_rel}/schema.yaml not found"))
+            findings.append(("missing-schema", repo_key, 0, "", f"{target_rel}/schema.yaml not found"))
             continue
         schema = resolve_schema.load_schema_file(src)
-        schema_name = f"{src_rel}/schema.yaml"
+        schema_name = f"{target_rel}/schema.yaml"
         (declared, required_scopes, property_scopes, repeatable, required_anywhere,
          choice_groups, type_unions, type_names) = index_schema(schema, src.parent)
 
@@ -522,7 +667,8 @@ def audit(selected_checks, only_guide):
                         findings.append(("cardinality", repo_key, line, name,
                                          f"guide says Required flatly; schema requires at least "
                                          f"one of this and {alts} -- phrase it "
-                                         f"'Required if no {others[0]}'"))
+                                         f"'Required if no {others[0]}' or "
+                                         f"'Choice-at least one of {hit}, {alts} is required'"))
                     elif states_optional(card):
                         findings.append(("cardinality", repo_key, line, name,
                                          f"guide says Optional; schema requires at least one of "
@@ -542,9 +688,19 @@ def audit(selected_checks, only_guide):
 
     if "divergence" in selected_checks:
         for prop, by_guide in sorted(descriptions.items()):
-            if len(by_guide) < 2:
+            if len(by_guide) < 2 or prop in DIVERGENCE_ACCEPTED:
                 continue
             lens = sorted(len(v) for v in by_guide.values())
+            # Guides that all OPEN with the same definition agree about the
+            # property; the longer ones merely elaborate -- a document-level guide
+            # continues into a profile-comparison table or the physical-realization
+            # detail. Length variance alone called that a disagreement, so
+            # `result`, `spatialCoverage` and `variableMeasured` stayed flagged
+            # after every guide had been set to the agreed text. A shared opening
+            # this long cannot happen by accident, and two genuinely different
+            # descriptions will not have one.
+            if _common_prefix_len(by_guide.values()) >= DIVERGENCE_PREFIX_MIN:
+                continue
             if lens[-1] >= 40 and lens[-1] >= 3 * max(lens[0], 1):
                 spread = ", ".join(f"{g}:{len(v)}" for g, v in
                                    sorted(by_guide.items(), key=lambda kv: -len(kv[1])))
@@ -610,10 +766,47 @@ def write_markdown(findings, path):
 
 
 def write_json(findings, path):
-    rows = [{"check": k, "guide": g, "line": l, "property": n, "message": m}
+    """Write the findings as JSON, each with a `fix` field to annotate.
+
+    An existing file's `fix` text is CARRIED FORWARD onto the matching finding,
+    so re-running the audit never discards annotation work -- which is the whole
+    reason this format is useful: a reviewer writes the fix once, the fix
+    survives every later run, and a fix that no longer has a finding has either
+    been implemented or gone stale.
+
+    Rows are matched on (check, guide, property), not on `line`: line numbers
+    move as soon as anything above them is edited. Where one guide carries the
+    same property twice, the fixes are handed back in document order.
+    """
+    rows = [{"check": k, "guide": g, "line": l, "property": n, "message": m, "fix": ""}
             for k, g, l, n, m in findings]
+
+    carried = dropped = 0
+    prev = Path(path)
+    if prev.exists():
+        try:
+            old_rows = json.loads(prev.read_text(encoding="utf-8"))
+        except (ValueError, OSError) as e:
+            print(f"  ! could not read {path} to carry fixes forward: {e}")
+            old_rows = []
+        pool = {}
+        for r in old_rows:
+            if isinstance(r, dict) and (r.get("fix") or "").strip():
+                pool.setdefault((r.get("check"), r.get("guide"), r.get("property")),
+                                []).append(r["fix"])
+        for row in rows:
+            key = (row["check"], row["guide"], row["property"])
+            if pool.get(key):
+                row["fix"] = pool[key].pop(0)
+                carried += 1
+        dropped = sum(len(v) for v in pool.values())
+
     Path(path).write_text(json.dumps(rows, indent=2), encoding="utf-8")
     print(f"Wrote {path} ({len(rows)} findings)")
+    if carried or dropped:
+        print(f"  carried {carried} existing fix(es) forward; "
+              f"{dropped} fix(es) had no matching finding "
+              f"(implemented, or the finding changed)")
 
 
 def report(findings):
@@ -758,6 +951,149 @@ SELF_TEST_SCHEMA = {
         }
     },
 }
+
+
+def _divergence_self_test():
+    """Prove the divergence check still fires, and that the accepted list is live.
+
+    This check now reports nothing on the register, which is the same output a
+    check that has stopped working produces. So: suppress the two things that
+    silence it legitimately, and the known cases must come back.
+    """
+    global DIVERGENCE_PREFIX_MIN, DIVERGENCE_ACCEPTED
+    ok = True
+    cases = [
+        (["Web location of a page describing the resource.",
+          "Web location of a page describing the resource, and then some more."], 46),
+        (["one thing entirely", "a completely different thing"], 0),
+        # backticks stripped and runs of whitespace collapsed, so these are equal
+        (["`schema:name` is the label", "schema:name   is the label"], 24),
+    ]
+    for texts, want in cases:
+        got = _common_prefix_len(texts)
+        passed = got == want
+        print(f"  {'ok  ' if passed else 'FAIL'}  {'common prefix':28s} {got} (want {want})")
+        ok = ok and passed
+
+    keep_min, keep_acc = DIVERGENCE_PREFIX_MIN, DIVERGENCE_ACCEPTED
+    try:
+        DIVERGENCE_PREFIX_MIN = 10 ** 9      # no prefix can reach this
+        DIVERGENCE_ACCEPTED = {}
+        fired = [f for f in audit({"divergence"}, None) if f[1] == "(cross-guide)"]
+    finally:
+        DIVERGENCE_PREFIX_MIN, DIVERGENCE_ACCEPTED = keep_min, keep_acc
+    passed = len(fired) > 0
+    print(f"  {'ok  ' if passed else 'FAIL'}  {'divergence check still fires':28s} "
+          f"{len(fired)} finding(s) with both tolerances disabled")
+    ok = ok and passed
+
+    # A name left in the accepted list after its property stopped being documented
+    # in two guides is silently suppressing nothing -- and hides that the list has
+    # drifted from the guides.
+    descs = {}
+    for repo_rel, _src, _n, _s in sync_release_repos.REPOS:
+        gp = guide_path(repo_rel)
+        if gp is None:
+            continue
+        for blk in read_guide(gp):
+            if blk["fields"].get("description"):
+                descs.setdefault(blk["name"], set()).add(repo_rel)
+    stale = sorted(n for n in DIVERGENCE_ACCEPTED if len(descs.get(n, ())) < 2)
+    passed = not stale
+    print(f"  {'ok  ' if passed else 'FAIL'}  {'accepted list has no stale name':28s} "
+          f"{('stale: ' + ', '.join(stale)) if stale else 'all live'}")
+    return ok and passed
+
+
+def _composite_self_test():
+    """Prove composite resolution, and that `contains` is followed.
+
+    Both need real files: the thing under test is that a MODULE indexed as part
+    of its composite still yields everything it yields as a root. A root schema's
+    $defs are enumerated directly, which masked the `contains` gap entirely --
+    anything reachable only through `contains` was still found when the file was
+    the root, and vanished the moment it was a $ref target.
+    """
+    import tempfile, textwrap
+    ok = True
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "modA").mkdir()
+        # propRequiredViaContains is required ONLY inside a $defs entry that is
+        # reachable ONLY through `contains`. As a root this is found by the $defs
+        # enumeration; as a $ref target it is found only if `contains` is walked.
+        (root / "modA" / "schema.yaml").write_text(textwrap.dedent("""            type: object
+            properties:
+              'ex:fromA': {type: string}
+              'ex:parts':
+                type: array
+                contains:
+                  anyOf:
+                  - '$ref': '#/$defs/StructuredPart'
+            $defs:
+              StructuredPart:
+                type: object
+                properties:
+                  'ex:propRequiredViaContains': {type: string}
+                required:
+                - 'ex:propRequiredViaContains'
+            """), encoding="utf-8")
+        (root / "modB").mkdir()
+        (root / "modB" / "schema.yaml").write_text(textwrap.dedent("""            type: object
+            properties:
+              'ex:fromB': {type: string}
+            required:
+            - 'ex:fromB'
+            """), encoding="utf-8")
+        (root / "composite").mkdir()
+        (root / "composite" / "schema.yaml").write_text(textwrap.dedent("""            type: object
+            allOf:
+            - '$ref': '../modA/schema.yaml'
+            - '$ref': '../modB/schema.yaml'
+            """), encoding="utf-8")
+
+        def idx(rel):
+            src = root / rel / "schema.yaml"
+            return index_schema(resolve_schema.load_schema_file(src), src.parent)
+
+        a_decl, _, _, _, a_req, _, _, _ = idx("modA")
+        c_decl, _, _, _, c_req, _, _, _ = idx("composite")
+
+        checks = [
+            # the point of resolving against the composite: a guide may document a
+            # property its own module does not declare but a sibling module does
+            ("sibling module's property is declared in the composite",
+             "ex:fromB" in c_decl and "ex:fromB" not in a_decl),
+            ("sibling module's requirement counts in the composite",
+             "ex:fromB" in c_req),
+            # the `contains` fix: identical answer as root and as $ref target
+            ("contains-only requirement found when the module IS the root",
+             "ex:propRequiredViaContains" in a_req),
+            ("contains-only requirement found when the module is a $ref target",
+             "ex:propRequiredViaContains" in c_req),
+            ("the module's own property survives composition",
+             "ex:fromA" in c_decl),
+        ]
+        for label, passed in checks:
+            print(f"  {'ok  ' if passed else 'FAIL'}  {label}")
+            ok = ok and passed
+
+    # the module -> composite map is derived from the composites' own allOf, so a
+    # composite that gains or loses a module cannot leave a stale mapping behind.
+    # Check it still resolves the real register the way the guides need.
+    expected = {
+        "_sources/profiles/cdifProfile/cdifDataStructure":
+            "_sources/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure",
+        "_sources/profiles/cdifProfile/cdifCodelist":
+            "_sources/profiles/cdifProfile/cdifCodelist",      # self-contained
+    }
+    for mod, want in expected.items():
+        got, _ = resolution_target(mod)
+        passed = got == want
+        print(f"  {'ok  ' if passed else 'FAIL'}  resolution target "
+              f"{mod.rsplit('/', 1)[-1]} -> {got.rsplit('/', 1)[-1]}")
+        ok = ok and passed
+    return ok
 
 
 def _graph_self_test():
@@ -926,6 +1262,26 @@ def self_test():
             print(f"        {nm} reported at line {ln}")
         ok = ok and not misplaced
 
+        # The four cardinality phrasings the guides use, and what each must mean.
+        # "Choice-at least one of a, b is required" contains "required" and tripped
+        # states_required before states_choice existed -- so correcting a guide to
+        # state the constraint properly swapped one finding for another instead of
+        # clearing it. A regression here is invisible in the finding count.
+        for text, want_req, want_opt in [
+            ("Required", True, False),
+            ("Optional", False, True),
+            ("Optional, Repeatable", False, True),
+            ("Required if no schema:choiceOther", False, False),
+            ("Required if `@type` is `cdif:TextMapping`", False, False),
+            ("Choice-at least one of schema:choiceMember, schema:choiceOther is required",
+             False, False),
+        ]:
+            got = (states_required(text), states_optional(text))
+            good = got == (want_req, want_opt)
+            print(f"  {'ok  ' if good else 'FAIL'}  {'cardinality phrasing':28s} "
+                  f"{text[:46]!r} -> {got}")
+            ok = ok and good
+
         for name, label, pred in expectations:
             if name not in blocks:
                 print(f"  FAIL  {label}: fixture block {name} not parsed"); ok = False; continue
@@ -933,6 +1289,8 @@ def self_test():
             print(f"  {'ok  ' if fired else 'FAIL'}  {label:28s} {name}")
             ok = ok and fired
     ok = _graph_self_test() and ok
+    ok = _composite_self_test() and ok
+    ok = _divergence_self_test() and ok
     print("\nself-test PASSED" if ok else "\nself-test FAILED")
     return 0 if ok else 1
 

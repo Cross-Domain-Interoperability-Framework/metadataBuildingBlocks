@@ -247,7 +247,9 @@
                       }
                     },
                     "required": [
-                      "@type"
+                      "@type",
+                      "spdx:algorithm",
+                      "spdx:checksumValue"
                     ]
                   },
                   "dcterms:conformsTo": {
@@ -1049,7 +1051,9 @@
                   }
                 },
                 "required": [
-                  "@type"
+                  "@type",
+                  "spdx:algorithm",
+                  "spdx:checksumValue"
                 ]
               },
               "dcterms:conformsTo": {
@@ -1218,7 +1222,8 @@
           },
           "schema:linkRelationship": {
             "$ref": "#/$defs/cdifConceptOrTermOrString",
-            "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label."
+            "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label. Required: a typed link whose relationship is unstated carries no more information than a bare URL, which is what schemaorgProperties/labeledLink is for.",
+            "default": "missing"
           },
           "schema:target": {
             "type": "object",
@@ -1250,7 +1255,8 @@
           }
         },
         "required": [
-          "@type"
+          "@type",
+          "schema:linkRelationship"
         ]
       }
     },
@@ -2132,7 +2138,8 @@
                                               },
                                               "schema:linkRelationship": {
                                                 "$ref": "#/$defs/cdifConceptOrTermOrString",
-                                                "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label."
+                                                "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label. Required: a typed link whose relationship is unstated carries no more information than a bare URL, which is what schemaorgProperties/labeledLink is for.",
+                                                "default": "missing"
                                               },
                                               "schema:target": {
                                                 "type": "object",
@@ -2164,7 +2171,8 @@
                                               }
                                             },
                                             "required": [
-                                              "@type"
+                                              "@type",
+                                              "schema:linkRelationship"
                                             ]
                                           }
                                         },
@@ -3038,7 +3046,8 @@
                                                     },
                                                     "schema:linkRelationship": {
                                                       "$ref": "#/$defs/cdifConceptOrTermOrString",
-                                                      "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label."
+                                                      "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label. Required: a typed link whose relationship is unstated carries no more information than a bare URL, which is what schemaorgProperties/labeledLink is for.",
+                                                      "default": "missing"
                                                     },
                                                     "schema:target": {
                                                       "type": "object",
@@ -3070,7 +3079,8 @@
                                                     }
                                                   },
                                                   "required": [
-                                                    "@type"
+                                                    "@type",
+                                                    "schema:linkRelationship"
                                                   ]
                                                 }
                                               },
@@ -7106,7 +7116,10 @@
                 }
               }
             }
-          }
+          },
+          "required": [
+            "geosparql:asWKT"
+          ]
         }
       },
       "anyOf": [
@@ -7453,7 +7466,47 @@
             }
           }
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "@type"
+            ],
+            "properties": {
+              "@type": {
+                "contains": {
+                  "const": "cdif:TextMapping"
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "cdif:index"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "@type"
+            ],
+            "properties": {
+              "@type": {
+                "contains": {
+                  "const": "cdif:LocatorMapping"
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "cdi:locator"
+            ]
+          }
+        }
+      ]
     },
     "CdifRepresentedVariable": {
       "title": "DDI-CDI Represented Variable",
@@ -10313,7 +10366,8 @@
           },
           "required": [
             "@type",
-            "cdif:hasValuesFrom"
+            "cdif:hasValuesFrom",
+            "cdif:name"
           ]
         },
         "cdi:refersTo": {

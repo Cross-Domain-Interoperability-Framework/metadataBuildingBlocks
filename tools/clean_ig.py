@@ -312,7 +312,11 @@ def rewrite_links(blocks, anchor_map):
     return blocks
 
 
-BACK_TO_TOC = "[↑ Back to TOC](#table-of-contents)"
+# "^" not "↑": the arrow renders as a box in several of the fonts the
+# published guides are read in, and every guide was swept to "^" on
+# 2026-09-25. Emitting the arrow here would silently reintroduce it on the
+# next --regen-toc.
+BACK_TO_TOC = "[^ Back to TOC](#table-of-contents)"
 
 
 def inject_back_to_toc(blocks):
