@@ -21,16 +21,50 @@ cdifd:xasFacilityNode
           ?this schema:additionalType xas:facility .
           }""";
 	] ;
-    sh:property [
-      sh:path schema:additionalType ;
-      sh:hasValue xas:facility ;
-      sh:minCount 1 ;
-      sh:message "An XAS facility must have additionalType xas:facility."
-    ] ;
+    # This shape asserts nothing about schema:additionalType, deliberately. Its
+    # target selects nodes BY that value, so any constraint on it here could never
+    # fail -- measured 2026-09-27, a facility with schema:additionalType removed
+    # conformed with zero violations because it was simply never selected. The
+    # requirement is enforced by cdifd:xasAnalysisLocationClassified below, whose
+    # target establishes "this is an XAS facility" WITHOUT reading the property
+    # under test, and by the JSON Schema enum in schema.yaml.
     sh:property [
       sh:path schema:name ;
       sh:minCount 1 ;
       sh:datatype xsd:string ;
 	  sh:minLength 3 ;
       sh:message "A facility must have a name with at least 3 characters."
+    ] .
+
+
+# A Place used as the location of an XAS analysis MUST be classified as a facility.
+#
+# The point of this shape is that its target does not mention schema:additionalType
+# on ?this: context comes from the inbound schema:location of an activity classified
+# xas:analysisevent, which is a term this retirement does not touch. So the
+# classification is genuinely under test here, and a location missing it is a
+# violation rather than a node that quietly falls outside every target.
+cdifd:xasAnalysisLocationClassified
+	a sh:NodeShape;
+	    sh:target [
+	  a sh:SPARQLTarget ;
+      sh:select  """
+      PREFIX schema: <http://schema.org/>
+      PREFIX xas: <https://w3id.org/cdif/xas/>
+      SELECT DISTINCT ?this
+        WHERE {
+          ?activity schema:additionalType xas:analysisevent .
+          ?activity schema:location ?this .
+          ?this a schema:Place .
+          }""";
+	] ;
+    # xas:facility is NOT among the concepts retired onto NeXus base classes: it
+    # covers a synchrotron, an XFEL or a laboratory facility, while NXsource is the
+    # storage ring specifically. So there is one accepted value here and no
+    # transition to accommodate.
+    sh:property [
+      sh:path schema:additionalType ;
+      sh:hasValue xas:facility ;
+      sh:minCount 1 ;
+      sh:message "A Place used as the location of an XAS analysis must have schema:additionalType xas:facility."
     ] .
