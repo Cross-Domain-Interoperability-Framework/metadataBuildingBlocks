@@ -23,7 +23,8 @@ Example documentation for x-ray absorption facility, based on schema.org Place
     "schema": "http://schema.org/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "xas": "https://w3id.org/cdif/xas/"
+    "xas": "https://w3id.org/cdif/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
   },
   "@id": "ex:xasfacility_37yht",
   "@type": [
@@ -69,7 +70,7 @@ Example documentation for x-ray absorption facility, based on schema.org Place
       ],
       "schema:propertyID": [
         {
-          "@id": "xas:xraysourcetype"
+          "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
         }
       ],
       "schema:name": "X-ray Source",
@@ -93,7 +94,8 @@ Example documentation for x-ray absorption facility, based on schema.org Place
       "schema": "http://schema.org/",
       "ex": "https://example.org/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
-      "xas": "https://w3id.org/cdif/xas/"
+      "xas": "https://w3id.org/cdif/xas/",
+      "nxs": "https://manual.nexusformat.org/classes/"
     }
   ],
   "@id": "ex:xasfacility_37yht",
@@ -140,7 +142,7 @@ Example documentation for x-ray absorption facility, based on schema.org Place
       ],
       "schema:propertyID": [
         {
-          "@id": "xas:xraysourcetype"
+          "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
         }
       ],
       "schema:name": "X-ray Source",
@@ -158,19 +160,19 @@ Example documentation for x-ray absorption facility, based on schema.org Place
 
 ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "X-ray Source" ;
-            schema1:propertyID xas:xraysourcetype ;
-            schema1:value "APS bending magnet" ],
+            schema1:name "Facility energy" ;
+            schema1:propertyID xas:facilityenergy ;
+            schema1:unitText "GeV" ;
+            schema1:value "7.00" ],
         [ a schema1:PropertyValue ;
             schema1:name "Facility current" ;
             schema1:propertyID xas:facilitycurrent ;
             schema1:unitText "Amps" ;
             schema1:value "120" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Facility energy" ;
-            schema1:propertyID xas:facilityenergy ;
-            schema1:unitText "GeV" ;
-            schema1:value "7.00" ] ;
+            schema1:name "X-ray Source" ;
+            schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
+            schema1:value "APS bending magnet" ] ;
     schema1:additionalType xas:facility ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .
@@ -200,7 +202,12 @@ description: 'The facility where XAS data was acquired: a synchrotron, X-ray fre
   so both profiles now describe this kind of place the same way. They still differ
   on the classification term -- that block uses a NeXus base class where this one
   uses xas:facility -- which is a separate question from where the place structure
-  comes from.'
+  comes from.
+
+  xas:facility is deliberately NOT among the concepts retired onto NeXus base classes:
+  it covers a synchrotron, an XFEL or a laboratory facility, while NXsource is the
+  storage ring specifically. The narrower xas:synchrotonfacility is the one that corresponds
+  to NXsource, and the glossary records it as skos:narrower of this concept.'
 allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
 - type: object
@@ -268,7 +275,6 @@ You can find the full JSON-LD context here:
 ## Sources
 
 * [CDIF-4-XAS OSCARS Project](https://doi.org/10.5281/zenodo.17421917)
-* [NeXus NXsource base class](https://manual.nexusformat.org/classes/base_classes/NXsource.html)
 
 # For developers
 

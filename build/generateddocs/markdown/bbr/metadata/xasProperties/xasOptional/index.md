@@ -40,7 +40,7 @@ Optional `schema:PropertyValue` entries carried on the material sample
 (`prov:wasGeneratedBy → schema:object`, an `xasSample`). Permitted `schema:propertyID` values
 (open-world):
 
-`xas:temperature`, `xas:pressure`, `xas:ph`, `xas:eh`, `xas:concentration`, `xas:density`,
+the NeXus `NXsample/temperature` field, `xas:pressure`, `xas:ph`, `xas:eh`, `xas:concentration`, `xas:density`,
 `xas:viscosity`, `xas:porosity`, `xas:opacity`, `xas:resistivity`, `xas:magnetic_field`,
 `xas:magnetic_moment`, `xas:electric_field`, `xas:electrochemical_potential`, `xas:volume`.
 
@@ -301,7 +301,7 @@ description: 'Genuinely-optional XAS properties layered on cdifCore. Adds no req
   must declare conformance to https://w3id.org/cdif/xasOptional/1.0. Documents and
   permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured
   cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical
-  parameters carried as schema:additionalProperty entries (on the prov:used xas:beamline
+  parameters carried as schema:additionalProperty entries (on the prov:used NXinstrument
   entity and the schema:object sample respectively; see description.md for the propertyID
   vocabularies). Present only when the corresponding measurements exist.'
 type: object
@@ -388,6 +388,7 @@ properties:
                           - xas:samplechemicalcomposition
                           - xas:samplematerial
                           - xas:samplepreparation
+                          - nxs:base_classes/NXsample.html#nxsample-temperature-field
                           - xas:temperature
                           - xas:viscosity
                           - xas:volume
@@ -402,7 +403,7 @@ properties:
           items:
             if:
               description: When this peer prov:used entry's instrument is a beamline
-                (schema:additionalType contains xas:beamline), its schema:additionalProperty
+                (schema:additionalType contains the NXinstrument class), its schema:additionalProperty
                 entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx
                 rows 10-20, excluding Beamline.name which maps to schema:name).
               properties:
@@ -419,7 +420,9 @@ properties:
                           - '@id'
                           properties:
                             '@id':
-                              const: xas:beamline
+                              enum:
+                              - nxs:base_classes/NXinstrument.html
+                              - xas:beamline
                         - type: array
                           contains:
                             type: object
@@ -428,7 +431,9 @@ properties:
                             - '@id'
                             properties:
                               '@id':
-                                const: xas:beamline
+                                enum:
+                                - nxs:base_classes/NXinstrument.html
+                                - xas:beamline
             then:
               properties:
                 schema:instrument:

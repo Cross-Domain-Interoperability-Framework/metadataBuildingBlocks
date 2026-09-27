@@ -1283,13 +1283,13 @@ x-defs:
                   monochromator, monitor, ...) is its own top-level wrapper differentiated
                   by schema:instrument.schema:additionalType. An x-ray source (with
                   type and probe properties) and a monochromator (with crystal type,
-                  d_spacing, and reflection plane properties) are required here; xas:beamline
-                  and the monochromator d_spacing schema:value are additionally required
-                  by xasGeneratedBy.
+                  d_spacing, and reflection plane properties) are required here; the
+                  NXinstrument-typed beamline and the monochromator d_spacing schema:value
+                  are additionally required by xasGeneratedBy.
                 allOf:
                 - description: Must contain a peer wrapper whose schema:instrument
                     is classified as xas:source and carries schema:additionalProperty
-                    entries for xas:xraysourcetype and xas:probe (each with a schema:value;
+                    entries for the NXsource type and probe fields (each with a schema:value;
                     the probe entry is also named "Probe").
                   contains:
                     type: object
@@ -1346,6 +1346,7 @@ x-defs:
                                         properties:
                                           '@id':
                                             enum:
+                                            - nxs:base_classes/NXsource.html#nxsource-type-field
                                             - xas:xraysourcetype
                                     schema:value:
                                       type: string
@@ -1366,6 +1367,7 @@ x-defs:
                                         properties:
                                           '@id':
                                             enum:
+                                            - nxs:base_classes/NXsource.html#nxsource-probe-field
                                             - xas:probe
                                     schema:name:
                                       enum:
@@ -1712,7 +1714,7 @@ x-defs:
       and permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured
       cdi:InstanceVariable items, and (b) optional beamline-operational and sample
       physico-chemical parameters carried as schema:additionalProperty entries (on
-      the prov:used xas:beamline entity and the schema:object sample respectively;
+      the prov:used NXinstrument entity and the schema:object sample respectively;
       see description.md for the propertyID vocabularies). Present only when the corresponding
       measurements exist.'
     type: object
@@ -1803,6 +1805,7 @@ x-defs:
                               - xas:samplechemicalcomposition
                               - xas:samplematerial
                               - xas:samplepreparation
+                              - nxs:base_classes/NXsample.html#nxsample-temperature-field
                               - xas:temperature
                               - xas:viscosity
                               - xas:volume
@@ -1817,7 +1820,7 @@ x-defs:
               items:
                 if:
                   description: When this peer prov:used entry's instrument is a beamline
-                    (schema:additionalType contains xas:beamline), its schema:additionalProperty
+                    (schema:additionalType contains the NXinstrument class), its schema:additionalProperty
                     entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx
                     rows 10-20, excluding Beamline.name which maps to schema:name).
                   properties:
@@ -1835,6 +1838,7 @@ x-defs:
                               properties:
                                 '@id':
                                   enum:
+                                  - nxs:base_classes/NXinstrument.html
                                   - xas:beamline
                             - type: array
                               contains:
@@ -1845,6 +1849,7 @@ x-defs:
                                 properties:
                                   '@id':
                                     enum:
+                                    - nxs:base_classes/NXinstrument.html
                                     - xas:beamline
                 then:
                   properties:
@@ -5040,7 +5045,7 @@ x-defs:
                   type: string
           allOf:
           - description: Must contain a prov:used entry whose schema:instrument is
-              classified as an xas:beamline (via schema:additionalType) and carries
+              classified as an NXinstrument (via schema:additionalType) and carries
               a schema:name (the beamline name).
             contains:
               type: object
@@ -5059,6 +5064,7 @@ x-defs:
                           properties:
                             '@id':
                               enum:
+                              - nxs:base_classes/NXinstrument.html
                               - xas:beamline
                         - type: array
                           contains:
@@ -5069,6 +5075,7 @@ x-defs:
                             properties:
                               '@id':
                                 enum:
+                                - nxs:base_classes/NXinstrument.html
                                 - xas:beamline
                       schema:name:
                         type: string
@@ -6488,7 +6495,13 @@ x-defs:
       block, so both profiles now describe this kind of place the same way. They still
       differ on the classification term -- that block uses a NeXus base class where
       this one uses xas:facility -- which is a separate question from where the place
-      structure comes from.'
+      structure comes from.
+
+      xas:facility is deliberately NOT among the concepts retired onto NeXus base
+      classes: it covers a synchrotron, an XFEL or a laboratory facility, while NXsource
+      is the storage ring specifically. The narrower xas:synchrotonfacility is the
+      one that corresponds to NXsource, and the glossary records it as skos:narrower
+      of this concept.'
     allOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/xasDocument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent
     - type: object

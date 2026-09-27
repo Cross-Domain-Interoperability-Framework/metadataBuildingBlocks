@@ -200,7 +200,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
               ],
               "schema:additionalType": [
                 {
-                  "@id": "xas:beamline"
+                  "@id": "nxs:base_classes/NXinstrument.html"
                 },
                 {
                   "@id": "wd:Q3099911"
@@ -243,7 +243,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
                   ],
                   "schema:propertyID": [
                     {
-                      "@id": "xas:xraysourcetype"
+                      "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
                     }
                   ],
                   "schema:name": "x-ray source",
@@ -255,7 +255,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
                   ],
                   "schema:propertyID": [
                     {
-                      "@id": "xas:probe"
+                      "@id": "nxs:base_classes/NXsource.html#nxsource-probe-field"
                     }
                   ],
                   "schema:name": "Probe",
@@ -603,7 +603,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
               ],
               "schema:additionalType": [
                 {
-                  "@id": "xas:beamline"
+                  "@id": "nxs:base_classes/NXinstrument.html"
                 },
                 {
                   "@id": "wd:Q3099911"
@@ -646,7 +646,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
                   ],
                   "schema:propertyID": [
                     {
-                      "@id": "xas:xraysourcetype"
+                      "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
                     }
                   ],
                   "schema:name": "x-ray source",
@@ -658,7 +658,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
                   ],
                   "schema:propertyID": [
                     {
-                      "@id": "xas:probe"
+                      "@id": "nxs:base_classes/NXsource.html#nxsource-probe-field"
                     }
                   ],
                   "schema:name": "Probe",
@@ -874,27 +874,27 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:url "http://example.com/resource?foo=bar#fragment" ;
             schema1:value "10.12345/xas.2024.001" ] ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:about "element.edge" ;
-            schema1:identifier "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md#K" ;
-            schema1:inDefinedTermSet "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md" ;
-            schema1:name "K-edge" ;
-            schema1:termCode "K" ],
-        [ a schema1:DefinedTerm ;
             schema1:about "element.symbol" ;
             schema1:identifier "http://sweetontology.net/matrElement/Selenium" ;
             schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
             schema1:name "Selenium" ;
-            schema1:termCode "Se" ] ;
+            schema1:termCode "Se" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "element.edge" ;
+            schema1:identifier "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md#K" ;
+            schema1:inDefinedTermSet "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md" ;
+            schema1:name "K-edge" ;
+            schema1:termCode "K" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
             schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
             schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ] ;
+            schema1:termCode "XAS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ] ;
     schema1:name "Se K-edge XANES of Na2SeO4 reference compound" ;
     schema1:subjectOf <urn:uuid:xas-required-catalog-record> ;
     schema1:url "http://example.com/resource?foo=bar#fragment" ;
@@ -919,21 +919,7 @@ ex:xas-dataset-001 a schema1:Dataset,
             prov:used [ schema1:instrument [ a schema1:Product,
                                 schema1:Thing,
                                 prov:Entity ;
-                            schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "Probe" ;
-                                    schema1:propertyID xas:probe ;
-                                    schema1:value "x-ray" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "x-ray source" ;
-                                    schema1:propertyID xas:xraysourcetype ;
-                                    schema1:value "Synchrotron X-ray Source" ] ;
-                            schema1:additionalType xas:source,
-                                wd:Q3099911 ;
-                            schema1:name "APS bending magnet source" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalType xas:beamline,
+                            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
                                 wd:Q3099911 ;
                             schema1:category [ a schema1:DefinedTerm ;
                                     schema1:name "X-ray absorption spectroscopy beamline" ;
@@ -943,21 +929,35 @@ ex:xas-dataset-001 a schema1:Dataset,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
+                                    schema1:name "reflection plane (hkl)" ;
+                                    schema1:propertyID xas:reflectionplane ;
+                                    schema1:value "1,1,1" ],
+                                [ a schema1:PropertyValue ;
                                     schema1:name "d-spacing" ;
                                     schema1:propertyID xas:dspacing ;
                                     schema1:unitText "Angstrom" ;
                                     schema1:value "3.13550" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "reflection plane (hkl)" ;
-                                    schema1:propertyID xas:reflectionplane ;
-                                    schema1:value "1,1,1" ],
                                 [ a schema1:PropertyValue ;
                                     schema1:name "crystal type" ;
                                     schema1:propertyID xas:monochromatortype ;
                                     schema1:value "Si(111)" ] ;
                             schema1:additionalType xas:xraymonochromator,
                                 wd:Q3099911 ;
-                            schema1:name "Si 111" ] ] ] .
+                            schema1:name "Si 111" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalProperty [ a schema1:PropertyValue ;
+                                    schema1:name "x-ray source" ;
+                                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
+                                    schema1:value "Synchrotron X-ray Source" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "Probe" ;
+                                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-probe-field> ;
+                                    schema1:value "x-ray" ] ;
+                            schema1:additionalType xas:source,
+                                wd:Q3099911 ;
+                            schema1:name "APS bending magnet source" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -1040,13 +1040,13 @@ properties:
               monitor, ...) is its own top-level wrapper differentiated by schema:instrument.schema:additionalType.
               An x-ray source (with type and probe properties) and a monochromator
               (with crystal type, d_spacing, and reflection plane properties) are
-              required here; xas:beamline and the monochromator d_spacing schema:value
-              are additionally required by xasGeneratedBy.
+              required here; the NXinstrument-typed beamline and the monochromator
+              d_spacing schema:value are additionally required by xasGeneratedBy.
             allOf:
             - description: Must contain a peer wrapper whose schema:instrument is
                 classified as xas:source and carries schema:additionalProperty entries
-                for xas:xraysourcetype and xas:probe (each with a schema:value; the
-                probe entry is also named "Probe").
+                for the NXsource type and probe fields (each with a schema:value;
+                the probe entry is also named "Probe").
               contains:
                 type: object
                 required:
@@ -1099,7 +1099,9 @@ properties:
                                     - '@id'
                                     properties:
                                       '@id':
-                                        const: xas:xraysourcetype
+                                        enum:
+                                        - nxs:base_classes/NXsource.html#nxsource-type-field
+                                        - xas:xraysourcetype
                                 schema:value:
                                   type: string
                           - contains:
@@ -1118,7 +1120,9 @@ properties:
                                     - '@id'
                                     properties:
                                       '@id':
-                                        const: xas:probe
+                                        enum:
+                                        - nxs:base_classes/NXsource.html#nxsource-probe-field
+                                        - xas:probe
                                 schema:name:
                                   const: Probe
                                 schema:value:

@@ -134,7 +134,7 @@ x-defs:
                   type: string
           allOf:
           - description: Must contain a prov:used entry whose schema:instrument is
-              classified as an xas:beamline (via schema:additionalType) and carries
+              classified as an NXinstrument (via schema:additionalType) and carries
               a schema:name (the beamline name).
             contains:
               type: object
@@ -153,6 +153,7 @@ x-defs:
                           properties:
                             '@id':
                               enum:
+                              - nxs:base_classes/NXinstrument.html
                               - xas:beamline
                         - type: array
                           contains:
@@ -163,6 +164,7 @@ x-defs:
                             properties:
                               '@id':
                                 enum:
+                                - nxs:base_classes/NXinstrument.html
                                 - xas:beamline
                       schema:name:
                         type: string
@@ -947,7 +949,13 @@ x-defs:
       block, so both profiles now describe this kind of place the same way. They still
       differ on the classification term -- that block uses a NeXus base class where
       this one uses xas:facility -- which is a separate question from where the place
-      structure comes from.'
+      structure comes from.
+
+      xas:facility is deliberately NOT among the concepts retired onto NeXus base
+      classes: it covers a synchrotron, an XFEL or a laboratory facility, while NXsource
+      is the storage ring specifically. The narrower xas:synchrotonfacility is the
+      one that corresponds to NXsource, and the glossary records it as skos:narrower
+      of this concept.'
     allOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent
     - type: object
@@ -2328,13 +2336,13 @@ properties:
               monitor, ...) is its own top-level wrapper differentiated by schema:instrument.schema:additionalType.
               An x-ray source (with type and probe properties) and a monochromator
               (with crystal type, d_spacing, and reflection plane properties) are
-              required here; xas:beamline and the monochromator d_spacing schema:value
-              are additionally required by xasGeneratedBy.
+              required here; the NXinstrument-typed beamline and the monochromator
+              d_spacing schema:value are additionally required by xasGeneratedBy.
             allOf:
             - description: Must contain a peer wrapper whose schema:instrument is
                 classified as xas:source and carries schema:additionalProperty entries
-                for xas:xraysourcetype and xas:probe (each with a schema:value; the
-                probe entry is also named "Probe").
+                for the NXsource type and probe fields (each with a schema:value;
+                the probe entry is also named "Probe").
               contains:
                 type: object
                 required:
@@ -2390,6 +2398,7 @@ properties:
                                     properties:
                                       '@id':
                                         enum:
+                                        - nxs:base_classes/NXsource.html#nxsource-type-field
                                         - xas:xraysourcetype
                                 schema:value:
                                   type: string
@@ -2410,6 +2419,7 @@ properties:
                                     properties:
                                       '@id':
                                         enum:
+                                        - nxs:base_classes/NXsource.html#nxsource-probe-field
                                         - xas:probe
                                 schema:name:
                                   enum:
