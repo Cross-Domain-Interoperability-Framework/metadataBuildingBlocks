@@ -524,6 +524,51 @@ def resolution_target(src_rel):
     return best, f" (via {best.rsplit('/', 1)[-1]})"
 
 
+# Properties whose description legitimately differs between guides, with the
+# reason. The divergence check measures description-LENGTH variance, which cannot
+# tell "the guides disagree" from "the property means different things in
+# different places" -- and these do. `url` on a Dataset is the landing page; on an
+# Identifier it is "web-resolveable string for the identifier; host name part is
+# location of a resolver". Flattening those is not consistency, it is an error.
+#
+# Reviewed and accepted 2026-09-26. A name is listed here only because a person
+# looked at the variants and judged them correct, so the list is a record of
+# decisions, not a way to quieten the check: adding to it without that review
+# turns the divergence check into one that cannot fail.
+# Raised only by the self-test, to prove the divergence check can still fire.
+DIVERGENCE_PREFIX_MIN = 60
+
+DIVERGENCE_ACCEPTED = {
+    "name": "used in different contexts; the distinct descriptions are correct",
+    "schema:name": "used in different contexts; the distinct descriptions are correct",
+    "identifier": "used in different contexts; the distinct descriptions are correct",
+    "schema:identifier": "used in different contexts; the distinct descriptions are correct",
+    "propertyID": "used in different contexts; the distinct descriptions are correct",
+    "skos:definition": "used in different contexts; the distinct descriptions are correct",
+    # Two genuinely different properties sharing a name: on cdif:ForeignKey it is
+    # the key's target, on a value domain it is the codelist supplying the allowed
+    # values. Both texts are set deliberately; the divergence is the point.
+    "cdif:references": "two senses -- ForeignKey target vs enumeration-domain codelist",
+}
+
+
+def _common_prefix_len(texts):
+    """Length of the longest opening shared by every description, whitespace- and
+    markup-normalised so ``x`` and `x` count as the same word."""
+    norm = [re.sub(r"\s+", " ", t.replace("`", "").replace("*", "")).strip().lower()
+            for t in texts]
+    if len(norm) < 2:
+        return 0
+    first, rest = norm[0], norm[1:]
+    n = 0
+    for i, ch in enumerate(first):
+        if all(len(o) > i and o[i] == ch for o in rest):
+            n = i + 1
+        else:
+            break
+    return n
+
+
 def audit(selected_checks, only_guide):
     findings = []
     descriptions = {}          # prop -> {guide: description}
@@ -643,9 +688,19 @@ def audit(selected_checks, only_guide):
 
     if "divergence" in selected_checks:
         for prop, by_guide in sorted(descriptions.items()):
-            if len(by_guide) < 2:
+            if len(by_guide) < 2 or prop in DIVERGENCE_ACCEPTED:
                 continue
             lens = sorted(len(v) for v in by_guide.values())
+            # Guides that all OPEN with the same definition agree about the
+            # property; the longer ones merely elaborate -- a document-level guide
+            # continues into a profile-comparison table or the physical-realization
+            # detail. Length variance alone called that a disagreement, so
+            # `result`, `spatialCoverage` and `variableMeasured` stayed flagged
+            # after every guide had been set to the agreed text. A shared opening
+            # this long cannot happen by accident, and two genuinely different
+            # descriptions will not have one.
+            if _common_prefix_len(by_guide.values()) >= DIVERGENCE_PREFIX_MIN:
+                continue
             if lens[-1] >= 40 and lens[-1] >= 3 * max(lens[0], 1):
                 spread = ", ".join(f"{g}:{len(v)}" for g, v in
                                    sorted(by_guide.items(), key=lambda kv: -len(kv[1])))
@@ -896,6 +951,58 @@ SELF_TEST_SCHEMA = {
         }
     },
 }
+
+
+def _divergence_self_test():
+    """Prove the divergence check still fires, and that the accepted list is live.
+
+    This check now reports nothing on the register, which is the same output a
+    check that has stopped working produces. So: suppress the two things that
+    silence it legitimately, and the known cases must come back.
+    """
+    global DIVERGENCE_PREFIX_MIN, DIVERGENCE_ACCEPTED
+    ok = True
+    cases = [
+        (["Web location of a page describing the resource.",
+          "Web location of a page describing the resource, and then some more."], 46),
+        (["one thing entirely", "a completely different thing"], 0),
+        # backticks stripped and runs of whitespace collapsed, so these are equal
+        (["`schema:name` is the label", "schema:name   is the label"], 24),
+    ]
+    for texts, want in cases:
+        got = _common_prefix_len(texts)
+        passed = got == want
+        print(f"  {'ok  ' if passed else 'FAIL'}  {'common prefix':28s} {got} (want {want})")
+        ok = ok and passed
+
+    keep_min, keep_acc = DIVERGENCE_PREFIX_MIN, DIVERGENCE_ACCEPTED
+    try:
+        DIVERGENCE_PREFIX_MIN = 10 ** 9      # no prefix can reach this
+        DIVERGENCE_ACCEPTED = {}
+        fired = [f for f in audit({"divergence"}, None) if f[1] == "(cross-guide)"]
+    finally:
+        DIVERGENCE_PREFIX_MIN, DIVERGENCE_ACCEPTED = keep_min, keep_acc
+    passed = len(fired) > 0
+    print(f"  {'ok  ' if passed else 'FAIL'}  {'divergence check still fires':28s} "
+          f"{len(fired)} finding(s) with both tolerances disabled")
+    ok = ok and passed
+
+    # A name left in the accepted list after its property stopped being documented
+    # in two guides is silently suppressing nothing -- and hides that the list has
+    # drifted from the guides.
+    descs = {}
+    for repo_rel, _src, _n, _s in sync_release_repos.REPOS:
+        gp = guide_path(repo_rel)
+        if gp is None:
+            continue
+        for blk in read_guide(gp):
+            if blk["fields"].get("description"):
+                descs.setdefault(blk["name"], set()).add(repo_rel)
+    stale = sorted(n for n in DIVERGENCE_ACCEPTED if len(descs.get(n, ())) < 2)
+    passed = not stale
+    print(f"  {'ok  ' if passed else 'FAIL'}  {'accepted list has no stale name':28s} "
+          f"{('stale: ' + ', '.join(stale)) if stale else 'all live'}")
+    return ok and passed
 
 
 def _composite_self_test():
@@ -1183,6 +1290,7 @@ def self_test():
             ok = ok and fired
     ok = _graph_self_test() and ok
     ok = _composite_self_test() and ok
+    ok = _divergence_self_test() and ok
     print("\nself-test PASSED" if ok else "\nself-test FAILED")
     return 0 if ok else 1
 
