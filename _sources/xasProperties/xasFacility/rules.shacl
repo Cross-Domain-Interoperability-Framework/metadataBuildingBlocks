@@ -18,15 +18,7 @@ cdifd:xasFacilityNode
       SELECT DISTINCT ?this
         WHERE {
           ?this a schema:Place .
-          # Transition: the NeXus base class is preferred, the retired xas:facility
-          # is still accepted. Both are selected -- a target matching only the new
-          # IRI would leave old-style facilities unselected, and an unfired shape
-          # reports zero violations exactly like a passing one.
-          VALUES ?facilityType {
-            <https://manual.nexusformat.org/classes/base_classes/NXsource.html>
-            xas:facility
-          }
-          ?this schema:additionalType ?facilityType .
+          ?this schema:additionalType xas:facility .
           }""";
 	] ;
     # This shape asserts nothing about schema:additionalType, deliberately. Its
@@ -66,15 +58,13 @@ cdifd:xasAnalysisLocationClassified
           ?this a schema:Place .
           }""";
 	] ;
-    # sh:or, not sh:in: additionalType carries other classifications alongside, so
-    # the requirement is "at least one value is the facility class". One branch per
-    # accepted term -- the NeXus base class is preferred, the retired xas:facility
-    # is accepted for the transition. Drop the second branch when cdifnexmetadata
-    # and XAS-CDIF emit the NeXus form.
-    sh:or (
-      [ sh:path schema:additionalType ;
-        sh:hasValue <https://manual.nexusformat.org/classes/base_classes/NXsource.html> ]
-      [ sh:path schema:additionalType ;
-        sh:hasValue xas:facility ]
-    ) ;
-    sh:message "A Place used as the location of an XAS analysis must have schema:additionalType the NeXus NXsource base class (xas:facility is accepted during the transition)." .
+    # xas:facility is NOT among the concepts retired onto NeXus base classes: it
+    # covers a synchrotron, an XFEL or a laboratory facility, while NXsource is the
+    # storage ring specifically. So there is one accepted value here and no
+    # transition to accommodate.
+    sh:property [
+      sh:path schema:additionalType ;
+      sh:hasValue xas:facility ;
+      sh:minCount 1 ;
+      sh:message "A Place used as the location of an XAS analysis must have schema:additionalType xas:facility."
+    ] .

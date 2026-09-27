@@ -3391,7 +3391,7 @@
                       },
                       "schema:location": {
                         "title": "definitions a Facility location, type schema:Place",
-                        "description": "The facility where XAS data was acquired: a synchrotron, X-ray free electron laser, or laboratory.\nExtends the core CDIF spatialExtent (schema:Place) rather than redeclaring it. A facility is an ordinary CDIF place that happens to be classified as a facility, so it should be described by the same block as any other place; the only thing this block adds is the requirement that schema:additionalType classify it.\nRedeclaring meant this block described four of spatialExtent's properties and silently ignored the rest: schema:geo, geosparql: hasGeometry and schema:alternateName were accepted on a facility but never validated, so a facility whose coordinates were an unparseable string passed. Composing the core block instead constrains them.\ngeochemBuildingBlocks composes the same core block for its laboratory building block, so both profiles now describe this kind of place the same way. They also agree on the classification term: this block used xas:facility until the technique-neutral XAS concepts were retired onto NeXus base classes, and both now classify the place with the NXsource base class.",
+                        "description": "The facility where XAS data was acquired: a synchrotron, X-ray free electron laser, or laboratory.\nExtends the core CDIF spatialExtent (schema:Place) rather than redeclaring it. A facility is an ordinary CDIF place that happens to be classified as a facility, so it should be described by the same block as any other place; the only thing this block adds is the requirement that schema:additionalType classify it.\nRedeclaring meant this block described four of spatialExtent's properties and silently ignored the rest: schema:geo, geosparql: hasGeometry and schema:alternateName were accepted on a facility but never validated, so a facility whose coordinates were an unparseable string passed. Composing the core block instead constrains them.\ngeochemBuildingBlocks composes the same core block for its laboratory building block, so both profiles now describe this kind of place the same way. They still differ on the classification term -- that block uses a NeXus base class where this one uses xas:facility -- which is a separate question from where the place structure comes from.\nxas:facility is deliberately NOT among the concepts retired onto NeXus base classes: it covers a synchrotron, an XFEL or a laboratory facility, while NXsource is the storage ring specifically. The narrower xas:synchrotonfacility is the one that corresponds to NXsource, and the glossary records it as skos:narrower of this concept.",
                         "allOf": [
                           {
                             "$ref": "#/$defs/SpatialExtent"
@@ -3412,10 +3412,7 @@
                                   ],
                                   "properties": {
                                     "@id": {
-                                      "enum": [
-                                        "nxs:base_classes/NXsource.html",
-                                        "xas:facility"
-                                      ]
+                                      "const": "xas:facility"
                                     }
                                   }
                                 },

@@ -5,13 +5,12 @@
 > nothing, so conformance to it is vacuous and undetectable, and the claim was removed on
 > 2026-09-08. The references below are left as written.
 >
-> Five of the terms discussed below were retired on 2026-09-27 onto NeXus base classes,
+> Four of the terms discussed below were retired on 2026-09-27 onto NeXus base classes,
 > because they classify things that are not specific to X-ray absorption spectroscopy and a
 > technique-neutral concept is better taken from an existing vocabulary than minted here:
 >
 > | term used below | now |
 > |---|---|
-> | `xas:facility` | `nxs:base_classes/NXsource.html` |
 > | `xas:beamline` | `nxs:base_classes/NXinstrument.html` |
 > | `xas:xraysourcetype` | `nxs:base_classes/NXsource.html#nxsource-type-field` |
 > | `xas:probe` | `nxs:base_classes/NXsource.html#nxsource-probe-field` |
@@ -20,8 +19,14 @@
 > where `nxs:` is `https://manual.nexusformat.org/classes/`. The statements below are about
 > what the UKDS adaptation produced at the time and are deliberately NOT rewritten: saying
 > that `xas:probe` "was retained" is true of that work, and substituting the NeXus term would
-> claim the conversion did something it did not. Note that `xas:facilityenergy` and
-> `xas:facilitycurrent` only share a prefix with `xas:facility` and were not retired.
+> claim the conversion did something it did not.
+>
+> `xas:facility` was considered and deliberately NOT retired: it covers a synchrotron, an
+> XFEL or a laboratory facility, whereas NeXus `NXsource` is the storage ring specifically.
+> The narrower `xas:synchrotonfacility` is the concept that corresponds to `NXsource`, and
+> the glossary now records it as `skos:narrower` of `xas:facility`. Note also that
+> `xas:facilityenergy` and `xas:facilitycurrent` only share a prefix with `xas:facility` and
+> were never in scope.
 
 Log of substantive changes applied to `cdif_dds_framed.jsonld` when adapting
 the UKDS reference file at

@@ -19,10 +19,15 @@ description: >-
 
   geochemBuildingBlocks composes the same core block for its laboratory
   building block, so both profiles now describe this kind of place the
-  same way. They also agree on the classification term: this block used
-  xas:facility until the technique-neutral XAS concepts were retired onto
-  NeXus base classes, and both now classify the place with the NXsource
-  base class.
+  same way. They still differ on the classification term -- that block
+  uses a NeXus base class where this one uses xas:facility -- which is a
+  separate question from where the place structure comes from.
+
+  xas:facility is deliberately NOT among the concepts retired onto NeXus
+  base classes: it covers a synchrotron, an XFEL or a laboratory facility,
+  while NXsource is the storage ring specifically. The narrower
+  xas:synchrotonfacility is the one that corresponds to NXsource, and the
+  glossary records it as skos:narrower of this concept.
 allOf:
 - $ref: ../../schemaorgProperties/spatialExtent/schema.yaml
 - type: object
@@ -43,12 +48,7 @@ allOf:
         - '@id'
         properties:
           '@id':
-            # Transition: the NeXus term is preferred and the retired xas: term is still
-            # accepted. See CHANGES-from-UKDS.md for the retirement table. Remove the
-            # xas: alternative once cdifnexmetadata and XAS-CDIF emit the NeXus form.
-            enum:
-            - "nxs:base_classes/NXsource.html"
-            - "xas:facility"
+            const: 'xas:facility'
       minItems: 1
     'schema:additionalProperty':
       description: >-
