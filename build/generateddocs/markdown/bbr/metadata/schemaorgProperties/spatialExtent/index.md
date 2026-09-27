@@ -751,6 +751,8 @@ properties:
             type: string
             description: identifier string for coordinate reference system, e.g.,
               'CRS84'
+    required:
+    - geosparql:asWKT
 anyOf:
 - required:
   - schema:name

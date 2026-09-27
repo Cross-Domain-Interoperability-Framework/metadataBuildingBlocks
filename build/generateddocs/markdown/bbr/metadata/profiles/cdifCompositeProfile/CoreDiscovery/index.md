@@ -1374,11 +1374,11 @@ ex:YOPx123 a schema1:Dataset ;
         "jNv",
         "tfmbDGeiuEnuhfKBvk" ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor ex:NyMWPlRtQizAFE ;
-            schema1:roleName "data steward" ],
-        [ a schema1:Role ;
             schema1:contributor ex:PersonExample_zZc_asContributor ;
-            schema1:roleName "editor" ] ;
+            schema1:roleName "editor" ],
+        [ a schema1:Role ;
+            schema1:contributor ex:NyMWPlRtQizAFE ;
+            schema1:roleName "data steward" ] ;
     schema1:creator ( ex:mxxInaV ex:jP ) ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
@@ -1451,16 +1451,16 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:publisher ex:exampleOrg_fW ;
     schema1:publishingPrinciples <https://example.org/policies/data-retention> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "gompgHAN" ;
-                    schema1:name "oAuxEutsTEiB" ;
-                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "BOoRREnpDEUrdNaV" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:encodingFormat "FNoslhw" ;
                     schema1:name "atsDYJxuhHpivqLmw" ;
+                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "gompgHAN" ;
+                    schema1:name "oAuxEutsTEiB" ;
                     schema1:url "http://example.com/resource?foo=bar#fragment" ] ] ;
     schema1:sameAs "https://example.org/alt-id/YOPx123",
         "urn:idorg:test:p45689" ;
@@ -3112,15 +3112,15 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:identifier ex:datasetDOI42 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
-            schema1:name "North Atlantic Deep Water" ;
-            schema1:termCode "P02:DOXY" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
             schema1:name "Sea water temperature" ;
             schema1:termCode "TEMPPR01" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:name "North Atlantic Deep Water" ;
+            schema1:termCode "P02:DOXY" ],
         "Labrador Sea",
         "deep water formation" ;
     schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
@@ -3190,19 +3190,19 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
         ex:varTemperature ;
     schema1:version "2.1" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf "Completeness" ;
-            dqv:value [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
-                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
-                    schema1:name "Complete" ;
-                    schema1:termCode "COMPLETE" ] ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf [ a schema1:DefinedTerm ;
                     schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
                     schema1:name "Temperature sensor accuracy" ;
                     schema1:termCode "TEMPACCR" ] ;
-            dqv:value "±0.001°C (ITS-90)" ] ;
+            dqv:value "±0.001°C (ITS-90)" ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf "Completeness" ;
+            dqv:value [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
+                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
+                    schema1:name "Complete" ;
+                    schema1:termCode "COMPLETE" ] ] ;
     prov:wasDerivedFrom ex:rawCTDCasts ;
     prov:wasGeneratedBy [ a prov:Activity ;
             prov:used ex:ar7wCruiseProgram,

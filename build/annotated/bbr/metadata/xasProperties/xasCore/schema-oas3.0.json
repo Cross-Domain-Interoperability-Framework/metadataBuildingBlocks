@@ -594,7 +594,9 @@
             }
           },
           "required": [
-            "@type"
+            "@type",
+            "spdx:algorithm",
+            "spdx:checksumValue"
           ]
         },
         "dcterms:conformsTo": {
@@ -2997,7 +2999,10 @@
                 }
               }
             }
-          }
+          },
+          "required": [
+            "geosparql:asWKT"
+          ]
         }
       },
       "anyOf": [
@@ -3132,7 +3137,8 @@
           "minItems": 1
         },
         "schema:linkRelationship": {
-          "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label.",
+          "description": "How the target relates to the subject, as a controlled-vocabulary value or a plain string label. Required: a typed link whose relationship is unstated carries no more information than a bare URL, which is what schemaorgProperties/labeledLink is for.",
+          "default": "missing",
           "x-jsonld-id": "http://schema.org/linkRelationship",
           "allOf": [
             {
@@ -3176,7 +3182,8 @@
         }
       },
       "required": [
-        "@type"
+        "@type",
+        "schema:linkRelationship"
       ],
       "$defs": {
         "cdifConceptOrTermOrString": {

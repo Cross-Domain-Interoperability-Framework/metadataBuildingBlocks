@@ -65,6 +65,7 @@ cdif:takesValuesFrom array).
   },
   "@type": ["cdi:DescriptorVariable"],
   "@id": "ex:dv/measureName",
+  "cdif:name": ["measureName"],
   "cdif:hasValuesFrom": {
     "@type": ["cdi:DescriptorValueDomain"],
     "cdif:takesValuesFrom": [
@@ -97,6 +98,9 @@ cdif:takesValuesFrom array).
     "cdi:DescriptorVariable"
   ],
   "@id": "ex:dv/measureName",
+  "cdif:name": [
+    "measureName"
+  ],
   "cdif:hasValuesFrom": {
     "@type": [
       "cdi:DescriptorValueDomain"
@@ -121,7 +125,8 @@ cdif:takesValuesFrom array).
 <https://example.org/dv/measureName> a cdi:DescriptorVariable ;
     cdif:hasValuesFrom [ a cdi:DescriptorValueDomain ;
             cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/temperature> ;
-                    cdif:value "temp" ] ] .
+                    cdif:value "temp" ] ] ;
+    cdif:name "measureName" .
 
 
 ```
@@ -298,12 +303,12 @@ wrapper) and a non-trivial code → variable mapping.
     cdif:name "systolic_blood_pressure" .
 
 <https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
+            cdif:value "heart_rate" ],
         [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
             cdif:value "temp_c" ],
-        [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
-            cdif:value "heart_rate" ],
+        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ] .
 
@@ -350,6 +355,7 @@ properties:
 required:
 - '@type'
 - cdif:hasValuesFrom
+- cdif:name
 $defs:
   DescriptorValueDomain:
     type: object

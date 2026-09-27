@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-09-26",
+  "dateOfLastChange": "2026-09-27",
   "sources": [
     {
       "title": "schema.org LinkRole",
@@ -30,14 +30,14 @@
     "cdif.bbr.metadata.schemaorgProperties.linkRole": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/linkRole/rules.shacl"
     ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    ],
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.identifier": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
-    ],
-    "cdif.bbr.metadata.skosProperties.skosConcept": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
     ]
   },
   "dependsOn": [
@@ -117,7 +117,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: 'A typed link, implemented as a schema.org LinkRole: schema:linkRelationship\n  names how the target relates to the subject, and schema:target carries the EntryPoint\n  actually being linked to.\n\n  This is the right shape when the relationship itself is the point -- \"this is the\n  canonical version of\", \"this is the download endpoint for\". Where the value is simply\n  a work at a URL, such as a license or a terms-of-service document, use schemaorgProperties/labeledLink\n  instead: a licence is a work, not a role, and wrapping it in a Role forces every\n  consumer through an indirection to reach the thing itself.\n\n  Defined here as a block rather than inline in a profile (where it lived until 2026-09-23)\n  so that more than one consumer can reuse it. While it was inline in cdifCore, schemaorgProperties/instrument\n  could not reach it and defined schema:relatedLink as a labeled link instead -- the\n  same property carrying two different shapes depending on which node held it.'\ntype: object\nproperties:\n  '@type':\n    default: schema:LinkRole\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:LinkRole\n    minItems: 1\n  schema:linkRelationship:\n    description: How the target relates to the subject, as a controlled-vocabulary\n      value or a plain string label.\n    $ref: '#/$defs/cdifConceptOrTermOrString'\n    x-jsonld-id: http://schema.org/linkRelationship\n  schema:target:\n    type: object\n    description: 'The entry point being linked to. Deliberately not sealed: real targets\n      also carry schema:httpMethod, schema:urlTemplate, schema:contentType and domain-specific\n      properties, and JSON-LD is open-world.'\n    properties:\n      '@type':\n        default: schema:EntryPoint\n        type: array\n        items:\n          type: string\n        contains:\n          const: schema:EntryPoint\n        minItems: 1\n      schema:name:\n        type: string\n        x-jsonld-id: http://schema.org/name\n      schema:url:\n        type: string\n        format: uri\n        x-jsonld-id: http://schema.org/url\n      schema:encodingFormat:\n        type: string\n        description: registered MIME types are expected\n        x-jsonld-id: http://schema.org/encodingFormat\n    x-jsonld-id: http://schema.org/target\nrequired:\n- '@type'\n$defs:\n  cdifConceptOrTermOrString:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  skos: http://www.w3.org/2004/02/skos/core#\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: 'A typed link, implemented as a schema.org LinkRole: schema:linkRelationship\n  names how the target relates to the subject, and schema:target carries the EntryPoint\n  actually being linked to.\n\n  This is the right shape when the relationship itself is the point -- \"this is the\n  canonical version of\", \"this is the download endpoint for\". Where the value is simply\n  a work at a URL, such as a license or a terms-of-service document, use schemaorgProperties/labeledLink\n  instead: a licence is a work, not a role, and wrapping it in a Role forces every\n  consumer through an indirection to reach the thing itself.\n\n  Defined here as a block rather than inline in a profile (where it lived until 2026-09-23)\n  so that more than one consumer can reuse it. While it was inline in cdifCore, schemaorgProperties/instrument\n  could not reach it and defined schema:relatedLink as a labeled link instead -- the\n  same property carrying two different shapes depending on which node held it.'\ntype: object\nproperties:\n  '@type':\n    default: schema:LinkRole\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:LinkRole\n    minItems: 1\n  schema:linkRelationship:\n    description: 'How the target relates to the subject, as a controlled-vocabulary\n      value or a plain string label. Required: a typed link whose relationship is\n      unstated carries no more information than a bare URL, which is what schemaorgProperties/labeledLink\n      is for.'\n    default: missing\n    $ref: '#/$defs/cdifConceptOrTermOrString'\n    x-jsonld-id: http://schema.org/linkRelationship\n  schema:target:\n    type: object\n    description: 'The entry point being linked to. Deliberately not sealed: real targets\n      also carry schema:httpMethod, schema:urlTemplate, schema:contentType and domain-specific\n      properties, and JSON-LD is open-world.'\n    properties:\n      '@type':\n        default: schema:EntryPoint\n        type: array\n        items:\n          type: string\n        contains:\n          const: schema:EntryPoint\n        minItems: 1\n      schema:name:\n        type: string\n        x-jsonld-id: http://schema.org/name\n      schema:url:\n        type: string\n        format: uri\n        x-jsonld-id: http://schema.org/url\n      schema:encodingFormat:\n        type: string\n        description: registered MIME types are expected\n        x-jsonld-id: http://schema.org/encodingFormat\n    x-jsonld-id: http://schema.org/target\nrequired:\n- '@type'\n- schema:linkRelationship\n$defs:\n  cdifConceptOrTermOrString:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  skos: http://www.w3.org/2004/02/skos/core#\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/schemaorgProperties/linkRole"
 }

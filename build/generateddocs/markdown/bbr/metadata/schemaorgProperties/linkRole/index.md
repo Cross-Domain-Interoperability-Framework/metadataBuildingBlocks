@@ -246,8 +246,11 @@ properties:
       const: schema:LinkRole
     minItems: 1
   schema:linkRelationship:
-    description: How the target relates to the subject, as a controlled-vocabulary
-      value or a plain string label.
+    description: 'How the target relates to the subject, as a controlled-vocabulary
+      value or a plain string label. Required: a typed link whose relationship is
+      unstated carries no more information than a bare URL, which is what schemaorgProperties/labeledLink
+      is for.'
+    default: missing
     $ref: '#/$defs/cdifConceptOrTermOrString'
     x-jsonld-id: http://schema.org/linkRelationship
   schema:target:
@@ -278,6 +281,7 @@ properties:
     x-jsonld-id: http://schema.org/target
 required:
 - '@type'
+- schema:linkRelationship
 $defs:
   cdifConceptOrTermOrString:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml

@@ -92,6 +92,50 @@
           "x-jsonld-id": "https://w3id.org/cdif/formats_InstanceVariable"
         }
       },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "@type"
+            ],
+            "properties": {
+              "@type": {
+                "contains": {
+                  "enum": [
+                    "cdif:TextMapping"
+                  ]
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "cdif:index"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "@type"
+            ],
+            "properties": {
+              "@type": {
+                "contains": {
+                  "enum": [
+                    "cdif:LocatorMapping"
+                  ]
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "cdi:locator"
+            ]
+          }
+        }
+      ],
       "$defs": {
         "cdifConceptOrTermOrString": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifLocatorMapping/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"

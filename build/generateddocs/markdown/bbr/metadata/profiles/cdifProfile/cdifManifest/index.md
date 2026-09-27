@@ -624,6 +624,8 @@ $defs:
               type: string
           required:
           - '@type'
+          - spdx:algorithm
+          - spdx:checksumValue
       required:
       - '@type'
       - schema:name
