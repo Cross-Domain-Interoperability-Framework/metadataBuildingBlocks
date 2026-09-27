@@ -1397,6 +1397,30 @@ documented that the profile schema does not declare, 35 cardinality claims the s
 contradicts, and 120 depth divergences (the same property documented at very different length
 in two guides, or a Cardinality bullet with no Description at all).
 
+**Those 213 are now 0** (2026-09-27), worked through in three annotate-and-implement rounds.
+The process, which is the reusable part:
+
+```bash
+python tools/audit_ig_consistency.py -o ig_audit.json   # findings, each with an empty "fix"
+#   ... a reviewer writes into the "fix" field of the rows they have decided ...
+#   ... the fixes are implemented in the guides and/or the source schemas ...
+python tools/audit_ig_consistency.py -o ig_audit.json   # re-run: annotations CARRY FORWARD
+```
+
+A re-run preserves whatever is in `fix`, matched on `(check, guide, property)` and deliberately
+**not** on `line` — line numbers move as soon as anything above them is edited, so matching on
+them would drop every annotation in a guide after the first edit. The run reports how many
+fixes carried and how many no longer have a finding; the second number is the useful one, since
+a fix without a finding has either been implemented or gone stale. `ig_audit.json` and
+`ig_audit.md` are gitignored (as is `ig_audit.*.json`, for an archived annotated copy).
+
+Direction is not inferable. A mismatch says the guide and the schema disagree, not which is
+wrong: of the cardinality findings settled in that pass, `DimensionComponent`'s
+`cdif:isDefinedBy_Variable` and `cdifEnumerationDomain`'s `cdif:references` were both fixed on
+the **schema** side, and `cdif:name` on `cdifDescriptorVariable` gained a `required` entry
+because `minItems: 1` had been mistaken for requiredness — it constrains an array's length if
+present, not its presence.
+
 `tools/audit_ig_consistency.py` detects all three; it never rewrites a guide. Run
 `--self-test` first — it proves each check still rejects a case it must, because a check that
 has stopped matching reports zero findings and looks exactly like a clean run. Four traps are
@@ -1416,12 +1440,55 @@ baked into its own history and covered by that fixture:
   subclass*, and the guides document per class. So only a property required **nowhere**
   contradicts a Required claim.
 
+Four more were found on 2026-09-26/27, each of which had been giving confidently wrong answers,
+and each now has a self-test case that fails without its fix:
+
+- **A guide is judged against its COMPOSITE, not its module.** A release guide describes a
+  conforming record, and `profile-datastructure` documents the catalog record because a reader of
+  that profile needs it — but `schema:about`, `schema:sdDatePublished` and
+  `schema:encodingFormat` come from `cdifCore` and `dataDownload`. Measured: a record whose
+  catalog record omits `schema:about` **fails the composite and passes the module**. Each module
+  now resolves against the narrowest composite containing it, mapped from the composites' own
+  `allOf` so it cannot go stale. Narrowest keeps it honest the other way: `cdifDataDescription`
+  is not in `CoreDiscovery`, so one of its properties documented in `profile-core` is still
+  reported.
+- **`contains` was never walked**, and it appears in 76 of the register's schema files — every
+  `@type` token check is one. It hid because a *root* schema's `$defs` are enumerated directly,
+  so anything reachable only through `contains` was still indexed while that file was the root
+  and vanished the moment it became a `$ref` target. Composite resolution alone therefore made
+  `cdi:isStructuredBy` look *not* required, inverting the finding it was meant to clear. Walked
+  conditionally, like an `anyOf` branch.
+- **Block line numbers are recorded by `parse_blocks`, never recovered by re-scanning.**
+  `read_guide` used to re-run `HEADING_RE` over the raw text, which has no fence tracking, so one
+  `#` comment inside a code fence in `CDIFDiscoveryImplementationGuide.md` shifted all 23 property
+  blocks below it onto the **previous** heading. The wrong line still landed on *a* heading, so
+  nothing in the output revealed it; it misplaced three rounds of guide edits.
+- **A correctly-stated choice is not a flat Required.** `states_choice` accepts
+  `"Choice-at least one of a, b is required"`, which contains the word "required" and used to trip
+  `states_required` — so correcting a guide swapped one finding for another instead of clearing it.
+
+Two tolerances were added deliberately, and both are guarded. `DIVERGENCE_ACCEPTED` records the
+property names a reviewer has looked at and judged correctly context-dependent (`name`,
+`schema:name`, `identifier`, `schema:identifier`, `propertyID`, `skos:definition`, and
+`cdif:references`, which is two properties sharing one name). A shared opening of
+`DIVERGENCE_PREFIX_MIN` (60) normalised characters counts as agreement, because `result`,
+`spatialCoverage` and `variableMeasured` stayed flagged after every guide carried the agreed
+text — the document-level guides continue into a profile-comparison table and
+physical-realization detail, and the only other way to clear them was to delete that.
+
+Since the divergence check now reports nothing on the register — the same output a broken check
+produces — `--self-test` disables both tolerances and asserts it still fires (it reports 9), and
+fails if a name in the accepted list stops being documented in two guides.
+
 It deliberately does not check the free-text `**Content:**` bullet: the guides use a prose
 vocabulary ("string, object reference, or DefinedTerm") that does not map onto JSON Schema
 types without a translation table, and a check that guesses reports noise, not defects.
 
-No CI workflow runs it yet — a `--strict` gate would fail on the 213 findings that already
-stand. Wire it once those are triaged, or wire it report-only first.
+No CI workflow runs it yet, but the blocker is gone: the register reports **0 findings** as of
+2026-09-27, so a `--strict` gate would pass today and would catch the next guide edit that
+contradicts a schema. Worth wiring. Note the tool reads the 12 release-repo guides from sibling
+checkouts under `CDIF/`, so a CI job has to clone them — that, not the finding count, is what
+remains in the way.
 
 - `sync_release_repos.py --apply` writes into whatever branch the local clone has checked
   out. The clones are on `updates`; check before syncing, or a sync lands on the wrong branch.

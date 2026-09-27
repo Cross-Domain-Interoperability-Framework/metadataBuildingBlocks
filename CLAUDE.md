@@ -33,7 +33,26 @@ python tools/validate_examples.py -f spatialExtent       # single block / substr
 python tools/validate_shacl.py <profile-name> --strict   # opt-in SHACL, one target
 python tools/audit_building_blocks.py                    # files, freshness, examples, SHACL coverage
 python tools/audit_building_blocks.py -c type-enum       # @type enum vs the SHACL list restating it
+python tools/test_fail_cases.py --strict                 # negative tests fail for their NAMED reason
 ```
+
+**Implementation-guide consistency — the annotate / implement / re-run loop:**
+
+```bash
+python tools/audit_ig_consistency.py --self-test         # run FIRST: proves each check still fires
+python tools/audit_ig_consistency.py -o ig_audit.json    # findings, each with an empty "fix" field
+#   a reviewer writes into "fix" on the rows they have decided; implement those; then
+python tools/audit_ig_consistency.py -o ig_audit.json    # re-run: annotations CARRY FORWARD
+```
+
+Fixes are matched on `(check, guide, property)`, never on `line` — line numbers move as soon as
+anything above them is edited. The run prints how many carried and how many no longer have a
+finding; the second number is the useful one. **The register is at 0 findings as of 2026-09-27**
+(from 108), so a non-zero result means something new drifted. `ig_audit.json`, `ig_audit.md` and
+`ig_audit.*.json` are gitignored.
+
+A mismatch tells you the guide and the schema disagree, **not which is wrong.** Three of the
+cardinality findings settled in that pass were fixed on the *schema* side.
 
 **The authoritative check is the OGC postprocessor, not the local tools** — it runs JSON Schema,
 then JSON-LD uplift, then SHACL. `validate_examples.py` covers only the first step, and
@@ -297,6 +316,55 @@ their refs are resolved over the network at their build time, not ours.
   The properties are `cdif:has_PrimaryKey` / `cdif:has_ForeignKey`, **not** `cdi:`, by the
   namespace rule at the top of this file -- their values diverge from the DDI-CDI XMI. The
   canonical `cdi:has_*` in `ddiProperties` are correct as they stand.
+
+- **A guide is checked against its COMPOSITE, not its module — and `contains` is walked.** Both
+  landed in `audit_ig_consistency.py` on 2026-09-26. A release guide describes a conforming
+  record, so `profile-datastructure` legitimately documents the catalog record even though
+  `schema:about`, `schema:sdDatePublished` and `schema:encodingFormat` come from `cdifCore` and
+  `dataDownload`; judging it against `cdifDataStructure` alone reported three phantom
+  "undeclared" and one phantom "never requires it". Measured: a record whose catalog record omits
+  `schema:about` **fails the composite and passes the module.** Each module resolves against the
+  narrowest composite containing it, derived from the composites' own `allOf`.
+  That change then exposed an older hole: **`contains` was never walked**, though it appears in
+  76 schema files — every `@type` token check is one. It hid because a *root* schema's `$defs` are
+  enumerated directly, so anything reachable only through `contains` was indexed anyway while
+  that file was the root, and vanished the moment it became a `$ref` target. Adding composite
+  resolution alone made `cdi:isStructuredBy` look *not* required — inverting the finding it was
+  meant to clear. If you add an applicator keyword to a schema here, check the walker handles it;
+  `contains` is the only one this register uses beyond `allOf`/`anyOf`/`oneOf`/`if`/`items`.
+
+- **A SHACL target selected by the property under test cannot fail.** `xasFacility`'s shape
+  targeted Places *by* their `schema:additionalType`, then asserted that same property — so every
+  node reaching the constraint already satisfied it. Measured 2026-09-27: a facility with
+  `schema:additionalType` removed entirely conformed with **zero violations**, because it was
+  never selected. The fix is a second shape whose target establishes context *without reading the
+  property under test* — `cdifd:xasAnalysisLocationClassified` selects Places reached as the
+  `schema:location` of an activity classified `xas:analysisevent`. When you write a shape, ask
+  what instance it is supposed to reject and check that it does; a target that names the
+  constraint's own property makes the rule decorative.
+
+- **The four retired XAS terms accept BOTH spellings, on purpose.** `xas:beamline`,
+  `xas:xraysourcetype`, `xas:probe` and `xas:temperature` were retired onto NeXus base classes on
+  2026-09-27 (`nxs:` = `https://manual.nexusformat.org/classes/`), and seven constraint sites are
+  an `enum` of the NeXus form plus the old one. A hard swap would have broken 73 files in
+  `cdifnexmetadata` — including `emit.py` and the concept maps of a package on PyPI — and 68 in
+  `XAS-CDIF`, while `cdifnexmetadata`'s own tests stayed green because they assert the old tokens.
+  The `xas:` alternatives can only come out once those two emit the NeXus form. **`xas:facility`
+  was deliberately NOT retired**: it covers a synchrotron, an XFEL *or a laboratory* facility,
+  while `NXsource` is the storage ring — the narrower `xas:synchrotonfacility` is what corresponds
+  to `NXsource`, and the glossary now records it as `skos:narrower`. Do not "finish the job" by
+  mapping `xas:facility` onto `NXsource`.
+
+- **`resolve_schema.py` is the canonical copy the domain repos receive, and the geochem fork has
+  diverged in BOTH directions.** A wholesale sync either way breaks something: geochem's copy
+  carries `bb_locate` (which resolves names under a `techniqueProfile/` layout this repo does not
+  have, so `resolve_schema.py <blockName>` raises `ModuleNotFoundError`) and a `vendor/remote/`
+  pinning mechanism that is inert here, since no source declares a URL `$ref` — the drift workflow
+  depends on that being true. Meanwhile this copy has the unresolved-ref reporting that geochem
+  merged *from* here. Cherry-pick per feature. `prune_noop_allof` came across that way on
+  2026-09-27 and is worth **36 bytes** in this register — one husk in
+  `xasGeneratedBy/resolvedSchema.json` out of 8.7 MB — because its motivating case, `adaProduct`,
+  is a geochem block. It is carried for de-divergence, not for size.
 
 - **`generate_shacl_shapes.py` output depends on your checkout's line endings, and the symptom
   points at the wrong culprit.** A Windows working copy has CRLF in 39 of 81 `rules.shacl` files
