@@ -34,6 +34,7 @@ on:
       - '_sources/**/*Schema.json'
       - 'tools/resolve_schema.py'
       - 'tools/regenerate_schema_json.py'
+      - 'tools/affected_blocks.py'
       - '.github/workflows/check-schema-drift.yml'
   workflow_dispatch:
 
@@ -51,6 +52,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # The incremental path diffs against the base branch, so the
+          # default single-commit fetch is not enough.
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -60,11 +65,67 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml
 
+      # The closure logic is itself a rule that can stop working, and an
+      # under-reporting closure reports success over real drift. Prove it
+      # fires before trusting it to narrow anything. Costs seconds.
+      # --drift-test is the one that matters: it seeds a change in a block
+      # three $refs upstream and proves the closure carries it all the way
+      # down. Run in CI rather than by hand, because a guard nobody exercises
+      # is not a guard. ~9 s, in a copy of the tree.
+      - name: Prove the affected-blocks logic still fires
+        if: github.event_name == 'pull_request'
+        run: python tools/affected_blocks.py --self-test --drift-test
+
+      # A pull request regenerates only the blocks its edit can move -- a
+      # block's resolved output depends on its own $ref closure and nothing
+      # wider, argued and measured in the header of tools/affected_blocks.py.
+      # Push to main keeps the unconditional sweep, and that backstop is
+      # exactly what would catch this reasoning being wrong. Do not make
+      # main incremental as well.
+      - name: Decide regeneration scope
+        id: scope
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "mode=all" >> "$GITHUB_OUTPUT"
+            echo "Full sweep (event: ${{ github.event_name }})."
+            exit 0
+          fi
+          git fetch --no-tags origin "${{ github.base_ref }}"
+          python tools/affected_blocks.py --base "origin/${{ github.base_ref }}" \
+            > "$RUNNER_TEMP/affected.txt"
+          if grep -qx ALL "$RUNNER_TEMP/affected.txt"; then
+            echo "mode=all" >> "$GITHUB_OUTPUT"
+            echo "Full sweep: this change set can affect any block."
+          elif [ ! -s "$RUNNER_TEMP/affected.txt" ]; then
+            echo "mode=none" >> "$GITHUB_OUTPUT"
+            echo "No changed file can move a resolved schema."
+          else
+            echo "mode=some" >> "$GITHUB_OUTPUT"
+            echo "Affected blocks:"
+            sed 's/^/  /' "$RUNNER_TEMP/affected.txt"
+          fi
+
       # No source declares a URL $ref, so both tools run entirely offline
       # and the result depends only on the checked-out tree.
-      - name: Regenerate resolved schemas
+      - name: Regenerate resolved schemas (full sweep)
+        if: steps.scope.outputs.mode == 'all'
         run: python tools/resolve_schema.py --all
 
+      - name: Regenerate resolved schemas (affected blocks only)
+        if: steps.scope.outputs.mode == 'some'
+        run: |
+          set -euo pipefail
+          while read -r schema; do
+            [ -n "$schema" ] || continue
+            echo "::group::$schema"
+            python tools/resolve_schema.py --file "$schema"
+            echo "::endgroup::"
+          done < "$RUNNER_TEMP/affected.txt"
+
+      # Always the full run: 93 blocks in ~1.3 s, and it reads schema.yaml
+      # rather than resolvedSchema.json, so narrowing it would buy nothing.
+      # This half of the check therefore stays exhaustive on every event.
       - name: Regenerate Schema.json files
         run: python tools/regenerate_schema_json.py
 
@@ -75,6 +136,12 @@ jobs:
           # here and is not this check's business.
           if git diff --quiet -- _sources; then
             echo "Generated schemas match their sources."
+            # Say what was actually proven. On an incremental run a stale
+            # artifact in a block the change set cannot reach is NOT checked
+            # here; the unconditional sweep on main is what covers it.
+            if [ "${{ steps.scope.outputs.mode }}" = "some" ]; then
+              echo "Scope: the affected blocks listed above, plus all 93 *Schema.json."
+            fi
             exit 0
           fi
 
