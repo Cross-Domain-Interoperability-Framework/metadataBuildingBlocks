@@ -260,6 +260,12 @@ Set of categories represented by classification items where the subset of immedi
 
 Base physical mapping: metadata to document the physical serialization of a variable in a data structure. Defines properties: cdif:index, cdif:format, cdif:physicalDataType, cdi:numberPattern, cdi:nullSequence, cdi:defaultValue, cdi:scale, cdi:decimalPositions, cdi:minimumLength, cdi:maximumLength, cdi:isRequired, cdif:formats_InstanceVariable. Text-format specifics (cdi:length and number separators) are in cdifTextMapping; structured-document location is in cdifLocatorMapping.
 
+### `cdif.bbr.metadata.cdifDataType.cdifStatistics` — CDIF Statistics
+
+**Type:** schema
+
+Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifDataType).
+
 ### `cdif.bbr.metadata.schemaorgProperties.labeledLink` — Labeled Link
 
 **Type:** schema
@@ -428,17 +434,17 @@ Role given to a represented variable in the context of a long or wide data struc
 
 Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
 
-### `cdif.bbr.metadata.cdifDataType.cdifStatistics` — CDIF Statistics
-
-**Type:** schema
-
-Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifDataType).
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiPhysicalMapping` — DDI-CDI Physical Mapping
 
 **Type:** schema
 
 Describes how an InstanceVariable's values are physically represented in a dataset - format, length, decimal handling, null sequences, W3C tabular-data-model parameters. Successor to the DDI-CDI 1.0 ValueMapping class (renamed PhysicalMapping in the 2026-03 model, with the variable relationship reversed: PhysicalMapping formats InstanceVariable). Root validates any of PhysicalMapping, TextMapping (text-dialect detail), or LocatorMapping (locator string for non-tabular layouts); provides a $def for PhysicalMappingPosition. Composes building block: ddicdiDataTypes (ddiProperties); cdifInstanceVariable (cdifDataType).
+
+### `cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription` — CDIF Data Description
+
+**Type:** schema
+
+Additional constraints for CDIF data description level. Adds cdif:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM). Used by CDIFDataDescriptionProfile and CDIFcompleteProfile profiles.
 
 ### `cdif.bbr.metadata.xasProperties.xasOptional` — Optional Fields for XAS data
 
@@ -470,12 +476,6 @@ Data organization based on reusable data structure components.
 
 Data organization based on reusable data structure components.
 
-### `cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription` — CDIF Data Description
-
-**Type:** schema
-
-Additional constraints for CDIF data description level. Adds cdif:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM). Used by CDIFDataDescriptionProfile and CDIFcompleteProfile profiles.
-
 ### `cdif.bbr.metadata.cdifDataType.cdifProvActivity` — CDIF Provenance Activity
 
 **Type:** schema
@@ -500,6 +500,12 @@ XAS-specific instrument building block. Extends the instrument description build
 
 CDIF Discovery profile composing cdifCore with discovery-oriented properties: measurement technique, variables measured, spatial and temporal coverage, quality measurements. Declares conformance to cdif/core/1.0/ and cdif/discovery/1.0/.
 
+### `cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescription` — CDIF discovery and data description metadata
+
+**Type:** schema
+
+Schema extends data discovery with properties to desribe data structures for tabular and structured (grid, datacube, hierarchialc) datasets
+
 ### `cdif.bbr.metadata.ddiProperties.ddicdiKeyValueStructure` — DDI-CDI Key Value Structure
 
 **Type:** schema
@@ -511,12 +517,6 @@ Structure of a key-value datastore (organized collection of key-value data). It 
 **Type:** schema
 
 Collection of instance variables.
-
-### `cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescription` — CDIF discovery and data description metadata
-
-**Type:** schema
-
-Schema extends data discovery with properties to desribe data structures for tabular and structured (grid, datacube, hierarchialc) datasets
 
 ### `cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescriptionStructure` — CDIF Data Structure profile
 
