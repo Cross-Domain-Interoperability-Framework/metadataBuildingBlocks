@@ -720,6 +720,27 @@ The generic OGC docs (<https://ogcincubator.github.io/bblocks-docs/all-bblocks-d
 | `x-jsonld-context` / `x-jsonld-prefixes` schema keywords | auto-detected **`context.jsonld`** + inline `@context` blocks (no `x-jsonld-*`) |
 | SHACL inheritance via `isProfileOf` | schema **`allOf` composition** (profiles compose BBs; rules bundle by dependency) |
 
+**Where a generic OGC reference disagrees with this table, this table wins.** That includes the
+`ogcincubator/ogc-llm-skills` collection — `bblocks-authoring`, `bblocks-consuming`,
+`bblocks-schema-ontology` — which documents the generic column as the way to author a block.
+`bblocks-consuming` is installed and safe, because it describes the *published* outputs, which are
+standard postprocessor products; the authoring guidance is the part that conflicts.
+
+The three right-hand cells are not partial preferences, they are total. Measured 2026-09-28:
+**0 of 93 `schema.yaml` files use `x-jsonld-*`, and 0 use `bblocks://`.** So a "fix" that converts
+`../cdifCore/schema.yaml` into a `bblocks://` ref, or adds an `x-jsonld-context` keyword, is a
+regression with the shape of a conformance improvement — and `resolve_schema.py` resolves relative
+paths off the filesystem, so a `bblocks://` ref does not resolve here at all.
+
+One thing the collection is right about that this repo has not done: **CDIF mints `cdif:` terms and
+defines none of them.** `cdif:Key`, `cdif:has_PrimaryKey`, `cdif:TextMapping` and the rest bind to
+`https://w3id.org/cdif/` in every context and are published in schemas, but the register holds 92
+`itemClass: schema` + 1 `datatype` and no `model` block, and no `ontology.ttl`. Measured
+2026-09-28: `https://w3id.org/cdif/` returns 200 while `https://w3id.org/cdif/Key` and
+`https://w3id.org/cdif/has_PrimaryKey` return **404**. `bblocks-schema-ontology` describes the
+retrofit workflow for exactly this; it is a real gap, not yet scheduled work, and it interacts with
+the `cdi:`/`cdif:` namespace rule above.
+
 `bblock.json` allowed values: `status` ∈ {under-development, experimental, stable, superseded, retired, invalid, reserved, submitted}; `itemClass` ∈ {schema, datatype, path, parameter, header, cookie, response, api, model} (we use `schema`). `itemIdentifier` is auto-generated from the `_sources` path — never set it manually.
 
 ## Vocabulary Namespaces
