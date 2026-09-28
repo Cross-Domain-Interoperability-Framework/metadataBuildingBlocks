@@ -125,6 +125,7 @@ metadataBuildingBlocks/
 │   ├── cdif_viewer_app.py          # Pick-and-render app for the above; opens a file, a URL or a sample (stdlib http.server)
 │   ├── augment_register.py          # Adds resolvedSchema URLs to register.json
 │   ├── regenerate_schema_json.py    # Regenerates *Schema.json files from schema.yaml sources
+│   ├── affected_blocks.py           # Reverse-$ref closure of a change set; narrows the PR drift check (see below)
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
 │   ├── audit_building_blocks.py     # Comprehensive BB repo audit (pluggable to any repo)
 │   ├── audit_shacl_coverage.py      # Compares schema.yaml properties vs rules.shacl shapes
@@ -822,6 +823,55 @@ This is not hypothetical. `ecrrBuildingBlocks` points every one of its 25 cross-
 - Tracks `source_file` through `process_schema()` so that internal `#/$defs/X` refs within externally-referenced files are resolved against the source file and promoted to global scope (fixes transitive internal ref resolution)
 - Collapses alias `$defs` (e.g. `DefinedTerm_2: {$ref: "#/$defs/DefinedTerm"}`) that arise when multiple building blocks each declare a local `$defs` entry pointing to the same external schema — rewrites all references to point directly to the canonical def and removes the aliases
 - Cycle detection via `processing_stack` set
+
+## affected_blocks.py
+
+Which blocks must be regenerated when a given set of files changes. Added 2026-09-28 so
+`check-schema-drift.yml` can stop regenerating all 92 blocks (~11 min) on every pull request.
+
+```bash
+python tools/affected_blocks.py --base origin/main          # what this branch can move
+python tools/affected_blocks.py --changed _sources/a/schema.yaml ...
+python tools/affected_blocks.py --self-test --drift-test    # CI runs both on every PR
+```
+
+Prints repo-relative `schema.yaml` paths, one per line, or the single token `ALL`.
+
+**A block's resolved output depends only on its own `$ref` closure**, which is what makes this
+safe. Checked, not assumed: `inline_low_use_defs` counts via `count_def_refs(schema)` on one
+in-memory schema, so there is no register-wide use count; and `_is_type_library` is evaluated on
+the root `schema_path` only (`resolve_schema.py:1396`, `:1413`), so a dependency's `bblock.json`
+cannot move a dependent's bytes. **If either grows cross-schema state this tool under-reports and
+a PR goes green over real drift** — which is why `push` to `main` keeps the unconditional
+`--all`. That backstop is the thing that would notice; do not make `main` incremental too.
+
+**The saving is not uniform**, and the graph is why. Reverse-closure size as a fraction of
+`--all`: `xasFacility` 4%, `cdifCodelist` 13%, `spatialExtent` 14%, `linkRole` 15%, but
+`identifier` 63% and `skosConcept` 65%; `ddicdiDataTypes` has 22 direct dependents. A fast common
+case, not a fast worst case. Measured for `xasFacility`: 4 blocks in 4.5 s.
+
+**What propagates, and what does not.** A changed `schema.yaml` propagates to dependents. A
+changed `resolvedSchema.json` or `bblock.json` affects that block alone — artifacts are outputs,
+so nothing downstream reads them. Files outside `_sources/` cannot reach a generated schema, which
+is why the 527-file `build/` auto-commits score zero blocks.
+
+**`RESOLUTION_TOOLS` is the three tools the workflow runs plus their local imports**, and the
+self-test derives it from the workflow and the import graph — add a tool to the workflow without
+listing it and the test fails. The first version treated *every* `tools/` change as a full sweep,
+which measured as useless against real history: a change to `audit_ig_consistency.py`, which
+cannot write a schema at all, regenerated all 92 blocks, and most PRs here touch some tool.
+
+**`--drift-test` is the guard that matters**, and it is the reason to trust the rest. It seeds a
+property in `xasFacility` and proves it reaches `xasGeneratedBy`, `xasCore` and `xasDocument`
+three `$ref`s downstream, in a throwaway copy of the tree; it also asserts `spatialExtent`
+*outside* the closure is untouched, so it fails if the closure degenerates to "everything". It was
+falsified before being trusted — stubbing the closure to the seed alone, and to direct dependents
+only, both fail it. The one-hop stub is the dangerous one: it looks entirely plausible and a naive
+test passes it.
+
+`regenerate_schema_json.py` is **not** narrowed and runs fully on every event: 93 blocks in ~1.3 s,
+and it reads `schema.yaml` rather than `resolvedSchema.json`, so there is nothing to gain. That
+half of the drift check stays exhaustive.
 
 ## uml_to_schema.py
 

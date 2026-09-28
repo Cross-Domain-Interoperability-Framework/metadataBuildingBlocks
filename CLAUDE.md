@@ -25,6 +25,13 @@ python tools/resolve_schema.py --all      # -> resolvedSchema.json (92 blocks, ~
 python tools/regenerate_schema_json.py    # -> *Schema.json (93 blocks, seconds)
 ```
 
+Locally, `--all` is still the honest thing to run before a commit. To regenerate only what your
+edit can reach — what CI now does on a pull request — ask which blocks those are:
+
+```bash
+python tools/affected_blocks.py --base origin/main    # prints schema.yaml paths, or ALL
+```
+
 **Validation:**
 
 ```bash
@@ -72,6 +79,17 @@ types left as cycles) and `<dirname>Schema.json` (a JSON mirror with `$ref` exte
 CI then generates `build/` via the OGC postprocessor. Editing a `schema.yaml` without regenerating
 leaves the change in the source and in nothing that validates against it — the
 `check-schema-drift.yml` workflow fails on exactly that, on push to `main` as well as PRs.
+
+**The drift check is incremental on a PR and exhaustive on `main`, and that split is the design.**
+Since 2026-09-28 a pull request regenerates only the reverse-`$ref` closure of its change set
+(`tools/affected_blocks.py`) — 4 blocks and 4.5 s for a `xasFacility` edit, against ~11 min. It is
+sound because a block's output depends only on its own `$ref` closure, which is a property of
+`resolve_schema.py` that was measured rather than assumed, and could stop being true. **The
+unconditional `--all` on push to `main` is what would catch that, so do not make `main`
+incremental as well** — and note what a green incremental run does *not* claim: a stale artifact in
+a block the change set cannot reach was never regenerated on that run. The saving also varies
+hugely with position in the graph (`xasFacility` 4% of `--all`, `skosConcept` 65%), so a hub edit
+buys almost nothing. `regenerate_schema_json.py` stays full everywhere: 93 blocks in ~1.3 s.
 
 **Building block trees** under `_sources/`: `schemaorgProperties/`, `cdifDataType/`,
 `ddiProperties/` (canonical DDI-CDI), `provProperties/`, `skosProperties/`, `xasProperties/`,
