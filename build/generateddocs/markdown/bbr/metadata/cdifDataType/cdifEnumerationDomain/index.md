@@ -215,7 +215,7 @@ properties:
     x-jsonld-id: https://w3id.org/cdif/identifier
   schema:name:
     type: string
-    description: Human understandable name (liguistic signifier, word, phrase, or
+    description: Human understandable name (linguistic signifier, word, phrase, or
       mnemonic).
     x-jsonld-id: http://schema.org/name
   cdif:references:

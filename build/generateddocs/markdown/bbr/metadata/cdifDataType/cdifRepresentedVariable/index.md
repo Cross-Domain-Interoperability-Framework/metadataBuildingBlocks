@@ -7,6 +7,91 @@ Conceptual variable with a substantive value domain specified.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
+## Examples
+
+### Represented variable with a unit, a definition, and a concept link.
+A cdi:RepresentedVariable for systolic blood pressure. cdif:uses_Concept
+names the concept the variable expresses, by reference to a term defined
+in an external vocabulary rather than inline -- the common case, and what
+the cdifRepresentedVariable SHACL advisory recommends.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "https://example.org/"
+  },
+  "@type": [
+    "cdi:RepresentedVariable"
+  ],
+  "@id": "ex:rv/systolicBP",
+  "cdif:name": [
+    "systolic_bp"
+  ],
+  "cdi:simpleUnitOfMeasure": "mmHg",
+  "cdif:definition": "Systolic blood pressure of the patient at the time of measurement.",
+  "cdif:uses_Concept": [
+    {
+      "@id": "http://loinc.org/rdf/8480-6"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:RepresentedVariable"
+  ],
+  "@id": "ex:rv/systolicBP",
+  "cdif:name": [
+    "systolic_bp"
+  ],
+  "cdi:simpleUnitOfMeasure": "mmHg",
+  "cdif:definition": "Systolic blood pressure of the patient at the time of measurement.",
+  "cdif:uses_Concept": [
+    {
+      "@id": "http://loinc.org/rdf/8480-6"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+
+<https://example.org/rv/systolicBP> a cdi:RepresentedVariable ;
+    cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:definition "Systolic blood pressure of the patient at the time of measurement." ;
+    cdif:name "systolic_bp" ;
+    cdif:uses_Concept <http://loinc.org/rdf/8480-6> .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -116,6 +201,7 @@ properties:
       to specify usage.
     x-jsonld-id: https://w3id.org/cdif/name
   cdif:uses_Concept:
+    description: Specifies the concept(s) that this variable expresses or aligns with.
     type: array
     items:
       anyOf:
@@ -171,7 +257,7 @@ $defs:
         items:
           type: string
         minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
         x-jsonld-id: https://w3id.org/cdif/name
@@ -255,6 +341,8 @@ $defs:
           provided to specify usage.
         x-jsonld-id: https://w3id.org/cdif/name
       cdif:uses_Concept:
+        description: Specifies the concept(s) that this variable expresses or aligns
+          with.
         type: array
         items:
           anyOf:

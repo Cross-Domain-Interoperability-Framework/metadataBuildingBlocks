@@ -461,14 +461,14 @@ ComponentPosition wrapper.
 
 <https://example.org/struct/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ],
-        [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ] .
+            cdi:value 3 ] .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType "xsd:decimal" ;
@@ -849,11 +849,11 @@ each cell in the cube.
 
 <https://example.org/struct/salesCube/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/quarter> ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/country> ;
             cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/quarter> ;
+            cdi:value 2 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/productCategory> ;
             cdi:value 3 ] .
@@ -1205,6 +1205,205 @@ array — wide-format rows are uniquely identified by patientId alone.
 
 ```
 
+
+### Foreign key referencing a primary key in another dataset.
+A cdi:WideDataStructure whose siteId is a foreign key into a separate
+sites dataset. The cdif:ForeignKey composes that variable through a
+cdi:ComponentPosition wrapper and names its target with
+cdif:references — the property that distinguishes a foreign key from a
+cdif:Key, and which a foreign key cannot omit.
+
+This is the first cdif:ForeignKey instance in the register. Its
+required cdif:references had no example and no negative test, so the
+constraint had never been shown to accept a valid case.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "ex": "https://example.org/"
+  },
+  "@type": [
+    "cdi:WideDataStructure"
+  ],
+  "@id": "ex:struct/measurements",
+  "cdi:has_DataStructureComponent": [
+    {
+      "@type": [
+        "cdi:IdentifierComponent"
+      ],
+      "@id": "ex:struct/measurements/comp/siteId",
+      "cdif:isDefinedBy_Variable": {
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
+        "@id": "ex:struct/measurements/rv/siteId",
+        "cdif:name": [
+          "site_id"
+        ],
+        "cdi:hasIntendedDataType": "xsd:string"
+      }
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "ex:struct/measurements/comp/temperature",
+      "cdif:isDefinedBy_Variable": {
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
+        "@id": "ex:struct/measurements/rv/temperature",
+        "cdif:name": [
+          "temperature_c"
+        ],
+        "cdi:hasIntendedDataType": "xsd:decimal"
+      }
+    }
+  ],
+  "cdif:has_ForeignKey": [
+    {
+      "@type": [
+        "cdif:ForeignKey"
+      ],
+      "@id": "ex:struct/measurements/fk/site",
+      "cdif:isComposedOf": [
+        {
+          "@type": [
+            "cdi:ComponentPosition"
+          ],
+          "@id": "ex:struct/measurements/fk/site/pos/1",
+          "cdi:indexes": {
+            "@id": "ex:struct/measurements/rv/siteId"
+          },
+          "cdi:value": 1
+        }
+      ],
+      "cdif:references": {
+        "@id": "ex:struct/sites/pk/siteId"
+      }
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:WideDataStructure"
+  ],
+  "@id": "ex:struct/measurements",
+  "cdi:has_DataStructureComponent": [
+    {
+      "@type": [
+        "cdi:IdentifierComponent"
+      ],
+      "@id": "ex:struct/measurements/comp/siteId",
+      "cdif:isDefinedBy_Variable": {
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
+        "@id": "ex:struct/measurements/rv/siteId",
+        "cdif:name": [
+          "site_id"
+        ],
+        "cdi:hasIntendedDataType": "xsd:string"
+      }
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "ex:struct/measurements/comp/temperature",
+      "cdif:isDefinedBy_Variable": {
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
+        "@id": "ex:struct/measurements/rv/temperature",
+        "cdif:name": [
+          "temperature_c"
+        ],
+        "cdi:hasIntendedDataType": "xsd:decimal"
+      }
+    }
+  ],
+  "cdif:has_ForeignKey": [
+    {
+      "@type": [
+        "cdif:ForeignKey"
+      ],
+      "@id": "ex:struct/measurements/fk/site",
+      "cdif:isComposedOf": [
+        {
+          "@type": [
+            "cdi:ComponentPosition"
+          ],
+          "@id": "ex:struct/measurements/fk/site/pos/1",
+          "cdi:indexes": {
+            "@id": "ex:struct/measurements/rv/siteId"
+          },
+          "cdi:value": 1
+        }
+      ],
+      "cdif:references": {
+        "@id": "ex:struct/sites/pk/siteId"
+      }
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/struct/measurements> a cdi:WideDataStructure ;
+    cdi:has_DataStructureComponent <https://example.org/struct/measurements/comp/siteId>,
+        <https://example.org/struct/measurements/comp/temperature> ;
+    cdif:has_ForeignKey <https://example.org/struct/measurements/fk/site> .
+
+<https://example.org/struct/measurements/comp/siteId> a cdi:IdentifierComponent ;
+    cdif:isDefinedBy_Variable <https://example.org/struct/measurements/rv/siteId> .
+
+<https://example.org/struct/measurements/comp/temperature> a cdi:MeasureComponent ;
+    cdif:isDefinedBy_Variable <https://example.org/struct/measurements/rv/temperature> .
+
+<https://example.org/struct/measurements/fk/site> a cdif:ForeignKey ;
+    cdif:isComposedOf <https://example.org/struct/measurements/fk/site/pos/1> ;
+    cdif:references <https://example.org/struct/sites/pk/siteId> .
+
+<https://example.org/struct/measurements/fk/site/pos/1> a cdi:ComponentPosition ;
+    cdi:indexes <https://example.org/struct/measurements/rv/siteId> ;
+    cdi:value 1 .
+
+<https://example.org/struct/measurements/rv/temperature> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
+    cdif:name "temperature_c" .
+
+<https://example.org/struct/measurements/rv/siteId> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:name "site_id" .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -1391,6 +1590,7 @@ $defs:
         type: string
         description: Identifier for this DataStructure node
       cdif:has_ForeignKey:
+        description: Variables whose values identify records in a different dataset.
         type: array
         items:
           anyOf:
@@ -1407,6 +1607,7 @@ $defs:
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdif:has_PrimaryKey:
+        description: Variables in the structure that uniquely identify a record.
         $ref: '#/$defs/PrimaryKey'
         x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
     required:
@@ -1444,9 +1645,11 @@ $defs:
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdif:has_PrimaryKey:
+        description: Variables in the structure that uniquely identify a record.
         $ref: '#/$defs/PrimaryKey'
         x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
       cdif:has_ForeignKey:
+        description: Variables whose values identify records in a different dataset.
         type: array
         items:
           anyOf:
@@ -1500,6 +1703,7 @@ $defs:
         minItems: 3
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdif:has_PrimaryKey:
+        description: Variables in the structure that uniquely identify a record.
         $ref: '#/$defs/PrimaryKey'
         x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
     required:
@@ -1531,9 +1735,11 @@ $defs:
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdif:has_PrimaryKey:
+        description: Variables in the structure that uniquely identify a record.
         $ref: '#/$defs/PrimaryKey'
         x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
       cdif:has_ForeignKey:
+        description: Variables whose values identify records in a different dataset.
         type: array
         items:
           anyOf:
@@ -1569,7 +1775,7 @@ $defs:
         items:
           type: string
         minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
         x-jsonld-id: https://w3id.org/cdif/name

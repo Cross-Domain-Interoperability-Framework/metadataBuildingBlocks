@@ -75,7 +75,7 @@ $defs:
         items:
           type: string
         minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
         x-jsonld-id: https://w3id.org/cdif/name
@@ -234,6 +234,11 @@ $defs:
         type: string
         description: Identifier for this VariableDescriptorComponent node
       cdif:isDefinedBy_DescriptorVariable:
+        description: Variable that provides codes for variable identification in the
+          context of a data structure. Descriptor Variables hold values which reference
+          the logical variables in the data set, indicating which one the associated
+          value in the corresponding Reference Variable is a measure/value for. Descriptor
+          Variables are presentational variables found only in Long Data Sets.
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_DescriptorVariable
       cdi:refersTo:
