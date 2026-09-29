@@ -876,6 +876,27 @@ invisible to `audit_ig_consistency.py` across 76 files.
 `shacl_domains` is an independent read from `sh:targetClass`. Neither is authoritative, and where
 they disagree the disagreement is the finding.
 
+**Definitions are pulled from the release-repo implementation guides**, which carry what the schemas
+mostly do not: 23 terms have an unambiguous `**Description:**` there. It reads them through
+`audit_ig_consistency`'s own `read_guide`, so "what is a property block" cannot drift from the tool
+that audits them, and it is **optional by design** — CI clones only this repo, so an absent sibling
+checkout means "no guide definitions", never a failed run. Each term carries `definition_from`
+(`guide` or `reviewer`), so extracted text stays distinguishable from authored text, and a
+reviewer's value always outranks a guide's.
+
+**Where guides disagree, nothing is settled automatically.** 8 terms are described differently in
+different guides, and those differences are mostly per-class phrasings — picking one silently would
+flatten a real distinction, which is the mistake that collapsed three senses of
+`schema:additionalType`. They are surfaced in `guide_variants` instead. Most are cosmetic (`cdif:name`
+differs across five variants, two of them only by the typo "liguistic" in
+`doc-discoverydatadescriptionstructure`), but **`cdif:references` is a genuine modelling question**:
+it means "the codelist whose notation values define the allowed values" on `cdif:EnumerationDomain`
+and "object reference to the target of the foreign key" on `cdif:ForeignKey`. One property name, two
+unrelated relations — an ontology must either give it a union range or split it.
+
+**Guides define properties, never classes.** Every heading is a property (`### cdif:has_PrimaryKey`),
+so all 8 classes remain undefined and are unavoidably authoring work.
+
 Findings on the first run, worth knowing before the editorial pass:
 
 - **8 properties have no description anywhere**, so their definitions must be written from scratch.

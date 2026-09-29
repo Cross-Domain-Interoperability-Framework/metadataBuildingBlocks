@@ -179,6 +179,44 @@ class Inventory:
             self.classes[domain]["properties"].add(term)
 
 
+def guide_definitions():
+    """{term: [(repo, description)]} from the release-repo guides.
+
+    The guides carry the definitions the schemas mostly do not: 23 terms have
+    an unambiguous `**Description:**` there, including 4 that have no schema
+    description at all. Reuses audit_ig_consistency's own reader, so "what is
+    a property block" and "what is its Description" cannot drift from the tool
+    that audits them.
+
+    OPTIONAL BY DESIGN. CI clones only this repo, so an absent sibling
+    checkout must mean "no guide definitions", never a failed run.
+    """
+    try:
+        import audit_ig_consistency as aic
+    except Exception as exc:                       # noqa: BLE001
+        return {}, f"guides unavailable ({type(exc).__name__})"
+    root = getattr(aic, "CDIF_ROOT", None)
+    if not root or not Path(root).exists():
+        return {}, "no sibling release repos"
+    guides = sorted(Path(root).glob("*/*ImplementationGuide.md"))
+    if not guides:
+        return {}, "no implementation guides found"
+    hits = defaultdict(list)
+    for guide in guides:
+        try:
+            blocks = aic.read_guide(guide)
+        except Exception:                          # noqa: BLE001
+            continue                               # one bad guide is not fatal
+        for block in blocks:
+            name = block["name"]
+            if not TERM.match(name):
+                continue
+            description = (block["fields"].get("description") or "").strip()
+            if description:
+                hits[name].append((guide.parent.name, description))
+    return dict(hits), f"{len(guides)} guides"
+
+
 def shacl_domains(sources_dir):
     """`sh:targetClass` per `cdif:` path -- an independent read on domain."""
     found = defaultdict(set)
@@ -212,23 +250,57 @@ def collect(sources_dir=None):
     return inventory, files, shacl_domains(sources_dir)
 
 
-def build_register(sources_dir=None, previous=None):
+def _guide_fields(name, guides):
+    """Guide definition for *name*: one, several, or none.
+
+    A term described differently in two guides is NOT resolved here. Those
+    differences are per-class phrasings ("name for the component" vs "string
+    used to identify the variable in data"), and picking one silently would
+    flatten a real distinction -- the mistake that collapsed three senses of
+    schema:additionalType earlier in this work. They are surfaced for the
+    reviewer instead.
+    """
+    hits = guides.get(name) or []
+    distinct = sorted({d for _, d in hits})
+    return {
+        "guide_definition": distinct[0] if len(distinct) == 1 else None,
+        "guide_variants": distinct if len(distinct) > 1 else [],
+        "guide_sources": sorted({g for g, _ in hits}),
+    }
+
+
+def build_register(sources_dir=None, previous=None, guides=None):
     inventory, files, shacl = collect(sources_dir)
     previous = previous or {}
+    guides = guides if guides is not None else {}
     register = {"classes": {}, "properties": {}}
 
+    def settle(name, entry):
+        """A reviewer's definition wins; else an unambiguous guide one."""
+        if previous.get(name):
+            entry["definition"] = previous[name]
+            entry["definition_from"] = "reviewer"
+        elif entry["guide_definition"]:
+            entry["definition"] = entry["guide_definition"]
+            entry["definition_from"] = "guide"
+        else:
+            entry["definition"] = ""
+            entry["definition_from"] = ""
+        return entry
+
     for name, info in sorted(inventory.classes.items()):
-        register["classes"][name] = {
+        entry = {
             "kind": "rdfs:Class",
-            "definition": previous.get(name, ""),
             "properties": sorted(info["properties"]),
             "sites": sorted(info["sites"]),
+            **_guide_fields(name, guides),
         }
+        register["classes"][name] = settle(name, entry)
+
     for name, info in sorted(inventory.props.items()):
         variants = sorted(set(info["descriptions"]), key=len, reverse=True)
-        register["properties"][name] = {
+        entry = {
             "kind": "rdf:Property",
-            "definition": previous.get(name, ""),
             "candidate_definition": variants[0] if variants else None,
             "description_variants": len(variants),
             "domains": sorted(info["domains"]),
@@ -237,7 +309,9 @@ def build_register(sources_dir=None, previous=None):
             "required_in": sorted(info["required_in"]),
             "site_count": len(info["sites"]),
             "sites": sorted(info["sites"]),
+            **_guide_fields(name, guides),
         }
+        register["properties"][name] = settle(name, entry)
     return register, len(files)
 
 
@@ -435,11 +509,49 @@ def self_test():
         _check(results, "an unwritten definition stays empty",
                rebuilt["properties"]["cdif:viaAllOf"]["definition"], "")
 
+        # Guide extraction. One agreeing term, one disagreeing.
+        fake_guides = {
+            "cdif:viaAllOf": [("profile-a", "One agreed definition."),
+                              ("profile-b", "One agreed definition.")],
+            "cdif:viaAnyOf": [("profile-a", "First sense."),
+                              ("profile-b", "Second, different sense.")],
+        }
+        g, _ = build_register(sources_dir=src, guides=fake_guides)
+        _check(results, "an agreed guide definition is adopted",
+               g["properties"]["cdif:viaAllOf"]["definition"],
+               "One agreed definition.")
+        _check(results, "and is marked as coming from a guide",
+               g["properties"]["cdif:viaAllOf"]["definition_from"], "guide")
+        # Picking one of two senses silently is the failure to avoid.
+        _check(results, "disagreeing guides do NOT settle a definition",
+               g["properties"]["cdif:viaAnyOf"]["definition"], "")
+        _check(results, "both senses are surfaced instead",
+               g["properties"]["cdif:viaAnyOf"]["guide_variants"],
+               ["First sense.", "Second, different sense."])
+        # A reviewer outranks a guide.
+        g2, _ = build_register(sources_dir=src, guides=fake_guides,
+                               previous={"cdif:viaAllOf": "REVIEWER WINS"})
+        _check(results, "a reviewer definition outranks a guide",
+               (g2["properties"]["cdif:viaAllOf"]["definition"],
+                g2["properties"]["cdif:viaAllOf"]["definition_from"]),
+               ("REVIEWER WINS", "reviewer"))
+
     # Real repo anchor.
     register, scanned = build_register()
     _check(results, "real repo: the known classes are all still found",
            sorted(register["classes"]), KNOWN_CLASSES)
     _check(results, "real repo: scanned the whole register", scanned, 93)
+
+    # Guides are optional: CI clones only this repo. A missing sibling
+    # checkout must mean "no definitions", never a traceback -- so this
+    # asserts the shape of the result, not that any guide was found.
+    found, note = guide_definitions()
+    _check(results, "guide lookup degrades instead of failing",
+           (isinstance(found, dict), isinstance(note, str)), (True, True))
+    if found:
+        print(f"        ({note}, {len(found)} term(s) described)")
+    else:
+        print(f"        (no guides here: {note} — expected in CI)")
 
     passed = sum(1 for ok in results if ok)
     print(f"\n{passed}/{len(results)} checks passed")
@@ -462,15 +574,26 @@ def main():
         sys.exit(0 if self_test() else 1)
 
     carried = load_previous(args.output)
-    register, scanned = build_register(previous=carried)
+    guides, guide_note = guide_definitions()
+    register, scanned = build_register(previous=carried, guides=guides)
     props = register["properties"]
+    everything = {**register["classes"], **props}
     no_definition = [n for n, i in props.items() if not i["candidate_definition"]]
     conflicting = [n for n, i in props.items() if i["description_variants"] > 1]
+    settled = [n for n, i in everything.items() if i["definition"]]
+    split = [n for n, i in everything.items() if i["guide_variants"]]
+    unsettled = [n for n, i in everything.items()
+                 if not i["definition"] and not i["guide_variants"]]
 
     print(f"scanned {scanned} schema.yaml (archive excluded)")
     print(f"{len(register['classes'])} classes, {len(props)} properties")
     print(f"  {len(no_definition)} with no description anywhere")
     print(f"  {len(conflicting)} described differently at different sites")
+    print(f"guides: {guide_note}")
+    print(f"  {len(settled)} term(s) now carry a definition")
+    print(f"  {len(split)} left for a reviewer because the guides disagree: "
+          + ", ".join(sorted(split)))
+    print(f"  {len(unsettled)} with no definition from any source")
     if carried:
         still = sum(1 for n in carried
                     if n in props or n in register["classes"])
