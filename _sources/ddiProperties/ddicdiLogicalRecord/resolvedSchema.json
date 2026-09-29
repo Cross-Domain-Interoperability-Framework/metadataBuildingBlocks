@@ -4186,6 +4186,57 @@
         "@type"
       ]
     },
+    "DataPoint": {
+      "type": "object",
+      "description": "Container for an instance value.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DataPoint"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this DataPoint node"
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:correspondsTo": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DdicdiDataStructureComponent"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:isDescribedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CdifInstanceVariable"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
     "DdicdiDataTypes_Identifier": {
       "type": "object",
       "description": "DDI-CDI composite identifier (dt-Identifier)",
@@ -5672,7 +5723,7 @@
           "minItems": 1
         },
         "cdi:content": {
-          "$ref": "#/$defs/TypedString",
+          "$ref": "#/$defs/DdicdiValueDomain_TypedString",
           "description": "The content of this value expressed as a string."
         },
         "cdi:identifier": {
@@ -6955,57 +7006,6 @@
         "@type"
       ]
     },
-    "DataPoint": {
-      "type": "object",
-      "description": "Container for an instance value.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:DataPoint"
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this DataPoint node"
-        },
-        "cdi:identifier": {
-          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:correspondsTo": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/DdicdiDataStructureComponent"
-              },
-              {
-                "$ref": "#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
-        "cdi:isDescribedBy": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/CdifInstanceVariable"
-            },
-            {
-              "$ref": "#/$defs/id-reference"
-            }
-          ]
-        }
-      },
-      "required": [
-        "@type"
-      ]
-    },
     "LanguageTaggedValue": {
       "type": "object",
       "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
@@ -7202,7 +7202,7 @@
           "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
         },
         "cdi:regularExpression": {
-          "$ref": "#/$defs/TypedString",
+          "$ref": "#/$defs/DdicdiValueDomain_TypedString",
           "description": "A regular expression where strings matching the expression belong to the set of valid values. Use typeOfContent to specify the syntax of the regularExpression found in content."
         }
       },
@@ -7344,7 +7344,7 @@
           ]
         },
         "cdi:content": {
-          "$ref": "#/$defs/TypedString",
+          "$ref": "#/$defs/DdicdiValueDomain_TypedString",
           "description": "The content of this value expressed as a string."
         },
         "cdi:identifier": {
@@ -7509,7 +7509,7 @@
         "@type"
       ]
     },
-    "TypedString": {
+    "DdicdiValueDomain_TypedString": {
       "type": "object",
       "description": "TypedString combines a type with content defined as a simple string. May be used wherever a simple string needs to support a type definition to clarify its content.",
       "properties": {

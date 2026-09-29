@@ -3984,6 +3984,355 @@
         "@type"
       ]
     },
+    "ConceptualValue": {
+      "type": "object",
+      "description": "Concept (with a notion of equality defined) being observed, captured, or derived which is associated to a single data instance.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ConceptualValue"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ConceptualValue node"
+        },
+        "cdi:hasConceptFrom": {
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Set of concepts, where each concept is intended to be used as the meaning (signified) for a datum.",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:ConceptualDomain"
+                  },
+                  "minItems": 1
+                },
+                "@id": {
+                  "type": "string",
+                  "description": "Identifier for this ConceptualDomain node"
+                },
+                "cdi:displayLabel": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/LabelForDisplay"
+                  },
+                  "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                },
+                "cdi:identifier": {
+                  "$ref": "#/$defs/Identifier",
+                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:takesConceptsFrom": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "description": "Set of concepts structured by the relations among them [GSIM 1.1].",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:ConceptSystem"
+                          },
+                          "minItems": 1
+                        },
+                        "@id": {
+                          "type": "string",
+                          "description": "Identifier for this ConceptSystem node"
+                        },
+                        "cdi:allowsDuplicates": {
+                          "type": "boolean",
+                          "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
+                        },
+                        "cdi:externalDefinition": {
+                          "$ref": "#/$defs/Reference",
+                          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+                        },
+                        "cdi:identifier": {
+                          "$ref": "#/$defs/Identifier",
+                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                        },
+                        "cdi:name": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/$defs/ObjectName"
+                          },
+                          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+                        },
+                        "cdi:purpose": {
+                          "$ref": "#/$defs/InternationalString",
+                          "description": "Intent or reason for the object/the description of the object."
+                        },
+                        "cdi:has": {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/SkosConcept"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          }
+                        },
+                        "cdi:isDefinedBy": {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/SkosConcept"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "$ref": "#/$defs/id-reference"
+                    }
+                  ]
+                },
+                "cdi:isDescribedBy": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "description": "Formal description of a set of values.",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:ValueAndConceptDescription"
+                          },
+                          "minItems": 1
+                        },
+                        "@id": {
+                          "type": "string",
+                          "description": "Identifier for this ValueAndConceptDescription node"
+                        },
+                        "cdi:classificationLevel": {
+                          "type": "string",
+                          "enum": [
+                            "Continuous",
+                            "Interval",
+                            "Nominal",
+                            "Ordinal",
+                            "Ratio"
+                          ],
+                          "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
+                        },
+                        "cdi:description": {
+                          "$ref": "#/$defs/InternationalString",
+                          "description": "A formal description of the set of values in human-readable language."
+                        },
+                        "cdi:formatPattern": {
+                          "$ref": "#/$defs/ControlledVocabularyEntry",
+                          "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
+                        },
+                        "cdi:identifier": {
+                          "$ref": "#/$defs/Identifier",
+                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                        },
+                        "cdi:logicalExpression": {
+                          "$ref": "#/$defs/ControlledVocabularyEntry",
+                          "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x &gt; 0)\" describes the real numbers greater than 0."
+                        },
+                        "cdi:maximumValueExclusive": {
+                          "type": "string",
+                          "description": "A string denoting the maximum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maxExclusive: An atomic property that contains a single number or string that is the maximum valid value (exclusive). The value of this property becomes the maximum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                        },
+                        "cdi:maximumValueInclusive": {
+                          "type": "string",
+                          "description": "A string denoting the maximum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maximum: An atomic property that contains a single number or string that is the maximum valid value (inclusive); equivalent to maxInclusive. The value of this property becomes the maximum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                        },
+                        "cdi:minimumValueExclusive": {
+                          "type": "string",
+                          "description": "A string denoting the minimum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minExclusive: An atomic property that contains a single number or string that is the minimum valid value (exclusive). The value of this property becomes the minimum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                        },
+                        "cdi:minimumValueInclusive": {
+                          "type": "string",
+                          "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                        },
+                        "cdi:regularExpression": {
+                          "$ref": "#/$defs/TypedString",
+                          "description": "A regular expression where strings matching the expression belong to the set of valid values. Use typeOfContent to specify the syntax of the regularExpression found in content."
+                        }
+                      },
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "$ref": "#/$defs/id-reference"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "@type"
+              ]
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:definition": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LabelForDisplay"
+          },
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/SkosConcept"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "DataPoint": {
+      "type": "object",
+      "description": "Container for an instance value.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DataPoint"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this DataPoint node"
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isDescribedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DdicdiInstanceVariable"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:correspondsTo": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DdicdiDataStructureComponent"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "SpecializationRole": {
+      "type": "object",
+      "description": "Specific roles played by represented variables in terms of time, geography, and other concepts which are important for the harmonization and integration of data.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:SpecializationRole"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "TypedString": {
+      "type": "object",
+      "description": "TypedString combines a type with content defined as a simple string. May be used wherever a simple string needs to support a type definition to clarify its content.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:TypedString"
+          },
+          "minItems": 1
+        },
+        "cdi:content": {
+          "type": "string",
+          "description": "Content of the property expressed as a simple string."
+        },
+        "cdi:typeOfContent": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Optional use of a controlled vocabulary to specifically type the associated content."
+        }
+      }
+    },
     "IdentifierComponent": {
       "type": "object",
       "description": "Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.",
@@ -6426,355 +6775,6 @@
           "description": "Extent to which the parent term applies for the specific case. When paired with a CASRAI Contributor Role, typical values are \"lead\", \"equal\", or \"supporting\"."
         }
       }
-    },
-    "SpecializationRole": {
-      "type": "object",
-      "description": "Specific roles played by represented variables in terms of time, geography, and other concepts which are important for the harmonization and integration of data.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:SpecializationRole"
-          },
-          "minItems": 1
-        }
-      }
-    },
-    "DataPoint": {
-      "type": "object",
-      "description": "Container for an instance value.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:DataPoint"
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this DataPoint node"
-        },
-        "cdi:identifier": {
-          "$ref": "#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:isDescribedBy": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/DdicdiInstanceVariable"
-            },
-            {
-              "$ref": "#/$defs/id-reference"
-            }
-          ]
-        },
-        "cdi:correspondsTo": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/DdicdiDataStructureComponent"
-              },
-              {
-                "$ref": "#/$defs/id-reference"
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "@type"
-      ]
-    },
-    "TypedString": {
-      "type": "object",
-      "description": "TypedString combines a type with content defined as a simple string. May be used wherever a simple string needs to support a type definition to clarify its content.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:TypedString"
-          },
-          "minItems": 1
-        },
-        "cdi:content": {
-          "type": "string",
-          "description": "Content of the property expressed as a simple string."
-        },
-        "cdi:typeOfContent": {
-          "$ref": "#/$defs/ControlledVocabularyEntry",
-          "description": "Optional use of a controlled vocabulary to specifically type the associated content."
-        }
-      }
-    },
-    "ConceptualValue": {
-      "type": "object",
-      "description": "Concept (with a notion of equality defined) being observed, captured, or derived which is associated to a single data instance.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:ConceptualValue"
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this ConceptualValue node"
-        },
-        "cdi:hasConceptFrom": {
-          "anyOf": [
-            {
-              "type": "object",
-              "description": "Set of concepts, where each concept is intended to be used as the meaning (signified) for a datum.",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdi:ConceptualDomain"
-                  },
-                  "minItems": 1
-                },
-                "@id": {
-                  "type": "string",
-                  "description": "Identifier for this ConceptualDomain node"
-                },
-                "cdi:displayLabel": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/$defs/LabelForDisplay"
-                  },
-                  "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
-                },
-                "cdi:identifier": {
-                  "$ref": "#/$defs/Identifier",
-                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                },
-                "cdi:takesConceptsFrom": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "description": "Set of concepts structured by the relations among them [GSIM 1.1].",
-                      "properties": {
-                        "@type": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          },
-                          "contains": {
-                            "const": "cdi:ConceptSystem"
-                          },
-                          "minItems": 1
-                        },
-                        "@id": {
-                          "type": "string",
-                          "description": "Identifier for this ConceptSystem node"
-                        },
-                        "cdi:allowsDuplicates": {
-                          "type": "boolean",
-                          "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
-                        },
-                        "cdi:externalDefinition": {
-                          "$ref": "#/$defs/Reference",
-                          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
-                        },
-                        "cdi:identifier": {
-                          "$ref": "#/$defs/Identifier",
-                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                        },
-                        "cdi:name": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/$defs/ObjectName"
-                          },
-                          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
-                        },
-                        "cdi:purpose": {
-                          "$ref": "#/$defs/InternationalString",
-                          "description": "Intent or reason for the object/the description of the object."
-                        },
-                        "cdi:has": {
-                          "type": "array",
-                          "items": {
-                            "anyOf": [
-                              {
-                                "$ref": "#/$defs/SkosConcept"
-                              },
-                              {
-                                "$ref": "#/$defs/id-reference"
-                              }
-                            ]
-                          }
-                        },
-                        "cdi:isDefinedBy": {
-                          "type": "array",
-                          "items": {
-                            "anyOf": [
-                              {
-                                "$ref": "#/$defs/SkosConcept"
-                              },
-                              {
-                                "$ref": "#/$defs/id-reference"
-                              }
-                            ]
-                          }
-                        }
-                      },
-                      "required": [
-                        "@type"
-                      ]
-                    },
-                    {
-                      "$ref": "#/$defs/id-reference"
-                    }
-                  ]
-                },
-                "cdi:isDescribedBy": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "description": "Formal description of a set of values.",
-                      "properties": {
-                        "@type": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          },
-                          "contains": {
-                            "const": "cdi:ValueAndConceptDescription"
-                          },
-                          "minItems": 1
-                        },
-                        "@id": {
-                          "type": "string",
-                          "description": "Identifier for this ValueAndConceptDescription node"
-                        },
-                        "cdi:classificationLevel": {
-                          "type": "string",
-                          "enum": [
-                            "Continuous",
-                            "Interval",
-                            "Nominal",
-                            "Ordinal",
-                            "Ratio"
-                          ],
-                          "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
-                        },
-                        "cdi:description": {
-                          "$ref": "#/$defs/InternationalString",
-                          "description": "A formal description of the set of values in human-readable language."
-                        },
-                        "cdi:formatPattern": {
-                          "$ref": "#/$defs/ControlledVocabularyEntry",
-                          "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
-                        },
-                        "cdi:identifier": {
-                          "$ref": "#/$defs/Identifier",
-                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                        },
-                        "cdi:logicalExpression": {
-                          "$ref": "#/$defs/ControlledVocabularyEntry",
-                          "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x &gt; 0)\" describes the real numbers greater than 0."
-                        },
-                        "cdi:maximumValueExclusive": {
-                          "type": "string",
-                          "description": "A string denoting the maximum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maxExclusive: An atomic property that contains a single number or string that is the maximum valid value (exclusive). The value of this property becomes the maximum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
-                        },
-                        "cdi:maximumValueInclusive": {
-                          "type": "string",
-                          "description": "A string denoting the maximum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maximum: An atomic property that contains a single number or string that is the maximum valid value (inclusive); equivalent to maxInclusive. The value of this property becomes the maximum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
-                        },
-                        "cdi:minimumValueExclusive": {
-                          "type": "string",
-                          "description": "A string denoting the minimum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minExclusive: An atomic property that contains a single number or string that is the minimum valid value (exclusive). The value of this property becomes the minimum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
-                        },
-                        "cdi:minimumValueInclusive": {
-                          "type": "string",
-                          "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
-                        },
-                        "cdi:regularExpression": {
-                          "$ref": "#/$defs/TypedString",
-                          "description": "A regular expression where strings matching the expression belong to the set of valid values. Use typeOfContent to specify the syntax of the regularExpression found in content."
-                        }
-                      },
-                      "required": [
-                        "@type"
-                      ]
-                    },
-                    {
-                      "$ref": "#/$defs/id-reference"
-                    }
-                  ]
-                }
-              },
-              "required": [
-                "@type"
-              ]
-            },
-            {
-              "$ref": "#/$defs/id-reference"
-            }
-          ]
-        },
-        "cdi:definition": {
-          "$ref": "#/$defs/InternationalString",
-          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
-        },
-        "cdi:displayLabel": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/LabelForDisplay"
-          },
-          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
-        },
-        "cdi:externalDefinition": {
-          "$ref": "#/$defs/Reference",
-          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
-        },
-        "cdi:identifier": {
-          "$ref": "#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:name": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ObjectName"
-          },
-          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
-        },
-        "cdi:uses": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/SkosConcept"
-              },
-              {
-                "$ref": "#/$defs/id-reference"
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "@type"
-      ]
     },
     "DdicdiDataStructureComponent_SpecializationRole": {
       "type": "object",

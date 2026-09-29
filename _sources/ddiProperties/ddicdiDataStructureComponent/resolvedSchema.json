@@ -2280,6 +2280,71 @@
         "@type"
       ]
     },
+    "DataStructureComponent": {
+      "type": "object",
+      "description": "Role given to a represented variable in the context of a data structure.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DataStructureComponent"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this DataStructureComponent node"
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DdicdiRepresentedVariable"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:semantic": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PairedControlledVocabularyEntry"
+          },
+          "minItems": 1,
+          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+        },
+        "cdi:specialization": {
+          "$ref": "#/$defs/SpecializationRole",
+          "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "SpecializationRole": {
+      "type": "object",
+      "description": "Specific roles played by represented variables in terms of time, geography, and other concepts which are important for the harmonization and integration of data.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:SpecializationRole"
+          },
+          "minItems": 1
+        }
+      }
+    },
     "ControlledVocabularyEntry": {
       "type": "object",
       "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry). Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary. When the content is from a controlled vocabulary, provide the code value of the entry along with a reference to the vocabulary from which the value is taken.",
@@ -4382,71 +4447,6 @@
           "description": "Extent to which the parent term applies for the specific case. When paired with a CASRAI Contributor Role, typical values are \"lead\", \"equal\", or \"supporting\"."
         }
       }
-    },
-    "SpecializationRole": {
-      "type": "object",
-      "description": "Specific roles played by represented variables in terms of time, geography, and other concepts which are important for the harmonization and integration of data.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:SpecializationRole"
-          },
-          "minItems": 1
-        }
-      }
-    },
-    "DataStructureComponent": {
-      "type": "object",
-      "description": "Role given to a represented variable in the context of a data structure.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:DataStructureComponent"
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this DataStructureComponent node"
-        },
-        "cdi:identifier": {
-          "$ref": "#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:isDefinedBy": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/DdicdiRepresentedVariable"
-            },
-            {
-              "$ref": "#/$defs/id-reference"
-            }
-          ]
-        },
-        "cdi:semantic": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/PairedControlledVocabularyEntry"
-          },
-          "minItems": 1,
-          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-        },
-        "cdi:specialization": {
-          "$ref": "#/$defs/SpecializationRole",
-          "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
-        }
-      },
-      "required": [
-        "@type"
-      ]
     },
     "LanguageString": {
       "type": "object",
