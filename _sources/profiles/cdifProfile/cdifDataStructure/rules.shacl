@@ -27,6 +27,34 @@ cdifd:cdifDataStructure_DataStructureShape
 	] ;
 	.
 
+# cdif:ForeignKey had no shape at all, and its JSON Schema `required`
+# list (@type, cdif:isComposedOf, cdif:references) could not be asserted by a
+# negative example: cdif:has_ForeignKey items are anyOf [ForeignKey,
+# objectReference], so a record missing cdif:references fails BOTH branches and
+# jsonschema reports the union, echoing an instance that no longer contains the
+# word. tools/test_fail_cases.py rates such a case MISDIRECTED, correctly --
+# it asserts nothing. SHACL can target the class directly, so the requirement
+# is stated here where it is checkable.
+#
+# Mirrors the JSON Schema: a foreign key that references nothing is not a
+# foreign key, which is what distinguishes cdif:ForeignKey from cdif:Key.
+cdifd:cdifDataStructure_ForeignKeyShape
+	a sh:NodeShape ;
+	sh:targetClass cdif:ForeignKey ;
+	sh:property [
+		sh:path cdif:references ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdif:ForeignKey must carry cdif:references (an @id-reference to the key it points at); a foreign key that references nothing is not a foreign key." ;
+	] ;
+	sh:property [
+		sh:path cdif:isComposedOf ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdif:ForeignKey must carry at least one cdif:isComposedOf (a cdi:ComponentPosition naming a variable in the key)." ;
+	] ;
+	.
+
 cdifd:cdifDataStructure_DimensionalDataStructureShape
 	a sh:NodeShape ;
 	sh:targetClass cdi:DimensionalDataStructure ;

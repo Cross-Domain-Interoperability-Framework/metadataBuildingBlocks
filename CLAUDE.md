@@ -41,7 +41,14 @@ python tools/validate_shacl.py <profile-name> --strict   # opt-in SHACL, one tar
 python tools/audit_building_blocks.py                    # files, freshness, examples, SHACL coverage
 python tools/audit_building_blocks.py -c type-enum       # @type enum vs the SHACL list restating it
 python tools/test_fail_cases.py --strict                 # negative tests fail for their NAMED reason
+python tools/audit_cdif_vocabulary.py --self-test         # then -o to inventory every cdif: term
 ```
+
+**`cdif:` terms are minted and defined nowhere.** Measured 2026-09-28: `https://w3id.org/cdif/`
+returns 200 only because it redirects to the book, while `https://w3id.org/cdif/Key` returns 404 —
+47 live terms (8 classes, 39 properties), no `model` block, no `ontology.ttl`.
+`audit_cdif_vocabulary.py` produces the annotatable inventory an ontology would be written from,
+and its outputs are gitignored like `ig_audit.*`. Authoring that ontology is **not scheduled work**.
 
 **Implementation-guide consistency — the annotate / implement / re-run loop:**
 
