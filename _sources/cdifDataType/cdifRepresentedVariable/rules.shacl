@@ -27,10 +27,23 @@ cdifd:cdifRepresentedVariable_RepresentedVariableShape
 		sh:message "A cdi:RepresentedVariable should carry at least one cdif:name (ObjectName)." ;
 	] ;
 
+	# Was cdif:isDefinedBy_Concept with no constraint component, which made it
+	# decorative twice over. It named a property this schema declares on
+	# $defs/ConceptSystem and not on RepresentedVariable, so the shape asserted
+	# something about a property its target never carries; and a property shape
+	# with only sh:path, sh:severity and sh:message imposes nothing, so every
+	# value conformed and it could never produce a result. A rule that stops
+	# working looks exactly like a rule that passes.
+	#
+	# cdif:uses_Concept is the property that does what the old message
+	# described -- it is declared on the RepresentedVariable root, and the
+	# guides define it as "specifies the concept(s) that this variable
+	# expresses or aligns with".
 	sh:property [
-		sh:path cdif:isDefinedBy_Concept ;
+		sh:path cdif:uses_Concept ;
+		sh:minCount 1 ;
 		sh:severity sh:Info ;
-		sh:message "cdif:isDefinedBy_Concept may link the RepresentedVariable to the SKOS concept(s) it represents." ;
+		sh:message "A cdi:RepresentedVariable should carry at least one cdif:uses_Concept naming the concept(s) it expresses." ;
 	] ;
 	.
 
