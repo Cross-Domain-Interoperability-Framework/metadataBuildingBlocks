@@ -127,6 +127,7 @@ metadataBuildingBlocks/
 │   ├── regenerate_schema_json.py    # Regenerates *Schema.json files from schema.yaml sources
 │   ├── affected_blocks.py           # Reverse-$ref closure of a change set; narrows the PR drift check (see below)
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
+│   ├── audit_cdif_vocabulary.py     # Inventories every cdif: term for ontology authoring (see below)
 │   ├── audit_building_blocks.py     # Comprehensive BB repo audit (pluggable to any repo)
 │   ├── audit_shacl_coverage.py      # Compares schema.yaml properties vs rules.shacl shapes
 │   ├── audit_cdi_property_types.py  # Audits cdi:* properties in cdifProperties vs canonical DDI-CDI XMI
@@ -844,6 +845,56 @@ This is not hypothetical. `ecrrBuildingBlocks` points every one of its 25 cross-
 - Tracks `source_file` through `process_schema()` so that internal `#/$defs/X` refs within externally-referenced files are resolved against the source file and promoted to global scope (fixes transitive internal ref resolution)
 - Collapses alias `$defs` (e.g. `DefinedTerm_2: {$ref: "#/$defs/DefinedTerm"}`) that arise when multiple building blocks each declare a local `$defs` entry pointing to the same external schema — rewrites all references to point directly to the canonical def and removes the aliases
 - Cycle detection via `processing_stack` set
+
+## audit_cdif_vocabulary.py
+
+Inventories every live `cdif:` term, as the input for authoring a CDIF ontology. Added 2026-09-28.
+
+```bash
+python tools/audit_cdif_vocabulary.py --self-test                    # run FIRST
+python tools/audit_cdif_vocabulary.py -o cdif_ontology_register.json --md cdif_ontology_register.md
+#   a reviewer writes into "definition"; re-running CARRIES THOSE FORWARD
+```
+
+Follows the `audit_ig_consistency.py` pattern: annotations are matched on **term name**, never on
+position, and both outputs are gitignored — the register is a working document, the ontology it
+feeds is what gets committed.
+
+**Why it exists: `cdif:` terms do not resolve.** Measured 2026-09-28 — `https://w3id.org/cdif/`
+returns 200 only because it redirects to the *book* (human HTML, not a namespace document), while
+`https://w3id.org/cdif/Key` and `https://w3id.org/cdif/has_PrimaryKey` return **404**. The register
+holds 92 `itemClass: schema` + 1 `datatype`, no `model` block, no `ontology.ttl`. So the terms are
+minted, bound in every `@context`, published in schemas — and defined nowhere.
+
+**47 live terms: 8 classes, 39 properties.** A grep finds 52; five of those are prose in comments
+and descriptions, and walking the schema is what tells them apart. Every applicator is walked
+(`allOf`/`anyOf`/`oneOf`/`if`/`then`/`else`/`items`/`contains`/`additionalProperties`/`not`/`$defs`) —
+if you add an applicator keyword, check this walker handles it, the same hole that made `contains`
+invisible to `audit_ig_consistency.py` across 76 files.
+
+**Domain is inferred two ways, on purpose.** `domains` is the nearest enclosing `@type`;
+`shacl_domains` is an independent read from `sh:targetClass`. Neither is authoritative, and where
+they disagree the disagreement is the finding.
+
+Findings on the first run, worth knowing before the editorial pass:
+
+- **8 properties have no description anywhere**, so their definitions must be written from scratch.
+- **7 are described differently at different sites**, so those sites must be reconciled before one
+  definition can be written.
+- **Only 8 classes carry 39 properties** — most `cdif:` properties hang off `cdi:` classes, so an
+  ontology cannot be self-contained: its `rdfs:domain` values point into the DDI-CDI namespace.
+- **`cdif:isDefinedBy_Concept` is a dead rule.** `cdifRepresentedVariable`'s schema declares it
+  under `$defs/ConceptSystem` while its SHACL advises it on `cdi:RepresentedVariable`, and that
+  property shape carries `sh:path`, `sh:severity` and `sh:message` with **no constraint component** —
+  so every value conforms and it can never produce a result. The sibling `cdif:name` shape has
+  `sh:minCount 1` and does fire.
+- **`cdifOpenApi/schema.yaml:48` points authors at a retired class**: "encode as a `cdif:Reference`",
+  folded into `labeledLink` and archived 2026-09-23.
+
+Note SKOS is the wrong model here, despite the XAS vocabularies using it: those are *concepts*
+(values), while these are classes and predicates. `cdif:name a skos:Concept` then used as a
+predicate is not valid RDF. RDFS-level (`rdfs:label`, `rdfs:comment`, `rdfs:domain`, `rdfs:range`,
+`rdfs:isDefinedBy`) is enough and is the right shape.
 
 ## affected_blocks.py
 
