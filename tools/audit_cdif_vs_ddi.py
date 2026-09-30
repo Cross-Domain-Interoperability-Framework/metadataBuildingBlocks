@@ -401,7 +401,10 @@ def self_test() -> bool:
     #    an unexplained move means a normalisation above stopped working.
     cdif = collect_props(CDIF_DIRS, "cdi:")
     ddi = collect_props(DDI_DIR, "cdi:")
-    _check(results, "real repo: cdi: properties in CDIF blocks", len(cdif), 74)
+    # 75 since 2026-09-30: DimensionGroup's grouping property was renamed from
+    # cdif:has_DataStructureComponent to cdi:has_DimensionComponent and narrowed
+    # to the DimensionComponent subtype, matching the canonical association.
+    _check(results, "real repo: cdi: properties in CDIF blocks", len(cdif), 75)
     diverging = 0
     for name in sorted(cdif):
         if name not in ddi:
@@ -428,8 +431,11 @@ def self_test() -> bool:
         ds = set().union(*ddi_local[local].values())
         if cs == ds:
             equal += 1
+    # 2 since 2026-09-30: cdif:has_DataStructureComponent was the third, and it
+    # was never a real match -- it compared equal on local name while sitting on
+    # a different domain class. The rename removed it.
     _check(results, "real repo: cdif: properties matching canonical exactly",
-           equal, 3)
+           equal, 2)
 
     passed = sum(1 for ok in results if ok)
     print()
