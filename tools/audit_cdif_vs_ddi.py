@@ -401,10 +401,12 @@ def self_test() -> bool:
     #    an unexplained move means a normalisation above stopped working.
     cdif = collect_props(CDIF_DIRS, "cdi:")
     ddi = collect_props(DDI_DIR, "cdi:")
-    # 75 since 2026-09-30: DimensionGroup's grouping property was renamed from
-    # cdif:has_DataStructureComponent to cdi:has_DimensionComponent and narrowed
-    # to the DimensionComponent subtype, matching the canonical association.
-    _check(results, "real repo: cdi: properties in CDIF blocks", len(cdif), 75)
+    # 68 since 2026-09-30. Two deliberate moves that day: DimensionGroup's
+    # grouping property was renamed from cdif:has_DataStructureComponent to
+    # cdi:has_DimensionComponent and narrowed to the DimensionComponent subtype
+    # (+1), and the seven properties that take a CDIF ConceptOrTermOrString
+    # where canonical takes a ControlledVocabularyEntry moved to cdif: (-7).
+    _check(results, "real repo: cdi: properties in CDIF blocks", len(cdif), 68)
     diverging = 0
     for name in sorted(cdif):
         if name not in ddi:
@@ -413,8 +415,15 @@ def self_test() -> bool:
         ds = set().union(*ddi[name].values())
         if [s for s in cs if s not in ds]:
             diverging += 1
+    # 13 since the seven ControlledVocabularyEntry simplifications moved to
+    # cdif: on 2026-09-30. What remains: four flattenings to a bare string
+    # (formatPattern, logicalExpression, purpose, regularExpression), three
+    # class narrowings (takesSubstantiveValuesFrom, takesSentinelValuesFrom,
+    # refersTo), cdi:identifier using the schema.org block, and the per-class
+    # variations in cdi:indexes, cdi:qualifies, cdi:source, cdi:isStructuredBy
+    # and cdi:has_DataStructureComponent. Tracked in issue #40.
     _check(results, "real repo: cdi: properties whose range diverges",
-           diverging, 20)
+           diverging, 13)
 
     # The reverse direction needs its own anchor: the $defs-alias fix only shows
     # up here, because cdif:externalDefinition is a cdif: property and the count
