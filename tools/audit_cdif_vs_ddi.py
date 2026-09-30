@@ -408,8 +408,12 @@ def self_test() -> bool:
     # canonical takes a ControlledVocabularyEntry moved to cdif: (-7), and
     # cdi:identifier -- a schema:PropertyValue where canonical is the composite
     # cdi:Identifier -- moved too, consolidating with the cdif:identifier that
-    # already existed for the same shape (-1).
-    _check(results, "real repo: cdi: properties in CDIF blocks", len(cdif), 67)
+    # already existed for the same shape (-1), and four more structured
+    # datatypes flattened to a bare string moved too: formatPattern and
+    # logicalExpression (also ControlledVocabularyEntry, so the same decision as
+    # the seven), regularExpression (TypedString) and purpose
+    # (InternationalString) (-4). That emptied the STRUCTURAL category.
+    _check(results, "real repo: cdi: properties in CDIF blocks", len(cdif), 63)
     diverging = 0
     for name in sorted(cdif):
         if name not in ddi:
@@ -426,7 +430,7 @@ def self_test() -> bool:
     # variations in cdi:indexes, cdi:qualifies, cdi:source, cdi:isStructuredBy
     # and cdi:has_DataStructureComponent. Tracked in issue #40.
     _check(results, "real repo: cdi: properties whose range diverges",
-           diverging, 12)
+           diverging, 8)
 
     # The reverse direction needs its own anchor: the $defs-alias fix only shows
     # up here, because cdif:externalDefinition is a cdif: property and the count
