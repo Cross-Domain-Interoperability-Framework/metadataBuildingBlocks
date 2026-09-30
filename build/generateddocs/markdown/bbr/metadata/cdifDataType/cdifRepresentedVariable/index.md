@@ -186,11 +186,11 @@ properties:
       the external one referenced if externalDefinition is used. Other corresponding
       properties are assumed to be included unchanged if used.
     x-jsonld-id: https://w3id.org/cdif/externalDefinition
-  cdi:identifier:
+  cdif:identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     description: Identifier for objects requiring short- or long-lasting referencing
       and management.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+    x-jsonld-id: https://w3id.org/cdif/identifier
   cdif:name:
     type: array
     items:
@@ -247,11 +247,11 @@ $defs:
           to duplicate the external one referenced if externalDefinition is used.
           Other corresponding properties are assumed to be included unchanged if used.
         x-jsonld-id: https://w3id.org/cdif/externalDefinition
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:name:
         type: array
         items:
@@ -277,10 +277,10 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: https://w3id.org/cdif/has_Concept
-      cdi:purpose:
+      cdif:purpose:
         type: string
         description: Intent or reason for the object/the description of the object.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
+        x-jsonld-id: https://w3id.org/cdif/purpose
     required:
     - '@type'
   UnitType:
@@ -326,11 +326,11 @@ $defs:
           to duplicate the external one referenced if externalDefinition is used.
           Other corresponding properties are assumed to be included unchanged if used.
         x-jsonld-id: https://w3id.org/cdif/externalDefinition
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:name:
         type: array
         items:

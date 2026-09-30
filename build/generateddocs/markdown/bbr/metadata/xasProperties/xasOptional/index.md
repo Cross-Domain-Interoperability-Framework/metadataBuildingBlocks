@@ -93,7 +93,7 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
         }
       ],
       "schema:unitText": "eV",
-      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdif:identifier": "should be URI from nexusFormat organization",
       "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
       "cdi:simpleUnitOfMeasure": "eV",
       "cdi:uses": "xas:monochromatorenergy",
@@ -117,7 +117,7 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
         }
       ],
       "schema:unitText": "counts",
-      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdif:identifier": "should be URI from nexusFormat organization",
       "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
       "cdi:uses": "xas:incidentintensity",
       "cdi:name": "i0",
@@ -195,7 +195,7 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
         }
       ],
       "schema:unitText": "eV",
-      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdif:identifier": "should be URI from nexusFormat organization",
       "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
       "cdi:simpleUnitOfMeasure": "eV",
       "cdi:uses": "xas:monochromatorenergy",
@@ -219,7 +219,7 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
         }
       ],
       "schema:unitText": "counts",
-      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdif:identifier": "should be URI from nexusFormat organization",
       "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
       "cdi:uses": "xas:incidentintensity",
       "cdi:name": "i0",
@@ -247,6 +247,7 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xas: <https://w3id.org/cdif/xas/> .
@@ -264,7 +265,6 @@ xas:exampleOptionalFieldsRecord a schema1:Dataset ;
 xas:incidentintensity a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:displayLabel "monitor intensity" ;
-    cdi:identifier "should be URI from nexusFormat organization" ;
     cdi:name "i0" ;
     cdi:physicalDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     cdi:uses "xas:incidentintensity" ;
@@ -272,12 +272,12 @@ xas:incidentintensity a cdi:InstanceVariable,
     schema1:description "missing, definition of what this variable is about (maybe even an iAdopt description)" ;
     schema1:name "i0 monitory intensity" ;
     schema1:propertyID xas:incidentintensity ;
-    schema1:unitText "counts" .
+    schema1:unitText "counts" ;
+    cdif:identifier "should be URI from nexusFormat organization" .
 
 xas:monochromatorenergy a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:displayLabel "monochromator energy" ;
-    cdi:identifier "should be URI from nexusFormat organization" ;
     cdi:name "energy" ;
     cdi:physicalDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     cdi:simpleUnitOfMeasure "eV" ;
@@ -286,7 +286,8 @@ xas:monochromatorenergy a cdi:InstanceVariable,
     schema1:description "missing, definition of what this variable is about (maybe even an iAdopt description" ;
     schema1:name "energy" ;
     schema1:propertyID xas:monochromatorenergy ;
-    schema1:unitText "eV" .
+    schema1:unitText "eV" ;
+    cdif:identifier "should be URI from nexusFormat organization" .
 
 
 ```

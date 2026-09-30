@@ -79,11 +79,11 @@ $defs:
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
         x-jsonld-id: https://w3id.org/cdif/name
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:isDefinedBy_Variable:
         description: The variable this component is a role of -- a RepresentedVariable
           or an InstanceVariable, inline or by @id reference. See the note above $defs.
@@ -117,19 +117,19 @@ $defs:
       '@id':
         type: string
         description: Identifier for this AttributeComponent node
-      cdi:qualifies:
+      cdif:qualifies:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/DataStructureComponent'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies
-      cdi:identifier:
+        x-jsonld-id: https://w3id.org/cdif/qualifies
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:isDefinedBy_Variable:
         description: The variable this component is a role of -- a RepresentedVariable
           or an InstanceVariable, inline or by @id reference. See the note above $defs.
@@ -195,11 +195,11 @@ $defs:
       '@id':
         type: string
         description: Identifier for this VariableValueComponent node
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:isDefinedBy_Variable:
         description: The variable this component is a role of -- a RepresentedVariable
           or an InstanceVariable, inline or by @id reference. See the note above $defs.
@@ -244,11 +244,11 @@ $defs:
       cdi:refersTo:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/refersTo
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:semantic:
         type: array
         items:
@@ -274,11 +274,11 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DataStructureComponent node
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:isDefinedBy_Variable:
         description: The variable this component is a role of -- a RepresentedVariable
           or an InstanceVariable, inline or by @id reference. See the note above $defs.

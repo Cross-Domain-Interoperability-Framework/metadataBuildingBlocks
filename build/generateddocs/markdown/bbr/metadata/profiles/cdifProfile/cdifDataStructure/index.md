@@ -152,7 +152,7 @@ A cdi:LongDataStructure exercising the array-level cardinality constraint:
 exactly one IdentifierComponent (patient id), exactly one
 VariableDescriptorComponent (the column naming which vital sign is in each
 row), exactly one VariableValueComponent (the value column), plus one
-optional AttributeComponent (observation timestamp) that cdi:qualifies the
+optional AttributeComponent (observation timestamp) that cdif:qualifies the
 value column. The cdif:Key is given as a flat ordered array of three
 @id-references to InstanceVariables — array order is position; no
 ComponentPosition wrapper.
@@ -246,7 +246,7 @@ ComponentPosition wrapper.
         "cdi:AttributeComponent"
       ],
       "@id": "ex:struct/vitalsLong/comp/observedAt",
-      "cdi:qualifies": [
+      "cdif:qualifies": [
         {
           "@id": "ex:struct/vitalsLong/comp/measureValue"
         }
@@ -376,7 +376,7 @@ ComponentPosition wrapper.
         "cdi:AttributeComponent"
       ],
       "@id": "ex:struct/vitalsLong/comp/observedAt",
-      "cdi:qualifies": [
+      "cdif:qualifies": [
         {
           "@id": "ex:struct/vitalsLong/comp/measureValue"
         }
@@ -449,8 +449,8 @@ ComponentPosition wrapper.
     cdif:isDefinedBy_DescriptorVariable <https://example.org/struct/vitalsLong/dv/measureName> .
 
 <https://example.org/struct/vitalsLong/comp/observedAt> a cdi:AttributeComponent ;
-    cdi:qualifies <https://example.org/struct/vitalsLong/comp/measureValue> ;
-    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/observedAt> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/observedAt> ;
+    cdif:qualifies <https://example.org/struct/vitalsLong/comp/measureValue> .
 
 <https://example.org/struct/vitalsLong/comp/patientId> a cdi:IdentifierComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/patientId> .
@@ -464,11 +464,11 @@ ComponentPosition wrapper.
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ] .
+            cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ] .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdif:hasIntendedDataType "xsd:decimal" ;
@@ -601,7 +601,7 @@ each cell in the cube.
         "cdi:AttributeComponent"
       ],
       "@id": "ex:struct/salesCube/comp/currency",
-      "cdi:qualifies": [
+      "cdif:qualifies": [
         {
           "@id": "ex:struct/salesCube/comp/salesAmount"
         }
@@ -764,7 +764,7 @@ each cell in the cube.
         "cdi:AttributeComponent"
       ],
       "@id": "ex:struct/salesCube/comp/currency",
-      "cdi:qualifies": [
+      "cdif:qualifies": [
         {
           "@id": "ex:struct/salesCube/comp/salesAmount"
         }
@@ -838,8 +838,8 @@ each cell in the cube.
     cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/country> .
 
 <https://example.org/struct/salesCube/comp/currency> a cdi:AttributeComponent ;
-    cdi:qualifies <https://example.org/struct/salesCube/comp/salesAmount> ;
-    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/currency> .
+    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/currency> ;
+    cdif:qualifies <https://example.org/struct/salesCube/comp/salesAmount> .
 
 <https://example.org/struct/salesCube/comp/productCategory> a cdi:DimensionComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/productCategory> .
@@ -849,14 +849,14 @@ each cell in the cube.
 
 <https://example.org/struct/salesCube/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/country> ;
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/productCategory> ;
             cdi:value 3 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/quarter> ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/country> ;
-            cdi:value 1 ] .
+            cdi:value 2 ] .
 
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
     cdif:hasIntendedDataType "xsd:string" ;
@@ -1765,11 +1765,11 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DimensionGroup node
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:name:
         type: array
         items:
