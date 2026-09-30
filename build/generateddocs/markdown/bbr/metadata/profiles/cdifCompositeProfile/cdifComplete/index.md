@@ -2471,10 +2471,11 @@ quality measurements.
     csvw:header true ;
     csvw:headerRowCount 1 ;
     cdif:hasPhysicalMapping [ cdi:isRequired true ;
-            cdif:format "string" ;
-            cdif:formats_InstanceVariable ex:var-sampleID ;
-            cdif:index 0 ;
-            cdif:physicalDataType "string" ],
+            cdi:nullSequence "NA" ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable ex:var-concentration ;
+            cdif:index 1 ;
+            cdif:physicalDataType "float64" ],
         [ cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
@@ -2482,11 +2483,10 @@ quality measurements.
             cdif:index 2 ;
             cdif:physicalDataType "float64" ],
         [ cdi:isRequired true ;
-            cdi:nullSequence "NA" ;
-            cdif:format "decimal" ;
-            cdif:formats_InstanceVariable ex:var-concentration ;
-            cdif:index 1 ;
-            cdif:physicalDataType "float64" ] .
+            cdif:format "string" ;
+            cdif:formats_InstanceVariable ex:var-sampleID ;
+            cdif:index 0 ;
+            cdif:physicalDataType "string" ] .
 
 <file:///github/workspace/#part-metadata-yaml> a schema1:MediaObject ;
     schema1:about <file:///github/workspace/#part-results-csv> ;
@@ -2576,11 +2576,11 @@ ex:activity-geochem-analysis a schema1:Action,
                             schema1:name "Inductively coupled plasma mass spectrometer" ;
                             schema1:termCode "LAB21" ] ;
                     schema1:hasPart [ a schema1:Thing ;
-                            schema1:alternateName "Peltier-cooled cyclonic" ;
-                            schema1:name "Spray chamber" ],
-                        [ a schema1:Thing ;
                             schema1:alternateName "CETAC ASX-560" ;
-                            schema1:name "Autosampler" ] ;
+                            schema1:name "Autosampler" ],
+                        [ a schema1:Thing ;
+                            schema1:alternateName "Peltier-cooled cyclonic" ;
+                            schema1:name "Spray chamber" ] ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
@@ -2589,10 +2589,10 @@ ex:activity-geochem-analysis a schema1:Action,
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 
 ex:geochem-detailed-structure a cdi:WideDataStructure ;
-    cdi:has_DataStructureComponent [ a cdi:IdentifierComponent ;
-            cdif:isDefinedBy_Variable ex:var-sampleID ],
-        [ a cdi:AttributeComponent ;
+    cdi:has_DataStructureComponent [ a cdi:AttributeComponent ;
             cdif:isDefinedBy_Variable ex:var-uncertainty ],
+        [ a cdi:IdentifierComponent ;
+            cdif:isDefinedBy_Variable ex:var-sampleID ],
         [ a cdi:MeasureComponent ;
             cdif:isDefinedBy_Variable ex:var-concentration ] .
 
@@ -2647,7 +2647,22 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:dateModified "2026-02-15" ;
     schema1:datePublished "2026-02-01" ;
     schema1:description "Comprehensive geochemistry dataset demonstrating the CDIF complete profile with single-file downloads, archive distribution with component files, and WebAPI access. Includes tabular CSV results, NetCDF data cubes, and an OGC API Features endpoint." ;
-    schema1:distribution [ a schema1:WebAPI ;
+    schema1:distribution [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
+            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
+            schema1:encodingFormat "application/zip" ;
+            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
+                <file:///github/workspace/#part-metadata-yaml>,
+                <file:///github/workspace/#part-method-pdf>,
+                <file:///github/workspace/#part-results-csv>,
+                <file:///github/workspace/#part-spectra-nc> ;
+            schema1:name "Complete data package" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
+        [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
                     schema1:name "OpenAPI specification for geochemistry data service" ;
@@ -2657,6 +2672,10 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:object [ a schema1:DataFeed ;
                             schema1:description "Geochemistry observations collection" ] ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of features to return" ;
+                            schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
@@ -2664,10 +2683,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination" ;
                             schema1:valueName "offset" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of features to return" ;
-                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:isDelimited true ;
@@ -2678,15 +2693,15 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             csvw:delimiter "," ;
                             csvw:header true ;
                             csvw:headerRowCount 1 ;
-                            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                                    cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable ex:var-concentration ;
-                                    cdif:index 0 ;
-                                    cdif:physicalDataType "float64" ],
-                                [ cdi:isRequired false ;
+                            cdif:hasPhysicalMapping [ cdi:isRequired false ;
                                     cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable ex:var-uncertainty ;
                                     cdif:index 1 ;
+                                    cdif:physicalDataType "float64" ],
+                                [ cdi:isRequired true ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:var-concentration ;
+                                    cdif:index 0 ;
                                     cdif:physicalDataType "float64" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "application/geo+json",
@@ -2724,15 +2739,15 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     spdx:algorithm "SHA256" ;
                     spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:locator "/spectra/wavelength" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-wavelength ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
                     cdi:locator "/spectra/intensity" ;
                     cdi:scale 1000 ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-intensity ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
-                    cdi:locator "/spectra/wavelength" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-wavelength ;
                     cdif:physicalDataType "float32" ] ],
         [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
@@ -2765,6 +2780,14 @@ ex:complete-dataset-001 a schema1:Dataset ;
             csvw:textDirection "Auto" ;
             csvw:trim "true" ;
             cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
+                    cdi:isRequired false ;
+                    cdi:length 12 ;
+                    cdi:nullSequence "-9999" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-uncertainty ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 4 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
@@ -2778,30 +2801,7 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-sampleID ;
                     cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
-                [ cdi:decimalPositions 4 ;
-                    cdi:isRequired false ;
-                    cdi:length 12 ;
-                    cdi:nullSequence "-9999" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-uncertainty ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "float64" ] ],
-        [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
-            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
-            schema1:encodingFormat "application/zip" ;
-            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
-                <file:///github/workspace/#part-metadata-yaml>,
-                <file:///github/workspace/#part-method-pdf>,
-                <file:///github/workspace/#part-results-csv>,
-                <file:///github/workspace/#part-spectra-nc> ;
-            schema1:name "Complete data package" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ] ;
+                    cdif:physicalDataType "string" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/021nxhr62> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -2817,19 +2817,19 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://vocabularyserver.com/keyword> ;
-                    schema1:url "https://vocabularyserver.com/keyword/spectral-001" ;
-                    schema1:value "spectral-001" ] ;
-            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
-            schema1:name "spectral analysis" ;
-            schema1:termCode "SPECTRAL" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID <https://vocabularyserver.com/keyword> ;
                     schema1:url "https://vocabularyserver.com/keyword/geochem-001" ;
                     schema1:value "geochem-001" ] ;
             schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
             schema1:name "geochemistry" ;
-            schema1:termCode "GEOCHEM" ] ;
+            schema1:termCode "GEOCHEM" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID <https://vocabularyserver.com/keyword> ;
+                    schema1:url "https://vocabularyserver.com/keyword/spectral-001" ;
+                    schema1:value "spectral-001" ] ;
+            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
+            schema1:name "spectral analysis" ;
+            schema1:termCode "SPECTRAL" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -2889,17 +2889,17 @@ ex:complete-dataset-001 a schema1:Dataset ;
         ex:var-wavelength ;
     schema1:version "1.0" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
-                    schema1:inDefinedTermSet "https://www.w3.org/TR/vocab-dqv/" ;
-                    schema1:name "Completeness" ;
-                    schema1:termCode "completeness" ] ;
-            dqv:value "98.5% of planned sample sites successfully analyzed" ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf "Analytical precision (2-sigma RSD on NIST SRM 2711a replicates)" ;
             dqv:value [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://example.org/quality-levels/" ;
                     schema1:name "High-" ;
-                    schema1:termCode "HIGH" ] ] ;
+                    schema1:termCode "HIGH" ] ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
+                    schema1:inDefinedTermSet "https://www.w3.org/TR/vocab-dqv/" ;
+                    schema1:name "Completeness" ;
+                    schema1:termCode "completeness" ] ;
+            dqv:value "98.5% of planned sample sites successfully analyzed" ] ;
     prov:wasDerivedFrom [ a schema1:CreativeWork,
                 dcat:Relationship ;
             schema1:description "Prior regional geochemical survey used for site selection and comparative analysis" ;
