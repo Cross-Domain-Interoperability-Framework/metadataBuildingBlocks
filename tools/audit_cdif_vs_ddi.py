@@ -404,9 +404,12 @@ def self_test() -> bool:
     # 68 since 2026-09-30. Two deliberate moves that day: DimensionGroup's
     # grouping property was renamed from cdif:has_DataStructureComponent to
     # cdi:has_DimensionComponent and narrowed to the DimensionComponent subtype
-    # (+1), and the seven properties that take a CDIF ConceptOrTermOrString
-    # where canonical takes a ControlledVocabularyEntry moved to cdif: (-7).
-    _check(results, "real repo: cdi: properties in CDIF blocks", len(cdif), 68)
+    # (+1), the seven properties taking a CDIF ConceptOrTermOrString where
+    # canonical takes a ControlledVocabularyEntry moved to cdif: (-7), and
+    # cdi:identifier -- a schema:PropertyValue where canonical is the composite
+    # cdi:Identifier -- moved too, consolidating with the cdif:identifier that
+    # already existed for the same shape (-1).
+    _check(results, "real repo: cdi: properties in CDIF blocks", len(cdif), 67)
     diverging = 0
     for name in sorted(cdif):
         if name not in ddi:
@@ -423,7 +426,7 @@ def self_test() -> bool:
     # variations in cdi:indexes, cdi:qualifies, cdi:source, cdi:isStructuredBy
     # and cdi:has_DataStructureComponent. Tracked in issue #40.
     _check(results, "real repo: cdi: properties whose range diverges",
-           diverging, 13)
+           diverging, 12)
 
     # The reverse direction needs its own anchor: the $defs-alias fix only shows
     # up here, because cdif:externalDefinition is a cdif: property and the count
