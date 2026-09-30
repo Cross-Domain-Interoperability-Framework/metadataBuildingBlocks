@@ -41,7 +41,7 @@ Dimensional / Long / Wide shapes.
         "cdif:name": [
           "observation_id"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -57,7 +57,7 @@ Dimensional / Long / Wide shapes.
         "cdif:name": [
           "observation_value"
         ],
-        "cdi:hasIntendedDataType": "xsd:decimal"
+        "cdif:hasIntendedDataType": "xsd:decimal"
       }
     }
   ]
@@ -97,7 +97,7 @@ Dimensional / Long / Wide shapes.
         "cdif:name": [
           "observation_id"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -113,7 +113,7 @@ Dimensional / Long / Wide shapes.
         "cdif:name": [
           "observation_value"
         ],
-        "cdi:hasIntendedDataType": "xsd:decimal"
+        "cdif:hasIntendedDataType": "xsd:decimal"
       }
     }
   ]
@@ -136,11 +136,11 @@ Dimensional / Long / Wide shapes.
     cdif:isDefinedBy_Variable <https://example.org/struct/observations/rv/observationValue> .
 
 <https://example.org/struct/observations/rv/observationId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "observation_id" .
 
 <https://example.org/struct/observations/rv/observationValue> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "observation_value" .
 
 
@@ -184,7 +184,7 @@ ComponentPosition wrapper.
         "cdif:name": [
           "patient_id"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -238,7 +238,7 @@ ComponentPosition wrapper.
         "cdif:name": [
           "measure_value"
         ],
-        "cdi:hasIntendedDataType": "xsd:decimal"
+        "cdif:hasIntendedDataType": "xsd:decimal"
       }
     },
     {
@@ -259,7 +259,7 @@ ComponentPosition wrapper.
         "cdif:name": [
           "observed_at"
         ],
-        "cdi:hasIntendedDataType": "xsd:dateTime"
+        "cdif:hasIntendedDataType": "xsd:dateTime"
       }
     }
   ],
@@ -314,7 +314,7 @@ ComponentPosition wrapper.
         "cdif:name": [
           "patient_id"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -368,7 +368,7 @@ ComponentPosition wrapper.
         "cdif:name": [
           "measure_value"
         ],
-        "cdi:hasIntendedDataType": "xsd:decimal"
+        "cdif:hasIntendedDataType": "xsd:decimal"
       }
     },
     {
@@ -389,7 +389,7 @@ ComponentPosition wrapper.
         "cdif:name": [
           "observed_at"
         ],
-        "cdi:hasIntendedDataType": "xsd:dateTime"
+        "cdif:hasIntendedDataType": "xsd:dateTime"
       }
     }
   ],
@@ -464,22 +464,22 @@ ComponentPosition wrapper.
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ] .
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/observedAt> ;
+            cdi:value 3 ] .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "measure_value" .
 
 <https://example.org/struct/vitalsLong/rv/observedAt> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:dateTime" ;
+    cdif:hasIntendedDataType "xsd:dateTime" ;
     cdif:name "observed_at" .
 
 <https://example.org/struct/vitalsLong/rv/patientId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
@@ -531,7 +531,7 @@ each cell in the cube.
         "cdif:name": [
           "country"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -547,7 +547,7 @@ each cell in the cube.
         "cdif:name": [
           "quarter"
         ],
-        "cdi:hasIntendedDataType": "xsd:gYearMonth"
+        "cdif:hasIntendedDataType": "xsd:gYearMonth"
       }
     },
     {
@@ -563,7 +563,7 @@ each cell in the cube.
         "cdif:name": [
           "product_category"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -580,9 +580,9 @@ each cell in the cube.
           "sales_amount"
         ],
         "cdi:simpleUnitOfMeasure": "USD",
-        "cdi:hasIntendedDataType": "xsd:decimal"
+        "cdif:hasIntendedDataType": "xsd:decimal"
       },
-      "cdi:semantic": [
+      "cdif:semantic": [
         {
           "@type": [
             "skos:Concept"
@@ -614,7 +614,7 @@ each cell in the cube.
         "cdif:name": [
           "currency"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     }
   ],
@@ -694,7 +694,7 @@ each cell in the cube.
         "cdif:name": [
           "country"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -710,7 +710,7 @@ each cell in the cube.
         "cdif:name": [
           "quarter"
         ],
-        "cdi:hasIntendedDataType": "xsd:gYearMonth"
+        "cdif:hasIntendedDataType": "xsd:gYearMonth"
       }
     },
     {
@@ -726,7 +726,7 @@ each cell in the cube.
         "cdif:name": [
           "product_category"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -743,9 +743,9 @@ each cell in the cube.
           "sales_amount"
         ],
         "cdi:simpleUnitOfMeasure": "USD",
-        "cdi:hasIntendedDataType": "xsd:decimal"
+        "cdif:hasIntendedDataType": "xsd:decimal"
       },
-      "cdi:semantic": [
+      "cdif:semantic": [
         {
           "@type": [
             "skos:Concept"
@@ -777,7 +777,7 @@ each cell in the cube.
         "cdif:name": [
           "currency"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     }
   ],
@@ -849,43 +849,43 @@ each cell in the cube.
 
 <https://example.org/struct/salesCube/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/quarter> ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/productCategory> ;
             cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/quarter> ;
+            cdi:value 2 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/country> ;
             cdi:value 1 ] .
 
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "country" .
 
 <https://example.org/struct/salesCube/rv/currency> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "currency" .
 
 <https://example.org/struct/salesCube/rv/productCategory> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "product_category" .
 
 <https://example.org/struct/salesCube/rv/quarter> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:gYearMonth" ;
+    cdif:hasIntendedDataType "xsd:gYearMonth" ;
     cdif:name "quarter" .
 
 <https://example.org/struct/salesCube/rv/salesAmount> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "USD" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "sales_amount" .
 
 <https://example.org/struct/salesCube/comp/salesAmount> a cdi:MeasureComponent ;
-    cdi:semantic [ a skos:Concept ;
+    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/salesAmount> ;
+    cdif:semantic [ a skos:Concept ;
             skos:definition "Total monetary value of sales." ;
             skos:inScheme <https://example.org/vocab/measure> ;
             skos:notation "monetary-total" ;
-            skos:prefLabel "Monetary Total" ] ;
-    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/salesAmount> .
+            skos:prefLabel "Monetary Total" ] .
 
 
 ```
@@ -926,7 +926,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdif:name": [
           "patient_id"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -943,7 +943,7 @@ array — wide-format rows are uniquely identified by patientId alone.
           "systolic_bp"
         ],
         "cdi:simpleUnitOfMeasure": "mmHg",
-        "cdi:hasIntendedDataType": "xsd:integer"
+        "cdif:hasIntendedDataType": "xsd:integer"
       }
     },
     {
@@ -960,7 +960,7 @@ array — wide-format rows are uniquely identified by patientId alone.
           "diastolic_bp"
         ],
         "cdi:simpleUnitOfMeasure": "mmHg",
-        "cdi:hasIntendedDataType": "xsd:integer"
+        "cdif:hasIntendedDataType": "xsd:integer"
       }
     },
     {
@@ -977,7 +977,7 @@ array — wide-format rows are uniquely identified by patientId alone.
           "heart_rate"
         ],
         "cdi:simpleUnitOfMeasure": "bpm",
-        "cdi:hasIntendedDataType": "xsd:integer"
+        "cdif:hasIntendedDataType": "xsd:integer"
       }
     },
     {
@@ -993,7 +993,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdif:name": [
           "observed_at"
         ],
-        "cdi:hasIntendedDataType": "xsd:dateTime"
+        "cdif:hasIntendedDataType": "xsd:dateTime"
       }
     }
   ],
@@ -1054,7 +1054,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdif:name": [
           "patient_id"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -1071,7 +1071,7 @@ array — wide-format rows are uniquely identified by patientId alone.
           "systolic_bp"
         ],
         "cdi:simpleUnitOfMeasure": "mmHg",
-        "cdi:hasIntendedDataType": "xsd:integer"
+        "cdif:hasIntendedDataType": "xsd:integer"
       }
     },
     {
@@ -1088,7 +1088,7 @@ array — wide-format rows are uniquely identified by patientId alone.
           "diastolic_bp"
         ],
         "cdi:simpleUnitOfMeasure": "mmHg",
-        "cdi:hasIntendedDataType": "xsd:integer"
+        "cdif:hasIntendedDataType": "xsd:integer"
       }
     },
     {
@@ -1105,7 +1105,7 @@ array — wide-format rows are uniquely identified by patientId alone.
           "heart_rate"
         ],
         "cdi:simpleUnitOfMeasure": "bpm",
-        "cdi:hasIntendedDataType": "xsd:integer"
+        "cdif:hasIntendedDataType": "xsd:integer"
       }
     },
     {
@@ -1121,7 +1121,7 @@ array — wide-format rows are uniquely identified by patientId alone.
         "cdif:name": [
           "observed_at"
         ],
-        "cdi:hasIntendedDataType": "xsd:dateTime"
+        "cdif:hasIntendedDataType": "xsd:dateTime"
       }
     }
   ],
@@ -1180,26 +1180,26 @@ array — wide-format rows are uniquely identified by patientId alone.
             cdi:value 1 ] .
 
 <https://example.org/struct/vitalsWide/rv/diastolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:integer" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:hasIntendedDataType "xsd:integer" ;
     cdif:name "diastolic_bp" .
 
 <https://example.org/struct/vitalsWide/rv/heartRate> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:integer" ;
     cdi:simpleUnitOfMeasure "bpm" ;
+    cdif:hasIntendedDataType "xsd:integer" ;
     cdif:name "heart_rate" .
 
 <https://example.org/struct/vitalsWide/rv/observedAt> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:dateTime" ;
+    cdif:hasIntendedDataType "xsd:dateTime" ;
     cdif:name "observed_at" .
 
 <https://example.org/struct/vitalsWide/rv/patientId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsWide/rv/systolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:integer" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:hasIntendedDataType "xsd:integer" ;
     cdif:name "systolic_bp" .
 
 
@@ -1242,7 +1242,7 @@ constraint had never been shown to accept a valid case.
         "cdif:name": [
           "site_id"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -1258,7 +1258,7 @@ constraint had never been shown to accept a valid case.
         "cdif:name": [
           "temperature_c"
         ],
-        "cdi:hasIntendedDataType": "xsd:decimal"
+        "cdif:hasIntendedDataType": "xsd:decimal"
       }
     }
   ],
@@ -1322,7 +1322,7 @@ constraint had never been shown to accept a valid case.
         "cdif:name": [
           "site_id"
         ],
-        "cdi:hasIntendedDataType": "xsd:string"
+        "cdif:hasIntendedDataType": "xsd:string"
       }
     },
     {
@@ -1338,7 +1338,7 @@ constraint had never been shown to accept a valid case.
         "cdif:name": [
           "temperature_c"
         ],
-        "cdi:hasIntendedDataType": "xsd:decimal"
+        "cdif:hasIntendedDataType": "xsd:decimal"
       }
     }
   ],
@@ -1394,11 +1394,11 @@ constraint had never been shown to accept a valid case.
     cdi:value 1 .
 
 <https://example.org/struct/measurements/rv/temperature> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "temperature_c" .
 
 <https://example.org/struct/measurements/rv/siteId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "site_id" .
 
 
@@ -1779,14 +1779,31 @@ $defs:
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
         x-jsonld-id: https://w3id.org/cdif/name
-      cdif:has_DataStructureComponent:
+      cdi:has_DimensionComponent:
+        description: 'The dimension components this group groups. Named and typed
+          to match the canonical association DimensionGroup_has_DimensionComponent,
+          whose target is cdi:DimensionComponent and not the cdi:DataStructureComponent
+          supertype.
+
+          Was ''cdif:has_DataStructureComponent'' accepting any component, which was
+          wrong twice over: it widened the range to the supertype, and it reused a
+          local name that the four DataStructure classes in this same file spell ''cdi:has_DataStructureComponent''
+          for a different canonical association (DataStructure_has_DataStructureComponent).
+          One local name under two prefixes for two associations. No record used the
+          cdif: spelling -- 0 examples, against 12 for the cdi: one -- so nothing
+          had to be migrated.
+
+          cdi:, not cdif:, because with the item narrowed the value range agrees with
+          the canonical model. Note ddiProperties does not transcribe DimensionGroup,
+          so audit_cdif_vs_ddi.py reports this as CDIF-ONLY: the canonical XMI carries
+          the association, the ddi building block is what is missing.'
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/DimensionComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
-        x-jsonld-id: https://w3id.org/cdif/has_DataStructureComponent
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DimensionComponent
     required:
     - '@type'
   ForeignKey:

@@ -26,41 +26,41 @@
 
 <https://example.org/struct/salesCube/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/quarter> ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/productCategory> ;
             cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/quarter> ;
+            cdi:value 2 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/country> ;
             cdi:value 1 ] .
 
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "country" .
 
 <https://example.org/struct/salesCube/rv/currency> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "currency" .
 
 <https://example.org/struct/salesCube/rv/productCategory> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "product_category" .
 
 <https://example.org/struct/salesCube/rv/quarter> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:gYearMonth" ;
+    cdif:hasIntendedDataType "xsd:gYearMonth" ;
     cdif:name "quarter" .
 
 <https://example.org/struct/salesCube/rv/salesAmount> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "USD" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "sales_amount" .
 
 <https://example.org/struct/salesCube/comp/salesAmount> a cdi:MeasureComponent ;
-    cdi:semantic [ a skos:Concept ;
+    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/salesAmount> ;
+    cdif:semantic [ a skos:Concept ;
             skos:definition "Total monetary value of sales." ;
             skos:inScheme <https://example.org/vocab/measure> ;
             skos:notation "monetary-total" ;
-            skos:prefLabel "Monetary Total" ] ;
-    cdif:isDefinedBy_Variable <https://example.org/struct/salesCube/rv/salesAmount> .
+            skos:prefLabel "Monetary Total" ] .
 

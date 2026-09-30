@@ -110,18 +110,18 @@ properties:
   '@id':
     type: string
     description: Identifier for this RepresentedVariable node
-  cdi:describedUnitOfMeasure:
+  cdif:describedUnitOfMeasure:
     $ref: '#/$defs/cdifConceptOrTermOrString'
     description: The unit in which the data values are measured (kg, pound, euro),
       expressed as a value from a controlled system of entries (i.e., QDT). Supports
       the provision of an identifier for the entry in the authoritative source (a
       URI, etc.), and the specific vocabulary.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
-  cdi:hasIntendedDataType:
+    x-jsonld-id: https://w3id.org/cdif/describedUnitOfMeasure
+  cdif:hasIntendedDataType:
     $ref: '#/$defs/cdifConceptOrTermOrString'
     description: The data type intended to be used by this variable. Supports the
       optional use of an external controlled vocabulary.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType
+    x-jsonld-id: https://w3id.org/cdif/hasIntendedDataType
   cdi:takesSentinelValuesFrom:
     type: array
     items:
@@ -155,14 +155,14 @@ properties:
     - $ref: '#/$defs/UnitType'
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures
-  cdi:unitOfMeasureKind:
+  cdif:unitOfMeasureKind:
     $ref: '#/$defs/cdifConceptOrTermOrString'
     description: Kind of unit of measure, so that it may be prone to translation to
       equivalent UOMs. Example values include "acceleration," "temperature," "salinity",
       etc. This description exists at the conceptual level, indicating a limitation
       on the type of representations which may be used for the variable as it is made
       more concrete.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind
+    x-jsonld-id: https://w3id.org/cdif/unitOfMeasureKind
   cdif:definition:
     type: string
     description: Natural language statement conveying the meaning of a concept, differentiating

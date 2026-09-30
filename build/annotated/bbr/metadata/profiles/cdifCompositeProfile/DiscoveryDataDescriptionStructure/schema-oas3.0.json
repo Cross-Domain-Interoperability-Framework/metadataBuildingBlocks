@@ -1670,12 +1670,13 @@
               "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.",
               "x-jsonld-id": "https://w3id.org/cdif/name"
             },
-            "cdif:has_DataStructureComponent": {
+            "cdi:has_DimensionComponent": {
+              "description": "The dimension components this group groups. Named and typed to match the canonical association DimensionGroup_has_DimensionComponent, whose target is cdi:DimensionComponent and not the cdi:DataStructureComponent supertype.\nWas 'cdif:has_DataStructureComponent' accepting any component, which was wrong twice over: it widened the range to the supertype, and it reused a local name that the four DataStructure classes in this same file spell 'cdi:has_DataStructureComponent' for a different canonical association (DataStructure_has_DataStructureComponent). One local name under two prefixes for two associations. No record used the cdif: spelling -- 0 examples, against 12 for the cdi: one -- so nothing had to be migrated.\ncdi:, not cdif:, because with the item narrowed the value range agrees with the canonical model. Note ddiProperties does not transcribe DimensionGroup, so audit_cdif_vs_ddi.py reports this as CDIF-ONLY: the canonical XMI carries the association, the ddi building block is what is missing.",
               "type": "array",
               "items": {
                 "anyOf": [
                   {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent"
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/DimensionComponent"
                   },
                   {
                     "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
@@ -1683,7 +1684,7 @@
                 ]
               },
               "minItems": 1,
-              "x-jsonld-id": "https://w3id.org/cdif/has_DataStructureComponent"
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DimensionComponent"
             }
           },
           "required": [
@@ -3906,9 +3907,9 @@
               },
               "minItems": 1
             },
-            "cdi:typeOfStatistic": {
+            "cdif:typeOfStatistic": {
               "description": "Controlled-vocabulary entry naming the kind of statistic \u2014 e.g. mean, median, count, sum, stdDev.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
+              "x-jsonld-id": "https://w3id.org/cdif/typeOfStatistic",
               "allOf": [
                 {
                   "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTermOrString"
@@ -4026,9 +4027,9 @@
               ],
               "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for"
             },
-            "cdi:typeOfStatistic": {
+            "cdif:typeOfStatistic": {
               "description": "Controlled-vocabulary entry naming the kind of statistic.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
+              "x-jsonld-id": "https://w3id.org/cdif/typeOfStatistic",
               "allOf": [
                 {
                   "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTermOrString"
@@ -4311,17 +4312,17 @@
             }
           ]
         },
-        "cdi:function": {
+        "cdif:function": {
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString"
           },
           "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function).",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function"
+          "x-jsonld-id": "https://w3id.org/cdif/function"
         },
-        "cdi:platformType": {
+        "cdif:platformType": {
           "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType).",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType",
+          "x-jsonld-id": "https://w3id.org/cdif/platformType",
           "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString"
@@ -4370,9 +4371,9 @@
           ],
           "x-jsonld-id": "https://w3id.org/cdif/isDescribedBy_StatisticsCollection"
         },
-        "cdi:describedUnitOfMeasure": {
+        "cdif:describedUnitOfMeasure": {
           "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure",
+          "x-jsonld-id": "https://w3id.org/cdif/describedUnitOfMeasure",
           "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm"
@@ -4419,17 +4420,17 @@
                 "not": true,
                 "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelValuesFrom"
               },
-              "cdi:hasIntendedDataType": {
+              "cdif:hasIntendedDataType": {
                 "not": true,
-                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType"
+                "x-jsonld-id": "https://w3id.org/cdif/hasIntendedDataType"
               },
-              "cdi:describedUnitOfMeasure": {
+              "cdif:describedUnitOfMeasure": {
                 "not": true,
-                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure"
+                "x-jsonld-id": "https://w3id.org/cdif/describedUnitOfMeasure"
               },
-              "cdi:unitOfMeasureKind": {
+              "cdif:unitOfMeasureKind": {
                 "not": true,
-                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind"
+                "x-jsonld-id": "https://w3id.org/cdif/unitOfMeasureKind"
               },
               "cdi:measures": {
                 "not": true,
@@ -5388,14 +5389,14 @@
               ],
               "x-jsonld-id": "https://w3id.org/cdif/isDefinedBy_Variable"
             },
-            "cdi:semantic": {
+            "cdif:semantic": {
               "type": "array",
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTermOrString"
               },
               "minItems": 1,
               "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic"
+              "x-jsonld-id": "https://w3id.org/cdif/semantic"
             }
           },
           "required": [
@@ -5461,14 +5462,14 @@
               ],
               "x-jsonld-id": "https://w3id.org/cdif/isDefinedBy_Variable"
             },
-            "cdi:semantic": {
+            "cdif:semantic": {
               "type": "array",
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTermOrString"
               },
               "minItems": 1,
               "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic"
+              "x-jsonld-id": "https://w3id.org/cdif/semantic"
             }
           },
           "required": [
@@ -5560,14 +5561,14 @@
               ],
               "x-jsonld-id": "https://w3id.org/cdif/isDefinedBy_Variable"
             },
-            "cdi:semantic": {
+            "cdif:semantic": {
               "type": "array",
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTermOrString"
               },
               "minItems": 1,
               "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic"
+              "x-jsonld-id": "https://w3id.org/cdif/semantic"
             }
           },
           "required": [
@@ -5620,14 +5621,14 @@
                 }
               ]
             },
-            "cdi:semantic": {
+            "cdif:semantic": {
               "type": "array",
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTermOrString"
               },
               "minItems": 1,
               "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic"
+              "x-jsonld-id": "https://w3id.org/cdif/semantic"
             }
           },
           "required": [
@@ -5679,14 +5680,14 @@
               ],
               "x-jsonld-id": "https://w3id.org/cdif/isDefinedBy_Variable"
             },
-            "cdi:semantic": {
+            "cdif:semantic": {
               "type": "array",
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTermOrString"
               },
               "minItems": 1,
               "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic"
+              "x-jsonld-id": "https://w3id.org/cdif/semantic"
             }
           },
           "required": [
@@ -6460,18 +6461,18 @@
           "type": "string",
           "description": "Identifier for this RepresentedVariable node"
         },
-        "cdi:describedUnitOfMeasure": {
+        "cdif:describedUnitOfMeasure": {
           "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure",
+          "x-jsonld-id": "https://w3id.org/cdif/describedUnitOfMeasure",
           "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTermOrString"
             }
           ]
         },
-        "cdi:hasIntendedDataType": {
+        "cdif:hasIntendedDataType": {
           "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType",
+          "x-jsonld-id": "https://w3id.org/cdif/hasIntendedDataType",
           "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTermOrString"
@@ -6527,9 +6528,9 @@
           ],
           "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures"
         },
-        "cdi:unitOfMeasureKind": {
+        "cdif:unitOfMeasureKind": {
           "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind",
+          "x-jsonld-id": "https://w3id.org/cdif/unitOfMeasureKind",
           "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTermOrString"

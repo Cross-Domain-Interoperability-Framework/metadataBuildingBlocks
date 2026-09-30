@@ -138,7 +138,7 @@ elsewhere. The conformsTo array carries the three required URIs
                 "patient_id"
               ],
               "cdif:definition": "Pseudonymous patient identifier.",
-              "cdi:hasIntendedDataType": "xsd:string"
+              "cdif:hasIntendedDataType": "xsd:string"
             }
           },
           {
@@ -155,7 +155,7 @@ elsewhere. The conformsTo array carries the three required URIs
                 "systolic_blood_pressure"
               ],
               "cdi:simpleUnitOfMeasure": "mmHg",
-              "cdi:hasIntendedDataType": "xsd:decimal"
+              "cdif:hasIntendedDataType": "xsd:decimal"
             }
           }
         ]
@@ -281,7 +281,7 @@ elsewhere. The conformsTo array carries the three required URIs
                 "patient_id"
               ],
               "cdif:definition": "Pseudonymous patient identifier.",
-              "cdi:hasIntendedDataType": "xsd:string"
+              "cdif:hasIntendedDataType": "xsd:string"
             }
           },
           {
@@ -298,7 +298,7 @@ elsewhere. The conformsTo array carries the three required URIs
                 "systolic_blood_pressure"
               ],
               "cdi:simpleUnitOfMeasure": "mmHg",
-              "cdi:hasIntendedDataType": "xsd:decimal"
+              "cdif:hasIntendedDataType": "xsd:decimal"
             }
           }
         ]
@@ -388,13 +388,13 @@ elsewhere. The conformsTo array carries the three required URIs
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/systolicBP> .
 
 <https://example.org/struct/vitalsWide/rv/patientId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
     cdif:definition "Pseudonymous patient identifier." ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsWide/rv/systolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "systolic_blood_pressure" .
 
 
@@ -806,7 +806,7 @@ optional Attribute) and its own cdif:Key.
                 "patient_id"
               ],
               "cdif:definition": "Pseudonymous patient identifier.",
-              "cdi:hasIntendedDataType": "xsd:string"
+              "cdif:hasIntendedDataType": "xsd:string"
             }
           },
           {
@@ -839,7 +839,7 @@ optional Attribute) and its own cdif:Key.
                         "systolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
-                      "cdi:hasIntendedDataType": "xsd:decimal"
+                      "cdif:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -853,7 +853,7 @@ optional Attribute) and its own cdif:Key.
                         "diastolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
-                      "cdi:hasIntendedDataType": "xsd:decimal"
+                      "cdif:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -867,7 +867,7 @@ optional Attribute) and its own cdif:Key.
                         "heart_rate"
                       ],
                       "cdi:simpleUnitOfMeasure": "bpm",
-                      "cdi:hasIntendedDataType": "xsd:decimal"
+                      "cdif:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -881,7 +881,7 @@ optional Attribute) and its own cdif:Key.
                         "body_temperature_celsius"
                       ],
                       "cdi:simpleUnitOfMeasure": "Cel",
-                      "cdi:hasIntendedDataType": "xsd:decimal"
+                      "cdif:hasIntendedDataType": "xsd:decimal"
                     }
                   }
                 ]
@@ -905,7 +905,7 @@ optional Attribute) and its own cdif:Key.
                 "measure_value"
               ],
               "cdif:definition": "Numeric value of the vital sign named by measure_name.",
-              "cdi:hasIntendedDataType": "xsd:decimal"
+              "cdif:hasIntendedDataType": "xsd:decimal"
             }
           },
           {
@@ -927,7 +927,7 @@ optional Attribute) and its own cdif:Key.
                 "observed_at"
               ],
               "cdif:definition": "Timestamp of the observation; qualifies measure_value.",
-              "cdi:hasIntendedDataType": "xsd:dateTime"
+              "cdif:hasIntendedDataType": "xsd:dateTime"
             }
           }
         ],
@@ -1125,7 +1125,7 @@ optional Attribute) and its own cdif:Key.
       "@type": [
         "cdi:Statistics"
       ],
-      "cdi:typeOfStatistic": {
+      "cdif:typeOfStatistic": {
         "@type": [
           "schema:DefinedTerm"
         ],
@@ -1578,7 +1578,7 @@ optional Attribute) and its own cdif:Key.
                 "patient_id"
               ],
               "cdif:definition": "Pseudonymous patient identifier.",
-              "cdi:hasIntendedDataType": "xsd:string"
+              "cdif:hasIntendedDataType": "xsd:string"
             }
           },
           {
@@ -1611,7 +1611,7 @@ optional Attribute) and its own cdif:Key.
                         "systolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
-                      "cdi:hasIntendedDataType": "xsd:decimal"
+                      "cdif:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -1625,7 +1625,7 @@ optional Attribute) and its own cdif:Key.
                         "diastolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
-                      "cdi:hasIntendedDataType": "xsd:decimal"
+                      "cdif:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -1639,7 +1639,7 @@ optional Attribute) and its own cdif:Key.
                         "heart_rate"
                       ],
                       "cdi:simpleUnitOfMeasure": "bpm",
-                      "cdi:hasIntendedDataType": "xsd:decimal"
+                      "cdif:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -1653,7 +1653,7 @@ optional Attribute) and its own cdif:Key.
                         "body_temperature_celsius"
                       ],
                       "cdi:simpleUnitOfMeasure": "Cel",
-                      "cdi:hasIntendedDataType": "xsd:decimal"
+                      "cdif:hasIntendedDataType": "xsd:decimal"
                     }
                   }
                 ]
@@ -1677,7 +1677,7 @@ optional Attribute) and its own cdif:Key.
                 "measure_value"
               ],
               "cdif:definition": "Numeric value of the vital sign named by measure_name.",
-              "cdi:hasIntendedDataType": "xsd:decimal"
+              "cdif:hasIntendedDataType": "xsd:decimal"
             }
           },
           {
@@ -1699,7 +1699,7 @@ optional Attribute) and its own cdif:Key.
                 "observed_at"
               ],
               "cdif:definition": "Timestamp of the observation; qualifies measure_value.",
-              "cdi:hasIntendedDataType": "xsd:dateTime"
+              "cdif:hasIntendedDataType": "xsd:dateTime"
             }
           }
         ],
@@ -1897,7 +1897,7 @@ optional Attribute) and its own cdif:Key.
       "@type": [
         "cdi:Statistics"
       ],
-      "cdi:typeOfStatistic": {
+      "cdif:typeOfStatistic": {
         "@type": [
           "schema:DefinedTerm"
         ],
@@ -1992,16 +1992,16 @@ optional Attribute) and its own cdif:Key.
             cdif:fileSize 2.4e+00 ;
             cdif:fileSizeUofM "MB" ;
             cdif:hasPhysicalMapping [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                    cdif:index 0 ;
+                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
+                    cdif:index 1 ;
                     cdif:physicalDataType "string" ],
                 [ cdif:format "decimal" ;
                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                     cdif:index 2 ;
                     cdif:physicalDataType "decimal" ],
                 [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
-                    cdif:index 1 ;
+                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                    cdif:index 0 ;
                     cdif:physicalDataType "string" ],
                 [ cdif:format "ISO8601" ;
                     cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
@@ -2016,17 +2016,17 @@ optional Attribute) and its own cdif:Key.
             schema1:potentialAction [ a schema1:Action ;
                     schema1:name "Query vitals as long-format CSV" ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of observations to return (default 100)." ;
-                            schema1:valueName "limit" ;
+                            schema1:description "Response format token (csv only for this example)." ;
+                            schema1:valueName "format" ;
+                            schema1:valuePattern "csv" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination." ;
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Response format token (csv only for this example)." ;
-                            schema1:valueName "format" ;
-                            schema1:valuePattern "csv" ;
+                            schema1:description "Maximum number of observations to return (default 100)." ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a cdi:PhysicalDataSet,
                                 cdi:TabularTextDataSet,
@@ -2043,10 +2043,6 @@ optional Attribute) and its own cdif:Key.
                             cdif:fileSize 5e-01 ;
                             cdif:fileSizeUofM "MB" ;
                             cdif:hasPhysicalMapping [ cdif:format "string" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                                    cdif:index 0 ;
-                                    cdif:physicalDataType "string" ],
-                                [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                                     cdif:index 1 ;
                                     cdif:physicalDataType "string" ],
@@ -2054,6 +2050,10 @@ optional Attribute) and its own cdif:Key.
                                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                                     cdif:index 2 ;
                                     cdif:physicalDataType "decimal" ],
+                                [ cdif:format "string" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                                    cdif:index 0 ;
+                                    cdif:physicalDataType "string" ],
                                 [ cdif:format "ISO8601" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
                                     cdif:index 3 ;
@@ -2118,7 +2118,7 @@ optional Attribute) and its own cdif:Key.
             cdi:statistic [ cdi:computationBase "Total" ;
                     cdi:content 12450 ;
                     cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic [ a schema1:DefinedTerm ;
+            cdif:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
                     schema1:name "Count" ;
                     schema1:termCode "count" ] ] .
@@ -2167,44 +2167,44 @@ optional Attribute) and its own cdif:Key.
 
 <https://example.org/struct/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ],
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ] .
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ] .
 
 <https://example.org/struct/vitalsLong/rv/diastolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "diastolic_blood_pressure" .
 
 <https://example.org/struct/vitalsLong/rv/heartRate> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "bpm" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "heart_rate" .
 
 <https://example.org/struct/vitalsLong/rv/systolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "systolic_blood_pressure" .
 
 <https://example.org/struct/vitalsLong/rv/temperatureC> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "Cel" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "body_temperature_celsius" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
-            cdif:value "temp_c" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ] .
+            cdif:value "heart_rate" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
+            cdif:value "temp_c" ] .
 
 <https://orcid.org/0000-0001-8898-3457> a schema1:Person ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -2237,18 +2237,18 @@ optional Attribute) and its own cdif:Key.
     cdif:has_PrimaryKey <https://example.org/struct/vitalsLong/pk> .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:decimal" ;
     cdif:definition "Numeric value of the vital sign named by measure_name." ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
     cdif:name "measure_value" .
 
 <https://example.org/struct/vitalsLong/rv/observedAt> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:dateTime" ;
     cdif:definition "Timestamp of the observation; qualifies measure_value." ;
+    cdif:hasIntendedDataType "xsd:dateTime" ;
     cdif:name "observed_at" .
 
 <https://example.org/struct/vitalsLong/rv/patientId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType "xsd:string" ;
     cdif:definition "Pseudonymous patient identifier." ;
+    cdif:hasIntendedDataType "xsd:string" ;
     cdif:name "patient_id" .
 
 <https://ror.org/0171mag52> a schema1:Organization ;
