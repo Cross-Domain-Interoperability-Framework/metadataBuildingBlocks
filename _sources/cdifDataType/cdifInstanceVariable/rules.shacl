@@ -139,20 +139,20 @@ cdifd:QualifiesRequiredForAttributeShape
             }""" ;
     ] ;
     sh:property [
-        sh:path cdi:qualifies ;
+        sh:path cdif:qualifies ;
         sh:minCount 1 ;
         sh:severity sh:Violation ;
-        sh:message "cdi:qualifies is required when cdif:role is Attribute." ;
+        sh:message "cdif:qualifies is required when cdif:role is Attribute." ;
     ] ;
     sh:property [
-        sh:path cdi:qualifies ;
+        sh:path cdif:qualifies ;
         sh:nodeKind sh:BlankNodeOrIRI ;
         sh:severity sh:Violation ;
-        sh:message "cdi:qualifies must be an object with an @id referencing another instance variable defined for this dataset." ;
+        sh:message "cdif:qualifies must be an object with an @id referencing another instance variable defined for this dataset." ;
     ]
     .
 
-# Cross-reference coherence check for cdi:qualifies. This is a soft check:
+# Cross-reference coherence check for cdif:qualifies. This is a soft check:
 # whether the qualifies target and $this are both variableMeasured of the same
 # dataset can only be verified when the full dataset graph is present (it never
 # holds for a standalone InstanceVariable BB example), so it is a Warning.
@@ -190,15 +190,15 @@ cdifd:QualifiesCoherenceShape
             PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
             PREFIX cdif: <https://w3id.org/cdif/>
             PREFIX schema: <http://schema.org/>
-            SELECT $this (cdi:qualifies AS ?path) (?target AS ?value)
+            SELECT $this (cdif:qualifies AS ?path) (?target AS ?value)
             WHERE {
-                $this cdi:qualifies ?target .
+                $this cdif:qualifies ?target .
                 FILTER NOT EXISTS {
                     ?dataset schema:variableMeasured ?target .
                     ?dataset schema:variableMeasured $this .
                 }
             }""" ;
-        sh:message "cdi:qualifies @id should reference the @id of another variableMeasured instance variable defined for the same dataset." ;
+        sh:message "cdif:qualifies @id should reference the @id of another variableMeasured instance variable defined for the same dataset." ;
     ]
     .
 
@@ -226,10 +226,10 @@ cdifd:QualifiesNotAllowedWithoutAttributeShape
             }""" ;
     ] ;
     sh:property [
-        sh:path cdi:qualifies ;
+        sh:path cdif:qualifies ;
         sh:maxCount 0 ;
         sh:severity sh:Warning ;
-        sh:message "cdi:qualifies should not be used when cdif:role is absent or not Attribute." ;
+        sh:message "cdif:qualifies should not be used when cdif:role is absent or not Attribute." ;
     ]
     .
 

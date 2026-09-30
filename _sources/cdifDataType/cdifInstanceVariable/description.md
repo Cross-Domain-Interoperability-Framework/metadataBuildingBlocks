@@ -19,7 +19,7 @@ The schema carries **all `InstanceVariable`-own and `RepresentedVariable`-own pr
 - **cdif:role** — role in a data structure (`UnitIdentifier`, `Measure`, `Attribute`, `Dimension`, `Descriptor`, `ReferenceVariable`)
 - **cdif:function** — immutable characteristic (geographic designator, weight, temporal designation, …)
 - **cdif:platformType** — application / technical system context the variable was realized in
-- **cdi:source** — provenance reference
+- **cdif:source** — provenance reference
 - **cdif:isDescribedBy_StatisticsCollection** — the `StatisticsCollection` of summary / category statistics for this variable (target-suffixed: `isDescribedBy` is polymorphic in DDI-CDI)
 
 **RepresentedVariable-own:**
@@ -33,7 +33,7 @@ The schema carries **all `InstanceVariable`-own and `RepresentedVariable`-own pr
 **CDIF extensions:**
 
 - **cdif:uses** — concepts (or, under the Data Structure profile, the `RepresentedVariable`) that this variable represents
-- **cdi:qualifies** — `@id` reference to another instance variable; used when `cdif:role` is `Attribute`
+- **cdif:qualifies** — `@id` reference to another instance variable; used when `cdif:role` is `Attribute`
 
 ### Data Structure profile constraint
 

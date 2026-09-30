@@ -190,9 +190,9 @@ cdifds:NoDuplicateTakesSubstantiveValuesFromShape
     .
 
 cdifds:NoDuplicateQualifiesShape
-# cdi:qualifies on an InstanceVariable is redundant if the AttributeComponent that
+# cdif:qualifies on an InstanceVariable is redundant if the AttributeComponent that
 # wraps the RepresentedVariable this InstanceVariable cdif:isDefinedBy_RepresentedVariable already carries
-# cdi:qualifies (pointing at the qualified component). Disallow the duplicate.
+# cdif:qualifies (pointing at the qualified component). Disallow the duplicate.
     a sh:NodeShape ;
     sh:target [
         a sh:SPARQLTarget ;
@@ -210,14 +210,14 @@ cdifds:NoDuplicateQualifiesShape
                 ?rv a cdi:RepresentedVariable .
                 ?ac a cdi:AttributeComponent .
                 ?ac cdif:isDefinedBy_Variable ?rv .
-                ?ac cdi:qualifies ?val .
+                ?ac cdif:qualifies ?val .
             }""" ;
     ] ;
     sh:property [
-        sh:path cdi:qualifies ;
+        sh:path cdif:qualifies ;
         sh:maxCount 0 ;
         sh:severity sh:Violation ;
-        sh:message "cdi:qualifies is already defined on the AttributeComponent that wraps the RepresentedVariable this InstanceVariable cdif:isDefinedBy_RepresentedVariable; remove the duplicate from the InstanceVariable." ;
+        sh:message "cdif:qualifies is already defined on the AttributeComponent that wraps the RepresentedVariable this InstanceVariable cdif:isDefinedBy_RepresentedVariable; remove the duplicate from the InstanceVariable." ;
     ]
     .
 

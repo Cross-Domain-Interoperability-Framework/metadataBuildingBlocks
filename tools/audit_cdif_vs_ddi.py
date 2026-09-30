@@ -413,7 +413,12 @@ def self_test() -> bool:
     # logicalExpression (also ControlledVocabularyEntry, so the same decision as
     # the seven), regularExpression (TypedString) and purpose
     # (InternationalString) (-4). That emptied the STRUCTURAL category.
-    _check(results, "real repo: cdi: properties in CDIF blocks", len(cdif), 63)
+    # Then cdi:qualifies and cdi:source (-2). qualifies moved at BOTH sites on
+    # purpose: cdifDataStructureComponent matches canonical and would justify
+    # cdi:, but cdifInstanceVariable uses the name for a different relationship
+    # on a class canonical never gives it, and one local name under two prefixes
+    # is the confusion this audit keeps tripping over.
+    _check(results, "real repo: cdi: properties in CDIF blocks", len(cdif), 61)
     diverging = 0
     for name in sorted(cdif):
         if name not in ddi:
@@ -430,7 +435,7 @@ def self_test() -> bool:
     # variations in cdi:indexes, cdi:qualifies, cdi:source, cdi:isStructuredBy
     # and cdi:has_DataStructureComponent. Tracked in issue #40.
     _check(results, "real repo: cdi: properties whose range diverges",
-           diverging, 8)
+           diverging, 6)
 
     # The reverse direction needs its own anchor: the $defs-alias fix only shows
     # up here, because cdif:externalDefinition is a cdif: property and the count
