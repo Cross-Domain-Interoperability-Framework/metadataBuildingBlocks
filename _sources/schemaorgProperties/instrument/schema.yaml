@@ -37,15 +37,7 @@ properties:
       instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).
     type: array
     items:
-      anyOf:
-      - type: string
-      - type: object
-        additionalProperties: false
-        required:
-        - '@id'
-        properties:
-          '@id':
-            type: string
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     minItems: 1
   'schema:name':
     type: string
@@ -204,6 +196,8 @@ required:
 - '@type'
 - schema:name
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: ../../cdifDataType/cdifConceptOrTermOrString/schema.yaml
   Identifier:
     $ref: ../identifier/schema.yaml
   Organization:
@@ -272,15 +266,7 @@ $defs:
         description: Component type classification.
         type: array
         items:
-          anyOf:
-          - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          $ref: '#/$defs/cdifConceptOrTermOrString'
       'schema:additionalProperty':
         type: array
         items:

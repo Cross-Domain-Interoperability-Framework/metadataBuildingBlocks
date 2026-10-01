@@ -227,6 +227,13 @@
                       "type": "string"
                     }
                   },
+                  "schema:additionalType": {
+                    "type": "array",
+                    "description": "Domain-specific type classification for this distribution: what KIND of thing the file is, beyond its MIME type. schema:encodingFormat says how to parse the bytes; this says what they are. A plain string is accepted, but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where the value comes from a controlled vocabulary, so the vocabulary travels with the data rather than being asserted only in a profile.",
+                    "items": {
+                      "$ref": "#/$defs/cdifConceptOrTermOrString"
+                    }
+                  },
                   "schema:contentSize": {
                     "type": "string",
                     "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize."
@@ -1458,23 +1465,7 @@
           "type": "array",
           "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "@id"
-                ],
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                }
-              }
-            ]
+            "$ref": "#/$defs/cdifConceptOrTermOrString"
           },
           "contains": {
             "type": "object",
@@ -1847,23 +1838,7 @@
                                                 "schema:additionalType": {
                                                   "type": "array",
                                                   "items": {
-                                                    "anyOf": [
-                                                      {
-                                                        "type": "string"
-                                                      },
-                                                      {
-                                                        "type": "object",
-                                                        "additionalProperties": false,
-                                                        "required": [
-                                                          "@id"
-                                                        ],
-                                                        "properties": {
-                                                          "@id": {
-                                                            "type": "string"
-                                                          }
-                                                        }
-                                                      }
-                                                    ]
+                                                    "$ref": "#/$defs/cdifConceptOrTermOrString"
                                                   },
                                                   "contains": {
                                                     "type": "object",
@@ -2365,23 +2340,7 @@
                                               "schema:additionalType": {
                                                 "type": "array",
                                                 "items": {
-                                                  "anyOf": [
-                                                    {
-                                                      "type": "string"
-                                                    },
-                                                    {
-                                                      "type": "object",
-                                                      "additionalProperties": false,
-                                                      "required": [
-                                                        "@id"
-                                                      ],
-                                                      "properties": {
-                                                        "@id": {
-                                                          "type": "string"
-                                                        }
-                                                      }
-                                                    }
-                                                  ]
+                                                  "$ref": "#/$defs/cdifConceptOrTermOrString"
                                                 },
                                                 "contains": {
                                                   "type": "object",
@@ -2704,27 +2663,7 @@
             "description": "Domain-specific type classifications for this place (e.g. facility type,laboratory classification, feature type).",
             "type": "array",
             "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/$defs/DefinedTerm"
-                },
-                {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "required": [
-                    "@id"
-                  ],
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "reference to a term defined elsewhere"
-                    }
-                  }
-                }
-              ]
+              "$ref": "#/$defs/cdifConceptOrTermOrString"
             }
           },
           "schema:name": {

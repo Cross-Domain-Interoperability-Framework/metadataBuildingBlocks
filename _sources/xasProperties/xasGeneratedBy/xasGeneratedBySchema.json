@@ -22,23 +22,7 @@
                     "description": "Domain type(s) for the activity; must include xas:analysisevent (an XAS analysis event).",
                     "type": "array",
                     "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "required": [
-                                    "@id"
-                                ],
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        ]
+                        "$ref": "#/$defs/cdifConceptOrTermOrString"
                     },
                     "contains": {
                         "type": "object",
@@ -265,6 +249,9 @@
         }
     ],
     "$defs": {
+        "cdifConceptOrTermOrString": {
+            "$ref": "../../cdifDataType/cdifConceptOrTermOrString/cdifConceptOrTermOrStringSchema.json"
+        },
         "Identifier": {
             "$ref": "../../schemaorgProperties/identifier/identifierSchema.json"
         },

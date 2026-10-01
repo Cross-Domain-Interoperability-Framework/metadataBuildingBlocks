@@ -17,23 +17,7 @@
             "type": "array",
             "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
             "items": {
-                "anyOf": [
-                    {
-                        "type": "string"
-                    },
-                    {
-                        "type": "object",
-                        "additionalProperties": false,
-                        "required": [
-                            "@id"
-                        ],
-                        "properties": {
-                            "@id": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                ]
+                "$ref": "#/$defs/cdifConceptOrTermOrString"
             },
             "contains": {
                 "type": "object",
@@ -142,6 +126,9 @@
         "@id"
     ],
     "$defs": {
+        "cdifConceptOrTermOrString": {
+            "$ref": "../cdifConceptOrTermOrString/cdifConceptOrTermOrStringSchema.json"
+        },
         "Identifier": {
             "$ref": "../../schemaorgProperties/identifier/identifierSchema.json"
         },

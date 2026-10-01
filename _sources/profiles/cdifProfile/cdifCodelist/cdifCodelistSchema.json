@@ -154,23 +154,7 @@
                 "schema:additionalType": {
                     "type": "array",
                     "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "required": [
-                                    "@id"
-                                ],
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        ]
+                        "$ref": "#/$defs/cdifConceptOrTermOrString"
                     },
                     "contains": {
                         "type": "object",
@@ -258,6 +242,9 @@
         "skos:hasTopConcept"
     ],
     "$defs": {
+        "cdifConceptOrTermOrString": {
+            "$ref": "../../../cdifDataType/cdifConceptOrTermOrString/cdifConceptOrTermOrStringSchema.json"
+        },
         "CdifCodelistConcept": {
             "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
             "type": "object",

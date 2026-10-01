@@ -108,6 +108,9 @@
         }
     },
     "$defs": {
+        "cdifConceptOrTermOrString": {
+            "$ref": "../../cdifDataType/cdifConceptOrTermOrString/cdifConceptOrTermOrStringSchema.json"
+        },
         "LabProcess": {
             "type": "object",
             "description": "A Bioschemas LabProcess — a laboratory process execution. Used as an additionalType on a cdifProvActivity activity ([\"schema:Action\", \"prov:Activity\"]) to indicate that the activity represents a lab process. Carries bios:executesLabProtocol to link to the protocol followed and bios:parameterValue for actual instrument settings.",
@@ -422,23 +425,7 @@
                     "description": "Further type classification (e.g. File, Dataset, PropertyValue, DataType)",
                     "type": "array",
                     "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "required": [
-                                    "@id"
-                                ],
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        ]
+                        "$ref": "#/$defs/cdifConceptOrTermOrString"
                     }
                 },
                 "schema:encodingFormat": {

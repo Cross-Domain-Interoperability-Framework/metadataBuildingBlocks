@@ -110,15 +110,7 @@ properties:
       'schema:additionalType':
         type: array
         items:
-          anyOf:
-          - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          $ref: '#/$defs/cdifConceptOrTermOrString'
         contains:
           type: object
           additionalProperties: false
@@ -167,6 +159,8 @@ required:
 - 'skos:definition'
 - 'skos:hasTopConcept'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: ../../../cdifDataType/cdifConceptOrTermOrString/schema.yaml
   cdifConcept:
     type: object
     properties:
