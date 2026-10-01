@@ -1085,19 +1085,19 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
             schema1:unitText "KPa" ;
             schema1:value "3567" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Instrument configuration" ;
-            schema1:propertyID xas:experimentdocumentation ;
-            schema1:url "http://protocols.io/link/to/calibrationMethod" ;
-            schema1:value "description of instrument configuration" ],
+            schema1:name "Installed Options" ;
+            schema1:propertyID xas:installedoptions ;
+            schema1:value "Description of extra equipment installed on the base instrument(?)" ],
         [ a schema1:PropertyValue ;
             schema1:name "calibration method" ;
             schema1:propertyID xas:calibrationmethod ;
             schema1:url "http://protocols.io/link/to/calibrationMethod" ;
             schema1:value "description of calibration procedure" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Installed Options" ;
-            schema1:propertyID xas:installedoptions ;
-            schema1:value "Description of extra equipment installed on the base instrument(?)" ],
+            schema1:name "Instrument configuration" ;
+            schema1:propertyID xas:experimentdocumentation ;
+            schema1:url "http://protocols.io/link/to/calibrationMethod" ;
+            schema1:value "description of instrument configuration" ],
         [ a schema1:PropertyValue ;
             schema1:name "Edge energy" ;
             schema1:propertyID xas:edgeenergy ;
@@ -1110,35 +1110,35 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
     schema1:object [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "Point group" ;
-                    schema1:propertyID xas:pointgroup ;
-                    schema1:value "mm2" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "Porosity" ;
                     schema1:propertyID xas:porosity ;
                     schema1:unitText "percent" ;
                     schema1:value "27" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "Stoichiometry" ;
-                    schema1:propertyID xas:samplechemicalcomposition ;
-                    schema1:value "Na2SeO4" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "Unit cell" ;
                     schema1:propertyID xas:sampleunitcell ;
                     schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "Sample preparation" ;
-                    schema1:propertyID xas:samplepreparation ;
-                    schema1:value "powder on tape, 6 layers" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "Material state" ;
-                    schema1:propertyID xas:samplematerial ;
-                    schema1:value "solid metal foil" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "Sample mass" ;
                     schema1:propertyID xas:samplemass ;
                     schema1:unitText "mg" ;
                     schema1:value "10" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Material state" ;
+                    schema1:propertyID xas:samplematerial ;
+                    schema1:value "solid metal foil" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Stoichiometry" ;
+                    schema1:propertyID xas:samplechemicalcomposition ;
+                    schema1:value "Na2SeO4" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Sample preparation" ;
+                    schema1:propertyID xas:samplepreparation ;
+                    schema1:value "powder on tape, 6 layers" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Point group" ;
+                    schema1:propertyID xas:pointgroup ;
+                    schema1:value "mm2" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "Parent sample" ;
                     schema1:propertyID xas:parentsample ;
@@ -1153,22 +1153,22 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                         schema1:Thing,
                         prov:Entity ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
+                            schema1:name "Monochromator d-spacing" ;
+                            schema1:propertyID xas:dspacing ;
+                            schema1:unitText "Angstrom" ;
+                            schema1:value "3.13550" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Monochromator crystal type" ;
+                            schema1:propertyID xas:monochromatortype ;
+                            schema1:value "crystal type" ],
+                        [ a schema1:PropertyValue ;
                             schema1:name "Monochromator chemical formula" ;
                             schema1:propertyID xas:monochromatorchemicalformula ;
                             schema1:value "Si" ],
                         [ a schema1:PropertyValue ;
                             schema1:name "Reflecting plane" ;
                             schema1:propertyID xas:reflectionplane ;
-                            schema1:value "1,1,1" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Monochromator crystal type" ;
-                            schema1:propertyID xas:monochromatortype ;
-                            schema1:value "crystal type" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Monochromator d-spacing" ;
-                            schema1:propertyID xas:dspacing ;
-                            schema1:unitText "Angstrom" ;
-                            schema1:value "3.13550" ] ;
+                            schema1:value "1,1,1" ] ;
                     schema1:additionalType xas:xraymonochromator,
                         wd:Q3099911 ;
                     schema1:name "Si 111" ] ],
@@ -1191,6 +1191,30 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                         schema1:Thing,
                         prov:Entity ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
+                            schema1:name "monitor preset" ;
+                            schema1:propertyID xas:monitorpreset ;
+                            schema1:value "N.A." ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "monitor mode" ;
+                            schema1:propertyID xas:monitormode ;
+                            schema1:value "monitor" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:alternateName "incident flux measurement method" ;
+                            schema1:name "detector mode i0" ;
+                            schema1:propertyID xas:detectori0 ;
+                            schema1:value "10cm  N2" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:alternateName "transmitted flux measurement method" ;
+                            schema1:name "detector mode it" ;
+                            schema1:propertyID xas:detectorit ;
+                            schema1:value "10cm  N2" ] ;
+                    schema1:additionalType xas:xraymonitor,
+                        wd:Q3099911 ;
+                    schema1:name "x-ray intensity monitor" ] ],
+        [ schema1:instrument [ a schema1:Product,
+                        schema1:Thing,
+                        prov:Entity ;
+                    schema1:additionalProperty [ a schema1:PropertyValue ;
                             schema1:name "beamline collimation" ;
                             schema1:propertyID xas:collimation ;
                             schema1:value "none" ],
@@ -1205,31 +1229,7 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                     schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
                         wd:Q3099911 ;
                     schema1:identifier "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D" ;
-                    schema1:name "13-BM-D" ] ],
-        [ schema1:instrument [ a schema1:Product,
-                        schema1:Thing,
-                        prov:Entity ;
-                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "monitor mode" ;
-                            schema1:propertyID xas:monitormode ;
-                            schema1:value "monitor" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:alternateName "incident flux measurement method" ;
-                            schema1:name "detector mode i0" ;
-                            schema1:propertyID xas:detectori0 ;
-                            schema1:value "10cm  N2" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "monitor preset" ;
-                            schema1:propertyID xas:monitorpreset ;
-                            schema1:value "N.A." ],
-                        [ a schema1:PropertyValue ;
-                            schema1:alternateName "transmitted flux measurement method" ;
-                            schema1:name "detector mode it" ;
-                            schema1:propertyID xas:detectorit ;
-                            schema1:value "10cm  N2" ] ;
-                    schema1:additionalType xas:xraymonitor,
-                        wd:Q3099911 ;
-                    schema1:name "x-ray intensity monitor" ] ] .
+                    schema1:name "13-BM-D" ] ] .
 
 ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
@@ -1277,15 +1277,7 @@ allOf:
         (an XAS analysis event).
       type: array
       items:
-        anyOf:
-        - type: string
-        - type: object
-          additionalProperties: false
-          required:
-          - '@id'
-          properties:
-            '@id':
-              type: string
+        $ref: '#/$defs/cdifConceptOrTermOrString'
       contains:
         type: object
         additionalProperties: false
@@ -1438,6 +1430,8 @@ allOf:
       $ref: '#/$defs/Sample'
       x-jsonld-id: http://schema.org/object
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   Sample:
@@ -1478,8 +1472,8 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "prov": "http://www.w3.org/ns/prov#",
-    "wd": "https://www.wikidata.org/entity/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "wd": "https://www.wikidata.org/entity/",
     "nxs": "https://manual.nexusformat.org/classes/",
     "xas": "https://w3id.org/cdif/xas/",
     "@version": 1.1

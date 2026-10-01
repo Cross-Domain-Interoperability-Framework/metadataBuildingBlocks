@@ -300,6 +300,14 @@
           },
           "x-jsonld-id": "http://schema.org/encodingFormat"
         },
+        "schema:additionalType": {
+          "type": "array",
+          "description": "Domain-specific type classification for this distribution: what KIND of thing the file is, beyond its MIME type. schema:encodingFormat says how to parse the bytes; this says what they are. A plain string is accepted, but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where the value comes from a controlled vocabulary, so the vocabulary travels with the data rather than being asserted only in a profile.",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload/$defs/cdifConceptOrTermOrString"
+          },
+          "x-jsonld-id": "http://schema.org/additionalType"
+        },
         "schema:contentSize": {
           "type": "string",
           "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize.",
@@ -416,6 +424,11 @@
           }
         }
       ],
+      "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString_1"
+        }
+      },
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
       },
@@ -1075,23 +1088,7 @@
           "type": "array",
           "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "@id"
-                ],
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                }
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifCatalogRecord/$defs/cdifConceptOrTermOrString"
           },
           "contains": {
             "type": "object",
@@ -1217,6 +1214,9 @@
         "@id"
       ],
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString_1"
+        },
         "Identifier": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
         },

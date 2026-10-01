@@ -18,15 +18,7 @@ properties:
   schema:additionalType:
     type: array
     items:
-      anyOf:
-      - type: string
-      - type: object
-        additionalProperties: false
-        required:
-        - '@id'
-        properties:
-          '@id':
-            type: string
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     minItems: 2
     uniqueItems: true
     allOf:
@@ -67,6 +59,8 @@ required:
 - schema:additionalType
 - schema:name
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   AdditionalProperty:

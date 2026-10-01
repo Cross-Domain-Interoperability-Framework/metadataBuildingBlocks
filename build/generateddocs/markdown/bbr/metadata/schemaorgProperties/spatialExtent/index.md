@@ -596,17 +596,7 @@ properties:
       type,laboratory classification, feature type).
     type: array
     items:
-      anyOf:
-      - type: string
-      - $ref: '#/$defs/DefinedTerm'
-      - type: object
-        additionalProperties: false
-        required:
-        - '@id'
-        properties:
-          '@id':
-            type: string
-            description: reference to a term defined elsewhere
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     x-jsonld-id: http://schema.org/additionalType
   schema:name:
     description: A place name for the location, either as a string or a DefinedTerm
@@ -763,6 +753,8 @@ anyOf:
 - required:
   - geosparql:hasGeometry
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
   Identifier:
@@ -784,6 +776,7 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "@version": 1.1
   }
 }

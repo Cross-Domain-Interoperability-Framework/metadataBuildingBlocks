@@ -1,11 +1,14 @@
 Validation report for cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme - CDIF Concept Scheme
-Generated 2026-10-01T16:12:23.493450+00:00
+Generated 2026-10-01T18:11:19.089546+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
 
 === Files ===
 Using definition-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD definition-fail.jsonld created
+Output Turtle definition-fail.ttl created
 === End Files ===
 
 === JSON Schema ===
@@ -208,7 +211,8 @@ Failed validating 'required' in schema:
                                                                                 'most '
                                                                                 'once.'}},
                                'required': ['@type', 'skos:prefLabel'],
-                               'type': 'object'}},
+                               'type': 'object'},
+               'cdifConceptOrTermOrString': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml'}},
      '$schema': 'https://json-schema.org/draft/2020-12/schema',
      'description': 'Profile module for SKOS concept schemes used as '
                     'controlled vocabularies in CDIF metadata. Thin '
@@ -275,11 +279,7 @@ Failed validating 'required' in schema:
                                                                                                'properties': {'@id': {'const': 'dcat:CatalogRecord'}},
                                                                                                'required': ['@id'],
                                                                                                'type': 'object'},
-                                                                                  'items': {'anyOf': [{'type': 'string'},
-                                                                                                      {'additionalProperties': False,
-                                                                                                       'properties': {'@id': {'type': 'string'}},
-                                                                                                       'required': ['@id'],
-                                                                                                       'type': 'object'}]},
+                                                                                  'items': {'$ref': '#/$defs/cdifConceptOrTermOrString'},
                                                                                   'minItems': 1,
                                                                                   'type': 'array'}},
                                          'required': ['@type',
@@ -416,4 +416,70 @@ On instance:
                              'skos:prefLabel': 'Date'}],
      'skos:prefLabel': 'Example Physical Data Type Vocabulary'}
 === End JSON Schema ===
+
+=== SHACL ===
+
+** Validation error **
+Validation result for _sources/profiles/cdifProfile/cdifConceptScheme/rules.shacl:
+  Validation Report
+  Conforms: False
+  Results (1):
+  Constraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Violation
+  	Source Shape: [ rdf:type sh:PropertyShape ; sh:message Literal("skos:definition is required on a CDIF concept scheme.") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:path skos:definition ]
+  	Focus Node: ex:datatypeScheme
+  	Result Path: skos:definition
+  	Message: skos:definition is required on a CDIF concept scheme.
+  
+Focus nodes for _sources/profiles/cdifProfile/cdifConceptScheme/rules.shacl:
+ - Shape cdifd:CDIFConceptSchemeConceptShape: ex:date,ex:integer,ex:float,ex:numeric,ex:text
+ - Shape cdifd:CDIFConceptSchemeShape: ex:datatypeScheme
+
+Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:ConceptShape: ex:date,ex:integer,ex:float,ex:numeric,ex:text
+ - Shape skosv:prefLabelUniqueLangShape: ex:date,ex:integer,ex:float,ex:numeric,ex:text
+ - Shape skosv:conceptBroaderNotSelfShape: ex:date,ex:integer,ex:float,ex:numeric,ex:text
+
+Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
+ - Shape _:ndaca72fdc2bb48ec8c10b091eb672463b7: *none*
+ - Shape _:ndaca72fdc2bb48ec8c10b091eb672463b8: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:ndaca72fdc2bb48ec8c10b091eb672463b19: *none*
+ - Shape _:ndaca72fdc2bb48ec8c10b091eb672463b6: *none*
+ - Shape _:ndaca72fdc2bb48ec8c10b091eb672463b5: *none*
+ - Shape _:ndaca72fdc2bb48ec8c10b091eb672463b4: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:ndaca72fdc2bb48ec8c10b091eb672463b10: *none*
+ - Shape _:ndaca72fdc2bb48ec8c10b091eb672463b26: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape _:n1ad37ff82b784a2fbaae18c60482bf31b10: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:n1ad37ff82b784a2fbaae18c60482bf31b25: *none*
+ - Shape _:n1ad37ff82b784a2fbaae18c60482bf31b20: *none*
+ - Shape _:n1ad37ff82b784a2fbaae18c60482bf31b11: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
+ - Shape _:n1ad37ff82b784a2fbaae18c60482bf31b21: *none*
+ - Shape _:n1ad37ff82b784a2fbaae18c60482bf31b22: *none*
+ - Shape _:n1ad37ff82b784a2fbaae18c60482bf31b23: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+
+=== End SHACL ===
 

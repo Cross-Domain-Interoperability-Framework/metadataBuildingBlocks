@@ -16,15 +16,7 @@ properties:
     description: additional type assertions for the catalog record node. dcat:CatalogRecord
       is required.
     items:
-      anyOf:
-      - type: string
-      - type: object
-        additionalProperties: false
-        required:
-        - '@id'
-        properties:
-          '@id':
-            type: string
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     contains:
       type: object
       additionalProperties: false
@@ -114,6 +106,8 @@ required:
 - '@type'
 - '@id'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   Person:

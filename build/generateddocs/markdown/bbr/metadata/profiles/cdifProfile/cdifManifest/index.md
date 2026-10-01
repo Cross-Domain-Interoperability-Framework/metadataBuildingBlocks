@@ -477,6 +477,8 @@ properties:
           required:
           - schema:hasPart
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   resourcePartArray:
     type: array
     description: Array of the resources that make up a package. Each part is independently
@@ -576,6 +578,16 @@ $defs:
           description: MIME type(s) for this file.
           items:
             type: string
+        schema:additionalType:
+          type: array
+          description: 'Domain-specific type classification for this member file:
+            what KIND of thing it is, beyond its MIME type. The @type above says only
+            that it is a schema:MediaObject, and using @type to carry a domain classification
+            conflates "what this node is" with "what it is about". A plain string
+            is accepted; a schema:DefinedTerm carrying schema:inDefinedTermSet is
+            preferred where the value comes from a controlled vocabulary.'
+          items:
+            $ref: '#/$defs/cdifConceptOrTermOrString'
         schema:size:
           type: object
           description: File size as a QuantitativeValue.
@@ -648,11 +660,11 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdif": "https://w3id.org/cdif/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
     "@version": 1.1
   }
 }

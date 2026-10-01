@@ -1001,6 +1001,17 @@ x-defs:
         items:
           type: string
         x-jsonld-id: http://schema.org/encodingFormat
+      schema:additionalType:
+        type: array
+        description: 'Domain-specific type classification for this distribution: what
+          KIND of thing the file is, beyond its MIME type. schema:encodingFormat says
+          how to parse the bytes; this says what they are. A plain string is accepted,
+          but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where
+          the value comes from a controlled vocabulary, so the vocabulary travels
+          with the data rather than being asserted only in a profile.'
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload/$defs/cdifConceptOrTermOrString
+        x-jsonld-id: http://schema.org/additionalType
       schema:contentSize:
         type: string
         description: File size of this distribution, e.g. '2.5 MB' or a byte count.
@@ -1081,6 +1092,9 @@ x-defs:
       else:
         required:
         - schema:hasPart
+    $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
@@ -1538,15 +1552,7 @@ x-defs:
         description: additional type assertions for the catalog record node. dcat:CatalogRecord
           is required.
         items:
-          anyOf:
-          - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifCatalogRecord/$defs/cdifConceptOrTermOrString
         contains:
           type: object
           additionalProperties: false
@@ -1640,6 +1646,8 @@ x-defs:
     - '@type'
     - '@id'
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       Identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       Person:
@@ -1785,17 +1793,7 @@ x-defs:
           type,laboratory classification, feature type).
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
-                description: reference to a term defined elsewhere
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/cdifConceptOrTermOrString
         x-jsonld-id: http://schema.org/additionalType
       schema:name:
         description: A place name for the location, either as a string or a DefinedTerm
@@ -1957,6 +1955,8 @@ x-defs:
     - required:
       - geosparql:hasGeometry
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       DefinedTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
       Identifier:
@@ -4144,15 +4144,7 @@ x-defs:
           schema:additionalType:
             type: array
             items:
-              anyOf:
-              - type: string
-              - type: object
-                additionalProperties: false
-                required:
-                - '@id'
-                properties:
-                  '@id':
-                    type: string
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist/$defs/cdifConceptOrTermOrString
             contains:
               type: object
               additionalProperties: false
@@ -4214,6 +4206,8 @@ x-defs:
     - schema:dateModified
     - skos:hasTopConcept
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       CdifCodelistConcept:
         description: A SKOS Concept constrained for CDIF codelist use. Must have a
           resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue

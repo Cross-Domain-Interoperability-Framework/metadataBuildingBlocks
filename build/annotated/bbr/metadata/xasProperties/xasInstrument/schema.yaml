@@ -10,15 +10,7 @@ allOf:
     schema:additionalType:
       type: array
       items:
-        anyOf:
-        - type: string
-        - type: object
-          additionalProperties: false
-          required:
-          - '@id'
-          properties:
-            '@id':
-              type: string
+        $ref: '#/$defs/cdifConceptOrTermOrString'
       minItems: 1
       uniqueItems: true
       allOf:
@@ -35,6 +27,9 @@ allOf:
       x-jsonld-id: http://schema.org/additionalType
   required:
   - schema:additionalType
+$defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   wd: https://www.wikidata.org/entity/

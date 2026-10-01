@@ -314,6 +314,17 @@ x-defs:
       prov: http://www.w3.org/ns/prov#
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifProvActivity/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString:
+    title: CDIF Concept-or-Term-or-String
+    description: Shared shape for a CDIF property that carries either a controlled-vocabulary
+      value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref,
+      schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative
+      used for legacy or single-word labels not yet bound to a vocabulary.
+    anyOf:
+    - type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.identifier:
     description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
 
@@ -401,15 +412,7 @@ x-defs:
       schema:additionalType:
         type: array
         items:
-          anyOf:
-          - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/cdifConceptOrTermOrString
         minItems: 2
         uniqueItems: true
         allOf:
@@ -452,6 +455,8 @@ x-defs:
     - schema:additionalType
     - schema:name
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       Identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       AdditionalProperty:
@@ -606,15 +611,7 @@ x-defs:
         schema:additionalType:
           type: array
           items:
-            anyOf:
-            - type: string
-            - type: object
-              additionalProperties: false
-              required:
-              - '@id'
-              properties:
-                '@id':
-                  type: string
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasInstrument/$defs/cdifConceptOrTermOrString
           minItems: 1
           uniqueItems: true
           allOf:
@@ -632,6 +629,9 @@ x-defs:
           x-jsonld-id: http://schema.org/additionalType
       required:
       - schema:additionalType
+    $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
     x-jsonld-prefixes:
       schema: http://schema.org/
       wd: https://www.wikidata.org/entity/
@@ -960,15 +960,7 @@ x-defs:
           instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).
         type: array
         items:
-          anyOf:
-          - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/cdifConceptOrTermOrString
         minItems: 1
         x-jsonld-id: http://schema.org/additionalType
       schema:name:
@@ -1151,6 +1143,8 @@ x-defs:
     - '@type'
     - schema:name
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       Identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       Organization:
@@ -1226,15 +1220,7 @@ x-defs:
             description: Component type classification.
             type: array
             items:
-              anyOf:
-              - type: string
-              - type: object
-                additionalProperties: false
-                required:
-                - '@id'
-                properties:
-                  '@id':
-                    type: string
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/cdifConceptOrTermOrString
             x-jsonld-id: http://schema.org/additionalType
           schema:additionalProperty:
             type: array
@@ -1305,17 +1291,7 @@ x-defs:
           type,laboratory classification, feature type).
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
-                description: reference to a term defined elsewhere
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/cdifConceptOrTermOrString
         x-jsonld-id: http://schema.org/additionalType
       schema:name:
         description: A place name for the location, either as a string or a DefinedTerm
@@ -1477,6 +1453,8 @@ x-defs:
     - required:
       - geosparql:hasGeometry
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       DefinedTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
       Identifier:
@@ -1484,6 +1462,23 @@ x-defs:
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm:
+    description: A SKOS concept identified by URI, a schema:DefinedTerm, or an inline
+      cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary
+      reference or an inline concept definition.
+    anyOf:
+    - type: object
+      required:
+      - '@id'
+      additionalProperties: false
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/Concept
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.definedTerm:
     description: "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF
@@ -1552,17 +1547,6 @@ x-defs:
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString:
-    title: CDIF Concept-or-Term-or-String
-    description: Shared shape for a CDIF property that carries either a controlled-vocabulary
-      value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref,
-      schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative
-      used for legacy or single-word labels not yet bound to a vocabulary.
-    anyOf:
-    - type: string
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.labeledLink:
     description: 'Schema for a labeled link, a profile of schema.org/CreativeWork:
@@ -1699,23 +1683,6 @@ x-defs:
       schema: http://schema.org/
       skos: http://www.w3.org/2004/02/skos/core#
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm:
-    description: A SKOS concept identified by URI, a schema:DefinedTerm, or an inline
-      cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary
-      reference or an inline concept definition.
-    anyOf:
-    - type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-          description: reference to a skos concept for the data type
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/Concept
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.skosProperties.skosConcept:
     title: SKOS Concept
@@ -1958,15 +1925,7 @@ allOf:
         (an XAS analysis event).
       type: array
       items:
-        anyOf:
-        - type: string
-        - type: object
-          additionalProperties: false
-          required:
-          - '@id'
-          properties:
-            '@id':
-              type: string
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/$defs/cdifConceptOrTermOrString
       contains:
         type: object
         additionalProperties: false
@@ -2125,6 +2084,8 @@ allOf:
       allOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/$defs/Sample
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
   Sample:
