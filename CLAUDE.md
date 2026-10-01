@@ -403,3 +403,43 @@ their refs are resolved over the network at their build time, not ours.
   consumer's git config; the same commit stopped the header stamping `--bb-dir` verbatim (it could
   bake a local absolute path into a committed artifact) and pinned the output to LF. Before
   trusting a regenerated bundle, check the per-file diff is single digits, not three.
+
+- **An `@id` that is not a usable IRI silently deletes the triple, and the JSON Schema gate
+  cannot see it.** Settled 2026-10-01 in `profile-provenance`. Galaxy writes RO-Crate `@id`s
+  containing spaces and pipes (`#input-Sn Foil`, `output-plot_collection|0_flat`); a JSON-LD
+  parser cannot resolve those, so it drops the node **and the incoming triple with it**. In
+  `Paper_1_Pt3Sn.actions.cdifprov.json` 28 `prov:used` keys became **6 subjects** in the graph,
+  so 22 activities that do name their inputs looked like activities naming none, and the
+  `cdifProvActivity` `minCount` fired on all of them. 170 spaces and 31 pipes across 96 distinct
+  `@id`s in 6 files. The loss happens *after* the JSON Schema gate, during RDF expansion, which
+  is why the corpus reported a clean 17/17 schema run while 12 examples failed conformance --
+  the same split as `validate_examples.py` vs `FrameAndValidate`, one layer down. Percent-encode,
+  and encode definitions and references alike: doing one side breaks the join instead. The check
+  that catches it is graph-level -- parse the example and compare the triple count for a property
+  against the number of keys in the JSON; equal counts are the invariant.
+
+- **An over-claimed profile is not always a wrong declaration.** `detect_conformance` declares a
+  class iff presence AND its content SHACL raises no Violation, so a *content* defect reports as
+  `DECLARED BUT NOT DETECTED: <profile>` -- the identical message a genuinely false claim gives.
+  Measured 2026-10-01: 12 of `profile-provenance`'s 17 examples over-claimed `provenance/1.1`
+  while declaring it **correctly**; presence was true in all 12 and one `prov:used` Violation was
+  suppressing the class. Run the detection with `verbose=True` and read which half failed before
+  touching a `conformsTo` -- `presence False` is a declaration problem, `presence True` then
+  `-> N SHACL violation(s)` is a content problem, and "fixing" the declaration there deletes a
+  true claim to silence a real defect. The same pass found the cause was a modelling error rather
+  than a missing value: both Galaxy converters swept `{CreateAction, OrganizeAction}` into the
+  activity list, making "Run of Galaxy workflow engine" an object of `prov:wasGeneratedBy`, which
+  no crate says -- across all eight, the root's `mentions` names the `CreateAction` every time and
+  the `OrganizeAction` never. **Do not satisfy that rule by giving the engine run a `prov:used`**;
+  it has no `object` and no `result` to map, so the only available value is its own
+  `schema:instrument` restated as an input.
+
+- **`raw.githubusercontent.com` is Fastly-cached, so a consumer's drift check can fail on content
+  that is already correct.** The `check-frameandvalidate` workflow in each release repo curls the
+  normative `FrameAndValidate.py` from `validation/main` over raw, and on 2026-10-01 three
+  consecutive runs across six minutes read the superseded blob while a local curl of the same URL
+  returned the new one -- a stale POP, with origin and every local copy byte-identical (`diff`
+  over the canonical bodies: 0 lines). **Push `validation` BEFORE the repos that are synced from
+  it**, or every consumer goes red for a cache window; and when it does go red, diff the bodies
+  before touching anything, because the error message names hand-editing as the cause and it is
+  the one cause that has never been it yet.

@@ -460,6 +460,17 @@ supports (`detect_conformance`: presence ASK + per-class content SHACL), in
 Converters follow the same rule: emit a `conformsTo` only when detection supports it,
 rather than falling back to a claim the content does not earn.
 
+**An over-claim does not mean the declaration is wrong.** A class is declared iff
+presence AND its content SHACL raises no Violation, so a *content* defect presents as
+`DECLARED BUT NOT DETECTED: <profile>` — the same message a genuinely false claim
+produces. Measured 2026-10-01 on `profile-provenance`: 12 of 17 examples reported an
+over-claimed `provenance/1.1` while declaring it correctly; presence was true in every
+one and a single `cdifProvActivity` `prov:used` Violation was suppressing the class.
+Before editing a `conformsTo`, run the detection with `verbose=True` and read which
+half failed — `presence False` is a declaration problem, `presence True` followed by
+`-> N SHACL violation(s)` is a content problem, and fixing the declaration would then
+delete a true claim to silence a real defect.
+
 ### Where `schema:subjectOf` may be attached
 
 `cdifd:CDIFSubjectOfPlacementShape` (in `cdifCore/rules.shacl`) targets any node
@@ -672,6 +683,17 @@ $defs:
    prefixes:
      schema: https://schema.org
    ```
+
+4. **Every `@id` must be a usable IRI reference — no spaces, no pipes.** A JSON-LD
+   parser cannot resolve `"#input-Sn Foil"`, so it drops the node *and the incoming
+   triple with it*, and **no layer here reports that**: the JSON Schema gate sees the
+   key present and passes, the loss happening afterwards during RDF expansion. On
+   `Paper_1_Pt3Sn.actions.cdifprov.json` 28 `prov:used` keys became 6 subjects in the
+   graph, so 22 activities that named their inputs looked like activities naming none,
+   and the SHACL `minCount` fired on all of them. Percent-encode (`%20`, `%7C`), and
+   apply it to definitions and references alike — encoding one side breaks the join
+   instead. The check that catches it is a graph-level one: parse the example and
+   compare the triple count for a property against the number of keys in the JSON.
 
 ## Validation Workflow
 
