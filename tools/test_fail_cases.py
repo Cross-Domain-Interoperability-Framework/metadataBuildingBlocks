@@ -37,12 +37,38 @@ from jsonschema import Draft202012Validator
 SOURCES = Path(__file__).resolve().parent.parent / "_sources"
 
 
+def _leaves(e):
+    """An error and, for an anyOf/oneOf, the sub-errors its branches produced.
+
+    Top-level errors alone are not enough. A union failure yields ONE root error
+    whose message is the entire instance ("... is not valid under any of the
+    given schemas"), which mentions_subject below correctly refuses as evidence
+    -- so before 2026-10-01 a negative case whose real reason sat inside a branch
+    had no usable error at all, and was judged on the one error that says
+    nothing. Most class targets in this register are
+    anyOf [inline class, {@id} reference], so that is the common shape, not a
+    corner. Descending into e.context recovers the real paths, which are the
+    strong evidence this matcher is built on.
+    """
+    if not e.context:
+        return [e]
+    out = [e]
+    for sub in e.context:
+        out.extend(_leaves(sub))
+    return out
+
+
 def all_errors(schema: dict, doc: dict):
-    """Every validation error as (path, message)."""
-    out = []
-    for e in Draft202012Validator(schema).iter_errors(doc):
-        where = "/".join(str(p) for p in e.absolute_path) or "(root)"
-        out.append((where, e.message))
+    """Every validation error as (path, message), anyOf branches included."""
+    out, seen = [], set()
+    for top in Draft202012Validator(schema).iter_errors(doc):
+        for e in _leaves(top):
+            where = "/".join(str(p) for p in e.absolute_path) or "(root)"
+            key = (where, e.message)
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(key)
     return out
 
 
