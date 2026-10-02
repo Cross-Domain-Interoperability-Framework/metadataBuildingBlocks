@@ -71,10 +71,12 @@ $defs:
         type: string
         description: Identifier for this MeasureComponent node
       cdif:name:
-        type: array
-        items:
-          type: string
-        minItems: 1
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+          minItems: 1
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.

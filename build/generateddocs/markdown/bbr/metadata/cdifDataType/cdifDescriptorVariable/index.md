@@ -309,10 +309,10 @@ mapping.
             cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
             cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
-            cdif:value "diastolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
-            cdif:value "temp_c" ] .
+            cdif:value "temp_c" ],
+        [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
+            cdif:value "diastolic_bp" ] .
 
 
 ```
@@ -346,10 +346,12 @@ properties:
     $ref: '#/$defs/DescriptorValueDomain'
     x-jsonld-id: https://w3id.org/cdif/hasValuesFrom
   cdif:name:
-    type: array
-    items:
-      type: string
-    minItems: 1
+    anyOf:
+    - type: string
+    - type: array
+      items:
+        type: string
+      minItems: 1
     description: Human understandable name (linguistic signifier, word, phrase, or
       mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided
       to specify usage.

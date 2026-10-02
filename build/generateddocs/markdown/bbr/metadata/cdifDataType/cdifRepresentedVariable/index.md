@@ -192,10 +192,12 @@ properties:
       and management.
     x-jsonld-id: https://w3id.org/cdif/identifier
   cdif:name:
-    type: array
-    items:
-      type: string
-    minItems: 1
+    anyOf:
+    - type: string
+    - type: array
+      items:
+        type: string
+      minItems: 1
     description: Human understandable name (linguistic signifier, word, phrase, or
       mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided
       to specify usage.
@@ -253,10 +255,12 @@ $defs:
           and management.
         x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:name:
-        type: array
-        items:
-          type: string
-        minItems: 1
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+          minItems: 1
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
@@ -332,10 +336,12 @@ $defs:
           and management.
         x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:name:
-        type: array
-        items:
-          type: string
-        minItems: 1
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+          minItems: 1
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.

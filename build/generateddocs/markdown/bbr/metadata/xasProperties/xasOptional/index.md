@@ -94,11 +94,13 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       ],
       "schema:unitText": "eV",
       "cdif:identifier": "should be URI from nexusFormat organization",
-      "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-      "cdi:simpleUnitOfMeasure": "eV",
-      "cdi:uses": "xas:monochromatorenergy",
-      "cdi:name": "energy",
-      "cdi:displayLabel": "monochromator energy"
+      "cdif:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:simpleUnitOfMeasure": "eV",
+      "cdif:uses": [
+        "xas:monochromatorenergy"
+      ],
+      "cdif:name": "energy",
+      "cdif:displayLabel": "monochromator energy"
     },
     {
       "@id": "xas:incidentintensity",
@@ -118,10 +120,12 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       ],
       "schema:unitText": "counts",
       "cdif:identifier": "should be URI from nexusFormat organization",
-      "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-      "cdi:uses": "xas:incidentintensity",
-      "cdi:name": "i0",
-      "cdi:displayLabel": "monitor intensity"
+      "cdif:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:uses": [
+        "xas:incidentintensity"
+      ],
+      "cdif:name": "i0",
+      "cdif:displayLabel": "monitor intensity"
     }
   ],
   "schema:subjectOf": {
@@ -137,8 +141,7 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
     "schema:about": {
       "@id": "xas:exampleOptionalFields"
     },
-    "dcterms:conformsTo": [
-    ]
+    "dcterms:conformsTo": []
   }
 }
 
@@ -196,11 +199,13 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       ],
       "schema:unitText": "eV",
       "cdif:identifier": "should be URI from nexusFormat organization",
-      "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-      "cdi:simpleUnitOfMeasure": "eV",
-      "cdi:uses": "xas:monochromatorenergy",
-      "cdi:name": "energy",
-      "cdi:displayLabel": "monochromator energy"
+      "cdif:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:simpleUnitOfMeasure": "eV",
+      "cdif:uses": [
+        "xas:monochromatorenergy"
+      ],
+      "cdif:name": "energy",
+      "cdif:displayLabel": "monochromator energy"
     },
     {
       "@id": "xas:incidentintensity",
@@ -220,10 +225,12 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       ],
       "schema:unitText": "counts",
       "cdif:identifier": "should be URI from nexusFormat organization",
-      "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-      "cdi:uses": "xas:incidentintensity",
-      "cdi:name": "i0",
-      "cdi:displayLabel": "monitor intensity"
+      "cdif:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:uses": [
+        "xas:incidentintensity"
+      ],
+      "cdif:name": "i0",
+      "cdif:displayLabel": "monitor intensity"
     }
   ],
   "schema:subjectOf": {
@@ -264,30 +271,30 @@ xas:exampleOptionalFieldsRecord a schema1:Dataset ;
 
 xas:incidentintensity a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "monitor intensity" ;
-    cdi:name "i0" ;
-    cdi:physicalDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
-    cdi:uses "xas:incidentintensity" ;
     schema1:alternateName "Monitor intensity" ;
     schema1:description "missing, definition of what this variable is about (maybe even an iAdopt description)" ;
     schema1:name "i0 monitory intensity" ;
     schema1:propertyID xas:incidentintensity ;
     schema1:unitText "counts" ;
-    cdif:identifier "should be URI from nexusFormat organization" .
+    cdif:displayLabel "monitor intensity" ;
+    cdif:identifier "should be URI from nexusFormat organization" ;
+    cdif:name "i0" ;
+    cdif:physicalDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    cdif:uses "xas:incidentintensity" .
 
 xas:monochromatorenergy a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "monochromator energy" ;
-    cdi:name "energy" ;
-    cdi:physicalDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
-    cdi:simpleUnitOfMeasure "eV" ;
-    cdi:uses "xas:monochromatorenergy" ;
     schema1:alternateName "Monochromator energy" ;
     schema1:description "missing, definition of what this variable is about (maybe even an iAdopt description" ;
     schema1:name "energy" ;
     schema1:propertyID xas:monochromatorenergy ;
     schema1:unitText "eV" ;
-    cdif:identifier "should be URI from nexusFormat organization" .
+    cdif:displayLabel "monochromator energy" ;
+    cdif:identifier "should be URI from nexusFormat organization" ;
+    cdif:name "energy" ;
+    cdif:physicalDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    cdif:simpleUnitOfMeasure "eV" ;
+    cdif:uses "xas:monochromatorenergy" .
 
 
 ```
