@@ -21,8 +21,11 @@ This is a CDIF profile of the DDI-CDI `EnumerationDomain` extension point. It is
 - `@id` — recommended URI for the domain itself.
 - `cdif:identifier` — formal `schema:identifier` for the domain.
 - `schema:name` — short human label.
-- `cdif:references` *(required)* — anyOf an inline `skos:ConceptScheme` or an `@id`-only id-reference to a domain defined elsewhere. Points at the SKOS concept scheme whose concepts define the permitted values.
+- `cdif:references` *(required unless `schema:description` is present)* — anyOf an inline `skos:ConceptScheme` or an `@id`-only id-reference to a domain defined elsewhere. Points at the SKOS concept scheme whose concepts define the permitted values.
+- `schema:description` *(required unless `cdif:references` is present)* — prose statement of the values this domain admits, for a domain that names no codelist.
 - `cdif:purpose` — short string describing intent/use.
+
+A domain must say what its values are one way or the other. It was `cdif:references` unconditionally until 2026-09-25 and plain optional after, which left the SHACL asserting a Violation the schema permitted; the rule is now conditional on both sides.
 
 ## Relationship to other BBs
 
@@ -237,8 +240,20 @@ properties:
     type: string
     description: Intent or reason for the object/the description of the object.
     x-jsonld-id: https://w3id.org/cdif/purpose
+  schema:description:
+    type: string
+    description: Prose statement of the values this domain admits. Required when cdif:references
+      is absent, so that a domain naming no codelist still says what it enumerates.
+    x-jsonld-id: http://schema.org/description
 required:
 - '@type'
+if:
+  not:
+    required:
+    - cdif:references
+then:
+  required:
+  - schema:description
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/

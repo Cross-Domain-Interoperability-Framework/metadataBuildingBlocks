@@ -814,8 +814,21 @@ x-defs:
         type: string
         description: Intent or reason for the object/the description of the object.
         x-jsonld-id: https://w3id.org/cdif/purpose
+      schema:description:
+        type: string
+        description: Prose statement of the values this domain admits. Required when
+          cdif:references is absent, so that a domain naming no codelist still says
+          what it enumerates.
+        x-jsonld-id: http://schema.org/description
     required:
     - '@type'
+    if:
+      not:
+        required:
+        - cdif:references
+    then:
+      required:
+      - schema:description
     x-jsonld-prefixes:
       schema: http://schema.org/
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/

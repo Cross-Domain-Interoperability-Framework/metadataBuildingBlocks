@@ -461,14 +461,14 @@ ComponentPosition wrapper.
 
 <https://example.org/struct/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ] .
+            cdi:value 1 ] .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdif:hasIntendedDataType "xsd:decimal" ;
@@ -483,10 +483,10 @@ ComponentPosition wrapper.
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ] .
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ] .
 
 <https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/measureValue> .
@@ -849,14 +849,14 @@ each cell in the cube.
 
 <https://example.org/struct/salesCube/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/country> ;
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/quarter> ;
             cdi:value 2 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/productCategory> ;
-            cdi:value 3 ],
-        [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/country> ;
-            cdi:value 1 ] .
+            cdi:value 3 ] .
 
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
     cdif:hasIntendedDataType "xsd:string" ;
@@ -1210,11 +1210,11 @@ array — wide-format rows are uniquely identified by patientId alone.
 A cdi:WideDataStructure whose siteId is a foreign key into a separate
 sites dataset. The cdif:ForeignKey composes that variable through a
 cdi:ComponentPosition wrapper and names its target with
-cdif:references — the property that distinguishes a foreign key from a
+cdif:references_PrimaryKey — the property that distinguishes a foreign key from a
 cdif:Key, and which a foreign key cannot omit.
 
 This is the first cdif:ForeignKey instance in the register. Its
-required cdif:references had no example and no negative test, so the
+required cdif:references_PrimaryKey had no example and no negative test, so the
 constraint had never been shown to accept a valid case.
 #### json
 ```json
@@ -1280,7 +1280,7 @@ constraint had never been shown to accept a valid case.
           "cdi:value": 1
         }
       ],
-      "cdif:references": {
+      "cdif:references_PrimaryKey": {
         "@id": "ex:struct/sites/pk/siteId"
       }
     }
@@ -1360,7 +1360,7 @@ constraint had never been shown to accept a valid case.
           "cdi:value": 1
         }
       ],
-      "cdif:references": {
+      "cdif:references_PrimaryKey": {
         "@id": "ex:struct/sites/pk/siteId"
       }
     }
@@ -1387,7 +1387,7 @@ constraint had never been shown to accept a valid case.
 
 <https://example.org/struct/measurements/fk/site> a cdif:ForeignKey ;
     cdif:isComposedOf <https://example.org/struct/measurements/fk/site/pos/1> ;
-    cdif:references <https://example.org/struct/sites/pk/siteId> .
+    cdif:references_PrimaryKey <https://example.org/struct/sites/pk/siteId> .
 
 <https://example.org/struct/measurements/fk/site/pos/1> a cdi:ComponentPosition ;
     cdi:indexes <https://example.org/struct/measurements/rv/siteId> ;
@@ -1876,14 +1876,14 @@ $defs:
           - cdi:indexes
           - cdi:value
         x-jsonld-id: https://w3id.org/cdif/isComposedOf
-      cdif:references:
+      cdif:references_PrimaryKey:
         description: references a primary key in a different dataset
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-        x-jsonld-id: https://w3id.org/cdif/references
+        x-jsonld-id: https://w3id.org/cdif/references_PrimaryKey
     required:
     - '@type'
     - cdif:isComposedOf
-    - cdif:references
+    - cdif:references_PrimaryKey
   PrimaryKey:
     description: Set of variables that uniquely identify a data instance. The same
       cdif:Key as cdif:hasPrimaryKey takes at dataset level, so a structure-level
