@@ -270,8 +270,13 @@ def _fetch_url_schema(url: str) -> Path:
         # Pinned: serve from the repo, no network. Report drift rather than hiding it.
         rec = _URL_LOCK.get(url)
         if rec:
-            have = hashlib.sha256(cache_path.read_bytes()).hexdigest()
-            if have != rec.get("sha256"):
+            # Compare the raw AND the LF-normalised bytes. The lock holds the digest of what
+            # upstream served, but git checks these YAML files out with CRLF on Windows, so
+            # the raw digest cannot match there and every pin reported drift it did not have.
+            raw = cache_path.read_bytes()
+            have = {hashlib.sha256(raw).hexdigest(),
+                    hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest()}
+            if rec.get("sha256") not in have:
                 print(f"  WARNING: {cache_path.relative_to(REPO_ROOT)} does not match "
                       f"remote-lock.json - the vendored copy was edited by hand?", file=sys.stderr)
         _URL_CACHE[url] = cache_path
