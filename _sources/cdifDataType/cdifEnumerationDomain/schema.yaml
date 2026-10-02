@@ -36,14 +36,46 @@ properties:
   'cdif:purpose':
     type: string
     description: Intent or reason for the object/the description of the object.
-# cdif:references is NOT required. The link from an enumerated domain to the
-# controlled vocabulary that defines its values is optional: this block is an
-# extension point, and a subclass or a not-yet-published vocabulary may leave the
-# binding unstated. It was required until 2026-09-25, which contradicted both
-# implementation guides (they document it as Optional) and would have failed any
-# record that described a domain without naming a codelist. [smr note-- should
-# have constraint that if references is not populated, then a schema:description
-# is required.  Also note that for consistency with how other cdi classes are 
-# implemented in cdif, schema:name should be cdif:name.]
+  'schema:description':
+    type: string
+    description: >-
+      Prose statement of the values this domain admits. Required when
+      cdif:references is absent, so that a domain naming no codelist still says
+      what it enumerates.
+# cdif:references is neither unconditionally required nor simply optional.
+# It was required until 2026-09-25, which contradicted both implementation
+# guides (they document it as Optional) and would have failed any record that
+# described a domain without naming a codelist. Relaxing it to optional went too
+# far the other way: this block's SHACL kept asserting a Violation that the
+# schema permitted, so a record omitting the property passed JSON Schema and
+# failed SHACL -- the exact case the relaxation set out to allow (#42). The rule
+# was dormant rather than dead, because both examples carry the property, so it
+# reported nothing and looked healthy.
+#
+# The rule implemented instead is the one the maintainer note asked for: a
+# domain may omit the codelist binding only if it states in prose what its
+# values are. Written as if/not/then rather than
+# anyOf[required cdif:references, required schema:description] deliberately --
+# an anyOf failure interpolates the whole instance and names no property, while
+# this form reports a plain `required` error naming schema:description.
+#
+# The guard is genuinely conditional, unlike cdifDataDescription's
+# `if: required: [schema:variableMeasured]`, which was always true because that
+# property is required unconditionally. cdif:references is absent from
+# `required` here, so both branches are reachable.
+# tests/description-fail.json carries neither and must fail; that
+# negative case is what keeps this rule from being decorative.
+#
+# Deliberately NOT done here: schema:name -> cdif:name, which the same
+# maintainer note asks for on consistency grounds. It inherits the cdif:name
+# arity question (now anyOf[string, array<string>], 5df6d293e) and is tracked
+# separately.
 required:
 - '@type'
+if:
+  not:
+    required:
+    - 'cdif:references'
+then:
+  required:
+  - 'schema:description'

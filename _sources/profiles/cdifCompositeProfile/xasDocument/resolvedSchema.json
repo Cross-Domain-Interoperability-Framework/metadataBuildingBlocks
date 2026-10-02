@@ -4644,11 +4644,27 @@
                                     "cdif:purpose": {
                                       "type": "string",
                                       "description": "Intent or reason for the object/the description of the object."
+                                    },
+                                    "schema:description": {
+                                      "type": "string",
+                                      "description": "Prose statement of the values this domain admits. Required when cdif:references is absent, so that a domain naming no codelist still says what it enumerates."
                                     }
                                   },
                                   "required": [
                                     "@type"
-                                  ]
+                                  ],
+                                  "if": {
+                                    "not": {
+                                      "required": [
+                                        "cdif:references"
+                                      ]
+                                    }
+                                  },
+                                  "then": {
+                                    "required": [
+                                      "schema:description"
+                                    ]
+                                  }
                                 },
                                 {
                                   "type": "object",
@@ -5046,11 +5062,27 @@
                                   "cdif:purpose": {
                                     "type": "string",
                                     "description": "Intent or reason for the object/the description of the object."
+                                  },
+                                  "schema:description": {
+                                    "type": "string",
+                                    "description": "Prose statement of the values this domain admits. Required when cdif:references is absent, so that a domain naming no codelist still says what it enumerates."
                                   }
                                 },
                                 "required": [
                                   "@type"
-                                ]
+                                ],
+                                "if": {
+                                  "not": {
+                                    "required": [
+                                      "cdif:references"
+                                    ]
+                                  }
+                                },
+                                "then": {
+                                  "required": [
+                                    "schema:description"
+                                  ]
+                                }
                               },
                               {
                                 "type": "object",
@@ -7764,11 +7796,27 @@
                           "cdif:purpose": {
                             "type": "string",
                             "description": "Intent or reason for the object/the description of the object."
+                          },
+                          "schema:description": {
+                            "type": "string",
+                            "description": "Prose statement of the values this domain admits. Required when cdif:references is absent, so that a domain naming no codelist still says what it enumerates."
                           }
                         },
                         "required": [
                           "@type"
-                        ]
+                        ],
+                        "if": {
+                          "not": {
+                            "required": [
+                              "cdif:references"
+                            ]
+                          }
+                        },
+                        "then": {
+                          "required": [
+                            "schema:description"
+                          ]
+                        }
                       },
                       {
                         "type": "object",
@@ -8158,11 +8206,27 @@
                         "cdif:purpose": {
                           "type": "string",
                           "description": "Intent or reason for the object/the description of the object."
+                        },
+                        "schema:description": {
+                          "type": "string",
+                          "description": "Prose statement of the values this domain admits. Required when cdif:references is absent, so that a domain naming no codelist still says what it enumerates."
                         }
                       },
                       "required": [
                         "@type"
-                      ]
+                      ],
+                      "if": {
+                        "not": {
+                          "required": [
+                            "cdif:references"
+                          ]
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "schema:description"
+                        ]
+                      }
                     },
                     {
                       "type": "object",
@@ -10525,7 +10589,7 @@
             ]
           }
         },
-        "cdif:references": {
+        "cdif:references_PrimaryKey": {
           "$ref": "#/$defs/ObjectReference",
           "description": "references a primary key in a different dataset"
         }
@@ -10533,7 +10597,7 @@
       "required": [
         "@type",
         "cdif:isComposedOf",
-        "cdif:references"
+        "cdif:references_PrimaryKey"
       ]
     },
     "LanguageTaggedValue": {

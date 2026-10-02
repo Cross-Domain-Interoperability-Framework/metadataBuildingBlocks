@@ -28,11 +28,17 @@ cdifd:cdifEnumerationDomainShape
 		sh:message "A cdif:EnumerationDomain should carry a schema:name (human-readable label)" ;
 	] ;
 
+	# Was sh:Violation with sh:minCount 1, which contradicted the JSON Schema:
+	# cdif:references stopped being required on 2026-09-25 and this half was left
+	# behind, so a record omitting it passed JSON Schema and failed SHACL (#42).
+	# The binding is preferred but not mandatory -- naming the codelist is better
+	# than describing it in prose -- so the recommendation is a Warning here, and
+	# the actual requirement is the conditional shape below.
 	sh:property [
 		sh:path cdif:references ;
 		sh:minCount 1 ;
-		sh:severity sh:Violation ;
-		sh:message "A cdif:EnumerationDomain must carry cdif:references (a skos:ConceptScheme or @id-reference to the codification)" ;
+		sh:severity sh:Warning ;
+		sh:message "A cdif:EnumerationDomain should carry cdif:references (a skos:ConceptScheme or @id-reference to the codification); if it does not, schema:description must say what values the domain admits" ;
 	] ;
 
 	# -- INFORMATIONAL (Info) --
@@ -48,4 +54,22 @@ cdifd:cdifEnumerationDomainShape
 		sh:severity sh:Info ;
 		sh:message "A cdif:EnumerationDomain may include a cdif:purpose describing intent or use" ;
 	] ;
+	.
+
+# The JSON Schema twin of this is `if: not: required: [cdif:references], then:
+# required: [schema:description]` in schema.yaml. An EnumerationDomain must say
+# what its values are one way or the other: by naming the codelist that defines
+# them, or in prose. Carrying neither is the Violation.
+#
+# sh:or over two property shapes, not sh:minCount on either -- a minCount on
+# both would require both, and a minCount on neither would require nothing.
+cdifd:cdifEnumerationDomainValuesStatedShape
+	a sh:NodeShape ;
+	sh:targetClass cdif:EnumerationDomain ;
+	sh:or (
+		[ sh:property [ sh:path cdif:references ; sh:minCount 1 ; ] ]
+		[ sh:property [ sh:path schema:description ; sh:minCount 1 ; ] ]
+	) ;
+	sh:severity sh:Violation ;
+	sh:message "A cdif:EnumerationDomain must either carry cdif:references (the codelist whose concepts define its values) or schema:description (prose stating what values it admits). It carries neither, so nothing says what this domain enumerates." ;
 	.
