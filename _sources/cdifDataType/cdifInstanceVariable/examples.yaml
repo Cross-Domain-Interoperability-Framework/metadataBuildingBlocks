@@ -1,9 +1,26 @@
 - title: Minimal CDIF Instance Variable
   content: |-
-    Single PropertyValue + cdi:InstanceVariable node with the four
-    properties required by the CdifInstanceVariableNode shape (which
-    inherits ddicdiInstanceVariable's required list): @type, cdi:name,
-    cdi:definition, cdi:takesSubstantiveValuesFrom.
+    Single schema:PropertyValue + cdi:InstanceVariable node carrying
+    @type, @id, schema:name, cdif:name, cdif:definition and
+    cdi:takesSubstantiveValuesFrom.
+
+    Nothing here is required by the model. Canonical ddicdiInstanceVariable
+    requires only @type -- all six of its attributes and all three of its
+    associations have a lower bound of 0 in the DDI-CDI XMI -- and this block
+    adds no required list of its own. "Minimal" therefore means the smallest
+    set that describes a variable usefully, not the smallest set that
+    validates; an InstanceVariable carrying @type alone is legal.
+
+    Earlier text here claimed the block "inherits ddicdiInstanceVariable's
+    required list: @type, cdi:name, cdi:definition,
+    cdi:takesSubstantiveValuesFrom" and attributed it to a
+    CdifInstanceVariableNode shape. Four things were wrong: there is no such
+    required list to inherit, no shape of that name exists in any rules.shacl,
+    and the prefixes were stale -- the example carries cdif:name and
+    cdif:definition, not cdi:. It also omitted schema:name, which the example
+    does carry. The one shape that does target cdi:InstanceVariable here is
+    cdifd:CDIFxasInstanceVariableShape, and it constrains the FORM of
+    cdif:physicalDataType rather than requiring any property.
   prefixes:
     schema: http://schema.org/
     cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/

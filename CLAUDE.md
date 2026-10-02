@@ -406,16 +406,38 @@ their refs are resolved over the network at their build time, not ours.
   to `NXsource`, and the glossary now records it as `skos:narrower`. Do not "finish the job" by
   mapping `xas:facility` onto `NXsource`.
 
-- **`resolve_schema.py` is the canonical copy the domain repos receive, and the geochem fork has
-  diverged in BOTH directions.** A wholesale sync either way breaks something: geochem's copy
-  carries `bb_locate` (which resolves names under a `techniqueProfile/` layout this repo does not
-  have, so `resolve_schema.py <blockName>` raises `ModuleNotFoundError`) and a `vendor/remote/`
-  pinning mechanism that is inert here, since no source declares a URL `$ref` — the drift workflow
-  depends on that being true. Meanwhile this copy has the unresolved-ref reporting that geochem
-  merged *from* here. Cherry-pick per feature. `prune_noop_allof` came across that way on
-  2026-09-27 and is worth **36 bytes** in this register — one husk in
-  `xasGeneratedBy/resolvedSchema.json` out of 8.7 MB — because its motivating case, `adaProduct`,
-  is a geochem block. It is carried for de-divergence, not for size.
+- **`resolve_schema.py` is now the geochem superset, taken wholesale on 2026-10-02 (#39), so the
+  blind-copy sync is safe in both directions.** Until then the two had diverged each way and the
+  rule was cherry-pick per feature — `prune_noop_allof` came across that way on 2026-09-27 and is
+  worth **36 bytes** in this register, one husk in `xasGeneratedBy/resolvedSchema.json` out of
+  8.7 MB, because its motivating case `adaProduct` is a geochem block. That history matters only
+  for reading old commits now; do not re-apply the cherry-pick advice.
+
+  Two things the superset brought that behave differently here:
+
+  **`_has_structure_outside_defs` exempts a defs-only schema from `inline_low_use_defs`**, alongside
+  the existing `isTypeLibrary` flag — so exemption is now detected from content, not only from a
+  hand-set `bblock.json` field. It fixed modules that were "losing every def and publishing a
+  resolvedSchema.json holding nothing but `$schema`, title and description". It also moved **17
+  artifacts** on merge, and in both directions: `ddicdiPresentationalVariable` 43 → 41 `$defs` and
+  +34 KB, `cdifDataStructure` 22 → 25 `$defs` and −21 KB. Nine of the thirteen `ddiProperties`
+  artifacts were **pure key reordering** (`ddicdiCodeList` identical content at 98579 bytes, just
+  rearranged) and **no ddi source was touched**. Measured before merging: the 11 records belonging
+  to the four blocks that changed representation give **0 differing verdicts** under old and new
+  artifacts, because `$ref` and inlined content are equivalent in JSON Schema. So a large diff here
+  does not imply a behaviour change — check verdicts, not bytes.
+
+  **`vendor/remote/` is no longer a tempdir.** `_URL_CACHE_DIR` was
+  `tempfile.mkdtemp()`; it is now `REPO_ROOT / "vendor" / "remote"` with a `vendor/remote-lock.json`
+  and fetching gated behind `--refresh-remote` (`_ALLOW_FETCH = False` by default). The mechanism
+  stays **inert while no source declares a URL `$ref`**, and `check-schema-drift.yml` depends on
+  that: its claim that both tools "run entirely offline and the result depends only on the
+  checked-out tree" holds only because there is nothing to fetch. The difference from before is that
+  the cache is now a committed path in this repo rather than a directory that vanishes, so the first
+  source to gain a URL `$ref` changes the drift check's character — the resolved output would then
+  depend on `vendor/remote/` contents and on when they were last refreshed, not on the tree alone.
+  If that day comes, the lock file is the thing that keeps the build reproducible, and it has to be
+  committed and checked, not just present.
 
 - **`generate_shacl_shapes.py` output depends on your checkout's line endings, and the symptom
   points at the wrong culprit.** A Windows working copy has CRLF in 39 of 81 `rules.shacl` files
