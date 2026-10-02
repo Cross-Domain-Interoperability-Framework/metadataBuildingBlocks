@@ -36,6 +36,12 @@
     "cdif.bbr.metadata.skosProperties.skosConcept": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
     ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
     "cdif.bbr.metadata.cdifDataType.cdifValueDomain": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifValueDomain/rules.shacl"
     ],
@@ -44,12 +50,6 @@
     ],
     "cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfile/cdifCodelist/rules.shacl"
-    ],
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
-    ],
-    "cdif.bbr.metadata.schemaorgProperties.identifier": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.labeledLink": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/labeledLink/rules.shacl"
@@ -72,7 +72,7 @@
   "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDescriptorVariable/",
   "validationPassed": false,
   "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/cdifDataType/cdifDescriptorVariable/",
-  "description": "# CDIF Descriptor Variable\n\nA **DDI-CDI Descriptor Variable** is a presentational variable found only in **Long Data Sets**. It records the codes that appear in the dataset's descriptor column \u2014 each code naming which logical variable the value in the corresponding Reference Variable column is a measure for.\n\nFor example, in a long-format vitals table:\n\n| patient_id | measure_name | measure_value |\n|---|---|---|\n| P001 | systolic_bp | 132 |\n| P001 | heart_rate | 78 |\n\n`measure_name` is the descriptor column; the values it takes (`systolic_bp`, `heart_rate`) are descriptor codes that name the conceptual RepresentedVariables they identify.\n\n## Structure\n\nA `cdi:DescriptorVariable` carries:\n\n| Property | Required | Notes |\n|---|---|---|\n| `@type` | required | Must include `cdi:DescriptorVariable`. |\n| `@id` | recommended | Identifier for the variable node. |\n| `cdif:hasValuesFrom` | **required** | A `cdi:DescriptorValueDomain` enumerating the descriptor codes (see below). |\n| `cdi:name` | optional | Array of `cdi:ObjectName` (formal naming per ISO 11179-5). |\n\nThe **`cdi:DescriptorValueDomain`** has a required `cdif:takesValuesFrom` array of descriptor entries. Each entry pairs:\n\n- `cdif:value` \u2014 the code as it appears in the descriptor column (e.g. `\"systolic_bp\"`).\n- `cdif:isDefinedBy` \u2014 an inline `cdifRepresentedVariable` or `@id`-reference to one declared elsewhere in the document, identifying the conceptual variable the code names.\n\nThis is the controlled-vocabulary descriptor pattern: strings in the descriptor column map to RepresentedVariables (the conceptual definitions of the variables those codes name). No SKOS Concept indirection.\n\n## Use in DataStructure\n\nA `cdi:VariableDescriptorComponent` (in [cdifDataStructureComponent](../cdifDataStructureComponent/)) holds a `cdi:isDefinedBy` pointer to a `cdifDescriptorVariable` instance, plus a `cdi:refersTo` pointer to the `cdi:VariableValueComponent` whose value-column contents the descriptor identifies.\n\n## Dependencies\n\n- [cdifRepresentedVariable](../cdifRepresentedVariable/) \u2014 target of `cdif:isDefinedBy` in each descriptor entry.\n",
+  "description": "# CDIF Descriptor Variable\n\nA **DDI-CDI Descriptor Variable** is a presentational variable found only in **Long Data Sets**. It records the codes that appear in the dataset's descriptor column \u2014 each code naming which logical variable the value in the corresponding Reference Variable column is a measure for.\n\nFor example, in a long-format vitals table:\n\n| patient_id | measure_name | measure_value |\n|---|---|---|\n| P001 | systolic_bp | 132 |\n| P001 | heart_rate | 78 |\n\n`measure_name` is the descriptor column; the values it takes (`systolic_bp`, `heart_rate`) are descriptor codes that name the conceptual RepresentedVariables they identify.\n\n## Structure\n\nA `cdi:DescriptorVariable` carries:\n\n| Property | Required | Notes |\n|---|---|---|\n| `@type` | required | Must include `cdi:DescriptorVariable`. |\n| `@id` | recommended | Identifier for the variable node. |\n| `cdif:hasValuesFrom` | **required** | A `cdi:DescriptorValueDomain` enumerating the descriptor codes (see below). |\n| `cdif:name` | **required** | Array of plain strings. CDIF flattens DDI-CDI's `dt-ObjectName` wrapper, which is why the property is `cdif:` and not `cdi:`. |\n\nThe **`cdi:DescriptorValueDomain`** has a required `cdif:takesValuesFrom` array of descriptor entries. Each entry pairs:\n\n- `cdif:value` \u2014 the code as it appears in the descriptor column (e.g. `\"systolic_bp\"`).\n- `cdif:isDefinedBy` \u2014 an inline `cdifRepresentedVariable` or `@id`-reference to one declared elsewhere in the document, identifying the conceptual variable the code names.\n\nThis is the controlled-vocabulary descriptor pattern: strings in the descriptor column map to RepresentedVariables (the conceptual definitions of the variables those codes name). No SKOS Concept indirection.\n\n## Use in DataStructure\n\nA `cdi:VariableDescriptorComponent` (in [cdifDataStructureComponent](../cdifDataStructureComponent/)) holds a `cdi:isDefinedBy` pointer to a `cdifDescriptorVariable` instance, plus a `cdi:refersTo` pointer to the `cdi:VariableValueComponent` whose value-column contents the descriptor identifies.\n\n## Dependencies\n\n- [cdifRepresentedVariable](../cdifRepresentedVariable/) \u2014 target of `cdif:isDefinedBy` in each descriptor entry.\n",
   "examples": [
     {
       "title": "Minimal CDIF Descriptor Variable",
@@ -105,7 +105,7 @@
     },
     {
       "title": "Complete CDIF Descriptor Variable",
-      "content": "A measure_name descriptor variable with a 4-entry DescriptorValueDomain\nenumerating the codes that can appear in the descriptor column of a\nlong-format vitals table \u2014 each code paired (via cdif:isDefinedBy) with the\n@id of the InstanceVariable it names. Demonstrates cdi:name (ObjectName\nwrapper) and a non-trivial code \u2192 variable mapping.",
+      "content": "A measure_name descriptor variable with a 4-entry DescriptorValueDomain\nenumerating the codes that can appear in the descriptor column of a\nlong-format vitals table \u2014 each code paired (via cdif:isDefinedBy) with the\n@id of the InstanceVariable it names. Demonstrates cdif:name (an array of\nplain strings -- CDIF flattens DDI-CDI's dt-ObjectName wrapper, which is why\nthe property is cdif: and not cdi:) and a non-trivial code \u2192 variable\nmapping.",
       "prefixes": {
         "schema": "http://schema.org/",
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
@@ -129,7 +129,7 @@
           "language": "ttl",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifDescriptorVariable/example_2_1.ttl",
           "sizeBytes": 1154,
-          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://w3id.org/cdif/> .\n\n<https://example.org/dv/measureName> a cdi:DescriptorVariable ;\n    cdif:hasValuesFrom <https://example.org/vd/measureName> ;\n    cdif:name \"measure_name\" .\n\n<https://example.org/rv/diastolicBP> a cdi:RepresentedVariable ;\n    cdi:simpleUnitOfMeasure \"mmHg\" ;\n    cdif:hasIntendedDataType \"xsd:decimal\" ;\n    cdif:name \"diastolic_blood_pressure\" .\n\n<https://example.org/rv/systolicBP> a cdi:RepresentedVariable ;\n    cdi:simpleUnitOfMeasure \"mmHg\" ;\n    cdif:hasIntendedDataType \"xsd:decimal\" ;\n    cdif:name \"systolic_blood_pressure\" .\n\n<https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;\n    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;\n            cdif:value \"diastolic_bp\" ],\n        [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;\n            cdif:value \"heart_rate\" ],\n        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;\n            cdif:value \"systolic_bp\" ],\n        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;\n            cdif:value \"temp_c\" ] .\n\n"
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://w3id.org/cdif/> .\n\n<https://example.org/dv/measureName> a cdi:DescriptorVariable ;\n    cdif:hasValuesFrom <https://example.org/vd/measureName> ;\n    cdif:name \"measure_name\" .\n\n<https://example.org/rv/diastolicBP> a cdi:RepresentedVariable ;\n    cdi:simpleUnitOfMeasure \"mmHg\" ;\n    cdif:hasIntendedDataType \"xsd:decimal\" ;\n    cdif:name \"diastolic_blood_pressure\" .\n\n<https://example.org/rv/systolicBP> a cdi:RepresentedVariable ;\n    cdi:simpleUnitOfMeasure \"mmHg\" ;\n    cdif:hasIntendedDataType \"xsd:decimal\" ;\n    cdif:name \"systolic_blood_pressure\" .\n\n<https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;\n    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;\n            cdif:value \"systolic_bp\" ],\n        [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;\n            cdif:value \"heart_rate\" ],\n        [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;\n            cdif:value \"diastolic_bp\" ],\n        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;\n            cdif:value \"temp_c\" ] .\n\n"
         }
       ]
     }

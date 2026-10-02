@@ -60,10 +60,27 @@ When a dataset's distribution carries `cdi:isStructuredBy` (CDIF **Data Structur
 ## Examples
 
 ### Minimal CDIF Instance Variable
-Single PropertyValue + cdi:InstanceVariable node with the four
-properties required by the CdifInstanceVariableNode shape (which
-inherits ddicdiInstanceVariable's required list): @type, cdi:name,
-cdi:definition, cdi:takesSubstantiveValuesFrom.
+Single schema:PropertyValue + cdi:InstanceVariable node carrying
+@type, @id, schema:name, cdif:name, cdif:definition and
+cdi:takesSubstantiveValuesFrom.
+
+Nothing here is required by the model. Canonical ddicdiInstanceVariable
+requires only @type -- all six of its attributes and all three of its
+associations have a lower bound of 0 in the DDI-CDI XMI -- and this block
+adds no required list of its own. "Minimal" therefore means the smallest
+set that describes a variable usefully, not the smallest set that
+validates; an InstanceVariable carrying @type alone is legal.
+
+Earlier text here claimed the block "inherits ddicdiInstanceVariable's
+required list: @type, cdi:name, cdi:definition,
+cdi:takesSubstantiveValuesFrom" and attributed it to a
+CdifInstanceVariableNode shape. Four things were wrong: there is no such
+required list to inherit, no shape of that name exists in any rules.shacl,
+and the prefixes were stale -- the example carries cdif:name and
+cdif:definition, not cdi:. It also omitted schema:name, which the example
+does carry. The one shape that does target cdi:InstanceVariable here is
+cdifd:CDIFxasInstanceVariableShape, and it constrains the FORM of
+cdif:physicalDataType rather than requiring any property.
 #### json
 ```json
 {
@@ -813,14 +830,14 @@ referencing the code-list concept).
     cdif:indexedBy <https://example.org/mics/mwi2019/var/HH14> .
 
 <https://example.org/mics/mwi2019/var/HH14/statistics/count> a cdi:Statistics ;
-    cdi:statistic [ cdi:computationBase "MissingOnly" ;
-            cdi:content 1463 ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 25419 ;
             cdi:typeOfNumericValue "decimal" ],
         [ cdi:computationBase "Total" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ],
-        [ cdi:computationBase "ValidOnly" ;
-            cdi:content 25419 ;
+        [ cdi:computationBase "MissingOnly" ;
+            cdi:content 1463 ;
             cdi:typeOfNumericValue "decimal" ] ;
     cdif:typeOfStatistic "count" .
 
@@ -829,9 +846,15 @@ referencing the code-list concept).
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 21497 ;
+                    cdi:content 75 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdif:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
+            cdi:statistic [ cdi:computationBase "MissingOnly" ;
+                    cdi:content 1463 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
@@ -847,15 +870,9 @@ referencing the code-list concept).
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 75 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdif:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
-            cdi:statistic [ cdi:computationBase "MissingOnly" ;
-                    cdi:content 1463 ;
+                    cdi:content 21497 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ] ;
     cdif:typeOfStatistic "frequency" .
@@ -1246,10 +1263,10 @@ valid count (26882).
     cdif:indexedBy <https://example.org/mics/mwi2019/var/HH6> .
 
 <https://example.org/mics/mwi2019/var/HH6/statistics/count> a cdi:Statistics ;
-    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+    cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ],
-        [ cdi:computationBase "Total" ;
+        [ cdi:computationBase "ValidOnly" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
     cdif:typeOfStatistic "count" .

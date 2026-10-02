@@ -31,7 +31,7 @@ A `cdi:DescriptorVariable` carries:
 | `@type` | required | Must include `cdi:DescriptorVariable`. |
 | `@id` | recommended | Identifier for the variable node. |
 | `cdif:hasValuesFrom` | **required** | A `cdi:DescriptorValueDomain` enumerating the descriptor codes (see below). |
-| `cdi:name` | optional | Array of `cdi:ObjectName` (formal naming per ISO 11179-5). |
+| `cdif:name` | **required** | Array of plain strings. CDIF flattens DDI-CDI's `dt-ObjectName` wrapper, which is why the property is `cdif:` and not `cdi:`. |
 
 The **`cdi:DescriptorValueDomain`** has a required `cdif:takesValuesFrom` array of descriptor entries. Each entry pairs:
 
@@ -136,8 +136,10 @@ cdif:takesValuesFrom array).
 A measure_name descriptor variable with a 4-entry DescriptorValueDomain
 enumerating the codes that can appear in the descriptor column of a
 long-format vitals table — each code paired (via cdif:isDefinedBy) with the
-@id of the InstanceVariable it names. Demonstrates cdi:name (ObjectName
-wrapper) and a non-trivial code → variable mapping.
+@id of the InstanceVariable it names. Demonstrates cdif:name (an array of
+plain strings -- CDIF flattens DDI-CDI's dt-ObjectName wrapper, which is why
+the property is cdif: and not cdi:) and a non-trivial code → variable
+mapping.
 #### json
 ```json
 {
@@ -303,12 +305,12 @@ wrapper) and a non-trivial code → variable mapping.
     cdif:name "systolic_blood_pressure" .
 
 <https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
-            cdif:value "diastolic_bp" ],
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
             cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
+            cdif:value "diastolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
             cdif:value "temp_c" ] .
 
