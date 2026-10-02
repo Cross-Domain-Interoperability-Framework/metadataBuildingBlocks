@@ -481,11 +481,21 @@ their refs are resolved over the network at their build time, not ours.
   `MIRROR_SYNC_TOKEN` secret, and that secret has never existed: unset, the guard emits a
   `::warning::`, sets `run=false`, every later step is skipped by its `if`, and the job concludes
   **`success`**. It ran on all six recent `validation` pushes, each in 7-9 s — just the guard. So
-  the mirror is unmaintained, and nothing says so. **After changing the validation tools, run
-  `bash tools/sync_mirror_tools.sh . ../cdif-umlmodel/tools` by hand until the trigger is fixed.**
-  Both repos are public, so the fix needs no credential: a workflow *in* `cdif-umlmodel` can read
-  `validation` unauthenticated and push to itself with the built-in `GITHUB_TOKEN`. The
-  push-from-`validation` direction is what needs a PAT, which is why it stalled.
+  the mirror was unmaintained and nothing said so.
+  **Fixed the same day by inverting the direction, which removes the credential entirely.** Both
+  repos are public, so `cdif-umlmodel/.github/workflows/sync-tools-from-validation.yml` checks
+  `validation` out unauthenticated and pushes to its own repo with the built-in `GITHUB_TOKEN`
+  (`permissions: contents: write`); the push-from-`validation` direction is the one that needed a
+  PAT, which is why it stalled. The old workflow is deleted -- **do not reinstate a push-based
+  one.** `tools/sync_mirror_tools.sh` still owns the file list, still lives beside the files it
+  mirrors, and is still runnable by hand
+  (`bash tools/sync_mirror_tools.sh . ../cdif-umlmodel/tools`) when you do not want to wait for
+  the daily schedule; `workflow_dispatch` does the same from the Actions tab.
+  Verified by both halves, because a green run proves neither: a clean dispatch reported
+  `Synced 16 files` and `already up to date with validation@d7134df`, and then deleting a mirrored
+  shape file had the next run restore it, name it in the log and push -- `Updating 1 file(s)`.
+  **A no-op run cannot distinguish a working push from a broken one**, which is the trap the
+  original fell into.
 
 - **Two mechanisms were writing the same `FrameAndValidate.py`, and the loser was whichever ran
   last.** `sync_frameandvalidate.py` discovers any repo with a copy one level down **that carries
