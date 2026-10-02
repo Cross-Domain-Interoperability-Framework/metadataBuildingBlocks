@@ -469,3 +469,45 @@ their refs are resolved over the network at their build time, not ours.
   it**, or every consumer goes red for a cache window; and when it does go red, diff the bodies
   before touching anything, because the error message names hand-editing as the cause and it is
   the one cause that has never been it yet.
+
+- **`cdif-umlmodel/tools/` is a MIRROR, and its sync workflow has reported success while doing
+  nothing since it was created.** Measured 2026-10-02. The directory is not a release repo: it
+  holds a copy of the `CDIF/validation` instance-validation tools, owned by
+  `validation/tools/sync_mirror_tools.sh`, which copies `FrameAndValidate.py` **verbatim** along
+  with the three framed-tree schemas, the frame, the context, `ConformanceValidate`,
+  `detect_conformance`, the local conformance map and six SHACL shape sets. Running it by hand
+  updated **all 15 tracked files** — every one was stale.
+  The workflow (`validation/.github/workflows/sync-mirror-tools.yml`) guards on a
+  `MIRROR_SYNC_TOKEN` secret, and that secret has never existed: unset, the guard emits a
+  `::warning::`, sets `run=false`, every later step is skipped by its `if`, and the job concludes
+  **`success`**. It ran on all six recent `validation` pushes, each in 7-9 s — just the guard. So
+  the mirror is unmaintained, and nothing says so. **After changing the validation tools, run
+  `bash tools/sync_mirror_tools.sh . ../cdif-umlmodel/tools` by hand until the trigger is fixed.**
+  Both repos are public, so the fix needs no credential: a workflow *in* `cdif-umlmodel` can read
+  `validation` unauthenticated and push to itself with the built-in `GITHUB_TOKEN`. The
+  push-from-`validation` direction is what needs a PAT, which is why it stalled.
+
+- **Two mechanisms were writing the same `FrameAndValidate.py`, and the loser was whichever ran
+  last.** `sync_frameandvalidate.py` discovers any repo with a copy one level down **that carries
+  the GENERATED banner** (`_is_generated_copy`), which the mirror's did, because an earlier run had
+  stamped it. So `--apply` claimed a mirror it does not own — twice on 2026-10-01, reverted twice.
+  Ownership now sits with the mirror script, and that is **structural, not just policy**: a verbatim
+  copy carries the NORMATIVE banner, so `discover_targets` no longer finds the repo at all
+  (measured: `Wrote: 12`, not 13, with no flag passed). `DEFAULT_SKIP` in
+  `sync_frameandvalidate.py` is kept as belt-and-braces, because the structural exclusion only
+  holds while the mirror is current — a mirror still carrying an old GENERATED banner gets claimed
+  back on the next run.
+
+- **A mirror holds several schemas, and that is why its examples never validated.** A release repo
+  ships one schema so `FrameAndValidate._auto_default` resolves it; a mirror ships three
+  (discovery, data_description, complete) and `_auto_default` correctly refuses to guess, leaving
+  **no schema at all** — so every example failed under every copy of the script, and the sync
+  regression gate could prove nothing, because with no baseline pass nothing could regress.
+  `conformance-schema-map.json` already stated which schema serves which profile and nothing read
+  it; since 2026-10-02 declared conformance selects one, most-inclusive first
+  (`complete` > `data_description` > `discovery`) — a complete record checked against the discovery
+  schema **passes while validating a fraction of itself**. Two traps found doing it: the map's own
+  filename matches the `*schema*.json` glob, so one real schema plus the map looked ambiguous and
+  auto-detection refused a schema it should have found (`NOT_A_SCHEMA` excludes it); and records
+  declare the **composite** BB URI, never `complete/1.1`, so a complete record resolved to the
+  data-description schema until the map gained that URI.
