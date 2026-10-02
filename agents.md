@@ -1029,6 +1029,21 @@ python tools/uml_to_schema.py ... --schema-only
 - Duplicate role-name properties (UCMIS overload, e.g. `CodeList.has → Code` AND `CodeList.has → CodePosition`) are merged via flat `anyOf` of distinct targets plus a single `id-reference` fallback.
 - Sibling-BB lookup recognizes three root shapes: single-class `@type.contains.const`; multi-class `@type.anyOf` of `contains.const` branches; multi-root `anyOf` of `$ref` to local `$defs`. Also derives a class name from the BB directory name (`ddicdi<ClassName>`) so abstract parents like `ValueDomain` whose subclasses share a BB resolve to that BB.
 
+**Opt-in JSON-LD conventions** (schema emit only, all off by default, so existing outputs are unchanged). These were added for the JSON Schema → XMI → JSON Schema round-trip experiment in `cdif-umlmodel/cdifjsonxmi/`:
+- `--xsd-formats`: `XsdAnyUri` / `XsdDate` / `XsdDateTime` / `XsdLanguage`-typed attributes become `{type: string, format: uri|date|date-time}` (no format for `XsdLanguage`). Without the flag they become JSON-LD node `$defs`.
+- `--iri-reference-type NAME`: attributes typed by DataType `NAME` (e.g. `IriReference`) become `anyOf [string, {"@id": string}]`.
+- `--comment-directives`: reads directive lines at the end of comments and removes them from descriptions (parser: `split_comment_directives`).
+  - On a class or datatype:
+    - `:rdfType: ``p:T``` sets the `@type` const (default `prefix:ClassName`). On a datatype it also makes `@type` required.
+    - `:choiceConstraints:` followed by `- ``a | b & c``` lines adds `allOf: [{anyOf: [{required: [a]}, {required: [b, c]}]}]`.
+    - `:buildingBlock: ``schemaorgProperties/identifier``` means the type is defined by that BB (path under `_sources/`). References to it become a `$ref` relative to the output BB dir, taking precedence over sibling-BB discovery and local inlining.
+  - On an attribute:
+    - `:inlineOrByReference: ``inline```: a class-typed value is the embedded node only.
+    - `:inlineOrByReference: ``byReference```: an id-reference only.
+    - Absent: the default `anyOf [node, id-reference]`.
+    - `:alsoAcceptsString:` wraps the value as `anyOf [<type>, {type: string}]`.
+- `--verbatim-docs`: keep the Definition text exactly as written. Without the flag, `clean_definition` collapses whitespace.
+
 **Source XMI:** DDI-CDI XMI exports live outside this repo at the user's working location. Two are in use:
 - `C:/Users/smrTu/OneDrive/Documents/GithubC/CDIF/cdif-umlmodel/ddi-cdi_ea15.2026.March.xml` — Enterprise Architect native XMI 1.1 export of the 2026-03 DDI-CDI model (current source of truth).
 - `C:/Users/smrTu/OneDrive/Documents/GithubC/CDIF/to-canonical-xmi/ddi-cdi_canonical-unique-names.xmi` — older canonical XMI 2.5.1 export.

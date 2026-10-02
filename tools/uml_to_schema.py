@@ -560,6 +560,116 @@ def _normalize_whitespace(s: str) -> str:
     return "\n\n".join(p for p in cleaned if p)
 
 
+def verbatim_definition(doc: Optional[str]) -> Optional[str]:
+    """Like clean_definition, but return the Definition section exactly as
+    written (no whitespace collapsing or trimming). Used by --verbatim-docs."""
+    if not doc:
+        return None
+    headers = list(_SECTION_RE.finditer(doc))
+    for i, m in enumerate(headers):
+        if m.group(1).lower().startswith("definition"):
+            if i + 1 < len(headers):
+                return doc[m.end():headers[i + 1].start()].rstrip("\n")
+            return doc[m.end():]
+    return doc
+
+
+# Comment directives (--comment-directives): lines at the end of an ownedComment,
+# after the definition text, carrying JSON-LD facts UML has no slot for.
+# On a class / datatype:
+#   :rdfType: ``schema:PropertyValue``      -> @type const (default prefix:ClassName);
+#                                              on a datatype also makes @type required
+#   :choiceConstraints:
+#   - ``value | url & name``                 -> anyOf [{required: [value]}, {required: [url, name]}]
+#   :buildingBlock: ``schemaorgProperties/identifier``
+#                                            -> the type is defined by that BB (path under
+#                                               _sources/); references become a $ref to it
+# On an attribute:
+#   :inlineOrByReference: ``inline``         -> class-typed value: embedded node only
+#                         ``byReference``    -> {"@id"} reference only
+#                                               (absent: either, the default anyOf)
+#   :alsoAcceptsString:                      -> anyOf [<type>, {type: string}]
+_DIRECTIVE_NAMES = ("rdfType", "choiceConstraints", "buildingBlock", "inlineOrByReference",
+                    "alsoAcceptsString")
+_DIRECTIVE_RE = re.compile(r"\n:(" + "|".join(_DIRECTIVE_NAMES) + r"):")
+
+
+def split_comment_directives(doc: Optional[str]) -> tuple[Optional[str], dict[str, Any]]:
+    """Return (doc without directives, {directive name: value}). Valueless
+    directives map to True; choiceConstraints maps to a list of groups, each a
+    list of alternatives, each a list of attribute names."""
+    if not doc:
+        return doc, {}
+    m = _DIRECTIVE_RE.search(doc)
+    if not m:
+        return doc, {}
+    directives: dict[str, Any] = {}
+    for line in doc[m.start() + 1:].splitlines():
+        dm = re.match(r":(\w+):\s*(.*)$", line)
+        if dm and dm.group(1) in _DIRECTIVE_NAMES:
+            value = dm.group(2).strip().strip("`")
+            directives[dm.group(1)] = [] if dm.group(1) == "choiceConstraints" else (value or True)
+        elif line.startswith("- ``") and "choiceConstraints" in directives:
+            body = line.strip().removeprefix("- ``").removesuffix("``")
+            directives["choiceConstraints"].append([alt.split(" & ") for alt in body.split(" | ")])
+    return doc[:m.start()], directives
+
+
+def _directives(ctx: "BuildContext", doc: Optional[str]) -> dict[str, Any]:
+    return split_comment_directives(doc)[1] if ctx.comment_directives else {}
+
+
+def _doc_text(ctx: "BuildContext", doc: Optional[str]) -> Optional[str]:
+    """Schema description for a UML element's doc, honouring the opt-in flags."""
+    if ctx.comment_directives:
+        doc = split_comment_directives(doc)[0]
+    return verbatim_definition(doc) if ctx.verbatim_docs else clean_definition(doc)
+
+
+def _element_description(ctx: "BuildContext", doc: str) -> Optional[str]:
+    """Class / datatype description. The raw-doc fallback is kept for the
+    default mode only: with the opt-in flags an empty definition means none."""
+    if ctx.comment_directives or ctx.verbatim_docs:
+        return _doc_text(ctx, doc) or None
+    return clean_definition(doc) or doc.strip()
+
+
+def _building_block_ref(ctx: "BuildContext", cls: "UmlClass") -> Optional[dict]:
+    """$ref to the BB named by a type's :buildingBlock: directive, relative to the output BB."""
+    bb = _directives(ctx, cls.doc).get("buildingBlock")
+    if not bb or ctx.bb_out_dir is None:
+        return None
+    target = (SOURCES_DIR / bb / "schema.yaml").resolve()
+    return {"$ref": os.path.relpath(target, ctx.bb_out_dir.resolve()).replace(os.sep, "/")}
+
+
+# --xsd-formats: XSD datatypes rendered as JSON strings (with format where one exists)
+# instead of as JSON-LD node $defs.
+XSD_STRING_FORMATS = {"XsdAnyUri": "uri", "XsdDate": "date", "XsdDateTime": "date-time",
+                      "XsdLanguage": None}
+
+
+def _iri_reference_value_schema() -> dict:
+    """--iri-reference-type: a plain string or a JSON-LD node reference {"@id": ...}."""
+    return {
+        "anyOf": [
+            {"type": "string"},
+            {"type": "object", "additionalProperties": False, "required": ["@id"],
+             "properties": {"@id": {"type": "string"}}},
+        ],
+    }
+
+
+def _type_const_and_choices(cls: "UmlClass", ctx: "BuildContext") -> tuple[str, list[dict]]:
+    """@type const and allOf members for a class/datatype def. Without
+    --comment-directives this is (prefix:ClassName, [])."""
+    const = _qname(ctx.prefix, cls.name)
+    d = _directives(ctx, cls.doc)
+    choices = [{"anyOf": [{"required": [_qname(ctx.prefix, n) for n in alt]} for alt in g]}
+               for g in d.get("choiceConstraints", [])]
+    return d.get("rdfType") or const, choices
+
+
 # ---------------------------------------------------------------------------
 # Schema construction
 # ---------------------------------------------------------------------------
@@ -584,6 +694,13 @@ class BuildContext:
     datatype_substitutions: Optional[dict[str, str]] = None
     exclude_datatypes: Optional[set[str]] = None
     target_classes_by_name: Optional[dict[str, "UmlClass"]] = None
+    # Opt-in JSON-LD conventions for schema emit (all off by default; see
+    # --xsd-formats, --iri-reference-type, --comment-directives, --verbatim-docs).
+    xsd_formats: bool = False
+    iri_reference_type: Optional[str] = None
+    comment_directives: bool = False
+    verbatim_docs: bool = False
+    bb_out_dir: Optional[Path] = None   # output BB dir; base for :buildingBlock: $refs
 
 
 def collect_inherited_properties(class_id: str, model: Model) -> list[Property]:
@@ -677,7 +794,7 @@ def _group_to_schema(group: list[Property], ctx: BuildContext) -> Optional[dict]
     for p in group:
         if not p.doc:
             continue
-        d = clean_definition(p.doc)
+        d = _doc_text(ctx, p.doc)
         if d and d not in docs:
             docs.append(d)
     if docs:
@@ -780,12 +897,15 @@ def datatype_to_def(dt: UmlClass, ctx: BuildContext) -> dict:
     """Build a $def schema body for a uml:DataType."""
     schema: dict[str, Any] = {"type": "object"}
     if dt.doc:
-        schema["description"] = clean_definition(dt.doc) or dt.doc.strip()
+        desc = _element_description(ctx, dt.doc)
+        if desc:
+            schema["description"] = desc
+    type_const, choices = _type_const_and_choices(dt, ctx)
     props: OrderedDict = OrderedDict()
     props["@type"] = {
         "type": "array",
         "items": {"type": "string"},
-        "contains": {"const": _qname(ctx.prefix, dt.name)},
+        "contains": {"const": type_const},
         "minItems": 1,
     }
     extra, required = _build_properties_dict(
@@ -794,8 +914,13 @@ def datatype_to_def(dt: UmlClass, ctx: BuildContext) -> dict:
     )
     props.update(extra)
     schema["properties"] = props
+    if "rdfType" in _directives(ctx, dt.doc):
+        # A datatype with a declared RDF type is a typed JSON-LD node: @type required.
+        required = ["@type", *required]
     if required:
         schema["required"] = required
+    if choices:
+        schema["allOf"] = choices
     return schema
 
 
@@ -803,13 +928,16 @@ def class_to_node_def(cls: UmlClass, ctx: BuildContext) -> dict:
     """Build a $def schema body for a uml:Class (a JSON-LD node)."""
     schema: dict[str, Any] = {"type": "object"}
     if cls.doc:
-        schema["description"] = clean_definition(cls.doc) or cls.doc.strip()
+        desc = _element_description(ctx, cls.doc)
+        if desc:
+            schema["description"] = desc
+    type_const, choices = _type_const_and_choices(cls, ctx)
     props: OrderedDict = OrderedDict()
     required: list[str] = ["@type"]
     props["@type"] = {
         "type": "array",
         "items": {"type": "string"},
-        "contains": {"const": _qname(ctx.prefix, cls.name)},
+        "contains": {"const": type_const},
         "minItems": 1,
     }
     props["@id"] = {
@@ -825,6 +953,8 @@ def class_to_node_def(cls: UmlClass, ctx: BuildContext) -> dict:
     schema["properties"] = props
     if required:
         schema["required"] = required
+    if choices:
+        schema["allOf"] = choices
     return schema
 
 
@@ -856,8 +986,10 @@ def property_to_schema(prop: Property, ctx: BuildContext) -> Optional[dict]:
     inner = _resolve_property_type(prop, ctx)
     if inner is None:
         return None
+    if _directives(ctx, prop.doc).get("alsoAcceptsString"):
+        inner = {"anyOf": [inner, {"type": "string"}]}
     out = _wrap_multiplicity(inner, prop)
-    desc = clean_definition(prop.doc) if prop.doc else None
+    desc = _doc_text(ctx, prop.doc) if prop.doc else None
     if desc:
         # Prefer the description on the outer (multiplicity) wrapper if array,
         # else inline it on the inner.
@@ -886,13 +1018,20 @@ def _resolve_property_type(prop: Property, ctx: BuildContext) -> Optional[dict]:
         # Emit literal-list enum
         return {"type": "string", "enum": list(target.literals)}
 
+    if ctx.iri_reference_type and target.name == ctx.iri_reference_type:
+        return _iri_reference_value_schema()
+    if ctx.xsd_formats and target.name in XSD_STRING_FORMATS:
+        fmt = XSD_STRING_FORMATS[target.name]
+        return {"type": "string", "format": fmt} if fmt else {"type": "string"}
+
     if target.kind == "datatype":
         return _resolve_datatype_ref(target, ctx)
 
     # uml:Class:
-    if target.name in ctx.reference_class_names:
+    placement = _directives(ctx, prop.doc).get("inlineOrByReference")
+    if target.name in ctx.reference_class_names or placement == "byReference":
         return _id_reference_schema(ctx)
-    if target.name in ctx.inline_class_names:
+    if target.name in ctx.inline_class_names or placement == "inline":
         # Force inline-only (no id-reference fallback). Useful for true
         # compositions where linking by @id doesn't make sense.
         return _resolve_class_target(target, ctx)
@@ -911,6 +1050,9 @@ def _resolve_class_target(cls: UmlClass, ctx: BuildContext) -> dict:
     """Resolve a uml:Class target to a $ref. Prefers an external BB that
     already defines the class (so we don't duplicate definitions across BBs);
     falls back to inlining locally."""
+    bb_ref = _building_block_ref(ctx, cls)
+    if bb_ref:
+        return bb_ref
     ext = ctx.external_class_refs.get(cls.name)
     if ext:
         return {"$ref": ext}
@@ -920,6 +1062,9 @@ def _resolve_class_target(cls: UmlClass, ctx: BuildContext) -> dict:
 def _resolve_datatype_ref(dt: UmlClass, ctx: BuildContext) -> dict:
     """Return a schema fragment that references this dt-type, either via
     shared-BB $ref or by inlining (and registering) a local $def."""
+    bb_ref = _building_block_ref(ctx, dt)
+    if bb_ref:
+        return bb_ref
     if not ctx.inline_datatypes and dt.name in ctx.shared_defs:
         return _ref_to_shared(ctx, dt.name)
     # Inline: ensure local $def exists
@@ -1381,6 +1526,22 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--strict-required", action="store_true",
                     help="Emit `required` for every property with UML lower>=1. "
                          "Default is project-style: only @type required.")
+    # Opt-in JSON-LD conventions (schema emit only; used for JSON Schema <-> XMI round trips)
+    ap.add_argument("--xsd-formats", action="store_true",
+                    help="Render XsdAnyUri / XsdDate / XsdDateTime / XsdLanguage-typed "
+                         "attributes as JSON strings (with format uri / date / date-time) "
+                         "instead of as JSON-LD node $defs.")
+    ap.add_argument("--iri-reference-type", default=None, metavar="NAME",
+                    help="DataType name whose attributes accept a plain string OR a "
+                         "JSON-LD node reference {\"@id\": ...} (e.g. IriReference).")
+    ap.add_argument("--comment-directives", action="store_true",
+                    help="Read JSON-LD directives from comments and drop them from "
+                         "descriptions: on classes :rdfType:, :choiceConstraints:, "
+                         ":buildingBlock:; on attributes :inlineOrByReference:, "
+                         ":alsoAcceptsString:. See split_comment_directives().")
+    ap.add_argument("--verbatim-docs", action="store_true",
+                    help="Keep the Definition text of comments exactly as written "
+                         "instead of collapsing whitespace.")
     # ------------------------------------------------------------------ UML emit
     ap.add_argument("--emit-uml", type=Path, default=None,
                     help="Also write an Eclipse UML2 (XMI 2.5) profile model to PATH. "
@@ -1562,6 +1723,11 @@ def main(argv: Optional[list[str]] = None) -> int:
         external_class_refs=external_class_refs,
         local_defs=OrderedDict(),
         expanding=set(),
+        xsd_formats=args.xsd_formats,
+        iri_reference_type=args.iri_reference_type,
+        comment_directives=args.comment_directives,
+        verbatim_docs=args.verbatim_docs,
+        bb_out_dir=bb_out_dir,
     )
 
     # Title and description
@@ -1572,7 +1738,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     if args.description:
         description = args.description
     else:
-        description = clean_definition(classes[0].doc)
+        description = _doc_text(ctx, classes[0].doc)
 
     # ----- schema emit (skip when --uml-only)
     if not args.uml_only:
