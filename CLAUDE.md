@@ -234,8 +234,12 @@ their refs are resolved over the network at their build time, not ours.
   `spatialExtent` and `xasDocument`, where affiliation means nothing), and 70 of 93 blocks with no
   `tests/` at all. **23 of 93 blocks still have none.** Run it with `--strict` to fail on a case
   that asserts nothing, `--coverage` to list untested blocks. Note the matcher's own limits: an error on `@type` and an
-  `anyOf` message (which prints the whole instance, so every token "matches") are both
-  discounted, while the error *path* counts as strong evidence.
+  `anyOf` *message* (which prints the whole instance, so every token "matches") are both
+  discounted, while the error *path* counts as strong evidence. Since 2026-10-01 `all_errors`
+  descends into `error.context`, so an anyOf case's branch errors supply real paths instead of
+  leaving it judged on the one error that says nothing — measured as **0 of 125 verdicts changed**,
+  because every current case already had top-level evidence. It is hardening for the next such
+  case, not a correction; do not read the unchanged count as the change having failed.
 
 - **A rule that stops working looks exactly like a rule that passes.** This is the failure mode
   that cost the most time on 2026-09-08, in five different disguises. `sh:targetObjectsOf` on a
@@ -268,6 +272,28 @@ their refs are resolved over the network at their build time, not ours.
   scalar after framing belongs in that list — but it is keyed on name alone, so a property that is
   an array in one place and a scalar in another (`schema:identifier` on an instrument vs on a
   Person) has to be keyed on `parent_key` or `type_list` instead.
+  **The list is hand-maintained and was missing an entry until 2026-10-01**: `cdif:has_ForeignKey`
+  is `type: array` at all three of its sites in `cdifDataStructure`, so the one example carrying
+  exactly ONE foreign key framed to a bare object and failed its own schema. `cdif:isComposedOf`
+  was already listed, which is why the inner `ComponentPosition` array survived and only the outer
+  key collapsed — that split is what makes a framing bug read as a content error, and it had the
+  example written off as unfinished work rather than investigated. `cdif:has_PrimaryKey` must stay
+  out: it is a `$ref` to a single object, so wrapping it would break the case this fixes. The two
+  look symmetrical and are not. **A sweep of array-typed properties against this list is worth
+  doing** — nothing generates or checks it, so a missing entry surfaces only when some example
+  happens to carry exactly one value.
+
+- **A union failure used to name nothing, and that is why the above went unfound.** `jsonschema`
+  reports an `anyOf`/`oneOf` failure as ONE error whose message interpolates the entire instance
+  and names no property; the real errors are in `error.context`. Most class targets here are
+  `anyOf [inline class, {@id} reference]` and every union branches on `@type`, so this is the
+  default shape of a failure, not an edge case. `FrameAndValidate.explain_error` (2026-10-01)
+  flattens that tree, dedupes (sibling branches differ only in their `@type` pin, so one defect is
+  reported once per branch — 15 leaves collapsing to 7 is typical) and ranks by path depth,
+  demoting `const`/`enum`/`contains` on `@type` as branch selection. **Do not treat the first line
+  as authoritative:** a `required` raised by a *declining* branch is not demoted and can still
+  outrank the real error on depth — of the three surfaced for the foreign-key case, two were
+  branches refusing the node and only the third was the defect.
 
 - **Renaming a property breaks emitters, not just schemas.** `cdif:isDefinedBy_RepresentedVariable`
   → `cdif:isDefinedBy_Variable` reached the release SHACL the same day and `cdifnexmetadata` did
