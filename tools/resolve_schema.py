@@ -248,6 +248,42 @@ def find_unresolved(node: Any, path: str = "") -> list[tuple[str, str]]:
     return found
 
 
+def find_self_referential_defs(doc: Any) -> list[tuple[str, str]]:
+    """Catch a $defs entry whose body is a $ref to itself.
+
+    A local alias -- `$defs: {cdifConceptOrTermOrString: {$ref: ../../cdifDataType/
+    cdifConceptOrTermOrString/schema.yaml}}` -- collides with the name this
+    resolver registers the external block under, and the alias body can end up
+    rewritten to `#/$defs/<its own name>`. Any validator then recurses forever on
+    every value, so the def is strictly worse than an unresolved ref: it reports
+    as a RecursionError at the consumer rather than as a failure here.
+
+    It went unnoticed because `inline_low_use_defs` inlines a def used <= 2 times
+    and pops the entry, which removes the collided alias as a side effect. 30
+    alias sites repo-wide share the pattern and 29 were masked that way; the one
+    that surfaced, bioschemasProperties/cdifBioschemasProperties, is a type
+    library, and a type library skips low-use inlining. So the masking is
+    incidental, and a block becoming a type library is enough to expose it.
+
+    Reported through the unresolved-ref channel because the consequence is the
+    same -- nothing is written, rather than a degraded artifact replacing a good
+    one.
+    """
+    found: list[tuple[str, str]] = []
+    defs = doc.get("$defs") if isinstance(doc, dict) else None
+    if isinstance(defs, dict):
+        for name, body in defs.items():
+            if isinstance(body, dict) and body.get("$ref") == f"#/$defs/{name}":
+                found.append((
+                    f"/$defs/{name}",
+                    f"self-referential $def: $defs/{name} is {{\"$ref\": \"#/$defs/{name}\"}}, "
+                    f"which resolves to itself. Usually a local $defs alias whose name equals "
+                    f"the external block it points at -- drop the alias and $ref the block "
+                    f"directly at the use site.",
+                ))
+    return found
+
+
 def _fetch_url_schema(url: str) -> Path:
     """Fetch a schema from a URL and cache it locally. Returns the local file path."""
     if url in _URL_CACHE:
@@ -1628,7 +1664,7 @@ def resolve_and_write_structured(schema_path: Path, allow_unresolved: bool = Fal
     reported 486 modified files when 24 had actually changed.
     """
     structured = resolve_structured(schema_path)
-    unresolved = find_unresolved(structured)
+    unresolved = find_unresolved(structured) + find_self_referential_defs(structured)
     if unresolved and not allow_unresolved:
         raise UnresolvedRefs(schema_path, unresolved)
     out_path = schema_path.parent / "resolvedSchema.json"
@@ -1854,7 +1890,7 @@ def main():
             # Resolve first, inspect, then write. A schema whose refs did not resolve is NOT
             # written: a degraded artifact must not quietly replace a good one on disk.
             structured = resolve_structured(schema_path)
-            unresolved = find_unresolved(structured)
+            unresolved = find_unresolved(structured) + find_self_referential_defs(structured)
             if unresolved and not args.allow_unresolved:
                 broken.append((rel, unresolved))
                 print(f"  UNRESOLVED  {rel} ({len(unresolved)} ref(s)) - not written",
@@ -1895,7 +1931,7 @@ def main():
 
     structured = resolve_structured(schema_path)
 
-    unresolved = find_unresolved(structured)
+    unresolved = find_unresolved(structured) + find_self_referential_defs(structured)
     if unresolved and not args.allow_unresolved:
         _report_unresolved([(schema_path, unresolved)])
         sys.exit(1)
