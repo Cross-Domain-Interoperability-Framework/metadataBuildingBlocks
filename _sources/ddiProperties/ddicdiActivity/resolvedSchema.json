@@ -191,249 +191,6 @@
     "cdi:name"
   ],
   "$defs": {
-    "ObjectName": {
-      "type": "object",
-      "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:ObjectName"
-          },
-          "minItems": 1
-        },
-        "cdi:name": {
-          "type": "string",
-          "description": "The name string"
-        },
-        "cdi:context": {
-          "$ref": "#/$defs/ControlledVocabularyEntry",
-          "description": "Context or usage of this name"
-        }
-      },
-      "required": [
-        "cdi:name"
-      ]
-    },
-    "InternationalString": {
-      "type": "object",
-      "description": "DDI-CDI internationalized string (dt-InternationalString)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:InternationalString"
-          },
-          "minItems": 1
-        },
-        "cdi:languageSpecificString": {
-          "description": "Language-tagged string value(s)",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/LanguageString"
-            },
-            {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/LanguageString"
-              }
-            }
-          ]
-        }
-      }
-    },
-    "Identifier": {
-      "type": "object",
-      "description": "DDI-CDI composite identifier (dt-Identifier)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:Identifier"
-          },
-          "minItems": 1
-        },
-        "cdi:ddiIdentifier": {
-          "type": "object",
-          "description": "DDI-specific IRDI identifier",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:InternationalRegistrationDataIdentifier"
-              },
-              "minItems": 1
-            },
-            "cdi:dataIdentifier": {
-              "type": "string"
-            },
-            "cdi:registrationAuthorityIdentifier": {
-              "type": "string"
-            },
-            "cdi:versionIdentifier": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cdi:dataIdentifier",
-            "cdi:registrationAuthorityIdentifier",
-            "cdi:versionIdentifier"
-          ]
-        },
-        "cdi:uri": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI form of the identifier"
-        },
-        "cdi:nonDdiIdentifier": {
-          "description": "Non-DDI identifier",
-          "anyOf": [
-            {
-              "type": "object",
-              "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdi:NonDdiIdentifier"
-                  },
-                  "minItems": 1
-                },
-                "cdi:identifierContent": {
-                  "type": "string",
-                  "description": "The identifier value"
-                },
-                "cdi:managingAgency": {
-                  "type": "string",
-                  "description": "Agency managing this identifier scheme"
-                }
-              },
-              "required": [
-                "cdi:identifierContent"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
-                "properties": {
-                  "@type": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "contains": {
-                      "const": "cdi:NonDdiIdentifier"
-                    },
-                    "minItems": 1
-                  },
-                  "cdi:identifierContent": {
-                    "type": "string",
-                    "description": "The identifier value"
-                  },
-                  "cdi:managingAgency": {
-                    "type": "string",
-                    "description": "Agency managing this identifier scheme"
-                  }
-                },
-                "required": [
-                  "cdi:identifierContent"
-                ]
-              }
-            }
-          ]
-        }
-      }
-    },
-    "Reference": {
-      "type": "object",
-      "description": "DDI-CDI reference to an entity (dt-Reference)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:Reference"
-          },
-          "minItems": 1
-        },
-        "cdi:uri": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI of the referenced entity"
-        },
-        "cdi:description": {
-          "type": "string",
-          "description": "Human-readable description of the reference"
-        },
-        "cdi:ddiReference": {
-          "type": "object",
-          "description": "DDI IRDI reference",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:InternationalRegistrationDataIdentifier"
-              },
-              "minItems": 1
-            },
-            "cdi:dataIdentifier": {
-              "type": "string"
-            },
-            "cdi:registrationAuthorityIdentifier": {
-              "type": "string"
-            },
-            "cdi:versionIdentifier": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cdi:dataIdentifier",
-            "cdi:registrationAuthorityIdentifier",
-            "cdi:versionIdentifier"
-          ]
-        },
-        "cdi:semantic": {
-          "$ref": "#/$defs/ControlledVocabularyEntry",
-          "description": "Semantic role of this reference"
-        }
-      }
-    },
-    "id-reference": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "IRI or blank node identifier of the referenced node"
-        }
-      },
-      "required": [
-        "@id"
-      ]
-    },
     "Step": {
       "type": "object",
       "description": "DDI-CDI Step within an Activity (cls-Step, extends Activity)",
@@ -799,6 +556,249 @@
       "required": [
         "@type",
         "cdi:name"
+      ]
+    },
+    "ObjectName": {
+      "type": "object",
+      "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ObjectName"
+          },
+          "minItems": 1
+        },
+        "cdi:name": {
+          "type": "string",
+          "description": "The name string"
+        },
+        "cdi:context": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Context or usage of this name"
+        }
+      },
+      "required": [
+        "cdi:name"
+      ]
+    },
+    "InternationalString": {
+      "type": "object",
+      "description": "DDI-CDI internationalized string (dt-InternationalString)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalString"
+          },
+          "minItems": 1
+        },
+        "cdi:languageSpecificString": {
+          "description": "Language-tagged string value(s)",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LanguageString"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LanguageString"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "Identifier": {
+      "type": "object",
+      "description": "DDI-CDI composite identifier (dt-Identifier)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Identifier"
+          },
+          "minItems": 1
+        },
+        "cdi:ddiIdentifier": {
+          "type": "object",
+          "description": "DDI-specific IRDI identifier",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
+            },
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
+          ]
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI form of the identifier"
+        },
+        "cdi:nonDdiIdentifier": {
+          "description": "Non-DDI identifier",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:NonDdiIdentifier"
+                  },
+                  "minItems": 1
+                },
+                "cdi:identifierContent": {
+                  "type": "string",
+                  "description": "The identifier value"
+                },
+                "cdi:managingAgency": {
+                  "type": "string",
+                  "description": "Agency managing this identifier scheme"
+                }
+              },
+              "required": [
+                "cdi:identifierContent"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:NonDdiIdentifier"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:identifierContent": {
+                    "type": "string",
+                    "description": "The identifier value"
+                  },
+                  "cdi:managingAgency": {
+                    "type": "string",
+                    "description": "Agency managing this identifier scheme"
+                  }
+                },
+                "required": [
+                  "cdi:identifierContent"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "Reference": {
+      "type": "object",
+      "description": "DDI-CDI reference to an entity (dt-Reference)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Reference"
+          },
+          "minItems": 1
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the referenced entity"
+        },
+        "cdi:description": {
+          "type": "string",
+          "description": "Human-readable description of the reference"
+        },
+        "cdi:ddiReference": {
+          "type": "object",
+          "description": "DDI IRDI reference",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
+            },
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
+          ]
+        },
+        "cdi:semantic": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Semantic role of this reference"
+        }
+      }
+    },
+    "id-reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "IRI or blank node identifier of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
       ]
     },
     "ControlledVocabularyEntry": {

@@ -1118,78 +1118,6 @@
         }
       ]
     },
-    "InternationalString": {
-      "type": "object",
-      "description": "DDI-CDI internationalized string (dt-InternationalString)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:InternationalString"
-          },
-          "minItems": 1
-        },
-        "cdi:languageSpecificString": {
-          "description": "Language-tagged string value(s)",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/LanguageString"
-            },
-            {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/LanguageString"
-              }
-            }
-          ]
-        }
-      }
-    },
-    "LabelForDisplay": {
-      "type": "object",
-      "description": "DDI-CDI multilingual display label (dt-LabelForDisplay)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:LabelForDisplay"
-          },
-          "minItems": 1
-        },
-        "cdi:locationVariant": {
-          "$ref": "#/$defs/ControlledVocabularyEntry",
-          "description": "Geographic or locale variant"
-        },
-        "cdi:maxLength": {
-          "type": "integer",
-          "description": "Maximum display length"
-        },
-        "cdi:languageSpecificString": {
-          "$ref": "#/$defs/LanguageString",
-          "description": "The label text with language tag"
-        }
-      }
-    },
-    "id-reference": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "IRI or blank node identifier of the referenced node"
-        }
-      },
-      "required": [
-        "@id"
-      ]
-    },
     "StatisticalClassification": {
       "type": "object",
       "description": "Set of categories represented by classification items where the subset of immediate children categories for any given parent category are mutually exclusive and jointly exhaustive with respect to that parent.",
@@ -1769,6 +1697,114 @@
         "@type"
       ]
     },
+    "Category": {
+      "type": "object",
+      "description": "Concept whose role is to define and measure a characteristic.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Category"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Category node"
+        },
+        "cdi:descriptiveText": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "A short natural language account of the characteristics of the object."
+        },
+        "cdi:definition": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/SkosConcept"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "ClassificationIndexEntry": {
+      "type": "object",
+      "description": "Word or a short phrase corresponding to a classification item in a statistical classification, together with the code of the corresponding classification item.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ClassificationIndexEntry"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ClassificationIndexEntry node"
+        },
+        "cdi:codingInstruction": {
+          "$ref": "#/$defs/CommandCode",
+          "description": "Additional information which drives the coding process for the Index Entry. Required when coding is dependent upon one or many other factors."
+        },
+        "cdi:entry": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Text describing the type of object/unit or object property."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:validDates": {
+          "$ref": "#/$defs/DateRange",
+          "description": "The dates describing the validity period of the object. The date from which the object became valid must be defined if the map belongs to a \"floating\" construct. The date at which the object became invalid must be defined if the map belongs to a \"floating\" construct and is no longer valid."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
     "ClassificationItem": {
       "type": "object",
       "description": "A space for a category within a statistical classification.",
@@ -2013,6 +2049,104 @@
         "@type"
       ]
     },
+    "CommandCode": {
+      "type": "object",
+      "description": "Contains information on the command used for processing data. Contains a description of the command which should clarify for the user the purpose and process of the command, an in-line provision of the command itself, and a reference to an external version of the command such as a coding script.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:CommandCode"
+          },
+          "minItems": 1
+        },
+        "cdi:command": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Provides the following information on the command: The content of the command and the programming language used.",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:Command"
+                },
+                "minItems": 1
+              },
+              "cdi:commandContent": {
+                "type": "object",
+                "description": "Content of the command itself expressed in the language designated in programming language.",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:TypedString"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:content": {
+                    "type": "string",
+                    "description": "Content of the property expressed as a simple string."
+                  },
+                  "cdi:typeOfContent": {
+                    "$ref": "#/$defs/ControlledVocabularyEntry",
+                    "description": "Optional use of a controlled vocabulary to specifically type the associated content."
+                  }
+                }
+              },
+              "cdi:programLanguage": {
+                "$ref": "#/$defs/ControlledVocabularyEntry",
+                "description": "Designates the programming language used for the command. Supports the use of a controlled vocabulary."
+              }
+            }
+          },
+          "minItems": 1,
+          "description": "This is an in-line provision of the command itself. It provides the programming language used as well as the command."
+        },
+        "cdi:commandFile": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Identifies and provides a link to an external copy of the command, for example, a SAS Command Code script. Designates the programming language of the command file, a description of the location of the file , and a URN or URL for the command file.",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:CommandFile"
+                },
+                "minItems": 1
+              },
+              "cdi:location": {
+                "$ref": "#/$defs/InternationalString",
+                "description": "A description of the location of the file. This may not be machine actionable. It supports a description expressed in multiple languages."
+              },
+              "cdi:uri": {
+                "type": "string",
+                "description": "The URL or URN of the command file."
+              }
+            }
+          },
+          "minItems": 1,
+          "description": "Identifies and provides a link to an external copy of the command, for example, a SAS Command Code script. Designates the programming language of the command file as well as the URI for the file."
+        },
+        "cdi:description": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "A description of the purpose and use of the command code provided. Supports multiple languages."
+        }
+      }
+    },
     "LevelStructure": {
       "type": "object",
       "description": "Nesting structure of a hierarchical collection.",
@@ -2128,6 +2262,78 @@
       },
       "required": [
         "@type"
+      ]
+    },
+    "InternationalString": {
+      "type": "object",
+      "description": "DDI-CDI internationalized string (dt-InternationalString)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalString"
+          },
+          "minItems": 1
+        },
+        "cdi:languageSpecificString": {
+          "description": "Language-tagged string value(s)",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LanguageString"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LanguageString"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "LabelForDisplay": {
+      "type": "object",
+      "description": "DDI-CDI multilingual display label (dt-LabelForDisplay)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LabelForDisplay"
+          },
+          "minItems": 1
+        },
+        "cdi:locationVariant": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Geographic or locale variant"
+        },
+        "cdi:maxLength": {
+          "type": "integer",
+          "description": "Maximum display length"
+        },
+        "cdi:languageSpecificString": {
+          "$ref": "#/$defs/LanguageString",
+          "description": "The label text with language tag"
+        }
+      }
+    },
+    "id-reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "IRI or blank node identifier of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
       ]
     },
     "CombinedDate": {
@@ -3117,239 +3323,6 @@
         }
       }
     },
-    "LanguageString": {
-      "type": "object",
-      "description": "DDI-CDI language-tagged string (dt-LanguageString)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:LanguageString"
-          },
-          "minItems": 1
-        },
-        "cdi:content": {
-          "type": "string",
-          "description": "The text content"
-        },
-        "cdi:language": {
-          "type": "string",
-          "description": "ISO language code (e.g. en, fr, de)"
-        }
-      },
-      "required": [
-        "cdi:content"
-      ]
-    },
-    "CommandCode": {
-      "type": "object",
-      "description": "Contains information on the command used for processing data. Contains a description of the command which should clarify for the user the purpose and process of the command, an in-line provision of the command itself, and a reference to an external version of the command such as a coding script.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:CommandCode"
-          },
-          "minItems": 1
-        },
-        "cdi:command": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "description": "Provides the following information on the command: The content of the command and the programming language used.",
-            "properties": {
-              "@type": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "contains": {
-                  "const": "cdi:Command"
-                },
-                "minItems": 1
-              },
-              "cdi:commandContent": {
-                "type": "object",
-                "description": "Content of the command itself expressed in the language designated in programming language.",
-                "properties": {
-                  "@type": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "contains": {
-                      "const": "cdi:TypedString"
-                    },
-                    "minItems": 1
-                  },
-                  "cdi:content": {
-                    "type": "string",
-                    "description": "Content of the property expressed as a simple string."
-                  },
-                  "cdi:typeOfContent": {
-                    "$ref": "#/$defs/ControlledVocabularyEntry",
-                    "description": "Optional use of a controlled vocabulary to specifically type the associated content."
-                  }
-                }
-              },
-              "cdi:programLanguage": {
-                "$ref": "#/$defs/ControlledVocabularyEntry",
-                "description": "Designates the programming language used for the command. Supports the use of a controlled vocabulary."
-              }
-            }
-          },
-          "minItems": 1,
-          "description": "This is an in-line provision of the command itself. It provides the programming language used as well as the command."
-        },
-        "cdi:commandFile": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "description": "Identifies and provides a link to an external copy of the command, for example, a SAS Command Code script. Designates the programming language of the command file, a description of the location of the file , and a URN or URL for the command file.",
-            "properties": {
-              "@type": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "contains": {
-                  "const": "cdi:CommandFile"
-                },
-                "minItems": 1
-              },
-              "cdi:location": {
-                "$ref": "#/$defs/InternationalString",
-                "description": "A description of the location of the file. This may not be machine actionable. It supports a description expressed in multiple languages."
-              },
-              "cdi:uri": {
-                "type": "string",
-                "description": "The URL or URN of the command file."
-              }
-            }
-          },
-          "minItems": 1,
-          "description": "Identifies and provides a link to an external copy of the command, for example, a SAS Command Code script. Designates the programming language of the command file as well as the URI for the file."
-        },
-        "cdi:description": {
-          "$ref": "#/$defs/InternationalString",
-          "description": "A description of the purpose and use of the command code provided. Supports multiple languages."
-        }
-      }
-    },
-    "ClassificationIndexEntry": {
-      "type": "object",
-      "description": "Word or a short phrase corresponding to a classification item in a statistical classification, together with the code of the corresponding classification item.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:ClassificationIndexEntry"
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this ClassificationIndexEntry node"
-        },
-        "cdi:codingInstruction": {
-          "$ref": "#/$defs/CommandCode",
-          "description": "Additional information which drives the coding process for the Index Entry. Required when coding is dependent upon one or many other factors."
-        },
-        "cdi:entry": {
-          "$ref": "#/$defs/InternationalString",
-          "description": "Text describing the type of object/unit or object property."
-        },
-        "cdi:identifier": {
-          "$ref": "#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:validDates": {
-          "$ref": "#/$defs/DateRange",
-          "description": "The dates describing the validity period of the object. The date from which the object became valid must be defined if the map belongs to a \"floating\" construct. The date at which the object became invalid must be defined if the map belongs to a \"floating\" construct and is no longer valid."
-        }
-      },
-      "required": [
-        "@type"
-      ]
-    },
-    "Category": {
-      "type": "object",
-      "description": "Concept whose role is to define and measure a characteristic.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:Category"
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this Category node"
-        },
-        "cdi:descriptiveText": {
-          "$ref": "#/$defs/InternationalString",
-          "description": "A short natural language account of the characteristics of the object."
-        },
-        "cdi:definition": {
-          "$ref": "#/$defs/InternationalString",
-          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
-        },
-        "cdi:displayLabel": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/LabelForDisplay"
-          },
-          "minItems": 1,
-          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
-        },
-        "cdi:externalDefinition": {
-          "$ref": "#/$defs/Reference",
-          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
-        },
-        "cdi:identifier": {
-          "$ref": "#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:name": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ObjectName"
-          },
-          "minItems": 1,
-          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
-        },
-        "cdi:uses": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/SkosConcept"
-              },
-              {
-                "$ref": "#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        }
-      },
-      "required": [
-        "@type"
-      ]
-    },
     "Reference": {
       "type": "object",
       "description": "DDI-CDI reference to an entity (dt-Reference)",
@@ -3408,6 +3381,33 @@
           "description": "Semantic role of this reference"
         }
       }
+    },
+    "LanguageString": {
+      "type": "object",
+      "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LanguageString"
+          },
+          "minItems": 1
+        },
+        "cdi:content": {
+          "type": "string",
+          "description": "The text content"
+        },
+        "cdi:language": {
+          "type": "string",
+          "description": "ISO language code (e.g. en, fr, de)"
+        }
+      },
+      "required": [
+        "cdi:content"
+      ]
     },
     "LanguageTaggedValue": {
       "type": "object",
