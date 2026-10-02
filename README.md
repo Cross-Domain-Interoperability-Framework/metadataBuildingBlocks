@@ -105,7 +105,7 @@ The `deploy-viewer` workflow runs this automatically after `augment_register.py`
 
 A static HTML browser rendering each profile module / composite as a UML class diagram + per-class pages. Two emitters feed the same browser:
 
-1. **XMI-driven pipeline** (`tools/uml_to_schema.py` + the ucmism2m mapping configs at `../ucmism2m/configuration/`) — drives most pages. Each `ddi-cdi2<slug>_mapping.json` config controls one profile's class set, with `composes:` chaining for composites. Run via `../ucmism2m/script/build-docs.ps1` (needs Java + `tools/plantuml.jar`; the Docker bblocks-postprocess step is optional, skip with `-SkipBblocks`).
+1. **XMI-driven pipeline** (`../cdif-umlmodel/cdifjsonxmi/uml_to_schema.py` + the ucmism2m mapping configs at `../ucmism2m/configuration/`) — drives most pages. Each `ddi-cdi2<slug>_mapping.json` config controls one profile's class set, with `composes:` chaining for composites. Run via `../ucmism2m/script/build-docs.ps1` (needs Java + `tools/plantuml.jar`; the Docker bblocks-postprocess step is optional, skip with `-SkipBblocks`).
 2. **JSON-schema-direct tool** (`tools/jsonschema_to_html.py`) — generates HTML + PlantUML SVGs straight from a profile module's `schema.yaml`. No XMI / mapping config needed; useful for tight modules where the schema is the single source of truth. Run via `python tools/jsonschema_to_html.py cdifConceptScheme`.
 
 Both emitters share the same `_static/style.css` + `diagram.js` for visual consistency and click-to-zoom / pan / copy on the SVGs. The root `cdif-uml-model/index.html` splits profiles into **Composite Profiles** and **Profiles** sections, driven by `cdif-uml-model/_categories.json` (a `umlName → 'composite' | 'module'` map written by `build-docs.ps1`).
@@ -120,15 +120,17 @@ Generates a CDIF building-block `schema.yaml` (plus `bblock.json`/`context.jsonl
 
 Generated schemas follow the project's conventions: Node-only root (no single/array/`@graph` wrapper); class-typed properties default to inline-or-ref with sibling-BB lookup before local inline; UCMIS overload of duplicate role names merged via flat `anyOf`; multiplicity → array-only when upper is `*`; UML generalization walked with subclass-shadows-parent.
 
+The generator lives in the cdif-umlmodel repo (sibling of this one). From this repo's root:
+
 ```bash
-python tools/uml_to_schema.py \
+python ../cdif-umlmodel/cdifjsonxmi/uml_to_schema.py \
   --xmi C:/path/to/ddi-cdi_ea15.2026.March.xml \
   --class EnumerationDomain \
   --bb-name ddicdiEnumerationDomain \
   --out-dir _sources/ddiProperties/
 ```
 
-See `agents.md` for full CLI options and convention details.
+See `cdif-umlmodel/cdifjsonxmi/uml_to_schema.md` for full CLI options and convention details.
 
 **Requirements:** Python 3.10+ with `pyyaml`
 
@@ -263,7 +265,7 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 
 ### ddiProperties
 
-DDI-CDI vocabulary building blocks for communities using the DDI Cross-Domain Integration standard natively. Most are **generated from a DDI-CDI XMI export** of the Enterprise Architect UML model via `tools/uml_to_schema.py`, which auto-detects the canonical XMI 2.5.1 and the EA-native XMI 1.1 formats (see `agents.md` for details). The set was reconciled against the 2026-03 DDI-CDI model: `ddicdiDataStore` was retired in favour of `ddicdiLogicalRecordRepository`, `ddicdiPhysicalSegmentLayout` in favour of `ddicdiPhysicalMapping`, and `ddicdiStatistics` / `ddicdiKeyValueStructure` / `ddicdiCollections` were added. The table below is representative, not exhaustive.
+DDI-CDI vocabulary building blocks for communities using the DDI Cross-Domain Integration standard natively. Most are **generated from a DDI-CDI XMI export** of the Enterprise Architect UML model via `../cdif-umlmodel/cdifjsonxmi/uml_to_schema.py`, which auto-detects the canonical XMI 2.5.1 and the EA-native XMI 1.1 formats (see `agents.md` for details). The set was reconciled against the 2026-03 DDI-CDI model: `ddicdiDataStore` was retired in favour of `ddicdiLogicalRecordRepository`, `ddicdiPhysicalSegmentLayout` in favour of `ddicdiPhysicalMapping`, and `ddicdiStatistics` / `ddicdiKeyValueStructure` / `ddicdiCollections` were added. The table below is representative, not exhaustive.
 
 Each BB's `schema.yaml` validates a single Node (or, for multi-class BBs, an `anyOf` of Node `$defs`); profile schemas wrap nodes for `@graph` JSON-LD documents. Class-typed properties default to inline-or-ref (`anyOf [class def, id-reference]`), where the class def comes from another BB if one owns that class, otherwise inlined locally.
 

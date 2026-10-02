@@ -56,7 +56,7 @@ metadataBuildingBlocks/
 │   │   ├── generatedBy/             # prov:wasGeneratedBy (Activity)
 │   │   ├── provActivity/            # PROV-O native activity (extends generatedBy)
 │   │   └── derivedFrom/             # prov:wasDerivedFrom
-│   ├── ddiProperties/               # DDI-CDI data description types (most generated from XMI via tools/uml_to_schema.py; reconciled with the 2026-03 DDI-CDI model)
+│   ├── ddiProperties/               # DDI-CDI data description types (most generated from XMI via ../cdif-umlmodel/cdifjsonxmi/uml_to_schema.py; reconciled with the 2026-03 DDI-CDI model)
 │   │   ├── ddicdiActivity/          # DDI-CDI Activity (Process package)
 │   │   ├── ddicdiAgent/             # DDI-CDI Agent (umbrella: refs 4 agent sub-BBs)
 │   │   ├── ddicdiIndividual/        # DDI-CDI Individual (person)
@@ -115,7 +115,6 @@ metadataBuildingBlocks/
 │       └── archive/                 # Deprecated / not-promoted-to-composite (e.g. CDIFCodelistProfile)
 ├── tools/
 │   ├── resolve_schema.py            # Schema resolver (see below)
-│   ├── uml_to_schema.py             # Generate a BB schema.yaml from a DDI-CDI XMI (canonical 2.5.1 or EA-native 1.1, auto-detected; see below)
 │   ├── convert_for_jsonforms.py     # JSON Forms converter (see below)
 │   ├── compare_schemas.py           # Schema comparison tool
 │   ├── validate_instance.py         # Profile-aware validation tool
@@ -189,7 +188,7 @@ $defs:
     ...
 ```
 
-Examples should use single-Node form. The historical wrapper pattern (with `anyOf` over single/array/@graph branches) was removed in favor of this cleaner shape; `tools/uml_to_schema.py` and the resolver both follow it.
+Examples should use single-Node form. The historical wrapper pattern (with `anyOf` over single/array/@graph branches) was removed in favor of this cleaner shape; `uml_to_schema.py` (now in cdif-umlmodel/cdifjsonxmi) and the resolver both follow it.
 
 ## Class Targets: inline-or-ref by default
 
@@ -988,69 +987,9 @@ test passes it.
 and it reads `schema.yaml` rather than `resolvedSchema.json`, so there is nothing to gain. That
 half of the drift check stays exhaustive.
 
-## uml_to_schema.py
+## uml_to_schema.py (moved)
 
-Generates a CDIF building-block `schema.yaml` (and, optionally, the surrounding `bblock.json` / `context.jsonld` / `rules.shacl` / `examples.yaml` skeletons) from a DDI-CDI / UCMIS class model. Used to bootstrap and refresh the `_sources/ddiProperties/ddicdi*` BBs.
-
-**XMI format auto-detection.** `parse_xmi()` peeks at the XMI root and dispatches:
-- **canonical XMI 2.5.1** (OMG namespaces, `uml:Model`, `packagedElement` / `ownedAttribute` / navigable-end association ends) → `_parse_canonical_xmi()`;
-- **Enterprise Architect native XMI 1.1** (`xmi.version="1.1"`, `xmlns:UML="omg.org/UML1.3"`, `UML:Class` distinguished by `ea_stype` tagged value, top-level `UML:Generalization` / `UML:Association` with `UML:AssociationEnd` children) → `parse_ea_xmi()`.
-
-Both parsers emit the same internal `Model` / `UmlClass` / `Property` structures, so everything downstream (def generation, inline-or-ref, multiplicity, generalization walk) is format-agnostic.
-
-**Usage:**
-```bash
-# Single-class BB
-python tools/uml_to_schema.py \
-  --xmi C:/path/to/ddi-cdi_ea15.2026.March.xml \
-  --class EnumerationDomain \
-  --bb-name ddicdiEnumerationDomain \
-  --out-dir _sources/ddiProperties/
-
-# Multi-class BB (root anyOf over multiple concrete classes)
-python tools/uml_to_schema.py \
-  --xmi C:/path/to/ddi-cdi_ea15.2026.March.xml \
-  --class DataStructure,DimensionalDataStructure,LongDataStructure,WideDataStructure \
-  --bb-name ddicdiDataStructure \
-  --out-dir _sources/ddiProperties/
-
-# Just the schema.yaml, skip bblock.json/context.jsonld/rules.shacl/examples.yaml stubs
-python tools/uml_to_schema.py ... --schema-only
-```
-
-**Encoded conventions:**
-- Walks UML generalization (subclass shadows parent on name collision); collects own + inherited attributes.
-- Multiplicity: `0..1` / `1..1` → single value; `*` upper → array-only with `minItems` if `lower>=1`.
-- `uml:DataType` targets → `$ref` to `../ddicdiDataTypes/schema.yaml#/$defs/<Name>` if the name is in that BB's `$defs`, else inlined locally.
-- `uml:Class` targets → inline-or-ref by default (`anyOf [class def, id-reference]`); class def comes from a sibling BB whose root is that class, else inlined locally. `--reference X,Y` forces id-ref-only; `--inline X,Y` forces inline-only.
-- `uml:Enumeration` → `enum` literal list.
-- Multi-class BB root: `anyOf` over local `$defs/<Class>` entries; each class gets its own Node `$def`.
-- Role-name recovery for unnamed canonical-XMI association ends from the `<Source>_<role>_<Target>` association id pattern.
-- Duplicate role-name properties (UCMIS overload, e.g. `CodeList.has → Code` AND `CodeList.has → CodePosition`) are merged via flat `anyOf` of distinct targets plus a single `id-reference` fallback.
-- Sibling-BB lookup recognizes three root shapes: single-class `@type.contains.const`; multi-class `@type.anyOf` of `contains.const` branches; multi-root `anyOf` of `$ref` to local `$defs`. Also derives a class name from the BB directory name (`ddicdi<ClassName>`) so abstract parents like `ValueDomain` whose subclasses share a BB resolve to that BB.
-
-**Opt-in JSON-LD conventions** (schema emit only, all off by default, so existing outputs are unchanged). These were added for the JSON Schema → XMI → JSON Schema round-trip experiment in `cdif-umlmodel/cdifjsonxmi/`:
-- `--xsd-formats`: `XsdAnyUri` / `XsdDate` / `XsdDateTime` / `XsdLanguage`-typed attributes become `{type: string, format: uri|date|date-time}` (no format for `XsdLanguage`). Without the flag they become JSON-LD node `$defs`.
-- `--iri-reference-type NAME`: attributes typed by DataType `NAME` (e.g. `IriReference`) become `anyOf [string, {"@id": string}]`.
-- `--comment-directives`: reads directive lines at the end of comments and removes them from descriptions (parser: `split_comment_directives`).
-  - On a class or datatype:
-    - `:rdfType: ``p:T``` sets the `@type` const (default `prefix:ClassName`). On a datatype it also makes `@type` required.
-    - `:choiceConstraints:` followed by `- ``a | b & c``` lines adds `allOf: [{anyOf: [{required: [a]}, {required: [b, c]}]}]`.
-    - `:buildingBlock: ``schemaorgProperties/identifier``` means the type is defined by that BB (path under `_sources/`). References to it become a `$ref` relative to the output BB dir, taking precedence over sibling-BB discovery and local inlining.
-  - On an attribute:
-    - `:inlineOrByReference: ``inline```: a class-typed value is the embedded node only.
-    - `:inlineOrByReference: ``byReference```: an id-reference only.
-    - Absent: the default `anyOf [node, id-reference]`.
-    - `:alsoAcceptsString:` wraps the value as `anyOf [<type>, {type: string}]`.
-- `--verbatim-docs`: keep the Definition text exactly as written. Without the flag, `clean_definition` collapses whitespace.
-
-**Source XMI:** DDI-CDI XMI exports live outside this repo at the user's working location. Two are in use:
-- `C:/Users/smrTu/OneDrive/Documents/GithubC/CDIF/cdif-umlmodel/ddi-cdi_ea15.2026.March.xml` — Enterprise Architect native XMI 1.1 export of the 2026-03 DDI-CDI model (current source of truth).
-- `C:/Users/smrTu/OneDrive/Documents/GithubC/CDIF/to-canonical-xmi/ddi-cdi_canonical-unique-names.xmi` — older canonical XMI 2.5.1 export.
-
-Pull a fresh copy when the model updates; `uml_to_schema.py` auto-detects which format it is.
-
-**Requirements:** Python 3.10+ with `pyyaml`.
+The UML/XMI → building-block schema generator now lives in the cdif-umlmodel repo as `../cdif-umlmodel/cdifjsonxmi/uml_to_schema.py`, together with the modules it imports (`rst_augment.py`, `definition_lookup.py`, `rst_documentation.py`) and the cached `vocabularies/`. Its CLI, conventions and opt-in round-trip flags are documented in `cdif-umlmodel/cdifjsonxmi/uml_to_schema.md`. Run it from this repo's root as `python ../cdif-umlmodel/cdifjsonxmi/uml_to_schema.py --xmi ... --class ... --bb-name ... --out-dir _sources/ddiProperties/`; it reads `_sources/` here by default (`--sources-dir` overrides).
 
 ## convert_for_jsonforms.py
 
