@@ -2576,11 +2576,11 @@ ex:activity-geochem-analysis a schema1:Action,
                             schema1:name "Inductively coupled plasma mass spectrometer" ;
                             schema1:termCode "LAB21" ] ;
                     schema1:hasPart [ a schema1:Thing ;
-                            schema1:alternateName "Peltier-cooled cyclonic" ;
-                            schema1:name "Spray chamber" ],
-                        [ a schema1:Thing ;
                             schema1:alternateName "CETAC ASX-560" ;
-                            schema1:name "Autosampler" ] ;
+                            schema1:name "Autosampler" ],
+                        [ a schema1:Thing ;
+                            schema1:alternateName "Peltier-cooled cyclonic" ;
+                            schema1:name "Spray chamber" ] ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
@@ -2589,12 +2589,12 @@ ex:activity-geochem-analysis a schema1:Action,
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 
 ex:geochem-detailed-structure a cdi:WideDataStructure ;
-    cdi:has_DataStructureComponent [ a cdi:MeasureComponent ;
-            cdif:isDefinedBy_Variable ex:var-concentration ],
-        [ a cdi:AttributeComponent ;
+    cdi:has_DataStructureComponent [ a cdi:AttributeComponent ;
             cdif:isDefinedBy_Variable ex:var-uncertainty ],
         [ a cdi:IdentifierComponent ;
-            cdif:isDefinedBy_Variable ex:var-sampleID ] .
+            cdif:isDefinedBy_Variable ex:var-sampleID ],
+        [ a cdi:MeasureComponent ;
+            cdif:isDefinedBy_Variable ex:var-concentration ] .
 
 ex:ieda-catalog a schema1:DataCatalog ;
     schema1:name "IEDA Data Catalog" ;
@@ -2648,26 +2648,15 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:datePublished "2026-02-01" ;
     schema1:description "Comprehensive geochemistry dataset demonstrating the CDIF complete profile with single-file downloads, archive distribution with component files, and WebAPI access. Includes tabular CSV results, NetCDF data cubes, and an OGC API Features endpoint." ;
     schema1:distribution [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
                 schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Spectral data cube" ;
+            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry summary results" ;
+            schema1:provider <https://ror.org/02fjgr047> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/spectra/wavelength" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-wavelength ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
-                    cdi:locator "/spectra/intensity" ;
-                    cdi:scale 1000 ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-intensity ;
-                    cdif:physicalDataType "float32" ] ],
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
         [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
@@ -2705,14 +2694,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-concentration ;
                     cdif:index 1 ;
                     cdif:physicalDataType "float64" ],
-                [ cdi:defaultValue "UNKNOWN" ;
-                    cdi:isRequired true ;
-                    cdi:maximumLength 40 ;
-                    cdi:minimumLength 3 ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-sampleID ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
                 [ cdi:decimalPositions 4 ;
                     cdi:isRequired false ;
                     cdi:length 12 ;
@@ -2720,7 +2701,36 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-uncertainty ;
                     cdif:index 2 ;
-                    cdif:physicalDataType "float64" ] ],
+                    cdif:physicalDataType "float64" ],
+                [ cdi:defaultValue "UNKNOWN" ;
+                    cdi:isRequired true ;
+                    cdi:maximumLength 40 ;
+                    cdi:minimumLength 3 ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-sampleID ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Spectral data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:locator "/spectra/intensity" ;
+                    cdi:scale 1000 ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-intensity ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/spectra/wavelength" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-wavelength ;
+                    cdif:physicalDataType "float32" ] ],
         [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
@@ -2791,17 +2801,7 @@ ex:complete-dataset-001 a schema1:Dataset ;
             schema1:name "Complete data package" ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
-        [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry summary results" ;
-            schema1:provider <https://ror.org/02fjgr047> ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ] ;
+                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/021nxhr62> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -2817,19 +2817,19 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://vocabularyserver.com/keyword> ;
-                    schema1:url "https://vocabularyserver.com/keyword/geochem-001" ;
-                    schema1:value "geochem-001" ] ;
-            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
-            schema1:name "geochemistry" ;
-            schema1:termCode "GEOCHEM" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID <https://vocabularyserver.com/keyword> ;
                     schema1:url "https://vocabularyserver.com/keyword/spectral-001" ;
                     schema1:value "spectral-001" ] ;
             schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
             schema1:name "spectral analysis" ;
-            schema1:termCode "SPECTRAL" ] ;
+            schema1:termCode "SPECTRAL" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID <https://vocabularyserver.com/keyword> ;
+                    schema1:url "https://vocabularyserver.com/keyword/geochem-001" ;
+                    schema1:value "geochem-001" ] ;
+            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
+            schema1:name "geochemistry" ;
+            schema1:termCode "GEOCHEM" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;

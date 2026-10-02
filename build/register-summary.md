@@ -116,12 +116,6 @@ Allows for unstructured content which may be an entry from an externally maintai
 
 DDI-CDI Individual agent (person) with structured name, contact information, and identification. Uses DDI Cross-Domain Integration vocabulary.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiInstanceVariable` — DDI-CDI Instance Variable
-
-**Type:** schema
-
-Use of a represented variable within a data set.
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiMachine` — DDI-CDI Machine
 
 **Type:** schema
@@ -181,12 +175,6 @@ Schema describing a controlled vocabulary or list of defined terms, based on sch
 **Type:** schema
 
 Schema defining properties for schema.org/StatisticalVariable. Defines a variable that represents a statistical measure. Properties: @type, @id, schema:name, schema:description, schema:alternateName, schema:measurementTechnique, schema:statType, schema:measuredProperty. Uses building blocks: definedTerm (schemaorgProperties).
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiStatistics` — DDI-CDI Statistics
-
-**Type:** schema
-
-Statistics related to an instance variable within a data set.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiAgent` — DDI-CDI Agent
 
@@ -344,6 +332,12 @@ Schema defining propertis of a person, a profile of schema.org/Person. Defines p
 
 Schema defining properties for documenting the facility (a schema:Place typed xas:facility, e.g. a synchrotron/storage-ring facility) where X-ray absorption spectroscopy (XAS) data is acquired. Defines properties: @type, schema:additionalType, schema:identifier, schema:name, schema:additionalProperty. Uses building blocks: additionalProperty (schemaorgProperties), identifier (schemaorgProperties).
 
+### `cdif.bbr.metadata.ddiProperties.ddicdiInstanceVariable` — DDI-CDI Instance Variable
+
+**Type:** schema
+
+Use of a represented variable within a data set.
+
 ### `cdif.bbr.metadata.ddiProperties.ddicdiPresentationalVariable` — DDI-CDI Presentational Variable
 
 **Type:** schema
@@ -403,6 +397,12 @@ Schema defining properties of a DataDownload. Used as value to describe a distri
 **Type:** schema
 
 properties for acknowledging funding, CDIF profile of schema.org/MonetaryGrant. Defines properties: @type, schema:identifier, schema:description, schema:name, schema:funder. Uses building blocks: person (schemaorgProperties), organization (schemaorgProperties), identifier (schemaorgProperties).
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiStatistics` — DDI-CDI Statistics
+
+**Type:** schema
+
+Statistics related to an instance variable within a data set.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
 
