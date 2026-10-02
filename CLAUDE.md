@@ -521,3 +521,33 @@ their refs are resolved over the network at their build time, not ours.
   auto-detection refused a schema it should have found (`NOT_A_SCHEMA` excludes it); and records
   declare the **composite** BB URI, never `complete/1.1`, so a complete record resolved to the
   data-description schema until the map gained that URI.
+
+- **The release repos' CI workflow is a deployed copy of a template, and the template is not where
+  you would look.** `check-frameandvalidate.yml` lives in each release repo under
+  `.github/workflows/`, but its source is `validation/tools/templates/check-frameandvalidate.yml`
+  -- under `tools/`, not a top-level `templates/` -- and `sync_frameandvalidate.py --with-ci`
+  redeploys it. **Editing the eleven deployed copies without the template gets silently reverted
+  by the next `--with-ci`.** Found during the 2026-10-02 `actions/checkout` v4 -> v5 sweep: a
+  first survey globbed `templates/` and missed it entirely. After any such edit, check the copies
+  are still byte-identical to the template (`diff` each; they were, 11 of 11). Two other things
+  that sweep is worth remembering for: `validation/node_modules/` has its own vendored workflows
+  (gitignored -- leave them), and a workflow edited into invalid YAML does not fail, it silently
+  stops running, so re-parse every file you touch.
+
+- **`gh workflow run` dispatches against the DEFAULT branch, and the release repos work on
+  `updates`.** So a bare `gh workflow run check-frameandvalidate.yml` in a `profile-*` / `doc-*`
+  repo checks `main` -- the *previous* release -- against the current normative source, and
+  correctly reports drift that does not exist on the branch you are working on. Measured
+  2026-10-02 on `profile-core`: `local f8b9c918` (main, the shipped release) vs
+  `upstream c961ed19`, failing; `--ref updates` reported `OK: in sync`. The check cannot go red on
+  its own there, because it only triggers on a push touching `FrameAndValidate.py` and `main` only
+  receives one at release time -- but a manual dispatch without `--ref` will mislead you into
+  "fixing" a branch that is already correct.
+
+- **A README that names a workflow which no longer exists is worse than one that names none.**
+  `validation/README.md` listed `sync-mirror-tools.yml` for some time after it was deleted, telling
+  any reader the cdif-umlmodel mirror sync was handled from that repo -- which is exactly the
+  belief that let the mirror sit stale. When you delete or move a workflow, grep the `*.md` in that
+  repo for its filename. The same sweep found `cdif-umlmodel/tools/readme.md` described the mirror
+  without naming any mechanism: not wrong, but it left a reader unable to tell whether their copy
+  was current, so it now states the schedule and the two ways to force a refresh.
