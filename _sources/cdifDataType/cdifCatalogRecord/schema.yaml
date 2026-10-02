@@ -15,15 +15,7 @@ properties:
     type: array
     description: additional type assertions for the catalog record node. dcat:CatalogRecord is required.
     items:
-      anyOf:
-      - type: string
-      - type: object
-        additionalProperties: false
-        required:
-        - '@id'
-        properties:
-          '@id':
-            type: string
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     contains:
       type: object
       additionalProperties: false
@@ -98,6 +90,8 @@ required:
 - '@type'
 - '@id'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: ../cdifConceptOrTermOrString/schema.yaml
   Identifier:
     $ref: '../../schemaorgProperties/identifier/schema.yaml'
   Person:

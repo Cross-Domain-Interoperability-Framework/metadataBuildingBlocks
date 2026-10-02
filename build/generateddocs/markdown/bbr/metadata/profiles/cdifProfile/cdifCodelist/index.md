@@ -168,15 +168,7 @@ properties:
       schema:additionalType:
         type: array
         items:
-          anyOf:
-          - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          $ref: '#/$defs/cdifConceptOrTermOrString'
         contains:
           type: object
           additionalProperties: false
@@ -236,6 +228,8 @@ required:
 - schema:dateModified
 - skos:hasTopConcept
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   CdifCodelistConcept:
     description: A SKOS Concept constrained for CDIF codelist use. Must have a resolvable
       @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an

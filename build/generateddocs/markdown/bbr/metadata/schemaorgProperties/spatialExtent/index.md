@@ -255,15 +255,15 @@ ex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;
     schema1:alternateName [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
-                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520" ] ;
-            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
-            schema1:name "Socorro Peak" ],
+                    schema1:url "https://www.mindat.org/loc-33505.html" ] ;
+            schema1:inDefinedTermSet "https://www.mindat.org/" ;
+            schema1:name "Hidden Treasure Mine" ],
         [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
-                    schema1:url "https://www.mindat.org/loc-33505.html" ] ;
-            schema1:inDefinedTermSet "https://www.mindat.org/" ;
-            schema1:name "Hidden Treasure Mine" ] ;
+                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520" ] ;
+            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
+            schema1:name "Socorro Peak" ] ;
     schema1:name [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
@@ -596,17 +596,7 @@ properties:
       type,laboratory classification, feature type).
     type: array
     items:
-      anyOf:
-      - type: string
-      - $ref: '#/$defs/DefinedTerm'
-      - type: object
-        additionalProperties: false
-        required:
-        - '@id'
-        properties:
-          '@id':
-            type: string
-            description: reference to a term defined elsewhere
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     x-jsonld-id: http://schema.org/additionalType
   schema:name:
     description: A place name for the location, either as a string or a DefinedTerm
@@ -763,6 +753,8 @@ anyOf:
 - required:
   - geosparql:hasGeometry
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
   Identifier:
@@ -784,6 +776,7 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "@version": 1.1
   }
 }

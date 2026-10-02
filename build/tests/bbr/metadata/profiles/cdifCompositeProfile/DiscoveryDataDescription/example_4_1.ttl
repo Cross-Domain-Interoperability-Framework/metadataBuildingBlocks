@@ -35,13 +35,17 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
             cdif:fileSizeUofM "KB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
                     cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-station ;
-                    cdif:index 0 ;
+                    cdif:formats_InstanceVariable ex:var-parameter ;
+                    cdif:index 2 ;
                     cdif:physicalDataType "string" ],
                 [ cdi:isRequired true ;
                     cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-parameter ;
-                    cdif:index 2 ;
+                    cdif:formats_InstanceVariable ex:var-station ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-unit ;
+                    cdif:index 4 ;
                     cdif:physicalDataType "string" ],
                 [ cdi:isRequired true ;
                     cdi:nullSequence "NA" ;
@@ -49,10 +53,6 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-value ;
                     cdif:index 3 ;
                     cdif:physicalDataType "float64" ],
-                [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-unit ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "string" ],
                 [ cdi:isRequired true ;
                     cdif:format "YYYY-MM-DD" ;
                     cdif:formats_InstanceVariable ex:var-sample-date ;
@@ -100,15 +100,15 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
 
 ex:var-dissolved-oxygen a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
-            schema1:identifier "http://qudt.org/vocab/unit/MilliGM-PER-L" ;
-            schema1:name "milligram per litre" ] ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Dissolved oxygen parameter. Rows whose descriptor column equals 'dissolved_oxygen' record values for this variable." ;
     schema1:maxValue 1.5e+01 ;
     schema1:measurementTechnique "Optode sensor" ;
     schema1:minValue 0e+00 ;
     schema1:name "dissolved_oxygen" ;
+    cdif:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/MilliGM-PER-L" ;
+            schema1:name "milligram per litre" ] ;
     cdif:displayLabel "Dissolved oxygen" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
@@ -144,15 +144,15 @@ ex:var-salinity a cdi:InstanceVariable,
 
 ex:var-temperature a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
-            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
-            schema1:name "degree Celsius" ] ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Temperature parameter. Rows whose descriptor column equals 'temperature' record values for this variable." ;
     schema1:maxValue 3e+01 ;
     schema1:measurementTechnique "CTD profiler" ;
     schema1:minValue -2e+00 ;
     schema1:name "temperature" ;
+    cdif:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
+            schema1:name "degree Celsius" ] ;
     cdif:displayLabel "Sea-water temperature" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
@@ -188,11 +188,11 @@ ex:var-station a cdi:InstanceVariable,
 ex:var-unit a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
-    cdi:qualifies ex:var-value ;
     schema1:description "Reporting unit symbol for the row's value (e.g., Cel, 1, mg/L)." ;
     schema1:name "unit" ;
     cdif:displayLabel "Unit of measure" ;
     cdif:physicalDataType "string" ;
+    cdif:qualifies ex:var-value ;
     cdif:role "Attribute" .
 
 <https://ror.org/03m2x1q45> a schema1:Organization ;

@@ -108,58 +108,186 @@
     }
   },
   "$defs": {
-    "LabProcess": {
+    "cdifConceptOrTermOrString": {
+      "$ref": "#/$defs/cdifConceptOrTermOrString"
+    },
+    "CdifConceptOrTerm": {
+      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/DefinedTerm"
+        },
+        {
+          "$ref": "#/$defs/Concept"
+        }
+      ]
+    },
+    "DefinedTerm": {
+      "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
       "type": "object",
-      "description": "A Bioschemas LabProcess — a laboratory process execution. Used as an additionalType on a cdifProvActivity activity ([\"schema:Action\", \"prov:Activity\"]) to indicate that the activity represents a lab process. Carries bios:executesLabProtocol to link to the protocol followed and bios:parameterValue for actual instrument settings.",
       "properties": {
         "@type": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "description": "Must include bios:LabProcess as additionalType on the activity"
-        },
-        "@id": {
-          "type": "string"
+          "contains": {
+            "const": "schema:DefinedTerm"
+          },
+          "minItems": 1
         },
         "schema:name": {
           "type": "string",
-          "description": "Short human-readable description of the execution"
+          "description": "text label for the term that is useful to human user"
         },
-        "schema:description": {
-          "type": "string",
-          "description": "Details of the execution, e.g. command line arguments or notes"
-        },
-        "bios:executesLabProtocol": {
-          "description": "The executed protocol",
+        "schema:identifier": {
           "anyOf": [
             {
-              "$ref": "#/$defs/LabProtocol"
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/Identifier"
+            }
+          ]
+        },
+        "schema:inDefinedTermSet": {
+          "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+          "anyOf": [
+            {
+              "type": "string"
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
               "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
                 }
-              },
-              "required": [
-                "@id"
-              ]
+              }
             }
           ]
         },
-        "bios:parameterValue": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ParameterValue"
-          }
+        "schema:termCode": {
+          "type": "string",
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
-      "required": [
-        "@type",
-        "schema:name"
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "schema:termCode"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Identifier": {
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "@id"
+              ],
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            }
+          ],
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "SkosConcept": {
+      "title": "SKOS Concept",
+      "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
+      "allOf": [
+        {
+          "$ref": "#/$defs/Concept"
+        }
       ]
     },
     "LabProtocol": {
@@ -320,6 +448,528 @@
         "schema:name"
       ]
     },
+    "ParameterValue": {
+      "type": "object",
+      "description": "A schema:PropertyValue recording an actual parameter setting used during a lab process execution. Contains the measured or configured value, units, and optionally a link back to the FormalParameter definition via schema:propertyID.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Name of the parameter"
+        },
+        "schema:value": {
+          "description": "The actual value (string, number, or boolean)",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "schema:unitText": {
+          "type": "string",
+          "description": "Unit of measurement (e.g. degrees C, mL/min, mg)"
+        },
+        "schema:propertyID": {
+          "description": "Link to the FormalParameter definition this value realizes",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type",
+        "schema:name"
+      ]
+    },
+    "LabEquipment": {
+      "type": "object",
+      "description": "Laboratory equipment or instrument described as a schema:DefinedTerm. Physical instruments that don't have software versions — pyrolysis ovens, chromatographs, mass spectrometers, etc.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "contains": {
+            "const": "schema:Thing"
+          },
+          "description": "Must include schema:Thing. Typically also includes schema:DefinedTerm."
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Name of the equipment"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Description including capabilities and specifications"
+        },
+        "schema:identifier": {
+          "description": "Serial number or other formal identifier",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to manufacturer or equipment documentation"
+        }
+      },
+      "required": [
+        "schema:name"
+      ]
+    },
+    "ComputationalTool": {
+      "type": "object",
+      "description": "A software application used as part of a lab protocol.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:SoftwareApplication"
+          }
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "schema:version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema:name"
+      ]
+    },
+    "Concept": {
+      "type": "object",
+      "properties": {
+        "@context": {
+          "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "skos": {
+                  "const": "http://www.w3.org/2004/02/skos/core#"
+                }
+              },
+              "required": [
+                "skos"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              },
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "skos": {
+                    "const": "http://www.w3.org/2004/02/skos/core#"
+                  }
+                },
+                "required": [
+                  "skos"
+                ]
+              }
+            }
+          ]
+        },
+        "@id": {
+          "type": "string",
+          "description": "URI identifier for this concept."
+        },
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "skos:Concept"
+          },
+          "minItems": 1
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LanguageTaggedValue"
+              }
+            }
+          ]
+        },
+        "skos:notation": {
+          "description": "Classification code for this concept within a scheme (a single notation string, consistent with CdifCodelistConcept).",
+          "type": "string"
+        },
+        "skos:definition": {
+          "description": "Formal explanation of the meaning of this concept.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:scopeNote": {
+          "description": "Note clarifying meaning and/or intended use.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:note": {
+          "description": "General note about this concept.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:historyNote": {
+          "description": "Note about past state or use.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:changeNote": {
+          "description": "Note documenting a change.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:editorialNote": {
+          "description": "Note for editors and maintainers.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:inScheme": {
+          "description": "Concept scheme(s) this concept belongs to.",
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            }
+          ]
+        },
+        "skos:topConceptOf": {
+          "description": "Concept scheme(s) for which this is a top concept.",
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            }
+          ]
+        },
+        "skos:broader": {
+          "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ConceptRef"
+              },
+              {
+                "$ref": "#/$defs/Concept"
+              }
+            ]
+          }
+        },
+        "skos:narrower": {
+          "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ConceptRef"
+              },
+              {
+                "$ref": "#/$defs/Concept"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type",
+        "skos:prefLabel",
+        "skos:definition",
+        "skos:inScheme"
+      ]
+    },
+    "LabProcess": {
+      "type": "object",
+      "description": "A Bioschemas LabProcess — a laboratory process execution. Used as an additionalType on a cdifProvActivity activity ([\"schema:Action\", \"prov:Activity\"]) to indicate that the activity represents a lab process. Carries bios:executesLabProtocol to link to the protocol followed and bios:parameterValue for actual instrument settings.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Must include bios:LabProcess as additionalType on the activity"
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Short human-readable description of the execution"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Details of the execution, e.g. command line arguments or notes"
+        },
+        "bios:executesLabProtocol": {
+          "description": "The executed protocol",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LabProtocol"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        },
+        "bios:parameterValue": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ParameterValue"
+          }
+        }
+      },
+      "required": [
+        "@type",
+        "schema:name"
+      ]
+    },
     "Sample": {
       "type": "object",
       "description": "A Bioschemas Sample representing a physical or material entity used or produced by lab processes. In cdifProvActivity output, typed as schema:Thing with schema:additionalType bios:Sample.",
@@ -422,23 +1072,7 @@
           "description": "Further type classification (e.g. File, Dataset, PropertyValue, DataType)",
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "@id"
-                ],
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                }
-              }
-            ]
+            "$ref": "#/$defs/cdifConceptOrTermOrString"
           }
         },
         "schema:encodingFormat": {
@@ -580,150 +1214,36 @@
         "schema:name"
       ]
     },
-    "LabEquipment": {
+    "LanguageTaggedValue": {
       "type": "object",
-      "description": "Laboratory equipment or instrument described as a schema:DefinedTerm. Physical instruments that don't have software versions — pyrolysis ovens, chromatographs, mass spectrometers, etc.",
+      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
       "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "contains": {
-            "const": "schema:Thing"
-          },
-          "description": "Must include schema:Thing. Typically also includes schema:DefinedTerm."
-        },
-        "@id": {
-          "type": "string"
-        },
-        "schema:name": {
+        "@value": {
           "type": "string",
-          "description": "Name of the equipment"
+          "description": "The text content."
         },
-        "schema:description": {
+        "@language": {
           "type": "string",
-          "description": "Description including capabilities and specifications"
-        },
-        "schema:identifier": {
-          "description": "Serial number or other formal identifier",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object"
-            }
-          ]
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "URL to manufacturer or equipment documentation"
+          "description": "BCP 47 language tag (e.g. en, fr, de)."
         }
       },
       "required": [
-        "schema:name"
+        "@value",
+        "@language"
       ]
     },
-    "ComputationalTool": {
+    "ConceptRef": {
       "type": "object",
-      "description": "A software application used as part of a lab protocol.",
+      "additionalProperties": false,
+      "description": "A reference to a SKOS Concept by URI.",
       "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:SoftwareApplication"
-          }
-        },
         "@id": {
-          "type": "string"
-        },
-        "schema:name": {
-          "type": "string"
-        },
-        "schema:description": {
-          "type": "string"
-        },
-        "schema:url": {
           "type": "string",
-          "format": "uri"
-        },
-        "schema:version": {
-          "type": "string"
+          "description": "URI of the referenced concept."
         }
       },
       "required": [
-        "schema:name"
-      ]
-    },
-    "ParameterValue": {
-      "type": "object",
-      "description": "A schema:PropertyValue recording an actual parameter setting used during a lab process execution. Contains the measured or configured value, units, and optionally a link back to the FormalParameter definition via schema:propertyID.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:PropertyValue"
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string"
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "Name of the parameter"
-        },
-        "schema:value": {
-          "description": "The actual value (string, number, or boolean)",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "boolean"
-            }
-          ]
-        },
-        "schema:unitText": {
-          "type": "string",
-          "description": "Unit of measurement (e.g. degrees C, mL/min, mg)"
-        },
-        "schema:propertyID": {
-          "description": "Link to the FormalParameter definition this value realizes",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "required": [
-                "@id"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              }
-            }
-          ]
-        }
-      },
-      "required": [
-        "@type",
-        "schema:name"
+        "@id"
       ]
     }
   }

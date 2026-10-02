@@ -25,7 +25,7 @@ A named bundle of one or more `cdi:Statistic` value objects for an instance vari
 
 - `@id` — optional identifier.
 - `@type` — must contain `cdi:Statistics`.
-- `cdi:typeOfStatistic` — the kind of statistic (mean, median, count, …) for the whole bundle.
+- `cdif:typeOfStatistic` — the kind of statistic (mean, median, count, …) for the whole bundle.
 - `cdi:statistic` — ordered array of one or more inline `Statistic` objects (required).
 - `cdi:hasWeight` — `cdi:InstanceVariable` whose values were used as weights (inline or `@id`-ref).
 - `cdif:appliesTo` — CDIF addition: the `InstanceVariable`(s) this bundle summarizes.
@@ -36,7 +36,7 @@ A named bundle of one or more `cdi:Statistic` value objects for an instance vari
 Statistics for a specific `cdi:Category` of an instance variable.
 
 - `cdi:for` — the `Category` (inline or `@id`-ref) (required).
-- `cdi:typeOfStatistic` — the kind of statistic.
+- `cdif:typeOfStatistic` — the kind of statistic.
 - `cdi:statistic` — per-category `Statistic` value objects (required).
 - `cdi:hasWeight` — the weighting `InstanceVariable`.
 

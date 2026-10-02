@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain` *v0.1*
 
-Extension point that documents a codification vocabulary as an enumerated value domain. Composes schemaorgProperties/identifier for cdi:identifier; cdif:references accepts a cdifProfile/cdifCodelist, a schemaorgProperties/definedTermSet, or an @id-only id-reference; cdi:purpose uses a plain string.
+Extension point that documents a codification vocabulary as an enumerated value domain. Composes schemaorgProperties/identifier for cdif:identifier; cdif:references accepts a cdifProfile/cdifCodelist, a schemaorgProperties/definedTermSet, or an @id-only id-reference; cdif:purpose uses a plain string.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -96,9 +96,9 @@ schema:inDefinedTermSet here meet the SHACL Warning-level recommendations.
 
 ### Complete CDIF Enumeration Domain
 EU-country EnumerationDomain exercising every schema property at the
-root: cdi:identifier (schema:PropertyValue with propertyID/value/url),
+root: cdif:identifier (schema:PropertyValue with propertyID/value/url),
 schema:name, schema:inDefinedTermSet (inline skos:ConceptScheme), and
-cdi:purpose (multilingual InternationalString).
+cdif:purpose (multilingual InternationalString).
 #### json
 ```json
 {
@@ -215,7 +215,7 @@ properties:
     x-jsonld-id: https://w3id.org/cdif/identifier
   schema:name:
     type: string
-    description: Human understandable name (liguistic signifier, word, phrase, or
+    description: Human understandable name (linguistic signifier, word, phrase, or
       mnemonic).
     x-jsonld-id: http://schema.org/name
   cdif:references:

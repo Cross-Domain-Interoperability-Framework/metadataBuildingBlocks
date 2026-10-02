@@ -25,21 +25,15 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
             cdif:fileSize 1.846e+02 ;
             cdif:fileSizeUofM "MB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/time" ;
-                    cdif:format "days since 2024-01-01" ;
-                    cdif:formats_InstanceVariable ex:var-time ;
-                    cdif:physicalDataType "int32" ],
-                [ cdi:isRequired true ;
-                    cdi:locator "/temperature" ;
-                    cdi:nullSequence "NaN" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-temperature ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
                     cdi:locator "/lon" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-lon ;
                     cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/time" ;
+                    cdif:format "days since 2024-01-01" ;
+                    cdif:formats_InstanceVariable ex:var-time ;
+                    cdif:physicalDataType "int32" ],
                 [ cdi:isRequired true ;
                     cdi:locator "/lat" ;
                     cdif:format "decimal" ;
@@ -49,6 +43,12 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
                     cdi:locator "/depth" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-depth ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/temperature" ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
                     cdif:physicalDataType "float32" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
@@ -123,9 +123,6 @@ ex:var-lon a cdi:InstanceVariable,
 
 ex:var-temperature a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
-            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
-            schema1:name "degree Celsius" ] ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#float" ;
     schema1:description "Monthly mean in-situ sea-water temperature for the cell." ;
     schema1:maxValue 2.8e+01 ;
@@ -133,6 +130,9 @@ ex:var-temperature a cdi:InstanceVariable,
     schema1:minValue -2e+00 ;
     schema1:name "sea_water_temperature" ;
     schema1:propertyID <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/> ;
+    cdif:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
+            schema1:name "degree Celsius" ] ;
     cdif:displayLabel "Sea-water temperature" ;
     cdif:physicalDataType "float32" ;
     cdif:role "Measure" ;
@@ -141,12 +141,12 @@ ex:var-temperature a cdi:InstanceVariable,
 
 ex:var-time a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
-            schema1:identifier "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian" ;
-            schema1:name "days since 2024-01-01" ] ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#date" ;
     schema1:description "Mid-month timestamp of the monthly mean field." ;
     schema1:name "time" ;
+    cdif:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian" ;
+            schema1:name "days since 2024-01-01" ] ;
     cdif:displayLabel "Time" ;
     cdif:physicalDataType "int32" ;
     cdif:role "Dimension" ;

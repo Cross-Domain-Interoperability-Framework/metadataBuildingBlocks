@@ -181,6 +181,7 @@ $defs:
         type: string
         description: Identifier for this DataStructure node
       cdif:has_ForeignKey:
+        description: Variables whose values identify records in a different dataset.
         type: array
         items:
           anyOf:
@@ -197,6 +198,7 @@ $defs:
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdif:has_PrimaryKey:
+        description: Variables in the structure that uniquely identify a record.
         $ref: '#/$defs/PrimaryKey'
         x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
     required:
@@ -231,12 +233,15 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/MeasureComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/DimensionComponent
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdif:has_PrimaryKey:
+        description: Variables in the structure that uniquely identify a record.
         $ref: '#/$defs/PrimaryKey'
         x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
       cdif:has_ForeignKey:
+        description: Variables whose values identify records in a different dataset.
         type: array
         items:
           anyOf:
@@ -274,6 +279,7 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/VariableDescriptorComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/VariableValueComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         allOf:
         - contains:
             $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/IdentifierComponent
@@ -290,6 +296,7 @@ $defs:
         minItems: 3
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdif:has_PrimaryKey:
+        description: Variables in the structure that uniquely identify a record.
         $ref: '#/$defs/PrimaryKey'
         x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
     required:
@@ -321,9 +328,11 @@ $defs:
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdif:has_PrimaryKey:
+        description: Variables in the structure that uniquely identify a record.
         $ref: '#/$defs/PrimaryKey'
         x-jsonld-id: https://w3id.org/cdif/has_PrimaryKey
       cdif:has_ForeignKey:
+        description: Variables whose values identify records in a different dataset.
         type: array
         items:
           anyOf:
@@ -349,28 +358,45 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DimensionGroup node
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:name:
         type: array
         items:
           type: string
         minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
         x-jsonld-id: https://w3id.org/cdif/name
-      cdif:has_DataStructureComponent:
+      cdi:has_DimensionComponent:
+        description: 'The dimension components this group groups. Named and typed
+          to match the canonical association DimensionGroup_has_DimensionComponent,
+          whose target is cdi:DimensionComponent and not the cdi:DataStructureComponent
+          supertype.
+
+          Was ''cdif:has_DataStructureComponent'' accepting any component, which was
+          wrong twice over: it widened the range to the supertype, and it reused a
+          local name that the four DataStructure classes in this same file spell ''cdi:has_DataStructureComponent''
+          for a different canonical association (DataStructure_has_DataStructureComponent).
+          One local name under two prefixes for two associations. No record used the
+          cdif: spelling -- 0 examples, against 12 for the cdi: one -- so nothing
+          had to be migrated.
+
+          cdi:, not cdif:, because with the item narrowed the value range agrees with
+          the canonical model. Note ddiProperties does not transcribe DimensionGroup,
+          so audit_cdif_vs_ddi.py reports this as CDIF-ONLY: the canonical XMI carries
+          the association, the ddi building block is what is missing.'
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/DimensionComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
-        x-jsonld-id: https://w3id.org/cdif/has_DataStructureComponent
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DimensionComponent
     required:
     - '@type'
   ForeignKey:

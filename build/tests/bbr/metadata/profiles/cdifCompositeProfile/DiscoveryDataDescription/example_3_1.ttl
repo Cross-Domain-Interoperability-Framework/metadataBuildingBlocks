@@ -32,19 +32,7 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
             csvw:skipBlankRows true ;
             cdif:fileSize 312 ;
             cdif:fileSizeUofM "KB" ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-temperature ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 2 ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-ph ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:isRequired true ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
                     cdif:format "YYYY-MM-DD" ;
                     cdif:formats_InstanceVariable ex:var-sample-date ;
                     cdif:index 1 ;
@@ -54,6 +42,12 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-oxygen ;
                     cdif:index 5 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-ph ;
+                    cdif:index 2 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:decimalPositions 3 ;
                     cdi:nullSequence "NA" ;
@@ -65,7 +59,13 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
                     cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-station ;
                     cdif:index 0 ;
-                    cdif:physicalDataType "string" ] ] ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "float64" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.5281/zenodo.5151515" ;
@@ -105,23 +105,23 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
 
 <https://example.org/gom-water-quality-wide-2025/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes ex:var-sample-date ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes ex:var-station ;
-            cdi:value 1 ] .
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes ex:var-sample-date ;
+            cdi:value 2 ] .
 
 ex:var-oxygen a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
-            schema1:identifier "http://qudt.org/vocab/unit/MilliGM-PER-L" ;
-            schema1:name "milligram per litre" ] ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Dissolved oxygen concentration in water." ;
     schema1:maxValue 1.5e+01 ;
     schema1:measurementTechnique "Optode sensor" ;
     schema1:minValue 0e+00 ;
     schema1:name "dissolved_oxygen" ;
+    cdif:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/MilliGM-PER-L" ;
+            schema1:name "milligram per litre" ] ;
     cdif:displayLabel "Dissolved oxygen" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
@@ -158,15 +158,15 @@ ex:var-salinity a cdi:InstanceVariable,
 
 ex:var-temperature a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
-            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
-            schema1:name "degree Celsius" ] ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Sea-water temperature at sample depth." ;
     schema1:maxValue 3e+01 ;
     schema1:measurementTechnique "CTD profiler" ;
     schema1:minValue -2e+00 ;
     schema1:name "temperature" ;
+    cdif:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
+            schema1:name "degree Celsius" ] ;
     cdif:displayLabel "Sea-water temperature" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;

@@ -234,8 +234,12 @@ their refs are resolved over the network at their build time, not ours.
   `spatialExtent` and `xasDocument`, where affiliation means nothing), and 70 of 93 blocks with no
   `tests/` at all. **23 of 93 blocks still have none.** Run it with `--strict` to fail on a case
   that asserts nothing, `--coverage` to list untested blocks. Note the matcher's own limits: an error on `@type` and an
-  `anyOf` message (which prints the whole instance, so every token "matches") are both
-  discounted, while the error *path* counts as strong evidence.
+  `anyOf` *message* (which prints the whole instance, so every token "matches") are both
+  discounted, while the error *path* counts as strong evidence. Since 2026-10-01 `all_errors`
+  descends into `error.context`, so an anyOf case's branch errors supply real paths instead of
+  leaving it judged on the one error that says nothing — measured as **0 of 125 verdicts changed**,
+  because every current case already had top-level evidence. It is hardening for the next such
+  case, not a correction; do not read the unchanged count as the change having failed.
 
 - **A rule that stops working looks exactly like a rule that passes.** This is the failure mode
   that cost the most time on 2026-09-08, in five different disguises. `sh:targetObjectsOf` on a
@@ -268,6 +272,28 @@ their refs are resolved over the network at their build time, not ours.
   scalar after framing belongs in that list — but it is keyed on name alone, so a property that is
   an array in one place and a scalar in another (`schema:identifier` on an instrument vs on a
   Person) has to be keyed on `parent_key` or `type_list` instead.
+  **The list is hand-maintained and was missing an entry until 2026-10-01**: `cdif:has_ForeignKey`
+  is `type: array` at all three of its sites in `cdifDataStructure`, so the one example carrying
+  exactly ONE foreign key framed to a bare object and failed its own schema. `cdif:isComposedOf`
+  was already listed, which is why the inner `ComponentPosition` array survived and only the outer
+  key collapsed — that split is what makes a framing bug read as a content error, and it had the
+  example written off as unfinished work rather than investigated. `cdif:has_PrimaryKey` must stay
+  out: it is a `$ref` to a single object, so wrapping it would break the case this fixes. The two
+  look symmetrical and are not. **A sweep of array-typed properties against this list is worth
+  doing** — nothing generates or checks it, so a missing entry surfaces only when some example
+  happens to carry exactly one value.
+
+- **A union failure used to name nothing, and that is why the above went unfound.** `jsonschema`
+  reports an `anyOf`/`oneOf` failure as ONE error whose message interpolates the entire instance
+  and names no property; the real errors are in `error.context`. Most class targets here are
+  `anyOf [inline class, {@id} reference]` and every union branches on `@type`, so this is the
+  default shape of a failure, not an edge case. `FrameAndValidate.explain_error` (2026-10-01)
+  flattens that tree, dedupes (sibling branches differ only in their `@type` pin, so one defect is
+  reported once per branch — 15 leaves collapsing to 7 is typical) and ranks by path depth,
+  demoting `const`/`enum`/`contains` on `@type` as branch selection. **Do not treat the first line
+  as authoritative:** a `required` raised by a *declining* branch is not demoted and can still
+  outrank the real error on depth — of the three surfaced for the foreign-key case, two were
+  branches refusing the node and only the third was the defect.
 
 - **Renaming a property breaks emitters, not just schemas.** `cdif:isDefinedBy_RepresentedVariable`
   → `cdif:isDefinedBy_Variable` reached the release SHACL the same day and `cdifnexmetadata` did
@@ -403,3 +429,125 @@ their refs are resolved over the network at their build time, not ours.
   consumer's git config; the same commit stopped the header stamping `--bb-dir` verbatim (it could
   bake a local absolute path into a committed artifact) and pinned the output to LF. Before
   trusting a regenerated bundle, check the per-file diff is single digits, not three.
+
+- **An `@id` that is not a usable IRI silently deletes the triple, and the JSON Schema gate
+  cannot see it.** Settled 2026-10-01 in `profile-provenance`. Galaxy writes RO-Crate `@id`s
+  containing spaces and pipes (`#input-Sn Foil`, `output-plot_collection|0_flat`); a JSON-LD
+  parser cannot resolve those, so it drops the node **and the incoming triple with it**. In
+  `Paper_1_Pt3Sn.actions.cdifprov.json` 28 `prov:used` keys became **6 subjects** in the graph,
+  so 22 activities that do name their inputs looked like activities naming none, and the
+  `cdifProvActivity` `minCount` fired on all of them. 170 spaces and 31 pipes across 96 distinct
+  `@id`s in 6 files. The loss happens *after* the JSON Schema gate, during RDF expansion, which
+  is why the corpus reported a clean 17/17 schema run while 12 examples failed conformance --
+  the same split as `validate_examples.py` vs `FrameAndValidate`, one layer down. Percent-encode,
+  and encode definitions and references alike: doing one side breaks the join instead. The check
+  that catches it is graph-level -- parse the example and compare the triple count for a property
+  against the number of keys in the JSON; equal counts are the invariant.
+
+- **An over-claimed profile is not always a wrong declaration.** `detect_conformance` declares a
+  class iff presence AND its content SHACL raises no Violation, so a *content* defect reports as
+  `DECLARED BUT NOT DETECTED: <profile>` -- the identical message a genuinely false claim gives.
+  Measured 2026-10-01: 12 of `profile-provenance`'s 17 examples over-claimed `provenance/1.1`
+  while declaring it **correctly**; presence was true in all 12 and one `prov:used` Violation was
+  suppressing the class. Run the detection with `verbose=True` and read which half failed before
+  touching a `conformsTo` -- `presence False` is a declaration problem, `presence True` then
+  `-> N SHACL violation(s)` is a content problem, and "fixing" the declaration there deletes a
+  true claim to silence a real defect. The same pass found the cause was a modelling error rather
+  than a missing value: both Galaxy converters swept `{CreateAction, OrganizeAction}` into the
+  activity list, making "Run of Galaxy workflow engine" an object of `prov:wasGeneratedBy`, which
+  no crate says -- across all eight, the root's `mentions` names the `CreateAction` every time and
+  the `OrganizeAction` never. **Do not satisfy that rule by giving the engine run a `prov:used`**;
+  it has no `object` and no `result` to map, so the only available value is its own
+  `schema:instrument` restated as an input.
+
+- **`raw.githubusercontent.com` is Fastly-cached, so a consumer's drift check can fail on content
+  that is already correct.** The `check-frameandvalidate` workflow in each release repo curls the
+  normative `FrameAndValidate.py` from `validation/main` over raw, and on 2026-10-01 three
+  consecutive runs across six minutes read the superseded blob while a local curl of the same URL
+  returned the new one -- a stale POP, with origin and every local copy byte-identical (`diff`
+  over the canonical bodies: 0 lines). **Push `validation` BEFORE the repos that are synced from
+  it**, or every consumer goes red for a cache window; and when it does go red, diff the bodies
+  before touching anything, because the error message names hand-editing as the cause and it is
+  the one cause that has never been it yet.
+
+- **`cdif-umlmodel/tools/` is a MIRROR, and its sync workflow has reported success while doing
+  nothing since it was created.** Measured 2026-10-02. The directory is not a release repo: it
+  holds a copy of the `CDIF/validation` instance-validation tools, owned by
+  `validation/tools/sync_mirror_tools.sh`, which copies `FrameAndValidate.py` **verbatim** along
+  with the three framed-tree schemas, the frame, the context, `ConformanceValidate`,
+  `detect_conformance`, the local conformance map and six SHACL shape sets. Running it by hand
+  updated **all 15 tracked files** — every one was stale.
+  The workflow (`validation/.github/workflows/sync-mirror-tools.yml`) guards on a
+  `MIRROR_SYNC_TOKEN` secret, and that secret has never existed: unset, the guard emits a
+  `::warning::`, sets `run=false`, every later step is skipped by its `if`, and the job concludes
+  **`success`**. It ran on all six recent `validation` pushes, each in 7-9 s — just the guard. So
+  the mirror was unmaintained and nothing said so.
+  **Fixed the same day by inverting the direction, which removes the credential entirely.** Both
+  repos are public, so `cdif-umlmodel/.github/workflows/sync-tools-from-validation.yml` checks
+  `validation` out unauthenticated and pushes to its own repo with the built-in `GITHUB_TOKEN`
+  (`permissions: contents: write`); the push-from-`validation` direction is the one that needed a
+  PAT, which is why it stalled. The old workflow is deleted -- **do not reinstate a push-based
+  one.** `tools/sync_mirror_tools.sh` still owns the file list, still lives beside the files it
+  mirrors, and is still runnable by hand
+  (`bash tools/sync_mirror_tools.sh . ../cdif-umlmodel/tools`) when you do not want to wait for
+  the daily schedule; `workflow_dispatch` does the same from the Actions tab.
+  Verified by both halves, because a green run proves neither: a clean dispatch reported
+  `Synced 16 files` and `already up to date with validation@d7134df`, and then deleting a mirrored
+  shape file had the next run restore it, name it in the log and push -- `Updating 1 file(s)`.
+  **A no-op run cannot distinguish a working push from a broken one**, which is the trap the
+  original fell into.
+
+- **Two mechanisms were writing the same `FrameAndValidate.py`, and the loser was whichever ran
+  last.** `sync_frameandvalidate.py` discovers any repo with a copy one level down **that carries
+  the GENERATED banner** (`_is_generated_copy`), which the mirror's did, because an earlier run had
+  stamped it. So `--apply` claimed a mirror it does not own — twice on 2026-10-01, reverted twice.
+  Ownership now sits with the mirror script, and that is **structural, not just policy**: a verbatim
+  copy carries the NORMATIVE banner, so `discover_targets` no longer finds the repo at all
+  (measured: `Wrote: 12`, not 13, with no flag passed). `DEFAULT_SKIP` in
+  `sync_frameandvalidate.py` is kept as belt-and-braces, because the structural exclusion only
+  holds while the mirror is current — a mirror still carrying an old GENERATED banner gets claimed
+  back on the next run.
+
+- **A mirror holds several schemas, and that is why its examples never validated.** A release repo
+  ships one schema so `FrameAndValidate._auto_default` resolves it; a mirror ships three
+  (discovery, data_description, complete) and `_auto_default` correctly refuses to guess, leaving
+  **no schema at all** — so every example failed under every copy of the script, and the sync
+  regression gate could prove nothing, because with no baseline pass nothing could regress.
+  `conformance-schema-map.json` already stated which schema serves which profile and nothing read
+  it; since 2026-10-02 declared conformance selects one, most-inclusive first
+  (`complete` > `data_description` > `discovery`) — a complete record checked against the discovery
+  schema **passes while validating a fraction of itself**. Two traps found doing it: the map's own
+  filename matches the `*schema*.json` glob, so one real schema plus the map looked ambiguous and
+  auto-detection refused a schema it should have found (`NOT_A_SCHEMA` excludes it); and records
+  declare the **composite** BB URI, never `complete/1.1`, so a complete record resolved to the
+  data-description schema until the map gained that URI.
+
+- **The release repos' CI workflow is a deployed copy of a template, and the template is not where
+  you would look.** `check-frameandvalidate.yml` lives in each release repo under
+  `.github/workflows/`, but its source is `validation/tools/templates/check-frameandvalidate.yml`
+  -- under `tools/`, not a top-level `templates/` -- and `sync_frameandvalidate.py --with-ci`
+  redeploys it. **Editing the eleven deployed copies without the template gets silently reverted
+  by the next `--with-ci`.** Found during the 2026-10-02 `actions/checkout` v4 -> v5 sweep: a
+  first survey globbed `templates/` and missed it entirely. After any such edit, check the copies
+  are still byte-identical to the template (`diff` each; they were, 11 of 11). Two other things
+  that sweep is worth remembering for: `validation/node_modules/` has its own vendored workflows
+  (gitignored -- leave them), and a workflow edited into invalid YAML does not fail, it silently
+  stops running, so re-parse every file you touch.
+
+- **`gh workflow run` dispatches against the DEFAULT branch, and the release repos work on
+  `updates`.** So a bare `gh workflow run check-frameandvalidate.yml` in a `profile-*` / `doc-*`
+  repo checks `main` -- the *previous* release -- against the current normative source, and
+  correctly reports drift that does not exist on the branch you are working on. Measured
+  2026-10-02 on `profile-core`: `local f8b9c918` (main, the shipped release) vs
+  `upstream c961ed19`, failing; `--ref updates` reported `OK: in sync`. The check cannot go red on
+  its own there, because it only triggers on a push touching `FrameAndValidate.py` and `main` only
+  receives one at release time -- but a manual dispatch without `--ref` will mislead you into
+  "fixing" a branch that is already correct.
+
+- **A README that names a workflow which no longer exists is worse than one that names none.**
+  `validation/README.md` listed `sync-mirror-tools.yml` for some time after it was deleted, telling
+  any reader the cdif-umlmodel mirror sync was handled from that repo -- which is exactly the
+  belief that let the mirror sit stale. When you delete or move a workflow, grep the `*.md` in that
+  repo for its filename. The same sweep found `cdif-umlmodel/tools/readme.md` described the mirror
+  without naming any mechanism: not wrong, but it left a reader unable to tell whether their copy
+  was current, so it now states the schedule and the two ways to force a refresh.

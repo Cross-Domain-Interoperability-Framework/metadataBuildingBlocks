@@ -74,6 +74,8 @@ properties:
           'schema:description':
             type: string
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: ../../cdifDataType/cdifConceptOrTermOrString/schema.yaml
   LabProcess:
     type: object
     description: A Bioschemas LabProcess — a laboratory process execution. Used as
@@ -284,15 +286,7 @@ $defs:
         description: Further type classification (e.g. File, Dataset, PropertyValue, DataType)
         type: array
         items:
-          anyOf:
-          - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          $ref: '#/$defs/cdifConceptOrTermOrString'
       'schema:encodingFormat':
         description: MIME type or URL for expected data format
         type: array

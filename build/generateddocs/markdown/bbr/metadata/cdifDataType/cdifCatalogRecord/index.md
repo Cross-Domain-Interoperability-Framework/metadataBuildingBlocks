@@ -375,15 +375,7 @@ properties:
     description: additional type assertions for the catalog record node. dcat:CatalogRecord
       is required.
     items:
-      anyOf:
-      - type: string
-      - type: object
-        additionalProperties: false
-        required:
-        - '@id'
-        properties:
-          '@id':
-            type: string
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     contains:
       type: object
       additionalProperties: false
@@ -473,6 +465,8 @@ required:
 - '@type'
 - '@id'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   Person:
@@ -500,11 +494,11 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
     "@version": 1.1
   }
 }

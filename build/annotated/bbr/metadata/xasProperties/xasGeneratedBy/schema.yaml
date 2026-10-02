@@ -19,15 +19,7 @@ allOf:
         (an XAS analysis event).
       type: array
       items:
-        anyOf:
-        - type: string
-        - type: object
-          additionalProperties: false
-          required:
-          - '@id'
-          properties:
-            '@id':
-              type: string
+        $ref: '#/$defs/cdifConceptOrTermOrString'
       contains:
         type: object
         additionalProperties: false
@@ -180,6 +172,8 @@ allOf:
       $ref: '#/$defs/Sample'
       x-jsonld-id: http://schema.org/object
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   Sample:

@@ -296,6 +296,10 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
 ex:exampleSampel_357h a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "samplePreparation" ;
+            schema1:propertyID xas:samplepreparation ;
+            schema1:value "powder on tape, 6 layers" ],
+        [ a schema1:PropertyValue ;
             schema1:name "sample material state" ;
             schema1:propertyID xas:samplematerial ;
             schema1:value "solid metal foil" ],
@@ -304,22 +308,18 @@ ex:exampleSampel_357h a schema1:Product,
             schema1:propertyID xas:samplechemicalcomposition ;
             schema1:value "Na2SeO4" ],
         [ a schema1:PropertyValue ;
+            schema1:name "crystal point group" ;
+            schema1:propertyID xas:pointgroup ;
+            schema1:value "mm2" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Parent sample" ;
             schema1:propertyID xas:parentsample ;
             schema1:value "igsn:10.3476/342573" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "samplePreparation" ;
-            schema1:propertyID xas:samplepreparation ;
-            schema1:value "powder on tape, 6 layers" ],
         [ a schema1:PropertyValue ;
             schema1:name "porosity" ;
             schema1:propertyID xas:porosity ;
             schema1:unitText "percent" ;
             schema1:value "27" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "crystal point group" ;
-            schema1:propertyID xas:pointgroup ;
-            schema1:value "mm2" ],
         [ a schema1:PropertyValue ;
             schema1:name "sample mass" ;
             schema1:propertyID xas:samplemass ;
@@ -362,15 +362,7 @@ properties:
   schema:additionalType:
     type: array
     items:
-      anyOf:
-      - type: string
-      - type: object
-        additionalProperties: false
-        required:
-        - '@id'
-        properties:
-          '@id':
-            type: string
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     minItems: 2
     uniqueItems: true
     allOf:
@@ -411,6 +403,8 @@ required:
 - schema:additionalType
 - schema:name
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   AdditionalProperty:
@@ -436,6 +430,7 @@ Links to the schema:
     "schema": "http://schema.org/",
     "nxs": "https://manual.nexusformat.org/classes/",
     "xas": "https://w3id.org/cdif/xas/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "@version": 1.1
   }
 }

@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifDataType.cdifInstanceVariable` *v0.2*
 
-Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a schema:variableMeasured array. Adds DDI-CDI properties (cdif:physicalDataType, cdif:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of schemaorgProperties/variableMeasured and ddiProperties/ddicdiInstanceVariable. Accepts a single node, an unwrapped @graph array of nodes (OGC pipeline), or a JSON-LD document with @context and @graph.
+Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a schema:variableMeasured array. Adds DDI-CDI properties (cdif:physicalDataType, cdif:role, cdif:simpleUnitOfMeasure, cdif:uses, cdif:qualifies) on top of schemaorgProperties/variableMeasured and ddiProperties/ddicdiInstanceVariable. Accepts a single node, an unwrapped @graph array of nodes (OGC pipeline), or a JSON-LD document with @context and @graph.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -28,15 +28,15 @@ The schema carries **all `InstanceVariable`-own and `RepresentedVariable`-own pr
 - **@type** — must include `cdi:InstanceVariable` (and, as a `schema:PropertyValue`, that type too)
 - **cdif:physicalDataType** — physical data type concept (string, URI reference, or DefinedTerm)
 - **cdif:role** — role in a data structure (`UnitIdentifier`, `Measure`, `Attribute`, `Dimension`, `Descriptor`, `ReferenceVariable`)
-- **cdi:function** — immutable characteristic (geographic designator, weight, temporal designation, …)
-- **cdi:platformType** — application / technical system context the variable was realized in
-- **cdi:source** — provenance reference
+- **cdif:function** — immutable characteristic (geographic designator, weight, temporal designation, …)
+- **cdif:platformType** — application / technical system context the variable was realized in
+- **cdif:source** — provenance reference
 - **cdif:isDescribedBy_StatisticsCollection** — the `StatisticsCollection` of summary / category statistics for this variable (target-suffixed: `isDescribedBy` is polymorphic in DDI-CDI)
 
 **RepresentedVariable-own:**
 
-- **cdi:hasIntendedDataType** — intended data type, independent of physical representation
-- **cdi:describedUnitOfMeasure** — unit of measure as a controlled-vocabulary entry
+- **cdif:hasIntendedDataType** — intended data type, independent of physical representation
+- **cdif:describedUnitOfMeasure** — unit of measure as a controlled-vocabulary entry
 - **cdif:simpleUnitOfMeasure** — unit of measure as a plain string / URI / DefinedTerm
 - **cdi:takesSentinelValuesFrom** — sentinel (missing / not-applicable) value domain(s) — `cdifValueDomain`
 - **cdi:takesSubstantiveValuesFrom** — substantive value domain — `cdifValueDomain`
@@ -44,7 +44,7 @@ The schema carries **all `InstanceVariable`-own and `RepresentedVariable`-own pr
 **CDIF extensions:**
 
 - **cdif:uses** — concepts (or, under the Data Structure profile, the `RepresentedVariable`) that this variable represents
-- **cdi:qualifies** — `@id` reference to another instance variable; used when `cdif:role` is `Attribute`
+- **cdif:qualifies** — `@id` reference to another instance variable; used when `cdif:role` is `Attribute`
 
 ### Data Structure profile constraint
 
@@ -173,7 +173,7 @@ them via schema:variableMeasured.
     }
   ],
   "schema:unitText": "eV",
-  "cdi:identifier": {
+  "cdif:identifier": {
     "@type": [
       "cdi:Identifier"
     ],
@@ -195,7 +195,7 @@ them via schema:variableMeasured.
     "xas:monochromatorEnergyConcept"
   ],
   "cdif:role": "Attribute",
-  "cdi:qualifies": {
+  "cdif:qualifies": {
     "@id": "ex:temperatureVariable"
   }
 }
@@ -239,7 +239,7 @@ them via schema:variableMeasured.
     }
   ],
   "schema:unitText": "eV",
-  "cdi:identifier": {
+  "cdif:identifier": {
     "@type": [
       "cdi:Identifier"
     ],
@@ -261,7 +261,7 @@ them via schema:variableMeasured.
     "xas:monochromatorEnergyConcept"
   ],
   "cdif:role": "Attribute",
-  "cdi:qualifies": {
+  "cdif:qualifies": {
     "@id": "ex:temperatureVariable"
   }
 }
@@ -277,9 +277,6 @@ them via schema:variableMeasured.
 
 xas:monochromatorEnergy a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:identifier [ a cdi:Identifier ;
-            cdi:uri "https://w3id.org/cdif/xas/monochromatorEnergy" ] ;
-    cdi:qualifies ex:temperatureVariable ;
     cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/decimal-eV> ;
     schema1:alternateName "Monochromator energy" ;
     schema1:description "Incident photon energy selected by the monochromator during the XAS scan." ;
@@ -288,8 +285,11 @@ xas:monochromatorEnergy a cdi:InstanceVariable,
     schema1:unitText "eV" ;
     cdif:definition "Incident photon energy selected by the monochromator during the XAS scan." ;
     cdif:displayLabel "Monochromator energy" ;
+    cdif:identifier [ a cdi:Identifier ;
+            cdi:uri "https://w3id.org/cdif/xas/monochromatorEnergy" ] ;
     cdif:name "energy" ;
     cdif:physicalDataType "xsd:decimal" ;
+    cdif:qualifies ex:temperatureVariable ;
     cdif:role "Attribute" ;
     cdif:simpleUnitOfMeasure "eV" ;
     cdif:uses "xas:monochromatorEnergyConcept" .
@@ -391,7 +391,7 @@ referencing the code-list concept).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "count",
+        "cdif:typeOfStatistic": "count",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -415,7 +415,7 @@ referencing the code-list concept).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "minimum",
+        "cdif:typeOfStatistic": "minimum",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -429,7 +429,7 @@ referencing the code-list concept).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "maximum",
+        "cdif:typeOfStatistic": "maximum",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -443,7 +443,7 @@ referencing the code-list concept).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "frequency",
+        "cdif:typeOfStatistic": "frequency",
         "cdi:statistic": [
           {
             "cdi:computationBase": "Total",
@@ -459,7 +459,7 @@ referencing the code-list concept).
             "cdi:for": {
               "@id": "mics:codelist/HH14-language/1"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -475,7 +475,7 @@ referencing the code-list concept).
             "cdi:for": {
               "@id": "mics:codelist/HH14-language/2"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -491,7 +491,7 @@ referencing the code-list concept).
             "cdi:for": {
               "@id": "mics:codelist/HH14-language/3"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -507,7 +507,7 @@ referencing the code-list concept).
             "cdi:for": {
               "@id": "mics:codelist/HH14-language/4"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -523,7 +523,7 @@ referencing the code-list concept).
             "cdi:for": {
               "@id": "mics:codelist/HH14-missing/sysmiss"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "MissingOnly",
@@ -629,7 +629,7 @@ referencing the code-list concept).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "count",
+        "cdif:typeOfStatistic": "count",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -653,7 +653,7 @@ referencing the code-list concept).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "minimum",
+        "cdif:typeOfStatistic": "minimum",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -667,7 +667,7 @@ referencing the code-list concept).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "maximum",
+        "cdif:typeOfStatistic": "maximum",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -681,7 +681,7 @@ referencing the code-list concept).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "frequency",
+        "cdif:typeOfStatistic": "frequency",
         "cdi:statistic": [
           {
             "cdi:computationBase": "Total",
@@ -697,7 +697,7 @@ referencing the code-list concept).
             "cdi:for": {
               "@id": "mics:codelist/HH14-language/1"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -713,7 +713,7 @@ referencing the code-list concept).
             "cdi:for": {
               "@id": "mics:codelist/HH14-language/2"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -729,7 +729,7 @@ referencing the code-list concept).
             "cdi:for": {
               "@id": "mics:codelist/HH14-language/3"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -745,7 +745,7 @@ referencing the code-list concept).
             "cdi:for": {
               "@id": "mics:codelist/HH14-language/4"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -761,7 +761,7 @@ referencing the code-list concept).
             "cdi:for": {
               "@id": "mics:codelist/HH14-missing/sysmiss"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "MissingOnly",
@@ -813,64 +813,64 @@ referencing the code-list concept).
     cdif:indexedBy <https://example.org/mics/mwi2019/var/HH14> .
 
 <https://example.org/mics/mwi2019/var/HH14/statistics/count> a cdi:Statistics ;
-    cdi:statistic [ cdi:computationBase "Total" ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 25419 ;
+            cdi:typeOfNumericValue "decimal" ],
+        [ cdi:computationBase "Total" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ],
         [ cdi:computationBase "MissingOnly" ;
             cdi:content 1463 ;
-            cdi:typeOfNumericValue "decimal" ],
-        [ cdi:computationBase "ValidOnly" ;
-            cdi:content 25419 ;
             cdi:typeOfNumericValue "decimal" ] ;
-    cdi:typeOfStatistic "count" .
+    cdif:typeOfStatistic "count" .
 
 <https://example.org/mics/mwi2019/var/HH14/statistics/frequencies> a cdi:Statistics ;
     cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
-    cdi:typeOfStatistic "frequency" ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
             cdi:statistic [ cdi:computationBase "MissingOnly" ;
                     cdi:content 1463 ;
                     cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 21497 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/1> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 108 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 3739 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
+            cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 75 ;
                     cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ] .
+            cdif:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 21497 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdif:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/1> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 108 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdif:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 3739 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdif:typeOfStatistic "frequency" ] ;
+    cdif:typeOfStatistic "frequency" .
 
 <https://example.org/mics/mwi2019/var/HH14/statistics/maximum> a cdi:Statistics ;
     cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 4 ;
             cdi:typeOfNumericValue "decimal" ] ;
-    cdi:typeOfStatistic "maximum" .
+    cdif:typeOfStatistic "maximum" .
 
 <https://example.org/mics/mwi2019/var/HH14/statistics/minimum> a cdi:Statistics ;
     cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 1 ;
             cdi:typeOfNumericValue "decimal" ] ;
-    cdi:typeOfStatistic "minimum" .
+    cdif:typeOfStatistic "minimum" .
 
 <https://example.org/mics/mwi2019/var/HH14/valueDomain/sentinel> a cdif:SentinelValueDomain ;
     cdif:displayLabel "Missing-value codes for HH14" ;
@@ -954,7 +954,7 @@ valid count (26882).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "count",
+        "cdif:typeOfStatistic": "count",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -973,7 +973,7 @@ valid count (26882).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "minimum",
+        "cdif:typeOfStatistic": "minimum",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -987,7 +987,7 @@ valid count (26882).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "maximum",
+        "cdif:typeOfStatistic": "maximum",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -1001,7 +1001,7 @@ valid count (26882).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "frequency",
+        "cdif:typeOfStatistic": "frequency",
         "cdi:statistic": [
           {
             "cdi:computationBase": "Total",
@@ -1017,7 +1017,7 @@ valid count (26882).
             "cdi:for": {
               "@id": "mics:codelist/HH6-area/1"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -1033,7 +1033,7 @@ valid count (26882).
             "cdi:for": {
               "@id": "mics:codelist/HH6-area/2"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -1120,7 +1120,7 @@ valid count (26882).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "count",
+        "cdif:typeOfStatistic": "count",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -1139,7 +1139,7 @@ valid count (26882).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "minimum",
+        "cdif:typeOfStatistic": "minimum",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -1153,7 +1153,7 @@ valid count (26882).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "maximum",
+        "cdif:typeOfStatistic": "maximum",
         "cdi:statistic": [
           {
             "cdi:computationBase": "ValidOnly",
@@ -1167,7 +1167,7 @@ valid count (26882).
         "@type": [
           "cdi:Statistics"
         ],
-        "cdi:typeOfStatistic": "frequency",
+        "cdif:typeOfStatistic": "frequency",
         "cdi:statistic": [
           {
             "cdi:computationBase": "Total",
@@ -1183,7 +1183,7 @@ valid count (26882).
             "cdi:for": {
               "@id": "mics:codelist/HH6-area/1"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -1199,7 +1199,7 @@ valid count (26882).
             "cdi:for": {
               "@id": "mics:codelist/HH6-area/2"
             },
-            "cdi:typeOfStatistic": "frequency",
+            "cdif:typeOfStatistic": "frequency",
             "cdi:statistic": [
               {
                 "cdi:computationBase": "ValidOnly",
@@ -1246,43 +1246,43 @@ valid count (26882).
     cdif:indexedBy <https://example.org/mics/mwi2019/var/HH6> .
 
 <https://example.org/mics/mwi2019/var/HH6/statistics/count> a cdi:Statistics ;
-    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+    cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ],
-        [ cdi:computationBase "Total" ;
+        [ cdi:computationBase "ValidOnly" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
-    cdi:typeOfStatistic "count" .
+    cdif:typeOfStatistic "count" .
 
 <https://example.org/mics/mwi2019/var/HH6/statistics/frequencies> a cdi:Statistics ;
     cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
-    cdi:typeOfStatistic "frequency" ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/1> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 3936 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/2> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 22946 ;
                     cdi:typeOfNumericValue "decimal" ] ;
-            cdi:typeOfStatistic "frequency" ] .
+            cdif:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/1> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 3936 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdif:typeOfStatistic "frequency" ] ;
+    cdif:typeOfStatistic "frequency" .
 
 <https://example.org/mics/mwi2019/var/HH6/statistics/maximum> a cdi:Statistics ;
     cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 2 ;
             cdi:typeOfNumericValue "decimal" ] ;
-    cdi:typeOfStatistic "maximum" .
+    cdif:typeOfStatistic "maximum" .
 
 <https://example.org/mics/mwi2019/var/HH6/statistics/minimum> a cdi:Statistics ;
     cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 1 ;
             cdi:typeOfNumericValue "decimal" ] ;
-    cdi:typeOfStatistic "minimum" .
+    cdif:typeOfStatistic "minimum" .
 
 <https://example.org/mics/mwi2019/var/HH6/valueDomain/substantive> a cdif:SubstantiveValueDomain ;
     cdif:displayLabel "Valid area codes for HH6" ;
@@ -1376,20 +1376,20 @@ properties:
       because a structure may define a variable that exists nowhere else. This property
       stays narrow: the RepresentedVariable an InstanceVariable instantiates, by reference.'
     x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
-  cdi:function:
+  cdif:function:
     type: array
     items:
       $ref: '#/$defs/cdifConceptOrTermOrString'
     description: Immutable characteristic of the variable such as geographic designator,
       weight, temporal designation, etc. (InstanceVariable.function).
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function
-  cdi:platformType:
+    x-jsonld-id: https://w3id.org/cdif/function
+  cdif:platformType:
     $ref: '#/$defs/cdifConceptOrTermOrString'
     description: The application or technical system context in which the variable
       has been realized - typically a statistical processing package or processing
       environment (InstanceVariable.platformType).
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType
-  cdi:source:
+    x-jsonld-id: https://w3id.org/cdif/platformType
+  cdif:source:
     anyOf:
     - type: string
     - type: object
@@ -1401,7 +1401,7 @@ properties:
           type: string
     description: Reference capturing provenance information for this InstanceVariable
       (InstanceVariable.source).
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/source
+    x-jsonld-id: https://w3id.org/cdif/source
   cdif:isDescribedBy_StatisticsCollection:
     description: "The StatisticsCollection holding summary / category statistics for
       this InstanceVariable (direct JSON mapping of the DDI-CDI `InstanceVariable.isDescribedBy
@@ -1419,13 +1419,13 @@ properties:
       required:
       - '@id'
     x-jsonld-id: https://w3id.org/cdif/isDescribedBy_StatisticsCollection
-  cdi:describedUnitOfMeasure:
+  cdif:describedUnitOfMeasure:
     $ref: '#/$defs/cdifConceptOrTerm'
     description: The unit in which the data values are measured, expressed as a controlled-vocabulary
       entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit,
       use cdif:simpleUnitOfMeasure instead.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
-  cdi:qualifies:
+    x-jsonld-id: https://w3id.org/cdif/describedUnitOfMeasure
+  cdif:qualifies:
     type: object
     required:
     - '@id'
@@ -1434,7 +1434,7 @@ properties:
       '@id':
         type: string
     description: reference to an instance variable defined for this dataset
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies
+    x-jsonld-id: https://w3id.org/cdif/qualifies
 allOf:
 - required:
   - '@type'
@@ -1450,15 +1450,15 @@ allOf:
       cdi:takesSentinelValuesFrom:
         not: true
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelValuesFrom
-      cdi:hasIntendedDataType:
+      cdif:hasIntendedDataType:
         not: true
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType
-      cdi:describedUnitOfMeasure:
+        x-jsonld-id: https://w3id.org/cdif/hasIntendedDataType
+      cdif:describedUnitOfMeasure:
         not: true
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
-      cdi:unitOfMeasureKind:
+        x-jsonld-id: https://w3id.org/cdif/describedUnitOfMeasure
+      cdif:unitOfMeasureKind:
         not: true
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind
+        x-jsonld-id: https://w3id.org/cdif/unitOfMeasureKind
       cdi:measures:
         not: true
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures

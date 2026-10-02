@@ -502,6 +502,17 @@ properties:
     items:
       type: string
     x-jsonld-id: http://schema.org/encodingFormat
+  schema:additionalType:
+    type: array
+    description: 'Domain-specific type classification for this distribution: what
+      KIND of thing the file is, beyond its MIME type. schema:encodingFormat says
+      how to parse the bytes; this says what they are. A plain string is accepted,
+      but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where
+      the value comes from a controlled vocabulary, so the vocabulary travels with
+      the data rather than being asserted only in a profile.'
+    items:
+      $ref: '#/$defs/cdifConceptOrTermOrString'
+    x-jsonld-id: http://schema.org/additionalType
   schema:contentSize:
     type: string
     description: File size of this distribution, e.g. '2.5 MB' or a byte count. Per
@@ -579,6 +590,9 @@ allOf:
   else:
     required:
     - schema:hasPart
+$defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
 

@@ -78,6 +78,9 @@
         }
     },
     "$defs": {
+        "cdifConceptOrTermOrString": {
+            "$ref": "../../../cdifDataType/cdifConceptOrTermOrString/cdifConceptOrTermOrStringSchema.json"
+        },
         "resourcePartArray": {
             "type": "array",
             "description": "Array of the resources that make up a package. Each part is independently retrievable, so unlike an archive part it may carry its own schema:distribution and may be typed schema:DataDownload.",
@@ -184,6 +187,13 @@
                             "description": "MIME type(s) for this file.",
                             "items": {
                                 "type": "string"
+                            }
+                        },
+                        "schema:additionalType": {
+                            "type": "array",
+                            "description": "Domain-specific type classification for this member file: what KIND of thing it is, beyond its MIME type. The @type above says only that it is a schema:MediaObject, and using @type to carry a domain classification conflates \"what this node is\" with \"what it is about\". A plain string is accepted; a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where the value comes from a controlled vocabulary.",
+                            "items": {
+                                "$ref": "#/$defs/cdifConceptOrTermOrString"
                             }
                         },
                         "schema:size": {

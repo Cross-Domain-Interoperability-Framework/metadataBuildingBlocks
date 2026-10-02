@@ -622,54 +622,14 @@ xas:487y54 a schema1:Product,
     schema1:hasPart [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "collimation technique" ;
-                    schema1:propertyID xas:collimation ;
-                    schema1:value "none" ],
+                    schema1:name "chemical formula" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXcrystal/chemical_formula> ;
+                    schema1:value "Si" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "focusing" ;
-                    schema1:propertyID xas:focusing ;
-                    schema1:value "???" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "harmonic_rejection" ;
-                    schema1:propertyID xas:harmonicrejection ;
-                    schema1:value "Rh-coated mirror, detuned" ] ;
-            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
-                wd:Q3099911 ;
-            schema1:identifier "should have a registry with URIs" ;
-            schema1:name "13-BM-D" ],
-        [ a schema1:Product,
-                schema1:Thing ;
-            schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "monitor mode" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXmonitor/mode> ;
-                    schema1:value "monitor" ],
-                [ a schema1:PropertyValue ;
-                    schema1:alternateName "incident flux measurement method" ;
-                    schema1:name "detector mode i0" ;
-                    schema1:propertyID xas:detectori0 ;
-                    schema1:value "10cm  N2" ],
-                [ a schema1:PropertyValue ;
-                    schema1:alternateName "transmitted flux measurement method" ;
-                    schema1:name "detector mode it" ;
-                    schema1:propertyID xas:detectorit ;
-                    schema1:value "10cm  N2" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "monitor preset" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXmonitor/preset> ;
-                    schema1:value "N.A." ] ;
-            schema1:additionalType "nxs:BaseClass/NXmonitor" ;
-            schema1:name "Beam monitor and detectors" ],
-        [ a schema1:Product,
-                schema1:Thing ;
-            schema1:additionalProperty [ a schema1:PropertyValue ;
                     schema1:name "d-spacing" ;
                     schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXcrystal/d_spacing> ;
                     schema1:unitText "Angstrom" ;
                     schema1:value "3.13550" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "chemical formula" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXcrystal/chemical_formula> ;
-                    schema1:value "Si" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "reflection plane (hkl)" ;
                     schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXcrystal/reflection> ;
@@ -694,7 +654,47 @@ xas:487y54 a schema1:Product,
             schema1:additionalType wd:Q3099911,
                 "nxs:BaseClass/NXsource" ;
             schema1:identifier "should have a registry with URIs" ;
-            schema1:name "source of x-ray excitation for analysis. Made up for this example" ] ;
+            schema1:name "source of x-ray excitation for analysis. Made up for this example" ],
+        [ a schema1:Product,
+                schema1:Thing ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:alternateName "transmitted flux measurement method" ;
+                    schema1:name "detector mode it" ;
+                    schema1:propertyID xas:detectorit ;
+                    schema1:value "10cm  N2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:alternateName "incident flux measurement method" ;
+                    schema1:name "detector mode i0" ;
+                    schema1:propertyID xas:detectori0 ;
+                    schema1:value "10cm  N2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "monitor mode" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXmonitor/mode> ;
+                    schema1:value "monitor" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "monitor preset" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXmonitor/preset> ;
+                    schema1:value "N.A." ] ;
+            schema1:additionalType "nxs:BaseClass/NXmonitor" ;
+            schema1:name "Beam monitor and detectors" ],
+        [ a schema1:Product,
+                schema1:Thing ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "collimation technique" ;
+                    schema1:propertyID xas:collimation ;
+                    schema1:value "none" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "harmonic_rejection" ;
+                    schema1:propertyID xas:harmonicrejection ;
+                    schema1:value "Rh-coated mirror, detuned" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "focusing" ;
+                    schema1:propertyID xas:focusing ;
+                    schema1:value "???" ] ;
+            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
+                wd:Q3099911 ;
+            schema1:identifier "should have a registry with URIs" ;
+            schema1:name "13-BM-D" ] ;
     schema1:identifier "xas:487y54" ;
     schema1:name "x-ray absorption analysis system" .
 
@@ -716,15 +716,7 @@ allOf:
     schema:additionalType:
       type: array
       items:
-        anyOf:
-        - type: string
-        - type: object
-          additionalProperties: false
-          required:
-          - '@id'
-          properties:
-            '@id':
-              type: string
+        $ref: '#/$defs/cdifConceptOrTermOrString'
       minItems: 1
       uniqueItems: true
       allOf:
@@ -741,6 +733,9 @@ allOf:
       x-jsonld-id: http://schema.org/additionalType
   required:
   - schema:additionalType
+$defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   wd: https://www.wikidata.org/entity/
@@ -760,8 +755,8 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "wd": "https://www.wikidata.org/entity/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "wd": "https://www.wikidata.org/entity/",
     "nxs": "https://manual.nexusformat.org/classes/",
     "xas": "https://w3id.org/cdif/xas/",
     "@version": 1.1

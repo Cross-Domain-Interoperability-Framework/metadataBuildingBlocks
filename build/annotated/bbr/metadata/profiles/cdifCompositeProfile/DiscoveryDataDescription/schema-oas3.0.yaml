@@ -838,14 +838,35 @@ x-defs:
     type: object
     properties:
       '@type':
+        description: 'Either construct, or both. A labeled link is a schema:CreativeWork
+          at a URL; a dcat:Relationship is DCAT''s association class for a typed relation
+          to another resource. A node may declare both -- CDIF''s own relation examples
+          do -- but NEITHER IS REQUIRED TO ACCOMPANY THE OTHER.
+
+          That is the whole point of the anyOf. Until 2026-09-08 this block''s Relation
+          half required contains: dcat:Relationship while the labeled-link half required
+          contains: schema:CreativeWork, and under allOf both applied to every instance,
+          so an ordinary labeled link was unsatisfiable. Of profile-core''s licenses
+          the 29 plain strings and 1 @id-reference passed while the 10 that followed
+          schema.org''s own recommendation -- "use schema:CreativeWork to provide
+          a label (name) for the license" -- failed. 412782113 fixed that by deleting
+          the dcat:Relationship mandate outright, which left the JSON Schema with
+          no notion of dcat:Relationship at all while rules.shacl went on targeting
+          it as a class. A pure DCAT relation then met a SHACL requirement with no
+          schema counterpart. This anyOf restores the type to the schema WITHOUT restoring
+          the conjunction.'
         default: schema:CreativeWork
         type: array
         items:
           type: string
-        contains:
-          enum:
-          - schema:CreativeWork
         minItems: 1
+        anyOf:
+        - contains:
+            enum:
+            - schema:CreativeWork
+        - contains:
+            enum:
+            - dcat:Relationship
       schema:name:
         type: string
         x-jsonld-id: http://schema.org/name
@@ -857,25 +878,104 @@ x-defs:
         format: uri
         x-jsonld-id: http://schema.org/url
       dcat:hadRole:
-        description: Role of the related resource as a SKOS Concept (DCAT canonical
-          role slot). Present only on a link that expresses a relationship; a plain
-          labeled link such as a license omits it.
-        x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
-        allOf:
+        description: 'Role of the related resource. Present only on a link that expresses
+          a relationship; a plain labeled link such as a license omits it.
+
+          DCAT''s declared range is dcat:Role (dcat.ttl: rdfs:range dcat:Role, and
+          dcat:Role rdfs:subClassOf skos:Concept), so the DCAT-native form is a node
+          typed dcat:Role. That form was NOT accepted here before 2026-10-01: this
+          property was cdifConceptOrTermOrString alone, which matches a bare string,
+          a sealed @id reference, a schema:DefinedTerm or a skos:Concept -- none of
+          which a dcat:Role-typed node satisfies, because JSON Schema does no subclass
+          reasoning.
+
+          dcat:Role is added as a branch rather than replacing the others, so the
+          DCAT-native form becomes valid without invalidating anything already written.
+          Note this leaves CDIF LOOSER than DCAT, deliberately: DCAT''s range is dcat:Role
+          alone, and CDIF also accepts a plain skos:Concept, a DefinedTerm, an @id
+          reference and a string. That is the same both-forms stance taken on dcterms:relation,
+          and it is a choice rather than an oversight -- do not read the extra branches
+          as something not yet tightened.'
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink/$defs/DcatRole
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink/$defs/cdifConceptOrTermOrString
+        x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
       dcterms:relation:
-        type: string
-        format: uri
-        description: URI of the related resource -- the DCAT canonical pointer to
-          what is being related to, which is distinct from schema:url, the presentation
-          URL of the link itself.
+        description: 'The related resource -- the DCAT canonical pointer to what is
+          being related to, which is distinct from schema:url, the presentation URL
+          of the link itself.
+
+          An @id reference is the RECOMMENDED form and a string is permitted, which
+          is DCMI''s own position: "Recommended practice is to identify the related
+          resource by means of a URI. If this is not possible or feasible, a string
+          conforming to a formal identification system may be provided." DCMI declares
+          no rdfs:range for this property, and of the 13 DCMI properties carrying
+          an "intended to be used with non-literal values" restriction, this is deliberately
+          not one. dcat.ttl does not re-declare or constrain it at all -- the only
+          triple mentioning it in the whole DCAT vocabulary is `dcat:distribution
+          rdfs:subPropertyOf dcterms:relation`.
+
+          So objectReference-only would be stricter than both DCAT and DCMI and would
+          reject a form the specification sanctions. The anyOf matches how schema:additionalType
+          is handled here: both forms valid, the object form used in examples and
+          required only where a `contains` pins a specific value.
+
+          It was string-only until 2026-10-01, which rejected the @id form outright.
+          Reported from outside by a PSDI validator taking a things-not-strings approach
+          (profile-core#16): their DCAT catalogue mirrors the DCAT-3 spec examples
+          and wrote {"@id": ...}, which failed both layers -- while CDIF''s own documented
+          URI serialization policy (agents.md) says URI values SHOULD be {"@id": ...}.
+          The register required the one form its own policy argues against.'
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        - type: string
+          format: uri
         x-jsonld-id: http://purl.org/dc/terms/relation
     required:
     - '@type'
-    - schema:url
+    allOf:
+    - if:
+        required:
+        - '@type'
+        properties:
+          '@type':
+            contains:
+              enum:
+              - schema:CreativeWork
+      then:
+        required:
+        - schema:url
     $defs:
       cdifConceptOrTermOrString:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
+      DcatRole:
+        description: 'A dcat:Role -- DCAT''s declared range for dcat:hadRole. Defined
+          inline rather than as its own building block because nothing else in the
+          register needs it yet; dcat:hadRole''s domain is owl:unionOf [prov:Attribution,
+          dcat:Relationship], so promote it to a block if a qualified attribution
+          ever needs the same shape.
+
+          dcat:Role rdfs:subClassOf skos:Concept, so the skos:prefLabel / skos:inScheme
+          furniture of a concept is permitted alongside; it is not required here because
+          DCAT states no cardinality constraints on the class -- dcat.ttl declares
+          no rdfs:subClassOf and no owl:Restriction on dcat:Relationship, and the
+          "mandatory" wording in the DCAT-3 document is prose in the spec tables rather
+          than an axiom in the vocabulary.'
+        type: object
+        properties:
+          '@id':
+            type: string
+            description: IRI of the role concept, ideally from a controlled vocabulary.
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - dcat:Role
+            minItems: 1
+        required:
+        - '@type'
     x-jsonld-prefixes:
       schema: http://schema.org/
       skos: http://www.w3.org/2004/02/skos/core#
@@ -1001,6 +1101,17 @@ x-defs:
         items:
           type: string
         x-jsonld-id: http://schema.org/encodingFormat
+      schema:additionalType:
+        type: array
+        description: 'Domain-specific type classification for this distribution: what
+          KIND of thing the file is, beyond its MIME type. schema:encodingFormat says
+          how to parse the bytes; this says what they are. A plain string is accepted,
+          but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where
+          the value comes from a controlled vocabulary, so the vocabulary travels
+          with the data rather than being asserted only in a profile.'
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload/$defs/cdifConceptOrTermOrString
+        x-jsonld-id: http://schema.org/additionalType
       schema:contentSize:
         type: string
         description: File size of this distribution, e.g. '2.5 MB' or a byte count.
@@ -1081,6 +1192,9 @@ x-defs:
       else:
         required:
         - schema:hasPart
+    $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
@@ -1538,15 +1652,7 @@ x-defs:
         description: additional type assertions for the catalog record node. dcat:CatalogRecord
           is required.
         items:
-          anyOf:
-          - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifCatalogRecord/$defs/cdifConceptOrTermOrString
         contains:
           type: object
           additionalProperties: false
@@ -1640,6 +1746,8 @@ x-defs:
     - '@type'
     - '@id'
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       Identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       Person:
@@ -1785,17 +1893,7 @@ x-defs:
           type,laboratory classification, feature type).
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
-                description: reference to a term defined elsewhere
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/cdifConceptOrTermOrString
         x-jsonld-id: http://schema.org/additionalType
       schema:name:
         description: A place name for the location, either as a string or a DefinedTerm
@@ -1957,6 +2055,8 @@ x-defs:
     - required:
       - geosparql:hasGeometry
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       DefinedTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
       Identifier:
@@ -2305,10 +2405,10 @@ x-defs:
               enum:
               - cdi:Statistics
             minItems: 1
-          cdi:typeOfStatistic:
+          cdif:typeOfStatistic:
             description: "Controlled-vocabulary entry naming the kind of statistic
               \u2014 e.g. mean, median, count, sum, stdDev."
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
+            x-jsonld-id: https://w3id.org/cdif/typeOfStatistic
             allOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTermOrString
           cdi:statistic:
@@ -2397,9 +2497,9 @@ x-defs:
               required:
               - '@id'
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for
-          cdi:typeOfStatistic:
+          cdif:typeOfStatistic:
             description: Controlled-vocabulary entry naming the kind of statistic.
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
+            x-jsonld-id: https://w3id.org/cdif/typeOfStatistic
             allOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTermOrString
           cdi:statistic:
@@ -2653,21 +2753,21 @@ x-defs:
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-      cdi:function:
+      cdif:function:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString
         description: Immutable characteristic of the variable such as geographic designator,
           weight, temporal designation, etc. (InstanceVariable.function).
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function
-      cdi:platformType:
+        x-jsonld-id: https://w3id.org/cdif/function
+      cdif:platformType:
         description: The application or technical system context in which the variable
           has been realized - typically a statistical processing package or processing
           environment (InstanceVariable.platformType).
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType
+        x-jsonld-id: https://w3id.org/cdif/platformType
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString
-      cdi:source:
+      cdif:source:
         anyOf:
         - type: string
         - type: object
@@ -2679,7 +2779,7 @@ x-defs:
               type: string
         description: Reference capturing provenance information for this InstanceVariable
           (InstanceVariable.source).
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/source
+        x-jsonld-id: https://w3id.org/cdif/source
       cdif:isDescribedBy_StatisticsCollection:
         description: "The StatisticsCollection holding summary / category statistics
           for this InstanceVariable (direct JSON mapping of the DDI-CDI `InstanceVariable.isDescribedBy
@@ -2697,14 +2797,14 @@ x-defs:
           required:
           - '@id'
         x-jsonld-id: https://w3id.org/cdif/isDescribedBy_StatisticsCollection
-      cdi:describedUnitOfMeasure:
+      cdif:describedUnitOfMeasure:
         description: The unit in which the data values are measured, expressed as
           a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure).
           For a plain-string unit, use cdif:simpleUnitOfMeasure instead.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
+        x-jsonld-id: https://w3id.org/cdif/describedUnitOfMeasure
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm
-      cdi:qualifies:
+      cdif:qualifies:
         type: object
         required:
         - '@id'
@@ -2713,7 +2813,7 @@ x-defs:
           '@id':
             type: string
         description: reference to an instance variable defined for this dataset
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies
+        x-jsonld-id: https://w3id.org/cdif/qualifies
     allOf:
     - required:
       - '@type'
@@ -2729,15 +2829,15 @@ x-defs:
           cdi:takesSentinelValuesFrom:
             not: true
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelValuesFrom
-          cdi:hasIntendedDataType:
+          cdif:hasIntendedDataType:
             not: true
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType
-          cdi:describedUnitOfMeasure:
+            x-jsonld-id: https://w3id.org/cdif/hasIntendedDataType
+          cdif:describedUnitOfMeasure:
             not: true
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
-          cdi:unitOfMeasureKind:
+            x-jsonld-id: https://w3id.org/cdif/describedUnitOfMeasure
+          cdif:unitOfMeasureKind:
             not: true
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind
+            x-jsonld-id: https://w3id.org/cdif/unitOfMeasureKind
           cdi:measures:
             not: true
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures
@@ -2944,7 +3044,7 @@ x-defs:
             description: A formal description of the set of values in human-readable
               language.
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/description
-          cdi:formatPattern:
+          cdif:formatPattern:
             type: string
             description: 'A pattern for a number as described in Unicode Locale Data
               Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html)
@@ -2952,13 +3052,13 @@ x-defs:
               and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns)
               . Examples would be #,##0.### to describe the pattern for a decimal
               number, or yyyy.MM.dd G ''at'' HH:mm:ss zzz for a datetime pattern.'
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/formatPattern
-          cdi:logicalExpression:
+            x-jsonld-id: https://w3id.org/cdif/formatPattern
+          cdif:logicalExpression:
             type: string
             description: A logical expression where the values of "x" making the expression
               true are the members of the set of valid values. For example, "(all
               reals x such that x > 0)" describes the real numbers greater than 0.
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/logicalExpression
+            x-jsonld-id: https://w3id.org/cdif/logicalExpression
           cdi:maximumValueExclusive:
             type: string
             description: 'A string denoting the maximum possible value (excluding
@@ -2997,11 +3097,11 @@ x-defs:
               The value of this property becomes the minimum annotation for the described
               datatype. See Value Constraints in [tabular-data-model] for details."'
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/minimumValueInclusive
-          cdi:regularExpression:
+          cdif:regularExpression:
             type: string
             description: A regular expression where strings matching the expression
               belong to the set of valid values.
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/regularExpression
+            x-jsonld-id: https://w3id.org/cdif/regularExpression
         required:
         - '@type'
       xsdDataType:
@@ -3419,6 +3519,19 @@ x-defs:
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
       cdif: https://w3id.org/cdif/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStructuredDataSet/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.objectReference:
+    title: Object Reference
+    description: A reference to a node defined elsewhere, by its @id.
+    type: object
+    properties:
+      '@id':
+        type: string
+        description: resolvable @id of the referenced node
+    required:
+    - '@id'
+    additionalProperties: false
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.definedTerm:
     description: "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF
@@ -3879,19 +3992,6 @@ x-defs:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/action/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifDataType.objectReference:
-    title: Object Reference
-    description: A reference to a node defined elsewhere, by its @id.
-    type: object
-    properties:
-      '@id':
-        type: string
-        description: resolvable @id of the referenced node
-    required:
-    - '@id'
-    additionalProperties: false
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain:
     title: CDIF Enumeration Domain
     description: A base class acting as an extension point to allow a codification
@@ -3916,7 +4016,7 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       schema:name:
         type: string
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic).
         x-jsonld-id: http://schema.org/name
       cdif:references:
@@ -4144,15 +4244,7 @@ x-defs:
           schema:additionalType:
             type: array
             items:
-              anyOf:
-              - type: string
-              - type: object
-                additionalProperties: false
-                required:
-                - '@id'
-                properties:
-                  '@id':
-                    type: string
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist/$defs/cdifConceptOrTermOrString
             contains:
               type: object
               additionalProperties: false
@@ -4214,6 +4306,8 @@ x-defs:
     - schema:dateModified
     - skos:hasTopConcept
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       CdifCodelistConcept:
         description: A SKOS Concept constrained for CDIF codelist use. Must have a
           resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue

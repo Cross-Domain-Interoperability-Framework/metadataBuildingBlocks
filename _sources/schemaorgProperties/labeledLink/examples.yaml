@@ -44,3 +44,28 @@
   snippets:
     - language: json
       ref: exampleLabeledLinkRelationComplete.json
+
+- title: A pure DCAT relationship, with no schema.org co-type.
+  content: |-
+    A dcat:Relationship on its own: no schema:CreativeWork, no schema:url, and
+    both DCAT-native forms -- dcterms:relation as an @id reference and
+    dcat:hadRole typed dcat:Role, which is DCAT's declared range for that
+    property.
+
+    This is the first example in the register of the shape a DCAT catalogue
+    actually produces, and the absence of one is why three separate problems went
+    unnoticed until a PSDI validator reported them from outside
+    (profile-core#16). Every other example here declares both co-types and
+    carries a schema:url, so none of them could reach the paths that were broken:
+    CDIFRelationShape demanding schema:url of a class that has no such property,
+    dcterms:relation rejecting the @id form DCMI recommends, and dcat:hadRole
+    accepting only one of the five value forms the JSON Schema permits.
+
+    Keep an example of this shape. A constraint on a class nothing instantiates
+    is a constraint nothing tests.
+  prefixes:
+    dcterms: http://purl.org/dc/terms/
+    dcat: http://www.w3.org/ns/dcat#
+  snippets:
+    - language: json
+      ref: exampleLabeledLinkDcatRelationship.json

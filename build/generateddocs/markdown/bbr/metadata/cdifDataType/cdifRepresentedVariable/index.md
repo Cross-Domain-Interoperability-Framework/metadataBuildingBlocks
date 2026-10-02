@@ -7,6 +7,91 @@ Conceptual variable with a substantive value domain specified.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
+## Examples
+
+### Represented variable with a unit, a definition, and a concept link.
+A cdi:RepresentedVariable for systolic blood pressure. cdif:uses_Concept
+names the concept the variable expresses, by reference to a term defined
+in an external vocabulary rather than inline -- the common case, and what
+the cdifRepresentedVariable SHACL advisory recommends.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "https://example.org/"
+  },
+  "@type": [
+    "cdi:RepresentedVariable"
+  ],
+  "@id": "ex:rv/systolicBP",
+  "cdif:name": [
+    "systolic_bp"
+  ],
+  "cdi:simpleUnitOfMeasure": "mmHg",
+  "cdif:definition": "Systolic blood pressure of the patient at the time of measurement.",
+  "cdif:uses_Concept": [
+    {
+      "@id": "http://loinc.org/rdf/8480-6"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:RepresentedVariable"
+  ],
+  "@id": "ex:rv/systolicBP",
+  "cdif:name": [
+    "systolic_bp"
+  ],
+  "cdi:simpleUnitOfMeasure": "mmHg",
+  "cdif:definition": "Systolic blood pressure of the patient at the time of measurement.",
+  "cdif:uses_Concept": [
+    {
+      "@id": "http://loinc.org/rdf/8480-6"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+
+<https://example.org/rv/systolicBP> a cdi:RepresentedVariable ;
+    cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:definition "Systolic blood pressure of the patient at the time of measurement." ;
+    cdif:name "systolic_bp" ;
+    cdif:uses_Concept <http://loinc.org/rdf/8480-6> .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -25,18 +110,18 @@ properties:
   '@id':
     type: string
     description: Identifier for this RepresentedVariable node
-  cdi:describedUnitOfMeasure:
+  cdif:describedUnitOfMeasure:
     $ref: '#/$defs/cdifConceptOrTermOrString'
     description: The unit in which the data values are measured (kg, pound, euro),
       expressed as a value from a controlled system of entries (i.e., QDT). Supports
       the provision of an identifier for the entry in the authoritative source (a
       URI, etc.), and the specific vocabulary.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
-  cdi:hasIntendedDataType:
+    x-jsonld-id: https://w3id.org/cdif/describedUnitOfMeasure
+  cdif:hasIntendedDataType:
     $ref: '#/$defs/cdifConceptOrTermOrString'
     description: The data type intended to be used by this variable. Supports the
       optional use of an external controlled vocabulary.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType
+    x-jsonld-id: https://w3id.org/cdif/hasIntendedDataType
   cdi:takesSentinelValuesFrom:
     type: array
     items:
@@ -70,14 +155,14 @@ properties:
     - $ref: '#/$defs/UnitType'
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures
-  cdi:unitOfMeasureKind:
+  cdif:unitOfMeasureKind:
     $ref: '#/$defs/cdifConceptOrTermOrString'
     description: Kind of unit of measure, so that it may be prone to translation to
       equivalent UOMs. Example values include "acceleration," "temperature," "salinity",
       etc. This description exists at the conceptual level, indicating a limitation
       on the type of representations which may be used for the variable as it is made
       more concrete.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind
+    x-jsonld-id: https://w3id.org/cdif/unitOfMeasureKind
   cdif:definition:
     type: string
     description: Natural language statement conveying the meaning of a concept, differentiating
@@ -101,11 +186,11 @@ properties:
       the external one referenced if externalDefinition is used. Other corresponding
       properties are assumed to be included unchanged if used.
     x-jsonld-id: https://w3id.org/cdif/externalDefinition
-  cdi:identifier:
+  cdif:identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     description: Identifier for objects requiring short- or long-lasting referencing
       and management.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+    x-jsonld-id: https://w3id.org/cdif/identifier
   cdif:name:
     type: array
     items:
@@ -116,6 +201,7 @@ properties:
       to specify usage.
     x-jsonld-id: https://w3id.org/cdif/name
   cdif:uses_Concept:
+    description: Specifies the concept(s) that this variable expresses or aligns with.
     type: array
     items:
       anyOf:
@@ -161,17 +247,17 @@ $defs:
           to duplicate the external one referenced if externalDefinition is used.
           Other corresponding properties are assumed to be included unchanged if used.
         x-jsonld-id: https://w3id.org/cdif/externalDefinition
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:name:
         type: array
         items:
           type: string
         minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
         x-jsonld-id: https://w3id.org/cdif/name
@@ -191,10 +277,10 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: https://w3id.org/cdif/has_Concept
-      cdi:purpose:
+      cdif:purpose:
         type: string
         description: Intent or reason for the object/the description of the object.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
+        x-jsonld-id: https://w3id.org/cdif/purpose
     required:
     - '@type'
   UnitType:
@@ -240,11 +326,11 @@ $defs:
           to duplicate the external one referenced if externalDefinition is used.
           Other corresponding properties are assumed to be included unchanged if used.
         x-jsonld-id: https://w3id.org/cdif/externalDefinition
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:name:
         type: array
         items:
@@ -255,6 +341,8 @@ $defs:
           provided to specify usage.
         x-jsonld-id: https://w3id.org/cdif/name
       cdif:uses_Concept:
+        description: Specifies the concept(s) that this variable expresses or aligns
+          with.
         type: array
         items:
           anyOf:

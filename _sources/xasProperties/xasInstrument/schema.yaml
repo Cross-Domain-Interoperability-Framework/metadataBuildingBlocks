@@ -11,15 +11,7 @@ allOf:
     'schema:additionalType':
       type: array
       items:
-        anyOf:
-        - type: string
-        - type: object
-          additionalProperties: false
-          required:
-          - '@id'
-          properties:
-            '@id':
-              type: string
+        $ref: '#/$defs/cdifConceptOrTermOrString'
       minItems: 1
       uniqueItems: true
       allOf:
@@ -35,3 +27,6 @@ allOf:
           wd: https://www.wikidata.org/entity/'
   required:
   - schema:additionalType
+$defs:
+  cdifConceptOrTermOrString:
+    $ref: ../../cdifDataType/cdifConceptOrTermOrString/schema.yaml

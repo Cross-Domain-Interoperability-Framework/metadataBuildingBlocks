@@ -36,7 +36,7 @@ A named bundle of one or more `cdi:Statistic` value objects for an instance vari
 
 - `@id` — optional identifier.
 - `@type` — must contain `cdi:Statistics`.
-- `cdi:typeOfStatistic` — the kind of statistic (mean, median, count, …) for the whole bundle.
+- `cdif:typeOfStatistic` — the kind of statistic (mean, median, count, …) for the whole bundle.
 - `cdi:statistic` — ordered array of one or more inline `Statistic` objects (required).
 - `cdi:hasWeight` — `cdi:InstanceVariable` whose values were used as weights (inline or `@id`-ref).
 - `cdif:appliesTo` — CDIF addition: the `InstanceVariable`(s) this bundle summarizes.
@@ -47,7 +47,7 @@ A named bundle of one or more `cdi:Statistic` value objects for an instance vari
 Statistics for a specific `cdi:Category` of an instance variable.
 
 - `cdi:for` — the `Category` (inline or `@id`-ref) (required).
-- `cdi:typeOfStatistic` — the kind of statistic.
+- `cdif:typeOfStatistic` — the kind of statistic.
 - `cdi:statistic` — per-category `Statistic` value objects (required).
 - `cdi:hasWeight` — the weighting `InstanceVariable`.
 
@@ -72,7 +72,7 @@ The root of this building block validates **any of** a `Statistics`, `CategorySt
 ## Examples
 
 ### Minimal CDIF Statistics
-Smallest valid cdi:Statistics node — one cdi:typeOfStatistic ("count") and
+Smallest valid cdi:Statistics node — one cdif:typeOfStatistic ("count") and
 one cdi:statistic value object carrying cdi:computationBase + cdi:content.
 #### json
 ```json
@@ -85,7 +85,7 @@ one cdi:statistic value object carrying cdi:computationBase + cdi:content.
   "@type": [
     "cdi:Statistics"
   ],
-  "cdi:typeOfStatistic": {
+  "cdif:typeOfStatistic": {
     "@type": [
       "schema:DefinedTerm"
     ],
@@ -120,7 +120,7 @@ one cdi:statistic value object carrying cdi:computationBase + cdi:content.
   "@type": [
     "cdi:Statistics"
   ],
-  "cdi:typeOfStatistic": {
+  "cdif:typeOfStatistic": {
     "@type": [
       "schema:DefinedTerm"
     ],
@@ -140,13 +140,14 @@ one cdi:statistic value object carrying cdi:computationBase + cdi:content.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:Statistics ;
     cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 1500 ] ;
-    cdi:typeOfStatistic [ a schema1:DefinedTerm ;
+    cdif:typeOfStatistic [ a schema1:DefinedTerm ;
             schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
             schema1:name "Count" ;
             schema1:termCode "count" ] .
@@ -173,7 +174,7 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
   "@type": [
     "cdi:Statistics"
   ],
-  "cdi:typeOfStatistic": {
+  "cdif:typeOfStatistic": {
     "@type": [
       "schema:DefinedTerm"
     ],
@@ -208,7 +209,7 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
       "@type": [
         "cdi:CategoryStatistics"
       ],
-      "cdi:typeOfStatistic": {
+      "cdif:typeOfStatistic": {
         "@type": [
           "schema:DefinedTerm"
         ],
@@ -235,7 +236,7 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
       "@type": [
         "cdi:CategoryStatistics"
       ],
-      "cdi:typeOfStatistic": {
+      "cdif:typeOfStatistic": {
         "@type": [
           "schema:DefinedTerm"
         ],
@@ -280,7 +281,7 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
   "@type": [
     "cdi:Statistics"
   ],
-  "cdi:typeOfStatistic": {
+  "cdif:typeOfStatistic": {
     "@type": [
       "schema:DefinedTerm"
     ],
@@ -315,7 +316,7 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
       "@type": [
         "cdi:CategoryStatistics"
       ],
-      "cdi:typeOfStatistic": {
+      "cdif:typeOfStatistic": {
         "@type": [
           "schema:DefinedTerm"
         ],
@@ -342,7 +343,7 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
       "@type": [
         "cdi:CategoryStatistics"
       ],
-      "cdi:typeOfStatistic": {
+      "cdif:typeOfStatistic": {
         "@type": [
           "schema:DefinedTerm"
         ],
@@ -375,37 +376,37 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
 
 <https://example.org/stats/temperature-mean> a cdi:Statistics ;
     cdi:hasWeight ex:var-sample-weight ;
-    cdi:statistic [ cdi:computationBase "Total" ;
-            cdi:content 1.21e+01 ;
-            cdi:isWeighted false ;
-            cdi:typeOfNumericValue "double" ],
-        [ cdi:computationBase "ValidOnly" ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 1.243e+01 ;
             cdi:isWeighted true ;
+            cdi:typeOfNumericValue "double" ],
+        [ cdi:computationBase "Total" ;
+            cdi:content 1.21e+01 ;
+            cdi:isWeighted false ;
             cdi:typeOfNumericValue "double" ] ;
-    cdi:typeOfStatistic [ a schema1:DefinedTerm ;
-            schema1:identifier "https://example.org/vocab/stat-types/mean" ;
-            schema1:inDefinedTermSet "https://example.org/vocab/stat-types" ;
-            schema1:name "arithmetic mean" ] ;
     cdif:appliesTo ex:var-temperature ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/deep> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.007e+01 ;
-                    cdi:isWeighted true ] ;
-            cdi:typeOfStatistic [ a schema1:DefinedTerm ;
-                    schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
-                    schema1:name "Mean" ;
-                    schema1:termCode "mean" ] ],
-        [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/category/surface> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 1.581e+01 ;
                     cdi:isWeighted true ] ;
-            cdi:typeOfStatistic [ a schema1:DefinedTerm ;
+            cdif:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
                     schema1:name "Mean" ;
-                    schema1:termCode "mean" ] ] .
+                    schema1:termCode "mean" ] ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/category/deep> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 1.007e+01 ;
+                    cdi:isWeighted true ] ;
+            cdif:typeOfStatistic [ a schema1:DefinedTerm ;
+                    schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
+                    schema1:name "Mean" ;
+                    schema1:termCode "mean" ] ] ;
+    cdif:typeOfStatistic [ a schema1:DefinedTerm ;
+            schema1:identifier "https://example.org/vocab/stat-types/mean" ;
+            schema1:inDefinedTermSet "https://example.org/vocab/stat-types" ;
+            schema1:name "arithmetic mean" ] .
 
 <https://example.org/category/surface> a cdi:Category ;
     cdif:descriptiveText "Surface samples (depth < 10 m)" .
@@ -436,7 +437,7 @@ cdif:has_Statistics carries the member Statistics nodes.
     {
       "@id": "ex:stats/temperature-mean",
       "@type": ["cdi:Statistics"],
-      "cdi:typeOfStatistic": "mean",
+      "cdif:typeOfStatistic": "mean",
       "cdif:appliesTo": [
         { "@id": "ex:var-temperature" }
       ],
@@ -450,7 +451,7 @@ cdif:has_Statistics carries the member Statistics nodes.
     {
       "@id": "ex:stats/salinity-mean",
       "@type": ["cdi:Statistics"],
-      "cdi:typeOfStatistic": "mean",
+      "cdif:typeOfStatistic": "mean",
       "cdif:appliesTo": [
         { "@id": "ex:var-salinity" }
       ],
@@ -499,7 +500,7 @@ cdif:has_Statistics carries the member Statistics nodes.
       "@type": [
         "cdi:Statistics"
       ],
-      "cdi:typeOfStatistic": "mean",
+      "cdif:typeOfStatistic": "mean",
       "cdif:appliesTo": [
         {
           "@id": "ex:var-temperature"
@@ -517,7 +518,7 @@ cdif:has_Statistics carries the member Statistics nodes.
       "@type": [
         "cdi:Statistics"
       ],
-      "cdi:typeOfStatistic": "mean",
+      "cdif:typeOfStatistic": "mean",
       "cdif:appliesTo": [
         {
           "@id": "ex:var-salinity"
@@ -550,14 +551,14 @@ cdif:has_Statistics carries the member Statistics nodes.
 <https://example.org/stats/salinity-mean> a cdi:Statistics ;
     cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 3.421e+01 ] ;
-    cdi:typeOfStatistic "mean" ;
-    cdif:appliesTo ex:var-salinity .
+    cdif:appliesTo ex:var-salinity ;
+    cdif:typeOfStatistic "mean" .
 
 <https://example.org/stats/temperature-mean> a cdi:Statistics ;
     cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 1.243e+01 ] ;
-    cdi:typeOfStatistic "mean" ;
-    cdif:appliesTo ex:var-temperature .
+    cdif:appliesTo ex:var-temperature ;
+    cdif:typeOfStatistic "mean" .
 
 
 ```
@@ -634,11 +635,11 @@ $defs:
         contains:
           const: cdi:Statistics
         minItems: 1
-      cdi:typeOfStatistic:
+      cdif:typeOfStatistic:
         description: "Controlled-vocabulary entry naming the kind of statistic \u2014
           e.g. mean, median, count, sum, stdDev."
         $ref: '#/$defs/cdifConceptOrTermOrString'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
+        x-jsonld-id: https://w3id.org/cdif/typeOfStatistic
       cdi:statistic:
         type: array
         description: "Ordered list of Statistic value objects carried by this bundle.
@@ -723,10 +724,10 @@ $defs:
           required:
           - '@id'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for
-      cdi:typeOfStatistic:
+      cdif:typeOfStatistic:
         description: Controlled-vocabulary entry naming the kind of statistic.
         $ref: '#/$defs/cdifConceptOrTermOrString'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
+        x-jsonld-id: https://w3id.org/cdif/typeOfStatistic
       cdi:statistic:
         type: array
         description: Per-category Statistic value objects.

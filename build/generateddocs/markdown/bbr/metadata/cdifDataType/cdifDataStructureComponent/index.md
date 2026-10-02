@@ -75,15 +75,15 @@ $defs:
         items:
           type: string
         minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
         x-jsonld-id: https://w3id.org/cdif/name
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:isDefinedBy_Variable:
         description: The variable this component is a role of -- a RepresentedVariable
           or an InstanceVariable, inline or by @id reference. See the note above $defs.
@@ -92,14 +92,14 @@ $defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Variable
-      cdi:semantic:
+      cdif:semantic:
         type: array
         items:
           $ref: '#/$defs/cdifConceptOrTermOrString'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
+        x-jsonld-id: https://w3id.org/cdif/semantic
     required:
     - '@type'
   AttributeComponent:
@@ -117,19 +117,19 @@ $defs:
       '@id':
         type: string
         description: Identifier for this AttributeComponent node
-      cdi:qualifies:
+      cdif:qualifies:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/DataStructureComponent'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies
-      cdi:identifier:
+        x-jsonld-id: https://w3id.org/cdif/qualifies
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:isDefinedBy_Variable:
         description: The variable this component is a role of -- a RepresentedVariable
           or an InstanceVariable, inline or by @id reference. See the note above $defs.
@@ -138,14 +138,14 @@ $defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Variable
-      cdi:semantic:
+      cdif:semantic:
         type: array
         items:
           $ref: '#/$defs/cdifConceptOrTermOrString'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
+        x-jsonld-id: https://w3id.org/cdif/semantic
     required:
     - '@type'
   DimensionComponent:
@@ -195,11 +195,11 @@ $defs:
       '@id':
         type: string
         description: Identifier for this VariableValueComponent node
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:isDefinedBy_Variable:
         description: The variable this component is a role of -- a RepresentedVariable
           or an InstanceVariable, inline or by @id reference. See the note above $defs.
@@ -208,14 +208,14 @@ $defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Variable
-      cdi:semantic:
+      cdif:semantic:
         type: array
         items:
           $ref: '#/$defs/cdifConceptOrTermOrString'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
+        x-jsonld-id: https://w3id.org/cdif/semantic
     required:
     - '@type'
   VariableDescriptorComponent:
@@ -234,24 +234,29 @@ $defs:
         type: string
         description: Identifier for this VariableDescriptorComponent node
       cdif:isDefinedBy_DescriptorVariable:
+        description: Variable that provides codes for variable identification in the
+          context of a data structure. Descriptor Variables hold values which reference
+          the logical variables in the data set, indicating which one the associated
+          value in the corresponding Reference Variable is a measure/value for. Descriptor
+          Variables are presentational variables found only in Long Data Sets.
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_DescriptorVariable
       cdi:refersTo:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/refersTo
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-      cdi:semantic:
+        x-jsonld-id: https://w3id.org/cdif/identifier
+      cdif:semantic:
         type: array
         items:
           $ref: '#/$defs/cdifConceptOrTermOrString'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
+        x-jsonld-id: https://w3id.org/cdif/semantic
     required:
     - '@type'
     - cdif:isDefinedBy_DescriptorVariable
@@ -269,11 +274,11 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DataStructureComponent node
-      cdi:identifier:
+      cdif:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+        x-jsonld-id: https://w3id.org/cdif/identifier
       cdif:isDefinedBy_Variable:
         description: The variable this component is a role of -- a RepresentedVariable
           or an InstanceVariable, inline or by @id reference. See the note above $defs.
@@ -282,14 +287,14 @@ $defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Variable
-      cdi:semantic:
+      cdif:semantic:
         type: array
         items:
           $ref: '#/$defs/cdifConceptOrTermOrString'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
+        x-jsonld-id: https://w3id.org/cdif/semantic
     required:
     - '@type'
 x-jsonld-prefixes:

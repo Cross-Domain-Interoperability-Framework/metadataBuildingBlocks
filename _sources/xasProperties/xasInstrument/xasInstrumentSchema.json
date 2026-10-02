@@ -12,23 +12,7 @@
                 "schema:additionalType": {
                     "type": "array",
                     "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "required": [
-                                    "@id"
-                                ],
-                                "properties": {
-                                    "@id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        ]
+                        "$ref": "#/$defs/cdifConceptOrTermOrString"
                     },
                     "minItems": 1,
                     "uniqueItems": true,
@@ -55,5 +39,10 @@
                 "schema:additionalType"
             ]
         }
-    ]
+    ],
+    "$defs": {
+        "cdifConceptOrTermOrString": {
+            "$ref": "../../cdifDataType/cdifConceptOrTermOrString/cdifConceptOrTermOrStringSchema.json"
+        }
+    }
 }

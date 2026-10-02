@@ -17,15 +17,15 @@ The schema carries **all `InstanceVariable`-own and `RepresentedVariable`-own pr
 - **@type** — must include `cdi:InstanceVariable` (and, as a `schema:PropertyValue`, that type too)
 - **cdif:physicalDataType** — physical data type concept (string, URI reference, or DefinedTerm)
 - **cdif:role** — role in a data structure (`UnitIdentifier`, `Measure`, `Attribute`, `Dimension`, `Descriptor`, `ReferenceVariable`)
-- **cdi:function** — immutable characteristic (geographic designator, weight, temporal designation, …)
-- **cdi:platformType** — application / technical system context the variable was realized in
-- **cdi:source** — provenance reference
+- **cdif:function** — immutable characteristic (geographic designator, weight, temporal designation, …)
+- **cdif:platformType** — application / technical system context the variable was realized in
+- **cdif:source** — provenance reference
 - **cdif:isDescribedBy_StatisticsCollection** — the `StatisticsCollection` of summary / category statistics for this variable (target-suffixed: `isDescribedBy` is polymorphic in DDI-CDI)
 
 **RepresentedVariable-own:**
 
-- **cdi:hasIntendedDataType** — intended data type, independent of physical representation
-- **cdi:describedUnitOfMeasure** — unit of measure as a controlled-vocabulary entry
+- **cdif:hasIntendedDataType** — intended data type, independent of physical representation
+- **cdif:describedUnitOfMeasure** — unit of measure as a controlled-vocabulary entry
 - **cdif:simpleUnitOfMeasure** — unit of measure as a plain string / URI / DefinedTerm
 - **cdi:takesSentinelValuesFrom** — sentinel (missing / not-applicable) value domain(s) — `cdifValueDomain`
 - **cdi:takesSubstantiveValuesFrom** — substantive value domain — `cdifValueDomain`
@@ -33,7 +33,7 @@ The schema carries **all `InstanceVariable`-own and `RepresentedVariable`-own pr
 **CDIF extensions:**
 
 - **cdif:uses** — concepts (or, under the Data Structure profile, the `RepresentedVariable`) that this variable represents
-- **cdi:qualifies** — `@id` reference to another instance variable; used when `cdif:role` is `Attribute`
+- **cdif:qualifies** — `@id` reference to another instance variable; used when `cdif:role` is `Attribute`
 
 ### Data Structure profile constraint
 
