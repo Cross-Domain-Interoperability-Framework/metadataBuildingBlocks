@@ -243,13 +243,13 @@ ex:software-spectra-eval a schema1:SoftwareApplication ;
 
 [] bios:executesLabProtocol ex:protocol-xrf-soil ;
     bios:parameterValue [ a schema1:PropertyValue ;
-            schema1:name "X-ray tube current" ;
-            schema1:unitText "mA" ;
-            schema1:value 40 ],
-        [ a schema1:PropertyValue ;
             schema1:name "X-ray tube voltage" ;
             schema1:unitText "kV" ;
-            schema1:value 50 ] .
+            schema1:value 50 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "X-ray tube current" ;
+            schema1:unitText "mA" ;
+            schema1:value 40 ] .
 
 
 ```
@@ -339,8 +339,6 @@ properties:
             x-jsonld-id: http://schema.org/description
     x-jsonld-id: https://bioschemas.org/reagent
 $defs:
-  cdifConceptOrTermOrString:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   LabProcess:
     type: object
     description: "A Bioschemas LabProcess \u2014 a laboratory process execution. Used
@@ -576,7 +574,7 @@ $defs:
           DataType)
         type: array
         items:
-          $ref: '#/$defs/cdifConceptOrTermOrString'
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
         x-jsonld-id: http://schema.org/additionalType
       schema:encodingFormat:
         description: MIME type or URL for expected data format
