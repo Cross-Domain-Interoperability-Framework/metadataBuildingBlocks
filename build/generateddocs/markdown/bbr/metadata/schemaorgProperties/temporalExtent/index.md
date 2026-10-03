@@ -243,7 +243,8 @@ anyOf:
     eras with identifier, e.g. geologic age. This is a SOSO schema.org extension
   properties:
     '@type':
-      default: time:ProperInterval
+      default:
+      - time:ProperInterval
       type: array
       items:
         type: string
@@ -289,7 +290,8 @@ anyOf:
       additionalProperties: true
       description: Must exactly match the specified @context object.
     '@type':
-      default: time:ProperInterval
+      default:
+      - time:ProperInterval
       type: array
       items:
         type: string
@@ -341,7 +343,8 @@ $defs:
     type: object
     properties:
       '@type':
-        default: time:TimePosition
+        default:
+        - time:TimePosition
         type: array
         items:
           type: string

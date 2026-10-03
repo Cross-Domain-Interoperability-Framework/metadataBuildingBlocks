@@ -556,7 +556,8 @@ description: 'this element defines an action (operation) that can be invoked via
 properties:
   '@type':
     description: The type of action. Must be schema:Action or one of its subtypes.
-    default: schema:Action
+    default:
+    - schema:Action
     type: array
     items:
       type: string
@@ -587,7 +588,8 @@ properties:
       post requests.
     properties:
       '@type':
-        default: schema:EntryPoint
+        default:
+        - schema:EntryPoint
         type: array
         items:
           type: string
@@ -655,7 +657,8 @@ properties:
       containing metadata record, so this property would be superfluous.
     properties:
       '@type':
-        default: schema:Thing
+        default:
+        - schema:Thing
         type: array
         items:
           type: string
@@ -673,7 +676,8 @@ properties:
         '@id':
           type: string
         '@type':
-          default: schema:PropertyValueSpecification
+          default:
+          - schema:PropertyValueSpecification
           type: array
           items:
             type: string

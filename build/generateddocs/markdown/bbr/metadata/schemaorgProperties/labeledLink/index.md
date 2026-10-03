@@ -435,7 +435,8 @@ properties:
       at all while rules.shacl went on targeting it as a class. A pure DCAT relation
       then met a SHACL requirement with no schema counterpart. This anyOf restores
       the type to the schema WITHOUT restoring the conjunction.'
-    default: schema:CreativeWork
+    default:
+    - schema:CreativeWork
     type: array
     items:
       type: string

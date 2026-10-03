@@ -444,7 +444,8 @@ description: For more granularity on how a person contributed to a Dataset, use 
 type: object
 properties:
   '@type':
-    default: schema:Role
+    default:
+    - schema:Role
     type: array
     items:
       type: string

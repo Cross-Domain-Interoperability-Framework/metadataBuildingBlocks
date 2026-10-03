@@ -238,7 +238,8 @@ description: 'A typed link, implemented as a schema.org LinkRole: schema:linkRel
 type: object
 properties:
   '@type':
-    default: schema:LinkRole
+    default:
+    - schema:LinkRole
     type: array
     items:
       type: string
@@ -260,7 +261,8 @@ properties:
       properties, and JSON-LD is open-world.'
     properties:
       '@type':
-        default: schema:EntryPoint
+        default:
+        - schema:EntryPoint
         type: array
         items:
           type: string

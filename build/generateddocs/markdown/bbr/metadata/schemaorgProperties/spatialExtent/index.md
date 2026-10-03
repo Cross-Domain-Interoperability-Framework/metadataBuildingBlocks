@@ -255,15 +255,15 @@ ex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;
     schema1:alternateName [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
-                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520" ] ;
-            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
-            schema1:name "Socorro Peak" ],
+                    schema1:url "https://www.mindat.org/loc-33505.html" ] ;
+            schema1:inDefinedTermSet "https://www.mindat.org/" ;
+            schema1:name "Hidden Treasure Mine" ],
         [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
-                    schema1:url "https://www.mindat.org/loc-33505.html" ] ;
-            schema1:inDefinedTermSet "https://www.mindat.org/" ;
-            schema1:name "Hidden Treasure Mine" ] ;
+                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520" ] ;
+            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
+            schema1:name "Socorro Peak" ] ;
     schema1:name [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
@@ -584,7 +584,8 @@ description: 'Spatial Extent description for CDIF discovery profile.  Note requi
 type: object
 properties:
   '@type':
-    default: schema:Place
+    default:
+    - schema:Place
     type: array
     items:
       type: string
@@ -630,7 +631,8 @@ properties:
         index or display bounding box extents or a single point location.
       properties:
         '@type':
-          default: schema:GeoCoordinates
+          default:
+          - schema:GeoCoordinates
           type: array
           items:
             type: string
@@ -658,7 +660,8 @@ properties:
         whitespace should be used when writing a list of several such points.'
       properties:
         '@type':
-          default: schema:GeoShape
+          default:
+          - schema:GeoShape
           type: array
           items:
             type: string
@@ -682,7 +685,8 @@ properties:
         linear trace like a ship track or airplane flight line
       properties:
         '@type':
-          default: schema:GeoShape
+          default:
+          - schema:GeoShape
           type: array
           items:
             type: string

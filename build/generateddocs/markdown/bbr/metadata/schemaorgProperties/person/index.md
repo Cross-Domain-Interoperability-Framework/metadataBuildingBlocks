@@ -326,7 +326,8 @@ properties:
       as well
     properties:
       '@type':
-        default: schema:ContactPoint
+        default:
+        - schema:ContactPoint
         type: array
         items:
           type: string

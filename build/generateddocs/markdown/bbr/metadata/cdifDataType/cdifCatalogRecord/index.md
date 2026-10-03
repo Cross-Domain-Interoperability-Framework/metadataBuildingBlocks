@@ -437,7 +437,8 @@ properties:
         type: string
         description: identifier for the graph node.
       '@type':
-        default: schema:DataCatalog
+        default:
+        - schema:DataCatalog
         type: array
         items:
           type: string

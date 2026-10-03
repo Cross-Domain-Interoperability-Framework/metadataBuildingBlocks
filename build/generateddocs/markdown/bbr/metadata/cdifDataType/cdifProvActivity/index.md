@@ -204,10 +204,14 @@ and facility location.
       "schema:email": "maria.chen@unr.edu"
     }
   },
-  "schema:object": "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
-  "schema:result": {
-    "@id": "ex:dataset-soil-chem-gb-2025"
-  },
+  "schema:object": [
+    "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect"
+  ],
+  "schema:result": [
+    {
+      "@id": "ex:dataset-soil-chem-gb-2025"
+    }
+  ],
   "schema:actionStatus": "schema:CompletedActionStatus",
   "schema:startTime": "2025-07-15T08:00:00Z",
   "schema:endTime": "2025-09-30T17:00:00Z",
@@ -338,10 +342,14 @@ and facility location.
       "schema:email": "maria.chen@unr.edu"
     }
   },
-  "schema:object": "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
-  "schema:result": {
-    "@id": "ex:dataset-soil-chem-gb-2025"
-  },
+  "schema:object": [
+    "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect"
+  ],
+  "schema:result": [
+    {
+      "@id": "ex:dataset-soil-chem-gb-2025"
+    }
+  ],
   "schema:actionStatus": "schema:CompletedActionStatus",
   "schema:startTime": "2025-07-15T08:00:00Z",
   "schema:endTime": "2025-09-30T17:00:00Z",
@@ -394,13 +402,13 @@ ex:activity-soil-chem-analysis a schema1:Action,
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices." ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
-                    schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
                     schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ] ] ;
+                    schema1:position 2 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
+                    schema1:name "Sample preparation and acid digestion" ;
+                    schema1:position 1 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:agent [ a schema1:Person ;
             schema1:contactPoint [ a schema1:ContactPoint ;
@@ -558,11 +566,10 @@ allOf:
         description: Inline schema:Thing object describing the input entity.
         properties:
           '@type':
-            anyOf:
-            - type: string
-            - type: array
-              items:
-                type: string
+            type: array
+            items:
+              type: string
+            minItems: 1
         required:
         - '@type'
       - type: array
@@ -594,11 +601,10 @@ allOf:
         description: Inline schema:Thing object describing the output entity.
         properties:
           '@type':
-            anyOf:
-            - type: string
-            - type: array
-              items:
-                type: string
+            type: array
+            items:
+              type: string
+            minItems: 1
         required:
         - '@type'
       - type: array
