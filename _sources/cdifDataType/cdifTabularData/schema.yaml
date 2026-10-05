@@ -15,57 +15,44 @@ properties:
         const: cdi:TabularTextDataSet
   cdi:arrayBase:
     type: integer
-  csvw:commentPrefix:
+  cdi:commentPrefix:
     type: string
-    description: An atomic property that sets the comment prefix flag to the single provided value, which
-      MUST be a string. The default is '#'.
-  csvw:delimiter:
+    description: Character(s) that mark a line as a comment.
+  cdi:delimiter:
     type: string
-    description: Sets the delimiter flag to the single provided value, which MUST be a string. The default
-      is ','.
-  csvw:header:
+    description: Field delimiter (e.g., "," or tab).
+  cdi:hasHeader:
     type: boolean
-    description: If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount
-      is provided, in which case the value provided for the header property is ignored. The default is
-      true.
-  csvw:headerRowCount:
+    default: true
+  cdi:headerRowCount:
     type: integer
-    minimum: 0
     default: 1
-    description: A numeric atomic property that sets the header row count flag to the single provided
-      value, which MUST be a non-negative integer.
   cdi:isDelimited:
     type: boolean
     description: Schema constraint is that one of {'isDelimited','isFixedWidth'} must be present with
       a True value; the other one may be present or omitted, but if present must have a false value.
   cdi:isFixedWidth:
     type: boolean
-  csvw:lineTerminators:
-    type: string
-    enum:
-    - CRLF
-    - LF
-    - "\r\n"
-    - |2+
+  cdi:lineTerminator:
+    type: array
+    items:
+      type: string
+    description: Allowed line terminators, in order (default [CRLF, LF]).
 
-  csvw:quoteChar:
+  cdi:quoteCharacter:
     type: string
     default: '"'
-    description: Same as DDI-CDI quoteCharacter. The string that is used around escaped cells.
-  csvw:skipBlankRows:
+  cdi:skipBlankRows:
     type: boolean
     default: false
-  csvw:skipColumns:
+  cdi:skipDataColumns:
     type: integer
     default: 0
-    description: The number of columns to skip at the beginning of each row.
-  csvw:skipInitialSpace:
+  cdi:skipInitialSpace:
     type: boolean
     default: true
-  csvw:skipRows:
+  cdi:skipRows:
     type: integer
-    description: The number of rows to skip at the beginning of the file, before a header row or tabular
-      data.
     default: 0
   cdi:escapeCharacter:
     type: string
@@ -81,34 +68,33 @@ properties:
     default: false
     description: Whether consecutive delimiters should be treated as a single delimiter. From DDI-CDI
       PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne.
-  csvw:tableDirection:
+  cdi:tableDirection:
     type: string
+    default: Auto
     enum:
+    - Auto
     - Ltr
     - Rtl
-    default: Ltr
-    description: Indicates the direction of the table layout (left-to-right or right-to-left). From DDI-CDI
-      PhysicalSegmentLayout.tableDirection.
-  csvw:textDirection:
+    description: Direction in which columns are arranged in each row (DDI-CDI
+      TabularTextDataSet.tableDirection, TableDirectionValues enumeration).
+  cdi:textDirection:
     type: string
     enum:
     - Auto
     - Inherit
     - Ltr
     - Rtl
-    default: Auto
-    description: Indicates whether the text within cells should be displayed as left-to-right, right-to-left,
-      according to content, or inherited from the table direction. From DDI-CDI
-      PhysicalSegmentLayout.textDirection.
-  csvw:trim:
+    description: Reading order of text within cells (DDI-CDI TabularTextDataSet.textDirection,
+      TextDirectionValues enumeration).
+  cdi:trim:
     type: string
     enum:
-    - 'true'
-    - end
-    - 'false'
-    - start
-    description: Indicates whether to trim whitespace around cells. 'true' corresponds to DDI-CDI 'both'
-      value, 'false' corresponds to DDI-CDI 'neither' value.
+    - Both
+    - End
+    - Neither
+    - Start
+    description: Which spaces to remove from a data value (DDI-CDI TabularTextDataSet.trim,
+      TrimValues enumeration).
   cdif:hasPhysicalMapping:
     type: array
     description: Links variables to their physical representation in this dataset.

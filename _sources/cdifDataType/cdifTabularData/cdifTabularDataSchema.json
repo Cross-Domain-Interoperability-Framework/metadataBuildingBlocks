@@ -21,23 +21,21 @@
         "cdi:arrayBase": {
             "type": "integer"
         },
-        "csvw:commentPrefix": {
+        "cdi:commentPrefix": {
             "type": "string",
-            "description": "An atomic property that sets the comment prefix flag to the single provided value, which MUST be a string. The default is '#'."
+            "description": "Character(s) that mark a line as a comment."
         },
-        "csvw:delimiter": {
+        "cdi:delimiter": {
             "type": "string",
-            "description": "Sets the delimiter flag to the single provided value, which MUST be a string. The default is ','."
+            "description": "Field delimiter (e.g., \",\" or tab)."
         },
-        "csvw:header": {
+        "cdi:hasHeader": {
             "type": "boolean",
-            "description": "If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount is provided, in which case the value provided for the header property is ignored. The default is true."
+            "default": true
         },
-        "csvw:headerRowCount": {
+        "cdi:headerRowCount": {
             "type": "integer",
-            "minimum": 0,
-            "default": 1,
-            "description": "A numeric atomic property that sets the header row count flag to the single provided value, which MUST be a non-negative integer."
+            "default": 1
         },
         "cdi:isDelimited": {
             "type": "boolean",
@@ -46,36 +44,31 @@
         "cdi:isFixedWidth": {
             "type": "boolean"
         },
-        "csvw:lineTerminators": {
-            "type": "string",
-            "enum": [
-                "CRLF",
-                "LF",
-                "\r\n",
-                "\n"
-            ]
+        "cdi:lineTerminator": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Allowed line terminators, in order (default [CRLF, LF])."
         },
-        "csvw:quoteChar": {
+        "cdi:quoteCharacter": {
             "type": "string",
-            "default": "\"",
-            "description": "Same as DDI-CDI quoteCharacter. The string that is used around escaped cells."
+            "default": "\""
         },
-        "csvw:skipBlankRows": {
+        "cdi:skipBlankRows": {
             "type": "boolean",
             "default": false
         },
-        "csvw:skipColumns": {
+        "cdi:skipDataColumns": {
             "type": "integer",
-            "default": 0,
-            "description": "The number of columns to skip at the beginning of each row."
+            "default": 0
         },
-        "csvw:skipInitialSpace": {
+        "cdi:skipInitialSpace": {
             "type": "boolean",
             "default": true
         },
-        "csvw:skipRows": {
+        "cdi:skipRows": {
             "type": "integer",
-            "description": "The number of rows to skip at the beginning of the file, before a header row or tabular data.",
             "default": 0
         },
         "cdi:escapeCharacter": {
@@ -92,16 +85,17 @@
             "default": false,
             "description": "Whether consecutive delimiters should be treated as a single delimiter. From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne."
         },
-        "csvw:tableDirection": {
+        "cdi:tableDirection": {
             "type": "string",
+            "default": "Auto",
             "enum": [
+                "Auto",
                 "Ltr",
                 "Rtl"
             ],
-            "default": "Ltr",
-            "description": "Indicates the direction of the table layout (left-to-right or right-to-left). From DDI-CDI PhysicalSegmentLayout.tableDirection."
+            "description": "Direction in which columns are arranged in each row (DDI-CDI TabularTextDataSet.tableDirection, TableDirectionValues enumeration)."
         },
-        "csvw:textDirection": {
+        "cdi:textDirection": {
             "type": "string",
             "enum": [
                 "Auto",
@@ -109,18 +103,17 @@
                 "Ltr",
                 "Rtl"
             ],
-            "default": "Auto",
-            "description": "Indicates whether the text within cells should be displayed as left-to-right, right-to-left, according to content, or inherited from the table direction. From DDI-CDI PhysicalSegmentLayout.textDirection."
+            "description": "Reading order of text within cells (DDI-CDI TabularTextDataSet.textDirection, TextDirectionValues enumeration)."
         },
-        "csvw:trim": {
+        "cdi:trim": {
             "type": "string",
             "enum": [
-                "true",
-                "end",
-                "false",
-                "start"
+                "Both",
+                "End",
+                "Neither",
+                "Start"
             ],
-            "description": "Indicates whether to trim whitespace around cells. 'true' corresponds to DDI-CDI 'both' value, 'false' corresponds to DDI-CDI 'neither' value."
+            "description": "Which spaces to remove from a data value (DDI-CDI TabularTextDataSet.trim, TrimValues enumeration)."
         },
         "cdif:hasPhysicalMapping": {
             "type": "array",
