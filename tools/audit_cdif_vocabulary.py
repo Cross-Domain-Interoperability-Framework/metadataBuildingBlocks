@@ -540,7 +540,8 @@ def self_test():
     register, scanned = build_register()
     _check(results, "real repo: the known classes are all still found",
            sorted(register["classes"]), KNOWN_CLASSES)
-    _check(results, "real repo: scanned the whole register", scanned, 93)
+    _check(results, "real repo: scanned the whole register", scanned, 69)  # 93 before the
+    # 24 ddiProperties blocks were archived on 2026-10-05
 
     # Guides are optional: CI clones only this repo. A missing sibling
     # checkout must mean "no definitions", never a traceback -- so this

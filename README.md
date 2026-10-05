@@ -32,7 +32,7 @@ Resolves all external `$ref` references from modular YAML/JSON source schemas in
 python tools/resolve_schema.py CoreDiscovery
 
 # Resolve every BB that has external $refs OR already ships a
-# resolvedSchema.json (92 blocks), reporting how many actually changed
+# resolvedSchema.json (68 blocks), reporting how many actually changed
 python tools/resolve_schema.py --all
 
 # Resolve an arbitrary schema file
@@ -127,7 +127,7 @@ python ../cdif-umlmodel/cdifjsonxmi/uml_to_schema.py \
   --xmi C:/path/to/ddi-cdi_ea15.2026.March.xml \
   --class EnumerationDomain \
   --bb-name ddicdiEnumerationDomain \
-  --out-dir _sources/ddiProperties/
+  --out-dir archive/ddiProperties/
 ```
 
 See `cdif-umlmodel/cdifjsonxmi/uml_to_schema.md` for full CLI options and convention details.
@@ -136,7 +136,7 @@ See `cdif-umlmodel/cdifjsonxmi/uml_to_schema.md` for full CLI options and conven
 
 ### DDI-CDI Consistency Audits
 
-- **`audit_ddi_xmi_consistency.py`** — checks the `_sources/ddiProperties` BBs against a DDI-CDI EA XMI export: flags classes a BB references that are no longer in the model, attributes/associations added or dropped, and (with `--dump-class`) prints a class's full member set. `python tools/audit_ddi_xmi_consistency.py --xmi <xmi> [--bb NAME] [--dump-class A,B]`
+- **`audit_ddi_xmi_consistency.py`** — checks the `archive/ddiProperties` BBs against a DDI-CDI EA XMI export: flags classes a BB references that are no longer in the model, attributes/associations added or dropped, and (with `--dump-class`) prints a class's full member set. `python tools/audit_ddi_xmi_consistency.py --xmi <xmi> [--bb NAME] [--dump-class A,B]`
 - **`audit_cdif_vs_ddi.py`** — checks that every `cdi:`-prefixed property in `_sources/cdifDataType` (and `_sources/profiles/cdifProfile/`) has a value-type shape consistent with the corresponding `_sources/ddiProperties` definition; classifies MATCH / SOFT / STRUCTURAL / CDIF-ONLY.
 
 ### Validate Examples (`validate_examples.py`)
@@ -253,7 +253,7 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 |----------|-----------|-------------|
 | schemaorgProperties | `_sources/schemaorgProperties/` | schema.org vocabulary building blocks (person, organization, identifier, definedTerm, instrument, etc.) |
 | cdifDataType | `_sources/cdifDataType/` | CDIF data-type / value-object building blocks: `cdifInstanceVariable`, `cdifKey`, `cdifEnumerationDomain`, `cdifValueDomain`, `cdifRepresentedVariable`, `cdifDataStructureComponent`, `cdifDescriptorVariable`, `cdifPhysicalMapping`, `cdifTextMapping`, `cdifLocatorMapping`, `cdifTabularTextDataSet`, `cdifStructuredDataSet`, `cdifDataFingerprint`, `cdifStatistics`, `cdifCatalogRecord`, `cdifReference`, `objectReference`, `cdifProvActivity`, `cdifOpenApi`, `cdifTabularData`, `cdifDataCube`, `cdifLongData`. (Renamed from `cdifProperties` in the 2026-05 reorg; profile-level BBs that compose these moved to `_sources/profiles/cdifProfile/`.) |
-| ddiProperties | `_sources/ddiProperties/` | DDI-CDI vocabulary building blocks |
+| ddiProperties | `archive/ddiProperties/` | DDI-CDI vocabulary building blocks. **Archived 2026-10-05** -- reference-only, `$ref`d by no active CDIF schema. |
 | provProperties | `_sources/provProperties/` | PROV-O provenance (generatedBy, derivedFrom, provActivity) |
 | skosProperties | `_sources/skosProperties/` | W3C SKOS vocabulary building blocks (ConceptScheme, Concept, Collection) |
 | qualityProperties | `_sources/qualityProperties/` | DQV data quality measures |
@@ -263,7 +263,12 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 | cdifCompositeProfile | `_sources/profiles/cdifCompositeProfile/` | Composite profiles assembled via `composes` from the modules above: CoreDiscovery, DiscoveryDataDescription, DiscoveryDataDescriptionStructure, xasDocument, cdifComplete |
 | archive | `_sources/profiles/archive/` | Deprecated profiles retained for reference (e.g. CDIFCodelistProfile) |
 
-### ddiProperties
+### ddiProperties (archived 2026-10-05)
+
+Moved to `archive/ddiProperties/`: the transcriptions are reference material and are `$ref`d by
+no active CDIF schema (verified: zero inbound refs here, zero across 16,452 external schema
+files). They remain the canonical comparison source for `audit_cdif_vs_ddi.py`, which was
+repointed in the same commit. See `archive/README.md`.
 
 DDI-CDI vocabulary building blocks for communities using the DDI Cross-Domain Integration standard natively. Most are **generated from a DDI-CDI XMI export** of the Enterprise Architect UML model via `../cdif-umlmodel/cdifjsonxmi/uml_to_schema.py`, which auto-detects the canonical XMI 2.5.1 and the EA-native XMI 1.1 formats (see `agents.md` for details). The set was reconciled against the 2026-03 DDI-CDI model: `ddicdiDataStore` was retired in favour of `ddicdiLogicalRecordRepository`, `ddicdiPhysicalSegmentLayout` in favour of `ddicdiPhysicalMapping`, and `ddicdiStatistics` / `ddicdiKeyValueStructure` / `ddicdiCollections` were added. The table below is representative, not exhaustive.
 
@@ -398,7 +403,7 @@ Each building block has a persistent HTTP URI under `https://w3id.org/cdif/bbr/m
 https://w3id.org/cdif/bbr/metadata/{category}/{name}
 ```
 
-where `{category}` is one of `schemaorgProperties`, `cdifDataType`, `provProperties`, `qualityProperties`, `ddiProperties`, `xasProperties`, `skosProperties`, `bioschemasProperties`, or `profiles/cdifProfile` / `profiles/cdifCompositeProfile`, and `{name}` is the building block directory name (e.g., `person`, `cdifProvActivity`, `xasGeneratedBy`, `cdifCore`, `CoreDiscovery`).
+where `{category}` is one of `schemaorgProperties`, `cdifDataType`, `provProperties`, `qualityProperties`, `xasProperties`, `skosProperties`, `bioschemasProperties`, or `profiles/cdifProfile` / `profiles/cdifCompositeProfile`, and `{name}` is the building block directory name (e.g., `person`, `cdifProvActivity`, `xasGeneratedBy`, `cdifCore`, `CoreDiscovery`).
 
 Examples:
 - `https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person`

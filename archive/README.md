@@ -36,6 +36,10 @@ Archived 2026-09-02. **The building blocks themselves are still active** — bot
 `$ref`d by `ddicdiKeyValueStructure`, `ddicdiPhysicalDataSet`, `ddicdiLogicalRecord` and
 `ddicdiDataStructureComponent`. Only their `example*.json` files moved here.
 
+Superseded by the whole-tree move below (2026-10-05): those blocks now live here in full,
+and the two files whose names collided with their 2026-09-02 live replacements carry a
+`-synthetic` suffix, so both the original fixture and the replacement are preserved.
+
 These five files came in as synthetic fixtures (`ec4973e0a`, "Add synthetic examples
 exercising every schema option") and were never adopted: unlike every other
 `ddiProperties` block, neither `examples.yaml` references them — both still read
@@ -171,3 +175,38 @@ to report the loss.
 
 Both examples moved to `labeledLink` as `exampleLabeledLinkRelation.json` and
 `exampleLabeledLinkRelationComplete.json`, keeping the relation surface exercised.
+
+## ddiProperties (the whole tree, 24 blocks)
+
+Archived 2026-10-05. The canonical DDI-CDI transcriptions are **reference material only** and are
+`$ref`d by no active CDIF schema. Measured before moving, by parsing every `schema.yaml` with YAML
+rather than grepping -- quoting variants (`'$ref':` vs `$ref:`, quoted vs bare targets) hid edges
+three separate times while this was being checked:
+
+- **active `schema.yaml` -> ddiProperties: zero.** The only mentions anywhere in active sources are
+  three prose comments (`cdifKey/schema.yaml:9`, `cdifDataStructure/schema.yaml:455` and `:546`).
+- **external repos -> ddiProperties: zero.** 16,452 schema-ish files scanned across every repo under
+  `CDIF/`, `usgin/` and `amds-ldeo/`. The apparent hits in `dde`/`ecrr`/`geochem` are
+  `sourceSchema` / `sourceLdContext` / `resolvedSchema` fields inside cached copies of this repo's
+  published *register* -- a catalogue listing every block, not a dependency. `ecrr`'s even point at
+  the retired `usgin.github.io` host.
+
+What the move costs, recorded rather than discovered later:
+
+- **66 outbound `$ref`s go dead.** 13 of the 24 blocks `$ref` out to `skosProperties/skosConcept`,
+  `cdifDataType/cdifKey` and `cdifDataType/cdifInstanceVariable`. `../../cdifDataType/...` from
+  `archive/ddiProperties/X/` resolves to `archive/cdifDataType/...`, which does not exist. Inert
+  while nothing resolves archived blocks, and every block keeps its committed `resolvedSchema.json`
+  so it stays readable -- but re-resolving one will now fail, by design ("an unresolvable `$ref` is
+  fatal and nothing is written").
+- **24 published blocks leave the register**, so `.../_sources/ddiProperties/...` URLs 404. No
+  consumer references them in source, but the published URLs did exist.
+- **`tools/audit_cdif_vs_ddi.py` and `tools/audit_ddi_xmi_consistency.py` were repointed here in the
+  same commit.** ddiProperties is the canonical reference the whole `cdi:`/`cdif:` namespace rule is
+  measured against; left pointing at `_sources/`, the audit would collect zero canonical properties,
+  find zero disagreements and print a clean result. `_require_ddi_dir()` now refuses to run against
+  a missing or blockless tree for exactly that reason.
+
+Verified after the move: `audit_cdif_vs_ddi.py --self-test` 9/9, and the full run still collects
+**297** canonical `cdi:` properties and returns the identical verdict
+(`MATCH: 54  SOFT: 6  STRUCTURAL: 0  CDIF-ONLY: 1`).

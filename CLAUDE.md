@@ -21,8 +21,8 @@ pip install -r requirements.txt          # jsonschema, PyYAML (+ optional pyshac
 **Regeneration — run both, always, in the same commit as the source edit:**
 
 ```bash
-python tools/resolve_schema.py --all      # -> resolvedSchema.json (92 blocks, ~11 min)
-python tools/regenerate_schema_json.py    # -> *Schema.json (93 blocks, seconds)
+python tools/resolve_schema.py --all      # -> resolvedSchema.json (68 blocks, ~11 min)
+python tools/regenerate_schema_json.py    # -> *Schema.json (69 blocks, seconds)
 ```
 
 Locally, `--all` is still the honest thing to run before a commit. To regenerate only what your
@@ -96,11 +96,12 @@ unconditional `--all` on push to `main` is what would catch that, so do not make
 incremental as well** — and note what a green incremental run does *not* claim: a stale artifact in
 a block the change set cannot reach was never regenerated on that run. The saving also varies
 hugely with position in the graph (`xasFacility` 4% of `--all`, `skosConcept` 65%), so a hub edit
-buys almost nothing. `regenerate_schema_json.py` stays full everywhere: 93 blocks in ~1.3 s.
+buys almost nothing. `regenerate_schema_json.py` stays full everywhere: 69 blocks in ~1.3 s.
 
 **Building block trees** under `_sources/`: `schemaorgProperties/`, `cdifDataType/`,
-`ddiProperties/` (canonical DDI-CDI), `provProperties/`, `skosProperties/`, `xasProperties/`,
-`bioschemasProperties/`, `qualityProperties/`. Profiles are split in two:
+`provProperties/`, `skosProperties/`, `xasProperties/`, `bioschemasProperties/`,
+`qualityProperties/`. The canonical DDI-CDI transcriptions moved to
+`archive/ddiProperties/` on 2026-10-05 -- reference-only, `$ref`d by no active schema. Profiles are split in two:
 `profiles/cdifProfile/` holds **modules** (each adds one slice, e.g. `cdifCore`, `cdifDiscovery`,
 `cdifProvenance`); `profiles/cdifCompositeProfile/` holds **composites** that are thin `allOf`s over
 modules (`CoreDiscovery`, `cdifComplete`, `xasDocument`, …).
@@ -166,9 +167,9 @@ their refs are resolved over the network at their build time, not ours.
 - **Commit regenerated artifacts separately** from unrelated changes. When a regeneration sweeps up
   pre-existing drift, split it: revert your source edit, regenerate, commit the catch-up alone, then
   restore and commit your actual change.
-- **The JSON Schema gate is now clean: `validate_examples.py` should report 152 passed, 0 failed.**
+- **The JSON Schema gate is now clean: `validate_examples.py` should report 130 passed, 0 failed.**
   A failure means you broke something — this is no longer a run with expected noise to squint past.
-  The count tracks the corpus, so treat it as "0 failed" rather than a fixed number: it was 152 before 2026-09-05, 150 after, and 152 again as of 2026-09-25. `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it: nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
+  The count tracks the corpus, so treat it as "0 failed" rather than a fixed number: it was 152 before 2026-09-05, 150 after, 152 again as of 2026-09-25, 154 by 2026-10-02, and 130 once the 24 `ddiProperties` blocks were archived on 2026-10-05. `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it: nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
   fixtures never referenced by their own `examples.yaml`, so nothing was validating them into
   conformance), and `ddicdiDataStructure` / `ddicdiRepresentedVariable` got fresh, validating
   replacements.
@@ -215,7 +216,7 @@ their refs are resolved over the network at their build time, not ours.
   `FrameAndValidate -v` compare it against what the record declares and **fail an
   over-claim**. Only the six detectable profiles are compared, and both halves are read
   from the source document — framing drops evidence below `schema:distribution`.
-- **`ddiProperties` examples use the canonical DDI-CDI datatypes, not CDIF's simplifications** —
+- **`ddiProperties` (now `archive/ddiProperties/`) examples use the canonical DDI-CDI datatypes, not CDIF's simplifications** —
   `cdi:name` is an `ObjectName` (`{@type, cdi:name}`), `cdi:definition` an `InternationalString`
   wrapping a `LanguageString`, `cdi:encoding`/`cdi:physicalDataType` a `ControlledVocabularyEntry`.
   Arity is per-block, not per-property: `cdi:name` is an array on most blocks but a single object on
@@ -227,12 +228,12 @@ their refs are resolved over the network at their build time, not ours.
 - **A negative test that fails for the wrong reason asserts nothing.** The OGC layout puts
   `tests/*-fail.json` beside each block, meaning "this must NOT validate". `tools/test_fail_cases.py`
   (added 2026-09-11) checks *why* each one fails, not just that it does. **This has since been
-  fixed and must stay fixed: as of 2026-09-25 it reports 125 of 125 cases failing on the
+  fixed and must stay fixed: as of 2026-10-05 it reports 103 of 103 cases failing on the
   constraint their filename names, 0 asserting nothing, 0 byte-identical copies.** It was far
   worse when the tool was written -- 34 cases of which only 5 asserted their own constraint, 20
   byte-identical copies (`affiliation-fail.json` appeared verbatim in eight blocks, including
   `spatialExtent` and `xasDocument`, where affiliation means nothing), and 70 of 93 blocks with no
-  `tests/` at all. **23 of 93 blocks still have none.** Run it with `--strict` to fail on a case
+  `tests/` at all. **13 of 69 blocks still have none.** Run it with `--strict` to fail on a case
   that asserts nothing, `--coverage` to list untested blocks. Note the matcher's own limits: an error on `@type` and an
   `anyOf` *message* (which prints the whole instance, so every token "matches") are both
   discounted, while the error *path* counts as strong evidence. Since 2026-10-01 `all_errors`

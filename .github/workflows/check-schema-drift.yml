@@ -123,7 +123,7 @@ jobs:
             echo "::endgroup::"
           done < "$RUNNER_TEMP/affected.txt"
 
-      # Always the full run: 93 blocks in ~1.3 s, and it reads schema.yaml
+      # Always the full run: 69 blocks in ~1.3 s, and it reads schema.yaml
       # rather than resolvedSchema.json, so narrowing it would buy nothing.
       # This half of the check therefore stays exhaustive on every event.
       - name: Regenerate Schema.json files
@@ -140,7 +140,7 @@ jobs:
             # artifact in a block the change set cannot reach is NOT checked
             # here; the unconditional sweep on main is what covers it.
             if [ "${{ steps.scope.outputs.mode }}" = "some" ]; then
-              echo "Scope: the affected blocks listed above, plus all 93 *Schema.json."
+              echo "Scope: the affected blocks listed above, plus all 69 *Schema.json."
             fi
             exit 0
           fi

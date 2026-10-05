@@ -27,7 +27,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-DDI_DIR = REPO / "_sources" / "ddiProperties"
+DDI_DIR = REPO / "archive" / "ddiProperties"
 
 UML = "omg.org/UML1.3"
 

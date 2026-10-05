@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Which blocks must be regenerated when a given set of files changes.
 
-check-schema-drift.yml regenerates all 92 blocks on every pull request
+check-schema-drift.yml regenerates all 68 blocks on every pull request
 (~11 min), because a source edit that lands without its artifact is
 invisible. But a block's resolved output can only move if the block itself
 changed or something it $refs did, so most of that sweep is spent proving

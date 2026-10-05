@@ -42,7 +42,12 @@ REPO = Path(__file__).resolve().parent.parent
 CDIF_DIRS = [REPO / "_sources" / "cdifDataType",
              REPO / "_sources" / "profiles" / "cdifProfile"]
 CDIF_DIR = CDIF_DIRS[0]  # retained: some callers still pass a single dir
-DDI_DIR = REPO / "_sources" / "ddiProperties"
+# _sources/ddiProperties moved to archive/ddiProperties on 2026-10-05: the canonical
+# DDI-CDI transcriptions are reference-only and are $ref'd by no active CDIF schema
+# (measured: zero inbound refs in this repo, zero across 16,452 external schema files).
+# They remain the canonical comparison source for this audit, so this path follows the
+# tree rather than the audit losing its reference.
+DDI_DIR = REPO / "archive" / "ddiProperties"
 
 PRIMITIVES = {"string", "integer", "number", "boolean", "null"}
 
@@ -464,7 +469,32 @@ def self_test() -> bool:
     return passed == len(results)
 
 
+
+def _require_ddi_dir() -> None:
+    """Fail loudly if the canonical tree is missing or holds no blocks.
+
+    This audit reports findings by COMPARING against DDI_DIR. Point it at an absent
+    or empty directory and it collects zero canonical properties, finds zero
+    disagreements, and prints a clean result -- indistinguishable from conformance.
+    The tree moved once already (to archive/ on 2026-10-05); the next move must stop
+    the run rather than silently empty it.
+    """
+    if not DDI_DIR.is_dir():
+        raise SystemExit(
+            f"ERROR: canonical DDI-CDI tree not found at {DDI_DIR}. "
+            "This audit compares against it, so a missing tree yields zero findings "
+            "and looks like a pass. Update DDI_DIR if the tree moved."
+        )
+    blocks = [p for p in DDI_DIR.iterdir() if p.is_dir() and (p / "schema.yaml").is_file()]
+    if not blocks:
+        raise SystemExit(
+            f"ERROR: {DDI_DIR} contains no block with a schema.yaml. "
+            "Zero canonical properties would be collected, producing a clean but "
+            "meaningless result."
+        )
+
 def main() -> int:
+    _require_ddi_dir()
     ap = argparse.ArgumentParser()
     ap.add_argument("--verbose", "-v", action="store_true",
                     help="also list MATCH rows")
