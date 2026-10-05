@@ -10,6 +10,9 @@ on:
 jobs:
   update-validation:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    # No timeout was set until 2026-10-05; a hung job then reads as a
+    # random failure rather than a slow build.
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout metadataBuildingBlocks

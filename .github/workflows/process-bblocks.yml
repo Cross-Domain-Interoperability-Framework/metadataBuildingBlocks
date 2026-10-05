@@ -5,6 +5,14 @@ on:
     branches:
       - main
 
+# Also a reusable-workflow call, so timeout-minutes cannot be set on the job.
+# Serialized rather than cancel-in-progress: this workflow COMMITS to main
+# (contents: write), and cancelling it mid-push is worse than letting a slow run
+# finish.
+concurrency:
+  group: process-bblocks-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
   pages: write

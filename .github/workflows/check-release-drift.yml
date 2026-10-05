@@ -42,6 +42,9 @@ concurrency:
 jobs:
   check-release-drift:
     name: Compare release artifacts
+    # No timeout was set until 2026-10-05; a hung job then reads as a
+    # random failure rather than a slow build.
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout metadataBuildingBlocks

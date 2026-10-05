@@ -2,6 +2,17 @@ name: Validate Building Blocks PR
 on:
   pull_request:
 
+# This job calls a REUSABLE workflow (jobs.<id>.uses), and timeout-minutes is not
+# a permitted key there -- adding one risks making the workflow invalid, which
+# does not fail loudly, it silently stops running. So runtime is bounded by
+# superseding instead: a new push to the PR cancels the previous run. On
+# 2026-10-05 this check sat at 15m02s before being cancelled where it normally
+# takes under 3 minutes, and a stale run lingering is the part that is fixable
+# here.
+concurrency:
+  group: pr-check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 # Read-only validation: runs postprocessing against the PR to catch things
 # like broken bblock dependencies before merge, but never commits, deploys,
 # or pushes anything - see process-bblocks.yml for the workflow that does.
