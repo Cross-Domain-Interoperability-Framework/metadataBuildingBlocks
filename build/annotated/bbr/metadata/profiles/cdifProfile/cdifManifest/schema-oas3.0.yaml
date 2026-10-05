@@ -889,6 +889,52 @@ $defs:
             schema:unitText:
               type: string
               description: Unit of measure for size (e.g. 'byte').
+        schema:width:
+          type: object
+          description: Pixel width of a raster file, as a QuantitativeValue. schema:width
+            has schema:MediaObject in its domain, which a part here is required to
+            be, so no more specific type such as schema:ImageObject is needed. A QuantitativeValue
+            rather than a bare number because the same property carries physical dimensions
+            elsewhere, so the unit has to be stated -- and because schema:size beside
+            it already takes this shape.
+          properties:
+            '@type':
+              type: array
+              items:
+                type: string
+              contains:
+                enum:
+                - schema:QuantitativeValue
+              minItems: 1
+            schema:value:
+              type: number
+              description: Width in pixels.
+            schema:unitText:
+              type: string
+              description: Unit of measure (e.g. 'pixel').
+        schema:height:
+          type: object
+          description: Pixel height of a raster file, as a QuantitativeValue. schema:height
+            has schema:MediaObject in its domain, which a part here is required to
+            be, so no more specific type such as schema:ImageObject is needed. A QuantitativeValue
+            rather than a bare number because the same property carries physical dimensions
+            elsewhere, so the unit has to be stated -- and because schema:size beside
+            it already takes this shape.
+          properties:
+            '@type':
+              type: array
+              items:
+                type: string
+              contains:
+                enum:
+                - schema:QuantitativeValue
+              minItems: 1
+            schema:value:
+              type: number
+              description: Height in pixels.
+            schema:unitText:
+              type: string
+              description: Unit of measure (e.g. 'pixel').
         schema:about:
           type: array
           description: For metadata sidecar files, references the data file this metadata
