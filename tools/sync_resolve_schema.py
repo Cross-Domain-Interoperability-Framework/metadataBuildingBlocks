@@ -31,10 +31,16 @@ TOOLS = [
 ]
 
 # Target repos — paths relative to this repo root
+# geochemBuildingBlocks moved from usgin to amds-ldeo on 2026-08-19 and the old repository was
+# archived. This list was not updated, so every sync since then wrote to the archived clone and
+# reported success: the live repository never received them. That is how the canonical
+# find_self_referential_defs guard -- which catches a $defs entry whose body $refs itself, a
+# RecursionError at the consumer rather than a failure here -- reached none of the targets.
+# dde and ecrr are still on usgin remotes and stay as they are.
 TARGETS = [
     ("../../usgin/ddeBuildingBlocks", "tools"),
     ("../../usgin/ecrrBuildingBlocks", "tools"),
-    ("../../usgin/geochemBuildingBlocks", "tools"),
+    ("../../amds-ldeo/geochemBuildingBlocks", "tools"),
 ]
 
 
