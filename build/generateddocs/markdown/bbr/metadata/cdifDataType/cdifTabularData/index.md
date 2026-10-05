@@ -322,16 +322,16 @@ and three physical-mapping entries.
     cdi:textDirection "Inherit" ;
     cdi:treatConsecutiveDelimitersAsOne false ;
     cdi:trim "Both" ;
-    cdif:hasPhysicalMapping [ cdi:isRequired true ;
-            cdi:length 16 ;
-            cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ],
-        [ cdi:nullSequence "NA" ;
+    cdif:hasPhysicalMapping [ cdi:nullSequence "NA" ;
             cdif:format "YYYY-MM-DD" ;
             cdif:formats_InstanceVariable ex:var-date ;
             cdif:index 1 ;
             cdif:physicalDataType "Date" ],
+        [ cdi:isRequired true ;
+            cdi:length 16 ;
+            cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ],
         [ cdi:decimalPositions 2 ;
             cdi:length 12 ;
             cdi:scale 1 ;
