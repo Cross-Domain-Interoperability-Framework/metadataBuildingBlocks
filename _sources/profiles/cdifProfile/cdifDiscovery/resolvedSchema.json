@@ -167,7 +167,9 @@
                 "properties": {
                   "@type": {
                     "description": "Either construct, or both. A labeled link is a schema:CreativeWork at a URL; a dcat:Relationship is DCAT's association class for a typed relation to another resource. A node may declare both -- CDIF's own relation examples do -- but NEITHER IS REQUIRED TO ACCOMPANY THE OTHER.\nThat is the whole point of the anyOf. Until 2026-09-08 this block's Relation half required contains: dcat:Relationship while the labeled-link half required contains: schema:CreativeWork, and under allOf both applied to every instance, so an ordinary labeled link was unsatisfiable. Of profile-core's licenses the 29 plain strings and 1 @id-reference passed while the 10 that followed schema.org's own recommendation -- \"use schema:CreativeWork to provide a label (name) for the license\" -- failed. 412782113 fixed that by deleting the dcat:Relationship mandate outright, which left the JSON Schema with no notion of dcat:Relationship at all while rules.shacl went on targeting it as a class. A pure DCAT relation then met a SHACL requirement with no schema counterpart. This anyOf restores the type to the schema WITHOUT restoring the conjunction.",
-                    "default": "schema:CreativeWork",
+                    "default": [
+                      "schema:CreativeWork"
+                    ],
                     "type": "array",
                     "items": {
                       "type": "string"
@@ -294,7 +296,9 @@
         "type": "object",
         "properties": {
           "@type": {
-            "default": "schema:Place",
+            "default": [
+              "schema:Place"
+            ],
             "type": "array",
             "items": {
               "type": "string"
@@ -418,7 +422,9 @@
                 "description": "A point location. Point locations are recommended for data that is associated with specific sample locations, particularly if these are widely spaced such that an enclosing bounding box would be a misleading representation of the spatial location. Be aware that some client applications might only index or display bounding box extents or a single point location.",
                 "properties": {
                   "@type": {
-                    "default": "schema:GeoCoordinates",
+                    "default": [
+                      "schema:GeoCoordinates"
+                    ],
                     "type": "array",
                     "items": {
                       "type": "string"
@@ -450,7 +456,9 @@
                 "description": "A schema:GeoShape bounding box. The geometry is described with a set of latitude/longitude pairs (in that order).The documentation for schema:GeoShape states 'Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.'",
                 "properties": {
                   "@type": {
-                    "default": "schema:GeoShape",
+                    "default": [
+                      "schema:GeoShape"
+                    ],
                     "type": "array",
                     "items": {
                       "type": "string"
@@ -475,7 +483,9 @@
                 "description": "A schema:GeoShape curvilinear trace, for resource related to a linear trace like a ship track or airplane flight line",
                 "properties": {
                   "@type": {
-                    "default": "schema:GeoShape",
+                    "default": [
+                      "schema:GeoShape"
+                    ],
                     "type": "array",
                     "items": {
                       "type": "string"
@@ -582,7 +592,9 @@
             "description": "a w3c time proper interval with bounds that are named time ordinal eras with identifier, e.g. geologic age. This is a SOSO schema.org extension",
             "properties": {
               "@type": {
-                "default": "time:ProperInterval",
+                "default": [
+                  "time:ProperInterval"
+                ],
                 "type": "array",
                 "items": {
                   "type": "string"
@@ -644,7 +656,9 @@
                 "description": "Must exactly match the specified @context object."
               },
               "@type": {
-                "default": "time:ProperInterval",
+                "default": [
+                  "time:ProperInterval"
+                ],
                 "type": "array",
                 "items": {
                   "type": "string"
@@ -675,7 +689,9 @@
                     "type": "object",
                     "properties": {
                       "@type": {
-                        "default": "time:TimePosition",
+                        "default": [
+                          "time:TimePosition"
+                        ],
                         "type": "array",
                         "items": {
                           "type": "string"
@@ -719,7 +735,9 @@
                     "type": "object",
                     "properties": {
                       "@type": {
-                        "default": "time:TimePosition",
+                        "default": [
+                          "time:TimePosition"
+                        ],
                         "type": "array",
                         "items": {
                           "type": "string"

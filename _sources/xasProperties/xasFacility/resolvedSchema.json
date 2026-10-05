@@ -5,7 +5,9 @@
   "description": "The facility where XAS data was acquired: a synchrotron, X-ray free electron laser, or laboratory.\nExtends the core CDIF spatialExtent (schema:Place) rather than redeclaring it. A facility is an ordinary CDIF place that happens to be classified as a facility, so it should be described by the same block as any other place; the only thing this block adds is the requirement that schema:additionalType classify it.\nRedeclaring meant this block described four of spatialExtent's properties and silently ignored the rest: schema:geo, geosparql: hasGeometry and schema:alternateName were accepted on a facility but never validated, so a facility whose coordinates were an unparseable string passed. Composing the core block instead constrains them.\ngeochemBuildingBlocks composes the same core block for its laboratory building block, so both profiles now describe this kind of place the same way. They still differ on the classification term -- that block uses a NeXus base class where this one uses xas:facility -- which is a separate question from where the place structure comes from.\nxas:facility is deliberately NOT among the concepts retired onto NeXus base classes: it covers a synchrotron, an XFEL or a laboratory facility, while NXsource is the storage ring specifically. The narrower xas:synchrotonfacility is the one that corresponds to NXsource, and the glossary records it as skos:narrower of this concept.",
   "properties": {
     "@type": {
-      "default": "schema:Place",
+      "default": [
+        "schema:Place"
+      ],
       "type": "array",
       "items": {
         "type": "string"
@@ -159,7 +161,9 @@
           "description": "A point location. Point locations are recommended for data that is associated with specific sample locations, particularly if these are widely spaced such that an enclosing bounding box would be a misleading representation of the spatial location. Be aware that some client applications might only index or display bounding box extents or a single point location.",
           "properties": {
             "@type": {
-              "default": "schema:GeoCoordinates",
+              "default": [
+                "schema:GeoCoordinates"
+              ],
               "type": "array",
               "items": {
                 "type": "string"
@@ -191,7 +195,9 @@
           "description": "A schema:GeoShape bounding box. The geometry is described with a set of latitude/longitude pairs (in that order).The documentation for schema:GeoShape states 'Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.'",
           "properties": {
             "@type": {
-              "default": "schema:GeoShape",
+              "default": [
+                "schema:GeoShape"
+              ],
               "type": "array",
               "items": {
                 "type": "string"
@@ -216,7 +222,9 @@
           "description": "A schema:GeoShape curvilinear trace, for resource related to a linear trace like a ship track or airplane flight line",
           "properties": {
             "@type": {
-              "default": "schema:GeoShape",
+              "default": [
+                "schema:GeoShape"
+              ],
               "type": "array",
               "items": {
                 "type": "string"
