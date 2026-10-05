@@ -1443,28 +1443,58 @@ def _has_ref_to(node: Any, target_name: str) -> bool:
     return False
 
 
+def _refs_in(node: Any) -> set[str]:
+    """Every `#/$defs/<name>` referenced anywhere in `node`, collected in ONE walk.
+
+    The counterpart of _has_ref_to, inverted. Asking "does this body reference X?" once per
+    candidate X meant re-walking the body for every def in the file; collecting the targets
+    instead answers the same question for all of them at once.
+    """
+    out: set[str] = set()
+    stack = [node]
+    while stack:
+        n = stack.pop()
+        if isinstance(n, dict):
+            r = n.get("$ref")
+            if isinstance(r, str) and r.startswith("#/$defs/"):
+                out.add(r[len("#/$defs/"):])
+            stack.extend(n.values())
+        elif isinstance(n, list):
+            stack.extend(n)
+    return out
+
+
+def _cyclic_defs(defs: dict) -> set[str]:
+    """The names that participate in a $defs cycle, direct or transitive.
+
+    One walk per body builds the edge map; then each def's reachable set is closed over that
+    map and a def is cyclic iff it reaches itself. Identical relation to the pairwise
+    _has_ref_to test it replaces, so identical answers -- see _refs_in for why the pairwise
+    form was expensive.
+    """
+    edges = {name: (_refs_in(body) & set(defs)) for name, body in defs.items()}
+    cyclic: set[str] = set()
+    for start in edges:
+        reachable: set[str] = set()
+        stack = list(edges[start])
+        while stack:
+            cur = stack.pop()
+            if cur in reachable:
+                continue
+            reachable.add(cur)
+            stack.extend(edges.get(cur, ()))
+        if start in reachable:
+            cyclic.add(start)
+    return cyclic
+
+
 def _is_in_cycle(name: str, defs: dict) -> bool:
     """Return True if `name` participates in a $defs cycle (direct or transitive).
 
-    Walks the $ref graph starting at `name`. If `name` is reachable from itself,
-    it is in a cycle.
+    Kept for callers that ask about one name. inline_low_use_defs uses _cyclic_defs instead,
+    which answers for every name at the cost of one pass.
     """
-    if name not in defs:
-        return False
-    reachable: set[str] = set()
-    stack = [name]
-    while stack:
-        current = stack.pop()
-        body = defs.get(current)
-        if body is None:
-            continue
-        for other in defs:
-            if other in reachable:
-                continue
-            if _has_ref_to(body, other):
-                reachable.add(other)
-                stack.append(other)
-    return name in reachable
+    return name in defs and name in _cyclic_defs(defs)
 
 
 _DEFS_ONLY_META = {"$schema", "$id", "title", "description", "$comment", "$defs"}
@@ -1491,11 +1521,14 @@ def inline_low_use_defs(schema: dict, threshold: int = 2) -> dict:
     while True:
         counts = count_def_refs(schema)
         defs = schema.get("$defs", {})
+        # Once per pass, not once per candidate: the cyclic set is a property of this pass's
+        # $defs, and asking per name re-derived the whole graph each time.
+        cyclic = _cyclic_defs(defs)
         # Find one def to inline
         to_inline = None
         for name in list(defs):
             if counts.get(name, 0) <= threshold:
-                if _is_in_cycle(name, defs):
+                if name in cyclic:
                     continue
                 to_inline = name
                 break
