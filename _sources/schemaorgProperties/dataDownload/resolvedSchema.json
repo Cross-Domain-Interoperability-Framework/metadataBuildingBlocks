@@ -153,6 +153,54 @@
       "type": "string",
       "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize."
     },
+    "schema:width": {
+      "type": "object",
+      "description": "Pixel width of this distribution when it is a single raster file, as a QuantitativeValue. schema:width has schema:MediaObject in its domain. A QuantitativeValue rather than a bare number because the same property carries physical dimensions elsewhere, so the unit has to be stated. (schema:contentSize above is a plain string for historical reasons; that inconsistency is left alone rather than widened.)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:QuantitativeValue"
+          },
+          "minItems": 1
+        },
+        "schema:value": {
+          "type": "number",
+          "description": "Width in pixels."
+        },
+        "schema:unitText": {
+          "type": "string",
+          "description": "Unit of measure, e.g. 'pixel'."
+        }
+      }
+    },
+    "schema:height": {
+      "type": "object",
+      "description": "Pixel height of this distribution when it is a single raster file, as a QuantitativeValue. schema:height has schema:MediaObject in its domain. A QuantitativeValue rather than a bare number because the same property carries physical dimensions elsewhere, so the unit has to be stated. (schema:contentSize above is a plain string for historical reasons; that inconsistency is left alone rather than widened.)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:QuantitativeValue"
+          },
+          "minItems": 1
+        },
+        "schema:value": {
+          "type": "number",
+          "description": "Height in pixels."
+        },
+        "schema:unitText": {
+          "type": "string",
+          "description": "Unit of measure, e.g. 'pixel'."
+        }
+      }
+    },
     "spdx:checksum": {
       "type": "object",
       "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
