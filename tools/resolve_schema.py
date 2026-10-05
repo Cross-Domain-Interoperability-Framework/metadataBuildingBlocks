@@ -15,11 +15,11 @@ $ref patterns handled:
   6. Both YAML and JSON file extensions
 
 Usage:
-    python tools/resolve_schema.py adaEMPA           # writes resolvedSchema.json in place
+    python tools/resolve_schema.py adaEPMA           # writes resolvedSchema.json in place
     python tools/resolve_schema.py CDIFDiscoveryProfile
     python tools/resolve_schema.py --file path/to/any/schema.yaml
-    python tools/resolve_schema.py adaEMPA -o elsewhere.json
-    python tools/resolve_schema.py adaEMPA --stdout   # print instead of writing
+    python tools/resolve_schema.py adaEPMA -o elsewhere.json
+    python tools/resolve_schema.py adaEPMA --stdout   # print instead of writing
     python tools/resolve_schema.py --all
 
 Writing is the default. It used to be printing, which meant the obvious
@@ -1806,7 +1806,7 @@ def main():
     parser.add_argument(
         "profile",
         nargs="?",
-        help="Profile name (e.g., adaEMPA, adaProduct, CDIFDiscoveryProfile)",
+        help="Profile name (e.g., adaEPMA, adaProduct, CDIFDiscoveryProfile)",
     )
     parser.add_argument(
         "--file",
@@ -1840,7 +1840,7 @@ def main():
         action="append",
         default=[],
         help="with --all, restrict the techniqueProfile schemas to those whose path contains one "
-             "of these (repeatable; e.g. --only EMPA --only LA-Q-ICPMS). Shared schemas under "
+             "of these (repeatable; e.g. --only EPMA --only LA-Q-ICPMS). Shared schemas under "
              "BaseSchema/ and registry/ are ALWAYS resolved, because the module and registry "
              "stages rebuild them on every run and a stale resolvedSchema there is what silently "
              "poisons every technique that composes it.",
