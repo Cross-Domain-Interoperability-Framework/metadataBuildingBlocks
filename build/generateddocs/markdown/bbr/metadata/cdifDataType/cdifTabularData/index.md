@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifDataType.cdifTabularData` *v0.1*
 
-metadata to document physical data structure, mapping DDI/CDI instance variable to implementation  in a particualr serializtion. This extension plugs into the description of a particular file in a distribution, e.g. schema:DataDownload. Defines properties: @type, cdi:arrayBase, csvw:commentPrefix, csvw:delimiter, csvw:header, csvw:headerRowCount, cdi:isDelimited, cdi:isFixedWidth, csvw:lineTerminators, csvw:quoteChar, csvw:skipBlankRows, csvw:skipColumns, csvw:skipInitialSpace, csvw:skipRows, cdi:escapeCharacter, cdi:headerIsCaseSensitive, cdi:treatConsecutiveDelimitersAsOne, csvw:tableDirection, csvw:textDirection, csvw:trim, cdif:hasPhysicalMapping, countRows, countColumns. Uses building blocks: cdifPhysicalMapping (cdifDataType).
+metadata to document physical data structure, mapping DDI/CDI instance variable to implementation  in a particualr serializtion. This extension plugs into the description of a particular file in a distribution, e.g. schema:DataDownload. Defines properties: @type, cdi:arrayBase, cdi:commentPrefix, cdi:delimiter, cdi:hasHeader, cdi:headerRowCount, cdi:isDelimited, cdi:isFixedWidth, cdi:lineTerminator, cdi:quoteCharacter, cdi:skipBlankRows, cdi:skipDataColumns, cdi:skipInitialSpace, cdi:skipRows, cdi:escapeCharacter, cdi:headerIsCaseSensitive, cdi:treatConsecutiveDelimitersAsOne, cdi:tableDirection, cdi:textDirection, cdi:trim, cdif:hasPhysicalMapping, countRows, countColumns. Uses building blocks: cdifPhysicalMapping (cdifDataType).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -21,40 +21,42 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "cdif": "https://w3id.org/cdif/",
-        "csvw": "http://www.w3.org/ns/csvw#",
-        "ex": "https://example.org/"
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "ex": "https://example.org/"
+  },
+  "@type": [
+    "cdi:TabularTextDataSet",
+    "schema:Dataset"
+  ],
+  "cdi:isDelimited": true,
+  "cdi:delimiter": ",",
+  "cdi:hasHeader": true,
+  "cdi:headerRowCount": 1,
+  "cdi:commentPrefix": "#",
+  "cdi:skipBlankRows": false,
+  "cdi:skipInitialSpace": true,
+  "countRows": 1500,
+  "countColumns": 5,
+  "cdif:hasPhysicalMapping": [
+    {
+      "cdif:index": 0,
+      "cdif:physicalDataType": "String",
+      "cdif:formats_InstanceVariable": {
+        "@id": "ex:var-station-id"
+      }
     },
-    "@type": ["cdi:TabularTextDataSet", "schema:Dataset"],
-    "cdi:isDelimited": true,
-    "csvw:delimiter": ",",
-    "csvw:header": true,
-    "csvw:headerRowCount": 1,
-    "csvw:commentPrefix": "#",
-    "csvw:skipBlankRows": false,
-    "csvw:skipInitialSpace": true,
-    "countRows": 1500,
-    "countColumns": 5,
-    "cdif:hasPhysicalMapping": [
-        {
-            "cdif:index": 0,
-            "cdif:physicalDataType": "String",
-            "cdif:formats_InstanceVariable": {
-                "@id": "ex:var-station-id"
-            }
-        },
-        {
-            "cdif:index": 1,
-            "cdif:format": "float64",
-            "cdif:physicalDataType": "Numeric",
-            "cdif:formats_InstanceVariable": {
-                "@id": "ex:var-temperature"
-            }
-        }
-    ]
+    {
+      "cdif:index": 1,
+      "cdif:format": "float64",
+      "cdif:physicalDataType": "Numeric",
+      "cdif:formats_InstanceVariable": {
+        "@id": "ex:var-temperature"
+      }
+    }
+  ]
 }
 
 ```
@@ -65,7 +67,6 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
   "@context": [
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "csvw": "http://www.w3.org/ns/csvw#",
       "schema": "http://schema.org/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTabularData/context.jsonld",
@@ -73,7 +74,6 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "cdif": "https://w3id.org/cdif/",
-      "csvw": "http://www.w3.org/ns/csvw#",
       "ex": "https://example.org/"
     }
   ],
@@ -82,12 +82,12 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
     "schema:Dataset"
   ],
   "cdi:isDelimited": true,
-  "csvw:delimiter": ",",
-  "csvw:header": true,
-  "csvw:headerRowCount": 1,
-  "csvw:commentPrefix": "#",
-  "csvw:skipBlankRows": false,
-  "csvw:skipInitialSpace": true,
+  "cdi:delimiter": ",",
+  "cdi:hasHeader": true,
+  "cdi:headerRowCount": 1,
+  "cdi:commentPrefix": "#",
+  "cdi:skipBlankRows": false,
+  "cdi:skipInitialSpace": true,
   "countRows": 1500,
   "countColumns": 5,
   "cdif:hasPhysicalMapping": [
@@ -114,20 +114,19 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
-@prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
+    cdi:commentPrefix "#" ;
+    cdi:delimiter "," ;
+    cdi:hasHeader true ;
+    cdi:headerRowCount 1 ;
     cdi:isDelimited true ;
-    csvw:commentPrefix "#" ;
-    csvw:delimiter "," ;
-    csvw:header true ;
-    csvw:headerRowCount 1 ;
-    csvw:skipBlankRows false ;
-    csvw:skipInitialSpace true ;
+    cdi:skipBlankRows false ;
+    cdi:skipInitialSpace true ;
     cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-station-id ;
             cdif:index 0 ;
             cdif:physicalDataType "String" ],
@@ -153,29 +152,33 @@ and three physical-mapping entries.
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://w3id.org/cdif/",
-    "csvw": "http://www.w3.org/ns/csvw#",
     "ex": "https://example.org/"
   },
-  "@type": ["cdi:TabularTextDataSet", "schema:Dataset"],
+  "@type": [
+    "cdi:TabularTextDataSet",
+    "schema:Dataset"
+  ],
   "cdi:isDelimited": true,
   "cdi:isFixedWidth": false,
   "cdi:arrayBase": 1,
-  "csvw:delimiter": ",",
-  "csvw:quoteChar": "\"",
+  "cdi:delimiter": ",",
+  "cdi:quoteCharacter": "\"",
   "cdi:escapeCharacter": "\"",
-  "csvw:header": true,
-  "csvw:headerRowCount": 1,
-  "csvw:commentPrefix": "#",
-  "csvw:lineTerminators": "CRLF",
-  "csvw:skipBlankRows": false,
-  "csvw:skipColumns": 0,
-  "csvw:skipInitialSpace": true,
-  "csvw:skipRows": 0,
+  "cdi:hasHeader": true,
+  "cdi:headerRowCount": 1,
+  "cdi:commentPrefix": "#",
+  "cdi:lineTerminator": [
+    "CRLF"
+  ],
+  "cdi:skipBlankRows": false,
+  "cdi:skipDataColumns": 0,
+  "cdi:skipInitialSpace": true,
+  "cdi:skipRows": 0,
   "cdi:headerIsCaseSensitive": false,
   "cdi:treatConsecutiveDelimitersAsOne": false,
-  "csvw:tableDirection": "Ltr",
-  "csvw:textDirection": "Inherit",
-  "csvw:trim": "true",
+  "cdi:tableDirection": "Ltr",
+  "cdi:textDirection": "Inherit",
+  "cdi:trim": "Both",
   "countRows": 1500,
   "countColumns": 3,
   "cdif:hasPhysicalMapping": [
@@ -184,14 +187,18 @@ and three physical-mapping entries.
       "cdif:physicalDataType": "String",
       "cdi:length": 16,
       "cdi:isRequired": true,
-      "cdif:formats_InstanceVariable": {"@id": "ex:var-station-id"}
+      "cdif:formats_InstanceVariable": {
+        "@id": "ex:var-station-id"
+      }
     },
     {
       "cdif:index": 1,
       "cdif:format": "YYYY-MM-DD",
       "cdif:physicalDataType": "Date",
       "cdi:nullSequence": "NA",
-      "cdif:formats_InstanceVariable": {"@id": "ex:var-date"}
+      "cdif:formats_InstanceVariable": {
+        "@id": "ex:var-date"
+      }
     },
     {
       "cdif:index": 2,
@@ -200,7 +207,9 @@ and three physical-mapping entries.
       "cdi:length": 12,
       "cdi:scale": 1,
       "cdi:decimalPositions": 2,
-      "cdif:formats_InstanceVariable": {"@id": "ex:var-temperature"}
+      "cdif:formats_InstanceVariable": {
+        "@id": "ex:var-temperature"
+      }
     }
   ]
 }
@@ -213,7 +222,6 @@ and three physical-mapping entries.
   "@context": [
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "csvw": "http://www.w3.org/ns/csvw#",
       "schema": "http://schema.org/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTabularData/context.jsonld",
@@ -221,7 +229,6 @@ and three physical-mapping entries.
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "cdif": "https://w3id.org/cdif/",
-      "csvw": "http://www.w3.org/ns/csvw#",
       "ex": "https://example.org/"
     }
   ],
@@ -232,22 +239,24 @@ and three physical-mapping entries.
   "cdi:isDelimited": true,
   "cdi:isFixedWidth": false,
   "cdi:arrayBase": 1,
-  "csvw:delimiter": ",",
-  "csvw:quoteChar": "\"",
+  "cdi:delimiter": ",",
+  "cdi:quoteCharacter": "\"",
   "cdi:escapeCharacter": "\"",
-  "csvw:header": true,
-  "csvw:headerRowCount": 1,
-  "csvw:commentPrefix": "#",
-  "csvw:lineTerminators": "CRLF",
-  "csvw:skipBlankRows": false,
-  "csvw:skipColumns": 0,
-  "csvw:skipInitialSpace": true,
-  "csvw:skipRows": 0,
+  "cdi:hasHeader": true,
+  "cdi:headerRowCount": 1,
+  "cdi:commentPrefix": "#",
+  "cdi:lineTerminator": [
+    "CRLF"
+  ],
+  "cdi:skipBlankRows": false,
+  "cdi:skipDataColumns": 0,
+  "cdi:skipInitialSpace": true,
+  "cdi:skipRows": 0,
   "cdi:headerIsCaseSensitive": false,
   "cdi:treatConsecutiveDelimitersAsOne": false,
-  "csvw:tableDirection": "Ltr",
-  "csvw:textDirection": "Inherit",
-  "csvw:trim": "true",
+  "cdi:tableDirection": "Ltr",
+  "cdi:textDirection": "Inherit",
+  "cdi:trim": "Both",
   "countRows": 1500,
   "countColumns": 3,
   "cdif:hasPhysicalMapping": [
@@ -288,7 +297,6 @@ and three physical-mapping entries.
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
-@prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -296,32 +304,25 @@ and three physical-mapping entries.
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
     cdi:arrayBase 1 ;
+    cdi:commentPrefix "#" ;
+    cdi:delimiter "," ;
     cdi:escapeCharacter "\"" ;
+    cdi:hasHeader true ;
     cdi:headerIsCaseSensitive false ;
+    cdi:headerRowCount 1 ;
     cdi:isDelimited true ;
     cdi:isFixedWidth false ;
+    cdi:lineTerminator "CRLF" ;
+    cdi:quoteCharacter "\"" ;
+    cdi:skipBlankRows false ;
+    cdi:skipDataColumns 0 ;
+    cdi:skipInitialSpace true ;
+    cdi:skipRows 0 ;
+    cdi:tableDirection "Ltr" ;
+    cdi:textDirection "Inherit" ;
     cdi:treatConsecutiveDelimitersAsOne false ;
-    csvw:commentPrefix "#" ;
-    csvw:delimiter "," ;
-    csvw:header true ;
-    csvw:headerRowCount 1 ;
-    csvw:lineTerminators "CRLF" ;
-    csvw:quoteChar "\"" ;
-    csvw:skipBlankRows false ;
-    csvw:skipColumns 0 ;
-    csvw:skipInitialSpace true ;
-    csvw:skipRows 0 ;
-    csvw:tableDirection "Ltr" ;
-    csvw:textDirection "Inherit" ;
-    csvw:trim "true" ;
-    cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
-            cdi:length 12 ;
-            cdi:scale 1 ;
-            cdif:format "#,##0.00" ;
-            cdif:formats_InstanceVariable ex:var-temperature ;
-            cdif:index 2 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdi:isRequired true ;
+    cdi:trim "Both" ;
+    cdif:hasPhysicalMapping [ cdi:isRequired true ;
             cdi:length 16 ;
             cdif:formats_InstanceVariable ex:var-station-id ;
             cdif:index 0 ;
@@ -330,7 +331,14 @@ and three physical-mapping entries.
             cdif:format "YYYY-MM-DD" ;
             cdif:formats_InstanceVariable ex:var-date ;
             cdif:index 1 ;
-            cdif:physicalDataType "Date" ] .
+            cdif:physicalDataType "Date" ],
+        [ cdi:decimalPositions 2 ;
+            cdi:length 12 ;
+            cdi:scale 1 ;
+            cdif:format "#,##0.00" ;
+            cdif:formats_InstanceVariable ex:var-temperature ;
+            cdif:index 2 ;
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```
@@ -355,25 +363,22 @@ properties:
   cdi:arrayBase:
     type: integer
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/arrayBase
-  csvw:commentPrefix:
+  cdi:commentPrefix:
     type: string
-    description: An atomic property that sets the comment prefix flag to the single
-      provided value, which MUST be a string. The default is '#'.
-  csvw:delimiter:
+    description: Character(s) that mark a line as a comment.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/commentPrefix
+  cdi:delimiter:
     type: string
-    description: Sets the delimiter flag to the single provided value, which MUST
-      be a string. The default is ','.
-  csvw:header:
+    description: Field delimiter (e.g., "," or tab).
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/delimiter
+  cdi:hasHeader:
     type: boolean
-    description: If true, sets the header row count flag to 1, and if false to 0,
-      unless headerRowCount is provided, in which case the value provided for the
-      header property is ignored. The default is true.
-  csvw:headerRowCount:
+    default: true
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasHeader
+  cdi:headerRowCount:
     type: integer
-    minimum: 0
     default: 1
-    description: A numeric atomic property that sets the header row count flag to
-      the single provided value, which MUST be a non-negative integer.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/headerRowCount
   cdi:isDelimited:
     type: boolean
     description: Schema constraint is that one of {'isDelimited','isFixedWidth'} must
@@ -383,35 +388,32 @@ properties:
   cdi:isFixedWidth:
     type: boolean
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFixedWidth
-  csvw:lineTerminators:
-    type: string
-    enum:
-    - CRLF
-    - LF
-    - "\r\n"
-    - '
-
-      '
-  csvw:quoteChar:
+  cdi:lineTerminator:
+    type: array
+    items:
+      type: string
+    description: Allowed line terminators, in order (default [CRLF, LF]).
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/lineTerminator
+  cdi:quoteCharacter:
     type: string
     default: '"'
-    description: Same as DDI-CDI quoteCharacter. The string that is used around escaped
-      cells.
-  csvw:skipBlankRows:
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/quoteCharacter
+  cdi:skipBlankRows:
     type: boolean
     default: false
-  csvw:skipColumns:
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipBlankRows
+  cdi:skipDataColumns:
     type: integer
     default: 0
-    description: The number of columns to skip at the beginning of each row.
-  csvw:skipInitialSpace:
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipDataColumns
+  cdi:skipInitialSpace:
     type: boolean
     default: true
-  csvw:skipRows:
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipInitialSpace
+  cdi:skipRows:
     type: integer
-    description: The number of rows to skip at the beginning of the file, before a
-      header row or tabular data.
     default: 0
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipRows
   cdi:escapeCharacter:
     type: string
     description: The character used to escape special characters in the data. From
@@ -428,34 +430,36 @@ properties:
     description: Whether consecutive delimiters should be treated as a single delimiter.
       From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne.
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/treatConsecutiveDelimitersAsOne
-  csvw:tableDirection:
+  cdi:tableDirection:
     type: string
+    default: Auto
     enum:
+    - Auto
     - Ltr
     - Rtl
-    default: Ltr
-    description: Indicates the direction of the table layout (left-to-right or right-to-left).
-      From DDI-CDI PhysicalSegmentLayout.tableDirection.
-  csvw:textDirection:
+    description: Direction in which columns are arranged in each row (DDI-CDI TabularTextDataSet.tableDirection,
+      TableDirectionValues enumeration).
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/tableDirection
+  cdi:textDirection:
     type: string
     enum:
     - Auto
     - Inherit
     - Ltr
     - Rtl
-    default: Auto
-    description: Indicates whether the text within cells should be displayed as left-to-right,
-      right-to-left, according to content, or inherited from the table direction.
-      From DDI-CDI PhysicalSegmentLayout.textDirection.
-  csvw:trim:
+    description: Reading order of text within cells (DDI-CDI TabularTextDataSet.textDirection,
+      TextDirectionValues enumeration).
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/textDirection
+  cdi:trim:
     type: string
     enum:
-    - 'true'
-    - end
-    - 'false'
-    - start
-    description: Indicates whether to trim whitespace around cells. 'true' corresponds
-      to DDI-CDI 'both' value, 'false' corresponds to DDI-CDI 'neither' value.
+    - Both
+    - End
+    - Neither
+    - Start
+    description: Which spaces to remove from a data value (DDI-CDI TabularTextDataSet.trim,
+      TrimValues enumeration).
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/trim
   cdif:hasPhysicalMapping:
     type: array
     description: Links variables to their physical representation in this dataset.

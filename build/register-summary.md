@@ -146,6 +146,12 @@ Bioschemas classes and properties for describing laboratory workflow provenance 
 
 Base physical mapping: metadata to document the physical serialization of a variable in a data structure. Defines properties: cdif:index, cdif:format, cdif:physicalDataType, cdi:numberPattern, cdi:nullSequence, cdi:defaultValue, cdi:scale, cdi:decimalPositions, cdi:minimumLength, cdi:maximumLength, cdi:isRequired, cdif:formats_InstanceVariable. Text-format specifics (cdi:length and number separators) are in cdifTextMapping; structured-document location is in cdifLocatorMapping.
 
+### `cdif.bbr.metadata.cdifDataType.cdifStatistics` — CDIF Statistics
+
+**Type:** schema
+
+Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifDataType).
+
 ### `cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist` — CDIF Codelist
 
 **Type:** schema
@@ -204,7 +210,7 @@ Locates a variable's value(s) within a structured (hierarchical) dataset such as
 
 **Type:** schema
 
-metadata to document physical data structure, mapping DDI/CDI instance variable to implementation  in a particualr serializtion. This extension plugs into the description of a particular file in a distribution, e.g. schema:DataDownload. Defines properties: @type, cdi:arrayBase, csvw:commentPrefix, csvw:delimiter, csvw:header, csvw:headerRowCount, cdi:isDelimited, cdi:isFixedWidth, csvw:lineTerminators, csvw:quoteChar, csvw:skipBlankRows, csvw:skipColumns, csvw:skipInitialSpace, csvw:skipRows, cdi:escapeCharacter, cdi:headerIsCaseSensitive, cdi:treatConsecutiveDelimitersAsOne, csvw:tableDirection, csvw:textDirection, csvw:trim, cdif:hasPhysicalMapping, countRows, countColumns. Uses building blocks: cdifPhysicalMapping (cdifDataType).
+metadata to document physical data structure, mapping DDI/CDI instance variable to implementation  in a particualr serializtion. This extension plugs into the description of a particular file in a distribution, e.g. schema:DataDownload. Defines properties: @type, cdi:arrayBase, cdi:commentPrefix, cdi:delimiter, cdi:hasHeader, cdi:headerRowCount, cdi:isDelimited, cdi:isFixedWidth, cdi:lineTerminator, cdi:quoteCharacter, cdi:skipBlankRows, cdi:skipDataColumns, cdi:skipInitialSpace, cdi:skipRows, cdi:escapeCharacter, cdi:headerIsCaseSensitive, cdi:treatConsecutiveDelimitersAsOne, cdi:tableDirection, cdi:textDirection, cdi:trim, cdif:hasPhysicalMapping, countRows, countColumns. Uses building blocks: cdifPhysicalMapping (cdifDataType).
 
 ### `cdif.bbr.metadata.cdifDataType.cdifTextMapping` — CDIF TextMapping building block
 
@@ -308,11 +314,11 @@ properties for acknowledging funding, CDIF profile of schema.org/MonetaryGrant. 
 
 Conceptual variable with a substantive value domain specified.
 
-### `cdif.bbr.metadata.cdifDataType.cdifStatistics` — CDIF Statistics
+### `cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription` — CDIF Data Description
 
 **Type:** schema
 
-Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifDataType).
+Additional constraints for CDIF data description level. Adds cdif:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM). Used by CDIFDataDescriptionProfile and CDIFcompleteProfile profiles.
 
 ### `cdif.bbr.metadata.xasProperties.xasOptional` — Optional Fields for XAS data
 
@@ -338,12 +344,6 @@ Core properties for CDIF metadata, applicable to any resource type. Required pro
 
 Variable that records values of multiple variables in the context of a data structure.
 
-### `cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription` — CDIF Data Description
-
-**Type:** schema
-
-Additional constraints for CDIF data description level. Adds cdif:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM). Used by CDIFDataDescriptionProfile and CDIFcompleteProfile profiles.
-
 ### `cdif.bbr.metadata.cdifDataType.cdifProvActivity` — CDIF Provenance Activity
 
 **Type:** schema
@@ -368,17 +368,17 @@ XAS-specific instrument building block. Extends the instrument description build
 
 CDIF Discovery profile composing cdifCore with discovery-oriented properties: measurement technique, variables measured, spatial and temporal coverage, quality measurements. Declares conformance to cdif/core/1.0/ and cdif/discovery/1.0/.
 
-### `cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent` — CDIF Data Structure Component
-
-**Type:** schema
-
-Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
-
 ### `cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescription` — CDIF discovery and data description metadata
 
 **Type:** schema
 
 Schema extends data discovery with properties to desribe data structures for tabular and structured (grid, datacube, hierarchialc) datasets
+
+### `cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent` — CDIF Data Structure Component
+
+**Type:** schema
+
+Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
 
 ### `cdif.bbr.metadata.profiles.cdifProfile.cdifProvenance` — CDIF Provenance
 

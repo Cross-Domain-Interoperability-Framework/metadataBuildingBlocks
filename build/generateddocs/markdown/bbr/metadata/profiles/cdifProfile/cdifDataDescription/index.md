@@ -408,14 +408,14 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "cdif:fileSize": 1.2,
       "cdif:fileSizeUofM": "MB",
       "cdi:isDelimited": true,
-      "csvw:delimiter": ",",
-      "csvw:header": true,
-      "csvw:headerRowCount": 1,
-      "csvw:skipRows": 0,
-      "csvw:skipBlankRows": true,
-      "csvw:commentPrefix": "#",
-      "csvw:quoteChar": "\"",
-      "csvw:trim": "true",
+      "cdi:delimiter": ",",
+      "cdi:hasHeader": true,
+      "cdi:headerRowCount": 1,
+      "cdi:skipRows": 0,
+      "cdi:skipBlankRows": true,
+      "cdi:commentPrefix": "#",
+      "cdi:quoteCharacter": "\"",
+      "cdi:trim": "Both",
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -751,14 +751,14 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "cdif:fileSize": 1.2,
       "cdif:fileSizeUofM": "MB",
       "cdi:isDelimited": true,
-      "csvw:delimiter": ",",
-      "csvw:header": true,
-      "csvw:headerRowCount": 1,
-      "csvw:skipRows": 0,
-      "csvw:skipBlankRows": true,
-      "csvw:commentPrefix": "#",
-      "csvw:quoteChar": "\"",
-      "csvw:trim": "true",
+      "cdi:delimiter": ",",
+      "cdi:hasHeader": true,
+      "cdi:headerRowCount": 1,
+      "cdi:skipRows": 0,
+      "cdi:skipBlankRows": true,
+      "cdi:commentPrefix": "#",
+      "cdi:quoteCharacter": "\"",
+      "cdi:trim": "Both",
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -858,7 +858,6 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 @prefix cdif: <https://w3id.org/cdif/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix ns1: <csvw:> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -867,30 +866,22 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
     schema1:distribution [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
-            ns1:commentPrefix "#" ;
-            ns1:delimiter "," ;
-            ns1:header true ;
-            ns1:headerRowCount 1 ;
-            ns1:quoteChar "\"" ;
-            ns1:skipBlankRows true ;
-            ns1:skipRows 0 ;
-            ns1:trim "true" ;
             cdi:characterSet "UTF-8" ;
+            cdi:commentPrefix "#" ;
+            cdi:delimiter "," ;
+            cdi:hasHeader true ;
+            cdi:headerRowCount 1 ;
             cdi:isDelimited true ;
+            cdi:quoteCharacter "\"" ;
+            cdi:skipBlankRows true ;
+            cdi:skipRows 0 ;
+            cdi:trim "Both" ;
             schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "Ocean temperature CSV" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "Integer" ],
-                [ cdi:decimalPositions 1 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "-999.9" ;
                     cdi:scale 1 ;
@@ -898,6 +889,14 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:index 1 ;
                     cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:isRequired false ;
@@ -924,13 +923,13 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             cdif:fileSize 2.4e+02 ;
             cdif:fileSizeUofM "MB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/coordinates/depth" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
                     cdi:locator "/measurements/seaWaterTemperature" ;
                     cdi:nullSequence "NaN" ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/coordinates/depth" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:physicalDataType "float32" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;

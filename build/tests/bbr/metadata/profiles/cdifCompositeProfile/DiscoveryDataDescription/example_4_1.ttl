@@ -1,6 +1,5 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
-@prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
@@ -19,18 +18,18 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
                 cdi:PhysicalDataSet,
                 schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
+            cdi:delimiter "," ;
+            cdi:hasHeader true ;
+            cdi:headerRowCount 1 ;
             cdi:isDelimited true ;
+            cdi:quoteCharacter "\"" ;
+            cdi:skipBlankRows true ;
             schema1:contentUrl "https://example.org/data/gom-water-quality-long-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "Long-form water-quality observations (CSV)" ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "SHA256" ;
                     spdx:checksumValue "8b1a7c3e5d9f0a2b4c6d8e0f1a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b" ] ;
-            csvw:delimiter "," ;
-            csvw:header true ;
-            csvw:headerRowCount 1 ;
-            csvw:quoteChar "\"" ;
-            csvw:skipBlankRows true ;
             cdif:fileSize 712 ;
             cdif:fileSizeUofM "KB" ;
             cdif:hasPhysicalMapping [ cdif:format "string" ;
@@ -48,16 +47,16 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
                     cdif:index 2 ;
                     cdif:physicalDataType "string" ],
                 [ cdi:isRequired true ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-station ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
-                [ cdi:isRequired true ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-value ;
                     cdif:index 3 ;
-                    cdif:physicalDataType "float64" ] ] ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:isRequired true ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-station ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.5281/zenodo.5151516" ;

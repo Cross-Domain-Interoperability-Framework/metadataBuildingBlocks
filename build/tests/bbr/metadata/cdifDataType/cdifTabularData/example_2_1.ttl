@@ -1,6 +1,5 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
-@prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -8,32 +7,25 @@
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
     cdi:arrayBase 1 ;
+    cdi:commentPrefix "#" ;
+    cdi:delimiter "," ;
     cdi:escapeCharacter "\"" ;
+    cdi:hasHeader true ;
     cdi:headerIsCaseSensitive false ;
+    cdi:headerRowCount 1 ;
     cdi:isDelimited true ;
     cdi:isFixedWidth false ;
+    cdi:lineTerminator "CRLF" ;
+    cdi:quoteCharacter "\"" ;
+    cdi:skipBlankRows false ;
+    cdi:skipDataColumns 0 ;
+    cdi:skipInitialSpace true ;
+    cdi:skipRows 0 ;
+    cdi:tableDirection "Ltr" ;
+    cdi:textDirection "Inherit" ;
     cdi:treatConsecutiveDelimitersAsOne false ;
-    csvw:commentPrefix "#" ;
-    csvw:delimiter "," ;
-    csvw:header true ;
-    csvw:headerRowCount 1 ;
-    csvw:lineTerminators "CRLF" ;
-    csvw:quoteChar "\"" ;
-    csvw:skipBlankRows false ;
-    csvw:skipColumns 0 ;
-    csvw:skipInitialSpace true ;
-    csvw:skipRows 0 ;
-    csvw:tableDirection "Ltr" ;
-    csvw:textDirection "Inherit" ;
-    csvw:trim "true" ;
-    cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
-            cdi:length 12 ;
-            cdi:scale 1 ;
-            cdif:format "#,##0.00" ;
-            cdif:formats_InstanceVariable ex:var-temperature ;
-            cdif:index 2 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdi:isRequired true ;
+    cdi:trim "Both" ;
+    cdif:hasPhysicalMapping [ cdi:isRequired true ;
             cdi:length 16 ;
             cdif:formats_InstanceVariable ex:var-station-id ;
             cdif:index 0 ;
@@ -42,5 +34,12 @@
             cdif:format "YYYY-MM-DD" ;
             cdif:formats_InstanceVariable ex:var-date ;
             cdif:index 1 ;
-            cdif:physicalDataType "Date" ] .
+            cdif:physicalDataType "Date" ],
+        [ cdi:decimalPositions 2 ;
+            cdi:length 12 ;
+            cdi:scale 1 ;
+            cdif:format "#,##0.00" ;
+            cdif:formats_InstanceVariable ex:var-temperature ;
+            cdif:index 2 ;
+            cdif:physicalDataType "Numeric" ] .
 

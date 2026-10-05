@@ -1,6 +1,5 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
-@prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
@@ -37,13 +36,13 @@
             schema1:potentialAction [ a schema1:Action ;
                     schema1:name "Query vitals as long-format CSV" ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of observations to return (default 100)." ;
+                            schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format token (csv only for this example)." ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of observations to return (default 100)." ;
-                            schema1:valueName "limit" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination." ;
@@ -53,14 +52,14 @@
                                 cdi:TabularTextDataSet,
                                 schema1:DataDownload ;
                             cdi:characterSet "UTF-8" ;
+                            cdi:delimiter "," ;
+                            cdi:hasHeader true ;
+                            cdi:headerRowCount 1 ;
                             cdi:isDelimited true ;
                             cdi:isStructuredBy <https://example.org/struct/vitalsLong> ;
                             schema1:contentUrl "https://example.org/api/v1/collections/vitals/items?f=csv" ;
                             schema1:encodingFormat "text/csv" ;
                             schema1:name "Vitals API response (long format)" ;
-                            csvw:delimiter "," ;
-                            csvw:header true ;
-                            csvw:headerRowCount 1 ;
                             cdif:fileSize 5e-01 ;
                             cdif:fileSizeUofM "MB" ;
                             cdif:hasPhysicalMapping [ cdif:format "string" ;
@@ -93,19 +92,19 @@
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
+            cdi:delimiter "," ;
+            cdi:hasHeader true ;
+            cdi:headerRowCount 1 ;
             cdi:isDelimited true ;
             cdi:isStructuredBy <https://example.org/struct/vitalsLong> ;
             schema1:contentUrl "https://example.org/downloads/vitals-long.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "vitals-long.csv" ;
-            csvw:delimiter "," ;
-            csvw:header true ;
-            csvw:headerRowCount 1 ;
             cdif:fileSize 2.4e+00 ;
             cdif:fileSizeUofM "MB" ;
             cdif:hasPhysicalMapping [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                    cdif:index 0 ;
+                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
+                    cdif:index 1 ;
                     cdif:physicalDataType "string" ],
                 [ cdif:format "ISO8601" ;
                     cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
@@ -116,8 +115,8 @@
                     cdif:index 2 ;
                     cdif:physicalDataType "decimal" ],
                 [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
-                    cdif:index 1 ;
+                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                    cdif:index 0 ;
                     cdif:physicalDataType "string" ] ] ;
     schema1:funding <https://example.org/grant/nih-R01-XXXX> ;
     schema1:identifier "https://doi.org/10.1234/vitals-long-2025" ;
@@ -184,14 +183,14 @@
 
 <https://example.org/dataset/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ] .
+            cdi:value 1 ] .
 
 <https://example.org/grant/nih-R01-XXXX> a schema1:MonetaryGrant ;
     schema1:funder <https://ror.org/01cwqze88> ;
@@ -218,11 +217,11 @@
 
 <https://example.org/struct/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ] .
@@ -250,10 +249,10 @@
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
     cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
             cdif:value "temp_c" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
-            cdif:value "diastolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
             cdif:value "heart_rate" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
+            cdif:value "diastolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
             cdif:value "systolic_bp" ] .
 
