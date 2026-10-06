@@ -833,11 +833,11 @@ referencing the code-list concept).
     cdi:statistic [ cdi:computationBase "MissingOnly" ;
             cdi:content 1463 ;
             cdi:typeOfNumericValue "decimal" ],
-        [ cdi:computationBase "Total" ;
-            cdi:content 26882 ;
-            cdi:typeOfNumericValue "decimal" ],
         [ cdi:computationBase "ValidOnly" ;
             cdi:content 25419 ;
+            cdi:typeOfNumericValue "decimal" ],
+        [ cdi:computationBase "Total" ;
+            cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
     cdif:typeOfStatistic "count" .
 
@@ -846,15 +846,15 @@ referencing the code-list concept).
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 21497 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdif:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 3739 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdif:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
+            cdi:statistic [ cdi:computationBase "MissingOnly" ;
+                    cdi:content 1463 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
@@ -864,9 +864,9 @@ referencing the code-list concept).
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
-            cdi:statistic [ cdi:computationBase "MissingOnly" ;
-                    cdi:content 1463 ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 21497 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
