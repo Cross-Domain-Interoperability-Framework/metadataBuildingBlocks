@@ -399,13 +399,42 @@ def _fetch_relative_in_cache(file_path: Path) -> Path | None:
 # File loading
 # ---------------------------------------------------------------------------
 
+# path -> (mtime_ns, size, parsed document). Keyed on the stat as well as the path so a source
+# rewritten between stages of a regeneration cannot be served stale.
+_FILE_CACHE: dict[str, tuple[int, int, Any]] = {}
+
+
 def load_schema_file(path: Path) -> dict:
-    """Load a schema file (YAML or JSON) based on extension."""
+    """Load a schema file (YAML or JSON) based on extension, parsing each file once.
+
+    Resolving one technique profile called this 768 times for 65 distinct files -- 11.8x
+    redundant, objectReference/schema.yaml parsed 135 times -- and the parse was 73% of the
+    resolve after the $defs cycle test was fixed.
+
+    Returns a DEEPCOPY, not the cached object. The resolver rewrites refs in place as it inlines,
+    so a shared dict would let one block's resolution mutate what the next one reads: a cache that
+    changes the answer is worse than no cache. Copying an already-parsed document is far cheaper
+    than lexing the YAML again, which is the cost being removed.
+    """
+    key = str(path)
+    try:
+        st = os.stat(path)
+        stamp = (st.st_mtime_ns, st.st_size)
+    except OSError:
+        stamp = None
+    if stamp is not None:
+        hit = _FILE_CACHE.get(key)
+        if hit is not None and (hit[0], hit[1]) == stamp:
+            return copy.deepcopy(hit[2])
     with open(path, "r", encoding="utf-8") as f:
         if path.suffix in (".yaml", ".yml"):
-            return yaml.safe_load(f) or {}
+            doc = yaml.safe_load(f) or {}
         else:
-            return json.load(f)
+            doc = json.load(f)
+    if stamp is not None:
+        _FILE_CACHE[key] = (stamp[0], stamp[1], doc)
+        return copy.deepcopy(doc)
+    return doc
 
 
 # ---------------------------------------------------------------------------
