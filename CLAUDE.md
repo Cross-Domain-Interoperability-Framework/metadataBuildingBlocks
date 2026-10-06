@@ -21,7 +21,7 @@ pip install -r requirements.txt          # jsonschema, PyYAML (+ optional pyshac
 **Regeneration — run both, always, in the same commit as the source edit:**
 
 ```bash
-python tools/resolve_schema.py --all      # -> resolvedSchema.json (68 blocks, ~11 min)
+python tools/resolve_schema.py --all      # -> resolvedSchema.json (68 blocks, ~5 s)
 python tools/regenerate_schema_json.py    # -> *Schema.json (69 blocks, seconds)
 ```
 
@@ -89,7 +89,11 @@ leaves the change in the source and in nothing that validates against it — the
 
 **The drift check is incremental on a PR and exhaustive on `main`, and that split is the design.**
 Since 2026-09-28 a pull request regenerates only the reverse-`$ref` closure of its change set
-(`tools/affected_blocks.py`) — 4 blocks and 4.5 s for a `xasFacility` edit, against ~11 min. It is
+(`tools/affected_blocks.py`) — 4 blocks and 4.5 s for a `xasFacility` edit, against what was then
+~11 min. **That cost rationale has since collapsed and the split survives on a different one:** two
+2026-10-06 fixes (the `$defs` cycle graph, #46, and the parse cache, #47) took `--all` here to ~5 s,
+so incremental PR regeneration now saves nothing worth having. Keep it anyway — it is harmless, and
+the domain repos run the same workflow over corpora where `--all` is still minutes. It is
 sound because a block's output depends only on its own `$ref` closure, which is a property of
 `resolve_schema.py` that was measured rather than assumed, and could stop being true. **The
 unconditional `--all` on push to `main` is what would catch that, so do not make `main`
@@ -150,8 +154,11 @@ their refs are resolved over the network at their build time, not ours.
 
 ## Traps
 
-- **Regeneration is slow.** `resolve_schema.py --all` is ~11 min and `validate_examples.py` ~10 min.
-  Run them in the background; don't chain both in one foreground command.
+- **`validate_examples.py` is the slow one now, at ~10 min; run it in the background.**
+  `resolve_schema.py --all` was ~11 min until 2026-10-06 and is **~5 s** here since #46 and #47, so
+  the old advice to background it no longer applies in this repo. It is still minutes in geochem
+  (242 blocks: ~62 min before those fixes, 5 min 49 s after), and `resolve_schema.py` is synced
+  there — so do not carry the 5 s figure into a domain repo.
 - **An unresolvable `$ref` is fatal and nothing is written.** Use `--allow-unresolved` only to
   inspect damage in a repo whose refs are already broken.
 - **Windows hides case bugs.** A `$ref` whose case doesn't match the file resolves here and 404s on
