@@ -118,10 +118,17 @@ properties:
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml
     x-jsonld-id: https://w3id.org/cdif/hasPhysicalMapping
-  countRows:
-    type: integer
-  countColumns:
-    type: integer
+  schema:additionalProperty:
+    description: Soft-typed extension properties. The row and column counts live here
+      rather than as bare properties, so that each carries a schema:propertyID identifying
+      the concept it quantifies - DDI Discovery caseQuantity for the row count and
+      variableQuantity for the column count. As bare unprefixed `countRows`/`countColumns`
+      they were the only two properties on this class with no namespace and no definition,
+      so nothing said what they meant or tied them to a vocabulary.
+    type: array
+    items:
+      $ref: '#/$defs/AdditionalProperty'
+    x-jsonld-id: http://schema.org/additionalProperty
 oneOf:
 - properties:
     cdi:isDelimited:
@@ -144,6 +151,9 @@ oneOf:
 required:
 - '@type'
 - cdif:hasPhysicalMapping
+$defs:
+  AdditionalProperty:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
 x-jsonld-prefixes:
   cdif: https://w3id.org/cdif/
   schema: http://schema.org/

@@ -38,8 +38,28 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
   "cdi:commentPrefix": "#",
   "cdi:skipBlankRows": false,
   "cdi:skipInitialSpace": true,
-  "countRows": 1500,
-  "countColumns": 5,
+  "schema:additionalProperty": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+      ],
+      "schema:name": "countRows",
+      "schema:value": 1500
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+      ],
+      "schema:name": "countColumns",
+      "schema:value": 5
+    }
+  ],
   "cdif:hasPhysicalMapping": [
     {
       "cdif:index": 0,
@@ -88,8 +108,28 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
   "cdi:commentPrefix": "#",
   "cdi:skipBlankRows": false,
   "cdi:skipInitialSpace": true,
-  "countRows": 1500,
-  "countColumns": 5,
+  "schema:additionalProperty": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+      ],
+      "schema:name": "countRows",
+      "schema:value": 1500
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+      ],
+      "schema:name": "countColumns",
+      "schema:value": 5
+    }
+  ],
   "cdif:hasPhysicalMapping": [
     {
       "cdif:index": 0,
@@ -127,13 +167,21 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
     cdi:isDelimited true ;
     cdi:skipBlankRows false ;
     cdi:skipInitialSpace true ;
-    cdif:hasPhysicalMapping [ cdif:format "float64" ;
+    schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "countRows" ;
+            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
+            schema1:value 1500 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "countColumns" ;
+            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
+            schema1:value 5 ] ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ],
+        [ cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ] .
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```
@@ -143,7 +191,8 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
 Delimited tabular dataset exercising every CSVW dialect property
 (delimiter, quote/escape, header, lineTerminators, skipBlankRows/
 skipColumns/skipRows, table/text direction, trim), plus arrayBase,
-headerIsCaseSensitive, treatConsecutiveDelimitersAsOne, countRows/Cols,
+headerIsCaseSensitive, treatConsecutiveDelimitersAsOne, the row and column
+counts as DDI Discovery-identified schema:additionalProperty entries,
 and three physical-mapping entries.
 #### json
 ```json
@@ -179,8 +228,28 @@ and three physical-mapping entries.
   "cdi:tableDirection": "Ltr",
   "cdi:textDirection": "Inherit",
   "cdi:trim": "Both",
-  "countRows": 1500,
-  "countColumns": 3,
+  "schema:additionalProperty": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+      ],
+      "schema:name": "countRows",
+      "schema:value": 1500
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+      ],
+      "schema:name": "countColumns",
+      "schema:value": 3
+    }
+  ],
   "cdif:hasPhysicalMapping": [
     {
       "cdif:index": 0,
@@ -257,8 +326,28 @@ and three physical-mapping entries.
   "cdi:tableDirection": "Ltr",
   "cdi:textDirection": "Inherit",
   "cdi:trim": "Both",
-  "countRows": 1500,
-  "countColumns": 3,
+  "schema:additionalProperty": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+      ],
+      "schema:name": "countRows",
+      "schema:value": 1500
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+      ],
+      "schema:name": "countColumns",
+      "schema:value": 3
+    }
+  ],
   "cdif:hasPhysicalMapping": [
     {
       "cdif:index": 0,
@@ -322,7 +411,20 @@ and three physical-mapping entries.
     cdi:textDirection "Inherit" ;
     cdi:treatConsecutiveDelimitersAsOne false ;
     cdi:trim "Both" ;
-    cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+    schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "countColumns" ;
+            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
+            schema1:value 3 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "countRows" ;
+            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
+            schema1:value 1500 ] ;
+    cdif:hasPhysicalMapping [ cdi:isRequired true ;
+            cdi:length 16 ;
+            cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ],
+        [ cdi:decimalPositions 2 ;
             cdi:length 12 ;
             cdi:scale 1 ;
             cdif:format "#,##0.00" ;
@@ -333,12 +435,7 @@ and three physical-mapping entries.
             cdif:format "YYYY-MM-DD" ;
             cdif:formats_InstanceVariable ex:var-date ;
             cdif:index 1 ;
-            cdif:physicalDataType "Date" ],
-        [ cdi:isRequired true ;
-            cdi:length 16 ;
-            cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ] .
+            cdif:physicalDataType "Date" ] .
 
 
 ```
@@ -466,10 +563,17 @@ properties:
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml
     x-jsonld-id: https://w3id.org/cdif/hasPhysicalMapping
-  countRows:
-    type: integer
-  countColumns:
-    type: integer
+  schema:additionalProperty:
+    description: Soft-typed extension properties. The row and column counts live here
+      rather than as bare properties, so that each carries a schema:propertyID identifying
+      the concept it quantifies - DDI Discovery caseQuantity for the row count and
+      variableQuantity for the column count. As bare unprefixed `countRows`/`countColumns`
+      they were the only two properties on this class with no namespace and no definition,
+      so nothing said what they meant or tied them to a vocabulary.
+    type: array
+    items:
+      $ref: '#/$defs/AdditionalProperty'
+    x-jsonld-id: http://schema.org/additionalProperty
 oneOf:
 - properties:
     cdi:isDelimited:
@@ -492,6 +596,9 @@ oneOf:
 required:
 - '@type'
 - cdif:hasPhysicalMapping
+$defs:
+  AdditionalProperty:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
 x-jsonld-prefixes:
   cdif: https://w3id.org/cdif/
   schema: http://schema.org/
@@ -516,6 +623,7 @@ Links to the schema:
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "@version": 1.1
   }
 }

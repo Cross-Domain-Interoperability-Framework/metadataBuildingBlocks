@@ -557,8 +557,28 @@ physical mappings.
       "cdi:skipRows": 0,
       "cdi:skipBlankRows": true,
       "cdi:quoteCharacter": "\"",
-      "countRows": 461,
-      "countColumns": 2,
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+          ],
+          "schema:name": "countRows",
+          "schema:value": 461
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+          ],
+          "schema:name": "countColumns",
+          "schema:value": 2
+        }
+      ],
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -1625,8 +1645,28 @@ physical mappings.
       "cdi:skipRows": 0,
       "cdi:skipBlankRows": true,
       "cdi:quoteCharacter": "\"",
-      "countRows": 461,
-      "countColumns": 2,
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+          ],
+          "schema:name": "countRows",
+          "schema:value": 461
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+          ],
+          "schema:name": "countColumns",
+          "schema:value": 2
+        }
+      ],
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -2245,88 +2285,7 @@ ex:YOPx a schema1:Dataset ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
-    schema1:distribution [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
-        [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "kpZDvhyVo",
-                "sMUGwSqxWzJOYEb",
-                "tNdpXaJgDeWbFkNM" ;
-            schema1:name "MVMpmnCGAggEnsoEgJXH" ;
-            schema1:provider ex:kNKPZsCSWMc,
-                ex:sr68lgy ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ],
-        [ a cdi:PhysicalDataSet,
-                cdi:TabularTextDataSet,
-                schema1:DataDownload ;
-            cdi:characterSet "UTF-8" ;
-            cdi:commentPrefix "#" ;
-            cdi:delimiter "," ;
-            cdi:hasHeader true ;
-            cdi:headerRowCount 1 ;
-            cdi:isDelimited true ;
-            cdi:quoteCharacter "\"" ;
-            cdi:skipBlankRows true ;
-            cdi:skipRows 0 ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry analysis results" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ;
-            cdif:fileSize 4.6e+00 ;
-            cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
-                    cdi:defaultValue "0.0" ;
-                    cdi:isRequired false ;
-                    cdi:nullSequence "-9999" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:OjHgIDO ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "float64" ] ],
-        [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Gridded measurement data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/measurements/wavelength" ;
-                    cdi:nullSequence "NaN" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:decimalPositions 6 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/intensity" ;
-                    cdi:scale 1000 ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:OjHgIDO ;
-                    cdif:physicalDataType "float32" ] ],
-        [ a schema1:WebAPI ;
+    schema1:distribution [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
                     schema1:name "OpenAPI specification for geochemistry data service" ;
@@ -2336,10 +2295,6 @@ ex:YOPx a schema1:Dataset ;
                     schema1:object [ a schema1:DataFeed ;
                             schema1:description "Geochemistry observations collection" ] ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of features to return (default 100)" ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
@@ -2347,6 +2302,10 @@ ex:YOPx a schema1:Dataset ;
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination" ;
                             schema1:valueName "offset" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of features to return (default 100)" ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a cdi:PhysicalDataSet,
                                 cdi:TabularTextDataSet,
@@ -2386,7 +2345,96 @@ ex:YOPx a schema1:Dataset ;
                     schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required" ] ;
+            schema1:termsOfService "Open access, no authentication required" ],
+        [ a cdi:PhysicalDataSet,
+                cdi:TabularTextDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            cdi:commentPrefix "#" ;
+            cdi:delimiter "," ;
+            cdi:hasHeader true ;
+            cdi:headerRowCount 1 ;
+            cdi:isDelimited true ;
+            cdi:quoteCharacter "\"" ;
+            cdi:skipBlankRows true ;
+            cdi:skipRows 0 ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "countRows" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
+                    schema1:value 461 ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "countColumns" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
+                    schema1:value 2 ] ;
+            schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry analysis results" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ;
+            cdif:fileSize 4.6e+00 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
+                    cdi:defaultValue "0.0" ;
+                    cdi:isRequired false ;
+                    cdi:nullSequence "-9999" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:OjHgIDO ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "float64" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Gridded measurement data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 6 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/measurements/intensity" ;
+                    cdi:scale 1000 ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:OjHgIDO ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/measurements/wavelength" ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdif:physicalDataType "float32" ] ],
+        [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "kpZDvhyVo",
+                "sMUGwSqxWzJOYEb",
+                "tNdpXaJgDeWbFkNM" ;
+            schema1:name "MVMpmnCGAggEnsoEgJXH" ;
+            schema1:provider ex:kNKPZsCSWMc,
+                ex:sr68lgy ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "j" ;
+                    spdx:checksumValue "h" ] ],
+        [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -2394,17 +2442,17 @@ ex:YOPx a schema1:Dataset ;
                     schema1:value "LZpo" ] ;
             schema1:name "ekckpBtI" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ] ;
+            schema1:name "fhhbzh" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
@@ -2440,16 +2488,16 @@ ex:YOPx a schema1:Dataset ;
     schema1:publisher ex:exampleOrg_fW ;
     schema1:publishingPrinciples "rxZsrPAbJrIGGgDVJ" ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "gompgHAN" ;
-                    schema1:name "oAuxEutsTEiB" ;
-                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "BOoRREnpDEUrdNaV" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:encodingFormat "FNoslhw" ;
                     schema1:name "atsDYJxuhHpivqLmw" ;
+                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "gompgHAN" ;
+                    schema1:name "oAuxEutsTEiB" ;
                     schema1:url "http://example.com/resource?foo=bar#fragment" ] ] ;
     schema1:sameAs [ a schema1:PropertyValue ;
             schema1:propertyID <urn:idorg:test> ;
@@ -2486,19 +2534,19 @@ ex:YOPx a schema1:Dataset ;
         ex:OjHgIDO ;
     schema1:version "OVVAYgJhmFkXyVyedlVo" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf <https://example.org/quality/temperatureAccuracy> ;
-            dqv:value [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://example.org/quality/levels/high" ;
-                    schema1:name "high accuracy" ;
-                    schema1:termCode "HIGH" ] ],
+            dqv:isMeasurementOf "completeness" ;
+            dqv:value "0.987" ],
         [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf [ a schema1:DefinedTerm ;
                     schema1:identifier "https://example.org/quality/qartod-pass-rate" ;
                     schema1:name "QARTOD primary level pass rate" ] ;
             dqv:value "0.96" ],
         [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf "completeness" ;
-            dqv:value "0.987" ] .
+            dqv:isMeasurementOf <https://example.org/quality/temperatureAccuracy> ;
+            dqv:value [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://example.org/quality/levels/high" ;
+                    schema1:name "high accuracy" ;
+                    schema1:termCode "HIGH" ] ] .
 
 ex:corzCgjNrGcH a schema1:Organization ;
     schema1:additionalType "schema:NGO" ;
@@ -3308,16 +3356,6 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
             cdif:fileSize 1.846e+02 ;
             cdif:fileSizeUofM "MB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/lat" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-lat ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
-                    cdi:locator "/depth" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-depth ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
                     cdi:locator "/lon" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-lon ;
@@ -3327,6 +3365,16 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
                     cdi:nullSequence "NaN" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/lat" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-lat ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/depth" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-depth ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
                     cdi:locator "/time" ;
@@ -3535,8 +3583,28 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
       "cdi:headerRowCount": 1,
       "cdi:quoteCharacter": "\"",
       "cdi:skipBlankRows": true,
-      "countRows": 144,
-      "countColumns": 6,
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+          ],
+          "schema:name": "countRows",
+          "schema:value": 144
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+          ],
+          "schema:name": "countColumns",
+          "schema:value": 6
+        }
+      ],
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -3910,8 +3978,28 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
       "cdi:headerRowCount": 1,
       "cdi:quoteCharacter": "\"",
       "cdi:skipBlankRows": true,
-      "countRows": 144,
-      "countColumns": 6,
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+          ],
+          "schema:name": "countRows",
+          "schema:value": 144
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+          ],
+          "schema:name": "countColumns",
+          "schema:value": 6
+        }
+      ],
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -4215,6 +4303,14 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
             cdi:isDelimited true ;
             cdi:quoteCharacter "\"" ;
             cdi:skipBlankRows true ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "countRows" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
+                    schema1:value 144 ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "countColumns" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
+                    schema1:value 6 ] ;
             schema1:contentUrl "https://example.org/data/gom-water-quality-wide-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "Wide-form water-quality observations (CSV)" ;
@@ -4223,28 +4319,22 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
                     spdx:checksumValue "2c8e4f1a6d7b9c0e3f5a1b2c4d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e" ] ;
             cdif:fileSize 312 ;
             cdif:fileSizeUofM "KB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdif:format "YYYY-MM-DD" ;
-                    cdif:formats_InstanceVariable ex:var-sample-date ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "date" ],
-                [ cdi:decimalPositions 2 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-temperature ;
-                    cdif:index 3 ;
+                    cdif:formats_InstanceVariable ex:var-oxygen ;
+                    cdif:index 5 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:isRequired true ;
                     cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-station ;
                     cdif:index 0 ;
                     cdif:physicalDataType "string" ],
-                [ cdi:decimalPositions 3 ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-salinity ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "float64" ],
+                [ cdi:isRequired true ;
+                    cdif:format "YYYY-MM-DD" ;
+                    cdif:formats_InstanceVariable ex:var-sample-date ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "date" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
@@ -4254,8 +4344,14 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
                 [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-oxygen ;
-                    cdif:index 5 ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 3 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-salinity ;
+                    cdif:index 4 ;
                     cdif:physicalDataType "float64" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
@@ -4296,11 +4392,11 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
 
 <https://example.org/gom-water-quality-wide-2025/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes ex:var-station ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes ex:var-sample-date ;
-            cdi:value 2 ] .
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes ex:var-station ;
+            cdi:value 1 ] .
 
 ex:var-oxygen a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -4486,8 +4582,28 @@ to them is a Data Structure profile concern, not a data description one.
       "cdi:headerRowCount": 1,
       "cdi:quoteCharacter": "\"",
       "cdi:skipBlankRows": true,
-      "countRows": 576,
-      "countColumns": 5,
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+          ],
+          "schema:name": "countRows",
+          "schema:value": 576
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+          ],
+          "schema:name": "countColumns",
+          "schema:value": 5
+        }
+      ],
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -4870,8 +4986,28 @@ to them is a Data Structure profile concern, not a data description one.
       "cdi:headerRowCount": 1,
       "cdi:quoteCharacter": "\"",
       "cdi:skipBlankRows": true,
-      "countRows": 576,
-      "countColumns": 5,
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+          ],
+          "schema:name": "countRows",
+          "schema:value": 576
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+          ],
+          "schema:name": "countColumns",
+          "schema:value": 5
+        }
+      ],
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -5180,6 +5316,14 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
             cdi:isDelimited true ;
             cdi:quoteCharacter "\"" ;
             cdi:skipBlankRows true ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "countRows" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
+                    schema1:value 576 ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "countColumns" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
+                    schema1:value 5 ] ;
             schema1:contentUrl "https://example.org/data/gom-water-quality-long-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "Long-form water-quality observations (CSV)" ;
@@ -5198,21 +5342,21 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-sample-date ;
                     cdif:index 1 ;
                     cdif:physicalDataType "date" ],
-                [ cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-value ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "float64" ],
+                [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-unit ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "string" ],
                 [ cdi:isRequired true ;
                     cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-station ;
                     cdif:index 0 ;
                     cdif:physicalDataType "string" ],
-                [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-unit ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "string" ] ] ;
+                [ cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-value ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "float64" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.5281/zenodo.5151516" ;
