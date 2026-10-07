@@ -45,7 +45,18 @@ TARGETS = [
 
 
 def file_hash(path: Path) -> str:
-    return hashlib.md5(path.read_bytes()).hexdigest()
+    """Hash the file's CONTENT, normalizing CRLF, so a line-ending difference is not drift.
+
+    Hashed raw bytes until 2026-10-07. On Windows `core.autocrlf=true` overrides the repos' own
+    `* text=auto eol=lf`, so a target's working copy holds CRLF while this one holds LF and an
+    IDENTICAL file hashes differently: the run printed DIFF and `--apply` rewrote a correct file,
+    whole-file, every time git happened to touch it. Measured that day on ddeBuildingBlocks --
+    reported DIFF, 0 differing content lines, and the rewrite had to be reverted by hand.
+
+    The cost of the old behaviour was not just noise: a DIFF that is always present is a DIFF
+    nobody reads, which is how a real divergence would have gone unnoticed.
+    """
+    return hashlib.md5(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def get_version(path: Path) -> str:
