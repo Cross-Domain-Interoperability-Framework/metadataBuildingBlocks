@@ -110,16 +110,50 @@ jobs:
             --output validation/ShaclValidation/CDIF-Manifest-Shapes.ttl \
             -v
 
+      - name: Check every generated artifact exists and is non-empty
+        working-directory: validation
+        run: |
+          # A generator that writes nothing leaves the previous file in place, so the run has
+          # "no changes" and reports success. One that writes an empty file commits the emptiness.
+          # Neither is distinguishable from a correct run downstream, so assert here.
+          fail=0
+          for f in CDIFDiscoverySchema.json CDIFDataDescriptionSchema.json CDIFCompleteSchema.json ShaclValidation/CDIF-Discovery-Shapes.ttl ShaclValidation/CDIF-Complete-Shapes.ttl ShaclValidation/CDIF-DataDescription-Shapes.ttl ShaclValidation/CDIF-DataStructure-Shapes.ttl ShaclValidation/CDIF-Provenance-Shapes.ttl ShaclValidation/CDIF-Manifest-Shapes.ttl; do
+            if [ ! -s "$f" ]; then
+              echo "::error file=$f::missing or empty after generation"
+              fail=1
+            fi
+          done
+          exit $fail
+
       - name: Commit and push to validation repo
         working-directory: validation
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.VALIDATION_REPO_PAT }}@github.com/Cross-Domain-Interoperability-Framework/validation.git
+
+          # Prove the credential on EVERY run, including runs with nothing to push.
+          # Until 2026-10-07 the push lived inside the `if there are changes` branch, so a run with
+          # no changes never touched VALIDATION_REPO_PAT and still concluded success. An expired
+          # token would therefore have stayed invisible until the next run that happened to carry a
+          # change -- and the artifacts it ships are the normative schemas and SHACL shapes the
+          # release repos consume, so the gap is silent on both sides. A no-op push still
+          # authenticates against the remote, which is exactly what makes it a usable probe.
+          if ! git push --dry-run origin HEAD:main; then
+            echo "::error::cannot push to validation -- VALIDATION_REPO_PAT is missing, expired, or lacks contents:write"
+            exit 1
+          fi
+
           git add CDIFDiscoverySchema.json CDIFDataDescriptionSchema.json CDIFCompleteSchema.json ShaclValidation/CDIF-Discovery-Shapes.ttl ShaclValidation/CDIF-Complete-Shapes.ttl ShaclValidation/CDIF-DataDescription-Shapes.ttl ShaclValidation/CDIF-DataStructure-Shapes.ttl ShaclValidation/CDIF-Provenance-Shapes.ttl ShaclValidation/CDIF-Manifest-Shapes.ttl
+
           if git diff --cached --quiet; then
-            echo "No changes to commit"
+            echo "NO CHANGES -- remote authenticated and writable, nothing to update"
+            echo "Outcome: **no changes**; remote verified writable." >> "$GITHUB_STEP_SUMMARY"
           else
+            changed=$(git diff --cached --name-only | wc -l)
             git commit -m "Update validation schemas and SHACL shapes from building blocks [automated]"
             git push
+            echo "PUSHED $changed file(s)"
+            echo "Outcome: **pushed $changed file(s)** to validation." >> "$GITHUB_STEP_SUMMARY"
+            git show --name-only --format='' HEAD | sed 's|^|  - |' >> "$GITHUB_STEP_SUMMARY" || true
           fi
