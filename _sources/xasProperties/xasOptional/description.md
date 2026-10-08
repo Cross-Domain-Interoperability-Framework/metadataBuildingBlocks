@@ -14,14 +14,15 @@ XDI data array. Enforced by this schema when present (as `schema:variableMeasure
 `normtrans`, `normfluor`, `normrefer`, `chi`, `chi_re`, `chi_im`, `chi_mag`, `chi_pha`,
 `k`, `r`, `angle`.
 
-### 2. Beamline-operational parameters (`schema:additionalProperty` on the `xas:Beamline` entity)
+### 2. Beamline-operational parameters (`schema:additionalProperty` on the beamline entity)
 
 Optional `schema:PropertyValue` entries carried on the beamline entity nested inside
-`prov:wasGeneratedBy → prov:used[schema:instrument … xas:Beamline]`. Permitted `schema:propertyID`
+`prov:wasGeneratedBy → prov:used[schema:instrument … nxs:base_classes/NXinstrument.html]`
+(the retired `xas:beamline` is still accepted). Permitted `schema:propertyID`
 values (open-world — other propertyIDs are also allowed):
 
-`xas:flux`, `xas:spot_size`, `xas:website`, `xas:energy_range`, `xas:energy_resolution`,
-`xas:scan_mode`.
+`xas:flux`, `xas:spotsize`, `xas:website`, `xas:energyrange`, `xas:energyresolution`,
+`xas:scanmode`.
 
 ### 3. Sample physico-chemical parameters (`schema:additionalProperty` on the `schema:object` sample)
 
@@ -30,8 +31,8 @@ Optional `schema:PropertyValue` entries carried on the material sample
 (open-world):
 
 the NeXus `NXsample/temperature` field, `xas:pressure`, `xas:ph`, `xas:eh`, `xas:concentration`, `xas:density`,
-`xas:viscosity`, `xas:porosity`, `xas:opacity`, `xas:resistivity`, `xas:magnetic_field`,
-`xas:magnetic_moment`, `xas:electric_field`, `xas:electrochemical_potential`, `xas:volume`.
+`xas:viscosity`, `xas:porosity`, `xas:opacity`, `xas:resistivity`, `xas:magneticfield`,
+`xas:magneticmoment`, `xas:electricfield`, `xas:electrochemicalpotential`, `xas:volume`.
 
 > Groups 2 and 3 are documented here rather than constrained in the schema: CDIF is open-world,
 > so these optional `additionalProperty` entries are already permitted, and a hard schema
