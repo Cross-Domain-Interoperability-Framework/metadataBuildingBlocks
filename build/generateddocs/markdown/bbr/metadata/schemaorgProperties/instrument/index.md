@@ -1063,13 +1063,13 @@ ex:component-gas-chromatograph a schema1:Product,
             schema1:unitText "mL/min" ;
             schema1:value 1.5e+00 ],
         [ a schema1:PropertyValue ;
-            schema1:name "Column" ;
-            schema1:propertyID "columnType" ;
-            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Carrier gas" ;
             schema1:propertyID "carrierGas" ;
-            schema1:value "Helium" ] ;
+            schema1:value "Helium" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Column" ;
+            schema1:propertyID "columnType" ;
+            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ] ;
     schema1:additionalType wd:Q848143 ;
     schema1:description "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -1128,21 +1128,21 @@ ex:component-pyrolysis-oven a schema1:Product,
 ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Full scan m/z range" ;
-            schema1:propertyID "scanRange" ;
-            schema1:value "50-500" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Ionization mode" ;
-            schema1:propertyID "ionizationMode" ;
-            schema1:value "Electron Ionization (EI), positive polarity" ],
+            schema1:name "MRM target compounds" ;
+            schema1:propertyID "mrmCapability" ;
+            schema1:value 38 ],
         [ a schema1:PropertyValue ;
             schema1:name "Measured variables" ;
             schema1:propertyID "MeasuredVariable" ;
             schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
         [ a schema1:PropertyValue ;
-            schema1:name "MRM target compounds" ;
-            schema1:propertyID "mrmCapability" ;
-            schema1:value 38 ],
+            schema1:name "Ionization mode" ;
+            schema1:propertyID "ionizationMode" ;
+            schema1:value "Electron Ionization (EI), positive polarity" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Full scan m/z range" ;
+            schema1:propertyID "scanRange" ;
+            schema1:value "50-500" ],
         [ a schema1:PropertyValue ;
             schema1:name "Full scan detection limit" ;
             schema1:propertyID "detectionLimit" ;
@@ -1153,17 +1153,17 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
     schema1:alternateName "GSFC Astrobiology Lab Pyrolysis GC-MS System",
         "Py-GC-MS/MS" ;
     schema1:category [ a schema1:DefinedTerm ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "Py-GC-MS" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://vocab.nerc.ac.uk/collection/L05/current/> ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/" ;
                     schema1:value "LAB02" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "GCMS" ] ;
+            schema1:termCode "GCMS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
+            schema1:termCode "Py-GC-MS" ] ;
     schema1:contributor [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0002-4805-7062> ;
             schema1:roleName [ a schema1:DefinedTerm ;
@@ -1178,12 +1178,12 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         ex:component-mass-spectrometer,
         ex:component-pyrolysis-oven ;
     schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "inventoryNumber" ;
+            schema1:value "GSFC-AAL-PYGCMS-001" ],
+        [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001" ;
-            schema1:value "10.xxxx/instrument.pygcms.gsfc.001" ],
-        [ a schema1:PropertyValue ;
-            schema1:propertyID "inventoryNumber" ;
-            schema1:value "GSFC-AAL-PYGCMS-001" ] ;
+            schema1:value "10.xxxx/instrument.pygcms.gsfc.001" ] ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:contactPoint [ a schema1:ContactPoint ;
                     schema1:email "info@thermofisher.com" ;

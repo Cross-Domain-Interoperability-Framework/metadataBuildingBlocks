@@ -263,6 +263,8 @@ properties:
     x-jsonld-id: http://schema.org/alternateName
   schema:description:
     type: string
+    description: additional information about the agent or their relation to the described
+      resource
     x-jsonld-id: http://schema.org/description
   schema:identifier:
     description: identifier for organization
