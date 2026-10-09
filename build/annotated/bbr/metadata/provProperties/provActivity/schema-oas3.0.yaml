@@ -114,8 +114,10 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
       schema:contactPoint:
         type: object
-        description: restrict to email only. Schema.org allows telephone and postal
-          contacts as well
+        description: An email address or a contact web page (a form, an issue tracker),
+          or both; at least one is required. Schema.org also allows telephone and
+          postal contacts. A URL-only contact is ordinary in DCAT (a vcard:Kind with
+          only vcard:hasURL), so requiring email made such records invalid.
         properties:
           '@type':
             default:
@@ -130,9 +132,17 @@ x-defs:
           schema:email:
             type: string
             x-jsonld-id: http://schema.org/email
+          schema:url:
+            type: string
+            format: uri
+            x-jsonld-id: http://schema.org/url
         required:
         - '@type'
-        - schema:email
+        anyOf:
+        - required:
+          - schema:email
+        - required:
+          - schema:url
         x-jsonld-id: http://schema.org/contactPoint
       schema:sameAs:
         type: array
