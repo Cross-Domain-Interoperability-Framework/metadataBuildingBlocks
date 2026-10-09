@@ -92,12 +92,7 @@ properties:
   'cdif:source':
     anyOf:
     - type: string
-    - type: object
-      required: ['@id']
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
+    - $ref: ../objectReference/schema.yaml
     description: >-
       Reference capturing provenance information for this InstanceVariable
       (InstanceVariable.source).
@@ -112,12 +107,7 @@ properties:
       go under `Dataset.cdif:statistics` instead.
     anyOf:
     - $ref: '../../cdifDataType/cdifStatistics/schema.yaml#/$defs/StatisticsCollection'
-    - type: object
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-      required: ['@id']
+    - $ref: ../objectReference/schema.yaml
   'cdif:describedUnitOfMeasure':
     $ref: '#/$defs/cdifConceptOrTerm'
     description: >-
@@ -125,13 +115,8 @@ properties:
       entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use
       cdif:simpleUnitOfMeasure instead.
   'cdif:qualifies':
-    type: object
-    required: ['@id']
-    additionalProperties: false
-    properties:
-       '@id':
-        type: string
-    description: reference to an instance variable defined for this dataset
+    description: "reference to an instance variable defined for this dataset"
+    $ref: ../objectReference/schema.yaml
 allOf:
 - required:
   - '@type'

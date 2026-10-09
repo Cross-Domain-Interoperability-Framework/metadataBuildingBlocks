@@ -314,17 +314,8 @@
             ]
           },
           {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "URI reference to a concept defined elsewhere"
-              }
-            },
-            "required": [
-              "@id"
-            ]
+            "$ref": "#/$defs/ConceptRef",
+            "description": "URI reference to a concept defined elsewhere"
           }
         ]
       }
@@ -406,16 +397,7 @@
           "type": "string"
         },
         {
-          "type": "object",
-          "required": [
-            "@id"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "@id": {
-              "type": "string"
-            }
-          }
+          "$ref": "#/$defs/ConceptRef"
         }
       ]
     },
@@ -436,6 +418,21 @@
     "skos:prefLabel"
   ],
   "$defs": {
+    "ConceptRef": {
+      "title": "Object Reference",
+      "description": "A reference to a node defined elsewhere, by its @id.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "resolvable @id of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ],
+      "additionalProperties": false
+    },
     "LanguageTaggedValue": {
       "type": "object",
       "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
@@ -679,30 +676,12 @@
           "description": "Concept scheme(s) this concept belongs to.",
           "anyOf": [
             {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
+              "$ref": "#/$defs/ConceptRef"
             },
             {
               "type": "array",
               "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               }
             }
           ]
@@ -711,30 +690,12 @@
           "description": "Concept scheme(s) for which this is a top concept.",
           "anyOf": [
             {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
+              "$ref": "#/$defs/ConceptRef"
             },
             {
               "type": "array",
               "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               }
             }
           ]
@@ -745,18 +706,7 @@
           "items": {
             "anyOf": [
               {
-                "type": "object",
-                "additionalProperties": false,
-                "description": "A reference to a SKOS Concept by URI.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               },
               {
                 "$ref": "#/$defs/SkosConcept_Concept"
@@ -770,18 +720,7 @@
           "items": {
             "anyOf": [
               {
-                "type": "object",
-                "additionalProperties": false,
-                "description": "A reference to a SKOS Concept by URI.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               },
               {
                 "$ref": "#/$defs/SkosConcept_Concept"

@@ -8,6 +8,21 @@
     }
   ],
   "$defs": {
+    "ConceptRef": {
+      "title": "Object Reference",
+      "description": "A reference to a node defined elsewhere, by its @id.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "resolvable @id of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ],
+      "additionalProperties": false
+    },
     "Concept": {
       "type": "object",
       "properties": {
@@ -234,30 +249,12 @@
           "description": "Concept scheme(s) this concept belongs to.",
           "anyOf": [
             {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
+              "$ref": "#/$defs/ConceptRef"
             },
             {
               "type": "array",
               "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               }
             }
           ]
@@ -266,30 +263,12 @@
           "description": "Concept scheme(s) for which this is a top concept.",
           "anyOf": [
             {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
+              "$ref": "#/$defs/ConceptRef"
             },
             {
               "type": "array",
               "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               }
             }
           ]
@@ -300,18 +279,7 @@
           "items": {
             "anyOf": [
               {
-                "type": "object",
-                "additionalProperties": false,
-                "description": "A reference to a SKOS Concept by URI.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               },
               {
                 "$ref": "#/$defs/Concept"
@@ -325,18 +293,7 @@
           "items": {
             "anyOf": [
               {
-                "type": "object",
-                "additionalProperties": false,
-                "description": "A reference to a SKOS Concept by URI.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               },
               {
                 "$ref": "#/$defs/Concept"
