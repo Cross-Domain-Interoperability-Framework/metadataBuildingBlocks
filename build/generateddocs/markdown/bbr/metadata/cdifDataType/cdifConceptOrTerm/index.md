@@ -182,14 +182,8 @@ description: A SKOS concept identified by URI, a schema:DefinedTerm, or an inlin
   cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary
   reference or an inline concept definition.
 anyOf:
-- type: object
-  required:
-  - '@id'
-  additionalProperties: false
-  properties:
-    '@id':
-      type: string
-      description: reference to a skos concept for the data type
+- description: reference to a skos concept for the data type
+  $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/Concept
 
