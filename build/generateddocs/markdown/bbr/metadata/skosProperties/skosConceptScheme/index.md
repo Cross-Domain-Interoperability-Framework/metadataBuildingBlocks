@@ -1429,14 +1429,8 @@ properties:
     items:
       anyOf:
       - $ref: '#/$defs/Concept'
-      - type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: URI reference to a concept defined elsewhere
-        required:
-        - '@id'
+      - description: URI reference to a concept defined elsewhere
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: http://www.w3.org/2004/02/skos/core#hasTopConcept
   dcterms:creator:
     description: Agent(s) who created this concept scheme.
@@ -1486,13 +1480,7 @@ properties:
     description: License for the concept scheme.
     anyOf:
     - type: string
-    - type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: http://purl.org/dc/terms/license
   dcterms:rights:
     description: Rights statement for the concept scheme.

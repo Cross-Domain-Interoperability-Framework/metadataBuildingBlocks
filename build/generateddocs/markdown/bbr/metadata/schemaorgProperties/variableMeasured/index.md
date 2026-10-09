@@ -350,14 +350,8 @@ properties:
   schema:measurementTechnique:
     anyOf:
     - type: string
-    - type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-          description: reference to a skos concept
+    - description: reference to a skos concept
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     - $ref: '#/$defs/DefinedTerm'
     description: Text description or URI specifying how values for the variable were
       obtained.
@@ -367,13 +361,7 @@ properties:
     items:
       anyOf:
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       - $ref: '#/$defs/DefinedTerm'
     description: identifier or name for the property concept
     x-jsonld-id: http://schema.org/propertyID
@@ -384,13 +372,7 @@ properties:
   schema:unitCode:
     anyOf:
     - type: string
-    - type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     - $ref: '#/$defs/DefinedTerm'
     description: URI or code identifying the unit of measure
     x-jsonld-id: http://schema.org/unitCode

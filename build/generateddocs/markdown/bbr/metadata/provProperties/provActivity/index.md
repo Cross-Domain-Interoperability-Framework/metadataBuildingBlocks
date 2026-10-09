@@ -271,13 +271,13 @@ ex:activity-soil-chem-analysis a prov:Activity ;
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices." ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
-                    schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
                     schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ] ] ;
+                    schema1:position 2 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
+                    schema1:name "Sample preparation and acid digestion" ;
+                    schema1:position 1 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:description "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials." ;
     schema1:name "Soil Chemistry Analysis - Great Basin Transect 2025" ;
@@ -349,14 +349,8 @@ allOf:
       items:
         anyOf:
         - type: string
-        - type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: reference to an entity produced by this activity
+        - description: reference to an entity produced by this activity
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       x-jsonld-id: http://www.w3.org/ns/prov#generated
     prov:wasAssociatedWith:
       description: Agents responsible for this activity (PROV-O native -- maps to
@@ -368,14 +362,8 @@ allOf:
         - $ref: '#/$defs/Organization'
         - $ref: '#/$defs/AgentInRole'
         - type: string
-        - type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: reference to an agent defined elsewhere
+        - description: reference to an agent defined elsewhere
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       x-jsonld-id: http://www.w3.org/ns/prov#wasAssociatedWith
     prov:wasInformedBy:
       description: Other activities that communicated information to this one (PROV-O
@@ -383,14 +371,8 @@ allOf:
       type: array
       items:
         anyOf:
-        - type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: reference to a prior activity
+        - description: reference to a prior activity
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         - type: string
       x-jsonld-id: http://www.w3.org/ns/prov#wasInformedBy
     prov:startedAtTime:
@@ -409,42 +391,24 @@ allOf:
       anyOf:
       - $ref: '#/$defs/SpatialExtent'
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to a place defined elsewhere
+      - description: reference to a place defined elsewhere
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       x-jsonld-id: http://www.w3.org/ns/prov#atLocation
     prov:wasStartedBy:
       description: Entity that triggered the start of this activity (PROV-O expanded
         term)
       anyOf:
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to a triggering entity
+      - description: reference to a triggering entity
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       x-jsonld-id: http://www.w3.org/ns/prov#wasStartedBy
     prov:wasEndedBy:
       description: Entity that triggered the end of this activity (PROV-O expanded
         term)
       anyOf:
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to an entity that ended this activity
+      - description: reference to an entity that ended this activity
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       x-jsonld-id: http://www.w3.org/ns/prov#wasEndedBy
     schema:actionStatus:
       type: string
@@ -461,14 +425,8 @@ allOf:
       anyOf:
       - $ref: '#/$defs/HowTo'
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to a methodology defined elsewhere
+      - description: reference to a methodology defined elsewhere
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       x-jsonld-id: http://schema.org/actionProcess
     schema:error:
       type: string

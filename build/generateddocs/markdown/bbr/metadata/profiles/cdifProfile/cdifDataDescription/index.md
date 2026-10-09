@@ -881,12 +881,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             schema1:name "Ocean temperature CSV" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:isRequired false ;
+            cdif:hasPhysicalMapping [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
                     cdif:index 3 ;
                     cdif:physicalDataType "Integer" ],
@@ -894,14 +889,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
                     cdif:index 4 ;
                     cdif:physicalDataType "String" ],
-                [ cdi:decimalPositions 1 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "-999.9" ;
-                    cdi:scale 1 ;
-                    cdif:format "0.0" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:isRequired false ;
@@ -912,6 +904,14 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:format "0.00" ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdif:index 2 ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:decimalPositions 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "-999.9" ;
+                    cdi:scale 1 ;
+                    cdif:format "0.0" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
                     cdif:physicalDataType "Numeric" ] ],
         [ a cdi:PhysicalDataSet,
                 cdi:StructuredDataSet,
@@ -1064,15 +1064,9 @@ properties:
   cdif:hasPrimaryKey:
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml
-    - type: object
-      additionalProperties: false
-      description: object reference via URI or URI fragment to a cdif:Key defined
+    - description: object reference via URI or URI fragment to a cdif:Key defined
         elsewhere in the same document
-      properties:
-        '@id':
-          type: string
-      required:
-      - '@id'
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     description: 'Primary key of the dataset: a cdif:Key whose cdif:isComposedOf is
       an ordered list of cdi:InstanceVariables (from schema:variableMeasured) that
       uniquely identify each data instance.'
@@ -1094,27 +1088,14 @@ properties:
     items:
       anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/schema.yaml
-      - type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-        required:
-        - '@id'
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
   schema:subjectOf:
     properties:
       dcterms:conformsTo:
         type: array
         items:
-          type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: uri for specifications that this metadata record conforms
-                to
+          description: uri for specifications that this metadata record conforms to
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
   schema:variableMeasured:
     type: array
@@ -1144,25 +1125,13 @@ properties:
             items:
               anyOf:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain
-              - type: object
-                additionalProperties: false
-                properties:
-                  '@id':
-                    type: string
-                required:
-                - '@id'
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
             description: Sentinel (missing / not-applicable) value domain(s) for this
               variable (RepresentedVariable.takesSentinelValuesFrom).
           cdi:takesSubstantiveValuesFrom:
             anyOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain
-            - type: object
-              additionalProperties: false
-              properties:
-                '@id':
-                  type: string
-              required:
-              - '@id'
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
             description: The substantive value domain for this variable - the set
               of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom).
   schema:distribution:

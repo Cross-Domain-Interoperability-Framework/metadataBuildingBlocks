@@ -519,14 +519,8 @@ allOf:
       - $ref: '#/$defs/Person'
       - $ref: '#/$defs/Organization'
       - $ref: '#/$defs/AgentInRole'
-      - type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to an agent defined elsewhere
-        required:
-        - '@id'
+      - description: reference to an agent defined elsewhere
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       x-jsonld-id: http://schema.org/agent
     schema:participant:
       description: Other participants in this activity
@@ -536,14 +530,8 @@ allOf:
         - $ref: '#/$defs/Person'
         - $ref: '#/$defs/Organization'
         - $ref: '#/$defs/AgentInRole'
-        - type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: reference to a participant defined elsewhere
-          required:
-          - '@id'
+        - description: reference to a participant defined elsewhere
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       x-jsonld-id: http://schema.org/participant
     schema:object:
       description: Input entity (or entities) for this activity. Per schema.org, the
@@ -554,14 +542,8 @@ allOf:
         the result of a prior activity.
       anyOf:
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to an input entity
+      - description: reference to an input entity
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       - type: object
         description: Inline schema:Thing object describing the input entity.
         properties:
@@ -589,14 +571,8 @@ allOf:
         produced by this activity). Profiles may restrict the array item shape further.'
       anyOf:
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to an output entity
+      - description: reference to an output entity
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       - type: object
         description: Inline schema:Thing object describing the output entity.
         properties:
@@ -637,28 +613,16 @@ allOf:
       anyOf:
       - $ref: '#/$defs/SpatialExtent'
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to a place defined elsewhere
+      - description: reference to a place defined elsewhere
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       x-jsonld-id: http://schema.org/location
     schema:actionProcess:
       description: Methodology or protocol for this activity
       anyOf:
       - $ref: '#/$defs/HowTo'
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to a methodology defined elsewhere
+      - description: reference to a methodology defined elsewhere
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       x-jsonld-id: http://schema.org/actionProcess
     schema:error:
       type: string

@@ -376,28 +376,28 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
 
 <https://example.org/stats/temperature-mean> a cdi:Statistics ;
     cdi:hasWeight ex:var-sample-weight ;
-    cdi:statistic [ cdi:computationBase "ValidOnly" ;
-            cdi:content 1.243e+01 ;
-            cdi:isWeighted true ;
-            cdi:typeOfNumericValue "double" ],
-        [ cdi:computationBase "Total" ;
+    cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 1.21e+01 ;
             cdi:isWeighted false ;
+            cdi:typeOfNumericValue "double" ],
+        [ cdi:computationBase "ValidOnly" ;
+            cdi:content 1.243e+01 ;
+            cdi:isWeighted true ;
             cdi:typeOfNumericValue "double" ] ;
     cdif:appliesTo ex:var-temperature ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/deep> ;
+            cdi:for <https://example.org/category/surface> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.007e+01 ;
+                    cdi:content 1.581e+01 ;
                     cdi:isWeighted true ] ;
             cdif:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
                     schema1:name "Mean" ;
                     schema1:termCode "mean" ] ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/surface> ;
+            cdi:for <https://example.org/category/deep> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.581e+01 ;
+                    cdi:content 1.007e+01 ;
                     cdi:isWeighted true ] ;
             cdif:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
@@ -653,13 +653,7 @@ $defs:
           the Statistic entries (inline cdifInstanceVariable node or an @id-reference).
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
-        - type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight
       cdif:appliesTo:
         type: array
@@ -675,13 +669,7 @@ $defs:
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: https://w3id.org/cdif/appliesTo
       cdif:has_CategoryStatistics:
@@ -716,13 +704,7 @@ $defs:
           node or an @id-reference).
         anyOf:
         - $ref: '#/$defs/Category'
-        - type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for
       cdif:typeOfStatistic:
         description: Controlled-vocabulary entry naming the kind of statistic.
@@ -740,13 +722,7 @@ $defs:
           cdifInstanceVariable node or an @id-reference).
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
-        - type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight
     required:
     - '@type'
@@ -774,13 +750,7 @@ $defs:
           cdifInstanceVariable node or an @id-reference).
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
-        - type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight
       cdif:has_Statistics:
         type: array
@@ -790,13 +760,7 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/Statistics'
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: https://w3id.org/cdif/has_Statistics
       cdif:indexedBy:
@@ -810,13 +774,7 @@ $defs:
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: https://w3id.org/cdif/indexedBy
     required:
@@ -876,13 +834,7 @@ $defs:
       node. Plain strings are NOT permitted because vocabulary identity cannot be
       recovered from an unscoped string label."
     anyOf:
-    - type: object
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-      required:
-      - '@id'
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
 x-jsonld-prefixes:

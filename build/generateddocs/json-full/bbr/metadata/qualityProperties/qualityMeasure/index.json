@@ -36,6 +36,7 @@
     ]
   },
   "dependsOn": [
+    "cdif.bbr.metadata.cdifDataType.objectReference",
     "cdif.bbr.metadata.schemaorgProperties.definedTerm"
   ],
   "license": {
@@ -111,7 +112,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: definitions for simple quality measure property\ntype: object\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: dqv:QualityMeasurement\n    minItems: 1\n  dqv:isMeasurementOf:\n    description: specify the quality measure that is reported, by name, with an ID\n      ref, or as a Defined Term\n    anyOf:\n    - type: string\n    - type: object\n      required:\n      - '@id'\n      additionalProperties: false\n      properties:\n        '@id':\n          type: string\n          description: a resolvable reference to a representation of a quality measure\n    - $ref: '#/$defs/DefinedTerm'\n  dqv:value:\n    description: the reported result of the quality measure, as a string, a number,\n      or a defined term from a vocabulary\n    anyOf:\n    - type: string\n    - type: number\n    - $ref: '#/$defs/DefinedTerm'\nrequired:\n- dqv:isMeasurementOf\n- dqv:value\n$defs:\n  DefinedTerm:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: definitions for simple quality measure property\ntype: object\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: dqv:QualityMeasurement\n    minItems: 1\n  dqv:isMeasurementOf:\n    description: specify the quality measure that is reported, by name, with an ID\n      ref, or as a Defined Term\n    anyOf:\n    - type: string\n    - description: a resolvable reference to a representation of a quality measure\n      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml\n    - $ref: '#/$defs/DefinedTerm'\n  dqv:value:\n    description: the reported result of the quality measure, as a string, a number,\n      or a defined term from a vocabulary\n    anyOf:\n    - type: string\n    - type: number\n    - $ref: '#/$defs/DefinedTerm'\nrequired:\n- dqv:isMeasurementOf\n- dqv:value\n$defs:\n  DefinedTerm:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/qualityProperties/qualityMeasure"
 }

@@ -107,14 +107,8 @@ properties:
     items:
       anyOf:
       - $ref: '#/$defs/cdifConcept'
-      - type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: URI reference to a concept defined elsewhere
-        required:
-        - '@id'
+      - description: URI reference to a concept defined elsewhere
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
   schema:version:
     description: Version identifier for the concept scheme.
     type:
@@ -149,13 +143,7 @@ properties:
       dcterms:conformsTo:
         type: array
         items:
-          type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         contains:
           type: object
           required:
@@ -169,13 +157,7 @@ properties:
         type: string
         description: Identifier for the catalog record.
       schema:about:
-        type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-        required:
-        - '@id'
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     required:
     - '@type'
     - schema:additionalType
@@ -247,22 +229,10 @@ $defs:
       skos:inScheme:
         description: Concept scheme(s) this concept belongs to.
         anyOf:
-        - type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         - type: array
           items:
-            type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       skos:broader:
         description: Broader (parent) concepts in the hierarchy. Items are inline
           concept objects or @id references.
@@ -283,16 +253,9 @@ $defs:
     - '@type'
     - skos:prefLabel
   ConceptRef:
-    type: object
-    additionalProperties: false
     description: Reference (by URI) to a skos:Concept defined elsewhere. Used inside
       skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.
-    properties:
-      '@id':
-        type: string
-        description: URI of the referenced concept.
-    required:
-    - '@id'
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
   LanguageTaggedValue:
     type: object
     description: An RDF literal value with a language tag, serialized as a JSON-LD

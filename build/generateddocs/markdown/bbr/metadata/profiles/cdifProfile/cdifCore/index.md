@@ -1205,6 +1205,11 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:datePublished "2024-01-10" ;
     schema1:description "Quality-controlled temperature profiles from Argo floats deployed worldwide. Profiles extend from the surface to 2000m depth with 2dbar vertical resolution." ;
     schema1:distribution [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
+            schema1:contentUrl "https://example.org/data/ocean-temp-profiles.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "CSV download" ],
+        [ a schema1:DataDownload ;
             dcterms:conformsTo <https://www.unidata.ucar.edu/software/netcdf/> ;
             schema1:contentUrl "https://example.org/data/ocean-temp-profiles.nc" ;
             schema1:description "Complete dataset in CF-compliant NetCDF4 format" ;
@@ -1213,12 +1218,7 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
             schema1:provider <https://ror.org/04t3en479> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "checksumAlgorithm_sha256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
-            schema1:contentUrl "https://example.org/data/ocean-temp-profiles.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "CSV download" ] ;
+                    spdx:checksumValue "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder [ a schema1:Organization ;
                     schema1:identifier ex:ercRor ;
@@ -1442,14 +1442,8 @@ properties:
     items:
       anyOf:
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: IRI for an equivalent resource or alternate identifier
+      - description: IRI for an equivalent resource or alternate identifier
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       - $ref: '#/$defs/Identifier'
     x-jsonld-id: http://schema.org/sameAs
   schema:version:
@@ -1484,14 +1478,8 @@ properties:
     items:
       anyOf:
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: a reference to a resource defining conditions of Access
+      - description: a reference to a resource defining conditions of Access
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       - $ref: '#/$defs/Reference'
     x-jsonld-id: http://schema.org/conditionsOfAccess
   schema:license:
@@ -1506,14 +1494,8 @@ properties:
     items:
       anyOf:
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: a reference to a license defintion
+      - description: a reference to a license defintion
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       - $ref: '#/$defs/Reference'
     x-jsonld-id: http://schema.org/license
   schema:url:
@@ -1554,14 +1536,8 @@ properties:
     items:
       anyOf:
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: a reference to a publishing principles statement
+      - description: a reference to a publishing principles statement
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       - $ref: '#/$defs/Reference'
     x-jsonld-id: http://schema.org/publishingPrinciples
   schema:keywords:
@@ -1585,15 +1561,9 @@ properties:
         type: array
         items:
           anyOf:
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: a identifier for an agent defined in this metadata, or
-                  externally; must be dereferenceable
-            required:
-            - '@id'
+          - description: a identifier for an agent defined in this metadata, or externally;
+              must be dereferenceable
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
           - $ref: '#/$defs/Person'
           - $ref: '#/$defs/Organization'
     x-jsonld-id: http://schema.org/creator
@@ -1602,15 +1572,9 @@ properties:
     type: array
     items:
       anyOf:
-      - type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: a identifier for an agent defined in this metadata, or externally;
-              must be dereferenceable
-        required:
-        - '@id'
+      - description: a identifier for an agent defined in this metadata, or externally;
+          must be dereferenceable
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       - $ref: '#/$defs/Person'
       - $ref: '#/$defs/Organization'
       - $ref: '#/$defs/Contributor'
@@ -1618,15 +1582,9 @@ properties:
   schema:publisher:
     description: Party who made the dataset publicly available
     anyOf:
-    - type: object
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-          description: a identifier for an agent defined in this metadata, or externally;
-            must be dereferenceable
-      required:
-      - '@id'
+    - description: a identifier for an agent defined in this metadata, or externally;
+        must be dereferenceable
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     - $ref: '#/$defs/Person'
     - $ref: '#/$defs/Organization'
     x-jsonld-id: http://schema.org/publisher
@@ -1637,15 +1595,9 @@ properties:
     type: array
     items:
       anyOf:
-      - type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: a identifier for an agent defined in this metadata, or externally;
-              must be dereferenceable
-        required:
-        - '@id'
+      - description: a identifier for an agent defined in this metadata, or externally;
+          must be dereferenceable
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
       - $ref: '#/$defs/Person'
       - $ref: '#/$defs/Organization'
     x-jsonld-id: http://schema.org/provider

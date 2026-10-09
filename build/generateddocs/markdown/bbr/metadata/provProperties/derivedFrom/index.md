@@ -84,15 +84,9 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: very simple links or names of data sources used to generate the described resource.
 anyOf:
 - type: string
-- type: object
-  required:
-  - '@id'
-  additionalProperties: false
-  properties:
-    '@id':
-      type: string
-      description: a resolvable reference to a representation of the software or instrument
-        used
+- description: a resolvable reference to a representation of the software or instrument
+    used
+  $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/

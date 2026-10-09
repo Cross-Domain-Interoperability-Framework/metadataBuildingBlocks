@@ -1,5 +1,22 @@
 {
   "x-defs": {
+    "cdif.bbr.metadata.cdifDataType.objectReference": {
+      "title": "Object Reference",
+      "description": "A reference to a node defined elsewhere, by its @id.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "resolvable @id of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ],
+      "additionalProperties": false,
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
     "cdif.bbr.metadata.schemaorgProperties.linkRole": {
       "description": "A typed link, implemented as a schema.org LinkRole: schema:linkRelationship names how the target relates to the subject, and schema:target carries the EntryPoint actually being linked to.\nThis is the right shape when the relationship itself is the point -- \"this is the canonical version of\", \"this is the download endpoint for\". Where the value is simply a work at a URL, such as a license or a terms-of-service document, use schemaorgProperties/labeledLink instead: a licence is a work, not a role, and wrapping it in a Role forces every consumer through an indirection to reach the thing itself.\nDefined here as a block rather than inline in a profile (where it lived until 2026-09-23) so that more than one consumer can reuse it. While it was inline in cdifCore, schemaorgProperties/instrument could not reach it and defined schema:relatedLink as a labeled link instead -- the same property carrying two different shapes depending on which node held it.",
       "type": "object",
@@ -156,7 +173,7 @@
           "description": "The related resource -- the DCAT canonical pointer to what is being related to, which is distinct from schema:url, the presentation URL of the link itself.\nAn @id reference is the RECOMMENDED form and a string is permitted, which is DCMI's own position: \"Recommended practice is to identify the related resource by means of a URI. If this is not possible or feasible, a string conforming to a formal identification system may be provided.\" DCMI declares no rdfs:range for this property, and of the 13 DCMI properties carrying an \"intended to be used with non-literal values\" restriction, this is deliberately not one. dcat.ttl does not re-declare or constrain it at all -- the only triple mentioning it in the whole DCAT vocabulary is `dcat:distribution rdfs:subPropertyOf dcterms:relation`.\nSo objectReference-only would be stricter than both DCAT and DCMI and would reject a form the specification sanctions. The anyOf matches how schema:additionalType is handled here: both forms valid, the object form used in examples and required only where a `contains` pins a specific value.\nIt was string-only until 2026-10-01, which rejected the @id form outright. Reported from outside by a PSDI validator taking a things-not-strings approach (profile-core#16): their DCAT catalogue mirrors the DCAT-3 spec examples and wrote {\"@id\": ...}, which failed both layers -- while CDIF's own documented URI serialization policy (agents.md) says URI values SHOULD be {\"@id\": ...}. The register required the one form its own policy argues against.",
           "anyOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
             },
             {
               "type": "string",
@@ -253,16 +270,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "@id"
-              ],
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              }
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
             }
           ],
           "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings.",
@@ -314,7 +322,7 @@
           "description": "reference to a skos concept for the data type",
           "allOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
             }
           ]
         },
@@ -475,17 +483,12 @@
           "type": "array",
           "minItems": 1,
           "items": {
-            "type": "object",
-            "required": [
-              "@id"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "uri for specification that this distribution conforms to"
+            "description": "uri for specification that this distribution conforms to",
+            "allOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
               }
-            }
+            ]
           }
         },
         "schema:provider": {
@@ -494,16 +497,11 @@
           "items": {
             "anyOf": [
               {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable",
+                "allOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
                   }
-                },
-                "required": [
-                  "@id"
                 ]
               },
               {
@@ -758,16 +756,7 @@
                 "type": "string"
               },
               {
-                "type": "object",
-                "required": [
-                  "@id"
-                ],
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
               }
             ]
           },
@@ -881,16 +870,7 @@
                 "type": "string"
               },
               {
-                "type": "object",
-                "required": [
-                  "@id"
-                ],
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
               }
             ]
           },
@@ -959,16 +939,11 @@
         "schema:contributor": {
           "anyOf": [
             {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "IRI reference to a Person or Organization defined elsewhere"
+              "description": "IRI reference to a Person or Organization defined elsewhere",
+              "allOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
                 }
-              },
-              "required": [
-                "@id"
               ]
             },
             {
@@ -1042,16 +1017,11 @@
         "schema:funder": {
           "anyOf": [
             {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+              "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable",
+              "allOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
                 }
-              },
-              "required": [
-                "@id"
               ]
             },
             {
@@ -1126,17 +1096,12 @@
                 "type": "string"
               },
               {
-                "type": "object",
-                "required": [
-                  "@id"
-                ],
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "a resolvable reference to a representation of the software or instrument used"
+                "description": "a resolvable reference to a representation of the software or instrument used",
+                "allOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
                   }
-                }
+                ]
               },
               {
                 "type": "object",
@@ -1199,17 +1164,12 @@
           "type": "string"
         },
         {
-          "type": "object",
-          "required": [
-            "@id"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "a resolvable reference to a representation of the software or instrument used"
+          "description": "a resolvable reference to a representation of the software or instrument used",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
             }
-          }
+          ]
         },
         {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink_1"
@@ -1266,33 +1226,23 @@
           "description": "identifier for the metadata record"
         },
         "schema:about": {
-          "type": "object",
-          "required": [
-            "@id"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "this must be the @id value of the node containing the resource description metadata"
+          "description": "this must be the @id value of the node containing the resource description metadata",
+          "x-jsonld-id": "http://schema.org/about",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
             }
-          },
-          "x-jsonld-id": "http://schema.org/about"
+          ]
         },
         "dcterms:conformsTo": {
           "type": "array",
           "items": {
-            "type": "object",
-            "required": [
-              "@id"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "uri for specifications that this metadata record conforms to"
+            "description": "uri for specifications that this metadata record conforms to",
+            "allOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
               }
-            }
+            ]
           },
           "minItems": 1,
           "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile.",
@@ -1414,7 +1364,7 @@
           "description": "reference to a skos concept for the data type",
           "allOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
             }
           ]
         },
@@ -1428,7 +1378,7 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
-    "cdif.bbr.metadata.cdifDataType.objectReference": {
+    "cdif.bbr.metadata.cdifDataType.objectReference_1": {
       "title": "Object Reference",
       "description": "A reference to a node defined elsewhere, by its @id.",
       "type": "object",
@@ -1484,16 +1434,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "required": [
-                "@id"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              }
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
             }
           ],
           "x-jsonld-id": "http://schema.org/inDefinedTermSet"
@@ -1785,30 +1726,12 @@
               "description": "Concept scheme(s) this concept belongs to.",
               "anyOf": [
                 {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "@id"
-                  ]
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
                 },
                 {
                   "type": "array",
                   "items": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "@id": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "@id"
-                    ]
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
                   }
                 }
               ],
@@ -1818,30 +1741,12 @@
               "description": "Concept scheme(s) for which this is a top concept.",
               "anyOf": [
                 {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "@id"
-                  ]
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
                 },
                 {
                   "type": "array",
                   "items": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "@id": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "@id"
-                    ]
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
                   }
                 }
               ],
@@ -1886,17 +1791,11 @@
           ]
         },
         "ConceptRef": {
-          "type": "object",
-          "additionalProperties": false,
           "description": "A reference to a SKOS Concept by URI.",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "URI of the referenced concept."
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
             }
-          },
-          "required": [
-            "@id"
           ]
         },
         "LanguageTaggedValue": {
@@ -2034,16 +1933,7 @@
                 "type": "string"
               },
               {
-                "type": "object",
-                "required": [
-                  "@id"
-                ],
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
               }
             ]
           },
@@ -2157,16 +2047,7 @@
                 "type": "string"
               },
               {
-                "type": "object",
-                "required": [
-                  "@id"
-                ],
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
               }
             ]
           },
@@ -2265,7 +2146,7 @@
           "description": "The related resource -- the DCAT canonical pointer to what is being related to, which is distinct from schema:url, the presentation URL of the link itself.\nAn @id reference is the RECOMMENDED form and a string is permitted, which is DCMI's own position: \"Recommended practice is to identify the related resource by means of a URI. If this is not possible or feasible, a string conforming to a formal identification system may be provided.\" DCMI declares no rdfs:range for this property, and of the 13 DCMI properties carrying an \"intended to be used with non-literal values\" restriction, this is deliberately not one. dcat.ttl does not re-declare or constrain it at all -- the only triple mentioning it in the whole DCAT vocabulary is `dcat:distribution rdfs:subPropertyOf dcterms:relation`.\nSo objectReference-only would be stricter than both DCAT and DCMI and would reject a form the specification sanctions. The anyOf matches how schema:additionalType is handled here: both forms valid, the object form used in examples and required only where a `contains` pins a specific value.\nIt was string-only until 2026-10-01, which rejected the @id form outright. Reported from outside by a PSDI validator taking a things-not-strings approach (profile-core#16): their DCAT catalogue mirrors the DCAT-3 spec examples and wrote {\"@id\": ...}, which failed both layers -- while CDIF's own documented URI serialization policy (agents.md) says URI values SHOULD be {\"@id\": ...}. The register required the one form its own policy argues against.",
           "anyOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
             },
             {
               "type": "string",
@@ -2554,16 +2435,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "@id"
-              ],
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              }
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
             }
           ],
           "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings.",
@@ -2648,16 +2520,7 @@
           "type": "array",
           "description": "identifier(s) for a standard or specification the response conforms to.",
           "items": {
-            "type": "object",
-            "required": [
-              "@id"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string"
-              }
-            }
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference_1"
           },
           "x-jsonld-id": "http://purl.org/dc/terms/conformsTo"
         }
@@ -2787,17 +2650,12 @@
             "type": "string"
           },
           {
-            "type": "object",
-            "required": [
-              "@id"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "IRI for an equivalent resource or alternate identifier"
+            "description": "IRI for an equivalent resource or alternate identifier",
+            "allOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
               }
-            }
+            ]
           },
           {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/$defs/Identifier"
@@ -2843,17 +2701,12 @@
             "type": "string"
           },
           {
-            "type": "object",
-            "required": [
-              "@id"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "a reference to a resource defining conditions of Access"
+            "description": "a reference to a resource defining conditions of Access",
+            "allOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
               }
-            }
+            ]
           },
           {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/$defs/Reference"
@@ -2872,17 +2725,12 @@
             "type": "string"
           },
           {
-            "type": "object",
-            "required": [
-              "@id"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "a reference to a license defintion"
+            "description": "a reference to a license defintion",
+            "allOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
               }
-            }
+            ]
           },
           {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/$defs/Reference"
@@ -2930,17 +2778,12 @@
             "type": "string"
           },
           {
-            "type": "object",
-            "required": [
-              "@id"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "a reference to a publishing principles statement"
+            "description": "a reference to a publishing principles statement",
+            "allOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
               }
-            }
+            ]
           },
           {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/$defs/Reference"
@@ -2966,16 +2809,11 @@
           "items": {
             "anyOf": [
               {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable",
+                "allOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
                   }
-                },
-                "required": [
-                  "@id"
                 ]
               },
               {
@@ -2996,16 +2834,11 @@
       "items": {
         "anyOf": [
           {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+            "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable",
+            "allOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
               }
-            },
-            "required": [
-              "@id"
             ]
           },
           {
@@ -3025,16 +2858,11 @@
       "description": "Party who made the dataset publicly available",
       "anyOf": [
         {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+          "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
             }
-          },
-          "required": [
-            "@id"
           ]
         },
         {
@@ -3052,16 +2880,11 @@
       "items": {
         "anyOf": [
           {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+            "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable",
+            "allOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference"
               }
-            },
-            "required": [
-              "@id"
             ]
           },
           {

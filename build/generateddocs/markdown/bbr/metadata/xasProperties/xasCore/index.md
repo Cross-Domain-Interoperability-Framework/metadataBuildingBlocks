@@ -919,29 +919,6 @@ ex:xas-dataset-001 a schema1:Dataset,
             prov:used [ schema1:instrument [ a schema1:Product,
                                 schema1:Thing,
                                 prov:Entity ;
-                            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
-                                wd:Q3099911 ;
-                            schema1:category [ a schema1:DefinedTerm ;
-                                    schema1:name "X-ray absorption spectroscopy beamline" ;
-                                    schema1:termCode "XAS-beamline" ] ;
-                            schema1:name "APS Sector 20-BM beamline instrument" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "x-ray source" ;
-                                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
-                                    schema1:value "Synchrotron X-ray Source" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "Probe" ;
-                                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-probe-field> ;
-                                    schema1:value "x-ray" ] ;
-                            schema1:additionalType xas:source,
-                                wd:Q3099911 ;
-                            schema1:name "APS bending magnet source" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
                                     schema1:name "d-spacing" ;
                                     schema1:propertyID xas:dspacing ;
@@ -957,7 +934,30 @@ ex:xas-dataset-001 a schema1:Dataset,
                                     schema1:value "Si(111)" ] ;
                             schema1:additionalType xas:xraymonochromator,
                                 wd:Q3099911 ;
-                            schema1:name "Si 111" ] ] ] .
+                            schema1:name "Si 111" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
+                                wd:Q3099911 ;
+                            schema1:category [ a schema1:DefinedTerm ;
+                                    schema1:name "X-ray absorption spectroscopy beamline" ;
+                                    schema1:termCode "XAS-beamline" ] ;
+                            schema1:name "APS Sector 20-BM beamline instrument" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalProperty [ a schema1:PropertyValue ;
+                                    schema1:name "Probe" ;
+                                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-probe-field> ;
+                                    schema1:value "x-ray" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "x-ray source" ;
+                                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
+                                    schema1:value "Synchrotron X-ray Source" ] ;
+                            schema1:additionalType xas:source,
+                                wd:Q3099911 ;
+                            schema1:name "APS bending magnet source" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -1006,15 +1006,8 @@ properties:
       dcterms:conformsTo:
         type: array
         items:
-          type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: uri for specifications that this metadata record conforms
-                to
+          description: uri for specifications that this metadata record conforms to
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         contains:
           type: object

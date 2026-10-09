@@ -307,12 +307,12 @@ mapping.
 <https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;
     cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
+            cdif:value "temp_c" ],
         [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
             cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
-            cdif:value "temp_c" ] .
+        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
+            cdif:value "systolic_bp" ] .
 
 
 ```
@@ -392,15 +392,9 @@ $defs:
             cdif:isDefinedBy:
               anyOf:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
-              - type: object
-                additionalProperties: false
-                description: object reference via URI or URI fragment to a RepresentedVariable
+              - description: object reference via URI or URI fragment to a RepresentedVariable
                   defined elsewhere in the document
-                properties:
-                  '@id':
-                    type: string
-                required:
-                - '@id'
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
               x-jsonld-id: https://w3id.org/cdif/isDefinedBy
           required:
           - cdif:value

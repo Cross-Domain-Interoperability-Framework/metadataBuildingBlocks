@@ -245,26 +245,14 @@ properties:
   schema:measurementTechnique:
     anyOf:
     - type: string
-    - type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-          description: reference to a skos concept
+    - description: reference to a skos concept
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     - $ref: '#/$defs/DefinedTerm'
     description: Text description or URI identifying the measurement method.
   schema:statType:
     anyOf:
     - type: string
-    - type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     - $ref: '#/$defs/DefinedTerm'
   schema:measuredProperty:
     type: object
@@ -282,13 +270,7 @@ properties:
       schema:name:
         anyOf:
         - type: string
-        - type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         - $ref: '#/$defs/DefinedTerm'
 required:
 - '@type'

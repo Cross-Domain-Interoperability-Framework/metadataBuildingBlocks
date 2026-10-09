@@ -68,13 +68,7 @@ properties:
     description: identifier(s) for a standard or specification the response conforms
       to.
     items:
-      type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: http://purl.org/dc/terms/conformsTo
 x-jsonld-prefixes:
   schema: http://schema.org/

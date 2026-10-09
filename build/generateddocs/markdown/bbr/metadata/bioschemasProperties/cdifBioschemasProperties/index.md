@@ -271,14 +271,8 @@ properties:
       schema:actionProcess for compatibility.
     anyOf:
     - $ref: '#/$defs/LabProtocol'
-    - type: object
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-          description: reference to a LabProtocol defined elsewhere
-      required:
-      - '@id'
+    - description: reference to a LabProtocol defined elsewhere
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: https://bioschemas.org/executesLabProtocol
   bios:parameterValue:
     description: Actual parameter values used during a lab process execution. Each
@@ -295,14 +289,8 @@ properties:
     items:
       anyOf:
       - $ref: '#/$defs/LabEquipment'
-      - type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to equipment defined elsewhere
-        required:
-        - '@id'
+      - description: reference to equipment defined elsewhere
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: https://bioschemas.org/labEquipment
   bios:computationalTool:
     description: Software or computational tool used as part of a lab protocol to
@@ -311,14 +299,8 @@ properties:
     items:
       anyOf:
       - $ref: '#/$defs/ComputationalTool'
-      - type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to a software tool defined elsewhere
-        required:
-        - '@id'
+      - description: reference to a software tool defined elsewhere
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: https://bioschemas.org/computationalTool
   bios:reagent:
     description: Materials or chemical substances used in protocol execution.
@@ -366,13 +348,7 @@ $defs:
         description: The executed protocol
         anyOf:
         - $ref: '#/$defs/LabProtocol'
-        - type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://bioschemas.org/executesLabProtocol
       bios:parameterValue:
         type: array
@@ -416,13 +392,7 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/LabEquipment'
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://bioschemas.org/labEquipment
       bios:computationalTool:
         description: Software tools used in this protocol
@@ -430,13 +400,7 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/ComputationalTool'
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://bioschemas.org/computationalTool
       bios:reagent:
         description: Reagents or materials used
@@ -466,13 +430,7 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/FormalParameter'
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://schema.org/object
       schema:result:
         description: Expected output parameters (FormalParameter references)
@@ -480,13 +438,7 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/FormalParameter'
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://schema.org/result
     required:
     - '@type'
@@ -526,13 +478,7 @@ $defs:
             schema:propertyID:
               anyOf:
               - type: string
-              - type: object
-                additionalProperties: false
-                required:
-                - '@id'
-                properties:
-                  '@id':
-                    type: string
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
               x-jsonld-id: http://schema.org/propertyID
             schema:value:
               type: string
@@ -639,13 +585,7 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/FormalParameter'
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://schema.org/object
       schema:result:
         description: Output FormalParameters
@@ -653,26 +593,14 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/FormalParameter'
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://schema.org/result
       schema:hasPart:
         description: Sub-workflows, sub-protocols, or component tools
         type: array
         items:
           anyOf:
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
           - type: object
         x-jsonld-id: http://schema.org/hasPart
     required:
@@ -776,13 +704,7 @@ $defs:
         description: Link to the FormalParameter definition this value realizes
         anyOf:
         - type: string
-        - type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://schema.org/propertyID
     required:
     - '@type'

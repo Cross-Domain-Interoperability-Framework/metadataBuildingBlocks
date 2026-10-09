@@ -76,13 +76,7 @@ properties:
         schema:propertyID:
           anyOf:
           - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
           x-jsonld-id: http://schema.org/propertyID
         schema:value:
           type: string
@@ -107,13 +101,7 @@ properties:
     items:
       anyOf:
       - type: string
-      - type: object
-        required:
-        - '@id'
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: http://schema.org/license
   schema:conditionsOfAccess:
     description: Text statement of access conditions for the codelist.
@@ -182,13 +170,7 @@ properties:
       dcterms:conformsTo:
         type: array
         items:
-          type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         contains:
           type: object
           required:
@@ -203,13 +185,7 @@ properties:
         type: string
         description: Identifier for the catalog record.
       schema:about:
-        type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-        required:
-        - '@id'
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://schema.org/about
     required:
     - '@type'
@@ -244,13 +220,7 @@ $defs:
           codelist concepts.
         type: array
         items:
-          type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
       skos:prefLabel:
         description: 'Preferred lexical label for this concept. A single string,
@@ -292,13 +262,7 @@ $defs:
         type: array
         items:
           anyOf:
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
           - allOf:
             - $ref: '#/$defs/CdifCodelistConcept'
             - required:
@@ -310,13 +274,7 @@ $defs:
           to be explicit for hierarchy traversal.
         type: array
         items:
-          type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#broader
     required:
     - '@id'

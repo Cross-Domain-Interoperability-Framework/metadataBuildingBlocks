@@ -202,13 +202,7 @@ x-defs:
           above explicitly anticipates both.'
         anyOf:
         - type: string
-        - type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         x-jsonld-id: http://schema.org/inDefinedTermSet
       schema:termCode:
         type: string
@@ -456,13 +450,7 @@ x-defs:
       schema:propertyID:
         anyOf:
         - type: string
-        - type: object
-          additionalProperties: false
-          required:
-          - '@id'
-          properties:
-            '@id':
-              type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         description: In this context for the schema:PropertyValue, this field is an
           identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
           for interoperability. URI-shape values MUST be serialized as JSON-LD IRI
@@ -531,13 +519,7 @@ x-defs:
         description: identifier(s) for a standard or specification the response conforms
           to.
         items:
-          type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         x-jsonld-id: http://purl.org/dc/terms/conformsTo
     x-jsonld-prefixes:
       schema: http://schema.org/
@@ -690,42 +672,18 @@ x-defs:
           skos:inScheme:
             description: Concept scheme(s) this concept belongs to.
             anyOf:
-            - type: object
-              additionalProperties: false
-              properties:
-                '@id':
-                  type: string
-              required:
-              - '@id'
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             - type: array
               items:
-                type: object
-                additionalProperties: false
-                properties:
-                  '@id':
-                    type: string
-                required:
-                - '@id'
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
           skos:topConceptOf:
             description: Concept scheme(s) for which this is a top concept.
             anyOf:
-            - type: object
-              additionalProperties: false
-              properties:
-                '@id':
-                  type: string
-              required:
-              - '@id'
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             - type: array
               items:
-                type: object
-                additionalProperties: false
-                properties:
-                  '@id':
-                    type: string
-                required:
-                - '@id'
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#topConceptOf
           skos:broader:
             description: Broader (parent) concepts in the hierarchy. Items are inline
@@ -751,15 +709,9 @@ x-defs:
         - skos:definition
         - skos:inScheme
       ConceptRef:
-        type: object
-        additionalProperties: false
         description: A reference to a SKOS Concept by URI.
-        properties:
-          '@id':
-            type: string
-            description: URI of the referenced concept.
-        required:
-        - '@id'
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
       LanguageTaggedValue:
         type: object
         description: An RDF literal value with a language tag, serialized as a JSON-LD

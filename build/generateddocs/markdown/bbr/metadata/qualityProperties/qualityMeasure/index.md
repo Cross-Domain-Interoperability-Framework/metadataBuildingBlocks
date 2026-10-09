@@ -206,14 +206,8 @@ properties:
       ref, or as a Defined Term
     anyOf:
     - type: string
-    - type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-          description: a resolvable reference to a representation of a quality measure
+    - description: a resolvable reference to a representation of a quality measure
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     - $ref: '#/$defs/DefinedTerm'
   dqv:value:
     description: the reported result of the quality measure, as a string, a number,

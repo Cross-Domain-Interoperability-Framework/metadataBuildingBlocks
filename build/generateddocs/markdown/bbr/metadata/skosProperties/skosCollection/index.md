@@ -262,13 +262,7 @@ $defs:
         minItems: 1
         items:
           anyOf:
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: '#/$defs/Collection'
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#member
@@ -347,13 +341,7 @@ $defs:
             minItems: 1
             items:
               anyOf:
-              - type: object
-                additionalProperties: false
-                properties:
-                  '@id':
-                    type: string
-                required:
-                - '@id'
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#memberList
     required:

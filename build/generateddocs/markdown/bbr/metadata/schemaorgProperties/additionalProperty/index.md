@@ -276,13 +276,7 @@ $defs:
   propertyID_item:
     anyOf:
     - type: string
-    - type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     - $ref: '#/$defs/DefinedTerm'
 x-jsonld-prefixes:
   schema: http://schema.org/

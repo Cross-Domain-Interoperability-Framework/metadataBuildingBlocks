@@ -238,16 +238,8 @@ properties:
     default: false
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isRequired
   cdif:formats_InstanceVariable:
-    type: object
-    required:
-    - '@id'
-    additionalProperties: false
     description: Reference to a variable defined in schema:variableMeasured.
-    properties:
-      '@id':
-        type: string
-        description: This should be a reference to a variable defined in the schema:variableMeasured
-          section.
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: https://w3id.org/cdif/formats_InstanceVariable
 allOf:
 - if:

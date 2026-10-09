@@ -457,14 +457,8 @@ properties:
     x-jsonld-id: http://schema.org/roleName
   schema:contributor:
     anyOf:
-    - type: object
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-          description: IRI reference to a Person or Organization defined elsewhere
-      required:
-      - '@id'
+    - description: IRI reference to a Person or Organization defined elsewhere
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
     x-jsonld-id: http://schema.org/contributor

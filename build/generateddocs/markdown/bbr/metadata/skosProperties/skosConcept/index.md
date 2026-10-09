@@ -629,42 +629,18 @@ $defs:
       skos:inScheme:
         description: Concept scheme(s) this concept belongs to.
         anyOf:
-        - type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         - type: array
           items:
-            type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
       skos:topConceptOf:
         description: Concept scheme(s) for which this is a top concept.
         anyOf:
-        - type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         - type: array
           items:
-            type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#topConceptOf
       skos:broader:
         description: Broader (parent) concepts in the hierarchy. Items are inline
@@ -690,15 +666,8 @@ $defs:
     - skos:definition
     - skos:inScheme
   ConceptRef:
-    type: object
-    additionalProperties: false
     description: A reference to a SKOS Concept by URI.
-    properties:
-      '@id':
-        type: string
-        description: URI of the referenced concept.
-    required:
-    - '@id'
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
   LanguageTaggedValue:
     type: object
     description: An RDF literal value with a language tag, serialized as a JSON-LD

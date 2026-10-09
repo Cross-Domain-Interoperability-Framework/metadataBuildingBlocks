@@ -196,14 +196,8 @@ properties:
     anyOf:
     - type: string
     - $ref: '#/$defs/DefinedTerm'
-    - type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-          description: a resolvable reference to the annotation body
+    - description: a resolvable reference to the annotation body
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: http://www.w3.org/ns/oa#hasBody
   oa:motivatedBy:
     description: why the annotation was made; for quality annotations this is normally
@@ -211,27 +205,14 @@ properties:
       allowed
     anyOf:
     - type: string
-    - type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-          description: a resolvable reference to an oa:Motivation
+    - description: a resolvable reference to an oa:Motivation
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     - $ref: '#/$defs/DefinedTerm'
     x-jsonld-id: http://www.w3.org/ns/oa#motivatedBy
   oa:hasTarget:
     description: the resource the annotation is about; if omitted, the annotation
       is about the resource that carries it (e.g. the Dataset)
-    type: object
-    required:
-    - '@id'
-    additionalProperties: false
-    properties:
-      '@id':
-        type: string
-        description: a resolvable reference to the annotated resource
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: http://www.w3.org/ns/oa#hasTarget
   schema:name:
     type: string

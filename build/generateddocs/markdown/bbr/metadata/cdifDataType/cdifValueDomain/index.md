@@ -229,15 +229,8 @@ $defs:
       cdif:takesValuesFrom:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifEnumerationDomain/schema.yaml
-        - type: object
-          additionalProperties: false
-          description: JSON-LD @id reference to a node defined elsewhere in the graph
-          properties:
-            '@id':
-              type: string
-              description: IRI or blank node identifier of the referenced node
-          required:
-          - '@id'
+        - description: JSON-LD @id reference to a node defined elsewhere in the graph
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/takesValuesFrom
       cdif:displayLabel:
         type: string
@@ -255,15 +248,8 @@ $defs:
           patterns, classification level, expressions) of the values this domain admits.
         anyOf:
         - $ref: '#/$defs/ValueAndConceptDescription'
-        - type: object
-          additionalProperties: false
-          description: JSON-LD @id reference to a node defined elsewhere in the graph
-          properties:
-            '@id':
-              type: string
-              description: IRI or blank node identifier of the referenced node
-          required:
-          - '@id'
+        - description: JSON-LD @id reference to a node defined elsewhere in the graph
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
     required:
     - '@type'
@@ -291,15 +277,8 @@ $defs:
       cdif:takesValuesFrom:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifEnumerationDomain/schema.yaml
-        - type: object
-          additionalProperties: false
-          description: JSON-LD @id reference to a node defined elsewhere in the graph
-          properties:
-            '@id':
-              type: string
-              description: IRI or blank node identifier of the referenced node
-          required:
-          - '@id'
+        - description: JSON-LD @id reference to a node defined elsewhere in the graph
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/takesValuesFrom
       cdif:displayLabel:
         type: string
@@ -319,15 +298,8 @@ $defs:
           patterns, classification level, expressions) of the values this domain admits.
         anyOf:
         - $ref: '#/$defs/ValueAndConceptDescription'
-        - type: object
-          additionalProperties: false
-          description: JSON-LD @id reference to a node defined elsewhere in the graph
-          properties:
-            '@id':
-              type: string
-              description: IRI or blank node identifier of the referenced node
-          required:
-          - '@id'
+        - description: JSON-LD @id reference to a node defined elsewhere in the graph
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
     required:
     - '@type'

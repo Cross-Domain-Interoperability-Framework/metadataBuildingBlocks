@@ -132,42 +132,18 @@ x-defs:
           skos:inScheme:
             description: Concept scheme(s) this concept belongs to.
             anyOf:
-            - type: object
-              additionalProperties: false
-              properties:
-                '@id':
-                  type: string
-              required:
-              - '@id'
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             - type: array
               items:
-                type: object
-                additionalProperties: false
-                properties:
-                  '@id':
-                    type: string
-                required:
-                - '@id'
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
           skos:topConceptOf:
             description: Concept scheme(s) for which this is a top concept.
             anyOf:
-            - type: object
-              additionalProperties: false
-              properties:
-                '@id':
-                  type: string
-              required:
-              - '@id'
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             - type: array
               items:
-                type: object
-                additionalProperties: false
-                properties:
-                  '@id':
-                    type: string
-                required:
-                - '@id'
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#topConceptOf
           skos:broader:
             description: Broader (parent) concepts in the hierarchy. Items are inline
@@ -193,15 +169,9 @@ x-defs:
         - skos:definition
         - skos:inScheme
       ConceptRef:
-        type: object
-        additionalProperties: false
         description: A reference to a SKOS Concept by URI.
-        properties:
-          '@id':
-            type: string
-            description: URI of the referenced concept.
-        required:
-        - '@id'
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
       LanguageTaggedValue:
         type: object
         description: An RDF literal value with a language tag, serialized as a JSON-LD
@@ -219,6 +189,19 @@ x-defs:
     x-jsonld-prefixes:
       skos: http://www.w3.org/2004/02/skos/core#
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.objectReference:
+    title: Object Reference
+    description: A reference to a node defined elsewhere, by its @id.
+    type: object
+    properties:
+      '@id':
+        type: string
+        description: resolvable @id of the referenced node
+    required:
+    - '@id'
+    additionalProperties: false
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
 title: SKOS Collection
 description: JSON Schema for SKOS Collection and OrderedCollection in JSON-LD form.
@@ -319,13 +302,7 @@ $defs:
         minItems: 1
         items:
           anyOf:
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/$defs/Collection
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#member
@@ -407,13 +384,7 @@ $defs:
             minItems: 1
             items:
               anyOf:
-              - type: object
-                additionalProperties: false
-                properties:
-                  '@id':
-                    type: string
-                required:
-                - '@id'
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#memberList
     required:

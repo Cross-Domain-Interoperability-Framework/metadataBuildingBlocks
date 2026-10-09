@@ -1,4 +1,17 @@
 x-defs:
+  cdif.bbr.metadata.cdifDataType.objectReference:
+    title: Object Reference
+    description: A reference to a node defined elsewhere, by its @id.
+    type: object
+    properties:
+      '@id':
+        type: string
+        description: resolvable @id of the referenced node
+    required:
+    - '@id'
+    additionalProperties: false
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.additionalProperty:
     type: object
     title: additionalProperty PropertyValue
@@ -49,13 +62,7 @@ x-defs:
       propertyID_item:
         anyOf:
         - type: string
-        - type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
     x-jsonld-prefixes:
       schema: http://schema.org/
@@ -117,13 +124,7 @@ x-defs:
                     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/Instrument
                   x-jsonld-id: http://schema.org/instrument
             - type: string
-            - type: object
-              required:
-              - '@id'
-              additionalProperties: false
-              properties:
-                '@id':
-                  type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           allOf:
           - description: Must contain a prov:used entry whose schema:instrument is
               classified as an NXinstrument (via schema:additionalType) and carries
@@ -313,13 +314,7 @@ x-defs:
           above explicitly anticipates both.'
         anyOf:
         - type: string
-        - type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         x-jsonld-id: http://schema.org/inDefinedTermSet
       schema:termCode:
         type: string
@@ -472,14 +467,9 @@ x-defs:
         type: array
         minItems: 1
         items:
-          type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: uri for specification that this distribution conforms to
+          description: uri for specification that this distribution conforms to
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
       schema:provider:
         type: array
         description: Party who maintains this particular distribution option for the
@@ -487,15 +477,10 @@ x-defs:
           providers
         items:
           anyOf:
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: a identifier for an agent defined in this metadata, or
-                  externally; must be dereferenceable
-            required:
-            - '@id'
+          - description: a identifier for an agent defined in this metadata, or externally;
+              must be dereferenceable
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
         x-jsonld-id: http://schema.org/provider
@@ -671,14 +656,9 @@ x-defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity/$defs/Person
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity/$defs/Organization
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity/$defs/AgentInRole
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: reference to an agent defined elsewhere
-            required:
-            - '@id'
+          - description: reference to an agent defined elsewhere
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           x-jsonld-id: http://schema.org/agent
         schema:participant:
           description: Other participants in this activity
@@ -688,14 +668,9 @@ x-defs:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity/$defs/Person
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity/$defs/Organization
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity/$defs/AgentInRole
-            - type: object
-              additionalProperties: false
-              properties:
-                '@id':
-                  type: string
-                  description: reference to a participant defined elsewhere
-              required:
-              - '@id'
+            - description: reference to a participant defined elsewhere
+              allOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           x-jsonld-id: http://schema.org/participant
         schema:object:
           description: Input entity (or entities) for this activity. Per schema.org,
@@ -706,14 +681,9 @@ x-defs:
             where the value references the result of a prior activity.
           anyOf:
           - type: string
-          - type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: reference to an input entity
+          - description: reference to an input entity
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           - type: object
             description: Inline schema:Thing object describing the input entity.
             properties:
@@ -742,14 +712,9 @@ x-defs:
             the array item shape further.'
           anyOf:
           - type: string
-          - type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: reference to an output entity
+          - description: reference to an output entity
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           - type: object
             description: Inline schema:Thing object describing the output entity.
             properties:
@@ -790,28 +755,18 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity/$defs/SpatialExtent
           - type: string
-          - type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: reference to a place defined elsewhere
+          - description: reference to a place defined elsewhere
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           x-jsonld-id: http://schema.org/location
         schema:actionProcess:
           description: Methodology or protocol for this activity
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity/$defs/HowTo
           - type: string
-          - type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: reference to a methodology defined elsewhere
+          - description: reference to a methodology defined elsewhere
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           x-jsonld-id: http://schema.org/actionProcess
         schema:error:
           type: string
@@ -956,13 +911,7 @@ x-defs:
       schema:propertyID:
         anyOf:
         - type: string
-        - type: object
-          additionalProperties: false
-          required:
-          - '@id'
-          properties:
-            '@id':
-              type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         description: In this context for the schema:PropertyValue, this field is an
           identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
           for interoperability. URI-shape values MUST be serialized as JSON-LD IRI
@@ -1177,13 +1126,7 @@ x-defs:
         items:
           anyOf:
           - type: string
-          - type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         x-jsonld-id: http://schema.org/sameAs
     allOf:
     - required:
@@ -1254,13 +1197,7 @@ x-defs:
         items:
           anyOf:
           - type: string
-          - type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         x-jsonld-id: http://schema.org/sameAs
     allOf:
     - required:
@@ -1307,15 +1244,10 @@ x-defs:
         items:
           anyOf:
           - type: string
-          - type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: a resolvable reference to a representation of the software
-                  or instrument used
+          - description: a resolvable reference to a representation of the software
+              or instrument used
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           - type: object
             description: an inline prov:Entity used by the activity (see prov:used
               description)
@@ -1375,14 +1307,9 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole/$defs/cdifConceptOrTermOrString
       schema:contributor:
         anyOf:
-        - type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: IRI reference to a Person or Organization defined elsewhere
-          required:
-          - '@id'
+        - description: IRI reference to a Person or Organization defined elsewhere
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
         x-jsonld-id: http://schema.org/contributor
@@ -1458,13 +1385,7 @@ x-defs:
         items:
           anyOf:
           - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         x-jsonld-id: http://schema.org/alternateName
       schema:identifier:
         description: Formal identifier(s) for this instrument. Use PropertyValue for
@@ -1560,14 +1481,9 @@ x-defs:
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/InstrumentComponent
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: Reference to a sub-component defined elsewhere.
-            required:
-            - '@id'
+          - description: Reference to a sub-component defined elsewhere.
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         x-jsonld-id: http://schema.org/hasPart
       schema:relatedLink:
         type: array
@@ -1593,28 +1509,17 @@ x-defs:
             description: Date this metadata record was last modified (ISO 8601).
             x-jsonld-id: http://schema.org/dateModified
           schema:about:
-            type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: Reference back to the instrument @id.
+            description: Reference back to the instrument @id.
             x-jsonld-id: http://schema.org/about
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
           dcterms:conformsTo:
             description: Schema or profile this metadata record conforms to.
             type: array
             items:
               anyOf:
               - type: string
-              - type: object
-                required:
-                - '@id'
-                additionalProperties: false
-                properties:
-                  '@id':
-                    type: string
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         required:
         - '@type'
         x-jsonld-id: http://schema.org/subjectOf
@@ -1760,13 +1665,7 @@ x-defs:
                 items:
                   anyOf:
                   - type: string
-                  - type: object
-                    additionalProperties: false
-                    required:
-                    - '@id'
-                    properties:
-                      '@id':
-                        type: string
+                  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
                 contains:
                   enum:
                   - schema:ProductModel
@@ -1955,15 +1854,10 @@ x-defs:
                 type: string
                 description: a WKT geometry description string, e.g. 'POINT(-76 -18)'
           geosparql:crs:
-            type: object
-            required:
-            - '@id'
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-                description: identifier string for coordinate reference system, e.g.,
-                  'CRS84'
+            description: identifier string for coordinate reference system, e.g.,
+              'CRS84'
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         required:
         - geosparql:asWKT
     anyOf:
@@ -2237,19 +2131,6 @@ x-defs:
       skos: http://www.w3.org/2004/02/skos/core#
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifDataType.objectReference:
-    title: Object Reference
-    description: A reference to a node defined elsewhere, by its @id.
-    type: object
-    properties:
-      '@id':
-        type: string
-        description: resolvable @id of the referenced node
-    required:
-    - '@id'
-    additionalProperties: false
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.skosProperties.skosConcept:
     title: SKOS Concept
     description: JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought
@@ -2383,42 +2264,18 @@ x-defs:
           skos:inScheme:
             description: Concept scheme(s) this concept belongs to.
             anyOf:
-            - type: object
-              additionalProperties: false
-              properties:
-                '@id':
-                  type: string
-              required:
-              - '@id'
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             - type: array
               items:
-                type: object
-                additionalProperties: false
-                properties:
-                  '@id':
-                    type: string
-                required:
-                - '@id'
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
           skos:topConceptOf:
             description: Concept scheme(s) for which this is a top concept.
             anyOf:
-            - type: object
-              additionalProperties: false
-              properties:
-                '@id':
-                  type: string
-              required:
-              - '@id'
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             - type: array
               items:
-                type: object
-                additionalProperties: false
-                properties:
-                  '@id':
-                    type: string
-                required:
-                - '@id'
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#topConceptOf
           skos:broader:
             description: Broader (parent) concepts in the hierarchy. Items are inline
@@ -2444,15 +2301,9 @@ x-defs:
         - skos:definition
         - skos:inScheme
       ConceptRef:
-        type: object
-        additionalProperties: false
         description: A reference to a SKOS Concept by URI.
-        properties:
-          '@id':
-            type: string
-            description: URI of the referenced concept.
-        required:
-        - '@id'
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
       LanguageTaggedValue:
         type: object
         description: An RDF literal value with a language tag, serialized as a JSON-LD
@@ -2498,15 +2349,9 @@ properties:
       dcterms:conformsTo:
         type: array
         items:
-          type: object
-          required:
-          - '@id'
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: uri for specifications that this metadata record conforms
-                to
+          description: uri for specifications that this metadata record conforms to
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
         minItems: 1
         contains:
           type: object

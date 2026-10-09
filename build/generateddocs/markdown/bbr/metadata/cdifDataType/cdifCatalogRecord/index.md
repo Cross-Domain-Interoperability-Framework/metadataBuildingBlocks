@@ -390,27 +390,15 @@ properties:
     type: string
     description: identifier for the metadata record
   schema:about:
-    type: object
-    required:
-    - '@id'
-    additionalProperties: false
-    properties:
-      '@id':
-        type: string
-        description: this must be the @id value of the node containing the resource
-          description metadata
+    description: this must be the @id value of the node containing the resource description
+      metadata
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: http://schema.org/about
   dcterms:conformsTo:
     type: array
     items:
-      type: object
-      required:
-      - '@id'
-      additionalProperties: false
-      properties:
-        '@id':
-          type: string
-          description: uri for specifications that this metadata record conforms to
+      description: uri for specifications that this metadata record conforms to
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     minItems: 1
     description: uri for specifications that this metadata record conforms to. Minimimally
       should specify uri for CDIF discovery profile.
