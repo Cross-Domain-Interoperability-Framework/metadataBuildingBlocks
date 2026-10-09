@@ -279,17 +279,19 @@
             "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
             "type": "array",
             "items": {
+              "title": "Object Reference",
+              "description": "uri for specification that this distribution conforms to",
               "type": "object",
-              "required": [
-                "@id"
-              ],
-              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
-                  "description": "uri for specification that this distribution conforms to"
+                  "description": "resolvable @id of the referenced node"
                 }
-              }
+              },
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false
             }
           },
           "schema:provider": {
@@ -441,16 +443,19 @@
                       "type": "array",
                       "description": "identifier(s) for a standard or specification the response conforms to.",
                       "items": {
+                        "title": "Object Reference",
+                        "description": "A reference to a node defined elsewhere, by its @id.",
                         "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string",
+                            "description": "resolvable @id of the referenced node"
+                          }
+                        },
                         "required": [
                           "@id"
                         ],
-                        "additionalProperties": false,
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
+                        "additionalProperties": false
                       }
                     }
                   }
@@ -764,16 +769,19 @@
                     "type": "string"
                   },
                   {
+                    "title": "Object Reference",
+                    "description": "A reference to a node defined elsewhere, by its @id.",
                     "type": "object",
-                    "additionalProperties": false,
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "resolvable @id of the referenced node"
+                      }
+                    },
                     "required": [
                       "@id"
                     ],
-                    "properties": {
-                      "@id": {
-                        "type": "string"
-                      }
-                    }
+                    "additionalProperties": false
                   }
                 ],
                 "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
@@ -863,17 +871,19 @@
                   "type": "string"
                 },
                 {
+                  "title": "Object Reference",
+                  "description": "a resolvable reference to a representation of the software or instrument used",
                   "type": "object",
-                  "required": [
-                    "@id"
-                  ],
-                  "additionalProperties": false,
                   "properties": {
                     "@id": {
                       "type": "string",
-                      "description": "a resolvable reference to a representation of the software or instrument used"
+                      "description": "resolvable @id of the referenced node"
                     }
-                  }
+                  },
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false
                 },
                 {
                   "type": "object",
@@ -930,17 +940,19 @@
             "type": "string"
           },
           {
+            "title": "Object Reference",
+            "description": "a resolvable reference to a representation of the software or instrument used",
             "type": "object",
-            "required": [
-              "@id"
-            ],
-            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
-                "description": "a resolvable reference to a representation of the software or instrument used"
+                "description": "resolvable @id of the referenced node"
               }
-            }
+            },
+            "required": [
+              "@id"
+            ],
+            "additionalProperties": false
           },
           {
             "description": "Schema for a labeled link, a profile of schema.org/CreativeWork: a resolvable URL with an optional name and description. Optionally carries the DCAT relation surface (dcat:hadRole, dcterms:relation) for a link that expresses a typed relationship rather than a plain reference.\nThose two properties were a separate block, cdifDataType/cdifReference, which was an allOf of this schema plus exactly those two optional properties and nothing else -- its dcat:Relationship co-type mandate had already been removed because it made every labeled link unsatisfiable and broke every schema:license example that followed schema.org's own advice. Since both are optional, folding them in here changes no document's validity while removing a block and five levels of $defs/Reference indirection. cdifReference was retired 2026-09-23.",
@@ -1048,16 +1060,19 @@
                                     "type": "string"
                                   },
                                   {
+                                    "title": "Object Reference",
+                                    "description": "A reference to a node defined elsewhere, by its @id.",
                                     "type": "object",
+                                    "properties": {
+                                      "@id": {
+                                        "type": "string",
+                                        "description": "resolvable @id of the referenced node"
+                                      }
+                                    },
                                     "required": [
                                       "@id"
                                     ],
-                                    "additionalProperties": false,
-                                    "properties": {
-                                      "@id": {
-                                        "type": "string"
-                                      }
-                                    }
+                                    "additionalProperties": false
                                   }
                                 ]
                               },
@@ -1150,17 +1165,19 @@
           "description": "identifier for the metadata record"
         },
         "schema:about": {
+          "title": "Object Reference",
+          "description": "this must be the @id value of the node containing the resource description metadata",
           "type": "object",
-          "required": [
-            "@id"
-          ],
-          "additionalProperties": false,
           "properties": {
             "@id": {
               "type": "string",
-              "description": "this must be the @id value of the node containing the resource description metadata"
+              "description": "resolvable @id of the referenced node"
             }
-          }
+          },
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false
         },
         "dcterms:conformsTo": {},
         "schema:maintainer": {
@@ -1234,16 +1251,19 @@
                       "type": "string"
                     },
                     {
+                      "title": "Object Reference",
+                      "description": "A reference to a node defined elsewhere, by its @id.",
                       "type": "object",
-                      "additionalProperties": false,
+                      "properties": {
+                        "@id": {
+                          "type": "string",
+                          "description": "resolvable @id of the referenced node"
+                        }
+                      },
                       "required": [
                         "@id"
                       ],
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
+                      "additionalProperties": false
                     }
                   ],
                   "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
@@ -1329,16 +1349,19 @@
                         "type": "string"
                       },
                       {
+                        "title": "Object Reference",
+                        "description": "A reference to a node defined elsewhere, by its @id.",
                         "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string",
+                            "description": "resolvable @id of the referenced node"
+                          }
+                        },
                         "required": [
                           "@id"
                         ],
-                        "additionalProperties": false,
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
+                        "additionalProperties": false
                       }
                     ]
                   },
@@ -1559,16 +1582,19 @@
                                         "type": "string"
                                       },
                                       {
+                                        "title": "Object Reference",
+                                        "description": "A reference to a node defined elsewhere, by its @id.",
                                         "type": "object",
+                                        "properties": {
+                                          "@id": {
+                                            "type": "string",
+                                            "description": "resolvable @id of the referenced node"
+                                          }
+                                        },
                                         "required": [
                                           "@id"
                                         ],
-                                        "additionalProperties": false,
-                                        "properties": {
-                                          "@id": {
-                                            "type": "string"
-                                          }
-                                        }
+                                        "additionalProperties": false
                                       }
                                     ]
                                   },
@@ -1703,17 +1729,19 @@
                 "type": "string"
               },
               {
+                "title": "Object Reference",
+                "description": "a resolvable reference to a representation of a quality measure",
                 "type": "object",
-                "required": [
-                  "@id"
-                ],
-                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
-                    "description": "a resolvable reference to a representation of a quality measure"
+                    "description": "resolvable @id of the referenced node"
                   }
-                }
+                },
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false
               },
               {
                 "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
@@ -1743,16 +1771,19 @@
                         "type": "string"
                       },
                       {
+                        "title": "Object Reference",
+                        "description": "A reference to a node defined elsewhere, by its @id.",
                         "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string",
+                            "description": "resolvable @id of the referenced node"
+                          }
+                        },
                         "required": [
                           "@id"
                         ],
-                        "additionalProperties": false,
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
+                        "additionalProperties": false
                       }
                     ]
                   },
@@ -1804,16 +1835,19 @@
                         "type": "string"
                       },
                       {
+                        "title": "Object Reference",
+                        "description": "A reference to a node defined elsewhere, by its @id.",
                         "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string",
+                            "description": "resolvable @id of the referenced node"
+                          }
+                        },
                         "required": [
                           "@id"
                         ],
-                        "additionalProperties": false,
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
+                        "additionalProperties": false
                       }
                     ]
                   },
@@ -2262,30 +2296,36 @@
           "description": "Concept scheme(s) this concept belongs to.",
           "anyOf": [
             {
+              "title": "Object Reference",
+              "description": "A reference to a node defined elsewhere, by its @id.",
               "type": "object",
-              "additionalProperties": false,
               "properties": {
                 "@id": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "resolvable @id of the referenced node"
                 }
               },
               "required": [
                 "@id"
-              ]
+              ],
+              "additionalProperties": false
             },
             {
               "type": "array",
               "items": {
+                "title": "Object Reference",
+                "description": "A reference to a node defined elsewhere, by its @id.",
                 "type": "object",
-                "additionalProperties": false,
                 "properties": {
                   "@id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "resolvable @id of the referenced node"
                   }
                 },
                 "required": [
                   "@id"
-                ]
+                ],
+                "additionalProperties": false
               }
             }
           ]
@@ -2294,30 +2334,36 @@
           "description": "Concept scheme(s) for which this is a top concept.",
           "anyOf": [
             {
+              "title": "Object Reference",
+              "description": "A reference to a node defined elsewhere, by its @id.",
               "type": "object",
-              "additionalProperties": false,
               "properties": {
                 "@id": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "resolvable @id of the referenced node"
                 }
               },
               "required": [
                 "@id"
-              ]
+              ],
+              "additionalProperties": false
             },
             {
               "type": "array",
               "items": {
+                "title": "Object Reference",
+                "description": "A reference to a node defined elsewhere, by its @id.",
                 "type": "object",
-                "additionalProperties": false,
                 "properties": {
                   "@id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "resolvable @id of the referenced node"
                   }
                 },
                 "required": [
                   "@id"
-                ]
+                ],
+                "additionalProperties": false
               }
             }
           ]
@@ -2328,18 +2374,19 @@
           "items": {
             "anyOf": [
               {
+                "title": "Object Reference",
+                "description": "A reference to a node defined elsewhere, by its @id.",
                 "type": "object",
-                "additionalProperties": false,
-                "description": "A reference to a SKOS Concept by URI.",
                 "properties": {
                   "@id": {
                     "type": "string",
-                    "description": "URI of the referenced concept."
+                    "description": "resolvable @id of the referenced node"
                   }
                 },
                 "required": [
                   "@id"
-                ]
+                ],
+                "additionalProperties": false
               },
               {
                 "$ref": "#/$defs/Concept"
@@ -2353,18 +2400,19 @@
           "items": {
             "anyOf": [
               {
+                "title": "Object Reference",
+                "description": "A reference to a node defined elsewhere, by its @id.",
                 "type": "object",
-                "additionalProperties": false,
-                "description": "A reference to a SKOS Concept by URI.",
                 "properties": {
                   "@id": {
                     "type": "string",
-                    "description": "URI of the referenced concept."
+                    "description": "resolvable @id of the referenced node"
                   }
                 },
                 "required": [
                   "@id"
-                ]
+                ],
+                "additionalProperties": false
               },
               {
                 "$ref": "#/$defs/Concept"
