@@ -33,13 +33,8 @@ allOf:
       items:
         anyOf:
         - type: string
-        - type: object
-          required: ['@id']
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: reference to an entity produced by this activity
+        - description: "reference to an entity produced by this activity"
+          $ref: ../../cdifDataType/objectReference/schema.yaml
     'prov:wasAssociatedWith':
       description: Agents responsible for this activity (PROV-O native -- maps to
         schema:agent in cdifProvActivity)
@@ -50,26 +45,16 @@ allOf:
         - $ref: '#/$defs/Organization'
         - $ref: '#/$defs/AgentInRole'
         - type: string
-        - type: object
-          required: ['@id']
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: reference to an agent defined elsewhere
+        - description: "reference to an agent defined elsewhere"
+          $ref: ../../cdifDataType/objectReference/schema.yaml
     'prov:wasInformedBy':
       description: Other activities that communicated information to this one (PROV-O
         activity-to-activity chain -- maps to schema:object in cdifProvActivity)
       type: array
       items:
         anyOf:
-        - type: object
-          required: ['@id']
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-              description: reference to a prior activity
+        - description: "reference to a prior activity"
+          $ref: ../../cdifDataType/objectReference/schema.yaml
         - type: string
     'prov:startedAtTime':
       type: string
@@ -85,37 +70,22 @@ allOf:
       anyOf:
       - $ref: '#/$defs/SpatialExtent'
       - type: string
-      - type: object
-        required: ['@id']
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to a place defined elsewhere
+      - description: "reference to a place defined elsewhere"
+        $ref: ../../cdifDataType/objectReference/schema.yaml
     'prov:wasStartedBy':
       description: Entity that triggered the start of this activity (PROV-O expanded
         term)
       anyOf:
       - type: string
-      - type: object
-        required: ['@id']
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to a triggering entity
+      - description: "reference to a triggering entity"
+        $ref: ../../cdifDataType/objectReference/schema.yaml
     'prov:wasEndedBy':
       description: Entity that triggered the end of this activity (PROV-O expanded
         term)
       anyOf:
       - type: string
-      - type: object
-        required: ['@id']
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to an entity that ended this activity
+      - description: "reference to an entity that ended this activity"
+        $ref: ../../cdifDataType/objectReference/schema.yaml
     'schema:actionStatus':
       type: string
       description: Status of this activity (schema.org fallback -- no PROV-O equivalent)
@@ -130,13 +100,8 @@ allOf:
       anyOf:
       - $ref: '#/$defs/HowTo'
       - type: string
-      - type: object
-        required: ['@id']
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: reference to a methodology defined elsewhere
+      - description: "reference to a methodology defined elsewhere"
+        $ref: ../../cdifDataType/objectReference/schema.yaml
     'schema:error':
       type: string
       description: Error description for failed activities (schema.org fallback --

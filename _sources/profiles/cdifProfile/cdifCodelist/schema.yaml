@@ -47,13 +47,7 @@ properties:
         'schema:propertyID':
           anyOf:
           - type: string
-          - type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                type: string
+          - $ref: ../../../cdifDataType/objectReference/schema.yaml
         'schema:value':
           type: string
         'schema:url':
@@ -72,12 +66,7 @@ properties:
     items:
       anyOf:
       - type: string
-      - type: object
-        required: ['@id']
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
+      - $ref: ../../../cdifDataType/objectReference/schema.yaml
   'schema:conditionsOfAccess':
     description: Text statement of access conditions for the codelist.
     type: array
@@ -148,13 +137,7 @@ properties:
       'dcterms:conformsTo':
         type: array
         items:
-          type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+          $ref: ../../../cdifDataType/objectReference/schema.yaml
         contains:
           type: object
           required: ['@id']
@@ -167,13 +150,7 @@ properties:
         type: string
         description: Identifier for the catalog record.
       'schema:about':
-        type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-        required:
-        - '@id'
+        $ref: ../../../cdifDataType/objectReference/schema.yaml
     required:
     - '@type'
     - 'schema:additionalType'
@@ -207,13 +184,7 @@ $defs:
           CDIF codelist concepts.
         type: array
         items:
-          type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+          $ref: ../../../cdifDataType/objectReference/schema.yaml
       'skos:prefLabel':
         description: |
           Preferred lexical label for this concept. A single string,
@@ -242,13 +213,7 @@ $defs:
         type: array
         items:
           anyOf:
-          - type: object
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+          - $ref: ../../../cdifDataType/objectReference/schema.yaml
           - allOf:
             - $ref: '#/$defs/CdifCodelistConcept'
             - required:
@@ -259,13 +224,7 @@ $defs:
           both directions to be explicit for hierarchy traversal.
         type: array
         items:
-          type: object
-          additionalProperties: false
-          properties:
-            '@id':
-              type: string
-          required:
-          - '@id'
+          $ref: ../../../cdifDataType/objectReference/schema.yaml
     required:
     - '@id'
     - 'skos:inScheme'

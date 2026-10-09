@@ -20,17 +20,8 @@
           "type": "string"
         },
         {
-          "type": "object",
-          "required": [
-            "@id"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "a resolvable reference to a representation of a quality measure"
-            }
-          }
+          "$ref": "#/$defs/ObjectReference",
+          "description": "a resolvable reference to a representation of a quality measure"
         },
         {
           "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
@@ -75,16 +66,7 @@
                           "type": "string"
                         },
                         {
-                          "type": "object",
-                          "additionalProperties": false,
-                          "required": [
-                            "@id"
-                          ],
-                          "properties": {
-                            "@id": {
-                              "type": "string"
-                            }
-                          }
+                          "$ref": "#/$defs/ObjectReference"
                         }
                       ],
                       "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
@@ -130,16 +112,7 @@
                   "type": "string"
                 },
                 {
-                  "type": "object",
-                  "required": [
-                    "@id"
-                  ],
-                  "additionalProperties": false,
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/$defs/ObjectReference"
                 }
               ]
             },
@@ -229,16 +202,7 @@
                           "type": "string"
                         },
                         {
-                          "type": "object",
-                          "additionalProperties": false,
-                          "required": [
-                            "@id"
-                          ],
-                          "properties": {
-                            "@id": {
-                              "type": "string"
-                            }
-                          }
+                          "$ref": "#/$defs/ObjectReference"
                         }
                       ],
                       "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
@@ -284,16 +248,7 @@
                   "type": "string"
                 },
                 {
-                  "type": "object",
-                  "required": [
-                    "@id"
-                  ],
-                  "additionalProperties": false,
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/$defs/ObjectReference"
                 }
               ]
             },
@@ -335,5 +290,22 @@
   "required": [
     "dqv:isMeasurementOf",
     "dqv:value"
-  ]
+  ],
+  "$defs": {
+    "ObjectReference": {
+      "title": "Object Reference",
+      "description": "A reference to a node defined elsewhere, by its @id.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "resolvable @id of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ],
+      "additionalProperties": false
+    }
+  }
 }

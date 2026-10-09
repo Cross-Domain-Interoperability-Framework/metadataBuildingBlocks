@@ -53,13 +53,7 @@ properties:
     items:
       anyOf:
       - type: string
-      - type: object
-        additionalProperties: false
-        required:
-        - '@id'
-        properties:
-          '@id':
-            type: string
+      - $ref: ../../cdifDataType/objectReference/schema.yaml
   'schema:identifier':
     description: Formal identifier(s) for this instrument. Use PropertyValue for
       structured identifiers (e.g. PIDINST, serial number, inventory number).
@@ -139,14 +133,8 @@ properties:
     items:
       anyOf:
       - $ref: '#/$defs/InstrumentComponent'
-      - type: object
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: Reference to a sub-component defined elsewhere.
-        required:
-        - '@id'
+      - description: "Reference to a sub-component defined elsewhere."
+        $ref: ../../cdifDataType/objectReference/schema.yaml
   'schema:relatedLink':
     type: array
     description: >-
@@ -171,25 +159,15 @@ properties:
         type: string
         description: Date this metadata record was last modified (ISO 8601).
       'schema:about':
-        type: object
-        required: ['@id']
-        additionalProperties: false
-        properties:
-          '@id':
-            type: string
-            description: Reference back to the instrument @id.
+        description: "Reference back to the instrument @id."
+        $ref: ../../cdifDataType/objectReference/schema.yaml
       'dcterms:conformsTo':
         description: Schema or profile this metadata record conforms to.
         type: array
         items:
           anyOf:
           - type: string
-          - type: object
-            required: ['@id']
-            additionalProperties: false
-            properties:
-              '@id':
-                type: string
+          - $ref: ../../cdifDataType/objectReference/schema.yaml
     required:
     - '@type'
 required:
@@ -320,13 +298,7 @@ $defs:
             items:
               anyOf:
               - type: string
-              - type: object
-                additionalProperties: false
-                required:
-                - '@id'
-                properties:
-                  '@id':
-                    type: string
+              - $ref: ../../cdifDataType/objectReference/schema.yaml
             contains:
               const: schema:ProductModel
             minItems: 1
