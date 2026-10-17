@@ -1,8 +1,8 @@
 {
-  "$schema": "https://w3id.org/cdif/schema/conformance-declaration/0.1",
+  "$schema": "https://w3id.org/cdif/schema/conformance-declaration/0.2",
   "conformsTo": "https://w3id.org/cdif/discovery/1.1",
   "title": "CDIF Discovery profile",
-  "description": "The baseline discoverable-dataset profile. Any core record is discovery-conformant (the module adds optional enrichment, no new requirements), so the presence test is the same as core and it is declared alongside core. cdifDiscovery is a thin wrapper with no content SHACL.",
-  "presence": "ASK {\n  ?d a schema:Dataset ; schema:name ?n ; schema:identifier ?i .\n  FILTER NOT EXISTS { ?d schema:additionalType dcat:CatalogRecord }\n}",
+  "description": "Marked by USE of the enrichment properties cdifDiscovery introduces beyond core: schema:measurementTechnique, schema:variableMeasured, schema:spatialCoverage, schema:temporalCoverage, dqv:hasQualityMeasurement. Name+identifier is a core marker (it fires for every dataset), not discovery. schema:subjectOf is also a cdifDiscovery property but is the catalog-record pointer every CDIF record carries, so it does not discriminate and is excluded. cdifDiscovery is a thin wrapper with no content SHACL.",
+  "presence": "ASK {\n  ?d a schema:Dataset .\n  FILTER NOT EXISTS { ?d schema:additionalType dcat:CatalogRecord }\n  { ?d schema:measurementTechnique ?x } UNION\n  { ?d schema:variableMeasured ?x } UNION\n  { ?d schema:spatialCoverage ?x } UNION\n  { ?d schema:temporalCoverage ?x } UNION\n  { ?d dqv:hasQualityMeasurement ?x }\n}",
   "validityShapes": null
 }
