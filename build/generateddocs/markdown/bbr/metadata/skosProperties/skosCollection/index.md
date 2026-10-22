@@ -350,6 +350,11 @@ $defs:
     - skos:memberList
 x-jsonld-prefixes:
   skos: http://www.w3.org/2004/02/skos/core#
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.skosProperties.skosCollection
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-22'
 
 ```
 

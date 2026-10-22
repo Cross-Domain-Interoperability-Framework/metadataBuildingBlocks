@@ -165,14 +165,14 @@ ex:xasfacility_37yht a schema1:Place ;
             schema1:unitText "GeV" ;
             schema1:value "7.00" ],
         [ a schema1:PropertyValue ;
-            schema1:name "X-ray Source" ;
-            schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
-            schema1:value "APS bending magnet" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Facility current" ;
             schema1:propertyID xas:facilitycurrent ;
             schema1:unitText "Amps" ;
-            schema1:value "120" ] ;
+            schema1:value "120" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "X-ray Source" ;
+            schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
+            schema1:value "APS bending magnet" ] ;
     schema1:additionalType xas:facility ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .
@@ -247,6 +247,11 @@ $defs:
 x-jsonld-prefixes:
   schema: http://schema.org/
   xas: https://w3id.org/cdif/xas/
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.xasProperties.xasFacility
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '1.0'
+  dateOfLastChange: '2026-10-22'
 
 ```
 

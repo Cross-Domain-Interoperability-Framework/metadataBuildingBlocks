@@ -555,6 +555,11 @@ x-jsonld-prefixes:
   skos: http://www.w3.org/2004/02/skos/core#
   dcterms: http://purl.org/dc/terms/
   dcat: http://www.w3.org/ns/dcat#
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.schemaorgProperties.labeledLink
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-22'
 
 ```
 

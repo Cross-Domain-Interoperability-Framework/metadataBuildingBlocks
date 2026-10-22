@@ -74,6 +74,11 @@ x-jsonld-prefixes:
   schema: http://schema.org/
   dcterms: http://purl.org/dc/terms/
   cdif: https://w3id.org/cdif/
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.schemaorgProperties.actionResult
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-22'
 
 ```
 

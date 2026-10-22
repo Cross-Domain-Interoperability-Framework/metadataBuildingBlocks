@@ -309,10 +309,10 @@ mapping.
             cdif:value "temp_c" ],
         [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
             cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
-            cdif:value "diastolic_bp" ] .
+            cdif:value "diastolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
+            cdif:value "systolic_bp" ] .
 
 
 ```
@@ -408,6 +408,11 @@ x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
   cdif: https://w3id.org/cdif/
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-22'
 
 ```
 

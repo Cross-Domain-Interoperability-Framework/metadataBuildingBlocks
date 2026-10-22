@@ -91,6 +91,11 @@ anyOf:
 x-jsonld-prefixes:
   schema: http://schema.org/
   prov: http://www.w3.org/ns/prov#
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.provProperties.derivedFrom
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-22'
 
 ```
 

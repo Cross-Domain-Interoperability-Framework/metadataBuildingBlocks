@@ -272,6 +272,11 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.schemaorgProperties.monetaryGrant
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-22'
 
 ```
 

@@ -302,6 +302,11 @@ $defs:
 x-jsonld-prefixes:
   cdif: https://w3id.org/cdif/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-22'
 
 ```
 

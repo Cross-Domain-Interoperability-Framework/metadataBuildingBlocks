@@ -255,15 +255,15 @@ ex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;
     schema1:alternateName [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
-                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520" ] ;
-            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
-            schema1:name "Socorro Peak" ],
+                    schema1:url "https://www.mindat.org/loc-33505.html" ] ;
+            schema1:inDefinedTermSet "https://www.mindat.org/" ;
+            schema1:name "Hidden Treasure Mine" ],
         [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
-                    schema1:url "https://www.mindat.org/loc-33505.html" ] ;
-            schema1:inDefinedTermSet "https://www.mindat.org/" ;
-            schema1:name "Hidden Treasure Mine" ] ;
+                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520" ] ;
+            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
+            schema1:name "Socorro Peak" ] ;
     schema1:name [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
@@ -758,6 +758,11 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.schemaorgProperties.spatialExtent
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-22'
 
 ```
 

@@ -253,6 +253,11 @@ x-jsonld-prefixes:
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
   cdif: https://w3id.org/cdif/
   skos: http://www.w3.org/2004/02/skos/core#
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-22'
 
 ```
 

@@ -45,6 +45,11 @@ description: Shared shape for a CDIF property that carries either a controlled-v
 anyOf:
 - type: string
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-22'
 
 ```
 
