@@ -461,11 +461,11 @@ ComponentPosition wrapper.
 
 <https://example.org/struct/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ] .
@@ -483,10 +483,10 @@ ComponentPosition wrapper.
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ] .
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ] .
 
 <https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/measureValue> .
@@ -849,11 +849,11 @@ each cell in the cube.
 
 <https://example.org/struct/salesCube/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/productCategory> ;
-            cdi:value 3 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/country> ;
             cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/productCategory> ;
+            cdi:value 3 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/quarter> ;
             cdi:value 2 ] .
@@ -1896,7 +1896,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-22'
+  dateOfLastChange: '2026-10-25'
 
 ```
 

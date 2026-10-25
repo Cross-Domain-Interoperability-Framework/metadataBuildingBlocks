@@ -496,7 +496,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.xasProperties.xasOptional
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-10-22'
+  dateOfLastChange: '2026-10-25'
 
 ```
 
