@@ -359,7 +359,7 @@ PROV-O provenance building blocks.
 
 | Building Block | Description |
 |----------------|-------------|
-| `generatedBy` | Base provenance activity -- minimal `prov:Activity` whose `prov:used` item may be a string, an `{@id}` reference, an inline `prov:Entity`, or a **role-keyed wrapper** naming what was used (`schema:instrument` \| `bios:computationalTool` \| `prov:reagent`; wrapped value left loose). Extended by `cdifProvActivity` and `provActivity`, which *pin* the wrapper shapes via constraint-only `if/then` (see agents.md §"prov:used wrapper model"). |
+| `generatedBy` | Base provenance activity -- minimal `prov:Activity` whose `prov:used` item may be a string, an `{@id}` reference, an inline `prov:Entity`, or a **role-keyed wrapper** naming what was used (`schema:instrument` \| `bios:computationalTool` \| `bios:reagent`; wrapped value left loose). Extended by `cdifProvActivity` and `provActivity`, which *pin* the wrapper shapes via constraint-only `if/then` (see agents.md §"prov:used wrapper model"). |
 | `provActivity` | PROV-O native provenance activity -- extends `generatedBy` with W3C PROV-O properties (`prov:wasAssociatedWith`, `prov:startedAtTime`, `prov:endedAtTime`, `prov:atLocation`, `prov:wasInformedBy`, `prov:generated`). Uses schema.org fallbacks only where PROV-O has no equivalent (name, description, methodology, status). Instruments nested in `prov:used` via `schema:instrument` sub-key. |
 | `derivedFrom` | Provenance derivation -- `prov:wasDerivedFrom` linking. |
 
@@ -369,7 +369,7 @@ The repository implements a three-tier provenance architecture:
 
 | Tier | Building Block | Introduced At | Description |
 |------|---------------|---------------|-------------|
-| 1 (simple) | `generatedBy` (provProperties) | `cdifCore` | Minimal `prov:Activity` — `prov:used` accepts a string, an `@id` reference, an inline `prov:Entity`, or a role-keyed wrapper (`schema:instrument` \| `bios:computationalTool` \| `prov:reagent`) whose value profiles pin |
+| 1 (simple) | `generatedBy` (provProperties) | `cdifCore` | Minimal `prov:Activity` — `prov:used` accepts a string, an `@id` reference, an inline `prov:Entity`, or a role-keyed wrapper (`schema:instrument` \| `bios:computationalTool` \| `bios:reagent`) whose value profiles pin |
 | 2 (extended) | `cdifProvActivity` (cdifDataType) | `cdifComplete` (via `cdifProvenance`, both in `cdifProfile/`) | Extends `generatedBy` with schema.org Action properties (`schema:agent`, `schema:actionProcess`, `schema:object`, `schema:result`, temporal bounds, location). Requires `@type: ["schema:Action", "prov:Activity"]`. **Pins** the `prov:used` `schema:instrument` wrapper to the Instrument BB via a constraint-only `if/then` (never a narrowed `anyOf` — that would `allOf`-intersect away the base's other item shapes). The `cdifProvenance` building block wraps `cdifProvActivity` items in the `prov:wasGeneratedBy` root property. |
 | 3 (domain) | `xasGeneratedBy`, etc. | Domain-specific profiles | Extend `cdifProvActivity` with domain-specific instrument types, agents, and additional properties (see [ddeBuildingBlocks](https://github.com/usgin/ddeBuildingBlocks), [geochemBuildingBlocks](https://github.com/usgin/geochemBuildingBlocks)) |
 
