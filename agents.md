@@ -239,7 +239,7 @@ only one of the two markers makes the reported error *move* from
 
 ## prov:used wrapper model (base accepts, profiles pin)
 
-`provProperties/generatedBy.prov:used` is the base contract for every provenance activity. An item may be: a **string**, an **`{@id}` reference**, an **inline `prov:Entity`** object (`@type` ∋ `prov:Entity`), or a **role-keyed wrapper** naming what was used through one of the recognized relations — `schema:instrument`, `bios:computationalTool`, or `prov:reagent`. The base leaves the wrapped value loose.
+`provProperties/generatedBy.prov:used` is the base contract for every provenance activity. An item may be: a **string**, an **`{@id}` reference**, an **inline `prov:Entity`** object (`@type` ∋ `prov:Entity`), or a **role-keyed wrapper** naming what was used through one of the recognized relations — `schema:instrument`, `bios:computationalTool`, or `bios:reagent`. The base leaves the wrapped value loose.
 
 A profile that wants to *pin* a wrapper's shape (e.g. `cdifProvActivity` pinning `schema:instrument` to the Instrument BB) MUST do it with a constraint-only `if/then`:
 
