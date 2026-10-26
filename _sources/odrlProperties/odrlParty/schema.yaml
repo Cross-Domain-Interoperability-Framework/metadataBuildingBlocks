@@ -1,0 +1,105 @@
+---
+$schema: https://json-schema.org/draft/2020-12/schema
+title: ODRL Party
+description: >-
+  An ODRL 2.2 Party (https://www.w3.org/TR/odrl-model/#party) or PartyCollection
+  (https://www.w3.org/TR/odrl-model/#party-collection): who takes a role (assigner, assignee) in a rule.
+  A Party is a person, organization or agent identified by its IRI. A PartyCollection is a group of
+  parties: either the collection itself, identified by @id, or a subset of one, where odrl:source names
+  the collection and odrl:refinement narrows it (e.g. registered users located in the UK).
+type: object
+properties:
+  '@context':
+    type: object
+    description: JSON-LD namespace prefixes for ODRL and schema.org properties.
+    properties:
+      odrl:
+        const: "http://www.w3.org/ns/odrl/2/"
+      schema:
+        const: "http://schema.org/"
+anyOf:
+- $ref: '#/$defs/Party'
+- $ref: '#/$defs/PartyCollection'
+$defs:
+  Party:
+    description: >-
+      Typed odrl:Party, schema:Person or schema:Organization. ODRL declares odrl:Party a subclass of
+      schema:Person or schema:Organization (among FOAF and vCard classes), and gives odrl:assigner and
+      odrl:assignee the range odrl:Party, so a schema.org-typed node in those roles is an odrl:Party
+      without saying so. A schema:Person is validated by the person block and a schema:Organization by
+      the organization block. A person may also carry odrl:Party; an organization may not, because the
+      organization block only accepts schema.org organization types in @type.
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+      '@id':
+        type: string
+        format: iri
+    required:
+    - '@type'
+    - '@id'
+    anyOf:
+    - properties:
+        '@type':
+          contains:
+            const: 'odrl:Party'
+    - properties:
+        '@type':
+          contains:
+            const: 'schema:Person'
+    - properties:
+        '@type':
+          contains:
+            const: 'schema:Organization'
+    allOf:
+    - if:
+        properties:
+          '@type':
+            contains:
+              const: 'schema:Person'
+      then:
+        $ref: ../../schemaorgProperties/person/schema.yaml
+    - if:
+        properties:
+          '@type':
+            contains:
+              const: 'schema:Organization'
+      then:
+        $ref: ../../schemaorgProperties/organization/schema.yaml
+  PartyCollection:
+    description: >-
+      Per ODRL, a refined collection is identified through odrl:source, so odrl:refinement requires
+      odrl:source.
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: 'odrl:PartyCollection'
+      '@id':
+        type: string
+        format: iri
+      'odrl:source':
+        description: The collection this one is drawn from.
+        $ref: ../../cdifDataType/objectReference/schema.yaml
+      'odrl:refinement':
+        description: Constraints selecting the members of odrl:source that belong to this collection.
+        type: array
+        minItems: 1
+        items:
+          $ref: ../odrlConstraint/schema.yaml
+    required:
+    - '@type'
+    anyOf:
+    - required:
+      - '@id'
+    - required:
+      - 'odrl:source'
+    dependentRequired:
+      'odrl:refinement':
+      - 'odrl:source'

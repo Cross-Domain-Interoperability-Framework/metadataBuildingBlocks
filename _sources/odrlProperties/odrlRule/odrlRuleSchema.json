@@ -1,0 +1,161 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "ODRL Rule",
+    "description": "An ODRL 2.2 Rule (https://www.w3.org/TR/odrl-model/#rule): a Permission (may do), a Prohibition (must not do) or a Duty (must do). Every rule has one action and may name its target asset, the parties (assigner, assignee) and constraints. Target and parties may instead be given once at policy level (odrlPolicy), so only the action is required here. A Permission may carry duties that must be fulfilled to exercise it, a Prohibition remedies owed if it is broken, and a Duty consequences owed if it is not fulfilled.",
+    "type": "object",
+    "properties": {
+        "@context": {
+            "type": "object",
+            "description": "JSON-LD namespace prefixes for ODRL properties.",
+            "properties": {
+                "odrl": {
+                    "const": "http://www.w3.org/ns/odrl/2/"
+                }
+            }
+        }
+    },
+    "anyOf": [
+        {
+            "$ref": "#/$defs/Permission"
+        },
+        {
+            "$ref": "#/$defs/Prohibition"
+        },
+        {
+            "$ref": "#/$defs/Duty"
+        }
+    ],
+    "$defs": {
+        "Target": {
+            "description": "The asset, as a reference or an Asset or AssetCollection node.",
+            "anyOf": [
+                {
+                    "$ref": "../../cdifDataType/objectReference/objectReferenceSchema.json"
+                },
+                {
+                    "$ref": "../odrlAsset/odrlAssetSchema.json"
+                }
+            ]
+        },
+        "PartyRef": {
+            "description": "A party, as a reference or a Party or PartyCollection node.",
+            "anyOf": [
+                {
+                    "$ref": "../../cdifDataType/objectReference/objectReferenceSchema.json"
+                },
+                {
+                    "$ref": "../odrlParty/odrlPartySchema.json"
+                }
+            ]
+        },
+        "Rule": {
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string",
+                    "format": "iri"
+                },
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "odrl:target": {
+                    "$ref": "#/$defs/Target"
+                },
+                "odrl:output": {
+                    "description": "An asset created by exercising the action, e.g. the result of odrl:derive.",
+                    "$ref": "#/$defs/Target"
+                },
+                "odrl:action": {
+                    "$ref": "../odrlAction/odrlActionSchema.json"
+                },
+                "odrl:assigner": {
+                    "$ref": "#/$defs/PartyRef"
+                },
+                "odrl:assignee": {
+                    "$ref": "#/$defs/PartyRef"
+                },
+                "odrl:constraint": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "../odrlConstraint/odrlConstraintSchema.json"
+                    }
+                }
+            },
+            "required": [
+                "odrl:action"
+            ]
+        },
+        "Permission": {
+            "allOf": [
+                {
+                    "$ref": "#/$defs/Rule"
+                },
+                {
+                    "properties": {
+                        "@type": {
+                            "contains": {
+                                "const": "odrl:Permission"
+                            }
+                        },
+                        "odrl:duty": {
+                            "description": "Duties that must be fulfilled before the permission can be exercised.",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/Duty"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "Prohibition": {
+            "allOf": [
+                {
+                    "$ref": "#/$defs/Rule"
+                },
+                {
+                    "properties": {
+                        "@type": {
+                            "contains": {
+                                "const": "odrl:Prohibition"
+                            }
+                        },
+                        "odrl:remedy": {
+                            "description": "Duties owed if the prohibition is infringed.",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/Duty"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "Duty": {
+            "allOf": [
+                {
+                    "$ref": "#/$defs/Rule"
+                },
+                {
+                    "properties": {
+                        "@type": {
+                            "contains": {
+                                "const": "odrl:Duty"
+                            }
+                        },
+                        "odrl:consequence": {
+                            "description": "Further duties owed if this duty is not fulfilled.",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/Duty"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,255 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "ODRL Offer",
+    "description": "CDIF Access profile of an ODRL 2.2 Offer (https://www.w3.org/TR/odrl-model/#policy-offer): the baseline access and usage conditions a data provider sets for a digital object, without naming who they apply to (that is an ODRL Agreement). Built on the generic odrlPolicy block, which carries the ODRL structure; this block adds only CDIF's own rules. Draft from the CDIF Access spreadsheet (CDIF_Access_Profile_ODRL_Classes_Properties_Description.xlsx) and the cdifbook data_access chapter.\nKeys carry the odrl: prefix and the document's @context declares the odrl, cdifa1 (https://w3id.org/cdif/access/profile1/), rdf and xsd prefixes. The ODRL JSON-LD context is not used, so nothing coerces a string to an IRI: every IRI value (target, action, parties, operands) is an {\"@id\": ...} object.\nAn access condition (something done BEFORE the digital object is retrieved) is a permission duty constrained by odrl:event odrl:lt odrl:policyUsage (https://www.w3.org/TR/odrl-model/#duty-perm). Everything else is a usage condition: a permission (may do), an obligation (must do) or a prohibition (must not do).\nOPEN QUESTIONS are marked \"OPEN:\" below.",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "../odrlPolicy/odrlPolicySchema.json"
+        }
+    ],
+    "properties": {
+        "@context": {
+            "type": "object",
+            "description": "JSON-LD namespace prefixes for ODRL policy properties. Not required: an Offer embedded in a CDIF record inherits the record's @context.",
+            "properties": {
+                "odrl": {
+                    "const": "http://www.w3.org/ns/odrl/2/"
+                },
+                "cdifa1": {
+                    "const": "https://w3id.org/cdif/access/profile1/"
+                },
+                "rdf": {
+                    "const": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                },
+                "xsd": {
+                    "const": "http://www.w3.org/2001/XMLSchema#"
+                }
+            }
+        },
+        "@type": {
+            "description": "Always includes odrl:Offer.",
+            "contains": {
+                "const": "odrl:Offer"
+            }
+        },
+        "@id": {
+            "description": "Globally unique, resolvable IRI for this Offer (the spreadsheet's uid). A resolver should be able to return application/ld+json, not only an HTML page."
+        },
+        "odrl:profile": {
+            "description": "The CDIF Access ODRL profile this policy uses, which supplies the cdifa1: actions the ODRL core vocabulary lacks (download, assent, datadestruction, ...). OPEN: nothing is published at this IRI yet, and it names a .ttl file where ODRL expects a profile identifier. The cdifa1: form is accepted because compaction under the cdifa1 prefix rewrites the full IRI to it.",
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "enum": [
+                        "https://w3id.org/cdif/access/profile1/cdifa1.ttl",
+                        "cdifa1:cdifa1.ttl"
+                    ]
+                }
+            },
+            "required": [
+                "@id"
+            ]
+        },
+        "odrl:target": {
+            "description": "Asset all rules apply to, if given once at policy level (range odrl:Asset).",
+            "$ref": "../odrlRule/schema.yaml#/$defs/Target"
+        },
+        "odrl:assigner": {
+            "description": "The party issuing the Offer, normally the repository or data custodian, given once at policy level (range odrl:Party). ODRL also accepts an assigner on every rule instead; CDIF asks for the policy-level form. The spreadsheet does not list an assigner yet.",
+            "$ref": "../odrlRule/schema.yaml#/$defs/PartyRef"
+        },
+        "odrl:assignee": {
+            "description": "Party all rules apply to, if given once at policy level (range odrl:Party).",
+            "$ref": "../odrlRule/schema.yaml#/$defs/PartyRef"
+        },
+        "odrl:permission": {
+            "description": "Actions a user may perform on the target (usage conditions).",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "odrl:target": {
+                        "description": "The asset, normally a distribution or data service (range odrl:Asset).",
+                        "$ref": "../odrlRule/schema.yaml#/$defs/Target"
+                    },
+                    "odrl:output": {
+                        "description": "An asset created by exercising the action (range odrl:Asset).",
+                        "$ref": "../odrlRule/schema.yaml#/$defs/Target"
+                    },
+                    "odrl:action": {
+                        "description": "The permitted action (range odrl:Action). OPEN: the cdifa1 action vocabulary is not defined, so values are not enumerated; whether it is an ODRL profile or a standalone controlled vocabulary is still to be settled.",
+                        "$ref": "../odrlAction/odrlActionSchema.json"
+                    },
+                    "odrl:assigner": {
+                        "description": "Party granting this permission, if not given at policy level (range odrl:Party).",
+                        "$ref": "../odrlRule/schema.yaml#/$defs/PartyRef"
+                    },
+                    "odrl:assignee": {
+                        "description": "Who may exercise the permission (range odrl:Party), as a party or a (refined) PartyCollection, e.g. registered users located in the UK. This is the book's form; the spreadsheet scopes users with odrl:constraint instead. OPEN: settle on one, or say when each is used.",
+                        "$ref": "../odrlRule/schema.yaml#/$defs/PartyRef"
+                    },
+                    "odrl:constraint": {
+                        "description": "Conditions on exercising the permission (range odrl:Constraint), e.g. only users located in the UK (the spreadsheet's way of scoping users; see odrl:assignee).",
+                        "type": "array",
+                        "items": {
+                            "$ref": "../odrlConstraint/odrlConstraintSchema.json"
+                        }
+                    },
+                    "odrl:duty": {
+                        "description": "Access conditions (range odrl:Duty): actions that must be completed before the permitted action, e.g. assent to an End User Licence before download.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/$defs/AccessCondition"
+                        }
+                    }
+                },
+                "required": [
+                    "odrl:target",
+                    "odrl:action"
+                ]
+            }
+        },
+        "odrl:obligation": {
+            "description": "Actions every user of the target must perform (range odrl:Duty), e.g. destroy the data at the end of a project. The spreadsheet gives 1..*; drafted as 0..* because an Offer with only permissions is common. OPEN: confirm.",
+            "type": "array",
+            "items": {
+                "$ref": "../odrlRule/schema.yaml#/$defs/Duty"
+            }
+        },
+        "odrl:prohibition": {
+            "description": "Actions a user must not perform (range odrl:Prohibition), e.g. share TRE credentials.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "odrl:target": {
+                        "description": "The asset (range odrl:Asset).",
+                        "$ref": "../odrlRule/schema.yaml#/$defs/Target"
+                    },
+                    "odrl:output": {
+                        "description": "An asset created by exercising the action (range odrl:Asset).",
+                        "$ref": "../odrlRule/schema.yaml#/$defs/Target"
+                    },
+                    "odrl:action": {
+                        "description": "The prohibited action (range odrl:Action).",
+                        "$ref": "../odrlAction/odrlActionSchema.json"
+                    },
+                    "odrl:assigner": {
+                        "description": "Party issuing this prohibition, if not given at policy level (range odrl:Party).",
+                        "$ref": "../odrlRule/schema.yaml#/$defs/PartyRef"
+                    },
+                    "odrl:assignee": {
+                        "description": "Who the prohibition applies to (range odrl:Party).",
+                        "$ref": "../odrlRule/schema.yaml#/$defs/PartyRef"
+                    },
+                    "odrl:constraint": {
+                        "description": "Conditions under which the prohibition applies (range odrl:Constraint).",
+                        "type": "array",
+                        "items": {
+                            "$ref": "../odrlConstraint/odrlConstraintSchema.json"
+                        }
+                    },
+                    "odrl:remedy": {
+                        "description": "Duties owed if the prohibition is infringed (range odrl:Duty).",
+                        "type": "array",
+                        "items": {
+                            "$ref": "../odrlRule/schema.yaml#/$defs/Duty"
+                        }
+                    }
+                },
+                "required": [
+                    "odrl:target",
+                    "odrl:action"
+                ]
+            }
+        }
+    },
+    "required": [
+        "@type",
+        "@id",
+        "odrl:profile",
+        "odrl:assigner",
+        "odrl:permission"
+    ],
+    "$defs": {
+        "accessConditionMarker": {
+            "description": "The constraint odrl:event odrl:lt odrl:policyUsage: the duty must be fulfilled before the permission is exercised. In CDIF Access this is what marks a duty as an access condition. Each operand accepts the odrl: compact IRI and the full IRI.",
+            "type": "object",
+            "properties": {
+                "odrl:leftOperand": {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "enum": [
+                                "odrl:event",
+                                "http://www.w3.org/ns/odrl/2/event"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "@id"
+                    ]
+                },
+                "odrl:operator": {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "enum": [
+                                "odrl:lt",
+                                "http://www.w3.org/ns/odrl/2/lt"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "@id"
+                    ]
+                },
+                "odrl:rightOperand": {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "enum": [
+                                "odrl:policyUsage",
+                                "http://www.w3.org/ns/odrl/2/policyUsage"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "@id"
+                    ]
+                }
+            },
+            "required": [
+                "odrl:leftOperand",
+                "odrl:operator",
+                "odrl:rightOperand"
+            ]
+        },
+        "AccessCondition": {
+            "description": "A permission duty carrying the accessConditionMarker. The spreadsheet gives the duty action as 1..*; ODRL allows one action per rule, so several pre-conditions are several duties. OPEN: the spreadsheet does not say what an assent duty assents to (e.g. which licence document); a duty target is one candidate. OPEN: the spreadsheet lists constraint @type with cardinality 1 but gives no value and omits it on this constraint, so it is optional.",
+            "type": "object",
+            "properties": {
+                "odrl:action": {
+                    "description": "The action to complete first, e.g. cdifa1:assent (range odrl:Action).",
+                    "$ref": "../odrlAction/odrlActionSchema.json"
+                },
+                "odrl:constraint": {
+                    "description": "Must include the accessConditionMarker (range odrl:Constraint).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "../odrlConstraint/odrlConstraintSchema.json"
+                    },
+                    "contains": {
+                        "$ref": "#/$defs/accessConditionMarker"
+                    }
+                }
+            },
+            "required": [
+                "odrl:action",
+                "odrl:constraint"
+            ]
+        }
+    }
+}
