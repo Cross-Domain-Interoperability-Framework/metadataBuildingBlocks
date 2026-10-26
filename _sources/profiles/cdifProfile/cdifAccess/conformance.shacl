@@ -1,0 +1,26 @@
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Profile-conformance advisory. Kept out of rules.shacl deliberately: this file
+# is collected only when THIS block is the validation target, while rules.shacl
+# travels with the $ref graph.
+
+# When a catalog record (schema:subjectOf) is present, its dcterms:conformsTo
+# should include the CDIF Access profile URI. OPEN: the URI is not minted.
+cdifd:CDIFAccessConformsToShape a sh:NodeShape ;
+    sh:property [ a sh:PropertyShape ;
+            sh:hasValue <https://w3id.org/cdif/access/1.1> ;
+            sh:minCount 1 ;
+            sh:severity sh:Warning ;
+            sh:message "A subjectOf catalog record on a CDIF Access dataset should include dcterms:conformsTo <https://w3id.org/cdif/access/1.1>." ;
+            sh:path dcterms:conformsTo ] ;
+    sh:target [ a sh:SPARQLTarget ;
+            sh:select """
+                PREFIX schema: <http://schema.org/>
+                SELECT ?this WHERE {
+                    ?dataset schema:subjectOf ?this .
+                    ?dataset a schema:Dataset .
+                }
+            """ ] .

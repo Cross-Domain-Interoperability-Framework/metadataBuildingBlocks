@@ -1,0 +1,47 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix odrl:        <http://www.w3.org/ns/odrl/2/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ODRL 2.2 Rule: Permission, Prohibition, Duty (https://www.w3.org/TR/odrl-model/#rule).
+# Rules are usually untyped blank nodes, so they are found by the property that
+# holds them. Target and parties may be given once at policy level instead, so
+# only the action is required here; odrlPolicy checks the policy-level
+# requirements. Values of the role properties are checked by the action, asset,
+# party and constraint shapes.
+
+cdifd:ODRLRuleShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Permission, odrl:Prohibition, odrl:Duty ;
+    sh:targetObjectsOf odrl:permission, odrl:prohibition, odrl:obligation,
+        odrl:duty, odrl:remedy, odrl:consequence ;
+    sh:property [
+        sh:path odrl:action ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An ODRL rule (permission, prohibition or duty) must have exactly one odrl:action." ;
+    ] ;
+    sh:property [
+        sh:path odrl:target ;
+        sh:maxCount 1 ;
+        sh:message "An ODRL rule has at most one odrl:target; group several assets in an odrl:AssetCollection." ;
+    ] ;
+    sh:property [
+        sh:path odrl:output ;
+        sh:maxCount 1 ;
+        sh:message "An ODRL rule has at most one odrl:output." ;
+    ] ;
+    sh:property [
+        sh:path odrl:assigner ;
+        sh:maxCount 1 ;
+        sh:message "An ODRL rule has at most one odrl:assigner." ;
+    ] ;
+    sh:property [
+        sh:path odrl:assignee ;
+        sh:maxCount 1 ;
+        sh:message "An ODRL rule has at most one odrl:assignee; group several parties in an odrl:PartyCollection." ;
+    ] ;
+    .

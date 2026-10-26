@@ -1,0 +1,194 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix odrl:        <http://www.w3.org/ns/odrl/2/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ODRL 2.2 Policy and its subclasses (https://www.w3.org/TR/odrl-model/#policy).
+# The data graph carries no ODRL ontology, so sh:targetClass odrl:Policy does
+# not reach an odrl:Offer; every subclass is listed.
+#
+# A target or party given at policy level applies to every rule
+# (https://www.w3.org/TR/odrl-model/#composition), so each subclass requirement
+# is met by the policy-level property or by that property on every rule
+# concerned -- the same reading as the JSON Schema's hasTarget / hasAssigner /
+# hasAssignee. Those checks need "every rule", which only SPARQL can say; they
+# are the named SPARQL constraints at the end of this file.
+
+cdifd:ODRLPolicyShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Policy, odrl:Set, odrl:Offer, odrl:Agreement, odrl:Request,
+        odrl:Ticket, odrl:Assertion, odrl:Privacy ;
+    sh:nodeKind sh:IRI ;
+    sh:or (
+        [ sh:path odrl:permission ; sh:minCount 1 ]
+        [ sh:path odrl:prohibition ; sh:minCount 1 ]
+        [ sh:path odrl:obligation ; sh:minCount 1 ]
+    ) ;
+    sh:property [
+        sh:path odrl:profile ;
+        sh:nodeKind sh:IRI ;
+        sh:message "odrl:profile must be the IRI of an ODRL profile." ;
+    ] ;
+    sh:property [
+        sh:path odrl:inheritFrom ;
+        sh:nodeKind sh:IRI ;
+        sh:message "odrl:inheritFrom must be the IRI of a parent policy." ;
+    ] ;
+    sh:property [
+        sh:path odrl:conflict ;
+        sh:maxCount 1 ;
+        sh:in ( odrl:perm odrl:prohibit odrl:invalid ) ;
+        sh:message "odrl:conflict must be one of odrl:perm, odrl:prohibit or odrl:invalid." ;
+    ] ;
+    sh:property [
+        sh:path odrl:target ;
+        sh:maxCount 1 ;
+        sh:message "A policy has at most one policy-level odrl:target; group several assets in an odrl:AssetCollection." ;
+    ] ;
+    sh:property [
+        sh:path odrl:assigner ;
+        sh:maxCount 1 ;
+        sh:message "A policy has at most one policy-level odrl:assigner." ;
+    ] ;
+    sh:property [
+        sh:path odrl:assignee ;
+        sh:maxCount 1 ;
+        sh:message "A policy has at most one policy-level odrl:assignee; group several parties in an odrl:PartyCollection." ;
+    ] ;
+    sh:message "An ODRL policy must be identified by an IRI (@id) and have at least one odrl:permission, odrl:prohibition or odrl:obligation." ;
+    .
+
+# Every subclass except Set must have a permission or a prohibition.
+cdifd:ODRLPolicyPermissionOrProhibitionShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Offer, odrl:Agreement, odrl:Request, odrl:Ticket, odrl:Assertion, odrl:Privacy ;
+    sh:or (
+        [ sh:path odrl:permission ; sh:minCount 1 ]
+        [ sh:path odrl:prohibition ; sh:minCount 1 ]
+    ) ;
+    sh:message "An ODRL Offer, Agreement, Request, Ticket, Assertion or Privacy policy must have at least one odrl:permission or odrl:prohibition." ;
+    .
+
+cdifd:ODRLSetShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Set ;
+    sh:sparql cdifd:policyHasTarget ;
+    .
+
+cdifd:ODRLOfferShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Offer ;
+    sh:sparql cdifd:policyHasAssigner ;
+    .
+
+cdifd:ODRLAgreementShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Agreement ;
+    sh:sparql cdifd:policyHasAssigner, cdifd:policyHasAssignee ;
+    .
+
+cdifd:ODRLRequestShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Request ;
+    sh:sparql cdifd:policyHasTarget, cdifd:policyHasAssignee ;
+    .
+
+cdifd:ODRLTicketShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Ticket ;
+    sh:sparql cdifd:policyHasTarget, cdifd:policyHasNoAssignee ;
+    .
+
+cdifd:ODRLAssertionShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Assertion ;
+    sh:sparql cdifd:policyHasTarget, cdifd:policyHasAssignerOrAssignee ;
+    .
+
+cdifd:ODRLPrivacyShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Privacy ;
+    sh:sparql cdifd:policyHasTarget, cdifd:policyHasAssigner, cdifd:policyHasAssignee ;
+    sh:or (
+        [ sh:path odrl:obligation ; sh:minCount 1 ]
+        [ sh:path ( odrl:permission odrl:duty ) ; sh:minCount 1 ]
+    ) ;
+    sh:message "An ODRL Privacy policy must include a duty (an odrl:obligation, or an odrl:duty on a permission) describing obligations on the use of personal information." ;
+    .
+
+# Reports each rule that lacks the property when the policy does not give it.
+cdifd:policyHasTarget
+    a sh:SPARQLConstraint ;
+    sh:message "This kind of ODRL policy needs a target: give odrl:target at policy level, or on every rule ({?rule} has none)." ;
+    sh:select """
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+        SELECT $this ?rule WHERE {
+            FILTER NOT EXISTS { $this odrl:target ?t }
+            $this odrl:permission|odrl:prohibition|odrl:obligation ?rule .
+            FILTER NOT EXISTS { ?rule odrl:target ?rt }
+        }
+    """ ;
+    .
+
+cdifd:policyHasAssigner
+    a sh:SPARQLConstraint ;
+    sh:message "This kind of ODRL policy needs an assigner: give odrl:assigner at policy level, or on every permission and prohibition ({?rule} has none)." ;
+    sh:select """
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+        SELECT $this ?rule WHERE {
+            FILTER NOT EXISTS { $this odrl:assigner ?a }
+            $this odrl:permission|odrl:prohibition ?rule .
+            FILTER NOT EXISTS { ?rule odrl:assigner ?ra }
+        }
+    """ ;
+    .
+
+cdifd:policyHasAssignee
+    a sh:SPARQLConstraint ;
+    sh:message "This kind of ODRL policy needs an assignee: give odrl:assignee at policy level, or on every permission and prohibition ({?rule} has none)." ;
+    sh:select """
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+        SELECT $this ?rule WHERE {
+            FILTER NOT EXISTS { $this odrl:assignee ?a }
+            $this odrl:permission|odrl:prohibition ?rule .
+            FILTER NOT EXISTS { ?rule odrl:assignee ?ra }
+        }
+    """ ;
+    .
+
+cdifd:policyHasNoAssignee
+    a sh:SPARQLConstraint ;
+    sh:message "An ODRL Ticket names no assignee; it is granted to whoever holds it ({?where} has odrl:assignee)." ;
+    sh:select """
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+        SELECT $this ?where WHERE {
+            { BIND ($this AS ?where) $this odrl:assignee ?a }
+            UNION
+            { $this odrl:permission|odrl:prohibition ?where . ?where odrl:assignee ?ra }
+        }
+    """ ;
+    .
+
+# Assertion: the assigner requirement OR the assignee requirement is met.
+cdifd:policyHasAssignerOrAssignee
+    a sh:SPARQLConstraint ;
+    sh:message "An ODRL Assertion needs an assigner or an assignee, at policy level or on every permission and prohibition." ;
+    sh:select """
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+        SELECT $this WHERE {
+            FILTER NOT EXISTS { $this odrl:assigner ?a }
+            FILTER EXISTS {
+                $this odrl:permission|odrl:prohibition ?r1 .
+                FILTER NOT EXISTS { ?r1 odrl:assigner ?x1 }
+            }
+            FILTER NOT EXISTS { $this odrl:assignee ?b }
+            FILTER EXISTS {
+                $this odrl:permission|odrl:prohibition ?r2 .
+                FILTER NOT EXISTS { ?r2 odrl:assignee ?x2 }
+            }
+        }
+    """ ;
+    .

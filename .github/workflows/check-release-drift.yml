@@ -143,6 +143,16 @@ jobs:
           ref: 'reviewRevision202606'
           path: cdif/profile-provenance
 
+      - name: Checkout profile-access
+        uses: actions/checkout@v5
+        with:
+          # Pinned like profile-provenance: a draft under review, published as
+          # profile-access-draft with only a main branch. Checked out under the
+          # name sync_release_repos.py uses for the local clone.
+          repository: ${{ github.repository_owner }}/profile-access-draft
+          ref: 'main'
+          path: cdif/profile-access
+
       - name: Checkout XAS-CDIF
         uses: actions/checkout@v5
         # A failed checkout aborts the job before the comparison runs, which is

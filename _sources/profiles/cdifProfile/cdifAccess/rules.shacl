@@ -1,0 +1,51 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:      <http://schema.org/> .
+@prefix odrl:        <http://www.w3.org/ns/odrl/2/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# CDIF Access profile module: a described dataset carries at least one ODRL
+# policy, on a distribution (odrl:hasPolicy) or as an IRI in
+# schema:conditionsOfAccess. The policies themselves are checked by the
+# odrlOffer and generic ODRL shapes.
+
+cdifd:CDIFAccessDatasetShape
+    a sh:NodeShape ;
+    sh:target [
+      a sh:SPARQLTarget ;
+      sh:select """
+            PREFIX schema: <http://schema.org/>
+            SELECT ?this
+            WHERE {
+              ?this a schema:Dataset .
+              MINUS {
+                ?this schema:about ?x .
+                ?this schema:additionalType ?at .
+                FILTER( ?at = <http://www.w3.org/ns/dcat#CatalogRecord> || STR(?at) = "dcat:CatalogRecord" )
+              }
+            }
+          """ ;
+    ] ;
+    sh:or (
+        [ sh:path ( schema:distribution odrl:hasPolicy ) ; sh:minCount 1 ]
+        [
+            sh:path schema:conditionsOfAccess ;
+            sh:qualifiedValueShape [ sh:nodeKind sh:IRI ] ;
+            sh:qualifiedMinCount 1 ;
+        ]
+    ) ;
+    sh:message "A CDIF Access dataset must have an ODRL policy: odrl:hasPolicy on a schema:distribution, or the policy IRI in schema:conditionsOfAccess." ;
+    .
+
+cdifd:CDIFAccessHasPolicyShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf odrl:hasPolicy ;
+    sh:property [
+        sh:path odrl:hasPolicy ;
+        sh:nodeKind sh:IRI ;
+        sh:message "odrl:hasPolicy must be the policy's IRI (an inline Offer must have an @id)." ;
+    ] ;
+    .
