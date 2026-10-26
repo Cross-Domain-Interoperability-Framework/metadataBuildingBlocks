@@ -30,6 +30,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
 ```json
 {
   "@context": {
+    "wd": "https://www.wikidata.org/entity/",
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
@@ -432,6 +433,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/context.jsonld",
     {
+      "wd": "https://www.wikidata.org/entity/",
       "schema": "http://schema.org/",
       "dcterms": "http://purl.org/dc/terms/",
       "dcat": "http://www.w3.org/ns/dcat#",
@@ -904,28 +906,19 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "sample preparation method" ;
-                            schema1:propertyID xas:samplepreparation ;
-                            schema1:value "powder on tape, 6 layers" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "Stoichiometry" ;
                             schema1:propertyID xas:samplechemicalcomposition ;
-                            schema1:value "Na2SeO4" ] ;
+                            schema1:value "Na2SeO4" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "sample preparation method" ;
+                            schema1:propertyID xas:samplepreparation ;
+                            schema1:value "powder on tape, 6 layers" ] ;
                     schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
                         "MaterialSample" ;
                     schema1:description "Sodium selenate reference compound, powder" ;
                     schema1:identifier "igsn:10.6620/se-selenate-001" ;
                     schema1:name "Na2SeO4" ] ;
             prov:used [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
-                                wd:Q3099911 ;
-                            schema1:category [ a schema1:DefinedTerm ;
-                                    schema1:name "X-ray absorption spectroscopy beamline" ;
-                                    schema1:termCode "XAS-beamline" ] ;
-                            schema1:name "APS Sector 20-BM beamline instrument" ] ],
-                [ schema1:instrument [ a schema1:Product,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
@@ -942,19 +935,28 @@ ex:xas-dataset-001 a schema1:Dataset,
                 [ schema1:instrument [ a schema1:Product,
                                 schema1:Thing,
                                 prov:Entity ;
+                            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
+                                wd:Q3099911 ;
+                            schema1:category [ a schema1:DefinedTerm ;
+                                    schema1:name "X-ray absorption spectroscopy beamline" ;
+                                    schema1:termCode "XAS-beamline" ] ;
+                            schema1:name "APS Sector 20-BM beamline instrument" ] ],
+                [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "d-spacing" ;
-                                    schema1:propertyID xas:dspacing ;
-                                    schema1:unitText "Angstrom" ;
-                                    schema1:value "3.13550" ],
-                                [ a schema1:PropertyValue ;
                                     schema1:name "reflection plane (hkl)" ;
                                     schema1:propertyID xas:reflectionplane ;
                                     schema1:value "1,1,1" ],
                                 [ a schema1:PropertyValue ;
                                     schema1:name "crystal type" ;
                                     schema1:propertyID xas:monochromatortype ;
-                                    schema1:value "Si(111)" ] ;
+                                    schema1:value "Si(111)" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "d-spacing" ;
+                                    schema1:propertyID xas:dspacing ;
+                                    schema1:unitText "Angstrom" ;
+                                    schema1:value "3.13550" ] ;
                             schema1:additionalType xas:xraymonochromator,
                                 wd:Q3099911 ;
                             schema1:name "Si 111" ] ] ] .
