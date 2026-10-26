@@ -63,13 +63,13 @@ plus `cdif:hasPhysicalMapping` on the distribution: columns ↔ variables
 and the byte-level layout needed to parse the payload deterministically.
 
 **`xasCore` (required)** — `@type` requires `schema:Dataset`
-(`schema:Product` optional); a `prov:wasGeneratedBy` analysis activity
-whose `prov:used` carries the peer instrument wrappers (source,
-beamline, monochromator, monitor) with their required
-`schema:additionalProperty` entries; an XDI-conformant
-`schema:distribution`; required XAS `schema:measurementTechnique`
-DefinedTerms; required element / edge `schema:keywords`; and the
-`schema:object` material sample.
+(`schema:Product` optional); a required `prov:wasGeneratedBy` with at
+least one analysis activity, whose `prov:used` carries the peer
+instrument wrappers (source, beamline, monochromator) with their
+required `schema:additionalProperty` entries; an XDI- or
+NeXus-conformant `schema:distribution`; required XAS
+`schema:measurementTechnique` DefinedTerms; and the `schema:object`
+material sample. `schema:keywords` carries no XAS requirement.
 
 **`xasOptional` (optional)** — optional `schema:variableMeasured` XAS
 data-array variables (mu*, norm*, chi*, k, r, angle …), plus documented

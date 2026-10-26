@@ -122,8 +122,9 @@ properties:
                     type: object
                     properties:
                       'schema:additionalType':
-                        anyOf:
-                        - type: object
+                        type: array
+                        contains:
+                          type: object
                           additionalProperties: false
                           required:
                           - '@id'
@@ -135,20 +136,6 @@ properties:
                               enum:
                               - "nxs:base_classes/NXinstrument.html"
                               - "xas:beamline"
-                        - type: array
-                          contains:
-                            type: object
-                            additionalProperties: false
-                            required:
-                            - '@id'
-                            properties:
-                              '@id':
-                                # Transition: the NeXus term is preferred and the retired xas: term is still
-                                # accepted. See CHANGES-from-UKDS.md for the retirement table. Remove the
-                                # xas: alternative once cdifnexmetadata and XAS-CDIF emit the NeXus form.
-                                enum:
-                                - "nxs:base_classes/NXinstrument.html"
-                                - "xas:beamline"
             then:
               properties:
                 'schema:instrument':

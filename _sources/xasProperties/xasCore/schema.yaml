@@ -1,11 +1,14 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 title: XAS Core (required) metadata constraints
 description: Required XAS constraints layered on cdifCore (composed once by the xasDocument profile; this
-  module does NOT re-embed cdifCore). Enforces dual @type (Dataset+Product), a prov:wasGeneratedBy analysis
-  activity whose prov:used carries the NXsource+NXmonochromator instrument wrapper, an XDI-conformant
-  distribution, required XAS measurementTechnique DefinedTerms, required element/edge keywords, and the
-  schema:object material sample.
+  module does NOT re-embed cdifCore). Enforces @type including schema:Dataset (schema:Product optional), a
+  prov:wasGeneratedBy analysis activity whose prov:used carries the NXsource+NXmonochromator instrument
+  wrapper, an XDI- or NeXus-conformant distribution, and required XAS measurementTechnique DefinedTerms
+  (the PaNET XAS technique and the detection mode). schema:keywords carries no XAS requirement.
 type: object
+required:
+- prov:wasGeneratedBy
+- schema:measurementTechnique
 properties:
   '@type':
     description: >-
@@ -37,10 +40,19 @@ properties:
             '@id':
               const: https://w3id.org/cdif/xasCore/1.0
   prov:wasGeneratedBy:
+    description: >-
+      The activities that produced the dataset. Any CDIF provenance activity
+      may appear, and at least one MUST be an XAS analysis event
+      (xasGeneratedBy) that used an x-ray source and a monochromator as
+      constrained below. Applying the analysis-event shape to every item
+      instead rejected any other processing step.
     type: array
+    minItems: 1
     items:
+      $ref: ../../cdifDataType/cdifProvActivity/schema.yaml
+    contains:
       allOf:
-      - $ref: '#/$defs/CdifProvActivity'
+      - $ref: '#/$defs/XasAnalysisEvent'
       - type: object
         properties:
           prov:used:
@@ -76,23 +88,15 @@ properties:
                       - schema:additionalProperty
                       properties:
                         schema:additionalType:
-                          anyOf:
-                          - type: object
+                          type: array
+                          contains:
+                            type: object
                             additionalProperties: false
                             required:
                             - '@id'
                             properties:
                               '@id':
                                 const: xas:source
-                          - type: array
-                            contains:
-                              type: object
-                              additionalProperties: false
-                              required:
-                              - '@id'
-                              properties:
-                                '@id':
-                                  const: xas:source
                         schema:additionalProperty:
                           type: array
                           minItems: 2
@@ -169,23 +173,15 @@ properties:
                       - schema:additionalProperty
                       properties:
                         schema:additionalType:
-                          anyOf:
-                          - type: object
+                          type: array
+                          contains:
+                            type: object
                             additionalProperties: false
                             required:
                             - '@id'
                             properties:
                               '@id':
                                 const: xas:xraymonochromator
-                          - type: array
-                            contains:
-                              type: object
-                              additionalProperties: false
-                              required:
-                              - '@id'
-                              properties:
-                                '@id':
-                                  const: xas:xraymonochromator
                         schema:name:
                           type: string
                         schema:additionalProperty:
@@ -308,7 +304,18 @@ properties:
       - dcterms:conformsTo
   schema:measurementTechnique:
     type: array
-    description: 'Require DefinedTerms for both: absorption edge (XDI dict) and target element (SWEET).'
+    description: >-
+      Required. Two DefinedTerms: the PaNET X-ray absorption spectroscopy
+      technique (the default below, which a producer can always supply) and
+      the detection mode, drawn from the NXxas DATA/mode field (use the name
+      ":unav" when the source does not record it).
+    default:
+    - '@type':
+      - schema:DefinedTerm
+      schema:name: X-Ray Absorption Spectroscopy
+      schema:termCode: XAS
+      schema:identifier: http://purl.org/pan-science/PaNET/PaNET01196
+      schema:inDefinedTermSet: http://purl.org/pan-science/PaNET/PaNET.owl
     minItems: 2
     items:
       $ref: '#/$defs/DefinedTerm'
@@ -339,61 +346,10 @@ properties:
         required:
         - schema:name
         - schema:inDefinedTermSet
-  schema:keywords:
-    type: array
-    description: extends base CDIF keyword schema to require defined terms for the absorption edge and
-      the target element for the analysis
-    minItems: 2
-    items:
-      type: object
-      properties:
-        '@type':
-          type: array
-          items:
-            type: string
-          contains:
-            const: schema:DefinedTerm
-          minItems: 1
-        schema:name:
-          type: string
-        schema:identifier:
-          type: string
-        schema:inDefinedTermSet:
-          type: string
-          description: need to include this to tag what the keyword is about; we're using the keywords
-            as soft-typed properties
-      required:
-      - '@type'
-      - schema:name
-      - schema:inDefinedTermSet
-      additionalProperties: true
-    contains:
-      description: >-
-        The XDI-dictionary keyword identifying the absorption edge; tagged
-        with schema:about "element.edge" to mark its role.
-      type: object
-      properties:
-        schema:inDefinedTermSet:
-          const: https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md
-        schema:about:
-          const: element.edge
-      required:
-      - schema:inDefinedTermSet
-      - schema:about
-    allOf:
-    - contains:
-        description: >-
-          The SWEET matrElement keyword identifying the target element; tagged
-          with schema:about "element.symbol" to mark its role.
-        type: object
-        properties:
-          schema:inDefinedTermSet:
-            const: http://sweetontology.net/matrElement
-          schema:about:
-            const: element.symbol
-        required:
-        - schema:inDefinedTermSet
-        - schema:about
+  # schema:keywords carries no XAS rule: base CDIF keywords apply, plain strings
+  # included. The absorption-edge (XDI dictionary, schema:about "element.edge")
+  # and target-element (SWEET matrElement, "element.symbol") DefinedTerms are
+  # recommended, not required.
   schema:variableMeasured:
     description: >-
       XAS variableMeasured items. Each item's schema:propertyID SHOULD reference
@@ -429,7 +385,7 @@ properties:
               - xas:filteredchiimaginary
               - xas:radialdistance
 $defs:
-  CdifProvActivity:
+  XasAnalysisEvent:
     $ref: ../xasGeneratedBy/schema.yaml
   DefinedTerm:
     $ref: ../../schemaorgProperties/definedTerm/schema.yaml
