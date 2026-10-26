@@ -1514,6 +1514,12 @@ work goes on an `updates` branch and reaches `main` by pull request — `main` i
 time, before the tag exists. Each release is tagged `v1.1.n` (annotated) with a GitHub Release.
 The old `reviewRevision202606` branches are retained as `archive202609`.
 
+`.github/workflows/check-release-drift.yml` compares mBB against each release repo's **`updates`**
+branch (since 2026-10-26), because that is where `sync_release_repos.py` lands. Against `main` it was
+red on every run between releases (2026-09-11 to 2026-10-26) while `updates` matched exactly, so it
+could not show a missed sync. To preview what a release would carry, dispatch it with
+`release_branch: main` (and `--ref` the branch you are on: `gh workflow run` defaults to `main`).
+
 Two consequences worth holding onto:
 
 **Implementation guides drift from the schemas they describe, and nothing used to notice.**
