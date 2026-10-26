@@ -1,0 +1,76 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "odrl": "http://www.w3.org/ns/odrl/2/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["schema:Dataset"],
+  "@id": "ex:dataset/3936",
+  "schema:name": "Example restricted-access survey dataset",
+  "schema:conditionsOfAccess": [
+    "Users located in the UK may download the data after assenting to the End User Licence.",
+    { "@id": "https://example.org/odrloffer/13adb49c-f641-4ac7-aa90-18651cc211ce" }
+  ],
+  "schema:subjectOf": {
+    "dcterms:conformsTo": [
+      { "@id": "https://w3id.org/cdif/access/1.1" }
+    ]
+  },
+  "schema:distribution": [
+    {
+      "@id": "ex:dataset/3936/distribution/csv",
+      "@type": ["schema:DataDownload"],
+      "schema:name": "Survey responses (CSV)",
+      "schema:contentUrl": "https://example.org/data/3936/responses.csv",
+      "schema:encodingFormat": ["text/csv"],
+      "odrl:hasPolicy": [
+        {
+          "@context": [
+            "http://www.w3.org/ns/odrl.jsonld",
+            {
+              "odrl": "http://www.w3.org/ns/odrl/2/",
+              "cdifa1": "https://w3id.org/cdif/access/profile1/"
+            }
+          ],
+          "@type": "Offer",
+          "uid": "https://example.org/odrloffer/13adb49c-f641-4ac7-aa90-18651cc211ce",
+          "profile": "https://w3id.org/cdif/access/profile1/cdifa1.ttl",
+          "assigner": "https://example.org/repository",
+          "permission": [
+            {
+              "target": "https://example.org/dataset/3936/distribution/csv",
+              "action": "cdifa1:download",
+              "constraint": [
+                {
+                  "@type": "Constraint",
+                  "leftOperand": "spatial",
+                  "operator": "eq",
+                  "rightOperand": { "@id": "http://publications.europa.eu/resource/authority/country/GBR" }
+                }
+              ],
+              "duty": [
+                {
+                  "action": "cdifa1:assent",
+                  "constraint": [
+                    {
+                      "leftOperand": "event",
+                      "operator": "lt",
+                      "rightOperand": { "@id": "odrl:policyUsage" }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "prohibition": [
+            {
+              "target": "https://example.org/dataset/3936/distribution/csv",
+              "action": "cdifa1:shareTRECredentials"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

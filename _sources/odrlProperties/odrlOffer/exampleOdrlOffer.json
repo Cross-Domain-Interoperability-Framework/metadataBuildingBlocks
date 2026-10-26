@@ -1,0 +1,61 @@
+{
+  "@context": [
+    "http://www.w3.org/ns/odrl.jsonld",
+    {
+      "odrl": "http://www.w3.org/ns/odrl/2/",
+      "cdifa1": "https://w3id.org/cdif/access/profile1/"
+    }
+  ],
+  "@type": "Offer",
+  "uid": "https://example.org/odrloffer/13adb49c-f641-4ac7-aa90-18651cc211ce",
+  "profile": "https://w3id.org/cdif/access/profile1/cdifa1.ttl",
+  "assigner": "https://example.org/repository",
+  "permission": [
+    {
+      "target": "https://example.org/dataset/3936/distribution/csv",
+      "action": "cdifa1:download",
+      "constraint": [
+        {
+          "@type": "Constraint",
+          "leftOperand": "spatial",
+          "operator": "eq",
+          "rightOperand": { "@id": "http://publications.europa.eu/resource/authority/country/GBR" }
+        }
+      ],
+      "duty": [
+        {
+          "action": "cdifa1:assent",
+          "constraint": [
+            {
+              "leftOperand": "event",
+              "operator": "lt",
+              "rightOperand": { "@id": "odrl:policyUsage" }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "obligation": [
+    {
+      "target": "https://example.org/dataset/3936/distribution/csv",
+      "action": {
+        "rdf:value": { "@id": "cdifa1:datadestruction" },
+        "refinement": [
+          {
+            "@type": "Constraint",
+            "leftOperand": "dateTime",
+            "operator": "lteq",
+            "rightOperand": { "@value": "2027-12-31", "@type": "xsd:date" }
+          }
+        ]
+      }
+    }
+  ],
+  "prohibition": [
+    {
+      "target": "https://example.org/dataset/3936/distribution/csv",
+      "action": "cdifa1:shareTRECredentials"
+    }
+  ]
+}

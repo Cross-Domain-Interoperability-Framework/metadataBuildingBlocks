@@ -81,6 +81,8 @@ metadataBuildingBlocks/
 │   │   ├── ddicdiStatistics/        # DDI-CDI Statistics / CategoryStatistics / StatisticsCollection
 │   │   ├── ddicdiKeyValueStructure/ # DDI-CDI KeyValue package (KeyValueStructure, KeyValueDataStore, InstanceKey, ...)
 │   │   └── ddicdiCollections/       # DDI-CDI CollectionsPattern (Collection, List, Map, Member, Structure, ...)
+│   ├── odrlProperties/               # W3C ODRL policy types (draft, for cdifAccess)
+│   │   └── odrlOffer/               # odrl:Offer: permissions, duties, obligations, prohibitions
 │   ├── skosProperties/               # W3C SKOS vocabulary types
 │   │   ├── skosConceptScheme/       # skos:ConceptScheme
 │   │   ├── skosConcept/            # skos:Concept
