@@ -81,8 +81,15 @@ metadataBuildingBlocks/
 │   │   ├── ddicdiStatistics/        # DDI-CDI Statistics / CategoryStatistics / StatisticsCollection
 │   │   ├── ddicdiKeyValueStructure/ # DDI-CDI KeyValue package (KeyValueStructure, KeyValueDataStore, InstanceKey, ...)
 │   │   └── ddicdiCollections/       # DDI-CDI CollectionsPattern (Collection, List, Map, Member, Structure, ...)
-│   ├── odrlProperties/               # W3C ODRL policy types (draft, for cdifAccess)
-│   │   └── odrlOffer/               # odrl:Offer: permissions, duties, obligations, prohibitions
+│   ├── odrlProperties/               # W3C ODRL 2.2 policy types (draft, for cdifAccess)
+│   │   ├── odrlPolicy/              # Policy + Set/Offer/Agreement/Request/Ticket/Assertion/Privacy rules
+│   │   ├── odrlRule/                # Permission, Prohibition, Duty (duty/remedy/consequence)
+│   │   ├── odrlAction/              # action reference or rdf:value + refinement
+│   │   ├── odrlConstraint/          # Constraint, LogicalConstraint (and/or/xone/andSequence)
+│   │   ├── odrlParty/               # Party, PartyCollection
+│   │   ├── odrlAsset/               # Asset, AssetCollection
+│   │   ├── odrlTerms/               # type library: open action/operand IRIs, closed ConflictTerm
+│   │   └── odrlOffer/               # CDIF Access profile of odrl:Offer (allOf odrlPolicy)
 │   ├── skosProperties/               # W3C SKOS vocabulary types
 │   │   ├── skosConceptScheme/       # skos:ConceptScheme
 │   │   ├── skosConcept/            # skos:Concept

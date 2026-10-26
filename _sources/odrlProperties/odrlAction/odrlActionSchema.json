@@ -1,0 +1,49 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "ODRL Action",
+    "description": "An ODRL 2.2 Action (https://www.w3.org/TR/odrl-model/#action) as used in a rule: either a reference to the action ({\"@id\": \"odrl:use\"}), or, when the action itself is narrowed, an object holding the action in rdf:value plus odrl:refinement constraints (e.g. print, at most 1200 dpi). Actions are open IRIs (odrlTerms), so ODRL profile actions validate.",
+    "type": "object",
+    "properties": {
+        "@context": {
+            "type": "object",
+            "description": "JSON-LD namespace prefixes for ODRL properties.",
+            "properties": {
+                "odrl": {
+                    "const": "http://www.w3.org/ns/odrl/2/"
+                },
+                "rdf": {
+                    "const": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                }
+            }
+        }
+    },
+    "anyOf": [
+        {
+            "$ref": "../odrlTerms/schema.yaml#/$defs/Action"
+        },
+        {
+            "$ref": "#/$defs/RefinedAction"
+        }
+    ],
+    "$defs": {
+        "RefinedAction": {
+            "type": "object",
+            "properties": {
+                "rdf:value": {
+                    "$ref": "../odrlTerms/schema.yaml#/$defs/Action"
+                },
+                "odrl:refinement": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "../odrlConstraint/odrlConstraintSchema.json"
+                    }
+                }
+            },
+            "required": [
+                "rdf:value",
+                "odrl:refinement"
+            ]
+        }
+    }
+}

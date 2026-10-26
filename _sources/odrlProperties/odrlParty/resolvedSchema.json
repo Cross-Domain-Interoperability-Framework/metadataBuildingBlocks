@@ -1,0 +1,455 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ODRL Party",
+  "description": "An ODRL 2.2 Party (https://www.w3.org/TR/odrl-model/#party) or PartyCollection (https://www.w3.org/TR/odrl-model/#party-collection): who takes a role (assigner, assignee) in a rule. A Party is a person, organization or agent identified by its IRI. A PartyCollection is a group of parties: either the collection itself, identified by @id, or a subset of one, where odrl:source names the collection and odrl:refinement narrows it (e.g. registered users located in the UK).",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "type": "object",
+      "description": "JSON-LD namespace prefixes for ODRL properties.",
+      "properties": {
+        "odrl": {
+          "const": "http://www.w3.org/ns/odrl/2/"
+        }
+      }
+    }
+  },
+  "anyOf": [
+    {
+      "description": "Further description (e.g. schema:name) is allowed.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "odrl:Party"
+          }
+        },
+        "@id": {
+          "type": "string",
+          "format": "iri"
+        }
+      },
+      "required": [
+        "@type",
+        "@id"
+      ]
+    },
+    {
+      "description": "Per ODRL, a refined collection is identified through odrl:source, so odrl:refinement requires odrl:source.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "odrl:PartyCollection"
+          }
+        },
+        "@id": {
+          "type": "string",
+          "format": "iri"
+        },
+        "odrl:source": {
+          "$ref": "#/$defs/ObjectReference",
+          "description": "The collection this one is drawn from."
+        },
+        "odrl:refinement": {
+          "description": "Constraints selecting the members of odrl:source that belong to this collection.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "title": "ODRL Constraint",
+            "description": "An ODRL 2.2 Constraint (https://www.w3.org/TR/odrl-model/#constraint) or LogicalConstraint (https://www.w3.org/TR/odrl-model/#constraint-logical). A Constraint compares a left operand with a right operand using an operator, e.g. odrl:spatial odrl:eq <country>. A LogicalConstraint combines constraints with exactly one of odrl:and, odrl:or, odrl:xone or odrl:andSequence. Operands and operators are open IRIs (odrlTerms), so ODRL profile terms validate.",
+            "type": "object",
+            "properties": {
+              "@context": {
+                "type": "object",
+                "description": "JSON-LD namespace prefixes for ODRL properties.",
+                "properties": {
+                  "odrl": {
+                    "const": "http://www.w3.org/ns/odrl/2/"
+                  }
+                }
+              }
+            },
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "description": "Optional; needed when a LogicalConstraint refers to this constraint by reference.",
+                    "type": "string",
+                    "format": "iri"
+                  },
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "odrl:Constraint"
+                    }
+                  },
+                  "odrl:leftOperand": {
+                    "description": "Reference to an ODRL LeftOperand left operand. Open: any IRI is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 32 non-deprecated ODRL 2.2 LeftOperand terms.",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "examples": [
+                          "odrl:absolutePosition",
+                          "odrl:absoluteSize",
+                          "odrl:absoluteSpatialPosition",
+                          "odrl:absoluteTemporalPosition",
+                          "odrl:count",
+                          "odrl:dateTime",
+                          "odrl:delayPeriod",
+                          "odrl:deliveryChannel",
+                          "odrl:elapsedTime",
+                          "odrl:event",
+                          "odrl:fileFormat",
+                          "odrl:industry",
+                          "odrl:language",
+                          "odrl:media",
+                          "odrl:meteredTime",
+                          "odrl:payAmount",
+                          "odrl:percentage",
+                          "odrl:product",
+                          "odrl:purpose",
+                          "odrl:recipient",
+                          "odrl:relativePosition",
+                          "odrl:relativeSize",
+                          "odrl:relativeSpatialPosition",
+                          "odrl:relativeTemporalPosition",
+                          "odrl:resolution",
+                          "odrl:spatial",
+                          "odrl:spatialCoordinates",
+                          "odrl:systemDevice",
+                          "odrl:timeInterval",
+                          "odrl:unitOfCount",
+                          "odrl:version",
+                          "odrl:virtualLocation"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "odrl:operator": {
+                    "description": "Reference to an ODRL Operator operator. Open: any IRI is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 12 non-deprecated ODRL 2.2 Operator terms.",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "examples": [
+                          "odrl:eq",
+                          "odrl:gt",
+                          "odrl:gteq",
+                          "odrl:hasPart",
+                          "odrl:isA",
+                          "odrl:isAllOf",
+                          "odrl:isAnyOf",
+                          "odrl:isNoneOf",
+                          "odrl:isPartOf",
+                          "odrl:lt",
+                          "odrl:lteq",
+                          "odrl:neq"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "odrl:rightOperand": {
+                    "description": "A literal, a value object ({\"@value\", \"@type\"}) or an {@id} reference."
+                  },
+                  "odrl:rightOperandReference": {
+                    "$ref": "#/$defs/ObjectReference",
+                    "description": "An IRI whose dereferenced value is the right operand."
+                  },
+                  "odrl:dataType": {
+                    "$ref": "#/$defs/ObjectReference",
+                    "description": "Datatype of the right operand, e.g. xsd:decimal."
+                  },
+                  "odrl:unit": {
+                    "$ref": "#/$defs/ObjectReference",
+                    "description": "Unit of the right operand, e.g. a currency or unit of measure."
+                  },
+                  "odrl:status": {
+                    "description": "The current value of the left operand, for comparison with the right operand."
+                  }
+                },
+                "required": [
+                  "odrl:leftOperand",
+                  "odrl:operator"
+                ],
+                "anyOf": [
+                  {
+                    "required": [
+                      "odrl:rightOperand"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "odrl:rightOperandReference"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "format": "iri"
+                  },
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "odrl:LogicalConstraint"
+                    }
+                  },
+                  "odrl:and": {
+                    "$ref": "#/$defs/constraintList",
+                    "description": "All of the constraints must be satisfied."
+                  },
+                  "odrl:or": {
+                    "$ref": "#/$defs/constraintList",
+                    "description": "At least one of the constraints must be satisfied."
+                  },
+                  "odrl:xone": {
+                    "$ref": "#/$defs/constraintList",
+                    "description": "Exactly one of the constraints must be satisfied."
+                  },
+                  "odrl:andSequence": {
+                    "$ref": "#/$defs/constraintList",
+                    "description": "All of the constraints must be satisfied, in order."
+                  }
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "odrl:and"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "odrl:or"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "odrl:xone"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "odrl:andSequence"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "@id"
+          ]
+        },
+        {
+          "required": [
+            "odrl:source"
+          ]
+        }
+      ],
+      "dependentRequired": {
+        "odrl:refinement": [
+          "odrl:source"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "ObjectReference": {
+      "title": "Object Reference",
+      "description": "A reference to a node defined elsewhere, by its @id.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "resolvable @id of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ],
+      "additionalProperties": false
+    },
+    "constraintList": {
+      "description": "The operand constraints, as an RDF list ({\"@list\": [...]}), each inline or an {@id} reference.",
+      "type": "object",
+      "properties": {
+        "@list": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ObjectReference"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "description": "Optional; needed when a LogicalConstraint refers to this constraint by reference.",
+                    "type": "string",
+                    "format": "iri"
+                  },
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "odrl:Constraint"
+                    }
+                  },
+                  "odrl:leftOperand": {
+                    "description": "Reference to an ODRL LeftOperand left operand. Open: any IRI is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 32 non-deprecated ODRL 2.2 LeftOperand terms.",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "examples": [
+                          "odrl:absolutePosition",
+                          "odrl:absoluteSize",
+                          "odrl:absoluteSpatialPosition",
+                          "odrl:absoluteTemporalPosition",
+                          "odrl:count",
+                          "odrl:dateTime",
+                          "odrl:delayPeriod",
+                          "odrl:deliveryChannel",
+                          "odrl:elapsedTime",
+                          "odrl:event",
+                          "odrl:fileFormat",
+                          "odrl:industry",
+                          "odrl:language",
+                          "odrl:media",
+                          "odrl:meteredTime",
+                          "odrl:payAmount",
+                          "odrl:percentage",
+                          "odrl:product",
+                          "odrl:purpose",
+                          "odrl:recipient",
+                          "odrl:relativePosition",
+                          "odrl:relativeSize",
+                          "odrl:relativeSpatialPosition",
+                          "odrl:relativeTemporalPosition",
+                          "odrl:resolution",
+                          "odrl:spatial",
+                          "odrl:spatialCoordinates",
+                          "odrl:systemDevice",
+                          "odrl:timeInterval",
+                          "odrl:unitOfCount",
+                          "odrl:version",
+                          "odrl:virtualLocation"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "odrl:operator": {
+                    "description": "Reference to an ODRL Operator operator. Open: any IRI is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 12 non-deprecated ODRL 2.2 Operator terms.",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "examples": [
+                          "odrl:eq",
+                          "odrl:gt",
+                          "odrl:gteq",
+                          "odrl:hasPart",
+                          "odrl:isA",
+                          "odrl:isAllOf",
+                          "odrl:isAnyOf",
+                          "odrl:isNoneOf",
+                          "odrl:isPartOf",
+                          "odrl:lt",
+                          "odrl:lteq",
+                          "odrl:neq"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "odrl:rightOperand": {
+                    "description": "A literal, a value object ({\"@value\", \"@type\"}) or an {@id} reference."
+                  },
+                  "odrl:rightOperandReference": {
+                    "$ref": "#/$defs/ObjectReference",
+                    "description": "An IRI whose dereferenced value is the right operand."
+                  },
+                  "odrl:dataType": {
+                    "$ref": "#/$defs/ObjectReference",
+                    "description": "Datatype of the right operand, e.g. xsd:decimal."
+                  },
+                  "odrl:unit": {
+                    "$ref": "#/$defs/ObjectReference",
+                    "description": "Unit of the right operand, e.g. a currency or unit of measure."
+                  },
+                  "odrl:status": {
+                    "description": "The current value of the left operand, for comparison with the right operand."
+                  }
+                },
+                "required": [
+                  "odrl:leftOperand",
+                  "odrl:operator"
+                ],
+                "anyOf": [
+                  {
+                    "required": [
+                      "odrl:rightOperand"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "odrl:rightOperandReference"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@list"
+      ]
+    }
+  }
+}

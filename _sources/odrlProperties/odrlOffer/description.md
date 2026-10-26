@@ -13,11 +13,10 @@ Keys carry the `odrl:` prefix, and the `@context` declares the `odrl`, `cdifa1` 
 ### Open questions
 
 - The `cdifa1` action vocabulary and the ODRL profile at `https://w3id.org/cdif/access/profile1/` do not exist yet.
-- Constraint operand values and the constraint `@type` are unspecified; LogicalConstraint is not modelled.
+- Constraint operand values and the constraint `@type` are unspecified by the spreadsheet. (LogicalConstraint and AssetCollection are available through the generic blocks.)
 - Scoping users by constraint (the spreadsheet) or by assignee PartyCollection with refinement (the book); both are allowed. No shared vocabulary of PartyCollection IRIs exists yet.
-- AssetCollection targets for a policy covering several assets.
 - What an assent duty assents to.
 
 ### Dependencies
 
-- [objectReference](../../cdifDataType/objectReference/) - `{@id}` for the `rdf:value` of a refined action
+- [odrlPolicy](../odrlPolicy/) - the generic ODRL policy, which brings in odrlRule, odrlAction, odrlConstraint, odrlParty, odrlAsset and odrlTerms
