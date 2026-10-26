@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.xasProperties.xasCore` *v1.0*
 
-Required XAS metadata constraints layered on cdifCore (composed once by the xasDocument profile). Requires schema:Dataset in @type (schema:Product optional -- no root-level property depends on it), a required prov:wasGeneratedBy analysis activity whose prov:used carries the instrument wrapper (NXsource + NXmonochromator sub-components with required type/probe/d_spacing/reflection), an XDI-conformant schema:distribution, required XAS measurementTechnique DefinedTerms, required element/edge keywords, and the schema:object material sample. Defines properties: @type, schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:keywords. Uses building blocks: cdifProvActivity (cdifDataType), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties).
+Required XAS metadata constraints layered on cdifCore (composed once by the xasDocument profile). Requires schema:Dataset in @type (schema:Product optional -- no root-level property depends on it), a required prov:wasGeneratedBy containing at least one analysis activity whose prov:used carries the instrument wrapper (NXsource + NXmonochromator sub-components with required type/probe/d_spacing/reflection), an XDI- or NeXus-conformant schema:distribution, required XAS measurementTechnique DefinedTerms, and the schema:object material sample. Defines properties: @type, schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:variableMeasured. Uses building blocks: cdifProvActivity (cdifDataType), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties).
 
 [*Status*](http://www.opengis.net/def/status): Stable
 
@@ -11,16 +11,16 @@ Required XAS metadata constraints layered on cdifCore (composed once by the xasD
 
 ## Required Fields for XAS data
 
-Extends CDIF mandatory metadata with required XAS-specific properties. Same structure as xasOptional but adds `@type` constraints (requires `schema:Dataset`; `schema:Product` optional) and stricter cardinality requirements on instrument components, measurement techniques, and keywords.
+Extends CDIF mandatory metadata with required XAS-specific properties. Same structure as xasOptional but adds `@type` constraints (requires `schema:Dataset`; `schema:Product` optional) and stricter cardinality requirements on instrument components and measurement techniques.
 
 ### Key requirements
 
 - **@type** — must include `schema:Dataset`; `schema:Product` is optional (no root-level property depends on it)
 - **schema:subjectOf** — XAS subject descriptors (element, edge)
-- **prov:wasGeneratedBy** — cdifProvActivity activity requiring XAS instruments with NXsource (type, probe) and NXmonochromator (type, d_spacing, reflection) components, plus sample object
-- **schema:distribution** — requires at least one DataDownload typed as `cdi:PhysicalDataSet` conforming to the XDI specification
-- **schema:measurementTechnique** — requires DefinedTerms for XAS (PaNET) and measurement mode (NXxas)
-- **schema:keywords** — requires DefinedTerms from both the XDI dictionary (absorption edge) and SWEET ontology (target element)
+- **prov:wasGeneratedBy** — required, with at least one activity. Any CDIF provenance activity may appear; at least one must be an `xas:analysisevent` (xasGeneratedBy) using XAS instruments with NXsource (type, probe) and NXmonochromator (type, d_spacing, reflection) components, plus sample object
+- **schema:distribution** — requires at least one DataDownload typed as `cdi:PhysicalDataSet`, `cdi:TabularTextDataSet` or `cdi:StructuredDataSet`, conforming to the XDI specification or a NeXus application definition
+- **schema:measurementTechnique** — required: DefinedTerms for XAS (PaNET, the schema's `default`) and measurement mode (NXxas)
+- **schema:keywords** — no XAS requirement; base CDIF keywords apply. DefinedTerms for the absorption edge (XDI dictionary) and target element (SWEET) are recommended
 
 ## Examples
 
@@ -904,13 +904,13 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Stoichiometry" ;
-                            schema1:propertyID xas:samplechemicalcomposition ;
-                            schema1:value "Na2SeO4" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "sample preparation method" ;
                             schema1:propertyID xas:samplepreparation ;
-                            schema1:value "powder on tape, 6 layers" ] ;
+                            schema1:value "powder on tape, 6 layers" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Stoichiometry" ;
+                            schema1:propertyID xas:samplechemicalcomposition ;
+                            schema1:value "Na2SeO4" ] ;
                     schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
                         "MaterialSample" ;
                     schema1:description "Sodium selenate reference compound, powder" ;
@@ -982,11 +982,15 @@ ex:xas-dataset-001 a schema1:Dataset,
 $schema: https://json-schema.org/draft/2020-12/schema
 title: XAS Core (required) metadata constraints
 description: Required XAS constraints layered on cdifCore (composed once by the xasDocument
-  profile; this module does NOT re-embed cdifCore). Enforces dual @type (Dataset+Product),
-  a prov:wasGeneratedBy analysis activity whose prov:used carries the NXsource+NXmonochromator
-  instrument wrapper, an XDI-conformant distribution, required XAS measurementTechnique
-  DefinedTerms, required element/edge keywords, and the schema:object material sample.
+  profile; this module does NOT re-embed cdifCore). Enforces @type including schema:Dataset
+  (schema:Product optional), a prov:wasGeneratedBy analysis activity whose prov:used
+  carries the NXsource+NXmonochromator instrument wrapper, an XDI- or NeXus-conformant
+  distribution, and required XAS measurementTechnique DefinedTerms (the PaNET XAS
+  technique and the detection mode). schema:keywords carries no XAS requirement.
 type: object
+required:
+- prov:wasGeneratedBy
+- schema:measurementTechnique
 properties:
   '@type':
     description: Dataset @type MUST include schema:Dataset. schema:Product MAY also
@@ -1020,10 +1024,18 @@ properties:
         x-jsonld-id: http://purl.org/dc/terms/conformsTo
     x-jsonld-id: http://schema.org/subjectOf
   prov:wasGeneratedBy:
+    description: The activities that produced the dataset. Any CDIF provenance activity
+      may appear, and at least one MUST be an XAS analysis event (xasGeneratedBy)
+      that used an x-ray source and a monochromator as constrained below. Applying
+      the analysis-event shape to every item instead rejected any other processing
+      step.
     type: array
+    minItems: 1
     items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifProvActivity/schema.yaml
+    contains:
       allOf:
-      - $ref: '#/$defs/CdifProvActivity'
+      - $ref: '#/$defs/XasAnalysisEvent'
       - type: object
         properties:
           prov:used:
@@ -1054,23 +1066,15 @@ properties:
                       - schema:additionalProperty
                       properties:
                         schema:additionalType:
-                          anyOf:
-                          - type: object
+                          type: array
+                          contains:
+                            type: object
                             additionalProperties: false
                             required:
                             - '@id'
                             properties:
                               '@id':
                                 const: xas:source
-                          - type: array
-                            contains:
-                              type: object
-                              additionalProperties: false
-                              required:
-                              - '@id'
-                              properties:
-                                '@id':
-                                  const: xas:source
                         schema:additionalProperty:
                           type: array
                           minItems: 2
@@ -1139,23 +1143,15 @@ properties:
                       - schema:additionalProperty
                       properties:
                         schema:additionalType:
-                          anyOf:
-                          - type: object
+                          type: array
+                          contains:
+                            type: object
                             additionalProperties: false
                             required:
                             - '@id'
                             properties:
                               '@id':
                                 const: xas:xraymonochromator
-                          - type: array
-                            contains:
-                              type: object
-                              additionalProperties: false
-                              required:
-                              - '@id'
-                              properties:
-                                '@id':
-                                  const: xas:xraymonochromator
                         schema:name:
                           type: string
                         schema:additionalProperty:
@@ -1280,8 +1276,17 @@ properties:
     x-jsonld-id: http://schema.org/distribution
   schema:measurementTechnique:
     type: array
-    description: 'Require DefinedTerms for both: absorption edge (XDI dict) and target
-      element (SWEET).'
+    description: 'Required. Two DefinedTerms: the PaNET X-ray absorption spectroscopy
+      technique (the default below, which a producer can always supply) and the detection
+      mode, drawn from the NXxas DATA/mode field (use the name ":unav" when the source
+      does not record it).'
+    default:
+    - '@type':
+      - schema:DefinedTerm
+      schema:name: X-Ray Absorption Spectroscopy
+      schema:termCode: XAS
+      schema:identifier: http://purl.org/pan-science/PaNET/PaNET01196
+      schema:inDefinedTermSet: http://purl.org/pan-science/PaNET/PaNET.owl
     minItems: 2
     items:
       $ref: '#/$defs/DefinedTerm'
@@ -1317,65 +1322,6 @@ properties:
         - schema:name
         - schema:inDefinedTermSet
     x-jsonld-id: http://schema.org/measurementTechnique
-  schema:keywords:
-    type: array
-    description: extends base CDIF keyword schema to require defined terms for the
-      absorption edge and the target element for the analysis
-    minItems: 2
-    items:
-      type: object
-      properties:
-        '@type':
-          type: array
-          items:
-            type: string
-          contains:
-            const: schema:DefinedTerm
-          minItems: 1
-        schema:name:
-          type: string
-          x-jsonld-id: http://schema.org/name
-        schema:identifier:
-          type: string
-          x-jsonld-id: http://schema.org/identifier
-        schema:inDefinedTermSet:
-          type: string
-          description: need to include this to tag what the keyword is about; we're
-            using the keywords as soft-typed properties
-          x-jsonld-id: http://schema.org/inDefinedTermSet
-      required:
-      - '@type'
-      - schema:name
-      - schema:inDefinedTermSet
-      additionalProperties: true
-    contains:
-      description: The XDI-dictionary keyword identifying the absorption edge; tagged
-        with schema:about "element.edge" to mark its role.
-      type: object
-      properties:
-        schema:inDefinedTermSet:
-          const: https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md
-          x-jsonld-id: http://schema.org/inDefinedTermSet
-        schema:about:
-          const: element.edge
-          x-jsonld-id: http://schema.org/about
-      required:
-      - schema:inDefinedTermSet
-      - schema:about
-    allOf:
-    - contains:
-        description: The SWEET matrElement keyword identifying the target element;
-          tagged with schema:about "element.symbol" to mark its role.
-        type: object
-        properties:
-          schema:inDefinedTermSet:
-            const: http://sweetontology.net/matrElement
-          schema:about:
-            const: element.symbol
-        required:
-        - schema:inDefinedTermSet
-        - schema:about
-    x-jsonld-id: http://schema.org/keywords
   schema:variableMeasured:
     description: XAS variableMeasured items. Each item's schema:propertyID SHOULD
       reference one of the XDI canonical variable concept URIs (XDI-CDIF-Mapping.xlsx
@@ -1413,7 +1359,7 @@ properties:
           x-jsonld-id: http://schema.org/propertyID
     x-jsonld-id: http://schema.org/variableMeasured
 $defs:
-  CdifProvActivity:
+  XasAnalysisEvent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema.yaml
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
@@ -1436,7 +1382,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.xasProperties.xasCore
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-10-25'
+  dateOfLastChange: '2026-10-26'
 
 ```
 

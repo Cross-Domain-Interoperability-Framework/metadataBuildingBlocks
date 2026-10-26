@@ -66,8 +66,9 @@ allOf:
                 type: object
                 properties:
                   schema:additionalType:
-                    anyOf:
-                    - type: object
+                    type: array
+                    contains:
+                      type: object
                       additionalProperties: false
                       required:
                       - '@id'
@@ -76,17 +77,6 @@ allOf:
                           enum:
                           - nxs:base_classes/NXinstrument.html
                           - xas:beamline
-                    - type: array
-                      contains:
-                        type: object
-                        additionalProperties: false
-                        required:
-                        - '@id'
-                        properties:
-                          '@id':
-                            enum:
-                            - nxs:base_classes/NXinstrument.html
-                            - xas:beamline
                   schema:name:
                     type: string
                 required:
@@ -106,23 +96,15 @@ allOf:
                 type: object
                 properties:
                   schema:additionalType:
-                    anyOf:
-                    - type: object
+                    type: array
+                    contains:
+                      type: object
                       additionalProperties: false
                       required:
                       - '@id'
                       properties:
                         '@id':
                           const: xas:xraymonochromator
-                    - type: array
-                      contains:
-                        type: object
-                        additionalProperties: false
-                        required:
-                        - '@id'
-                        properties:
-                          '@id':
-                            const: xas:xraymonochromator
                   schema:additionalProperty:
                     type: array
                     contains:
@@ -196,4 +178,4 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.xasProperties.xasGeneratedBy
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-10-25'
+  dateOfLastChange: '2026-10-26'

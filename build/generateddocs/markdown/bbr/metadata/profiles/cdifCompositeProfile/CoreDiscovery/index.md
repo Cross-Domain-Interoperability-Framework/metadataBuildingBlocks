@@ -1411,17 +1411,17 @@ ex:YOPx123 a schema1:Dataset ;
                     schema1:value "fMuiBjneudpV" ] ;
             schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ] ;
+            schema1:name "fhhbzh" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
@@ -3112,15 +3112,15 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:identifier ex:datasetDOI42 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-            schema1:name "Sea water temperature" ;
-            schema1:termCode "TEMPPR01" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
             schema1:name "North Atlantic Deep Water" ;
             schema1:termCode "P02:DOXY" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+            schema1:name "Sea water temperature" ;
+            schema1:termCode "TEMPPR01" ],
         "Labrador Sea",
         "deep water formation" ;
     schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
@@ -3190,19 +3190,19 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
         ex:varTemperature ;
     schema1:version "2.1" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf "Completeness" ;
-            dqv:value [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
-                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
-                    schema1:name "Complete" ;
-                    schema1:termCode "COMPLETE" ] ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf [ a schema1:DefinedTerm ;
                     schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
                     schema1:name "Temperature sensor accuracy" ;
                     schema1:termCode "TEMPACCR" ] ;
-            dqv:value "±0.001°C (ITS-90)" ] ;
+            dqv:value "±0.001°C (ITS-90)" ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf "Completeness" ;
+            dqv:value [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
+                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
+                    schema1:name "Complete" ;
+                    schema1:termCode "COMPLETE" ] ] ;
     prov:wasDerivedFrom ex:rawCTDCasts ;
     prov:wasGeneratedBy [ a prov:Activity ;
             prov:used ex:ar7wCruiseProgram,
@@ -3343,7 +3343,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifCompositeProfile.CoreDiscovery
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-25'
+  dateOfLastChange: '2026-10-26'
 
 ```
 

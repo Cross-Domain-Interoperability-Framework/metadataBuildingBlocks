@@ -422,8 +422,9 @@ properties:
                     type: object
                     properties:
                       schema:additionalType:
-                        anyOf:
-                        - type: object
+                        type: array
+                        contains:
+                          type: object
                           additionalProperties: false
                           required:
                           - '@id'
@@ -432,17 +433,6 @@ properties:
                               enum:
                               - nxs:base_classes/NXinstrument.html
                               - xas:beamline
-                        - type: array
-                          contains:
-                            type: object
-                            additionalProperties: false
-                            required:
-                            - '@id'
-                            properties:
-                              '@id':
-                                enum:
-                                - nxs:base_classes/NXinstrument.html
-                                - xas:beamline
             then:
               properties:
                 schema:instrument:
@@ -496,7 +486,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.xasProperties.xasOptional
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-10-25'
+  dateOfLastChange: '2026-10-26'
 
 ```
 

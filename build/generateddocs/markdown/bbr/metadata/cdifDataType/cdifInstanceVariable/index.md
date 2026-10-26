@@ -830,11 +830,11 @@ referencing the code-list concept).
     cdif:indexedBy <https://example.org/mics/mwi2019/var/HH14> .
 
 <https://example.org/mics/mwi2019/var/HH14/statistics/count> a cdi:Statistics ;
-    cdi:statistic [ cdi:computationBase "Total" ;
-            cdi:content 26882 ;
-            cdi:typeOfNumericValue "decimal" ],
-        [ cdi:computationBase "ValidOnly" ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 25419 ;
+            cdi:typeOfNumericValue "decimal" ],
+        [ cdi:computationBase "Total" ;
+            cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ],
         [ cdi:computationBase "MissingOnly" ;
             cdi:content 1463 ;
@@ -852,9 +852,9 @@ referencing the code-list concept).
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 3739 ;
+                    cdi:content 75 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
@@ -864,15 +864,15 @@ referencing the code-list concept).
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 21497 ;
+                    cdi:content 3739 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/4> ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/2> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 75 ;
+                    cdi:content 21497 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ] ;
     cdif:typeOfStatistic "frequency" .
@@ -1276,15 +1276,15 @@ valid count (26882).
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/2> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 22946 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdif:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/1> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 3936 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdif:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH6-area/2> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 22946 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ] ;
     cdif:typeOfStatistic "frequency" .
@@ -1491,7 +1491,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifInstanceVariable
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.2'
-  dateOfLastChange: '2026-10-25'
+  dateOfLastChange: '2026-10-26'
 
 ```
 

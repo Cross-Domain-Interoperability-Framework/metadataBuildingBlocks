@@ -14,609 +14,8 @@ x-defs:
       itemIdentifier: cdif.bbr.metadata.cdifDataType.objectReference
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
+      dateOfLastChange: '2026-10-26'
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.additionalProperty:
-    type: object
-    title: additionalProperty PropertyValue
-    description: 'PropertyValue values required to define a soft-typed property with
-      a value. '
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:PropertyValue
-        minItems: 1
-      schema:propertyID:
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item
-        minItems: 1
-        description: identifier or name for the property concept quantified by the
-          values in this variable slot. Multiple values can specify the property at
-          different levels of granularity.
-        x-jsonld-id: http://schema.org/propertyID
-      schema:name:
-        type: string
-        x-jsonld-id: http://schema.org/name
-      schema:value:
-        anyOf:
-        - type: string
-        - type: number
-        - type: boolean
-        - type: object
-        x-jsonld-id: http://schema.org/value
-      schema:unitCode:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
-        x-jsonld-id: http://schema.org/unitCode
-      schema:unitText:
-        type: string
-        x-jsonld-id: http://schema.org/unitText
-    required:
-    - schema:name
-    - schema:value
-    $defs:
-      DefinedTerm:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-      propertyID_item:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-      nxs: https://manual.nexusformat.org/classes/
-    x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.additionalProperty
-      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
-      version: '0.1'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.xasProperties.xasGeneratedBy:
-    title: XAS Analysis Event activity
-    description: XAS-specific provenance activity building block. Extends cdifProvActivity
-      with XAS analysis event typing (xas:analysisevent), XAS facility location, sample
-      object, XAS-specific instrument type, and XAS additional properties (edge_energy,
-      calibration method, instrument configuration, installedOptions).
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity
-    - type: object
-      required:
-      - schema:additionalType
-      properties:
-        '@type':
-          type: array
-          items:
-            type: string
-        schema:additionalType:
-          description: Domain type(s) for the activity; must include xas:analysisevent
-            (an XAS analysis event).
-          type: array
-          items:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/cdifConceptOrTermOrString
-          contains:
-            type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                enum:
-                - xas:analysisevent
-          x-jsonld-id: http://schema.org/additionalType
-        schema:startTime:
-          type: string
-          description: Date/time the XAS analysis started
-          x-jsonld-id: http://schema.org/startTime
-        schema:endTime:
-          type: string
-          description: Date/time the XAS analysis finished
-          x-jsonld-id: http://schema.org/endTime
-        prov:used:
-          type: array
-          items:
-            anyOf:
-            - type: object
-              required:
-              - schema:instrument
-              properties:
-                schema:instrument:
-                  type: array
-                  minItems: 1
-                  items:
-                    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/Instrument
-                  x-jsonld-id: http://schema.org/instrument
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-          allOf:
-          - description: Must contain a prov:used entry whose schema:instrument is
-              classified as an NXinstrument (via schema:additionalType) and carries
-              a schema:name (the beamline name).
-            contains:
-              type: object
-              properties:
-                schema:instrument:
-                  type: array
-                  contains:
-                    type: object
-                    properties:
-                      schema:additionalType:
-                        anyOf:
-                        - type: object
-                          additionalProperties: false
-                          required:
-                          - '@id'
-                          properties:
-                            '@id':
-                              enum:
-                              - nxs:base_classes/NXinstrument.html
-                              - xas:beamline
-                        - type: array
-                          contains:
-                            type: object
-                            additionalProperties: false
-                            required:
-                            - '@id'
-                            properties:
-                              '@id':
-                                enum:
-                                - nxs:base_classes/NXinstrument.html
-                                - xas:beamline
-                      schema:name:
-                        type: string
-                    required:
-                    - schema:additionalType
-                    - schema:name
-              required:
-              - schema:instrument
-          - description: Must contain a prov:used entry whose schema:instrument is
-              classified as an xas:xraymonochromator (via schema:additionalType) and
-              has a schema:additionalProperty carrying the xas:dspacing PropertyValue
-              with a schema:value.
-            contains:
-              type: object
-              properties:
-                schema:instrument:
-                  type: array
-                  contains:
-                    type: object
-                    properties:
-                      schema:additionalType:
-                        anyOf:
-                        - type: object
-                          additionalProperties: false
-                          required:
-                          - '@id'
-                          properties:
-                            '@id':
-                              enum:
-                              - xas:xraymonochromator
-                        - type: array
-                          contains:
-                            type: object
-                            additionalProperties: false
-                            required:
-                            - '@id'
-                            properties:
-                              '@id':
-                                enum:
-                                - xas:xraymonochromator
-                      schema:additionalProperty:
-                        type: array
-                        contains:
-                          type: object
-                          properties:
-                            schema:propertyID:
-                              type: array
-                              contains:
-                                type: object
-                                additionalProperties: false
-                                required:
-                                - '@id'
-                                properties:
-                                  '@id':
-                                    enum:
-                                    - xas:dspacing
-                            schema:value:
-                              type: string
-                          required:
-                          - schema:propertyID
-                          - schema:value
-                    required:
-                    - schema:additionalType
-                    - schema:additionalProperty
-              required:
-              - schema:instrument
-          x-jsonld-id: http://www.w3.org/ns/prov#used
-        schema:additionalProperty:
-          type: array
-          description: Additional properties on the XAS analysis activity (base AdditionalProperty
-            shape). The activity-level propertyID enum (xas:edgeenergy, calibration
-            method, ...) is layered on in xasOptional so it applies at the profile
-            level, not this shape.
-          items:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/AdditionalProperty
-          x-jsonld-id: http://schema.org/additionalProperty
-        schema:location:
-          x-jsonld-id: http://schema.org/location
-          allOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/Facility
-        schema:object:
-          description: Sample being analyzed (per Ocean Info Hub recommendation)
-          x-jsonld-id: http://schema.org/object
-          allOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/Sample
-    $defs:
-      cdifConceptOrTermOrString:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
-      Identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-      Sample:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasSample
-      AdditionalProperty:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
-      Facility:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasFacility
-      Instrument:
-        allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasInstrument
-        - type: object
-          description: As a prov:used entity, the instrument's @type includes prov:Entity
-            (the PROV-O range of prov:used) alongside schema:Thing / schema:Product.
-          properties:
-            '@type':
-              contains:
-                enum:
-                - prov:Entity
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-      nxs: https://manual.nexusformat.org/classes/
-      prov: http://www.w3.org/ns/prov#
-      wd: https://www.wikidata.org/entity/
-      xas: https://w3id.org/cdif/xas/
-    x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.xasProperties.xasGeneratedBy
-      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
-      version: '1.0'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.definedTerm:
-    description: "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF
-      profile UML models an attribute typed as\nschema:DefinedTerm is represented
-      by a single attribute of that class type.\nThe JSON Schema implementation permits
-      the property value to be EITHER a\nplain string (interpreted as schema:name
-      or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm
-      object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet).
-      Consumers should accept either form.\n\nNote that this differs from the cdif
-      Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary
-      entry (object form or\n@id-reference) \u2014 plain strings are not permitted
-      for Concept-typed values\nbecause vocabulary identity cannot be recovered from
-      an unscoped label.\n"
-    type: object
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:DefinedTerm
-        minItems: 1
-      schema:name:
-        type: string
-        description: text label for the term that is useful to human user
-        x-jsonld-id: http://schema.org/name
-      schema:identifier:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-        x-jsonld-id: http://schema.org/identifier
-      schema:inDefinedTermSet:
-        description: 'The controlled vocabulary responsible for this keyword, as EITHER
-          a plain URI string identifying the vocabulary, OR an object reference ({"@id":
-          "<uri>"}) to a vocabulary defined elsewhere in the document. Both forms
-          are already in use across CDIF profiles and downstream ADA building blocks;
-          permitting only the string form made the object form - the natural JSON-LD
-          spelling of a reference - invalid, while this class''s own union-type policy
-          above explicitly anticipates both.'
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-        x-jsonld-id: http://schema.org/inDefinedTermSet
-      schema:termCode:
-        type: string
-        description: A representative code for this keyword in the controlled vocabulary.
-          Analogous to skos:Notation
-        x-jsonld-id: http://schema.org/termCode
-    allOf:
-    - required:
-      - '@type'
-    - anyOf:
-      - required:
-        - schema:name
-      - required:
-        - schema:identifier
-      - required:
-        - schema:termCode
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-    x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.definedTerm
-      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
-      version: '0.1'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.dataDownload:
-    description: schema to document file-based access to a resoruce via URL, based
-      on schema.org/DataDownload
-    type: object
-    properties:
-      '@id':
-        type: string
-      '@type':
-        type: array
-        description: implement as array because extensions might need to add additional
-          types
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:DataDownload
-        minItems: 1
-      schema:name:
-        type: string
-        x-jsonld-id: http://schema.org/name
-      schema:description:
-        type: string
-        description: Description of this distribution, e.g. what format, access constraints,
-          etc.
-        x-jsonld-id: http://schema.org/description
-      schema:contentUrl:
-        type: string
-        format: uri
-        x-jsonld-id: http://schema.org/contentUrl
-      schema:encodingFormat:
-        type: array
-        description: MIME type with extension; should indicate the serialization scheme
-          in sufficient detail that machine can know how to parse.
-        items:
-          type: string
-        x-jsonld-id: http://schema.org/encodingFormat
-      schema:additionalType:
-        type: array
-        description: 'Domain-specific type classification for this distribution: what
-          KIND of thing the file is, beyond its MIME type. schema:encodingFormat says
-          how to parse the bytes; this says what they are. A plain string is accepted,
-          but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where
-          the value comes from a controlled vocabulary, so the vocabulary travels
-          with the data rather than being asserted only in a profile.'
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload/$defs/cdifConceptOrTermOrString
-        x-jsonld-id: http://schema.org/additionalType
-      schema:contentSize:
-        type: string
-        description: File size of this distribution, e.g. '2.5 MB' or a byte count.
-          Per schema.org/contentSize.
-        x-jsonld-id: http://schema.org/contentSize
-      schema:width:
-        type: object
-        description: Pixel width of this distribution when it is a single raster file,
-          as a QuantitativeValue. schema:width has schema:MediaObject in its domain.
-          A QuantitativeValue rather than a bare number because the same property
-          carries physical dimensions elsewhere, so the unit has to be stated. (schema:contentSize
-          above is a plain string for historical reasons; that inconsistency is left
-          alone rather than widened.)
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:QuantitativeValue
-            minItems: 1
-          schema:value:
-            type: number
-            description: Width in pixels.
-            x-jsonld-id: http://schema.org/value
-          schema:unitText:
-            type: string
-            description: Unit of measure, e.g. 'pixel'.
-            x-jsonld-id: http://schema.org/unitText
-        x-jsonld-id: http://schema.org/width
-      schema:height:
-        type: object
-        description: Pixel height of this distribution when it is a single raster
-          file, as a QuantitativeValue. schema:height has schema:MediaObject in its
-          domain. A QuantitativeValue rather than a bare number because the same property
-          carries physical dimensions elsewhere, so the unit has to be stated. (schema:contentSize
-          above is a plain string for historical reasons; that inconsistency is left
-          alone rather than widened.)
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:QuantitativeValue
-            minItems: 1
-          schema:value:
-            type: number
-            description: Height in pixels.
-            x-jsonld-id: http://schema.org/value
-          schema:unitText:
-            type: string
-            description: Unit of measure, e.g. 'pixel'.
-            x-jsonld-id: http://schema.org/unitText
-        x-jsonld-id: http://schema.org/height
-      spdx:checksum:
-        type: object
-        description: A string value calculated from the content of the resource representation,
-          used to test if content has been modified. The checksum is a property of
-          a particular distribution/DataDownload.
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - spdx:Checksum
-            minItems: 1
-          spdx:algorithm:
-            type: string
-          spdx:checksumValue:
-            type: string
-        required:
-        - '@type'
-        - spdx:algorithm
-        - spdx:checksumValue
-      dcterms:conformsTo:
-        description: An identifier for a standard or specification that the distribution
-          conforms to. Recommended to enable machine-actionable data access.
-        type: array
-        minItems: 1
-        items:
-          description: uri for specification that this distribution conforms to
-          allOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-      schema:provider:
-        type: array
-        description: Party who maintains this particular distribution option for the
-          dataset. Use this property if there are multiple distributions from different
-          providers
-        items:
-          anyOf:
-          - description: a identifier for an agent defined in this metadata, or externally;
-              must be dereferenceable
-            allOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
-        x-jsonld-id: http://schema.org/provider
-    required:
-    - '@type'
-    allOf:
-    - if:
-        not:
-          type: object
-          required:
-          - '@type'
-          properties:
-            '@type':
-              type: array
-              contains:
-                enum:
-                - schema:Collection
-      then:
-        required:
-        - schema:contentUrl
-      else:
-        required:
-        - schema:hasPart
-    $defs:
-      cdifConceptOrTermOrString:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-    x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.dataDownload
-      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
-      version: '0.1'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.xasProperties.xasSample:
-    title: definitions for roles used in XAS profile
-    type: object
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        minItems: 2
-        uniqueItems: true
-        allOf:
-        - contains:
-            enum:
-            - schema:Product
-          minContains: 1
-        - contains:
-            enum:
-            - schema:Thing
-          minContains: 1
-      schema:additionalType:
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/cdifConceptOrTermOrString
-        minItems: 2
-        uniqueItems: true
-        allOf:
-        - contains:
-            enum:
-            - MaterialSample
-          minContains: 1
-        - contains:
-            type: object
-            additionalProperties: false
-            required:
-            - '@id'
-            properties:
-              '@id':
-                enum:
-                - https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample
-          minContains: 1
-        x-jsonld-id: http://schema.org/additionalType
-      schema:name:
-        type: string
-        x-jsonld-id: http://schema.org/name
-      schema:identifier:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/Identifier
-        x-jsonld-id: http://schema.org/identifier
-      schema:description:
-        type: string
-        x-jsonld-id: http://schema.org/description
-      schema:additionalProperty:
-        type: array
-        description: Sample additionalProperty entries (base AdditionalProperty shape).
-          The XDI Sample.* propertyID vocabulary enum is layered on in xasOptional,
-          so it applies at the profile level, not this shape.
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/AdditionalProperty
-        x-jsonld-id: http://schema.org/additionalProperty
-    required:
-    - '@type'
-    - schema:additionalType
-    - schema:name
-    $defs:
-      cdifConceptOrTermOrString:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
-      Identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-      AdditionalProperty:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-      nxs: https://manual.nexusformat.org/classes/
-      xas: https://w3id.org/cdif/xas/
-    x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.xasProperties.xasSample
-      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
-      version: '1.0'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.cdifDataType.cdifProvActivity:
     title: CDIF Provenance Activity
@@ -903,42 +302,14 @@ x-defs:
       itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifProvActivity
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
+      dateOfLastChange: '2026-10-26'
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifProvActivity/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString:
-    title: CDIF Concept-or-Term-or-String
-    description: Shared shape for a CDIF property that carries either a controlled-vocabulary
-      value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref,
-      schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative
-      used for legacy or single-word labels not yet bound to a vocabulary.
-    anyOf:
-    - type: string
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
-    x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
-      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
-      version: '0.1'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.identifier:
-    description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
-
-      **Union-type policy:** In CDIF profile UML models an attribute typed as
-
-      schema:Identifier / schema:PropertyValue is represented by a single attribute
-
-      of that class type. The JSON Schema implementation permits the property value
-
-      to be EITHER a plain string (interpreted as the bare identifier value) OR a
-
-      full schema:PropertyValue object (with explicit @type, propertyID, value).
-
-      Consumers should accept either form.
-
-      '
+  cdif.bbr.metadata.schemaorgProperties.additionalProperty:
     type: object
+    title: additionalProperty PropertyValue
+    description: 'PropertyValue values required to define a soft-typed property with
+      a value. '
     properties:
       '@type':
         type: array
@@ -949,81 +320,75 @@ x-defs:
           - schema:PropertyValue
         minItems: 1
       schema:propertyID:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item
+        minItems: 1
+        description: identifier or name for the property concept quantified by the
+          values in this variable slot. Multiple values can specify the property at
+          different levels of granularity.
+        x-jsonld-id: http://schema.org/propertyID
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      schema:value:
+        anyOf:
+        - type: string
+        - type: number
+        - type: boolean
+        - type: object
+        x-jsonld-id: http://schema.org/value
+      schema:unitCode:
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
+        x-jsonld-id: http://schema.org/unitCode
+      schema:unitText:
+        type: string
+        x-jsonld-id: http://schema.org/unitText
+    required:
+    - schema:name
+    - schema:value
+    $defs:
+      DefinedTerm:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+      propertyID_item:
         anyOf:
         - type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-        description: In this context for the schema:PropertyValue, this field is an
-          identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
-          for interoperability. URI-shape values MUST be serialized as JSON-LD IRI
-          references ({"@id":"..."}) so they participate in RDF entailment; free-label
-          strings remain valid as strings.
-        x-jsonld-id: http://schema.org/propertyID
-      schema:value:
-        type: string
-        description: the identifier string. E.g. 10.5066/F7VX0DMQ
-        x-jsonld-id: http://schema.org/value
-      schema:url:
-        type: string
-        format: uri
-        description: 'web-resolveable string for the identifier; host name part is
-          location of a resolver that will return some representation for the given
-          identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
-        x-jsonld-id: http://schema.org/url
-    allOf:
-    - required:
-      - '@type'
-    - anyOf:
-      - required:
-        - schema:value
-      - required:
-        - schema:url
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
     x-jsonld-prefixes:
       schema: http://schema.org/
+      nxs: https://manual.nexusformat.org/classes/
     x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.identifier
+      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.additionalProperty
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.xasProperties.xasFacility:
-    title: definitions a Facility location, type schema:Place
-    description: 'The facility where XAS data was acquired: a synchrotron, X-ray free
-      electron laser, or laboratory.
-
-      Extends the core CDIF spatialExtent (schema:Place) rather than redeclaring it.
-      A facility is an ordinary CDIF place that happens to be classified as a facility,
-      so it should be described by the same block as any other place; the only thing
-      this block adds is the requirement that schema:additionalType classify it.
-
-      Redeclaring meant this block described four of spatialExtent''s properties and
-      silently ignored the rest: schema:geo, geosparql: hasGeometry and schema:alternateName
-      were accepted on a facility but never validated, so a facility whose coordinates
-      were an unparseable string passed. Composing the core block instead constrains
-      them.
-
-      geochemBuildingBlocks composes the same core block for its laboratory building
-      block, so both profiles now describe this kind of place the same way. They still
-      differ on the classification term -- that block uses a NeXus base class where
-      this one uses xas:facility -- which is a separate question from where the place
-      structure comes from.
-
-      xas:facility is deliberately NOT among the concepts retired onto NeXus base
-      classes: it covers a synchrotron, an XFEL or a laboratory facility, while NXsource
-      is the storage ring specifically. The narrower xas:synchrotonfacility is the
-      one that corresponds to NXsource, and the glossary records it as skos:narrower
-      of this concept.'
+  cdif.bbr.metadata.xasProperties.xasGeneratedBy:
+    title: XAS Analysis Event activity
+    description: XAS-specific provenance activity building block. Extends cdifProvActivity
+      with XAS analysis event typing (xas:analysisevent), XAS facility location, sample
+      object, XAS-specific instrument type, and XAS additional properties (edge_energy,
+      calibration method, instrument configuration, installedOptions).
     allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity
     - type: object
+      required:
+      - schema:additionalType
       properties:
-        '@id':
-          type: string
+        '@type':
+          type: array
+          items:
+            type: string
         schema:additionalType:
-          description: 'Must classify the place as an XAS facility. The value is a
-            sealed reference ({"@id": ...}) per the CDIF convention for a term defined
-            elsewhere; the core block also permits a bare string or an inline DefinedTerm
-            for other classifications carried alongside this one.'
+          description: Domain type(s) for the activity; must include xas:analysisevent
+            (an XAS analysis event).
+          type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/cdifConceptOrTermOrString
           contains:
             type: object
             additionalProperties: false
@@ -1032,157 +397,214 @@ x-defs:
             properties:
               '@id':
                 enum:
-                - xas:facility
-          minItems: 1
+                - xas:analysisevent
           x-jsonld-id: http://schema.org/additionalType
-        schema:additionalProperty:
-          description: Facility-scope properties that are not places, e.g. storage-ring
-            energy or current. Not offered by the core block, which describes a location
-            rather than an operating machine.
+        schema:startTime:
+          type: string
+          description: Date/time the XAS analysis started
+          x-jsonld-id: http://schema.org/startTime
+        schema:endTime:
+          type: string
+          description: Date/time the XAS analysis finished
+          x-jsonld-id: http://schema.org/endTime
+        prov:used:
           type: array
           items:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasFacility/$defs/AdditionalProperty
-          x-jsonld-id: http://schema.org/additionalProperty
-      required:
-      - '@type'
-      - schema:additionalType
-      - schema:name
-    $defs:
-      AdditionalProperty:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-      xas: https://w3id.org/cdif/xas/
-    x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.xasProperties.xasFacility
-      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
-      version: '1.0'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.xasProperties.xasInstrument:
-    title: XAS Instrument
-    description: XAS-specific instrument building block. Extends the generic instrument
-      building block with required wd:Q3099911 (Wikidata scientific instrument) additionalType
-      classification.
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument
-    - type: object
-      properties:
-        schema:additionalType:
-          type: array
-          items:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasInstrument/$defs/cdifConceptOrTermOrString
-          minItems: 1
-          uniqueItems: true
-          allOf:
-          - contains:
-              type: object
-              additionalProperties: false
+            anyOf:
+            - type: object
               required:
-              - '@id'
+              - schema:instrument
               properties:
-                '@id':
-                  enum:
-                  - wd:Q3099911
-            description: 'wd:Q3099911 is Wikidata scientific instrument. Declare prefix
-              wd: https://www.wikidata.org/entity/'
-          x-jsonld-id: http://schema.org/additionalType
-      required:
-      - schema:additionalType
+                schema:instrument:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/Instrument
+                  x-jsonld-id: http://schema.org/instrument
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+          allOf:
+          - description: Must contain a prov:used entry whose schema:instrument is
+              classified as an NXinstrument (via schema:additionalType) and carries
+              a schema:name (the beamline name).
+            contains:
+              type: object
+              properties:
+                schema:instrument:
+                  type: array
+                  contains:
+                    type: object
+                    properties:
+                      schema:additionalType:
+                        type: array
+                        contains:
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - '@id'
+                          properties:
+                            '@id':
+                              enum:
+                              - nxs:base_classes/NXinstrument.html
+                              - xas:beamline
+                      schema:name:
+                        type: string
+                    required:
+                    - schema:additionalType
+                    - schema:name
+              required:
+              - schema:instrument
+          - description: Must contain a prov:used entry whose schema:instrument is
+              classified as an xas:xraymonochromator (via schema:additionalType) and
+              has a schema:additionalProperty carrying the xas:dspacing PropertyValue
+              with a schema:value.
+            contains:
+              type: object
+              properties:
+                schema:instrument:
+                  type: array
+                  contains:
+                    type: object
+                    properties:
+                      schema:additionalType:
+                        type: array
+                        contains:
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - '@id'
+                          properties:
+                            '@id':
+                              enum:
+                              - xas:xraymonochromator
+                      schema:additionalProperty:
+                        type: array
+                        contains:
+                          type: object
+                          properties:
+                            schema:propertyID:
+                              type: array
+                              contains:
+                                type: object
+                                additionalProperties: false
+                                required:
+                                - '@id'
+                                properties:
+                                  '@id':
+                                    enum:
+                                    - xas:dspacing
+                            schema:value:
+                              type: string
+                          required:
+                          - schema:propertyID
+                          - schema:value
+                    required:
+                    - schema:additionalType
+                    - schema:additionalProperty
+              required:
+              - schema:instrument
+          x-jsonld-id: http://www.w3.org/ns/prov#used
+        schema:additionalProperty:
+          type: array
+          description: Additional properties on the XAS analysis activity (base AdditionalProperty
+            shape). The activity-level propertyID enum (xas:edgeenergy, calibration
+            method, ...) is layered on in xasOptional so it applies at the profile
+            level, not this shape.
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/AdditionalProperty
+          x-jsonld-id: http://schema.org/additionalProperty
+        schema:location:
+          x-jsonld-id: http://schema.org/location
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/Facility
+        schema:object:
+          description: Sample being analyzed (per Ocean Info Hub recommendation)
+          x-jsonld-id: http://schema.org/object
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy/$defs/Sample
     $defs:
       cdifConceptOrTermOrString:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
+      Identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+      Sample:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasSample
+      AdditionalProperty:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
+      Facility:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasFacility
+      Instrument:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasInstrument
+        - type: object
+          description: As a prov:used entity, the instrument's @type includes prov:Entity
+            (the PROV-O range of prov:used) alongside schema:Thing / schema:Product.
+          properties:
+            '@type':
+              contains:
+                enum:
+                - prov:Entity
     x-jsonld-prefixes:
       schema: http://schema.org/
+      nxs: https://manual.nexusformat.org/classes/
+      prov: http://www.w3.org/ns/prov#
       wd: https://www.wikidata.org/entity/
       xas: https://w3id.org/cdif/xas/
     x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.xasProperties.xasInstrument
+      itemIdentifier: cdif.bbr.metadata.xasProperties.xasGeneratedBy
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '1.0'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasInstrument/schema.yaml
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.person:
-    description: schema for cdif profile of schema.org/Person
+  cdif.bbr.metadata.schemaorgProperties.definedTerm:
+    description: "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF
+      profile UML models an attribute typed as\nschema:DefinedTerm is represented
+      by a single attribute of that class type.\nThe JSON Schema implementation permits
+      the property value to be EITHER a\nplain string (interpreted as schema:name
+      or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm
+      object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet).
+      Consumers should accept either form.\n\nNote that this differs from the cdif
+      Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary
+      entry (object form or\n@id-reference) \u2014 plain strings are not permitted
+      for Concept-typed values\nbecause vocabulary identity cannot be recovered from
+      an unscoped label.\n"
     type: object
     properties:
-      '@id':
-        type: string
       '@type':
         type: array
         items:
           type: string
         contains:
           enum:
-          - schema:Person
+          - schema:DefinedTerm
         minItems: 1
       schema:name:
         type: string
-        description: string label for person that is meaningful for human users, should
-          format consistently. Recommend 'Family Name, Given name' format.
+        description: text label for the term that is useful to human user
         x-jsonld-id: http://schema.org/name
-      schema:description:
-        type: string
-        description: additional information about the agent or their relation to the
-          described resource
-        x-jsonld-id: http://schema.org/description
       schema:identifier:
-        description: identifier for person, recommend ORCID
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
         - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
         x-jsonld-id: http://schema.org/identifier
-      schema:alternateName:
-        type: string
-        description: other labels by which the person might be known
-        x-jsonld-id: http://schema.org/alternateName
-      schema:affiliation:
-        description: if affiliation is present, value must be a schema:Organization.
-        x-jsonld-id: http://schema.org/affiliation
-        allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
-      schema:contactPoint:
-        type: object
-        description: An email address or a contact web page (a form, an issue tracker),
-          or both; at least one is required. Schema.org also allows telephone and
-          postal contacts. A URL-only contact is ordinary in DCAT (a vcard:Kind with
-          only vcard:hasURL), so requiring email made such records invalid.
-        properties:
-          '@type':
-            default:
-            - schema:ContactPoint
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:ContactPoint
-            minItems: 1
-          schema:email:
-            type: string
-            x-jsonld-id: http://schema.org/email
-          schema:url:
-            type: string
-            format: uri
-            x-jsonld-id: http://schema.org/url
-        required:
-        - '@type'
+      schema:inDefinedTermSet:
+        description: 'The controlled vocabulary responsible for this keyword, as EITHER
+          a plain URI string identifying the vocabulary, OR an object reference ({"@id":
+          "<uri>"}) to a vocabulary defined elsewhere in the document. Both forms
+          are already in use across CDIF profiles and downstream ADA building blocks;
+          permitting only the string form made the object form - the natural JSON-LD
+          spelling of a reference - invalid, while this class''s own union-type policy
+          above explicitly anticipates both.'
         anyOf:
-        - required:
-          - schema:email
-        - required:
-          - schema:url
-        x-jsonld-id: http://schema.org/contactPoint
-      schema:sameAs:
-        type: array
-        description: other identifiers for the person
-        items:
-          anyOf:
-          - type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-        x-jsonld-id: http://schema.org/sameAs
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        x-jsonld-id: http://schema.org/inDefinedTermSet
+      schema:termCode:
+        type: string
+        description: A representative code for this keyword in the controlled vocabulary.
+          Analogous to skos:Notation
+        x-jsonld-id: http://schema.org/termCode
     allOf:
     - required:
       - '@type'
@@ -1191,93 +613,279 @@ x-defs:
         - schema:name
       - required:
         - schema:identifier
+      - required:
+        - schema:termCode
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.person
+      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.definedTerm
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.organization:
+  cdif.bbr.metadata.schemaorgProperties.dataDownload:
+    description: schema to document file-based access to a resoruce via URL, based
+      on schema.org/DataDownload
     type: object
     properties:
       '@id':
         type: string
       '@type':
-        default:
-        - schema:Organization
         type: array
+        description: implement as array because extensions might need to add additional
+          types
         items:
-          anyOf:
-          - type: string
-            enum:
-            - schema:Organization
-            - schema:FundingAgency
-            - schema:Consortium
-            - schema:Corporation
-            - schema:EducationalOrganization
-            - schema:FundingScheme
-            - schema:GovernmentOrganization
-            - schema:NGO
-            - schema:Project
-            - schema:ResearchOrganization
+          type: string
         contains:
           enum:
-          - schema:Organization
+          - schema:DataDownload
         minItems: 1
-      schema:additionalType:
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization/$defs/cdifConceptOrTermOrString
-        x-jsonld-id: http://schema.org/additionalType
       schema:name:
         type: string
-        description: string label for organization that is meaningful for human users
         x-jsonld-id: http://schema.org/name
-      schema:alternateName:
-        type: string
-        description: other labels by which the organization might be known
-        x-jsonld-id: http://schema.org/alternateName
       schema:description:
         type: string
-        description: additional information about the agent or their relation to the
-          described resource
+        description: Description of this distribution, e.g. what format, access constraints,
+          etc.
         x-jsonld-id: http://schema.org/description
-      schema:identifier:
-        description: identifier for organization
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-        - type: string
-        x-jsonld-id: http://schema.org/identifier
-      schema:sameAs:
+      schema:contentUrl:
+        type: string
+        format: uri
+        x-jsonld-id: http://schema.org/contentUrl
+      schema:encodingFormat:
         type: array
-        description: other identifiers for the organization
+        description: MIME type with extension; should indicate the serialization scheme
+          in sufficient detail that machine can know how to parse.
+        items:
+          type: string
+        x-jsonld-id: http://schema.org/encodingFormat
+      schema:additionalType:
+        type: array
+        description: 'Domain-specific type classification for this distribution: what
+          KIND of thing the file is, beyond its MIME type. schema:encodingFormat says
+          how to parse the bytes; this says what they are. A plain string is accepted,
+          but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where
+          the value comes from a controlled vocabulary, so the vocabulary travels
+          with the data rather than being asserted only in a profile.'
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload/$defs/cdifConceptOrTermOrString
+        x-jsonld-id: http://schema.org/additionalType
+      schema:contentSize:
+        type: string
+        description: File size of this distribution, e.g. '2.5 MB' or a byte count.
+          Per schema.org/contentSize.
+        x-jsonld-id: http://schema.org/contentSize
+      schema:width:
+        type: object
+        description: Pixel width of this distribution when it is a single raster file,
+          as a QuantitativeValue. schema:width has schema:MediaObject in its domain.
+          A QuantitativeValue rather than a bare number because the same property
+          carries physical dimensions elsewhere, so the unit has to be stated. (schema:contentSize
+          above is a plain string for historical reasons; that inconsistency is left
+          alone rather than widened.)
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - schema:QuantitativeValue
+            minItems: 1
+          schema:value:
+            type: number
+            description: Width in pixels.
+            x-jsonld-id: http://schema.org/value
+          schema:unitText:
+            type: string
+            description: Unit of measure, e.g. 'pixel'.
+            x-jsonld-id: http://schema.org/unitText
+        x-jsonld-id: http://schema.org/width
+      schema:height:
+        type: object
+        description: Pixel height of this distribution when it is a single raster
+          file, as a QuantitativeValue. schema:height has schema:MediaObject in its
+          domain. A QuantitativeValue rather than a bare number because the same property
+          carries physical dimensions elsewhere, so the unit has to be stated. (schema:contentSize
+          above is a plain string for historical reasons; that inconsistency is left
+          alone rather than widened.)
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - schema:QuantitativeValue
+            minItems: 1
+          schema:value:
+            type: number
+            description: Height in pixels.
+            x-jsonld-id: http://schema.org/value
+          schema:unitText:
+            type: string
+            description: Unit of measure, e.g. 'pixel'.
+            x-jsonld-id: http://schema.org/unitText
+        x-jsonld-id: http://schema.org/height
+      spdx:checksum:
+        type: object
+        description: A string value calculated from the content of the resource representation,
+          used to test if content has been modified. The checksum is a property of
+          a particular distribution/DataDownload.
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - spdx:Checksum
+            minItems: 1
+          spdx:algorithm:
+            type: string
+          spdx:checksumValue:
+            type: string
+        required:
+        - '@type'
+        - spdx:algorithm
+        - spdx:checksumValue
+      dcterms:conformsTo:
+        description: An identifier for a standard or specification that the distribution
+          conforms to. Recommended to enable machine-actionable data access.
+        type: array
+        minItems: 1
+        items:
+          description: uri for specification that this distribution conforms to
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+      schema:provider:
+        type: array
+        description: Party who maintains this particular distribution option for the
+          dataset. Use this property if there are multiple distributions from different
+          providers
         items:
           anyOf:
-          - type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-        x-jsonld-id: http://schema.org/sameAs
+          - description: a identifier for an agent defined in this metadata, or externally;
+              must be dereferenceable
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+        x-jsonld-id: http://schema.org/provider
+    required:
+    - '@type'
     allOf:
-    - required:
-      - '@type'
-    - anyOf:
-      - required:
-        - schema:name
-      - required:
-        - schema:identifier
+    - if:
+        not:
+          type: object
+          required:
+          - '@type'
+          properties:
+            '@type':
+              type: array
+              contains:
+                enum:
+                - schema:Collection
+      then:
+        required:
+        - schema:contentUrl
+      else:
+        required:
+        - schema:hasPart
     $defs:
       cdifConceptOrTermOrString:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.organization
+      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.dataDownload
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.xasProperties.xasSample:
+    title: definitions for roles used in XAS profile
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        minItems: 2
+        uniqueItems: true
+        allOf:
+        - contains:
+            enum:
+            - schema:Product
+          minContains: 1
+        - contains:
+            enum:
+            - schema:Thing
+          minContains: 1
+      schema:additionalType:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/cdifConceptOrTermOrString
+        minItems: 2
+        uniqueItems: true
+        allOf:
+        - contains:
+            enum:
+            - MaterialSample
+          minContains: 1
+        - contains:
+            type: object
+            additionalProperties: false
+            required:
+            - '@id'
+            properties:
+              '@id':
+                enum:
+                - https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample
+          minContains: 1
+        x-jsonld-id: http://schema.org/additionalType
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      schema:identifier:
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/Identifier
+        x-jsonld-id: http://schema.org/identifier
+      schema:description:
+        type: string
+        x-jsonld-id: http://schema.org/description
+      schema:additionalProperty:
+        type: array
+        description: Sample additionalProperty entries (base AdditionalProperty shape).
+          The XDI Sample.* propertyID vocabulary enum is layered on in xasOptional,
+          so it applies at the profile level, not this shape.
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/AdditionalProperty
+        x-jsonld-id: http://schema.org/additionalProperty
+    required:
+    - '@type'
+    - schema:additionalType
+    - schema:name
+    $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
+      Identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+      AdditionalProperty:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      nxs: https://manual.nexusformat.org/classes/
+      xas: https://w3id.org/cdif/xas/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.xasProperties.xasSample
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '1.0'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.provProperties.generatedBy:
     title: very simple links or names of software or instruments used to generate
@@ -1377,8 +985,183 @@ x-defs:
       itemIdentifier: cdif.bbr.metadata.provProperties.generatedBy
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
+      dateOfLastChange: '2026-10-26'
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/generatedBy/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.person:
+    description: schema for cdif profile of schema.org/Person
+    type: object
+    properties:
+      '@id':
+        type: string
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:Person
+        minItems: 1
+      schema:name:
+        type: string
+        description: string label for person that is meaningful for human users, should
+          format consistently. Recommend 'Family Name, Given name' format.
+        x-jsonld-id: http://schema.org/name
+      schema:description:
+        type: string
+        description: additional information about the agent or their relation to the
+          described resource
+        x-jsonld-id: http://schema.org/description
+      schema:identifier:
+        description: identifier for person, recommend ORCID
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - type: string
+        x-jsonld-id: http://schema.org/identifier
+      schema:alternateName:
+        type: string
+        description: other labels by which the person might be known
+        x-jsonld-id: http://schema.org/alternateName
+      schema:affiliation:
+        description: if affiliation is present, value must be a schema:Organization.
+        x-jsonld-id: http://schema.org/affiliation
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+      schema:contactPoint:
+        type: object
+        description: An email address or a contact web page (a form, an issue tracker),
+          or both; at least one is required. Schema.org also allows telephone and
+          postal contacts. A URL-only contact is ordinary in DCAT (a vcard:Kind with
+          only vcard:hasURL), so requiring email made such records invalid.
+        properties:
+          '@type':
+            default:
+            - schema:ContactPoint
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - schema:ContactPoint
+            minItems: 1
+          schema:email:
+            type: string
+            x-jsonld-id: http://schema.org/email
+          schema:url:
+            type: string
+            format: uri
+            x-jsonld-id: http://schema.org/url
+        required:
+        - '@type'
+        anyOf:
+        - required:
+          - schema:email
+        - required:
+          - schema:url
+        x-jsonld-id: http://schema.org/contactPoint
+      schema:sameAs:
+        type: array
+        description: other identifiers for the person
+        items:
+          anyOf:
+          - type: string
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        x-jsonld-id: http://schema.org/sameAs
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:name
+      - required:
+        - schema:identifier
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.person
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.organization:
+    type: object
+    properties:
+      '@id':
+        type: string
+      '@type':
+        default:
+        - schema:Organization
+        type: array
+        items:
+          anyOf:
+          - type: string
+            enum:
+            - schema:Organization
+            - schema:FundingAgency
+            - schema:Consortium
+            - schema:Corporation
+            - schema:EducationalOrganization
+            - schema:FundingScheme
+            - schema:GovernmentOrganization
+            - schema:NGO
+            - schema:Project
+            - schema:ResearchOrganization
+        contains:
+          enum:
+          - schema:Organization
+        minItems: 1
+      schema:additionalType:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization/$defs/cdifConceptOrTermOrString
+        x-jsonld-id: http://schema.org/additionalType
+      schema:name:
+        type: string
+        description: string label for organization that is meaningful for human users
+        x-jsonld-id: http://schema.org/name
+      schema:alternateName:
+        type: string
+        description: other labels by which the organization might be known
+        x-jsonld-id: http://schema.org/alternateName
+      schema:description:
+        type: string
+        description: additional information about the agent or their relation to the
+          described resource
+        x-jsonld-id: http://schema.org/description
+      schema:identifier:
+        description: identifier for organization
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - type: string
+        x-jsonld-id: http://schema.org/identifier
+      schema:sameAs:
+        type: array
+        description: other identifiers for the organization
+        items:
+          anyOf:
+          - type: string
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        x-jsonld-id: http://schema.org/sameAs
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:name
+      - required:
+        - schema:identifier
+    $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.organization
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.agentInRole:
     description: For more granularity on how a person contributed to a Dataset, use
@@ -1423,8 +1206,72 @@ x-defs:
       itemIdentifier: cdif.bbr.metadata.schemaorgProperties.agentInRole
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
+      dateOfLastChange: '2026-10-26'
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.identifier:
+    description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
+
+      **Union-type policy:** In CDIF profile UML models an attribute typed as
+
+      schema:Identifier / schema:PropertyValue is represented by a single attribute
+
+      of that class type. The JSON Schema implementation permits the property value
+
+      to be EITHER a plain string (interpreted as the bare identifier value) OR a
+
+      full schema:PropertyValue object (with explicit @type, propertyID, value).
+
+      Consumers should accept either form.
+
+      '
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:PropertyValue
+        minItems: 1
+      schema:propertyID:
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        description: In this context for the schema:PropertyValue, this field is an
+          identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
+          for interoperability. URI-shape values MUST be serialized as JSON-LD IRI
+          references ({"@id":"..."}) so they participate in RDF entailment; free-label
+          strings remain valid as strings.
+        x-jsonld-id: http://schema.org/propertyID
+      schema:value:
+        type: string
+        description: the identifier string. E.g. 10.5066/F7VX0DMQ
+        x-jsonld-id: http://schema.org/value
+      schema:url:
+        type: string
+        format: uri
+        description: 'web-resolveable string for the identifier; host name part is
+          location of a resolver that will return some representation for the given
+          identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
+        x-jsonld-id: http://schema.org/url
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:value
+      - required:
+        - schema:url
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.identifier
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.instrument:
     title: Instrument Description
@@ -1793,7 +1640,7 @@ x-defs:
       itemIdentifier: cdif.bbr.metadata.schemaorgProperties.instrument
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.2'
-      dateOfLastChange: '2026-10-25'
+      dateOfLastChange: '2026-10-26'
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.spatialExtent:
@@ -1989,25 +1836,142 @@ x-defs:
       itemIdentifier: cdif.bbr.metadata.schemaorgProperties.spatialExtent
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
+      dateOfLastChange: '2026-10-26'
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm:
-    description: A SKOS concept identified by URI, a schema:DefinedTerm, or an inline
-      cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary
-      reference or an inline concept definition.
+  cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString:
+    title: CDIF Concept-or-Term-or-String
+    description: Shared shape for a CDIF property that carries either a controlled-vocabulary
+      value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref,
+      schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative
+      used for legacy or single-word labels not yet bound to a vocabulary.
     anyOf:
-    - description: reference to a skos concept for the data type
-      allOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/Concept
+    - type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
     x-bblocks-metadata:
-      itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
+      itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.xasProperties.xasFacility:
+    title: definitions a Facility location, type schema:Place
+    description: 'The facility where XAS data was acquired: a synchrotron, X-ray free
+      electron laser, or laboratory.
+
+      Extends the core CDIF spatialExtent (schema:Place) rather than redeclaring it.
+      A facility is an ordinary CDIF place that happens to be classified as a facility,
+      so it should be described by the same block as any other place; the only thing
+      this block adds is the requirement that schema:additionalType classify it.
+
+      Redeclaring meant this block described four of spatialExtent''s properties and
+      silently ignored the rest: schema:geo, geosparql: hasGeometry and schema:alternateName
+      were accepted on a facility but never validated, so a facility whose coordinates
+      were an unparseable string passed. Composing the core block instead constrains
+      them.
+
+      geochemBuildingBlocks composes the same core block for its laboratory building
+      block, so both profiles now describe this kind of place the same way. They still
+      differ on the classification term -- that block uses a NeXus base class where
+      this one uses xas:facility -- which is a separate question from where the place
+      structure comes from.
+
+      xas:facility is deliberately NOT among the concepts retired onto NeXus base
+      classes: it covers a synchrotron, an XFEL or a laboratory facility, while NXsource
+      is the storage ring specifically. The narrower xas:synchrotonfacility is the
+      one that corresponds to NXsource, and the glossary records it as skos:narrower
+      of this concept.'
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent
+    - type: object
+      properties:
+        '@id':
+          type: string
+        schema:additionalType:
+          description: 'Must classify the place as an XAS facility. The value is a
+            sealed reference ({"@id": ...}) per the CDIF convention for a term defined
+            elsewhere; the core block also permits a bare string or an inline DefinedTerm
+            for other classifications carried alongside this one.'
+          contains:
+            type: object
+            additionalProperties: false
+            required:
+            - '@id'
+            properties:
+              '@id':
+                enum:
+                - xas:facility
+          minItems: 1
+          x-jsonld-id: http://schema.org/additionalType
+        schema:additionalProperty:
+          description: Facility-scope properties that are not places, e.g. storage-ring
+            energy or current. Not offered by the core block, which describes a location
+            rather than an operating machine.
+          type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasFacility/$defs/AdditionalProperty
+          x-jsonld-id: http://schema.org/additionalProperty
+      required:
+      - '@type'
+      - schema:additionalType
+      - schema:name
+    $defs:
+      AdditionalProperty:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      xas: https://w3id.org/cdif/xas/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.xasProperties.xasFacility
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '1.0'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.xasProperties.xasInstrument:
+    title: XAS Instrument
+    description: XAS-specific instrument building block. Extends the generic instrument
+      building block with required wd:Q3099911 (Wikidata scientific instrument) additionalType
+      classification.
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument
+    - type: object
+      properties:
+        schema:additionalType:
+          type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasInstrument/$defs/cdifConceptOrTermOrString
+          minItems: 1
+          uniqueItems: true
+          allOf:
+          - contains:
+              type: object
+              additionalProperties: false
+              required:
+              - '@id'
+              properties:
+                '@id':
+                  enum:
+                  - wd:Q3099911
+            description: 'wd:Q3099911 is Wikidata scientific instrument. Declare prefix
+              wd: https://www.wikidata.org/entity/'
+          x-jsonld-id: http://schema.org/additionalType
+      required:
+      - schema:additionalType
+    $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      wd: https://www.wikidata.org/entity/
+      xas: https://w3id.org/cdif/xas/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.xasProperties.xasInstrument
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '1.0'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasInstrument/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.labeledLink:
     description: 'Schema for a labeled link, a profile of schema.org/CreativeWork:
@@ -2173,7 +2137,7 @@ x-defs:
       itemIdentifier: cdif.bbr.metadata.schemaorgProperties.labeledLink
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
+      dateOfLastChange: '2026-10-26'
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.linkRole:
@@ -2255,8 +2219,25 @@ x-defs:
       itemIdentifier: cdif.bbr.metadata.schemaorgProperties.linkRole
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
+      dateOfLastChange: '2026-10-26'
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/linkRole/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm:
+    description: A SKOS concept identified by URI, a schema:DefinedTerm, or an inline
+      cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary
+      reference or an inline concept definition.
+    anyOf:
+    - description: reference to a skos concept for the data type
+      allOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/Concept
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.skosProperties.skosConcept:
     title: SKOS Concept
@@ -2451,16 +2432,20 @@ x-defs:
       itemIdentifier: cdif.bbr.metadata.skosProperties.skosConcept
       register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
       version: '0.1'
-      dateOfLastChange: '2026-10-25'
+      dateOfLastChange: '2026-10-26'
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
 title: XAS Core (required) metadata constraints
 description: Required XAS constraints layered on cdifCore (composed once by the xasDocument
-  profile; this module does NOT re-embed cdifCore). Enforces dual @type (Dataset+Product),
-  a prov:wasGeneratedBy analysis activity whose prov:used carries the NXsource+NXmonochromator
-  instrument wrapper, an XDI-conformant distribution, required XAS measurementTechnique
-  DefinedTerms, required element/edge keywords, and the schema:object material sample.
+  profile; this module does NOT re-embed cdifCore). Enforces @type including schema:Dataset
+  (schema:Product optional), a prov:wasGeneratedBy analysis activity whose prov:used
+  carries the NXsource+NXmonochromator instrument wrapper, an XDI- or NeXus-conformant
+  distribution, and required XAS measurementTechnique DefinedTerms (the PaNET XAS
+  technique and the detection mode). schema:keywords carries no XAS requirement.
 type: object
+required:
+- prov:wasGeneratedBy
+- schema:measurementTechnique
 properties:
   '@type':
     description: Dataset @type MUST include schema:Dataset. schema:Product MAY also
@@ -2497,10 +2482,18 @@ properties:
         x-jsonld-id: http://purl.org/dc/terms/conformsTo
     x-jsonld-id: http://schema.org/subjectOf
   prov:wasGeneratedBy:
+    description: The activities that produced the dataset. Any CDIF provenance activity
+      may appear, and at least one MUST be an XAS analysis event (xasGeneratedBy)
+      that used an x-ray source and a monochromator as constrained below. Applying
+      the analysis-event shape to every item instead rejected any other processing
+      step.
     type: array
+    minItems: 1
     items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity
+    contains:
       allOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/$defs/CdifProvActivity
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/$defs/XasAnalysisEvent
       - type: object
         properties:
           prov:used:
@@ -2531,8 +2524,9 @@ properties:
                       - schema:additionalProperty
                       properties:
                         schema:additionalType:
-                          anyOf:
-                          - type: object
+                          type: array
+                          contains:
+                            type: object
                             additionalProperties: false
                             required:
                             - '@id'
@@ -2540,16 +2534,6 @@ properties:
                               '@id':
                                 enum:
                                 - xas:source
-                          - type: array
-                            contains:
-                              type: object
-                              additionalProperties: false
-                              required:
-                              - '@id'
-                              properties:
-                                '@id':
-                                  enum:
-                                  - xas:source
                         schema:additionalProperty:
                           type: array
                           minItems: 2
@@ -2619,8 +2603,9 @@ properties:
                       - schema:additionalProperty
                       properties:
                         schema:additionalType:
-                          anyOf:
-                          - type: object
+                          type: array
+                          contains:
+                            type: object
                             additionalProperties: false
                             required:
                             - '@id'
@@ -2628,16 +2613,6 @@ properties:
                               '@id':
                                 enum:
                                 - xas:xraymonochromator
-                          - type: array
-                            contains:
-                              type: object
-                              additionalProperties: false
-                              required:
-                              - '@id'
-                              properties:
-                                '@id':
-                                  enum:
-                                  - xas:xraymonochromator
                         schema:name:
                           type: string
                         schema:additionalProperty:
@@ -2768,8 +2743,17 @@ properties:
     x-jsonld-id: http://schema.org/distribution
   schema:measurementTechnique:
     type: array
-    description: 'Require DefinedTerms for both: absorption edge (XDI dict) and target
-      element (SWEET).'
+    description: 'Required. Two DefinedTerms: the PaNET X-ray absorption spectroscopy
+      technique (the default below, which a producer can always supply) and the detection
+      mode, drawn from the NXxas DATA/mode field (use the name ":unav" when the source
+      does not record it).'
+    default:
+    - '@type':
+      - schema:DefinedTerm
+      schema:name: X-Ray Absorption Spectroscopy
+      schema:termCode: XAS
+      schema:identifier: http://purl.org/pan-science/PaNET/PaNET01196
+      schema:inDefinedTermSet: http://purl.org/pan-science/PaNET/PaNET.owl
     minItems: 2
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/$defs/DefinedTerm
@@ -2810,70 +2794,6 @@ properties:
         - schema:name
         - schema:inDefinedTermSet
     x-jsonld-id: http://schema.org/measurementTechnique
-  schema:keywords:
-    type: array
-    description: extends base CDIF keyword schema to require defined terms for the
-      absorption edge and the target element for the analysis
-    minItems: 2
-    items:
-      type: object
-      properties:
-        '@type':
-          type: array
-          items:
-            type: string
-          contains:
-            enum:
-            - schema:DefinedTerm
-          minItems: 1
-        schema:name:
-          type: string
-          x-jsonld-id: http://schema.org/name
-        schema:identifier:
-          type: string
-          x-jsonld-id: http://schema.org/identifier
-        schema:inDefinedTermSet:
-          type: string
-          description: need to include this to tag what the keyword is about; we're
-            using the keywords as soft-typed properties
-          x-jsonld-id: http://schema.org/inDefinedTermSet
-      required:
-      - '@type'
-      - schema:name
-      - schema:inDefinedTermSet
-      additionalProperties: true
-    contains:
-      description: The XDI-dictionary keyword identifying the absorption edge; tagged
-        with schema:about "element.edge" to mark its role.
-      type: object
-      properties:
-        schema:inDefinedTermSet:
-          x-jsonld-id: http://schema.org/inDefinedTermSet
-          enum:
-          - https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md
-        schema:about:
-          x-jsonld-id: http://schema.org/about
-          enum:
-          - element.edge
-      required:
-      - schema:inDefinedTermSet
-      - schema:about
-    allOf:
-    - contains:
-        description: The SWEET matrElement keyword identifying the target element;
-          tagged with schema:about "element.symbol" to mark its role.
-        type: object
-        properties:
-          schema:inDefinedTermSet:
-            enum:
-            - http://sweetontology.net/matrElement
-          schema:about:
-            enum:
-            - element.symbol
-        required:
-        - schema:inDefinedTermSet
-        - schema:about
-    x-jsonld-id: http://schema.org/keywords
   schema:variableMeasured:
     description: XAS variableMeasured items. Each item's schema:propertyID SHOULD
       reference one of the XDI canonical variable concept URIs (XDI-CDIF-Mapping.xlsx
@@ -2911,7 +2831,7 @@ properties:
           x-jsonld-id: http://schema.org/propertyID
     x-jsonld-id: http://schema.org/variableMeasured
 $defs:
-  CdifProvActivity:
+  XasAnalysisEvent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.xasProperties.xasGeneratedBy
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
@@ -2934,5 +2854,5 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.xasProperties.xasCore
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-10-25'
+  dateOfLastChange: '2026-10-26'
 x-schema-version: https://json-schema.org/draft/2020-12/schema

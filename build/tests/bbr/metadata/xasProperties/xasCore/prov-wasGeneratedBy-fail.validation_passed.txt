@@ -1,0 +1,918 @@
+Validation report for cdif.bbr.metadata.xasProperties.xasCore - XAS Core metadata properties
+Generated 2026-10-26T21:54:26.726408+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using prov-wasGeneratedBy-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD prov-wasGeneratedBy-fail.jsonld created
+Output Turtle prov-wasGeneratedBy-fail.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: 'prov:wasGeneratedBy' is a required property
+
+Failed validating 'required' in schema:
+    {'$defs': {'AdditionalProperty': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml'},
+               'DataDownload': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml'},
+               'DefinedTerm': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml'},
+               'XasAnalysisEvent': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema.yaml'},
+               'XasSample': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml'}},
+     '$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'description': 'Required XAS constraints layered on cdifCore '
+                    '(composed once by the xasDocument profile; this '
+                    'module does NOT re-embed cdifCore). Enforces @type '
+                    'including schema:Dataset (schema:Product optional), a '
+                    'prov:wasGeneratedBy analysis activity whose prov:used '
+                    'carries the NXsource+NXmonochromator instrument '
+                    'wrapper, an XDI- or NeXus-conformant distribution, '
+                    'and required XAS measurementTechnique DefinedTerms '
+                    '(the PaNET XAS technique and the detection mode). '
+                    'schema:keywords carries no XAS requirement.',
+     'properties': {'@type': {'contains': {'const': 'schema:Dataset'},
+                              'description': 'Dataset @type MUST include '
+                                             'schema:Dataset. '
+                                             'schema:Product MAY also be '
+                                             'included (to treat the '
+                                             'dataset as a data product) '
+                                             'but is not required; no '
+                                             'root-level property depends '
+                                             'on the Product type.',
+                              'items': {'enum': ['schema:Dataset',
+                                                 'schema:Product'],
+                                        'type': 'string'},
+                              'minItems': 1,
+                              'type': 'array'},
+                    'prov:wasGeneratedBy': {'contains': {'allOf': [{'$ref': '#/$defs/XasAnalysisEvent'},
+                                                                   {'properties': {'prov:used': {'allOf': [{'contains': {'properties': {'schema:instrument': {'contains': {'properties': {'schema:additionalProperty': {'allOf': [{'contains': {'properties': {'schema:propertyID': {'contains': {'additionalProperties': False,
+                                                                                                                                                                                                                                                                                                  'properties': {'@id': {'enum': ['nxs:base_classes/NXsource.html#nxsource-type-field',
+                                                                                                                                                                                                                                                                                                                                  'xas:xraysourcetype']}},
+                                                                                                                                                                                                                                                                                                  'required': ['@id'],
+                                                                                                                                                                                                                                                                                                  'type': 'object'},
+                                                                                                                                                                                                                                                                                     'type': 'array'},
+                                                                                                                                                                                                                                                               'schema:value': {'type': 'string'}},
+                                                                                                                                                                                                                                                'required': ['schema:propertyID',
+                                                                                                                                                                                                                                                             'schema:value'],
+                                                                                                                                                                                                                                                'type': 'object'}},
+                                                                                                                                                                                                                                  {'contains': {'properties': {'schema:name': {'const': 'Probe'},
+                                                                                                                                                                                                                                                               'schema:propertyID': {'contains': {'additionalProperties': False,
+                                                                                                                                                                                                                                                                                                  'properties': {'@id': {'enum': ['nxs:base_classes/NXsource.html#nxsource-probe-field',
+                                                                                                                                                                                                                                                                                                                                  'xas:probe']}},
+                                                                                                                                                                                                                                                                                                  'required': ['@id'],
+                                                                                                                                                                                                                                                                                                  'type': 'object'},
+                                                                                                                                                                                                                                                                                     'type': 'array'},
+                                                                                                                                                                                                                                                               'schema:value': {'type': 'string'}},
+                                                                                                                                                                                                                                                'required': ['schema:name',
+                                                                                                                                                                                                                                                             'schema:propertyID',
+                                                                                                                                                                                                                                                             'schema:value'],
+                                                                                                                                                                                                                                                'type': 'object'}}],
+                                                                                                                                                                                                                        'items': {'$ref': '#/$defs/AdditionalProperty'},
+                                                                                                                                                                                                                        'minItems': 2,
+                                                                                                                                                                                                                        'type': 'array'},
+                                                                                                                                                                                          'schema:additionalType': {'contains': {'additionalProperties': False,
+                                                                                                                                                                                                                                 'properties': {'@id': {'const': 'xas:source'}},
+                                                                                                                                                                                                                                 'required': ['@id'],
+                                                                                                                                                                                                                                 'type': 'object'},
+                                                                                                                                                                                                                    'type': 'array'}},
+                                                                                                                                                                           'required': ['schema:additionalType',
+                                                                                                                                                                                        'schema:additionalProperty'],
+                                                                                                                                                                           'type': 'object'},
+                                                                                                                                                              'type': 'array'}},
+                                                                                                                         'required': ['schema:instrument'],
+                                                                                                                         'type': 'object'},
+                                                                                                            'description': 'Must '
+                                                                                                                           'contain '
+                                                                                                                           'a '
+                                                                                                                           'peer '
+                                                                                                                           'wrapper '
+                                                                                                                           'whose '
+                                                                                                                           'schema:instrument '
+                                                                                                                           'is '
+                                                                                                                           'classified '
+                                                                                                                           'as '
+                                                                                                                           'xas:source '
+                                                                                                                           'and '
+                                                                                                                           'carries '
+                                                                                                                           'schema:additionalProperty '
+                                                                                                                           'entries '
+                                                                                                                           'for '
+                                                                                                                           'the '
+                                                                                                                           'NXsource '
+                                                                                                                           'type '
+                                                                                                                           'and '
+                                                                                                                           'probe '
+                                                                                                                           'fields '
+                                                                                                                           '(each '
+                                                                                                                           'with '
+                                                                                                                           'a '
+                                                                                                                           'schema:value; '
+                                                                                                                           'the '
+                                                                                                                           'probe '
+                                                                                                                           'entry '
+                                                                                                                           'is '
+                                                                                                                           'also '
+                                                                                                                           'named '
+                                                                                                                           '"Probe").'},
+                                                                                                           {'contains': {'properties': {'schema:instrument': {'contains': {'properties': {'schema:additionalProperty': {'allOf': [{'contains': {'properties': {'schema:propertyID': {'contains': {'additionalProperties': False,
+                                                                                                                                                                                                                                                                                                  'properties': {'@id': {'const': 'xas:monochromatortype'}},
+                                                                                                                                                                                                                                                                                                  'required': ['@id'],
+                                                                                                                                                                                                                                                                                                  'type': 'object'},
+                                                                                                                                                                                                                                                                                     'type': 'array'},
+                                                                                                                                                                                                                                                               'schema:value': {'type': 'string'}},
+                                                                                                                                                                                                                                                'required': ['schema:propertyID',
+                                                                                                                                                                                                                                                             'schema:value'],
+                                                                                                                                                                                                                                                'type': 'object'}},
+                                                                                                                                                                                                                                  {'contains': {'properties': {'schema:propertyID': {'contains': {'additionalProperties': False,
+                                                                                                                                                                                                                                                                                                  'properties': {'@id': {'const': 'xas:dspacing'}},
+                                                                                                                                                                                                                                                                                                  'required': ['@id'],
+                                                                                                                                                                                                                                                                                                  'type': 'object'},
+                                                                                                                                                                                                                                                                                     'type': 'array'},
+                                                                                                                                                                                                                                                               'schema:unitText': {'type': 'string'},
+                                                                                                                                                                                                                                                               'schema:value': {'type': 'string'}},
+                                                                                                                                                                                                                                                'required': ['schema:propertyID',
+                                                                                                                                                                                                                                                             'schema:value',
+                                                                                                                                                                                                                                                             'schema:unitText'],
+                                                                                                                                                                                                                                                'type': 'object'}},
+                                                                                                                                                                                                                                  {'contains': {'properties': {'schema:propertyID': {'contains': {'additionalProperties': False,
+                                                                                                                                                                                                                                                                                                  'properties': {'@id': {'const': 'xas:reflectionplane'}},
+                                                                                                                                                                                                                                                                                                  'required': ['@id'],
+                                                                                                                                                                                                                                                                                                  'type': 'object'},
+                                                                                                                                                                                                                                                                                     'type': 'array'},
+                                                                                                                                                                                                                                                               'schema:value': {'type': 'string'}},
+                                                                                                                                                                                                                                                'required': ['schema:propertyID',
+                                                                                                                                                                                                                                                             'schema:value'],
+                                                                                                                                                                                                                                                'type': 'object'}}],
+                                                                                                                                                                                                                        'description': 'Require '
+                                                                                                                                                                                                                                       'crystal '
+                                                                                                                                                                                                                                       'type, '
+                                                                                                                                                                                                                                       'd_spacing '
+                                                                                                                                                                                                                                       '(with '
+                                                                                                                                                                                                                                       'unitText), '
+                                                                                                                                                                                                                                       'and '
+                                                                                                                                                                                                                                       'reflection '
+                                                                                                                                                                                                                                       'plane '
+                                                                                                                                                                                                                                       'properties.',
+                                                                                                                                                                                                                        'items': {'$ref': '#/$defs/AdditionalProperty'},
+                                                                                                                                                                                                                        'minItems': 3,
+                                                                                                                                                                                                                        'type': 'array'},
+                                                                                                                                                                                          'schema:additionalType': {'contains': {'additionalProperties': False,
+                                                                                                                                                                                                                                 'properties': {'@id': {'const': 'xas:xraymonochromator'}},
+                                                                                                                                                                                                                                 'required': ['@id'],
+                                                                                                                                                                                                                                 'type': 'object'},
+                                                                                                                                                                                                                    'type': 'array'},
+                                                                                                                                                                                          'schema:name': {'type': 'string'}},
+                                                                                                                                                                           'required': ['schema:additionalType',
+                                                                                                                                                                                        'schema:name',
+                                                                                                                                                                                        'schema:additionalProperty'],
+                                                                                                                                                                           'type': 'object'},
+                                                                                                                                                              'type': 'array'}},
+                                                                                                                         'required': ['schema:instrument'],
+                                                                                                                         'type': 'object'},
+                                                                                                            'description': 'Must '
+                                                                                                                           'contain '
+                                                                                                                           'a '
+                                                                                                                           'peer '
+                                                                                                                           'wrapper '
+                                                                                                                           'whose '
+                                                                                                                           'schema:instrument '
+                                                                                                                           'is '
+                                                                                                                           'classified '
+                                                                                                                           'as '
+                                                                                                                           'xas:xraymonochromator, '
+                                                                                                                           'has '
+                                                                                                                           'a '
+                                                                                                                           'schema:name, '
+                                                                                                                           'and '
+                                                                                                                           'carries '
+                                                                                                                           'schema:additionalProperty '
+                                                                                                                           'entries '
+                                                                                                                           'for '
+                                                                                                                           'xas:monochromatortype, '
+                                                                                                                           'xas:dspacing '
+                                                                                                                           '(with '
+                                                                                                                           'value '
+                                                                                                                           '+ '
+                                                                                                                           'unitText), '
+                                                                                                                           'and '
+                                                                                                                           'xas:reflectionplane.'}],
+                                                                                                 'description': 'Array '
+                                                                                                                'of '
+                                                                                                                'instrument-wrapper '
+                                                                                                                'entries '
+                                                                                                                'used '
+                                                                                                                'by '
+                                                                                                                'the '
+                                                                                                                'analysis. '
+                                                                                                                'Under '
+                                                                                                                'the '
+                                                                                                                'peer '
+                                                                                                                'prov:used '
+                                                                                                                'model '
+                                                                                                                'each '
+                                                                                                                'instrument '
+                                                                                                                '(source, '
+                                                                                                                'beamline, '
+                                                                                                                'monochromator, '
+                                                                                                                'monitor, '
+                                                                                                                '...) '
+                                                                                                                'is '
+                                                                                                                'its '
+                                                                                                                'own '
+                                                                                                                'top-level '
+                                                                                                                'wrapper '
+                                                                                                                'differentiated '
+                                                                                                                'by '
+                                                                                                                'schema:instrument.schema:additionalType. '
+                                                                                                                'An '
+                                                                                                                'x-ray '
+                                                                                                                'source '
+                                                                                                                '(with '
+                                                                                                                'type '
+                                                                                                                'and '
+                                                                                                                'probe '
+                                                                                                                'properties) '
+                                                                                                                'and '
+                                                                                                                'a '
+                                                                                                                'monochromator '
+                                                                                                                '(with '
+                                                                                                                'crystal '
+                                                                                                                'type, '
+                                                                                                                'd_spacing, '
+                                                                                                                'and '
+                                                                                                                'reflection '
+                                                                                                                'plane '
+                                                                                                                'properties) '
+                                                                                                                'are '
+                                                                                                                'required '
+                                                                                                                'here; '
+                                                                                                                'the '
+                                                                                                                'NXinstrument-typed '
+                                                                                                                'beamline '
+                                                                                                                'and '
+                                                                                                                'the '
+                                                                                                                'monochromator '
+                                                                                                                'd_spacing '
+                                                                                                                'schema:value '
+                                                                                                                'are '
+                                                                                                                'additionally '
+                                                                                                                'required '
+                                                                                                                'by '
+                                                                                                                'xasGeneratedBy.',
+                                                                                                 'type': 'array',
+                                                                                                 'x-jsonld-id': 'http://www.w3.org/ns/prov#used'},
+                                                                                   'schema:object': {'$ref': '#/$defs/XasSample',
+                                                                                                     'x-jsonld-id': 'http://schema.org/object'}},
+                                                                    'type': 'object'}]},
+                                            'description': 'The activities '
+                                                           'that produced '
+                                                           'the dataset. '
+                                                           'Any CDIF '
+                                                           'provenance '
+                                                           'activity may '
+                                                           'appear, and at '
+                                                           'least one MUST '
+                                                           'be an XAS '
+                                                           'analysis event '
+                                                           '(xasGeneratedBy) '
+                                                           'that used an '
+                                                           'x-ray source '
+                                                           'and a '
+                                                           'monochromator '
+                                                           'as constrained '
+                                                           'below. '
+                                                           'Applying the '
+                                                           'analysis-event '
+                                                           'shape to every '
+                                                           'item instead '
+                                                           'rejected any '
+                                                           'other '
+                                                           'processing '
+                                                           'step.',
+                                            'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifProvActivity/schema.yaml'},
+                                            'minItems': 1,
+                                            'type': 'array',
+                                            'x-jsonld-id': 'http://www.w3.org/ns/prov#wasGeneratedBy'},
+                    'schema:distribution': {'contains': {'properties': {'@type': {'allOf': [{'contains': {'const': 'schema:DataDownload'}},
+                                                                                            {'contains': {'enum': ['cdi:PhysicalDataSet',
+                                                                                                                   'cdi:TabularTextDataSet',
+                                                                                                                   'cdi:StructuredDataSet']}}],
+                                                                                  'items': {'type': 'string'},
+                                                                                  'minItems': 2,
+                                                                                  'type': 'array'},
+                                                                        'dcterms:conformsTo': {'contains': {'additionalProperties': False,
+                                                                                                            'properties': {'@id': {'anyOf': [{'const': 'https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md',
+                                                                                                                                              'description': 'The '
+                                                                                                                                                             'XDI '
+                                                                                                                                                             'specification.'},
+                                                                                                                                             {'description': 'A '
+                                                                                                                                                             'NeXus '
+                                                                                                                                                             'application '
+                                                                                                                                                             'definition, '
+                                                                                                                                                             'compact '
+                                                                                                                                                             'form, '
+                                                                                                                                                             'as '
+                                                                                                                                                             'emitted '
+                                                                                                                                                             'with '
+                                                                                                                                                             'the '
+                                                                                                                                                             'nxs: '
+                                                                                                                                                             'prefix '
+                                                                                                                                                             'bound '
+                                                                                                                                                             'to '
+                                                                                                                                                             'https://manual.nexusformat.org/classes/.',
+                                                                                                                                              'pattern': '^nxs:applications/NX[A-Za-z0-9_]+\\.html$',
+                                                                                                                                              'type': 'string'},
+                                                                                                                                             {'description': 'A '
+                                                                                                                                                             'NeXus '
+                                                                                                                                                             'application '
+                                                                                                                                                             'definition, '
+                                                                                                                                                             'full '
+                                                                                                                                                             'form.',
+                                                                                                                                              'pattern': '^https://manual\\.nexusformat\\.org/classes/applications/NX[A-Za-z0-9_]+\\.html$',
+                                                                                                                                              'type': 'string'}]}},
+                                                                                                            'required': ['@id'],
+                                                                                                            'type': 'object'},
+                                                                                               'description': 'The '
+                                                                                                              'distribution '
+                                                                                                              'must '
+                                                                                                              'declare '
+                                                                                                              'the '
+                                                                                                              'format '
+                                                                                                              'specification '
+                                                                                                              'its '
+                                                                                                              'bytes '
+                                                                                                              'follow. '
+                                                                                                              'XDI '
+                                                                                                              'and '
+                                                                                                              'NeXus '
+                                                                                                              'are '
+                                                                                                              'the '
+                                                                                                              'two '
+                                                                                                              'serializations '
+                                                                                                              'of '
+                                                                                                              'XAS '
+                                                                                                              'data '
+                                                                                                              'in '
+                                                                                                              'scope, '
+                                                                                                              'so '
+                                                                                                              'either '
+                                                                                                              'satisfies '
+                                                                                                              'this. '
+                                                                                                              'The '
+                                                                                                              "'@type' "
+                                                                                                              'constraint '
+                                                                                                              'above '
+                                                                                                              'is '
+                                                                                                              'already '
+                                                                                                              'format-neutral '
+                                                                                                              '(tabular '
+                                                                                                              'text '
+                                                                                                              'or '
+                                                                                                              'structured '
+                                                                                                              'binary); '
+                                                                                                              'requiring '
+                                                                                                              'the '
+                                                                                                              'XDI '
+                                                                                                              'specification '
+                                                                                                              'here '
+                                                                                                              'contradicted '
+                                                                                                              'it '
+                                                                                                              'and '
+                                                                                                              'made '
+                                                                                                              'a '
+                                                                                                              'conforming '
+                                                                                                              'NeXus/HDF5 '
+                                                                                                              'distribution '
+                                                                                                              'impossible '
+                                                                                                              'to '
+                                                                                                              'describe.',
+                                                                                               'type': 'array',
+                                                                                               'x-jsonld-id': 'http://purl.org/dc/terms/conformsTo'}},
+                                                         'required': ['@type',
+                                                                      'dcterms:conformsTo'],
+                                                         'type': 'object'},
+                                            'items': {'$ref': '#/$defs/DataDownload'},
+                                            'type': 'array',
+                                            'x-jsonld-id': 'http://schema.org/distribution'},
+                    'schema:measurementTechnique': {'allOf': [{'contains': {'properties': {'schema:inDefinedTermSet': {'const': 'nxs:Field/NXxas/ENTRY/DATA/mode'},
+                                                                                           'schema:name': {'type': 'string'}},
+                                                                            'required': ['schema:name',
+                                                                                         'schema:inDefinedTermSet'],
+                                                                            'type': 'object'}}],
+                                                    'contains': {'properties': {'schema:identifier': {'const': 'http://purl.org/pan-science/PaNET/PaNET01196',
+                                                                                                      'x-jsonld-id': 'http://schema.org/identifier'},
+                                                                                'schema:inDefinedTermSet': {'const': 'http://purl.org/pan-science/PaNET/PaNET.owl',
+                                                                                                            'x-jsonld-id': 'http://schema.org/inDefinedTermSet'},
+                                                                                'schema:name': {'const': 'X-Ray '
+                                                                                                         'Absorption '
+                                                                                                         'Spectroscopy',
+                                                                                                'x-jsonld-id': 'http://schema.org/name'},
+                                                                                'schema:termCode': {'const': 'XAS',
+                                                                                                    'x-jsonld-id': 'http://schema.org/termCode'}},
+                                                                 'required': ['schema:name',
+                                                                              'schema:termCode',
+                                                                              'schema:identifier',
+                                                                              'schema:inDefinedTermSet'],
+                                                                 'type': 'object'},
+                                                    'default': [{'@type': ['schema:DefinedTerm'],
+                                                                 'schema:identifier': 'http://purl.org/pan-science/PaNET/PaNET01196',
+                                                                 'schema:inDefinedTermSet': 'http://purl.org/pan-science/PaNET/PaNET.owl',
+                                                                 'schema:name': 'X-Ray '
+                                                                                'Absorption '
+                                                                                'Spectroscopy',
+                                                                 'schema:termCode': 'XAS'}],
+                                                    'description': 'Required. '
+                                                                   'Two '
+                                                                   'DefinedTerms: '
+                                                                   'the '
+                                                                   'PaNET '
+                                                                   'X-ray '
+                                                                   'absorption '
+                                                                   'spectroscopy '
+                                                                   'technique '
+                                                                   '(the '
+                                                                   'default '
+                                                                   'below, '
+                                                                   'which '
+                                                                   'a '
+                                                                   'producer '
+                                                                   'can '
+                                                                   'always '
+                                                                   'supply) '
+                                                                   'and '
+                                                                   'the '
+                                                                   'detection '
+                                                                   'mode, '
+                                                                   'drawn '
+                                                                   'from '
+                                                                   'the '
+                                                                   'NXxas '
+                                                                   'DATA/mode '
+                                                                   'field '
+                                                                   '(use '
+                                                                   'the '
+                                                                   'name '
+                                                                   '":unav" '
+                                                                   'when '
+                                                                   'the '
+                                                                   'source '
+                                                                   'does '
+                                                                   'not '
+                                                                   'record '
+                                                                   'it).',
+                                                    'items': {'$ref': '#/$defs/DefinedTerm'},
+                                                    'minItems': 2,
+                                                    'type': 'array',
+                                                    'x-jsonld-id': 'http://schema.org/measurementTechnique'},
+                    'schema:subjectOf': {'properties': {'dcterms:conformsTo': {'contains': {'additionalProperties': False,
+                                                                                            'properties': {'@id': {'const': 'https://w3id.org/cdif/xasCore/1.0'}},
+                                                                                            'required': ['@id'],
+                                                                                            'type': 'object'},
+                                                                               'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml',
+                                                                                         'description': 'uri '
+                                                                                                        'for '
+                                                                                                        'specifications '
+                                                                                                        'that '
+                                                                                                        'this '
+                                                                                                        'metadata '
+                                                                                                        'record '
+                                                                                                        'conforms '
+                                                                                                        'to'},
+                                                                               'minItems': 1,
+                                                                               'type': 'array',
+                                                                               'x-jsonld-id': 'http://purl.org/dc/terms/conformsTo'}},
+                                         'x-jsonld-id': 'http://schema.org/subjectOf'},
+                    'schema:variableMeasured': {'description': 'XAS '
+                                                               'variableMeasured '
+                                                               'items. '
+                                                               'Each '
+                                                               "item's "
+                                                               'schema:propertyID '
+                                                               'SHOULD '
+                                                               'reference '
+                                                               'one of the '
+                                                               'XDI '
+                                                               'canonical '
+                                                               'variable '
+                                                               'concept '
+                                                               'URIs '
+                                                               '(XDI-CDIF-Mapping.xlsx '
+                                                               'rows '
+                                                               '71-89); '
+                                                               'any other '
+                                                               'propertyID '
+                                                               'string is '
+                                                               'also '
+                                                               'permitted '
+                                                               '(propertyID_item '
+                                                               'arm).',
+                                                'items': {'properties': {'schema:propertyID': {'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item'},
+                                                                                                                   {'enum': ['xas:monochromatorenergy',
+                                                                                                                             'xas:monochromatorangle',
+                                                                                                                             'xas:incidentintensity',
+                                                                                                                             'xas:transmittedintensity',
+                                                                                                                             'xas:fluorescenceintensity',
+                                                                                                                             'xas:referenceintensity',
+                                                                                                                             'xas:absorptioncoefficient',
+                                                                                                                             'xas:fluorescenceabsorptioncoefficient',
+                                                                                                                             'xas:referenceabsorptioncoefficient',
+                                                                                                                             'xas:normalizedtransmissionabsorptioncoefficient',
+                                                                                                                             'xas:normalizedfluorescenceabsorptioncoefficient',
+                                                                                                                             'xas:normalizedreferenceabsorptioncoefficient',
+                                                                                                                             'xas:wavenumber',
+                                                                                                                             'xas:exafsfunction',
+                                                                                                                             'xas:filteredchimagnitude',
+                                                                                                                             'xas:filteredchiphase',
+                                                                                                                             'xas:filteredchireal',
+                                                                                                                             'xas:filteredchiimaginary',
+                                                                                                                             'xas:radialdistance']}]},
+                                                                                               'minItems': 1,
+                                                                                               'type': 'array',
+                                                                                               'x-jsonld-id': 'http://schema.org/propertyID'}}},
+                                                'type': 'array',
+                                                'x-jsonld-id': 'http://schema.org/variableMeasured'}},
+     'required': ['prov:wasGeneratedBy', 'schema:measurementTechnique'],
+     'title': 'XAS Core (required) metadata constraints',
+     'type': 'object',
+     'x-bblocks-metadata': {'dateOfLastChange': '2026-10-26',
+                            'itemIdentifier': 'cdif.bbr.metadata.xasProperties.xasCore',
+                            'register': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json',
+                            'version': '1.0'},
+     'x-jsonld-prefixes': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
+                           'dcat': 'http://www.w3.org/ns/dcat#',
+                           'dcterms': 'http://purl.org/dc/terms/',
+                           'nxs': 'https://manual.nexusformat.org/classes/',
+                           'prov': 'http://www.w3.org/ns/prov#',
+                           'schema': 'http://schema.org/',
+                           'spdx': 'http://spdx.org/rdf/terms#',
+                           'xas': 'https://w3id.org/cdif/xas/'}}
+
+On instance:
+    {'@context': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
+                  'dcat': 'http://www.w3.org/ns/dcat#',
+                  'dcterms': 'http://purl.org/dc/terms/',
+                  'ex': 'https://example.org/',
+                  'geosparql': 'http://www.opengis.net/ont/geosparql#',
+                  'nxs': 'https://manual.nexusformat.org/classes/',
+                  'prov': 'http://www.w3.org/ns/prov#',
+                  'schema': 'http://schema.org/',
+                  'spdx': 'http://spdx.org/rdf/terms#',
+                  'xas': 'https://w3id.org/cdif/xas/',
+                  'xsd': 'http://www.w3.org/2001/XMLSchema#'},
+     '@id': 'ex:xas-dataset-001',
+     '@type': ['schema:Dataset', 'schema:Product'],
+     'schema:conditionsOfAccess': ['Public access, no restrictions'],
+     'schema:dateModified': '2025-06-15',
+     'schema:distribution': [{'@id': 'lMtIx',
+                              '@type': ['schema:DataDownload',
+                                        'cdi:PhysicalDataSet'],
+                              'dcterms:conformsTo': [{'@id': 'https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md'}],
+                              'schema:contentUrl': 'http://example.com/resource/35uj46j',
+                              'schema:encodingFormat': ['application/x-xdi'],
+                              'schema:name': 'XDI data file',
+                              'schema:provider': [{'@id': 'https://ror.org/04qxsr837',
+                                                   '@type': ['schema:Organization'],
+                                                   'schema:name': 'Advanced '
+                                                                  'Photon '
+                                                                  'Source',
+                                                   'schema:url': 'https://www.aps.anl.gov'}],
+                              'spdx:checksum': {'@type': ['spdx:Checksum'],
+                                                'spdx:algorithm': 'SHA-256',
+                                                'spdx:checksumValue': 'a1b2c3d4e5f6...'}},
+                             {'@id': 'RNdlTIf',
+                              '@type': ['schema:DataDownload'],
+                              'dcterms:conformsTo': [{'@id': 'http://www.opengis.net/def/nil/OGC/0/missing'}],
+                              'schema:contentUrl': 'http://example.com/resource/34h5ykl',
+                              'schema:encodingFormat': ['text/csv',
+                                                        'application/zip'],
+                              'schema:name': 'Processed spectrum CSV',
+                              'schema:provider': [{'@id': 'https://ror.org/04qxsr837',
+                                                   '@type': ['schema:Organization'],
+                                                   'schema:name': 'Advanced '
+                                                                  'Photon '
+                                                                  'Source',
+                                                   'schema:url': 'https://www.aps.anl.gov'}],
+                              'spdx:checksum': {'@type': ['spdx:Checksum'],
+                                                'spdx:algorithm': 'MD5',
+                                                'spdx:checksumValue': 'd41d8cd98f00b204e9800998ecf8427e'}}],
+     'schema:identifier': {'@type': ['schema:PropertyValue'],
+                           'schema:propertyID': {'@id': 'https://doi.org'},
+                           'schema:url': 'http://example.com/resource?foo=bar#fragment',
+                           'schema:value': '10.12345/xas.2024.001'},
+     'schema:keywords': [{'@type': ['schema:DefinedTerm'],
+                          'schema:about': 'element.edge',
+                          'schema:identifier': 'https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md#K',
+                          'schema:inDefinedTermSet': 'https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md',
+                          'schema:name': 'K-edge',
+                          'schema:termCode': 'K'},
+                         {'@type': ['schema:DefinedTerm'],
+                          'schema:about': 'element.symbol',
+                          'schema:identifier': 'http://sweetontology.net/matrElement/Selenium',
+                          'schema:inDefinedTermSet': 'http://sweetontology.net/matrElement',
+                          'schema:name': 'Selenium',
+                          'schema:termCode': 'Se'}],
+     'schema:license': ['https://creativecommons.org/licenses/by/4.0/'],
+     'schema:measurementTechnique': [{'@type': ['schema:DefinedTerm'],
+                                      'schema:identifier': 'http://purl.org/pan-science/PaNET/PaNET01196',
+                                      'schema:inDefinedTermSet': 'http://purl.org/pan-science/PaNET/PaNET.owl',
+                                      'schema:name': 'X-Ray Absorption '
+                                                     'Spectroscopy',
+                                      'schema:termCode': 'XAS'},
+                                     {'@type': ['schema:DefinedTerm'],
+                                      'schema:identifier': 'http://purl.org/pan-science/PaNET/PaNET01188',
+                                      'schema:inDefinedTermSet': 'nxs:Field/NXxas/ENTRY/DATA/mode',
+                                      'schema:name': 'Transmission'}],
+     'schema:name': 'Se K-edge XANES of Na2SeO4 reference compound',
+     'schema:subjectOf': {'@id': 'urn:uuid:xas-required-catalog-record',
+                          '@type': ['schema:Dataset'],
+                          'dcterms:conformsTo': [{'@id': 'https://w3id.org/cdif/core/1.1'},
+                                                 {'@id': 'https://w3id.org/cdif/discovery/1.1'},
+                                                 {'@id': 'https://w3id.org/cdif/xasCore/1.0'}],
+                          'schema:about': {'@id': 'ex:xas-dataset-001'},
+                          'schema:additionalType': [{'@id': 'dcat:CatalogRecord'}],
+                          'schema:includedInDataCatalog': {'@id': 'nbUunSyw',
+                                                           '@type': ['schema:DataCatalog'],
+                                                           'schema:name': 'XAS '
+                                                                          'Data '
+                                                                          'Library',
+                                                           'schema:url': 'http://example.com/resource?foo=bar#fragment'},
+                          'schema:maintainer': {'@id': 'nKwywfsuBh',
+                                                '@type': ['schema:Person'],
+                                                'schema:contactPoint': {'@type': ['schema:ContactPoint'],
+                                                                        'schema:email': 'cataloger@example.org'},
+                                                'schema:name': 'Cataloger, '
+                                                               'Example '
+                                                               'Data'},
+                          'schema:sdDatePublished': '2025-08-15T06:45:40Z'},
+     'schema:url': 'http://example.com/resource?foo=bar#fragment'}
+=== End JSON Schema ===
+
+=== SHACL ===
+Validation result for _sources/xasProperties/xasCore/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/xasProperties/xasCore/rules.shacl:
+ - Shape cdifd:CDIFDataDownloadShape: <file:///github/workspace/lMtIx>,<file:///github/workspace/RNdlTIf>
+ - Shape cdifd:XasCoreConformsToShape: *none*
+
+Validation result for _sources/cdifDataType/cdifProvActivity/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifDataType/cdifProvActivity/rules.shacl:
+ - Shape _:nd1fef27f6530432c8dc7e1f9589def6ab13: *none*
+ - Shape _:nd1fef27f6530432c8dc7e1f9589def6ab4: *none*
+ - Shape cdifd:cdifProvActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nd1fef27f6530432c8dc7e1f9589def6ab22: *none*
+ - Shape _:nd1fef27f6530432c8dc7e1f9589def6ab35: *none*
+ - Shape cdifd:cdifProvActivityShape: *none*
+ - Shape _:nd1fef27f6530432c8dc7e1f9589def6ab5: *none*
+ - Shape cdifd:cdifProvHowToShape: *none*
+ - Shape cdifd:cdifProvActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:cdifProvHowToStepShape: *none*
+ - Shape _:nd1fef27f6530432c8dc7e1f9589def6ab23: *none*
+ - Shape _:nd1fef27f6530432c8dc7e1f9589def6ab21: *none*
+ - Shape cdifd:cdifProvActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nd1fef27f6530432c8dc7e1f9589def6ab36: *none*
+ - Shape cdifd:cdifProvActivityShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nd1fef27f6530432c8dc7e1f9589def6ab12: *none*
+
+Validation result for _sources/provProperties/generatedBy/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/provProperties/generatedBy/rules.shacl:
+ - Shape cdifd:generatedByNode: *none*
+ - Shape _:nebc7656b149f4278877fd8142c65c183b5: *none*
+ - Shape _:nebc7656b149f4278877fd8142c65c183b4: *none*
+ - Shape cdifd:generatedByNode/sh:property/sh:or/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/additionalProperty/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/additionalProperty/rules.shacl:
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb21: *none*
+ - Shape cdifd:CDIFadditionalPropertyShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape: dcat:CatalogRecord
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb20: *none*
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb30: *none*
+ - Shape cdifd:CDIFadditionalPropertyShape: *none*
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb6: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape/sh:or/rdf:first: *none*
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb29: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape/sh:or/rdf:first: *none*
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb31: *none*
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb33: *none*
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb14: *none*
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb28: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape: <https://doi.org>
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb7: *none*
+ - Shape cdifd:CDIFAddPropertyTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n2f27522fa5c24a838b2d72619ca2700eb13: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFAddPropertyTermShape: *none*
+
+Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
+ - Shape _:n2620cec366c44f48bce79e511a20d97bb7: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:n2620cec366c44f48bce79e511a20d97bb6: *none*
+ - Shape _:n2620cec366c44f48bce79e511a20d97bb10: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:n2620cec366c44f48bce79e511a20d97bb8: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n2620cec366c44f48bce79e511a20d97bb19: *none*
+ - Shape _:n2620cec366c44f48bce79e511a20d97bb26: *none*
+ - Shape _:n2620cec366c44f48bce79e511a20d97bb5: *none*
+ - Shape _:n2620cec366c44f48bce79e511a20d97bb4: *none*
+
+Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape cdifd:CDIFIdentifierShape: *none*
+ - Shape _:n0c98bf31054a4d38a7376ddb55ea1f16b10: *none*
+ - Shape _:n0c98bf31054a4d38a7376ddb55ea1f16b21: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape _:n0c98bf31054a4d38a7376ddb55ea1f16b11: *none*
+ - Shape _:n0c98bf31054a4d38a7376ddb55ea1f16b22: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:n0c98bf31054a4d38a7376ddb55ea1f16b25: *none*
+ - Shape _:n0c98bf31054a4d38a7376ddb55ea1f16b20: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n0c98bf31054a4d38a7376ddb55ea1f16b23: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/agentInRole/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/agentInRole/rules.shacl:
+ - Shape _:n27673eaa8eff4ab7979bc594041d1759b14: *none*
+ - Shape _:n27673eaa8eff4ab7979bc594041d1759b3: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape cdifd:roleNameProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFRoleShape: *none*
+ - Shape _:n27673eaa8eff4ab7979bc594041d1759b18: *none*
+ - Shape cdifd:CDIFDefinedTermShape: ex:xas-dataset-001/schema1:keywords,ex:xas-dataset-001/schema1:keywords,ex:xas-dataset-001/schema1:measurementTechnique,ex:xas-dataset-001/schema1:measurementTechnique
+ - Shape _:n27673eaa8eff4ab7979bc594041d1759b15: *none*
+ - Shape _:n27673eaa8eff4ab7979bc594041d1759b20: *none*
+ - Shape _:n27673eaa8eff4ab7979bc594041d1759b17: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFRoleShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n27673eaa8eff4ab7979bc594041d1759b4: *none*
+ - Shape _:n27673eaa8eff4ab7979bc594041d1759b16: *none*
+ - Shape cdifd:roleNameProperty/sh:or/rdf:first: *none*
+
+Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:prefLabelUniqueLangShape: *none*
+ - Shape skosv:ConceptShape: *none*
+ - Shape skosv:conceptBroaderNotSelfShape: *none*
+
+Validation result for _sources/schemaorgProperties/organization/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
+ - Shape _:ndcbd62d01d0a4f6fbf5cd78ed10906d5b3: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFOrganizationShape: <https://ror.org/04qxsr837>
+
+Validation result for _sources/schemaorgProperties/person/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/person/rules.shacl:
+ - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n769b26cdaa644f2681ed65674a9c2b7cb21: *none*
+ - Shape cdifd:CDIFContactPointShape: <file:///github/workspace/nKwywfsuBh>/schema1:contactPoint
+ - Shape cdifd:maintainerOrProviderContactPointShape: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape: <file:///github/workspace/nKwywfsuBh>
+ - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape/sh:or/rdf:first: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/instrument/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/instrument/rules.shacl:
+ - Shape cdifd:instrumentNode: *none*
+
+Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:
+ - Shape cdifd:CDIFLabeledLinkShape: *none*
+ - Shape _:n463756793b66498c82c524275826b292b6: *none*
+ - Shape _:n463756793b66498c82c524275826b292b7: *none*
+ - Shape _:n463756793b66498c82c524275826b292b4: *none*
+ - Shape _:n463756793b66498c82c524275826b292b15: *none*
+ - Shape cdifd:CDIFRelationShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFRelationShape: *none*
+ - Shape cdifd:CDIFRelationShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n463756793b66498c82c524275826b292b5: *none*
+
+Validation result for _sources/schemaorgProperties/linkRole/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/linkRole/rules.shacl:
+ - Shape cdifd:CDIFLinkRoleShape: *none*
+ - Shape cdifd:CDIFEntryPointShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFEntryPointShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFEntryPointShape: *none*
+
+Validation result for _sources/schemaorgProperties/spatialExtent/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b42: *none*
+ - Shape cdifd:spatialExtentProperty: *none*
+ - Shape cdifd:geoCoordinatesNode: *none*
+ - Shape cdifd:geoShapeNode: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b44: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b40: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b15: *none*
+ - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b24: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b38: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b3: *none*
+ - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b16: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b13: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b41: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b29: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b9: *none*
+ - Shape cdifd:CDIFDefinedTermShape: ex:xas-dataset-001/schema1:keywords,ex:xas-dataset-001/schema1:keywords,ex:xas-dataset-001/schema1:measurementTechnique,ex:xas-dataset-001/schema1:measurementTechnique
+ - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b4: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b10: *none*
+ - Shape _:n20612042766942c2a3a1c3ce1d90b509b39: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/dataDownload/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/dataDownload/rules.shacl:
+ - Shape <https://www.ogc.org/rules/template/#ConformsToInfo>: <file:///github/workspace/lMtIx>,<file:///github/workspace/RNdlTIf>
+ - Shape cdifd:CDIFDataDownloadShape: <file:///github/workspace/lMtIx>,<file:///github/workspace/RNdlTIf>
+
+Validation result for _sources/xasProperties/xasGeneratedBy/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/xasProperties/xasGeneratedBy/rules.shacl:
+ - Shape cdifd:xasGeneratedByNode: *none*
+
+Validation result for _sources/xasProperties/xasFacility/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/xasProperties/xasFacility/rules.shacl:
+ - Shape cdifd:xasFacilityNode: *none*
+ - Shape cdifd:xasAnalysisLocationClassified: *none*
+
+Validation result for _sources/xasProperties/xasInstrument/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/xasProperties/xasInstrument/rules.shacl:
+ - Shape cdifd:xasInstrumentNode: *none*
+
+Validation result for _sources/xasProperties/xasSample/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/xasProperties/xasSample/rules.shacl:
+ - Shape cdifd:xasSampleNode: *none*
+
+=== End SHACL ===
+
