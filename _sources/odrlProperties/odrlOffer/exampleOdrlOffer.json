@@ -1,61 +1,60 @@
 {
-  "@context": [
-    "http://www.w3.org/ns/odrl.jsonld",
+  "@context": {
+    "odrl": "http://www.w3.org/ns/odrl/2/",
+    "cdifa1": "https://w3id.org/cdif/access/profile1/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@type": ["odrl:Offer"],
+  "@id": "https://example.org/odrloffer/13adb49c-f641-4ac7-aa90-18651cc211ce",
+  "odrl:profile": { "@id": "https://w3id.org/cdif/access/profile1/cdifa1.ttl" },
+  "odrl:assigner": { "@id": "https://example.org/repository" },
+  "odrl:permission": [
     {
-      "odrl": "http://www.w3.org/ns/odrl/2/",
-      "cdifa1": "https://w3id.org/cdif/access/profile1/"
-    }
-  ],
-  "@type": "Offer",
-  "uid": "https://example.org/odrloffer/13adb49c-f641-4ac7-aa90-18651cc211ce",
-  "profile": "https://w3id.org/cdif/access/profile1/cdifa1.ttl",
-  "assigner": "https://example.org/repository",
-  "permission": [
-    {
-      "target": "https://example.org/dataset/3936/distribution/csv",
-      "action": "cdifa1:download",
-      "constraint": [
+      "odrl:target": { "@id": "https://example.org/dataset/3936/distribution/csv" },
+      "odrl:action": { "@id": "cdifa1:download" },
+      "odrl:constraint": [
         {
-          "@type": "Constraint",
-          "leftOperand": "spatial",
-          "operator": "eq",
-          "rightOperand": { "@id": "http://publications.europa.eu/resource/authority/country/GBR" }
+          "@type": ["odrl:Constraint"],
+          "odrl:leftOperand": { "@id": "odrl:spatial" },
+          "odrl:operator": { "@id": "odrl:eq" },
+          "odrl:rightOperand": { "@id": "http://publications.europa.eu/resource/authority/country/GBR" }
         }
       ],
-      "duty": [
+      "odrl:duty": [
         {
-          "action": "cdifa1:assent",
-          "constraint": [
+          "odrl:action": { "@id": "cdifa1:assent" },
+          "odrl:constraint": [
             {
-              "leftOperand": "event",
-              "operator": "lt",
-              "rightOperand": { "@id": "odrl:policyUsage" }
+              "odrl:leftOperand": { "@id": "odrl:event" },
+              "odrl:operator": { "@id": "odrl:lt" },
+              "odrl:rightOperand": { "@id": "odrl:policyUsage" }
             }
           ]
         }
       ]
     }
   ],
-  "obligation": [
+  "odrl:obligation": [
     {
-      "target": "https://example.org/dataset/3936/distribution/csv",
-      "action": {
+      "odrl:target": { "@id": "https://example.org/dataset/3936/distribution/csv" },
+      "odrl:action": {
         "rdf:value": { "@id": "cdifa1:datadestruction" },
-        "refinement": [
+        "odrl:refinement": [
           {
-            "@type": "Constraint",
-            "leftOperand": "dateTime",
-            "operator": "lteq",
-            "rightOperand": { "@value": "2027-12-31", "@type": "xsd:date" }
+            "@type": ["odrl:Constraint"],
+            "odrl:leftOperand": { "@id": "odrl:dateTime" },
+            "odrl:operator": { "@id": "odrl:lteq" },
+            "odrl:rightOperand": { "@value": "2027-12-31", "@type": "xsd:date" }
           }
         ]
       }
     }
   ],
-  "prohibition": [
+  "odrl:prohibition": [
     {
-      "target": "https://example.org/dataset/3936/distribution/csv",
-      "action": "cdifa1:shareTRECredentials"
+      "odrl:target": { "@id": "https://example.org/dataset/3936/distribution/csv" },
+      "odrl:action": { "@id": "cdifa1:shareTRECredentials" }
     }
   ]
 }

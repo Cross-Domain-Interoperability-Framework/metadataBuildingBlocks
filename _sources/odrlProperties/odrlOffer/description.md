@@ -2,12 +2,12 @@
 
 A [W3C ODRL 2.2](https://www.w3.org/TR/odrl-model/) Offer: the access and usage conditions a data provider sets for a digital object. Draft for the CDIF Access profile ([cdifAccess](../../profiles/cdifProfile/cdifAccess/)).
 
-- **permission**: what a user may do (e.g. `cdifa1:download`), optionally scoped by constraints (e.g. users located in the UK).
-- **duty** on a permission, constrained by `event lt policyUsage`: an **access condition**, done before retrieval (e.g. assent to a licence).
-- **obligation**: what every user must do (e.g. destroy the data by a date).
-- **prohibition**: what a user must not do (e.g. share TRE credentials).
+- **odrl:permission**: what a user may do (e.g. `cdifa1:download`), optionally scoped by constraints (e.g. users located in the UK).
+- **odrl:duty** on a permission, constrained by `odrl:event odrl:lt odrl:policyUsage`: an **access condition**, done before retrieval (e.g. assent to a licence).
+- **odrl:obligation**: what every user must do (e.g. destroy the data by a date).
+- **odrl:prohibition**: what a user must not do (e.g. share TRE credentials).
 
-The policy uses ODRL's own compact keys and carries the ODRL context plus the `cdifa1` prefix.
+Keys carry the `odrl:` prefix, and the `@context` declares the `odrl`, `cdifa1` and `rdf` prefixes. The ODRL JSON-LD context is not used, so IRI values (targets, actions, parties, operands) are written as `{"@id": ...}` objects.
 
 ### Open questions
 
