@@ -1,0 +1,580 @@
+Validation report for cdif.bbr.metadata.odrlProperties.odrlOffer - ODRL Offer
+Generated 2026-10-26T22:15:42.281931+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using assigner-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD assigner-fail.jsonld created
+Output Turtle assigner-fail.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: 'odrl:assigner' is a required property
+
+Failed validating 'required' in schema:
+    {'$defs': {'AccessCondition': {'description': 'A permission duty '
+                                                  'carrying the '
+                                                  'accessConditionMarker. '
+                                                  'The spreadsheet gives '
+                                                  'the duty action as '
+                                                  '1..*; ODRL allows one '
+                                                  'action per rule, so '
+                                                  'several pre-conditions '
+                                                  'are several duties. '
+                                                  'OPEN: the spreadsheet '
+                                                  'does not say what an '
+                                                  'assent duty assents to '
+                                                  '(e.g. which licence '
+                                                  'document); a duty '
+                                                  'target is one '
+                                                  'candidate. OPEN: the '
+                                                  'spreadsheet lists '
+                                                  'constraint @type with '
+                                                  'cardinality 1 but gives '
+                                                  'no value and omits it '
+                                                  'on this constraint, so '
+                                                  'it is optional.',
+                                   'properties': {'odrl:action': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema.yaml',
+                                                                  'description': 'The '
+                                                                                 'action '
+                                                                                 'to '
+                                                                                 'complete '
+                                                                                 'first, '
+                                                                                 'e.g. '
+                                                                                 'cdifa1:assent '
+                                                                                 '(range '
+                                                                                 'odrl:Action).',
+                                                                  'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/action'},
+                                                  'odrl:constraint': {'contains': {'$ref': '#/$defs/accessConditionMarker'},
+                                                                      'description': 'Must '
+                                                                                     'include '
+                                                                                     'the '
+                                                                                     'accessConditionMarker '
+                                                                                     '(range '
+                                                                                     'odrl:Constraint).',
+                                                                      'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlConstraint/schema.yaml'},
+                                                                      'type': 'array',
+                                                                      'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/constraint'}},
+                                   'required': ['odrl:action',
+                                                'odrl:constraint'],
+                                   'type': 'object'},
+               'accessConditionMarker': {'description': 'The constraint '
+                                                        'odrl:event '
+                                                        'odrl:lt '
+                                                        'odrl:policyUsage: '
+                                                        'the duty must be '
+                                                        'fulfilled before '
+                                                        'the permission is '
+                                                        'exercised. In '
+                                                        'CDIF Access this '
+                                                        'is what marks a '
+                                                        'duty as an access '
+                                                        'condition. Each '
+                                                        'operand accepts '
+                                                        'the odrl: compact '
+                                                        'IRI and the full '
+                                                        'IRI.',
+                                         'properties': {'odrl:leftOperand': {'properties': {'@id': {'enum': ['odrl:event',
+                                                                                                             'http://www.w3.org/ns/odrl/2/event']}},
+                                                                             'required': ['@id'],
+                                                                             'type': 'object',
+                                                                             'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/leftOperand'},
+                                                        'odrl:operator': {'properties': {'@id': {'enum': ['odrl:lt',
+                                                                                                          'http://www.w3.org/ns/odrl/2/lt']}},
+                                                                          'required': ['@id'],
+                                                                          'type': 'object',
+                                                                          'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/operator'},
+                                                        'odrl:rightOperand': {'properties': {'@id': {'enum': ['odrl:policyUsage',
+                                                                                                              'http://www.w3.org/ns/odrl/2/policyUsage']}},
+                                                                              'required': ['@id'],
+                                                                              'type': 'object',
+                                                                              'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/rightOperand'}},
+                                         'required': ['odrl:leftOperand',
+                                                      'odrl:operator',
+                                                      'odrl:rightOperand'],
+                                         'type': 'object'}},
+     '$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'allOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlPolicy/schema.yaml'}],
+     'description': 'CDIF Access profile of an ODRL 2.2 Offer '
+                    '(https://www.w3.org/TR/odrl-model/#policy-offer): the '
+                    'baseline access and usage conditions a data provider '
+                    'sets for a digital object, without naming who they '
+                    'apply to (that is an ODRL Agreement). Built on the '
+                    'generic odrlPolicy block, which carries the ODRL '
+                    "structure; this block adds only CDIF's own rules. "
+                    'Draft from the CDIF Access spreadsheet '
+                    '(CDIF_Access_Profile_ODRL_Classes_Properties_Description.xlsx) '
+                    'and the cdifbook data_access chapter.\n'
+                    "Keys carry the odrl: prefix and the document's "
+                    '@context declares the odrl, cdifa1 '
+                    '(https://w3id.org/cdif/access/profile1/), rdf and xsd '
+                    'prefixes. The ODRL JSON-LD context is not used, so '
+                    'nothing coerces a string to an IRI: every IRI value '
+                    '(target, action, parties, operands) is an {"@id": '
+                    '...} object.\n'
+                    'An access condition (something done BEFORE the '
+                    'digital object is retrieved) is a permission duty '
+                    'constrained by odrl:event odrl:lt odrl:policyUsage '
+                    '(https://www.w3.org/TR/odrl-model/#duty-perm). '
+                    'Everything else is a usage condition: a permission '
+                    '(may do), an obligation (must do) or a prohibition '
+                    '(must not do).\n'
+                    'OPEN QUESTIONS are marked "OPEN:" below.',
+     'properties': {'@context': {'description': 'JSON-LD namespace '
+                                                'prefixes for ODRL policy '
+                                                'properties. Not required: '
+                                                'an Offer embedded in a '
+                                                'CDIF record inherits the '
+                                                "record's @context.",
+                                 'properties': {'cdifa1': {'const': 'https://w3id.org/cdif/access/profile1/'},
+                                                'odrl': {'const': 'http://www.w3.org/ns/odrl/2/'},
+                                                'rdf': {'const': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'},
+                                                'xsd': {'const': 'http://www.w3.org/2001/XMLSchema#'}},
+                                 'type': 'object'},
+                    '@id': {'description': 'Globally unique, resolvable '
+                                           'IRI for this Offer (the '
+                                           "spreadsheet's uid). A resolver "
+                                           'should be able to return '
+                                           'application/ld+json, not only '
+                                           'an HTML page.'},
+                    '@type': {'contains': {'const': 'odrl:Offer'},
+                              'description': 'Always includes odrl:Offer.'},
+                    'odrl:assignee': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/PartyRef',
+                                      'description': 'Party all rules '
+                                                     'apply to, if given '
+                                                     'once at policy level '
+                                                     '(range odrl:Party).',
+                                      'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/assignee'},
+                    'odrl:assigner': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/PartyRef',
+                                      'description': 'The party issuing '
+                                                     'the Offer, normally '
+                                                     'the repository or '
+                                                     'data custodian, '
+                                                     'given once at policy '
+                                                     'level (range '
+                                                     'odrl:Party). ODRL '
+                                                     'also accepts an '
+                                                     'assigner on every '
+                                                     'rule instead; CDIF '
+                                                     'asks for the '
+                                                     'policy-level form. '
+                                                     'The spreadsheet does '
+                                                     'not list an assigner '
+                                                     'yet.',
+                                      'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/assigner'},
+                    'odrl:obligation': {'description': 'Actions every user '
+                                                       'of the target must '
+                                                       'perform (range '
+                                                       'odrl:Duty), e.g. '
+                                                       'destroy the data '
+                                                       'at the end of a '
+                                                       'project. The '
+                                                       'spreadsheet gives '
+                                                       '1..*; drafted as '
+                                                       '0..* because an '
+                                                       'Offer with only '
+                                                       'permissions is '
+                                                       'common. OPEN: '
+                                                       'confirm.',
+                                        'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/Duty'},
+                                        'type': 'array',
+                                        'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/obligation'},
+                    'odrl:permission': {'description': 'Actions a user may '
+                                                       'perform on the '
+                                                       'target (usage '
+                                                       'conditions).',
+                                        'items': {'properties': {'odrl:action': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema.yaml',
+                                                                                 'description': 'The '
+                                                                                                'permitted '
+                                                                                                'action '
+                                                                                                '(range '
+                                                                                                'odrl:Action). '
+                                                                                                'OPEN: '
+                                                                                                'the '
+                                                                                                'cdifa1 '
+                                                                                                'action '
+                                                                                                'vocabulary '
+                                                                                                'is '
+                                                                                                'not '
+                                                                                                'defined, '
+                                                                                                'so '
+                                                                                                'values '
+                                                                                                'are '
+                                                                                                'not '
+                                                                                                'enumerated; '
+                                                                                                'whether '
+                                                                                                'it '
+                                                                                                'is '
+                                                                                                'an '
+                                                                                                'ODRL '
+                                                                                                'profile '
+                                                                                                'or '
+                                                                                                'a '
+                                                                                                'standalone '
+                                                                                                'controlled '
+                                                                                                'vocabulary '
+                                                                                                'is '
+                                                                                                'still '
+                                                                                                'to '
+                                                                                                'be '
+                                                                                                'settled.',
+                                                                                 'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/action'},
+                                                                 'odrl:assignee': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/PartyRef',
+                                                                                   'description': 'Who '
+                                                                                                  'may '
+                                                                                                  'exercise '
+                                                                                                  'the '
+                                                                                                  'permission '
+                                                                                                  '(range '
+                                                                                                  'odrl:Party), '
+                                                                                                  'as '
+                                                                                                  'a '
+                                                                                                  'party '
+                                                                                                  'or '
+                                                                                                  'a '
+                                                                                                  '(refined) '
+                                                                                                  'PartyCollection, '
+                                                                                                  'e.g. '
+                                                                                                  'registered '
+                                                                                                  'users '
+                                                                                                  'located '
+                                                                                                  'in '
+                                                                                                  'the '
+                                                                                                  'UK. '
+                                                                                                  'This '
+                                                                                                  'is '
+                                                                                                  'the '
+                                                                                                  "book's "
+                                                                                                  'form; '
+                                                                                                  'the '
+                                                                                                  'spreadsheet '
+                                                                                                  'scopes '
+                                                                                                  'users '
+                                                                                                  'with '
+                                                                                                  'odrl:constraint '
+                                                                                                  'instead. '
+                                                                                                  'OPEN: '
+                                                                                                  'settle '
+                                                                                                  'on '
+                                                                                                  'one, '
+                                                                                                  'or '
+                                                                                                  'say '
+                                                                                                  'when '
+                                                                                                  'each '
+                                                                                                  'is '
+                                                                                                  'used.',
+                                                                                   'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/assignee'},
+                                                                 'odrl:assigner': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/PartyRef',
+                                                                                   'description': 'Party '
+                                                                                                  'granting '
+                                                                                                  'this '
+                                                                                                  'permission, '
+                                                                                                  'if '
+                                                                                                  'not '
+                                                                                                  'given '
+                                                                                                  'at '
+                                                                                                  'policy '
+                                                                                                  'level '
+                                                                                                  '(range '
+                                                                                                  'odrl:Party).',
+                                                                                   'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/assigner'},
+                                                                 'odrl:constraint': {'description': 'Conditions '
+                                                                                                    'on '
+                                                                                                    'exercising '
+                                                                                                    'the '
+                                                                                                    'permission '
+                                                                                                    '(range '
+                                                                                                    'odrl:Constraint), '
+                                                                                                    'e.g. '
+                                                                                                    'only '
+                                                                                                    'users '
+                                                                                                    'located '
+                                                                                                    'in '
+                                                                                                    'the '
+                                                                                                    'UK '
+                                                                                                    '(the '
+                                                                                                    "spreadsheet's "
+                                                                                                    'way '
+                                                                                                    'of '
+                                                                                                    'scoping '
+                                                                                                    'users; '
+                                                                                                    'see '
+                                                                                                    'odrl:assignee).',
+                                                                                     'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlConstraint/schema.yaml'},
+                                                                                     'type': 'array',
+                                                                                     'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/constraint'},
+                                                                 'odrl:duty': {'description': 'Access '
+                                                                                              'conditions '
+                                                                                              '(range '
+                                                                                              'odrl:Duty): '
+                                                                                              'actions '
+                                                                                              'that '
+                                                                                              'must '
+                                                                                              'be '
+                                                                                              'completed '
+                                                                                              'before '
+                                                                                              'the '
+                                                                                              'permitted '
+                                                                                              'action, '
+                                                                                              'e.g. '
+                                                                                              'assent '
+                                                                                              'to '
+                                                                                              'an '
+                                                                                              'End '
+                                                                                              'User '
+                                                                                              'Licence '
+                                                                                              'before '
+                                                                                              'download.',
+                                                                               'items': {'$ref': '#/$defs/AccessCondition'},
+                                                                               'type': 'array',
+                                                                               'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/duty'},
+                                                                 'odrl:output': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/Target',
+                                                                                 'description': 'An '
+                                                                                                'asset '
+                                                                                                'created '
+                                                                                                'by '
+                                                                                                'exercising '
+                                                                                                'the '
+                                                                                                'action '
+                                                                                                '(range '
+                                                                                                'odrl:Asset).',
+                                                                                 'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/output'},
+                                                                 'odrl:target': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/Target',
+                                                                                 'description': 'The '
+                                                                                                'asset, '
+                                                                                                'normally '
+                                                                                                'a '
+                                                                                                'distribution '
+                                                                                                'or '
+                                                                                                'data '
+                                                                                                'service '
+                                                                                                '(range '
+                                                                                                'odrl:Asset).',
+                                                                                 'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/target'}},
+                                                  'required': ['odrl:target',
+                                                               'odrl:action'],
+                                                  'type': 'object'},
+                                        'minItems': 1,
+                                        'type': 'array',
+                                        'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/permission'},
+                    'odrl:profile': {'description': 'The CDIF Access ODRL '
+                                                    'profile this policy '
+                                                    'uses, which supplies '
+                                                    'the cdifa1: actions '
+                                                    'the ODRL core '
+                                                    'vocabulary lacks '
+                                                    '(download, assent, '
+                                                    'datadestruction, '
+                                                    '...). OPEN: nothing '
+                                                    'is published at this '
+                                                    'IRI yet, and it names '
+                                                    'a .ttl file where '
+                                                    'ODRL expects a '
+                                                    'profile identifier. '
+                                                    'The cdifa1: form is '
+                                                    'accepted because '
+                                                    'compaction under the '
+                                                    'cdifa1 prefix '
+                                                    'rewrites the full IRI '
+                                                    'to it.',
+                                     'properties': {'@id': {'enum': ['https://w3id.org/cdif/access/profile1/cdifa1.ttl',
+                                                                     'cdifa1:cdifa1.ttl']}},
+                                     'required': ['@id'],
+                                     'type': 'object',
+                                     'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/profile'},
+                    'odrl:prohibition': {'description': 'Actions a user '
+                                                        'must not perform '
+                                                        '(range '
+                                                        'odrl:Prohibition), '
+                                                        'e.g. share TRE '
+                                                        'credentials.',
+                                         'items': {'properties': {'odrl:action': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema.yaml',
+                                                                                  'description': 'The '
+                                                                                                 'prohibited '
+                                                                                                 'action '
+                                                                                                 '(range '
+                                                                                                 'odrl:Action).',
+                                                                                  'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/action'},
+                                                                  'odrl:assignee': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/PartyRef',
+                                                                                    'description': 'Who '
+                                                                                                   'the '
+                                                                                                   'prohibition '
+                                                                                                   'applies '
+                                                                                                   'to '
+                                                                                                   '(range '
+                                                                                                   'odrl:Party).',
+                                                                                    'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/assignee'},
+                                                                  'odrl:assigner': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/PartyRef',
+                                                                                    'description': 'Party '
+                                                                                                   'issuing '
+                                                                                                   'this '
+                                                                                                   'prohibition, '
+                                                                                                   'if '
+                                                                                                   'not '
+                                                                                                   'given '
+                                                                                                   'at '
+                                                                                                   'policy '
+                                                                                                   'level '
+                                                                                                   '(range '
+                                                                                                   'odrl:Party).',
+                                                                                    'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/assigner'},
+                                                                  'odrl:constraint': {'description': 'Conditions '
+                                                                                                     'under '
+                                                                                                     'which '
+                                                                                                     'the '
+                                                                                                     'prohibition '
+                                                                                                     'applies '
+                                                                                                     '(range '
+                                                                                                     'odrl:Constraint).',
+                                                                                      'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlConstraint/schema.yaml'},
+                                                                                      'type': 'array',
+                                                                                      'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/constraint'},
+                                                                  'odrl:output': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/Target',
+                                                                                  'description': 'An '
+                                                                                                 'asset '
+                                                                                                 'created '
+                                                                                                 'by '
+                                                                                                 'exercising '
+                                                                                                 'the '
+                                                                                                 'action '
+                                                                                                 '(range '
+                                                                                                 'odrl:Asset).',
+                                                                                  'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/output'},
+                                                                  'odrl:remedy': {'description': 'Duties '
+                                                                                                 'owed '
+                                                                                                 'if '
+                                                                                                 'the '
+                                                                                                 'prohibition '
+                                                                                                 'is '
+                                                                                                 'infringed '
+                                                                                                 '(range '
+                                                                                                 'odrl:Duty).',
+                                                                                  'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/Duty'},
+                                                                                  'type': 'array',
+                                                                                  'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/remedy'},
+                                                                  'odrl:target': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/Target',
+                                                                                  'description': 'The '
+                                                                                                 'asset '
+                                                                                                 '(range '
+                                                                                                 'odrl:Asset).',
+                                                                                  'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/target'}},
+                                                   'required': ['odrl:target',
+                                                                'odrl:action'],
+                                                   'type': 'object'},
+                                         'type': 'array',
+                                         'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/prohibition'},
+                    'odrl:target': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml#/$defs/Target',
+                                    'description': 'Asset all rules apply '
+                                                   'to, if given once at '
+                                                   'policy level (range '
+                                                   'odrl:Asset).',
+                                    'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/target'}},
+     'required': ['@type',
+                  '@id',
+                  'odrl:profile',
+                  'odrl:assigner',
+                  'odrl:permission'],
+     'title': 'ODRL Offer',
+     'type': 'object',
+     'x-bblocks-metadata': {'dateOfLastChange': '2026-10-26',
+                            'itemIdentifier': 'cdif.bbr.metadata.odrlProperties.odrlOffer',
+                            'register': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json',
+                            'version': '0.1'},
+     'x-jsonld-prefixes': {'cdifa1': 'https://w3id.org/cdif/access/profile1/',
+                           'odrl': 'http://www.w3.org/ns/odrl/2/',
+                           'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                           'xsd': 'http://www.w3.org/2001/XMLSchema#'}}
+
+On instance:
+    {'@context': {'cdifa1': 'https://w3id.org/cdif/access/profile1/',
+                  'odrl': 'http://www.w3.org/ns/odrl/2/'},
+     '@id': 'https://example.org/odrloffer/no-assigner',
+     '@type': ['odrl:Offer'],
+     'odrl:permission': [{'odrl:action': {'@id': 'cdifa1:download'},
+                          'odrl:target': {'@id': 'https://example.org/dataset/3936/distribution/csv'}}],
+     'odrl:profile': {'@id': 'https://w3id.org/cdif/access/profile1/cdifa1.ttl'}}
+=== End JSON Schema ===
+
+=== SHACL ===
+Validation result for _sources/schemaorgProperties/organization/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:
+ - Shape _:nf2d1960fcd144f6288798d4f6ff0f7d8b3: *none*
+ - Shape cdifd:CDIFOrganizationShape: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb10: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb6: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb4: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb19: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb7: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb5: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb8: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb26: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb20: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb21: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb23: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb10: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb22: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb25: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb11: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
+
+Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:conceptBroaderNotSelfShape: *none*
+ - Shape skosv:prefLabelUniqueLangShape: *none*
+ - Shape skosv:ConceptShape: *none*
+
+Validation result for _sources/schemaorgProperties/person/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/person/rules.shacl:
+ - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
+ - Shape _:nfb9a8b2c822d4437bf4a76407f89c612b21: *none*
+ - Shape cdifd:CDIFContactPointShape: *none*
+ - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape: *none*
+ - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
+
+=== End SHACL ===
+

@@ -1,0 +1,105 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.odrlProperties.odrlRule",
+  "$schema": "metaschema.yaml",
+  "name": "ODRL Rule",
+  "abstract": "W3C ODRL 2.2 Rule: Permission (with duties), Prohibition (with remedies) or Duty (with consequences). Each rule has one action and may name its target asset or asset collection, output, assigner, assignee and constraints; target and parties may instead be given at policy level. Uses building blocks: odrlAction, odrlAsset, odrlParty, odrlConstraint (odrlProperties), objectReference (cdifDataType).",
+  "status": "under-development",
+  "dateTimeAddition": "2026-10-26T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-10-26",
+  "link": "https://github.com/usgin/metadataBuildingBlocks",
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "CDIF",
+    "ODRL",
+    "W3C",
+    "rule"
+  ],
+  "sources": [
+    {
+      "title": "W3C ODRL Information Model 2.2",
+      "link": "https://www.w3.org/TR/odrl-model/"
+    },
+    {
+      "title": "W3C ODRL Vocabulary & Expression 2.2",
+      "link": "https://www.w3.org/TR/odrl-vocab/"
+    }
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.schemaorgProperties.organization": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.person": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.cdifDataType.objectReference",
+    "cdif.bbr.metadata.odrlProperties.odrlAction",
+    "cdif.bbr.metadata.odrlProperties.odrlAsset",
+    "cdif.bbr.metadata.odrlProperties.odrlConstraint",
+    "cdif.bbr.metadata.odrlProperties.odrlParty"
+  ],
+  "license": {
+    "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/LICENSE"
+  },
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/odrlProperties/odrlRule/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/odrlProperties/odrlRule/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/odrlProperties/odrlRule/",
+  "validationPassed": true,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/odrlProperties/odrlRule/",
+  "description": "## ODRL Rule\n\nW3C ODRL 2.2 Rule: Permission (with duties), Prohibition (with remedies) or Duty (with consequences). Each rule has one action and may name its target asset or asset collection, output, assigner, assignee and constraints; target and parties may instead be given at policy level.\n\nGeneric W3C ODRL; CDIF-specific rules belong in profile blocks such as [odrlOffer](../odrlOffer/).\n\n### Dependencies\n\n- [odrlAction](../odrlAction/)\n- [odrlAsset](../odrlAsset/)\n- [odrlParty](../odrlParty/)\n- [odrlConstraint](../odrlConstraint/)\n- [objectReference](../../cdifDataType/objectReference/)\n",
+  "examples": [
+    {
+      "title": "ODRL Permission with a duty",
+      "content": "Permission to distribute a dataset, with a duty to attribute; if the duty is not met, a consequence duty to compensate.",
+      "prefixes": {
+        "odrl": "http://www.w3.org/ns/odrl/2/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/odrlProperties/odrlRule/exampleOdrlRule.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/odrlProperties/odrlRule/example_1_1.json",
+          "sizeBytes": 647,
+          "code": "{\n  \"@context\": {\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": [\n    \"odrl:Permission\"\n  ],\n  \"odrl:target\": {\n    \"@id\": \"https://example.org/dataset/3936/distribution/csv\"\n  },\n  \"odrl:action\": {\n    \"@id\": \"odrl:distribute\"\n  },\n  \"odrl:assignee\": {\n    \"@id\": \"https://example.org/user/1\"\n  },\n  \"odrl:duty\": [\n    {\n      \"@type\": [\n        \"odrl:Duty\"\n      ],\n      \"odrl:action\": {\n        \"@id\": \"odrl:attribute\"\n      },\n      \"odrl:consequence\": [\n        {\n          \"@type\": [\n            \"odrl:Duty\"\n          ],\n          \"odrl:action\": {\n            \"@id\": \"odrl:compensate\"\n          }\n        }\n      ]\n    }\n  ]\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/odrlProperties/odrlRule/example_1_1.jsonld",
+          "sizeBytes": 874,
+          "code": "{\n  \"@context\": [\n    {\n      \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/context.jsonld\",\n    {\n      \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n    }\n  ],\n  \"@type\": [\n    \"odrl:Permission\"\n  ],\n  \"odrl:target\": {\n    \"@id\": \"https://example.org/dataset/3936/distribution/csv\"\n  },\n  \"odrl:action\": {\n    \"@id\": \"odrl:distribute\"\n  },\n  \"odrl:assignee\": {\n    \"@id\": \"https://example.org/user/1\"\n  },\n  \"odrl:duty\": [\n    {\n      \"@type\": [\n        \"odrl:Duty\"\n      ],\n      \"odrl:action\": {\n        \"@id\": \"odrl:attribute\"\n      },\n      \"odrl:consequence\": [\n        {\n          \"@type\": [\n            \"odrl:Duty\"\n          ],\n          \"odrl:action\": {\n            \"@id\": \"odrl:compensate\"\n          }\n        }\n      ]\n    }\n  ]\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/odrlProperties/odrlRule/example_1_1.ttl",
+          "sizeBytes": 395,
+          "code": "@prefix odrl: <http://www.w3.org/ns/odrl/2/> .\n\n[] a odrl:Permission ;\n    odrl:action odrl:distribute ;\n    odrl:assignee <https://example.org/user/1> ;\n    odrl:duty [ a odrl:Duty ;\n            odrl:action odrl:attribute ;\n            odrl:consequence [ a odrl:Duty ;\n                    odrl:action odrl:compensate ] ] ;\n    odrl:target <https://example.org/dataset/3936/distribution/csv> .\n\n"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: ODRL Rule\ndescription: 'An ODRL 2.2 Rule (https://www.w3.org/TR/odrl-model/#rule): a Permission\n  (may do), a Prohibition (must not do) or a Duty (must do). Every rule has one action\n  and may name its target asset, the parties (assigner, assignee) and constraints.\n  Target and parties may instead be given once at policy level (odrlPolicy), so only\n  the action is required here. A Permission may carry duties that must be fulfilled\n  to exercise it, a Prohibition remedies owed if it is broken, and a Duty consequences\n  owed if it is not fulfilled.'\ntype: object\nproperties:\n  '@context':\n    type: object\n    description: JSON-LD namespace prefixes for ODRL properties.\n    properties:\n      odrl:\n        const: http://www.w3.org/ns/odrl/2/\nanyOf:\n- $ref: '#/$defs/Permission'\n- $ref: '#/$defs/Prohibition'\n- $ref: '#/$defs/Duty'\n$defs:\n  Target:\n    description: The asset, as a reference or an Asset or AssetCollection node.\n    anyOf:\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAsset/schema.yaml\n  PartyRef:\n    description: A party, as a reference or a Party or PartyCollection node.\n    anyOf:\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlParty/schema.yaml\n  Rule:\n    type: object\n    properties:\n      '@id':\n        type: string\n        format: iri\n      '@type':\n        type: array\n        items:\n          type: string\n      odrl:target:\n        $ref: '#/$defs/Target'\n        x-jsonld-id: http://www.w3.org/ns/odrl/2/target\n      odrl:output:\n        description: An asset created by exercising the action, e.g. the result of\n          odrl:derive.\n        $ref: '#/$defs/Target'\n        x-jsonld-id: http://www.w3.org/ns/odrl/2/output\n      odrl:action:\n        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema.yaml\n        x-jsonld-id: http://www.w3.org/ns/odrl/2/action\n      odrl:assigner:\n        $ref: '#/$defs/PartyRef'\n        x-jsonld-id: http://www.w3.org/ns/odrl/2/assigner\n      odrl:assignee:\n        $ref: '#/$defs/PartyRef'\n        x-jsonld-id: http://www.w3.org/ns/odrl/2/assignee\n      odrl:constraint:\n        type: array\n        items:\n          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlConstraint/schema.yaml\n        x-jsonld-id: http://www.w3.org/ns/odrl/2/constraint\n    required:\n    - odrl:action\n  Permission:\n    allOf:\n    - $ref: '#/$defs/Rule'\n    - properties:\n        '@type':\n          contains:\n            const: odrl:Permission\n        odrl:duty:\n          description: Duties that must be fulfilled before the permission can be\n            exercised.\n          type: array\n          items:\n            $ref: '#/$defs/Duty'\n          x-jsonld-id: http://www.w3.org/ns/odrl/2/duty\n  Prohibition:\n    allOf:\n    - $ref: '#/$defs/Rule'\n    - properties:\n        '@type':\n          contains:\n            const: odrl:Prohibition\n        odrl:remedy:\n          description: Duties owed if the prohibition is infringed.\n          type: array\n          items:\n            $ref: '#/$defs/Duty'\n          x-jsonld-id: http://www.w3.org/ns/odrl/2/remedy\n  Duty:\n    allOf:\n    - $ref: '#/$defs/Rule'\n    - properties:\n        '@type':\n          contains:\n            const: odrl:Duty\n        odrl:consequence:\n          description: Further duties owed if this duty is not fulfilled.\n          type: array\n          items:\n            $ref: '#/$defs/Duty'\n          x-jsonld-id: http://www.w3.org/ns/odrl/2/consequence\nx-jsonld-prefixes:\n  odrl: http://www.w3.org/ns/odrl/2/\nx-bblocks-metadata:\n  itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlRule\n  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json\n  version: '0.1'\n  dateOfLastChange: '2026-10-26'\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/odrlProperties/odrlRule"
+}

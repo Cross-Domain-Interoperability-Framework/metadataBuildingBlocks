@@ -32,6 +32,12 @@ Dataset-level marker for a structured (hierarchical) dataset such as XML or JSON
 
 Dataset-level physical layout of a delimited or fixed-width text dataset (CSV, TSV, fixed-width). A subclass of cdi:PhysicalDataSet carried on a schema:DataDownload distribution dual-typed cdi:TabularTextDataSet. Defines cdi:delimiter, cdi:hasHeader, cdi:headerRowCount, cdi:quoteCharacter, cdi:lineTerminator, cdi:isDelimited, cdi:isFixedWidth, cdi:skipRows, cdi:trim, cdi:tableDirection, cdi:textDirection (enumerations modeled as string+enum, matching the canonical ddicdiPhysicalDataSet), and the other DDI-CDI TabularTextDataSet attributes. Per-field mappings are cdifTextMapping.
 
+### `cdif.bbr.metadata.odrlProperties.odrlTerms` — ODRL Terms
+
+**Type:** schema
+
+Type library of references to W3C ODRL 2.2 vocabulary terms: Action, LeftOperand, Operator, RightOperand and ConflictTerm, generated from ODRL22.ttl excluding deprecated terms. Actions and operands are open IRIs (ODRL profiles extend them), with the core terms listed as examples; conflict terms are closed.
+
 ### `cdif.bbr.metadata.schemaorgProperties.temporalExtent` — Temporal Extent properites
 
 **Type:** schema
@@ -68,6 +74,12 @@ schema.org properties for an identifier implemented as schema.org/PropertyValue.
 
 JSON Schema for validating a SKOS Concept in native JSON-LD form. Validates skos:Concept with prefLabel, notations, broader/narrower/related hierarchical relations, cross-scheme mapping properties, scheme membership, and documentary notes. Defines $defs: ConceptRef, LanguageTaggedValue.
 
+### `cdif.bbr.metadata.odrlProperties.odrlConstraint` — ODRL Constraint
+
+**Type:** schema
+
+W3C ODRL 2.2 Constraint (leftOperand, operator, rightOperand or rightOperandReference, with optional dataType, unit and status) or LogicalConstraint combining constraints with exactly one of odrl:and, odrl:or, odrl:xone or odrl:andSequence. Operands and operators are open IRIs. Uses building blocks: odrlTerms (odrlProperties), objectReference (cdifDataType).
+
 ### `cdif.bbr.metadata.schemaorgProperties.action` — Action properties
 
 **Type:** schema
@@ -91,6 +103,18 @@ JSON Schema for SKOS Collection and OrderedCollection in JSON-LD form. Collectio
 **Type:** schema
 
 JSON Schema for validating a SKOS ConceptScheme in native JSON-LD form. Validates skos:ConceptScheme root with prefLabel, hasTopConcept, and nested skos:Concept items with labels, notations, broader/narrower/related relations, mapping properties, documentary notes, and Collection/OrderedCollection groupings. Defines $defs: Concept, ConceptReference, LanguageTaggedValue, Collection, OrderedCollection.
+
+### `cdif.bbr.metadata.odrlProperties.odrlAction` — ODRL Action
+
+**Type:** schema
+
+W3C ODRL 2.2 Action as used in a rule: a reference to an action IRI, or a refined action holding the action in rdf:value plus odrl:refinement constraints. Actions are open IRIs, so ODRL profile actions validate. Uses building blocks: odrlTerms, odrlConstraint (odrlProperties).
+
+### `cdif.bbr.metadata.odrlProperties.odrlAsset` — ODRL Asset
+
+**Type:** schema
+
+W3C ODRL 2.2 Asset (the resource a rule applies to, identified by IRI, optionally odrl:partOf collections) or AssetCollection (a group of assets, identified by @id, or by odrl:source narrowed with odrl:refinement). In CDIF the asset is normally a distribution or data service. Uses building blocks: odrlConstraint (odrlProperties), objectReference (cdifDataType).
 
 ### `cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm` — CDIF Concept or Term
 
@@ -290,6 +314,12 @@ Profile module for discovery metadata. Currently a thin wrapper that composes cd
 
 properties for a CDIF metadata-about-metadata catalog record node, typed as dcat:CatalogRecord. Defines properties: @type, schema:additionalType, @id, schema:about, dcterms:conformsTo, schema:maintainer, schema:sdDatePublished, schema:includedInDataCatalog. Uses building blocks: identifier (schemaorgProperties), person (schemaorgProperties), organization (schemaorgProperties).
 
+### `cdif.bbr.metadata.odrlProperties.odrlParty` — ODRL Party
+
+**Type:** schema
+
+W3C ODRL 2.2 Party (a person, organization or agent identified by IRI) or PartyCollection (a group of parties, identified by @id, or by odrl:source narrowed with odrl:refinement). A Party may be typed odrl:Party, schema:Person or schema:Organization (ODRL declares Party a subclass of these), and a schema.org-typed party is validated by the person or organization block. Used for the assigner and assignee of ODRL rules and policies. Uses building blocks: odrlConstraint (odrlProperties), person, organization (schemaorgProperties), objectReference (cdifDataType).
+
 ### `cdif.bbr.metadata.schemaorgProperties.agentInRole` — Person or Organization in Role
 
 **Type:** schema
@@ -326,6 +356,12 @@ Additional constraints for CDIF data description level. Adds cdif:physicalDataTy
 
 Genuinely-optional XAS fields layered on cdifCore (no requirements). Permits and documents optional XAS content: schema:variableMeasured XAS data-array InstanceVariables, plus the optional beamline-operational and sample physico-chemical additionalProperty vocabularies (see description.md). Defines properties: schema:variableMeasured. Uses building blocks: cdifInstanceVariable (cdifDataType).
 
+### `cdif.bbr.metadata.odrlProperties.odrlRule` — ODRL Rule
+
+**Type:** schema
+
+W3C ODRL 2.2 Rule: Permission (with duties), Prohibition (with remedies) or Duty (with consequences). Each rule has one action and may name its target asset or asset collection, output, assigner, assignee and constraints; target and parties may instead be given at policy level. Uses building blocks: odrlAction, odrlAsset, odrlParty, odrlConstraint (odrlProperties), objectReference (cdifDataType).
+
 ### `cdif.bbr.metadata.schemaorgProperties.instrument` — Instrument Description
 
 **Type:** schema
@@ -343,6 +379,12 @@ Core properties for CDIF metadata, applicable to any resource type. Required pro
 **Type:** schema
 
 Variable that records values of multiple variables in the context of a data structure.
+
+### `cdif.bbr.metadata.odrlProperties.odrlPolicy` — ODRL Policy
+
+**Type:** schema
+
+W3C ODRL 2.2 Policy typed by one of its subclasses (Set, Offer, Agreement, Request, Ticket, Assertion, Privacy), with permissions, prohibitions and obligations, policy-level target and parties, odrl:profile, odrl:inheritFrom and odrl:conflict. Checks each subclass's requirements from the ODRL vocabulary (e.g. an Agreement needs an assigner and an assignee, a Ticket no assignee), met at policy level or on every rule. Uses building blocks: odrlRule, odrlTerms (odrlProperties), objectReference (cdifDataType).
 
 ### `cdif.bbr.metadata.cdifDataType.cdifProvActivity` — CDIF Provenance Activity
 
@@ -380,6 +422,12 @@ Schema extends data discovery with properties to desribe data structures for tab
 
 Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
 
+### `cdif.bbr.metadata.odrlProperties.odrlOffer` — ODRL Offer
+
+**Type:** schema
+
+W3C ODRL 2.2 Offer policy stating the access and usage conditions a data provider sets for a digital object: permissions (may do), obligations (must do) and prohibitions (must not do), each with an action, a target asset and optional constraints. A permission duty constrained by odrl:event odrl:lt odrl:policyUsage marks an access condition, to be fulfilled before the object is retrieved. Keys carry the odrl: prefix, with the odrl, cdifa1 and rdf prefixes declared in the @context; IRI values are {@id} objects. Draft: the cdifa1 action vocabulary and the ODRL profile it lives in are not yet defined. Built on the generic ODRL blocks; this block adds only CDIF Access rules (fixed odrl:profile, policy-level assigner, targets on permissions and prohibitions, the access-condition marker). Uses building blocks: odrlPolicy (odrlProperties).
+
 ### `cdif.bbr.metadata.profiles.cdifProfile.cdifProvenance` — CDIF Provenance
 
 **Type:** schema
@@ -397,6 +445,12 @@ Extends cdifProvActivity with XAS-specific provenance: triple-typed activity (sc
 **Type:** schema
 
 Data organization based on reusable data structure components.
+
+### `cdif.bbr.metadata.profiles.cdifProfile.cdifAccess` — CDIF Access
+
+**Type:** schema
+
+Profile module for machine-actionable access and usage conditions expressed as ODRL Offer policies. Requires that the metadata record declare conformance to https://w3id.org/cdif/access/1.1 and carry at least one policy: inline or by {@id} reference as odrl:hasPolicy on a schema:distribution item, or as an {@id} reference in schema:conditionsOfAccess on the Dataset (only a reference there, because cdifCore's item shapes do not admit an inline Offer). Draft: the conformance URI and the cdifa1 action vocabulary are not yet minted. Uses building blocks: odrlOffer (odrlProperties), objectReference (cdifDataType).
 
 ### `cdif.bbr.metadata.xasProperties.xasCore` — XAS Core metadata properties
 

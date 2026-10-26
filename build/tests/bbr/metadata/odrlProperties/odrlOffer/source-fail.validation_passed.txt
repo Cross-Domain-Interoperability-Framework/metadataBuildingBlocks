@@ -1,0 +1,206 @@
+Validation report for cdif.bbr.metadata.odrlProperties.odrlOffer - ODRL Offer
+Generated 2026-10-26T22:15:42.411440+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using source-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD source-fail.jsonld created
+Output Turtle source-fail.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: {'@type': ['odrl:PartyCollection'], 'odrl:refinement': [{'@type': ['odrl:Constraint'], 'odrl:leftOperand': {'@id': 'odrl:spatial'}, 'odrl:operator': {'@id': 'odrl:eq'}, 'odrl:rightOperand': {'@id': 'http://publications.europa.eu/resource/authority/country/GBR'}}]} is not valid under any of the given schemas
+
+Failed validating 'anyOf' in schema[1]:
+    {'$defs': {'Party': {'allOf': [{'if': {'properties': {'@type': {'contains': {'const': 'schema:Person'}}}},
+                                    'then': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml'}},
+                                   {'if': {'properties': {'@type': {'contains': {'const': 'schema:Organization'}}}},
+                                    'then': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml'}}],
+                         'anyOf': [{'properties': {'@type': {'contains': {'const': 'odrl:Party'}}}},
+                                   {'properties': {'@type': {'contains': {'const': 'schema:Person'}}}},
+                                   {'properties': {'@type': {'contains': {'const': 'schema:Organization'}}}}],
+                         'description': 'Typed odrl:Party, schema:Person '
+                                        'or schema:Organization. ODRL '
+                                        'declares odrl:Party a subclass of '
+                                        'schema:Person or '
+                                        'schema:Organization (among FOAF '
+                                        'and vCard classes), and gives '
+                                        'odrl:assigner and odrl:assignee '
+                                        'the range odrl:Party, so a '
+                                        'schema.org-typed node in those '
+                                        'roles is an odrl:Party without '
+                                        'saying so. A schema:Person is '
+                                        'validated by the person block and '
+                                        'a schema:Organization by the '
+                                        'organization block. A person may '
+                                        'also carry odrl:Party; an '
+                                        'organization may not, because the '
+                                        'organization block only accepts '
+                                        'schema.org organization types in '
+                                        '@type.',
+                         'properties': {'@id': {'format': 'iri',
+                                                'type': 'string'},
+                                        '@type': {'items': {'type': 'string'},
+                                                  'type': 'array'}},
+                         'required': ['@type', '@id'],
+                         'type': 'object'},
+               'PartyCollection': {'anyOf': [{'required': ['@id']},
+                                             {'required': ['odrl:source']}],
+                                   'dependentRequired': {'odrl:refinement': ['odrl:source']},
+                                   'description': 'Per ODRL, a refined '
+                                                  'collection is '
+                                                  'identified through '
+                                                  'odrl:source, so '
+                                                  'odrl:refinement '
+                                                  'requires odrl:source.',
+                                   'properties': {'@id': {'format': 'iri',
+                                                          'type': 'string'},
+                                                  '@type': {'contains': {'const': 'odrl:PartyCollection'},
+                                                            'items': {'type': 'string'},
+                                                            'type': 'array'},
+                                                  'odrl:refinement': {'description': 'Constraints '
+                                                                                     'selecting '
+                                                                                     'the '
+                                                                                     'members '
+                                                                                     'of '
+                                                                                     'odrl:source '
+                                                                                     'that '
+                                                                                     'belong '
+                                                                                     'to '
+                                                                                     'this '
+                                                                                     'collection.',
+                                                                      'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlConstraint/schema.yaml'},
+                                                                      'minItems': 1,
+                                                                      'type': 'array',
+                                                                      'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/refinement'},
+                                                  'odrl:source': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml',
+                                                                  'description': 'The '
+                                                                                 'collection '
+                                                                                 'this '
+                                                                                 'one '
+                                                                                 'is '
+                                                                                 'drawn '
+                                                                                 'from.',
+                                                                  'x-jsonld-id': 'http://www.w3.org/ns/odrl/2/source'}},
+                                   'required': ['@type'],
+                                   'type': 'object'}},
+     '$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'anyOf': [{'$ref': '#/$defs/Party'},
+               {'$ref': '#/$defs/PartyCollection'}],
+     'description': 'An ODRL 2.2 Party '
+                    '(https://www.w3.org/TR/odrl-model/#party) or '
+                    'PartyCollection '
+                    '(https://www.w3.org/TR/odrl-model/#party-collection): '
+                    'who takes a role (assigner, assignee) in a rule. A '
+                    'Party is a person, organization or agent identified '
+                    'by its IRI. A PartyCollection is a group of parties: '
+                    'either the collection itself, identified by @id, or a '
+                    'subset of one, where odrl:source names the collection '
+                    'and odrl:refinement narrows it (e.g. registered users '
+                    'located in the UK).',
+     'properties': {'@context': {'description': 'JSON-LD namespace '
+                                                'prefixes for ODRL and '
+                                                'schema.org properties.',
+                                 'properties': {'odrl': {'const': 'http://www.w3.org/ns/odrl/2/'},
+                                                'schema': {'const': 'http://schema.org/'}},
+                                 'type': 'object'}},
+     'title': 'ODRL Party',
+     'type': 'object',
+     'x-bblocks-metadata': {'dateOfLastChange': '2026-10-26',
+                            'itemIdentifier': 'cdif.bbr.metadata.odrlProperties.odrlParty',
+                            'register': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json',
+                            'version': '0.1'},
+     'x-jsonld-prefixes': {'odrl': 'http://www.w3.org/ns/odrl/2/',
+                           'schema': 'http://schema.org/'}}
+
+On instance:
+    {'@type': ['odrl:PartyCollection'],
+     'odrl:refinement': [{'@type': ['odrl:Constraint'],
+                          'odrl:leftOperand': {'@id': 'odrl:spatial'},
+                          'odrl:operator': {'@id': 'odrl:eq'},
+                          'odrl:rightOperand': {'@id': 'http://publications.europa.eu/resource/authority/country/GBR'}}]}
+=== End JSON Schema ===
+
+=== SHACL ===
+Validation result for _sources/schemaorgProperties/organization/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:
+ - Shape _:nf2d1960fcd144f6288798d4f6ff0f7d8b3: *none*
+ - Shape cdifd:CDIFOrganizationShape: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb10: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb6: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb4: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb19: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb7: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb5: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb8: *none*
+ - Shape _:ne70d04b7e1e341bcabbba18ae9d0902fb26: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb20: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb21: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb23: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb10: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb22: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb25: *none*
+ - Shape _:n46d31d6d6a3e404ebfa863a9339e8edbb11: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
+
+Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:conceptBroaderNotSelfShape: *none*
+ - Shape skosv:prefLabelUniqueLangShape: *none*
+ - Shape skosv:ConceptShape: *none*
+
+Validation result for _sources/schemaorgProperties/person/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/person/rules.shacl:
+ - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
+ - Shape _:nfb9a8b2c822d4437bf4a76407f89c612b21: *none*
+ - Shape cdifd:CDIFContactPointShape: *none*
+ - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape: *none*
+ - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
+
+=== End SHACL ===
+

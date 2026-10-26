@@ -1,0 +1,1840 @@
+x-defs:
+  cdif.bbr.metadata.odrlProperties.odrlPolicy:
+    title: ODRL Policy
+    description: 'An ODRL 2.2 Policy (https://www.w3.org/TR/odrl-model/#policy): a
+      group of permissions, prohibitions and obligations, typed by one of its subclasses:
+      Set (the default), Offer, Agreement, Request, Ticket, Assertion or Privacy.
+      A target or party given at policy level applies to every rule (https://www.w3.org/TR/odrl-model/#composition),
+      so each subclass requirement below is met by the policy-level property or by
+      that property on every rule concerned. The subclass requirements are those stated
+      in the ODRL vocabulary (https://www.w3.org/ns/odrl/2/ODRL22.ttl); requirements
+      on meaning (e.g. an Offer grants no privileges to an assignee) cannot be checked
+      by a schema.'
+    type: object
+    properties:
+      '@context':
+        type: object
+        description: JSON-LD namespace prefixes for ODRL properties.
+        properties:
+          odrl:
+            enum:
+            - http://www.w3.org/ns/odrl/2/
+      '@id':
+        description: Globally unique IRI for the policy (ODRL uid).
+        type: string
+        format: iri
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - odrl:Policy
+          - odrl:Set
+          - odrl:Offer
+          - odrl:Agreement
+          - odrl:Request
+          - odrl:Ticket
+          - odrl:Assertion
+          - odrl:Privacy
+      odrl:profile:
+        description: ODRL profiles the policy conforms to.
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/profile
+      odrl:inheritFrom:
+        description: Parent policies whose rules this policy inherits.
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/inheritFrom
+      odrl:conflict:
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/conflict
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlTerms/$defs/ConflictTerm
+      odrl:target:
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/target
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Target
+      odrl:assigner:
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/assigner
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/PartyRef
+      odrl:assignee:
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/assignee
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/PartyRef
+      odrl:permission:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Permission
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/permission
+      odrl:prohibition:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Prohibition
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/prohibition
+      odrl:obligation:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Duty
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/obligation
+    required:
+    - '@type'
+    - '@id'
+    anyOf:
+    - required:
+      - odrl:permission
+    - required:
+      - odrl:prohibition
+    - required:
+      - odrl:obligation
+    allOf:
+    - if:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/isSet
+      then:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasTarget
+    - if:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/isOffer
+      then:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasPermissionOrProhibition
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasAssigner
+    - if:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/isAgreement
+      then:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasPermissionOrProhibition
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasAssigner
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasAssignee
+    - if:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/isRequest
+      then:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasPermissionOrProhibition
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasTarget
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasAssignee
+    - if:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/isTicket
+      then:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasPermissionOrProhibition
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasTarget
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/noAssignee
+    - if:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/isAssertion
+      then:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasPermissionOrProhibition
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasTarget
+        - anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasAssigner
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasAssignee
+    - if:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/isPrivacy
+      then:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasPermissionOrProhibition
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasTarget
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasAssigner
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy/$defs/hasAssignee
+        - description: The rules must include a duty describing obligations on the
+            use of personal information.
+          anyOf:
+          - required:
+            - odrl:obligation
+          - properties:
+              odrl:permission:
+                contains:
+                  required:
+                  - odrl:duty
+                x-jsonld-id: http://www.w3.org/ns/odrl/2/permission
+            required:
+            - odrl:permission
+    $defs:
+      isSet:
+        properties:
+          '@type':
+            contains:
+              enum:
+              - odrl:Set
+        required:
+        - '@type'
+      isOffer:
+        properties:
+          '@type':
+            contains:
+              enum:
+              - odrl:Offer
+        required:
+        - '@type'
+      isAgreement:
+        properties:
+          '@type':
+            contains:
+              enum:
+              - odrl:Agreement
+        required:
+        - '@type'
+      isRequest:
+        properties:
+          '@type':
+            contains:
+              enum:
+              - odrl:Request
+        required:
+        - '@type'
+      isTicket:
+        properties:
+          '@type':
+            contains:
+              enum:
+              - odrl:Ticket
+        required:
+        - '@type'
+      isAssertion:
+        properties:
+          '@type':
+            contains:
+              enum:
+              - odrl:Assertion
+        required:
+        - '@type'
+      isPrivacy:
+        properties:
+          '@type':
+            contains:
+              enum:
+              - odrl:Privacy
+        required:
+        - '@type'
+      hasPermissionOrProhibition:
+        anyOf:
+        - required:
+          - odrl:permission
+        - required:
+          - odrl:prohibition
+      hasTarget:
+        description: A target at policy level, or on every rule.
+        anyOf:
+        - required:
+          - odrl:target
+        - properties:
+            odrl:permission:
+              items:
+                required:
+                - odrl:target
+              x-jsonld-id: http://www.w3.org/ns/odrl/2/permission
+            odrl:prohibition:
+              items:
+                required:
+                - odrl:target
+              x-jsonld-id: http://www.w3.org/ns/odrl/2/prohibition
+            odrl:obligation:
+              items:
+                required:
+                - odrl:target
+              x-jsonld-id: http://www.w3.org/ns/odrl/2/obligation
+      hasAssigner:
+        description: An assigner at policy level, or on every permission and prohibition.
+        anyOf:
+        - required:
+          - odrl:assigner
+        - properties:
+            odrl:permission:
+              items:
+                required:
+                - odrl:assigner
+              x-jsonld-id: http://www.w3.org/ns/odrl/2/permission
+            odrl:prohibition:
+              items:
+                required:
+                - odrl:assigner
+              x-jsonld-id: http://www.w3.org/ns/odrl/2/prohibition
+      hasAssignee:
+        description: An assignee at policy level, or on every permission and prohibition.
+        anyOf:
+        - required:
+          - odrl:assignee
+        - properties:
+            odrl:permission:
+              items:
+                required:
+                - odrl:assignee
+              x-jsonld-id: http://www.w3.org/ns/odrl/2/permission
+            odrl:prohibition:
+              items:
+                required:
+                - odrl:assignee
+              x-jsonld-id: http://www.w3.org/ns/odrl/2/prohibition
+      noAssignee:
+        description: A Ticket names no assignee; it is granted to whoever holds it.
+        not:
+          anyOf:
+          - required:
+            - odrl:assignee
+          - properties:
+              odrl:permission:
+                contains:
+                  required:
+                  - odrl:assignee
+            required:
+            - odrl:permission
+          - properties:
+              odrl:prohibition:
+                contains:
+                  required:
+                  - odrl:assignee
+            required:
+            - odrl:prohibition
+    x-jsonld-prefixes:
+      odrl: http://www.w3.org/ns/odrl/2/
+      schema: http://schema.org/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlPolicy
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlPolicy/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.odrlProperties.odrlRule:
+    title: ODRL Rule
+    description: 'An ODRL 2.2 Rule (https://www.w3.org/TR/odrl-model/#rule): a Permission
+      (may do), a Prohibition (must not do) or a Duty (must do). Every rule has one
+      action and may name its target asset, the parties (assigner, assignee) and constraints.
+      Target and parties may instead be given once at policy level (odrlPolicy), so
+      only the action is required here. A Permission may carry duties that must be
+      fulfilled to exercise it, a Prohibition remedies owed if it is broken, and a
+      Duty consequences owed if it is not fulfilled.'
+    type: object
+    properties:
+      '@context':
+        type: object
+        description: JSON-LD namespace prefixes for ODRL properties.
+        properties:
+          odrl:
+            enum:
+            - http://www.w3.org/ns/odrl/2/
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Permission
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Prohibition
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Duty
+    $defs:
+      Target:
+        description: The asset, as a reference or an Asset or AssetCollection node.
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlAsset
+      PartyRef:
+        description: A party, as a reference or a Party or PartyCollection node.
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlParty
+      Rule:
+        type: object
+        properties:
+          '@id':
+            type: string
+            format: iri
+          '@type':
+            type: array
+            items:
+              type: string
+          odrl:target:
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/target
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Target
+          odrl:output:
+            description: An asset created by exercising the action, e.g. the result
+              of odrl:derive.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/output
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Target
+          odrl:action:
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/action
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlAction
+          odrl:assigner:
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/assigner
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/PartyRef
+          odrl:assignee:
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/assignee
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/PartyRef
+          odrl:constraint:
+            type: array
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/constraint
+        required:
+        - odrl:action
+      Permission:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Rule
+        - properties:
+            '@type':
+              contains:
+                enum:
+                - odrl:Permission
+            odrl:duty:
+              description: Duties that must be fulfilled before the permission can
+                be exercised.
+              type: array
+              items:
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Duty
+              x-jsonld-id: http://www.w3.org/ns/odrl/2/duty
+      Prohibition:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Rule
+        - properties:
+            '@type':
+              contains:
+                enum:
+                - odrl:Prohibition
+            odrl:remedy:
+              description: Duties owed if the prohibition is infringed.
+              type: array
+              items:
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Duty
+              x-jsonld-id: http://www.w3.org/ns/odrl/2/remedy
+      Duty:
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Rule
+        - properties:
+            '@type':
+              contains:
+                enum:
+                - odrl:Duty
+            odrl:consequence:
+              description: Further duties owed if this duty is not fulfilled.
+              type: array
+              items:
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Duty
+              x-jsonld-id: http://www.w3.org/ns/odrl/2/consequence
+    x-jsonld-prefixes:
+      odrl: http://www.w3.org/ns/odrl/2/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlRule
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlRule/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.odrlProperties.odrlAction:
+    title: ODRL Action
+    description: 'An ODRL 2.2 Action (https://www.w3.org/TR/odrl-model/#action) as
+      used in a rule: either a reference to the action ({"@id": "odrl:use"}), or,
+      when the action itself is narrowed, an object holding the action in rdf:value
+      plus odrl:refinement constraints (e.g. print, at most 1200 dpi). Actions are
+      open IRIs (odrlTerms), so ODRL profile actions validate.'
+    type: object
+    properties:
+      '@context':
+        type: object
+        description: JSON-LD namespace prefixes for ODRL properties.
+        properties:
+          odrl:
+            enum:
+            - http://www.w3.org/ns/odrl/2/
+          rdf:
+            enum:
+            - http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlTerms/$defs/Action
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlAction/$defs/RefinedAction
+    $defs:
+      RefinedAction:
+        type: object
+        properties:
+          rdf:value:
+            x-jsonld-id: http://www.w3.org/1999/02/22-rdf-syntax-ns#value
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlTerms/$defs/Action
+          odrl:refinement:
+            type: array
+            minItems: 1
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/refinement
+        required:
+        - rdf:value
+        - odrl:refinement
+    x-jsonld-prefixes:
+      odrl: http://www.w3.org/ns/odrl/2/
+      rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+      xsd: http://www.w3.org/2001/XMLSchema#
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlAction
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.odrlProperties.odrlConstraint:
+    title: ODRL Constraint
+    description: An ODRL 2.2 Constraint (https://www.w3.org/TR/odrl-model/#constraint)
+      or LogicalConstraint (https://www.w3.org/TR/odrl-model/#constraint-logical).
+      A Constraint compares a left operand with a right operand using an operator,
+      e.g. odrl:spatial odrl:eq <country>. A LogicalConstraint combines constraints
+      with exactly one of odrl:and, odrl:or, odrl:xone or odrl:andSequence. Operands
+      and operators are open IRIs (odrlTerms), so ODRL profile terms validate.
+    type: object
+    properties:
+      '@context':
+        type: object
+        description: JSON-LD namespace prefixes for ODRL properties.
+        properties:
+          odrl:
+            enum:
+            - http://www.w3.org/ns/odrl/2/
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/Constraint
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/LogicalConstraint
+    $defs:
+      Constraint:
+        type: object
+        properties:
+          '@id':
+            description: Optional; needed when a LogicalConstraint refers to this
+              constraint by reference.
+            type: string
+            format: iri
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - odrl:Constraint
+          odrl:leftOperand:
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/leftOperand
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlTerms/$defs/LeftOperand
+          odrl:operator:
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/operator
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlTerms/$defs/Operator
+          odrl:rightOperand:
+            description: A literal, a value object ({"@value", "@type"}) or an {@id}
+              reference.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/rightOperand
+          odrl:rightOperandReference:
+            description: An IRI whose dereferenced value is the right operand.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/rightOperandReference
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+          odrl:dataType:
+            description: Datatype of the right operand, e.g. xsd:decimal.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/dataType
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+          odrl:unit:
+            description: Unit of the right operand, e.g. a currency or unit of measure.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/unit
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+          odrl:status:
+            description: The current value of the left operand, for comparison with
+              the right operand.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/status
+        required:
+        - odrl:leftOperand
+        - odrl:operator
+        anyOf:
+        - required:
+          - odrl:rightOperand
+        - required:
+          - odrl:rightOperandReference
+      LogicalConstraint:
+        type: object
+        properties:
+          '@id':
+            type: string
+            format: iri
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - odrl:LogicalConstraint
+          odrl:and:
+            description: All of the constraints must be satisfied.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/and
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/constraintList
+          odrl:or:
+            description: At least one of the constraints must be satisfied.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/or
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/constraintList
+          odrl:xone:
+            description: Exactly one of the constraints must be satisfied.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/xone
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/constraintList
+          odrl:andSequence:
+            description: All of the constraints must be satisfied, in order.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/andSequence
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/constraintList
+        oneOf:
+        - required:
+          - odrl:and
+        - required:
+          - odrl:or
+        - required:
+          - odrl:xone
+        - required:
+          - odrl:andSequence
+      constraintList:
+        description: 'The operand constraints, as an RDF list ({"@list": [...]}),
+          each inline or an {@id} reference.'
+        type: object
+        properties:
+          '@list':
+            type: array
+            minItems: 1
+            items:
+              anyOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/Constraint
+        required:
+        - '@list'
+    x-jsonld-prefixes:
+      odrl: http://www.w3.org/ns/odrl/2/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlConstraint
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlConstraint/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.objectReference:
+    title: Object Reference
+    description: A reference to a node defined elsewhere, by its @id.
+    type: object
+    properties:
+      '@id':
+        type: string
+        description: resolvable @id of the referenced node
+    required:
+    - '@id'
+    additionalProperties: false
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.cdifDataType.objectReference
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.odrlProperties.odrlTerms:
+    title: ODRL Terms
+    description: 'Type library of references to ODRL 2.2 vocabulary terms (https://www.w3.org/TR/odrl-vocab/):
+      actions, left operands, operators, right operands and conflict strategies. Generated
+      from https://www.w3.org/ns/odrl/2/ODRL22.ttl, excluding terms marked deprecated.
+      Actions and operands are open, because ODRL profiles extend them; conflict terms
+      are closed. Each term is an {"@id": ...} reference, compact (odrl:use) or full
+      IRI.'
+    $defs:
+      Action:
+        description: 'Reference to an ODRL Action action. Open: any IRI is accepted,
+          so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 42
+          non-deprecated ODRL 2.2 Action terms.'
+        type: object
+        properties:
+          '@id':
+            type: string
+            examples:
+            - odrl:acceptTracking
+            - odrl:aggregate
+            - odrl:annotate
+            - odrl:anonymize
+            - odrl:archive
+            - odrl:attribute
+            - odrl:compensate
+            - odrl:concurrentUse
+            - odrl:delete
+            - odrl:derive
+            - odrl:digitize
+            - odrl:display
+            - odrl:distribute
+            - odrl:ensureExclusivity
+            - odrl:execute
+            - odrl:extract
+            - odrl:give
+            - odrl:grantUse
+            - odrl:include
+            - odrl:index
+            - odrl:inform
+            - odrl:install
+            - odrl:modify
+            - odrl:move
+            - odrl:nextPolicy
+            - odrl:obtainConsent
+            - odrl:play
+            - odrl:present
+            - odrl:print
+            - odrl:read
+            - odrl:reproduce
+            - odrl:reviewPolicy
+            - odrl:sell
+            - odrl:stream
+            - odrl:synchronize
+            - odrl:textToSpeech
+            - odrl:transfer
+            - odrl:transform
+            - odrl:translate
+            - odrl:uninstall
+            - odrl:use
+            - odrl:watermark
+        required:
+        - '@id'
+        additionalProperties: false
+      LeftOperand:
+        description: 'Reference to an ODRL LeftOperand left operand. Open: any IRI
+          is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples
+          list the 32 non-deprecated ODRL 2.2 LeftOperand terms.'
+        type: object
+        properties:
+          '@id':
+            type: string
+            examples:
+            - odrl:absolutePosition
+            - odrl:absoluteSize
+            - odrl:absoluteSpatialPosition
+            - odrl:absoluteTemporalPosition
+            - odrl:count
+            - odrl:dateTime
+            - odrl:delayPeriod
+            - odrl:deliveryChannel
+            - odrl:elapsedTime
+            - odrl:event
+            - odrl:fileFormat
+            - odrl:industry
+            - odrl:language
+            - odrl:media
+            - odrl:meteredTime
+            - odrl:payAmount
+            - odrl:percentage
+            - odrl:product
+            - odrl:purpose
+            - odrl:recipient
+            - odrl:relativePosition
+            - odrl:relativeSize
+            - odrl:relativeSpatialPosition
+            - odrl:relativeTemporalPosition
+            - odrl:resolution
+            - odrl:spatial
+            - odrl:spatialCoordinates
+            - odrl:systemDevice
+            - odrl:timeInterval
+            - odrl:unitOfCount
+            - odrl:version
+            - odrl:virtualLocation
+        required:
+        - '@id'
+        additionalProperties: false
+      Operator:
+        description: 'Reference to an ODRL Operator operator. Open: any IRI is accepted,
+          so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 12
+          non-deprecated ODRL 2.2 Operator terms.'
+        type: object
+        properties:
+          '@id':
+            type: string
+            examples:
+            - odrl:eq
+            - odrl:gt
+            - odrl:gteq
+            - odrl:hasPart
+            - odrl:isA
+            - odrl:isAllOf
+            - odrl:isAnyOf
+            - odrl:isNoneOf
+            - odrl:isPartOf
+            - odrl:lt
+            - odrl:lteq
+            - odrl:neq
+        required:
+        - '@id'
+        additionalProperties: false
+      RightOperand:
+        description: 'Reference to an ODRL RightOperand right operand. Open: any IRI
+          is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples
+          list the 1 non-deprecated ODRL 2.2 RightOperand terms. Most right operands
+          are literals or value objects, not terms; this is for the few that are IRIs.'
+        type: object
+        properties:
+          '@id':
+            type: string
+            examples:
+            - odrl:policyUsage
+        required:
+        - '@id'
+        additionalProperties: false
+      ConflictTerm:
+        description: 'Strategy for resolving conflicts between permissions and prohibitions
+          (odrl:conflict). Closed: ODRL defines exactly these three.'
+        type: object
+        properties:
+          '@id':
+            enum:
+            - odrl:invalid
+            - http://www.w3.org/ns/odrl/2/invalid
+            - odrl:perm
+            - http://www.w3.org/ns/odrl/2/perm
+            - odrl:prohibit
+            - http://www.w3.org/ns/odrl/2/prohibit
+        required:
+        - '@id'
+        additionalProperties: false
+    x-jsonld-prefixes:
+      odrl: http://www.w3.org/ns/odrl/2/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlTerms
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlTerms/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.odrlProperties.odrlAsset:
+    title: ODRL Asset
+    description: 'An ODRL 2.2 Asset (https://www.w3.org/TR/odrl-model/#asset) or AssetCollection
+      (https://www.w3.org/TR/odrl-model/#asset-collection): the resource a rule applies
+      to. In CDIF this is normally a distribution or data service, identified by its
+      IRI. An AssetCollection groups assets: either the collection itself, identified
+      by @id, or a subset of one, where odrl:source names the collection and odrl:refinement
+      narrows it (e.g. the CSV distributions of a dataset).'
+    type: object
+    properties:
+      '@context':
+        type: object
+        description: JSON-LD namespace prefixes for ODRL properties.
+        properties:
+          odrl:
+            enum:
+            - http://www.w3.org/ns/odrl/2/
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlAsset/$defs/Asset
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlAsset/$defs/AssetCollection
+    $defs:
+      Asset:
+        type: object
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - odrl:Asset
+          '@id':
+            type: string
+            format: iri
+          odrl:partOf:
+            description: AssetCollections this asset is a member of.
+            type: array
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/partOf
+        required:
+        - '@type'
+        - '@id'
+      AssetCollection:
+        description: Per ODRL, a refined collection is identified through odrl:source,
+          so odrl:refinement requires odrl:source.
+        type: object
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - odrl:AssetCollection
+          '@id':
+            type: string
+            format: iri
+          odrl:source:
+            description: The collection this one is drawn from.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/source
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+          odrl:refinement:
+            description: Constraints selecting the members of odrl:source that belong
+              to this collection.
+            type: array
+            minItems: 1
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/refinement
+        required:
+        - '@type'
+        anyOf:
+        - required:
+          - '@id'
+        - required:
+          - odrl:source
+        dependentRequired:
+          odrl:refinement:
+          - odrl:source
+    x-jsonld-prefixes:
+      odrl: http://www.w3.org/ns/odrl/2/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlAsset
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAsset/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.odrlProperties.odrlParty:
+    title: ODRL Party
+    description: 'An ODRL 2.2 Party (https://www.w3.org/TR/odrl-model/#party) or PartyCollection
+      (https://www.w3.org/TR/odrl-model/#party-collection): who takes a role (assigner,
+      assignee) in a rule. A Party is a person, organization or agent identified by
+      its IRI. A PartyCollection is a group of parties: either the collection itself,
+      identified by @id, or a subset of one, where odrl:source names the collection
+      and odrl:refinement narrows it (e.g. registered users located in the UK).'
+    type: object
+    properties:
+      '@context':
+        type: object
+        description: JSON-LD namespace prefixes for ODRL and schema.org properties.
+        properties:
+          odrl:
+            enum:
+            - http://www.w3.org/ns/odrl/2/
+          schema:
+            enum:
+            - http://schema.org/
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlParty/$defs/Party
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlParty/$defs/PartyCollection
+    $defs:
+      Party:
+        description: Typed odrl:Party, schema:Person or schema:Organization. ODRL
+          declares odrl:Party a subclass of schema:Person or schema:Organization (among
+          FOAF and vCard classes), and gives odrl:assigner and odrl:assignee the range
+          odrl:Party, so a schema.org-typed node in those roles is an odrl:Party without
+          saying so. A schema:Person is validated by the person block and a schema:Organization
+          by the organization block. A person may also carry odrl:Party; an organization
+          may not, because the organization block only accepts schema.org organization
+          types in @type.
+        type: object
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+          '@id':
+            type: string
+            format: iri
+        required:
+        - '@type'
+        - '@id'
+        anyOf:
+        - properties:
+            '@type':
+              contains:
+                enum:
+                - odrl:Party
+        - properties:
+            '@type':
+              contains:
+                enum:
+                - schema:Person
+        - properties:
+            '@type':
+              contains:
+                enum:
+                - schema:Organization
+        allOf:
+        - if:
+            properties:
+              '@type':
+                contains:
+                  enum:
+                  - schema:Person
+          then:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
+        - if:
+            properties:
+              '@type':
+                contains:
+                  enum:
+                  - schema:Organization
+          then:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+      PartyCollection:
+        description: Per ODRL, a refined collection is identified through odrl:source,
+          so odrl:refinement requires odrl:source.
+        type: object
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - odrl:PartyCollection
+          '@id':
+            type: string
+            format: iri
+          odrl:source:
+            description: The collection this one is drawn from.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/source
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+          odrl:refinement:
+            description: Constraints selecting the members of odrl:source that belong
+              to this collection.
+            type: array
+            minItems: 1
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/refinement
+        required:
+        - '@type'
+        anyOf:
+        - required:
+          - '@id'
+        - required:
+          - odrl:source
+        dependentRequired:
+          odrl:refinement:
+          - odrl:source
+    x-jsonld-prefixes:
+      odrl: http://www.w3.org/ns/odrl/2/
+      schema: http://schema.org/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlParty
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlParty/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.person:
+    description: schema for cdif profile of schema.org/Person
+    type: object
+    properties:
+      '@id':
+        type: string
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:Person
+        minItems: 1
+      schema:name:
+        type: string
+        description: string label for person that is meaningful for human users, should
+          format consistently. Recommend 'Family Name, Given name' format.
+        x-jsonld-id: http://schema.org/name
+      schema:description:
+        type: string
+        description: additional information about the agent or their relation to the
+          described resource
+        x-jsonld-id: http://schema.org/description
+      schema:identifier:
+        description: identifier for person, recommend ORCID
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - type: string
+        x-jsonld-id: http://schema.org/identifier
+      schema:alternateName:
+        type: string
+        description: other labels by which the person might be known
+        x-jsonld-id: http://schema.org/alternateName
+      schema:affiliation:
+        description: if affiliation is present, value must be a schema:Organization.
+        x-jsonld-id: http://schema.org/affiliation
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+      schema:contactPoint:
+        type: object
+        description: An email address or a contact web page (a form, an issue tracker),
+          or both; at least one is required. Schema.org also allows telephone and
+          postal contacts. A URL-only contact is ordinary in DCAT (a vcard:Kind with
+          only vcard:hasURL), so requiring email made such records invalid.
+        properties:
+          '@type':
+            default:
+            - schema:ContactPoint
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - schema:ContactPoint
+            minItems: 1
+          schema:email:
+            type: string
+            x-jsonld-id: http://schema.org/email
+          schema:url:
+            type: string
+            format: uri
+            x-jsonld-id: http://schema.org/url
+        required:
+        - '@type'
+        anyOf:
+        - required:
+          - schema:email
+        - required:
+          - schema:url
+        x-jsonld-id: http://schema.org/contactPoint
+      schema:sameAs:
+        type: array
+        description: other identifiers for the person
+        items:
+          anyOf:
+          - type: string
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        x-jsonld-id: http://schema.org/sameAs
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:name
+      - required:
+        - schema:identifier
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.person
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.organization:
+    type: object
+    properties:
+      '@id':
+        type: string
+      '@type':
+        default:
+        - schema:Organization
+        type: array
+        items:
+          anyOf:
+          - type: string
+            enum:
+            - schema:Organization
+            - schema:FundingAgency
+            - schema:Consortium
+            - schema:Corporation
+            - schema:EducationalOrganization
+            - schema:FundingScheme
+            - schema:GovernmentOrganization
+            - schema:NGO
+            - schema:Project
+            - schema:ResearchOrganization
+        contains:
+          enum:
+          - schema:Organization
+        minItems: 1
+      schema:additionalType:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization/$defs/cdifConceptOrTermOrString
+        x-jsonld-id: http://schema.org/additionalType
+      schema:name:
+        type: string
+        description: string label for organization that is meaningful for human users
+        x-jsonld-id: http://schema.org/name
+      schema:alternateName:
+        type: string
+        description: other labels by which the organization might be known
+        x-jsonld-id: http://schema.org/alternateName
+      schema:description:
+        type: string
+        description: additional information about the agent or their relation to the
+          described resource
+        x-jsonld-id: http://schema.org/description
+      schema:identifier:
+        description: identifier for organization
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - type: string
+        x-jsonld-id: http://schema.org/identifier
+      schema:sameAs:
+        type: array
+        description: other identifiers for the organization
+        items:
+          anyOf:
+          - type: string
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        x-jsonld-id: http://schema.org/sameAs
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:name
+      - required:
+        - schema:identifier
+    $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.organization
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.identifier:
+    description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
+
+      **Union-type policy:** In CDIF profile UML models an attribute typed as
+
+      schema:Identifier / schema:PropertyValue is represented by a single attribute
+
+      of that class type. The JSON Schema implementation permits the property value
+
+      to be EITHER a plain string (interpreted as the bare identifier value) OR a
+
+      full schema:PropertyValue object (with explicit @type, propertyID, value).
+
+      Consumers should accept either form.
+
+      '
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:PropertyValue
+        minItems: 1
+      schema:propertyID:
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        description: In this context for the schema:PropertyValue, this field is an
+          identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
+          for interoperability. URI-shape values MUST be serialized as JSON-LD IRI
+          references ({"@id":"..."}) so they participate in RDF entailment; free-label
+          strings remain valid as strings.
+        x-jsonld-id: http://schema.org/propertyID
+      schema:value:
+        type: string
+        description: the identifier string. E.g. 10.5066/F7VX0DMQ
+        x-jsonld-id: http://schema.org/value
+      schema:url:
+        type: string
+        format: uri
+        description: 'web-resolveable string for the identifier; host name part is
+          location of a resolver that will return some representation for the given
+          identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
+        x-jsonld-id: http://schema.org/url
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:value
+      - required:
+        - schema:url
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.identifier
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString:
+    title: CDIF Concept-or-Term-or-String
+    description: Shared shape for a CDIF property that carries either a controlled-vocabulary
+      value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref,
+      schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative
+      used for legacy or single-word labels not yet bound to a vocabulary.
+    anyOf:
+    - type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm:
+    description: A SKOS concept identified by URI, a schema:DefinedTerm, or an inline
+      cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary
+      reference or an inline concept definition.
+    anyOf:
+    - description: reference to a skos concept for the data type
+      allOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/Concept
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.definedTerm:
+    description: "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF
+      profile UML models an attribute typed as\nschema:DefinedTerm is represented
+      by a single attribute of that class type.\nThe JSON Schema implementation permits
+      the property value to be EITHER a\nplain string (interpreted as schema:name
+      or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm
+      object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet).
+      Consumers should accept either form.\n\nNote that this differs from the cdif
+      Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary
+      entry (object form or\n@id-reference) \u2014 plain strings are not permitted
+      for Concept-typed values\nbecause vocabulary identity cannot be recovered from
+      an unscoped label.\n"
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:DefinedTerm
+        minItems: 1
+      schema:name:
+        type: string
+        description: text label for the term that is useful to human user
+        x-jsonld-id: http://schema.org/name
+      schema:identifier:
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        x-jsonld-id: http://schema.org/identifier
+      schema:inDefinedTermSet:
+        description: 'The controlled vocabulary responsible for this keyword, as EITHER
+          a plain URI string identifying the vocabulary, OR an object reference ({"@id":
+          "<uri>"}) to a vocabulary defined elsewhere in the document. Both forms
+          are already in use across CDIF profiles and downstream ADA building blocks;
+          permitting only the string form made the object form - the natural JSON-LD
+          spelling of a reference - invalid, while this class''s own union-type policy
+          above explicitly anticipates both.'
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+        x-jsonld-id: http://schema.org/inDefinedTermSet
+      schema:termCode:
+        type: string
+        description: A representative code for this keyword in the controlled vocabulary.
+          Analogous to skos:Notation
+        x-jsonld-id: http://schema.org/termCode
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:name
+      - required:
+        - schema:identifier
+      - required:
+        - schema:termCode
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.schemaorgProperties.definedTerm
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.skosProperties.skosConcept:
+    title: SKOS Concept
+    description: JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought
+      within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel),
+      notations, hierarchical relations (broader/narrower), associative relations
+      (related), cross-scheme mapping properties, scheme membership, and documentary
+      notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/Concept
+    $defs:
+      Concept:
+        type: object
+        properties:
+          '@context':
+            description: JSON-LD context declaring the skos namespace prefix. May
+              be a single object or an array of strings and objects.
+            anyOf:
+            - type: object
+              properties:
+                skos:
+                  enum:
+                  - http://www.w3.org/2004/02/skos/core#
+              required:
+              - skos
+            - type: array
+              items:
+                anyOf:
+                - type: string
+                - type: object
+              contains:
+                type: object
+                properties:
+                  skos:
+                    enum:
+                    - http://www.w3.org/2004/02/skos/core#
+                required:
+                - skos
+          '@id':
+            type: string
+            description: URI identifier for this concept.
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - skos:Concept
+            minItems: 1
+          skos:prefLabel:
+            description: Preferred lexical label for this concept. A single string,
+              a single language-tagged value, or an array of language-tagged values.
+              Each language should appear at most once.
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            - type: array
+              items:
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
+          skos:notation:
+            description: Classification code for this concept within a scheme (a single
+              notation string, consistent with CdifCodelistConcept).
+            type: string
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#notation
+          skos:definition:
+            description: Formal explanation of the meaning of this concept.
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            - type: array
+              items:
+                anyOf:
+                - type: string
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#definition
+          skos:scopeNote:
+            description: Note clarifying meaning and/or intended use.
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            - type: array
+              items:
+                anyOf:
+                - type: string
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#scopeNote
+          skos:note:
+            description: General note about this concept.
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            - type: array
+              items:
+                anyOf:
+                - type: string
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#note
+          skos:historyNote:
+            description: Note about past state or use.
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            - type: array
+              items:
+                anyOf:
+                - type: string
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#historyNote
+          skos:changeNote:
+            description: Note documenting a change.
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            - type: array
+              items:
+                anyOf:
+                - type: string
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#changeNote
+          skos:editorialNote:
+            description: Note for editors and maintainers.
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            - type: array
+              items:
+                anyOf:
+                - type: string
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#editorialNote
+          skos:inScheme:
+            description: Concept scheme(s) this concept belongs to.
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+            - type: array
+              items:
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
+          skos:topConceptOf:
+            description: Concept scheme(s) for which this is a top concept.
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+            - type: array
+              items:
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#topConceptOf
+          skos:broader:
+            description: Broader (parent) concepts in the hierarchy. Items are inline
+              concept objects or @id references.
+            type: array
+            items:
+              anyOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/Concept
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#broader
+          skos:narrower:
+            description: Narrower (child) concepts in the hierarchy. Items are inline
+              concept objects or @id references.
+            type: array
+            items:
+              anyOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/Concept
+            x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrower
+        required:
+        - '@type'
+        - skos:prefLabel
+        - skos:definition
+        - skos:inScheme
+      ConceptRef:
+        description: A reference to a SKOS Concept by URI.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+      LanguageTaggedValue:
+        type: object
+        description: An RDF literal value with a language tag, serialized as a JSON-LD
+          value object.
+        properties:
+          '@value':
+            type: string
+            description: The text content.
+          '@language':
+            type: string
+            description: BCP 47 language tag (e.g. en, fr, de).
+        required:
+        - '@value'
+        - '@language'
+    x-jsonld-prefixes:
+      skos: http://www.w3.org/2004/02/skos/core#
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.skosProperties.skosConcept
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+title: ODRL Offer
+description: 'CDIF Access profile of an ODRL 2.2 Offer (https://www.w3.org/TR/odrl-model/#policy-offer):
+  the baseline access and usage conditions a data provider sets for a digital object,
+  without naming who they apply to (that is an ODRL Agreement). Built on the generic
+  odrlPolicy block, which carries the ODRL structure; this block adds only CDIF''s
+  own rules. Draft from the CDIF Access spreadsheet (CDIF_Access_Profile_ODRL_Classes_Properties_Description.xlsx)
+  and the cdifbook data_access chapter.
+
+  Keys carry the odrl: prefix and the document''s @context declares the odrl, cdifa1
+  (https://w3id.org/cdif/access/profile1/), rdf and xsd prefixes. The ODRL JSON-LD
+  context is not used, so nothing coerces a string to an IRI: every IRI value (target,
+  action, parties, operands) is an {"@id": ...} object.
+
+  An access condition (something done BEFORE the digital object is retrieved) is a
+  permission duty constrained by odrl:event odrl:lt odrl:policyUsage (https://www.w3.org/TR/odrl-model/#duty-perm).
+  Everything else is a usage condition: a permission (may do), an obligation (must
+  do) or a prohibition (must not do).
+
+  OPEN QUESTIONS are marked "OPEN:" below.'
+type: object
+allOf:
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlPolicy
+properties:
+  '@context':
+    type: object
+    description: 'JSON-LD namespace prefixes for ODRL policy properties. Not required:
+      an Offer embedded in a CDIF record inherits the record''s @context.'
+    properties:
+      odrl:
+        enum:
+        - http://www.w3.org/ns/odrl/2/
+      cdifa1:
+        enum:
+        - https://w3id.org/cdif/access/profile1/
+      rdf:
+        enum:
+        - http://www.w3.org/1999/02/22-rdf-syntax-ns#
+      xsd:
+        enum:
+        - http://www.w3.org/2001/XMLSchema#
+  '@type':
+    description: Always includes odrl:Offer.
+    contains:
+      enum:
+      - odrl:Offer
+  '@id':
+    description: Globally unique, resolvable IRI for this Offer (the spreadsheet's
+      uid). A resolver should be able to return application/ld+json, not only an HTML
+      page.
+  odrl:profile:
+    description: 'The CDIF Access ODRL profile this policy uses, which supplies the
+      cdifa1: actions the ODRL core vocabulary lacks (download, assent, datadestruction,
+      ...). OPEN: nothing is published at this IRI yet, and it names a .ttl file where
+      ODRL expects a profile identifier. The cdifa1: form is accepted because compaction
+      under the cdifa1 prefix rewrites the full IRI to it.'
+    type: object
+    properties:
+      '@id':
+        enum:
+        - https://w3id.org/cdif/access/profile1/cdifa1.ttl
+        - cdifa1:cdifa1.ttl
+    required:
+    - '@id'
+    x-jsonld-id: http://www.w3.org/ns/odrl/2/profile
+  odrl:target:
+    description: Asset all rules apply to, if given once at policy level (range odrl:Asset).
+    x-jsonld-id: http://www.w3.org/ns/odrl/2/target
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Target
+  odrl:assigner:
+    description: The party issuing the Offer, normally the repository or data custodian,
+      given once at policy level (range odrl:Party). ODRL also accepts an assigner
+      on every rule instead; CDIF asks for the policy-level form. The spreadsheet
+      does not list an assigner yet.
+    x-jsonld-id: http://www.w3.org/ns/odrl/2/assigner
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/PartyRef
+  odrl:assignee:
+    description: Party all rules apply to, if given once at policy level (range odrl:Party).
+    x-jsonld-id: http://www.w3.org/ns/odrl/2/assignee
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/PartyRef
+  odrl:permission:
+    description: Actions a user may perform on the target (usage conditions).
+    type: array
+    minItems: 1
+    items:
+      type: object
+      properties:
+        odrl:target:
+          description: The asset, normally a distribution or data service (range odrl:Asset).
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/target
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Target
+        odrl:output:
+          description: An asset created by exercising the action (range odrl:Asset).
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/output
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Target
+        odrl:action:
+          description: 'The permitted action (range odrl:Action). OPEN: the cdifa1
+            action vocabulary is not defined, so values are not enumerated; whether
+            it is an ODRL profile or a standalone controlled vocabulary is still to
+            be settled.'
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/action
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlAction
+        odrl:assigner:
+          description: Party granting this permission, if not given at policy level
+            (range odrl:Party).
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/assigner
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/PartyRef
+        odrl:assignee:
+          description: 'Who may exercise the permission (range odrl:Party), as a party
+            or a (refined) PartyCollection, e.g. registered users located in the UK.
+            This is the book''s form; the spreadsheet scopes users with odrl:constraint
+            instead. OPEN: settle on one, or say when each is used.'
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/assignee
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/PartyRef
+        odrl:constraint:
+          description: Conditions on exercising the permission (range odrl:Constraint),
+            e.g. only users located in the UK (the spreadsheet's way of scoping users;
+            see odrl:assignee).
+          type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/constraint
+        odrl:duty:
+          description: 'Access conditions (range odrl:Duty): actions that must be
+            completed before the permitted action, e.g. assent to an End User Licence
+            before download.'
+          type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/$defs/AccessCondition
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/duty
+      required:
+      - odrl:target
+      - odrl:action
+    x-jsonld-id: http://www.w3.org/ns/odrl/2/permission
+  odrl:obligation:
+    description: 'Actions every user of the target must perform (range odrl:Duty),
+      e.g. destroy the data at the end of a project. The spreadsheet gives 1..*; drafted
+      as 0..* because an Offer with only permissions is common. OPEN: confirm.'
+    type: array
+    items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Duty
+    x-jsonld-id: http://www.w3.org/ns/odrl/2/obligation
+  odrl:prohibition:
+    description: Actions a user must not perform (range odrl:Prohibition), e.g. share
+      TRE credentials.
+    type: array
+    items:
+      type: object
+      properties:
+        odrl:target:
+          description: The asset (range odrl:Asset).
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/target
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Target
+        odrl:output:
+          description: An asset created by exercising the action (range odrl:Asset).
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/output
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Target
+        odrl:action:
+          description: The prohibited action (range odrl:Action).
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/action
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlAction
+        odrl:assigner:
+          description: Party issuing this prohibition, if not given at policy level
+            (range odrl:Party).
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/assigner
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/PartyRef
+        odrl:assignee:
+          description: Who the prohibition applies to (range odrl:Party).
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/assignee
+          allOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/PartyRef
+        odrl:constraint:
+          description: Conditions under which the prohibition applies (range odrl:Constraint).
+          type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/constraint
+        odrl:remedy:
+          description: Duties owed if the prohibition is infringed (range odrl:Duty).
+          type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlRule/$defs/Duty
+          x-jsonld-id: http://www.w3.org/ns/odrl/2/remedy
+      required:
+      - odrl:target
+      - odrl:action
+    x-jsonld-id: http://www.w3.org/ns/odrl/2/prohibition
+required:
+- '@type'
+- '@id'
+- odrl:profile
+- odrl:assigner
+- odrl:permission
+$defs:
+  accessConditionMarker:
+    description: 'The constraint odrl:event odrl:lt odrl:policyUsage: the duty must
+      be fulfilled before the permission is exercised. In CDIF Access this is what
+      marks a duty as an access condition. Each operand accepts the odrl: compact
+      IRI and the full IRI.'
+    type: object
+    properties:
+      odrl:leftOperand:
+        type: object
+        properties:
+          '@id':
+            enum:
+            - odrl:event
+            - http://www.w3.org/ns/odrl/2/event
+        required:
+        - '@id'
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/leftOperand
+      odrl:operator:
+        type: object
+        properties:
+          '@id':
+            enum:
+            - odrl:lt
+            - http://www.w3.org/ns/odrl/2/lt
+        required:
+        - '@id'
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/operator
+      odrl:rightOperand:
+        type: object
+        properties:
+          '@id':
+            enum:
+            - odrl:policyUsage
+            - http://www.w3.org/ns/odrl/2/policyUsage
+        required:
+        - '@id'
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/rightOperand
+    required:
+    - odrl:leftOperand
+    - odrl:operator
+    - odrl:rightOperand
+  AccessCondition:
+    description: 'A permission duty carrying the accessConditionMarker. The spreadsheet
+      gives the duty action as 1..*; ODRL allows one action per rule, so several pre-conditions
+      are several duties. OPEN: the spreadsheet does not say what an assent duty assents
+      to (e.g. which licence document); a duty target is one candidate. OPEN: the
+      spreadsheet lists constraint @type with cardinality 1 but gives no value and
+      omits it on this constraint, so it is optional.'
+    type: object
+    properties:
+      odrl:action:
+        description: The action to complete first, e.g. cdifa1:assent (range odrl:Action).
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/action
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlAction
+      odrl:constraint:
+        description: Must include the accessConditionMarker (range odrl:Constraint).
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint
+        contains:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlOffer/schema-oas3.0.yaml#/$defs/accessConditionMarker
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/constraint
+    required:
+    - odrl:action
+    - odrl:constraint
+x-jsonld-prefixes:
+  odrl: http://www.w3.org/ns/odrl/2/
+  cdifa1: https://w3id.org/cdif/access/profile1/
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  xsd: http://www.w3.org/2001/XMLSchema#
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlOffer
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-26'
+x-schema-version: https://json-schema.org/draft/2020-12/schema

@@ -1,0 +1,377 @@
+x-defs:
+  cdif.bbr.metadata.odrlProperties.odrlTerms:
+    title: ODRL Terms
+    description: 'Type library of references to ODRL 2.2 vocabulary terms (https://www.w3.org/TR/odrl-vocab/):
+      actions, left operands, operators, right operands and conflict strategies. Generated
+      from https://www.w3.org/ns/odrl/2/ODRL22.ttl, excluding terms marked deprecated.
+      Actions and operands are open, because ODRL profiles extend them; conflict terms
+      are closed. Each term is an {"@id": ...} reference, compact (odrl:use) or full
+      IRI.'
+    $defs:
+      Action:
+        description: 'Reference to an ODRL Action action. Open: any IRI is accepted,
+          so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 42
+          non-deprecated ODRL 2.2 Action terms.'
+        type: object
+        properties:
+          '@id':
+            type: string
+            examples:
+            - odrl:acceptTracking
+            - odrl:aggregate
+            - odrl:annotate
+            - odrl:anonymize
+            - odrl:archive
+            - odrl:attribute
+            - odrl:compensate
+            - odrl:concurrentUse
+            - odrl:delete
+            - odrl:derive
+            - odrl:digitize
+            - odrl:display
+            - odrl:distribute
+            - odrl:ensureExclusivity
+            - odrl:execute
+            - odrl:extract
+            - odrl:give
+            - odrl:grantUse
+            - odrl:include
+            - odrl:index
+            - odrl:inform
+            - odrl:install
+            - odrl:modify
+            - odrl:move
+            - odrl:nextPolicy
+            - odrl:obtainConsent
+            - odrl:play
+            - odrl:present
+            - odrl:print
+            - odrl:read
+            - odrl:reproduce
+            - odrl:reviewPolicy
+            - odrl:sell
+            - odrl:stream
+            - odrl:synchronize
+            - odrl:textToSpeech
+            - odrl:transfer
+            - odrl:transform
+            - odrl:translate
+            - odrl:uninstall
+            - odrl:use
+            - odrl:watermark
+        required:
+        - '@id'
+        additionalProperties: false
+      LeftOperand:
+        description: 'Reference to an ODRL LeftOperand left operand. Open: any IRI
+          is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples
+          list the 32 non-deprecated ODRL 2.2 LeftOperand terms.'
+        type: object
+        properties:
+          '@id':
+            type: string
+            examples:
+            - odrl:absolutePosition
+            - odrl:absoluteSize
+            - odrl:absoluteSpatialPosition
+            - odrl:absoluteTemporalPosition
+            - odrl:count
+            - odrl:dateTime
+            - odrl:delayPeriod
+            - odrl:deliveryChannel
+            - odrl:elapsedTime
+            - odrl:event
+            - odrl:fileFormat
+            - odrl:industry
+            - odrl:language
+            - odrl:media
+            - odrl:meteredTime
+            - odrl:payAmount
+            - odrl:percentage
+            - odrl:product
+            - odrl:purpose
+            - odrl:recipient
+            - odrl:relativePosition
+            - odrl:relativeSize
+            - odrl:relativeSpatialPosition
+            - odrl:relativeTemporalPosition
+            - odrl:resolution
+            - odrl:spatial
+            - odrl:spatialCoordinates
+            - odrl:systemDevice
+            - odrl:timeInterval
+            - odrl:unitOfCount
+            - odrl:version
+            - odrl:virtualLocation
+        required:
+        - '@id'
+        additionalProperties: false
+      Operator:
+        description: 'Reference to an ODRL Operator operator. Open: any IRI is accepted,
+          so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 12
+          non-deprecated ODRL 2.2 Operator terms.'
+        type: object
+        properties:
+          '@id':
+            type: string
+            examples:
+            - odrl:eq
+            - odrl:gt
+            - odrl:gteq
+            - odrl:hasPart
+            - odrl:isA
+            - odrl:isAllOf
+            - odrl:isAnyOf
+            - odrl:isNoneOf
+            - odrl:isPartOf
+            - odrl:lt
+            - odrl:lteq
+            - odrl:neq
+        required:
+        - '@id'
+        additionalProperties: false
+      RightOperand:
+        description: 'Reference to an ODRL RightOperand right operand. Open: any IRI
+          is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples
+          list the 1 non-deprecated ODRL 2.2 RightOperand terms. Most right operands
+          are literals or value objects, not terms; this is for the few that are IRIs.'
+        type: object
+        properties:
+          '@id':
+            type: string
+            examples:
+            - odrl:policyUsage
+        required:
+        - '@id'
+        additionalProperties: false
+      ConflictTerm:
+        description: 'Strategy for resolving conflicts between permissions and prohibitions
+          (odrl:conflict). Closed: ODRL defines exactly these three.'
+        type: object
+        properties:
+          '@id':
+            enum:
+            - odrl:invalid
+            - http://www.w3.org/ns/odrl/2/invalid
+            - odrl:perm
+            - http://www.w3.org/ns/odrl/2/perm
+            - odrl:prohibit
+            - http://www.w3.org/ns/odrl/2/prohibit
+        required:
+        - '@id'
+        additionalProperties: false
+    x-jsonld-prefixes:
+      odrl: http://www.w3.org/ns/odrl/2/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlTerms
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlTerms/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.odrlProperties.odrlConstraint:
+    title: ODRL Constraint
+    description: An ODRL 2.2 Constraint (https://www.w3.org/TR/odrl-model/#constraint)
+      or LogicalConstraint (https://www.w3.org/TR/odrl-model/#constraint-logical).
+      A Constraint compares a left operand with a right operand using an operator,
+      e.g. odrl:spatial odrl:eq <country>. A LogicalConstraint combines constraints
+      with exactly one of odrl:and, odrl:or, odrl:xone or odrl:andSequence. Operands
+      and operators are open IRIs (odrlTerms), so ODRL profile terms validate.
+    type: object
+    properties:
+      '@context':
+        type: object
+        description: JSON-LD namespace prefixes for ODRL properties.
+        properties:
+          odrl:
+            enum:
+            - http://www.w3.org/ns/odrl/2/
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/Constraint
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/LogicalConstraint
+    $defs:
+      Constraint:
+        type: object
+        properties:
+          '@id':
+            description: Optional; needed when a LogicalConstraint refers to this
+              constraint by reference.
+            type: string
+            format: iri
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - odrl:Constraint
+          odrl:leftOperand:
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/leftOperand
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlTerms/$defs/LeftOperand
+          odrl:operator:
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/operator
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlTerms/$defs/Operator
+          odrl:rightOperand:
+            description: A literal, a value object ({"@value", "@type"}) or an {@id}
+              reference.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/rightOperand
+          odrl:rightOperandReference:
+            description: An IRI whose dereferenced value is the right operand.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/rightOperandReference
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+          odrl:dataType:
+            description: Datatype of the right operand, e.g. xsd:decimal.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/dataType
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+          odrl:unit:
+            description: Unit of the right operand, e.g. a currency or unit of measure.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/unit
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+          odrl:status:
+            description: The current value of the left operand, for comparison with
+              the right operand.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/status
+        required:
+        - odrl:leftOperand
+        - odrl:operator
+        anyOf:
+        - required:
+          - odrl:rightOperand
+        - required:
+          - odrl:rightOperandReference
+      LogicalConstraint:
+        type: object
+        properties:
+          '@id':
+            type: string
+            format: iri
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - odrl:LogicalConstraint
+          odrl:and:
+            description: All of the constraints must be satisfied.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/and
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/constraintList
+          odrl:or:
+            description: At least one of the constraints must be satisfied.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/or
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/constraintList
+          odrl:xone:
+            description: Exactly one of the constraints must be satisfied.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/xone
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/constraintList
+          odrl:andSequence:
+            description: All of the constraints must be satisfied, in order.
+            x-jsonld-id: http://www.w3.org/ns/odrl/2/andSequence
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/constraintList
+        oneOf:
+        - required:
+          - odrl:and
+        - required:
+          - odrl:or
+        - required:
+          - odrl:xone
+        - required:
+          - odrl:andSequence
+      constraintList:
+        description: 'The operand constraints, as an RDF list ({"@list": [...]}),
+          each inline or an {@id} reference.'
+        type: object
+        properties:
+          '@list':
+            type: array
+            minItems: 1
+            items:
+              anyOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.objectReference
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint/$defs/Constraint
+        required:
+        - '@list'
+    x-jsonld-prefixes:
+      odrl: http://www.w3.org/ns/odrl/2/
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlConstraint
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlConstraint/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.objectReference:
+    title: Object Reference
+    description: A reference to a node defined elsewhere, by its @id.
+    type: object
+    properties:
+      '@id':
+        type: string
+        description: resolvable @id of the referenced node
+    required:
+    - '@id'
+    additionalProperties: false
+    x-bblocks-metadata:
+      itemIdentifier: cdif.bbr.metadata.cdifDataType.objectReference
+      register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+      version: '0.1'
+      dateOfLastChange: '2026-10-26'
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+title: ODRL Action
+description: 'An ODRL 2.2 Action (https://www.w3.org/TR/odrl-model/#action) as used
+  in a rule: either a reference to the action ({"@id": "odrl:use"}), or, when the
+  action itself is narrowed, an object holding the action in rdf:value plus odrl:refinement
+  constraints (e.g. print, at most 1200 dpi). Actions are open IRIs (odrlTerms), so
+  ODRL profile actions validate.'
+type: object
+properties:
+  '@context':
+    type: object
+    description: JSON-LD namespace prefixes for ODRL properties.
+    properties:
+      odrl:
+        enum:
+        - http://www.w3.org/ns/odrl/2/
+      rdf:
+        enum:
+        - http://www.w3.org/1999/02/22-rdf-syntax-ns#
+anyOf:
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlTerms/$defs/Action
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/$defs/RefinedAction
+$defs:
+  RefinedAction:
+    type: object
+    properties:
+      rdf:value:
+        x-jsonld-id: http://www.w3.org/1999/02/22-rdf-syntax-ns#value
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlTerms/$defs/Action
+      odrl:refinement:
+        type: array
+        minItems: 1
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlAction/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.odrlProperties.odrlConstraint
+        x-jsonld-id: http://www.w3.org/ns/odrl/2/refinement
+    required:
+    - rdf:value
+    - odrl:refinement
+x-jsonld-prefixes:
+  odrl: http://www.w3.org/ns/odrl/2/
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  xsd: http://www.w3.org/2001/XMLSchema#
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlAction
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '0.1'
+  dateOfLastChange: '2026-10-26'
+x-schema-version: https://json-schema.org/draft/2020-12/schema
