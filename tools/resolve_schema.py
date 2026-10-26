@@ -540,6 +540,10 @@ _SCHEMA_DEF_KEYS = frozenset({"type", "oneOf", "anyOf", "allOf", "$ref"})
 # A conditional is one construct: these keys travel together or not at all.
 _CONDITIONAL_KEYS = ("if", "then", "else")
 
+# Array-level keywords a property can state beside its `items`.
+_ARRAY_CONSTRAINT_KEYS = ("minItems", "maxItems", "uniqueItems",
+                          "contains", "minContains", "maxContains")
+
 
 def _is_complete_schema(d: dict) -> bool:
     """Return True if d looks like a complete schema definition (has type, composition, or $ref)."""
@@ -614,6 +618,15 @@ def _deep_merge_inner(base: dict, overlay: dict, in_properties: bool) -> dict:
                         new_items_allof = [base_items, overlay_items]
                     overlay_schema = copy.deepcopy(v)
                     overlay_schema["items"] = {"allOf": new_items_allof}
+                    # The array-level constraints sit beside items, not in it,
+                    # so replacing the base with the overlay dropped them:
+                    # xasCore's prov:wasGeneratedBy minItems + contains (the
+                    # required analysis event) vanished under xasOptional's
+                    # items-only patch. Keep the base's where the overlay
+                    # states none of its own.
+                    for kw in _ARRAY_CONSTRAINT_KEYS:
+                        if kw in result[k] and kw not in overlay_schema:
+                            overlay_schema[kw] = result[k][kw]
                     result[k] = overlay_schema
                 else:
                     result[k] = copy.deepcopy(v)
