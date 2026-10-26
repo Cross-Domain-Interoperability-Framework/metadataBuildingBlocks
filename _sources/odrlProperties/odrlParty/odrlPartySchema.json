@@ -6,10 +6,13 @@
     "properties": {
         "@context": {
             "type": "object",
-            "description": "JSON-LD namespace prefixes for ODRL properties.",
+            "description": "JSON-LD namespace prefixes for ODRL and schema.org properties.",
             "properties": {
                 "odrl": {
                     "const": "http://www.w3.org/ns/odrl/2/"
+                },
+                "schema": {
+                    "const": "http://schema.org/"
                 }
             }
         }
@@ -24,16 +27,13 @@
     ],
     "$defs": {
         "Party": {
-            "description": "Further description (e.g. schema:name) is allowed.",
+            "description": "Typed odrl:Party, schema:Person or schema:Organization. ODRL declares odrl:Party a subclass of schema:Person or schema:Organization (among FOAF and vCard classes), and gives odrl:assigner and odrl:assignee the range odrl:Party, so a schema.org-typed node in those roles is an odrl:Party without saying so. A schema:Person is validated by the person block and a schema:Organization by the organization block. A person may also carry odrl:Party; an organization may not, because the organization block only accepts schema.org organization types in @type.",
             "type": "object",
             "properties": {
                 "@type": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "contains": {
-                        "const": "odrl:Party"
                     }
                 },
                 "@id": {
@@ -44,6 +44,65 @@
             "required": [
                 "@type",
                 "@id"
+            ],
+            "anyOf": [
+                {
+                    "properties": {
+                        "@type": {
+                            "contains": {
+                                "const": "odrl:Party"
+                            }
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "@type": {
+                            "contains": {
+                                "const": "schema:Person"
+                            }
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "@type": {
+                            "contains": {
+                                "const": "schema:Organization"
+                            }
+                        }
+                    }
+                }
+            ],
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "@type": {
+                                "contains": {
+                                    "const": "schema:Person"
+                                }
+                            }
+                        }
+                    },
+                    "then": {
+                        "$ref": "../../schemaorgProperties/person/personSchema.json"
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "@type": {
+                                "contains": {
+                                    "const": "schema:Organization"
+                                }
+                            }
+                        }
+                    },
+                    "then": {
+                        "$ref": "../../schemaorgProperties/organization/organizationSchema.json"
+                    }
+                }
             ]
         },
         "PartyCollection": {
