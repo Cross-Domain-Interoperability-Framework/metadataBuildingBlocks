@@ -476,30 +476,69 @@
         "@id"
       ]
     },
+    "odrl:target": {
+      "$ref": "#/$defs/Target",
+      "description": "Asset all rules apply to, if given once at policy level (range odrl:Asset)."
+    },
     "odrl:assigner": {
-      "description": "The party issuing the Offer, normally the repository or data custodian, given once at policy level. ODRL also accepts an assigner on every rule instead; CDIF asks for the policy-level form. The spreadsheet does not list an assigner yet."
+      "$ref": "#/$defs/PartyRef",
+      "description": "The party issuing the Offer, normally the repository or data custodian, given once at policy level (range odrl:Party). ODRL also accepts an assigner on every rule instead; CDIF asks for the policy-level form. The spreadsheet does not list an assigner yet."
+    },
+    "odrl:assignee": {
+      "$ref": "#/$defs/PartyRef",
+      "description": "Party all rules apply to, if given once at policy level (range odrl:Party)."
     },
     "odrl:permission": {
       "description": "Actions a user may perform on the target (usage conditions).",
+      "type": "array",
       "minItems": 1,
       "items": {
+        "type": "object",
         "properties": {
+          "odrl:target": {
+            "$ref": "#/$defs/Target",
+            "description": "The asset, normally a distribution or data service (range odrl:Asset)."
+          },
+          "odrl:output": {
+            "$ref": "#/$defs/Target",
+            "description": "An asset created by exercising the action (range odrl:Asset)."
+          },
           "odrl:action": {
-            "description": "OPEN: the cdifa1 action vocabulary is not defined, so values are not enumerated; whether it is an ODRL profile or a standalone controlled vocabulary is still to be settled."
+            "$ref": "#/$defs/OdrlAction",
+            "description": "The permitted action (range odrl:Action). OPEN: the cdifa1 action vocabulary is not defined, so values are not enumerated; whether it is an ODRL profile or a standalone controlled vocabulary is still to be settled."
+          },
+          "odrl:assigner": {
+            "$ref": "#/$defs/PartyRef",
+            "description": "Party granting this permission, if not given at policy level (range odrl:Party)."
           },
           "odrl:assignee": {
-            "description": "Who may exercise the permission, as a party or a (refined) PartyCollection, e.g. registered users located in the UK. This is the book's form; the spreadsheet scopes users with odrl:constraint instead. OPEN: settle on one, or say when each is used."
+            "$ref": "#/$defs/PartyRef",
+            "description": "Who may exercise the permission (range odrl:Party), as a party or a (refined) PartyCollection, e.g. registered users located in the UK. This is the book's form; the spreadsheet scopes users with odrl:constraint instead. OPEN: settle on one, or say when each is used."
           },
           "odrl:constraint": {
-            "description": "Conditions on exercising the permission, e.g. only users located in the UK (the spreadsheet's way of scoping users; see odrl:assignee)."
+            "description": "Conditions on exercising the permission (range odrl:Constraint), e.g. only users located in the UK (the spreadsheet's way of scoping users; see odrl:assignee).",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/OdrlConstraint"
+            }
           },
           "odrl:duty": {
-            "description": "Access conditions: actions that must be completed before the permitted action, e.g. assent to an End User Licence before download.",
+            "description": "Access conditions (range odrl:Duty): actions that must be completed before the permitted action, e.g. assent to an End User Licence before download.",
+            "type": "array",
             "items": {
               "description": "A permission duty carrying the accessConditionMarker. The spreadsheet gives the duty action as 1..*; ODRL allows one action per rule, so several pre-conditions are several duties. OPEN: the spreadsheet does not say what an assent duty assents to (e.g. which licence document); a duty target is one candidate. OPEN: the spreadsheet lists constraint @type with cardinality 1 but gives no value and omits it on this constraint, so it is optional.",
               "type": "object",
               "properties": {
+                "odrl:action": {
+                  "$ref": "#/$defs/OdrlAction",
+                  "description": "The action to complete first, e.g. cdifa1:assent (range odrl:Action)."
+                },
                 "odrl:constraint": {
+                  "description": "Must include the accessConditionMarker (range odrl:Constraint).",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/OdrlConstraint"
+                  },
                   "contains": {
                     "description": "The constraint odrl:event odrl:lt odrl:policyUsage: the duty must be fulfilled before the permission is exercised. In CDIF Access this is what marks a duty as an access condition. Each operand accepts the odrl: compact IRI and the full IRI.",
                     "type": "object",
@@ -569,11 +608,53 @@
       }
     },
     "odrl:obligation": {
-      "description": "Actions every user of the target must perform, e.g. destroy the data at the end of a project. The spreadsheet gives 1..*; drafted as 0..* because an Offer with only permissions is common. OPEN: confirm."
+      "description": "Actions every user of the target must perform (range odrl:Duty), e.g. destroy the data at the end of a project. The spreadsheet gives 1..*; drafted as 0..* because an Offer with only permissions is common. OPEN: confirm.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Duty"
+      }
     },
     "odrl:prohibition": {
-      "description": "Actions a user must not perform, e.g. share TRE credentials.",
+      "description": "Actions a user must not perform (range odrl:Prohibition), e.g. share TRE credentials.",
+      "type": "array",
       "items": {
+        "type": "object",
+        "properties": {
+          "odrl:target": {
+            "$ref": "#/$defs/Target",
+            "description": "The asset (range odrl:Asset)."
+          },
+          "odrl:output": {
+            "$ref": "#/$defs/Target",
+            "description": "An asset created by exercising the action (range odrl:Asset)."
+          },
+          "odrl:action": {
+            "$ref": "#/$defs/OdrlAction",
+            "description": "The prohibited action (range odrl:Action)."
+          },
+          "odrl:assigner": {
+            "$ref": "#/$defs/PartyRef",
+            "description": "Party issuing this prohibition, if not given at policy level (range odrl:Party)."
+          },
+          "odrl:assignee": {
+            "$ref": "#/$defs/PartyRef",
+            "description": "Who the prohibition applies to (range odrl:Party)."
+          },
+          "odrl:constraint": {
+            "description": "Conditions under which the prohibition applies (range odrl:Constraint).",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/OdrlConstraint"
+            }
+          },
+          "odrl:remedy": {
+            "description": "Duties owed if the prohibition is infringed (range odrl:Duty).",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Duty"
+            }
+          }
+        },
         "required": [
           "odrl:target",
           "odrl:action"
@@ -858,6 +939,157 @@
                 "schema:url"
               ]
             }
+          ]
+        }
+      ]
+    },
+    "OdrlAction": {
+      "title": "ODRL Action",
+      "description": "An ODRL 2.2 Action (https://www.w3.org/TR/odrl-model/#action) as used in a rule: either a reference to the action ({\"@id\": \"odrl:use\"}), or, when the action itself is narrowed, an object holding the action in rdf:value plus odrl:refinement constraints (e.g. print, at most 1200 dpi). Actions are open IRIs (odrlTerms), so ODRL profile actions validate.",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "object",
+          "description": "JSON-LD namespace prefixes for ODRL properties.",
+          "properties": {
+            "odrl": {
+              "const": "http://www.w3.org/ns/odrl/2/"
+            },
+            "rdf": {
+              "const": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+            }
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "description": "Reference to an ODRL Action action. Open: any IRI is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 42 non-deprecated ODRL 2.2 Action terms.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "examples": [
+                "odrl:acceptTracking",
+                "odrl:aggregate",
+                "odrl:annotate",
+                "odrl:anonymize",
+                "odrl:archive",
+                "odrl:attribute",
+                "odrl:compensate",
+                "odrl:concurrentUse",
+                "odrl:delete",
+                "odrl:derive",
+                "odrl:digitize",
+                "odrl:display",
+                "odrl:distribute",
+                "odrl:ensureExclusivity",
+                "odrl:execute",
+                "odrl:extract",
+                "odrl:give",
+                "odrl:grantUse",
+                "odrl:include",
+                "odrl:index",
+                "odrl:inform",
+                "odrl:install",
+                "odrl:modify",
+                "odrl:move",
+                "odrl:nextPolicy",
+                "odrl:obtainConsent",
+                "odrl:play",
+                "odrl:present",
+                "odrl:print",
+                "odrl:read",
+                "odrl:reproduce",
+                "odrl:reviewPolicy",
+                "odrl:sell",
+                "odrl:stream",
+                "odrl:synchronize",
+                "odrl:textToSpeech",
+                "odrl:transfer",
+                "odrl:transform",
+                "odrl:translate",
+                "odrl:uninstall",
+                "odrl:use",
+                "odrl:watermark"
+              ]
+            }
+          },
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "rdf:value": {
+              "description": "Reference to an ODRL Action action. Open: any IRI is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 42 non-deprecated ODRL 2.2 Action terms.",
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "examples": [
+                    "odrl:acceptTracking",
+                    "odrl:aggregate",
+                    "odrl:annotate",
+                    "odrl:anonymize",
+                    "odrl:archive",
+                    "odrl:attribute",
+                    "odrl:compensate",
+                    "odrl:concurrentUse",
+                    "odrl:delete",
+                    "odrl:derive",
+                    "odrl:digitize",
+                    "odrl:display",
+                    "odrl:distribute",
+                    "odrl:ensureExclusivity",
+                    "odrl:execute",
+                    "odrl:extract",
+                    "odrl:give",
+                    "odrl:grantUse",
+                    "odrl:include",
+                    "odrl:index",
+                    "odrl:inform",
+                    "odrl:install",
+                    "odrl:modify",
+                    "odrl:move",
+                    "odrl:nextPolicy",
+                    "odrl:obtainConsent",
+                    "odrl:play",
+                    "odrl:present",
+                    "odrl:print",
+                    "odrl:read",
+                    "odrl:reproduce",
+                    "odrl:reviewPolicy",
+                    "odrl:sell",
+                    "odrl:stream",
+                    "odrl:synchronize",
+                    "odrl:textToSpeech",
+                    "odrl:transfer",
+                    "odrl:transform",
+                    "odrl:translate",
+                    "odrl:uninstall",
+                    "odrl:use",
+                    "odrl:watermark"
+                  ]
+                }
+              },
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false
+            },
+            "odrl:refinement": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/OdrlConstraint"
+              }
+            }
+          },
+          "required": [
+            "rdf:value",
+            "odrl:refinement"
           ]
         }
       ]
@@ -2055,155 +2287,7 @@
           "description": "An asset created by exercising the action, e.g. the result of odrl:derive."
         },
         "odrl:action": {
-          "title": "ODRL Action",
-          "description": "An ODRL 2.2 Action (https://www.w3.org/TR/odrl-model/#action) as used in a rule: either a reference to the action ({\"@id\": \"odrl:use\"}), or, when the action itself is narrowed, an object holding the action in rdf:value plus odrl:refinement constraints (e.g. print, at most 1200 dpi). Actions are open IRIs (odrlTerms), so ODRL profile actions validate.",
-          "type": "object",
-          "properties": {
-            "@context": {
-              "type": "object",
-              "description": "JSON-LD namespace prefixes for ODRL properties.",
-              "properties": {
-                "odrl": {
-                  "const": "http://www.w3.org/ns/odrl/2/"
-                },
-                "rdf": {
-                  "const": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                }
-              }
-            }
-          },
-          "anyOf": [
-            {
-              "description": "Reference to an ODRL Action action. Open: any IRI is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 42 non-deprecated ODRL 2.2 Action terms.",
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "examples": [
-                    "odrl:acceptTracking",
-                    "odrl:aggregate",
-                    "odrl:annotate",
-                    "odrl:anonymize",
-                    "odrl:archive",
-                    "odrl:attribute",
-                    "odrl:compensate",
-                    "odrl:concurrentUse",
-                    "odrl:delete",
-                    "odrl:derive",
-                    "odrl:digitize",
-                    "odrl:display",
-                    "odrl:distribute",
-                    "odrl:ensureExclusivity",
-                    "odrl:execute",
-                    "odrl:extract",
-                    "odrl:give",
-                    "odrl:grantUse",
-                    "odrl:include",
-                    "odrl:index",
-                    "odrl:inform",
-                    "odrl:install",
-                    "odrl:modify",
-                    "odrl:move",
-                    "odrl:nextPolicy",
-                    "odrl:obtainConsent",
-                    "odrl:play",
-                    "odrl:present",
-                    "odrl:print",
-                    "odrl:read",
-                    "odrl:reproduce",
-                    "odrl:reviewPolicy",
-                    "odrl:sell",
-                    "odrl:stream",
-                    "odrl:synchronize",
-                    "odrl:textToSpeech",
-                    "odrl:transfer",
-                    "odrl:transform",
-                    "odrl:translate",
-                    "odrl:uninstall",
-                    "odrl:use",
-                    "odrl:watermark"
-                  ]
-                }
-              },
-              "required": [
-                "@id"
-              ],
-              "additionalProperties": false
-            },
-            {
-              "type": "object",
-              "properties": {
-                "rdf:value": {
-                  "description": "Reference to an ODRL Action action. Open: any IRI is accepted, so ODRL profile terms (e.g. cdifa1:) validate; the examples list the 42 non-deprecated ODRL 2.2 Action terms.",
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "examples": [
-                        "odrl:acceptTracking",
-                        "odrl:aggregate",
-                        "odrl:annotate",
-                        "odrl:anonymize",
-                        "odrl:archive",
-                        "odrl:attribute",
-                        "odrl:compensate",
-                        "odrl:concurrentUse",
-                        "odrl:delete",
-                        "odrl:derive",
-                        "odrl:digitize",
-                        "odrl:display",
-                        "odrl:distribute",
-                        "odrl:ensureExclusivity",
-                        "odrl:execute",
-                        "odrl:extract",
-                        "odrl:give",
-                        "odrl:grantUse",
-                        "odrl:include",
-                        "odrl:index",
-                        "odrl:inform",
-                        "odrl:install",
-                        "odrl:modify",
-                        "odrl:move",
-                        "odrl:nextPolicy",
-                        "odrl:obtainConsent",
-                        "odrl:play",
-                        "odrl:present",
-                        "odrl:print",
-                        "odrl:read",
-                        "odrl:reproduce",
-                        "odrl:reviewPolicy",
-                        "odrl:sell",
-                        "odrl:stream",
-                        "odrl:synchronize",
-                        "odrl:textToSpeech",
-                        "odrl:transfer",
-                        "odrl:transform",
-                        "odrl:translate",
-                        "odrl:uninstall",
-                        "odrl:use",
-                        "odrl:watermark"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "@id"
-                  ],
-                  "additionalProperties": false
-                },
-                "odrl:refinement": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "$ref": "#/$defs/OdrlConstraint"
-                  }
-                }
-              },
-              "required": [
-                "rdf:value",
-                "odrl:refinement"
-              ]
-            }
-          ]
+          "$ref": "#/$defs/OdrlAction"
         },
         "odrl:assigner": {
           "$ref": "#/$defs/PartyRef"
