@@ -4,6 +4,24 @@
   "description": "An ODRL 2.2 Offer (https://www.w3.org/TR/odrl-model/#policy-offer): the baseline access and usage conditions a data provider sets for a digital object, without naming who they apply to (that is an ODRL Agreement). Draft from the CDIF Access spreadsheet (CDIF_Access_Profile_ODRL_Classes_Properties_Description.xlsx) and the cdifbook data_access chapter.\nKeys carry the odrl: prefix (odrl = http://www.w3.org/ns/odrl/2/), like every other CDIF building block, and the document's @context declares the odrl, cdifa1 (https://w3id.org/cdif/access/profile1/) and rdf prefixes. The ODRL JSON-LD context is not used, so nothing coerces a string to an IRI: every IRI value (target, action, assigner, operands) is an {\"@id\": ...} object.\nAn access condition (something done BEFORE the digital object is retrieved) is a permission duty constrained by odrl:event odrl:lt odrl:policyUsage (https://www.w3.org/TR/odrl-model/#duty-perm). Everything else is a usage condition: a permission (may do), an obligation (must do) or a prohibition (must not do).\nOPEN QUESTIONS are marked \"OPEN:\" below.",
   "type": "object",
   "properties": {
+    "@context": {
+      "type": "object",
+      "description": "JSON-LD namespace prefixes for ODRL policy properties. Not required: an Offer embedded in a CDIF record inherits the record's @context.",
+      "properties": {
+        "odrl": {
+          "const": "http://www.w3.org/ns/odrl/2/"
+        },
+        "cdifa1": {
+          "const": "https://w3id.org/cdif/access/profile1/"
+        },
+        "rdf": {
+          "const": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        },
+        "xsd": {
+          "const": "http://www.w3.org/2001/XMLSchema#"
+        }
+      }
+    },
     "@type": {
       "description": "Always includes odrl:Offer, a subclass of odrl:Policy.",
       "type": "array",

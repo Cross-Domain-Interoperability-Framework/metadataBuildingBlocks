@@ -4,6 +4,24 @@
     "description": "Profile module for machine-actionable access and usage conditions, expressed as ODRL Offer policies (odrlProperties/odrlOffer). Marks the catalog record as conformant to the CDIF access spec and requires at least one policy, attached in either of two places:\n- on a schema:distribution item, as odrl:hasPolicy: the preferred place,\n  because distributions of one dataset can carry different conditions\n  (cdifbook data_access, \"Connecting CDIF and ODRL\"). The Offer may be\n  inline or an {@id} reference.\n\n- on the Dataset, as an {@id} reference in schema:conditionsOfAccess to\n  a policy published elsewhere. Only a reference: cdifCore types the\n  items of that property as string, {@id} or a CreativeWork link, and an\n  inline Offer matches none of them, so it would fail any composite that\n  includes cdifCore.\n\nThis module adds constraints only; it does not change cdifCore's schema:distribution anyOf [DataDownload, WebAPI]. Draft; OPEN QUESTIONS are marked \"OPEN:\".",
     "type": "object",
     "properties": {
+        "@context": {
+            "type": "object",
+            "description": "Additional JSON-LD namespace prefixes for access properties.",
+            "properties": {
+                "odrl": {
+                    "const": "http://www.w3.org/ns/odrl/2/"
+                },
+                "cdifa1": {
+                    "const": "https://w3id.org/cdif/access/profile1/"
+                },
+                "rdf": {
+                    "const": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                },
+                "xsd": {
+                    "const": "http://www.w3.org/2001/XMLSchema#"
+                }
+            }
+        },
         "schema:subjectOf": {
             "properties": {
                 "dcterms:conformsTo": {
