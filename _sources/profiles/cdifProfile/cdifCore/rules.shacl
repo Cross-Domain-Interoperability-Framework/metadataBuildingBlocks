@@ -267,7 +267,10 @@ cdifd:catalogRecordTypeProperty
 
 soso:DatasetNS1Shape
     a sh:NodeShape ;
-    sh:targetClass <http://schema.orgDataset/> ;
+    # A context with "@vocab": "http://schema.org" (no trailing slash) makes
+    # Dataset expand to http://schema.orgDataset. The SOSO original targeted
+    # it with a trailing slash, which no document produces.
+    sh:targetClass <http://schema.orgDataset> ;
     sh:message "Expecting SO namespace of <http://schema.org/> not <http://schema.org>" ;
     sh:not [
         sh:path rdf:type ;
@@ -285,7 +288,7 @@ soso:DatasetNS2Shape
 
 soso:DatasetNS3Shape
     a sh:NodeShape ;
-    sh:targetClass <https://schema.orgDataset/> ;
+    sh:targetClass <https://schema.orgDataset> ;
     sh:message "Expecting SO namespace of <http://schema.org/> not <https://schema.org>" ;
     sh:not [
         sh:path rdf:type ;

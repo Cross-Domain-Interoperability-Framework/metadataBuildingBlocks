@@ -15,12 +15,15 @@ cdifd:xasInstrumentNode
 	a sh:NodeShape; 
 	    sh:target [
 	  a sh:SPARQLTarget ;
-	  # Q309991 is wikidata scientific instrument
+	  # Q3099911 is wikidata scientific instrument. Matched as the IRI the
+	  # profile requires ({"@id": "wd:Q3099911"}); matching the string
+	  # literal "wd:Q3099911" meant this shape never fired on a conformant
+	  # document.
       sh:select  """
       PREFIX schema: <http://schema.org/>
       SELECT DISTINCT ?this
         WHERE {
-          ?this schema:additionalType "wd:Q3099911".
+          ?this schema:additionalType <https://www.wikidata.org/entity/Q3099911> .
           }""";
 	] ;
     sh:property [

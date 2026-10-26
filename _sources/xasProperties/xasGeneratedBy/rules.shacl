@@ -11,7 +11,18 @@
 
 cdifd:xasGeneratedByNode
 	a sh:NodeShape;
-	sh:targetClass xas:analysisevent ;
+	# Documents classify the activity with schema:additionalType
+	# {"@id": "xas:analysisevent"}, not rdf:type, so sh:targetClass never
+	# matched anything.
+	sh:target [
+	  a sh:SPARQLTarget ;
+      sh:select  """
+      PREFIX schema: <http://schema.org/>
+      SELECT DISTINCT ?this
+        WHERE {
+          ?this schema:additionalType <https://w3id.org/cdif/xas/analysisevent> .
+          }""";
+	] ;
 	sh:property [
       sh:path rdf:type ;
       sh:hasValue prov:Activity ;
