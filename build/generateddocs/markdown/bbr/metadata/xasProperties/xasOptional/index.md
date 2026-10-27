@@ -1,7 +1,7 @@
 
 # Optional Fields for XAS data (Schema)
 
-`cdif.bbr.metadata.xasProperties.xasOptional` *v1.0*
+`cdif.bbr.metadata.xasProperties.xasOptional` *v1.1*
 
 Genuinely-optional XAS fields layered on cdifCore (no requirements). Permits and documents optional XAS content: schema:variableMeasured XAS data-array InstanceVariables, plus the optional beamline-operational and sample physico-chemical additionalProperty vocabularies (see description.md). Defines properties: schema:variableMeasured. Uses building blocks: cdifInstanceVariable (cdifDataType).
 
@@ -307,7 +307,7 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: Optional XAS metadata fields
 description: 'Genuinely-optional XAS properties layered on cdifCore. Adds no requirement
   to a record that carries no optional XAS content; a record that does carry schema:variableMeasured
-  must declare conformance to https://w3id.org/cdif/xasOptional/1.0. Documents and
+  must declare conformance to https://w3id.org/cdif/xasOptional/1.1. Documents and
   permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured
   cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical
   parameters carried as schema:additionalProperty entries (on the prov:used NXinstrument
@@ -485,7 +485,7 @@ x-jsonld-prefixes:
 x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.xasProperties.xasOptional
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
-  version: '1.0'
+  version: '1.1'
   dateOfLastChange: '2026-10-27'
 
 ```

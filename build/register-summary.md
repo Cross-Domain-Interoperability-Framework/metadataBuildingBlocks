@@ -474,5 +474,5 @@ Profile combining CDIF discovery metadata with extended provenance (cdifProvActi
 
 **Type:** schema
 
-Document-level CDIF profile for X-ray Absorption Spectroscopy datasets: composes cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure with xasCore (mandatory) + xasOptional (recommended). Conformance URI https://w3id.org/cdif/xasDocument/1.0.
+Document-level CDIF profile for X-ray Absorption Spectroscopy datasets: composes cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure with xasCore (mandatory) + xasOptional (recommended). Conformance URI https://w3id.org/cdif/xasDocument/1.1.
 

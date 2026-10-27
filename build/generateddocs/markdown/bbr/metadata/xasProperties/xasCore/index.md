@@ -1,7 +1,7 @@
 
 # XAS Core metadata properties (Schema)
 
-`cdif.bbr.metadata.xasProperties.xasCore` *v1.0*
+`cdif.bbr.metadata.xasProperties.xasCore` *v1.1*
 
 Required XAS metadata constraints layered on cdifCore (composed once by the xasDocument profile). Requires schema:Dataset in @type (schema:Product optional -- no root-level property depends on it), a required prov:wasGeneratedBy containing at least one analysis activity whose prov:used carries the instrument wrapper (NXsource + NXmonochromator sub-components with required type/probe/d_spacing/reflection), an XDI- or NeXus-conformant schema:distribution, required XAS measurementTechnique DefinedTerms, and the schema:object material sample. Defines properties: @type, schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:variableMeasured. Uses building blocks: cdifProvActivity (cdifDataType), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties).
 
@@ -158,7 +158,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
         "@id": "https://w3id.org/cdif/discovery/1.1"
       },
       {
-        "@id": "https://w3id.org/cdif/xasCore/1.0"
+        "@id": "https://w3id.org/cdif/xasCore/1.1"
       }
     ],
     "schema:maintainer": {
@@ -562,7 +562,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
         "@id": "https://w3id.org/cdif/discovery/1.1"
       },
       {
-        "@id": "https://w3id.org/cdif/xasCore/1.0"
+        "@id": "https://w3id.org/cdif/xasCore/1.1"
       }
     ],
     "schema:maintainer": {
@@ -906,13 +906,13 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "sample preparation method" ;
-                            schema1:propertyID xas:samplepreparation ;
-                            schema1:value "powder on tape, 6 layers" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "Stoichiometry" ;
                             schema1:propertyID xas:samplechemicalcomposition ;
-                            schema1:value "Na2SeO4" ] ;
+                            schema1:value "Na2SeO4" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "sample preparation method" ;
+                            schema1:propertyID xas:samplepreparation ;
+                            schema1:value "powder on tape, 6 layers" ] ;
                     schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
                         "MaterialSample" ;
                     schema1:description "Sodium selenate reference compound, powder" ;
@@ -931,18 +931,18 @@ ex:xas-dataset-001 a schema1:Dataset,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "reflection plane (hkl)" ;
-                                    schema1:propertyID xas:reflectionplane ;
-                                    schema1:value "1,1,1" ],
+                                    schema1:name "crystal type" ;
+                                    schema1:propertyID xas:monochromatortype ;
+                                    schema1:value "Si(111)" ],
                                 [ a schema1:PropertyValue ;
                                     schema1:name "d-spacing" ;
                                     schema1:propertyID xas:dspacing ;
                                     schema1:unitText "Angstrom" ;
                                     schema1:value "3.13550" ],
                                 [ a schema1:PropertyValue ;
-                                    schema1:name "crystal type" ;
-                                    schema1:propertyID xas:monochromatortype ;
-                                    schema1:value "Si(111)" ] ;
+                                    schema1:name "reflection plane (hkl)" ;
+                                    schema1:propertyID xas:reflectionplane ;
+                                    schema1:value "1,1,1" ] ;
                             schema1:additionalType xas:xraymonochromator,
                                 wd:Q3099911 ;
                             schema1:name "Si 111" ] ],
@@ -964,7 +964,7 @@ ex:xas-dataset-001 a schema1:Dataset,
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
         <https://w3id.org/cdif/discovery/1.1>,
-        <https://w3id.org/cdif/xasCore/1.0> ;
+        <https://w3id.org/cdif/xasCore/1.1> ;
     schema1:about ex:xas-dataset-001 ;
     schema1:additionalType dcat:CatalogRecord ;
     schema1:includedInDataCatalog <file:///github/workspace/nbUunSyw> ;
@@ -1022,7 +1022,7 @@ properties:
           additionalProperties: false
           properties:
             '@id':
-              const: https://w3id.org/cdif/xasCore/1.0
+              const: https://w3id.org/cdif/xasCore/1.1
         x-jsonld-id: http://purl.org/dc/terms/conformsTo
     x-jsonld-id: http://schema.org/subjectOf
   prov:wasGeneratedBy:
@@ -1383,7 +1383,7 @@ x-jsonld-prefixes:
 x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.xasProperties.xasCore
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
-  version: '1.0'
+  version: '1.1'
   dateOfLastChange: '2026-10-27'
 
 ```
