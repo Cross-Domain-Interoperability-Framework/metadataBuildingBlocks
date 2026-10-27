@@ -54,6 +54,9 @@ REPOS = [
      "cdifManifestStructuredSchema.json", "manifestRules.shacl"),
     ("profile-provenance", "_sources/profiles/cdifProfile/cdifProvenance",
      "cdifProvenanceStructuredSchema.json", "provenanceRules.shacl"),
+    # Draft, published as profile-access-draft; the local clone is profile-access.
+    ("profile-access", "_sources/profiles/cdifProfile/cdifAccess",
+     "cdifAccessStructuredSchema.json", "accessRules.shacl"),
     # Publishable artifacts live under release/, not at the repo root. The first
     # field is joined onto CDIF_ROOT, so naming the subdirectory here is all the
     # path handling needed. Until 2026-09-08 this repo was simply absent, so

@@ -1,0 +1,56 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix odrl:        <http://www.w3.org/ns/odrl/2/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ODRL 2.2 Asset and AssetCollection (https://www.w3.org/TR/odrl-model/#asset).
+# In CDIF an asset is normally a distribution or data service, identified by
+# its IRI.
+
+# An asset in a rule or policy role is identified by its IRI. The one exception
+# is a refined AssetCollection (odrl:source + odrl:refinement), which describes
+# a subset of a collection and may be a blank node.
+cdifd:ODRLAssetRoleShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf odrl:target, odrl:output ;
+    sh:or (
+        [ sh:nodeKind sh:IRI ]
+        [ sh:class odrl:AssetCollection ]
+    ) ;
+    sh:message "The value of odrl:target or odrl:output must be an asset IRI (e.g. a distribution's @id), or an odrl:AssetCollection." ;
+    .
+
+cdifd:ODRLAssetShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Asset ;
+    sh:nodeKind sh:IRI ;
+    sh:property [
+        sh:path odrl:partOf ;
+        sh:nodeKind sh:IRI ;
+        sh:message "odrl:partOf must be the IRI of an AssetCollection." ;
+    ] ;
+    sh:message "An odrl:Asset must be identified by an IRI (@id)." ;
+    .
+
+cdifd:ODRLAssetCollectionShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:AssetCollection ;
+    sh:or (
+        [ sh:nodeKind sh:IRI ]
+        [ sh:path odrl:source ; sh:minCount 1 ]
+    ) ;
+    sh:property [
+        sh:path odrl:source ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "odrl:source of an AssetCollection must be a single IRI: the collection this one is drawn from." ;
+    ] ;
+    sh:or (
+        [ sh:path odrl:refinement ; sh:maxCount 0 ]
+        [ sh:path odrl:source ; sh:minCount 1 ]
+    ) ;
+    sh:message "An odrl:AssetCollection must have an @id IRI or an odrl:source; a refined collection (odrl:refinement) must name its odrl:source." ;
+    .

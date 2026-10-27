@@ -1,0 +1,67 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix odrl:        <http://www.w3.org/ns/odrl/2/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# CDIF Access profile of an ODRL Offer: the rules CDIF adds to the generic
+# ODRL shapes (odrlPolicy, odrlRule, ...). Draft; the open questions are in
+# odrlOffer/schema.yaml.
+
+cdifd:CDIFAccessOfferShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Offer ;
+    sh:property [
+        sh:path odrl:profile ;
+        sh:minCount 1 ;
+        # cdifa1:cdifa1.ttl expands to the same IRI.
+        sh:hasValue <https://w3id.org/cdif/access/profile1/cdifa1.ttl> ;
+        sh:message "A CDIF Access Offer must declare odrl:profile <https://w3id.org/cdif/access/profile1/cdifa1.ttl>." ;
+    ] ;
+    sh:property [
+        sh:path odrl:assigner ;
+        sh:minCount 1 ;
+        sh:message "A CDIF Access Offer must name its assigner (the repository or data custodian) once, at policy level." ;
+    ] ;
+    sh:property [
+        sh:path odrl:permission ;
+        sh:minCount 1 ;
+        sh:message "A CDIF Access Offer must have at least one odrl:permission." ;
+    ] ;
+    sh:property [
+        sh:path [ sh:alternativePath ( odrl:permission odrl:prohibition ) ] ;
+        sh:node cdifd:CDIFAccessRuleTargetShape ;
+    ] ;
+    sh:property [
+        sh:path ( odrl:permission odrl:duty ) ;
+        sh:node cdifd:CDIFAccessConditionShape ;
+    ] ;
+    .
+
+cdifd:CDIFAccessRuleTargetShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path odrl:target ;
+        sh:minCount 1 ;
+        sh:message "Every permission and prohibition of a CDIF Access Offer must name its odrl:target (normally the distribution's @id)." ;
+    ] ;
+    .
+
+# An access condition is a permission duty constrained by
+# odrl:event odrl:lt odrl:policyUsage: it must be fulfilled before the
+# permission is exercised. Both terms are non-normative in ODRL 2.2.
+cdifd:CDIFAccessConditionShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path odrl:constraint ;
+        sh:qualifiedValueShape [
+            sh:property [ sh:path odrl:leftOperand ; sh:hasValue odrl:event ] ;
+            sh:property [ sh:path odrl:operator ; sh:hasValue odrl:lt ] ;
+            sh:property [ sh:path odrl:rightOperand ; sh:hasValue odrl:policyUsage ] ;
+        ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "A duty on a CDIF Access permission is an access condition and must carry the constraint odrl:event odrl:lt odrl:policyUsage." ;
+    ] ;
+    .

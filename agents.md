@@ -441,6 +441,7 @@ The JSON Schema `contains` remains a hard failure. JSON Schema has no advisory s
 | `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.1` (**conditional** — non-empty `schema:variableMeasured`; see below) | `CDIFDataDescriptionProfileConformsToShape` |
 | `cdifManifest` | `https://w3id.org/cdif/manifest/1.1` | *(no rules.shacl — JSON Schema only)* |
 | `cdifProvenance` | `https://w3id.org/cdif/provenance/1.1` | *(no rules.shacl — JSON Schema only)* |
+| `cdifAccess` | `https://w3id.org/cdif/access/1.1` (draft, not minted) | `CDIFAccessConformsToShape` (in `conformance.shacl`) |
 | `xasCore` | `https://w3id.org/cdif/xasCore/1.0` | `XasCoreConformsToShape` (XAS mandatory tier) |
 | `xasOptional` | *(none — no conformance claim; see below)* | *(none)* |
 

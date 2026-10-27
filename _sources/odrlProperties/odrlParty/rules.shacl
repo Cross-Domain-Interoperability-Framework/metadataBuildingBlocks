@@ -1,0 +1,52 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:      <http://schema.org/> .
+@prefix odrl:        <http://www.w3.org/ns/odrl/2/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ODRL 2.2 Party and PartyCollection (https://www.w3.org/TR/odrl-model/#party).
+# A schema:Person or schema:Organization in a party role is checked by the
+# person and organization blocks' own shapes.
+
+# A party in a rule or policy role is identified by its IRI. The one exception
+# is a refined PartyCollection (odrl:source + odrl:refinement), which describes
+# a subset of a collection and may be a blank node.
+cdifd:ODRLPartyRoleShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf odrl:assigner, odrl:assignee ;
+    sh:or (
+        [ sh:nodeKind sh:IRI ]
+        [ sh:class odrl:PartyCollection ]
+    ) ;
+    sh:message "The value of odrl:assigner or odrl:assignee must be a party IRI, or an odrl:PartyCollection." ;
+    .
+
+cdifd:ODRLPartyShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Party ;
+    sh:nodeKind sh:IRI ;
+    sh:message "An odrl:Party must be identified by an IRI (@id)." ;
+    .
+
+cdifd:ODRLPartyCollectionShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:PartyCollection ;
+    sh:or (
+        [ sh:nodeKind sh:IRI ]
+        [ sh:path odrl:source ; sh:minCount 1 ]
+    ) ;
+    sh:property [
+        sh:path odrl:source ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "odrl:source of a PartyCollection must be a single IRI: the collection this one is drawn from." ;
+    ] ;
+    sh:or (
+        [ sh:path odrl:refinement ; sh:maxCount 0 ]
+        [ sh:path odrl:source ; sh:minCount 1 ]
+    ) ;
+    sh:message "An odrl:PartyCollection must have an @id IRI or an odrl:source; a refined collection (odrl:refinement) must name its odrl:source." ;
+    .

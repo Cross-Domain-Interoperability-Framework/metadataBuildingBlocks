@@ -1,0 +1,83 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix odrl:        <http://www.w3.org/ns/odrl/2/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ODRL 2.2 Constraint and LogicalConstraint (https://www.w3.org/TR/odrl-model/#constraint).
+# Constraints are rarely typed in instance data, so the shapes target nodes by
+# the properties they carry as well as by class. Operands and operators are
+# open IRIs, as in the JSON Schema: ODRL profile terms validate.
+
+cdifd:ODRLConstraintShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:Constraint ;
+    sh:targetSubjectsOf odrl:leftOperand, odrl:operator, odrl:rightOperand, odrl:rightOperandReference ;
+    sh:property [
+        sh:path odrl:leftOperand ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "An ODRL constraint must have exactly one odrl:leftOperand, given as an IRI (e.g. odrl:spatial)." ;
+    ] ;
+    sh:property [
+        sh:path odrl:operator ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "An ODRL constraint must have exactly one odrl:operator, given as an IRI (e.g. odrl:eq)." ;
+    ] ;
+    sh:or (
+        [ sh:path odrl:rightOperand ; sh:minCount 1 ]
+        [ sh:path odrl:rightOperandReference ; sh:minCount 1 ]
+    ) ;
+    sh:property [
+        sh:path odrl:rightOperandReference ;
+        sh:nodeKind sh:IRI ;
+        sh:message "odrl:rightOperandReference must be an IRI." ;
+    ] ;
+    sh:property [
+        sh:path odrl:dataType ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "odrl:dataType must be a single IRI (e.g. xsd:decimal)." ;
+    ] ;
+    sh:property [
+        sh:path odrl:unit ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "odrl:unit must be a single IRI." ;
+    ] ;
+    sh:message "An ODRL constraint must have an odrl:rightOperand or an odrl:rightOperandReference." ;
+    .
+
+cdifd:ODRLLogicalConstraintShape
+    a sh:NodeShape ;
+    sh:targetClass odrl:LogicalConstraint ;
+    sh:targetSubjectsOf odrl:and, odrl:or, odrl:xone, odrl:andSequence ;
+    sh:xone (
+        [ sh:path odrl:and ; sh:minCount 1 ]
+        [ sh:path odrl:or ; sh:minCount 1 ]
+        [ sh:path odrl:xone ; sh:minCount 1 ]
+        [ sh:path odrl:andSequence ; sh:minCount 1 ]
+    ) ;
+    sh:message "An ODRL logical constraint must use exactly one of odrl:and, odrl:or, odrl:xone or odrl:andSequence." ;
+    .
+
+# What sits in an odrl:constraint or odrl:refinement slot must be one or the
+# other. An {@id} reference with no description in the document is neither,
+# which the JSON Schema also rejects.
+cdifd:ODRLConstraintSlotShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf odrl:constraint, odrl:refinement ;
+    sh:or (
+        [ sh:path odrl:leftOperand ; sh:minCount 1 ]
+        [ sh:path odrl:and ; sh:minCount 1 ]
+        [ sh:path odrl:or ; sh:minCount 1 ]
+        [ sh:path odrl:xone ; sh:minCount 1 ]
+        [ sh:path odrl:andSequence ; sh:minCount 1 ]
+    ) ;
+    sh:message "The value of odrl:constraint or odrl:refinement must be a constraint (odrl:leftOperand, odrl:operator, odrl:rightOperand) or a logical constraint (odrl:and, odrl:or, odrl:xone or odrl:andSequence)." ;
+    .

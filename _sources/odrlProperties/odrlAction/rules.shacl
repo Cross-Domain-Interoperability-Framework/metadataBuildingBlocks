@@ -1,0 +1,25 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix odrl:        <http://www.w3.org/ns/odrl/2/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ODRL 2.2 Action as used in a rule (https://www.w3.org/TR/odrl-model/#action):
+# the action's IRI, or, when the action is narrowed, a node holding the action
+# in rdf:value plus odrl:refinement constraints. Actions are open IRIs, as in
+# the JSON Schema, so ODRL profile actions (e.g. cdifa1:download) validate.
+
+cdifd:ODRLActionShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf odrl:action ;
+    sh:or (
+        [ sh:nodeKind sh:IRI ]
+        [
+            sh:property [ sh:path rdf:value ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+            sh:property [ sh:path odrl:refinement ; sh:minCount 1 ] ;
+        ]
+    ) ;
+    sh:message "The value of odrl:action must be an action IRI (e.g. odrl:use), or a refined action with one rdf:value action IRI and at least one odrl:refinement." ;
+    .
