@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-10-26",
+  "dateOfLastChange": "2026-10-27",
   "link": "https://github.com/usgin/metadataBuildingBlocks",
   "maturity": "draft",
   "scope": "unstable",
@@ -30,7 +30,14 @@
       "link": "https://www.w3.org/TR/odrl-vocab/"
     }
   ],
-  "shaclShapes": {},
+  "shaclShapes": {
+    "cdif.bbr.metadata.odrlProperties.odrlAction": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/odrlProperties/odrlAction/rules.shacl"
+    ],
+    "cdif.bbr.metadata.odrlProperties.odrlConstraint": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/odrlProperties/odrlConstraint/rules.shacl"
+    ]
+  },
   "dependsOn": [
     "cdif.bbr.metadata.odrlProperties.odrlConstraint",
     "cdif.bbr.metadata.odrlProperties.odrlTerms"
@@ -82,7 +89,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: ODRL Action\ndescription: 'An ODRL 2.2 Action (https://www.w3.org/TR/odrl-model/#action) as used\n  in a rule: either a reference to the action ({\"@id\": \"odrl:use\"}), or, when the\n  action itself is narrowed, an object holding the action in rdf:value plus odrl:refinement\n  constraints (e.g. print, at most 1200 dpi). Actions are open IRIs (odrlTerms), so\n  ODRL profile actions validate.'\ntype: object\nproperties:\n  '@context':\n    type: object\n    description: JSON-LD namespace prefixes for ODRL properties.\n    properties:\n      odrl:\n        const: http://www.w3.org/ns/odrl/2/\n      rdf:\n        const: http://www.w3.org/1999/02/22-rdf-syntax-ns#\nanyOf:\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlTerms/schema.yaml#/$defs/Action\n- $ref: '#/$defs/RefinedAction'\n$defs:\n  RefinedAction:\n    type: object\n    properties:\n      rdf:value:\n        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlTerms/schema.yaml#/$defs/Action\n        x-jsonld-id: http://www.w3.org/1999/02/22-rdf-syntax-ns#value\n      odrl:refinement:\n        type: array\n        minItems: 1\n        items:\n          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlConstraint/schema.yaml\n        x-jsonld-id: http://www.w3.org/ns/odrl/2/refinement\n    required:\n    - rdf:value\n    - odrl:refinement\nx-jsonld-prefixes:\n  odrl: http://www.w3.org/ns/odrl/2/\n  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#\n  xsd: http://www.w3.org/2001/XMLSchema#\nx-bblocks-metadata:\n  itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlAction\n  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json\n  version: '0.1'\n  dateOfLastChange: '2026-10-26'\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: ODRL Action\ndescription: 'An ODRL 2.2 Action (https://www.w3.org/TR/odrl-model/#action) as used\n  in a rule: either a reference to the action ({\"@id\": \"odrl:use\"}), or, when the\n  action itself is narrowed, an object holding the action in rdf:value plus odrl:refinement\n  constraints (e.g. print, at most 1200 dpi). Actions are open IRIs (odrlTerms), so\n  ODRL profile actions validate.'\ntype: object\nproperties:\n  '@context':\n    type: object\n    description: JSON-LD namespace prefixes for ODRL properties.\n    properties:\n      odrl:\n        const: http://www.w3.org/ns/odrl/2/\n      rdf:\n        const: http://www.w3.org/1999/02/22-rdf-syntax-ns#\nanyOf:\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlTerms/schema.yaml#/$defs/Action\n- $ref: '#/$defs/RefinedAction'\n$defs:\n  RefinedAction:\n    type: object\n    properties:\n      rdf:value:\n        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlTerms/schema.yaml#/$defs/Action\n        x-jsonld-id: http://www.w3.org/1999/02/22-rdf-syntax-ns#value\n      odrl:refinement:\n        type: array\n        minItems: 1\n        items:\n          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/odrlProperties/odrlConstraint/schema.yaml\n        x-jsonld-id: http://www.w3.org/ns/odrl/2/refinement\n    required:\n    - rdf:value\n    - odrl:refinement\nx-jsonld-prefixes:\n  odrl: http://www.w3.org/ns/odrl/2/\n  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#\n  xsd: http://www.w3.org/2001/XMLSchema#\nx-bblocks-metadata:\n  itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlAction\n  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json\n  version: '0.1'\n  dateOfLastChange: '2026-10-27'\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/odrlProperties/odrlAction"
 }

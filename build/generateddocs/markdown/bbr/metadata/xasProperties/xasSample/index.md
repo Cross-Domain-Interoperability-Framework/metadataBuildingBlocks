@@ -300,31 +300,31 @@ ex:exampleSampel_357h a schema1:Product,
             schema1:propertyID xas:sampleunitcell ;
             schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
         [ a schema1:PropertyValue ;
-            schema1:name "sample mass" ;
-            schema1:propertyID xas:samplemass ;
-            schema1:unitText "mg" ;
-            schema1:value "10" ],
-        [ a schema1:PropertyValue ;
             schema1:name "stoichiometry" ;
             schema1:propertyID xas:samplechemicalcomposition ;
             schema1:value "Na2SeO4" ],
         [ a schema1:PropertyValue ;
+            schema1:name "sample material state" ;
+            schema1:propertyID xas:samplematerial ;
+            schema1:value "solid metal foil" ],
+        [ a schema1:PropertyValue ;
             schema1:name "samplePreparation" ;
             schema1:propertyID xas:samplepreparation ;
             schema1:value "powder on tape, 6 layers" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Parent sample" ;
-            schema1:propertyID xas:parentsample ;
-            schema1:value "igsn:10.3476/342573" ],
         [ a schema1:PropertyValue ;
             schema1:name "porosity" ;
             schema1:propertyID xas:porosity ;
             schema1:unitText "percent" ;
             schema1:value "27" ],
         [ a schema1:PropertyValue ;
-            schema1:name "sample material state" ;
-            schema1:propertyID xas:samplematerial ;
-            schema1:value "solid metal foil" ],
+            schema1:name "Parent sample" ;
+            schema1:propertyID xas:parentsample ;
+            schema1:value "igsn:10.3476/342573" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "sample mass" ;
+            schema1:propertyID xas:samplemass ;
+            schema1:unitText "mg" ;
+            schema1:value "10" ],
         [ a schema1:PropertyValue ;
             schema1:name "crystal point group" ;
             schema1:propertyID xas:pointgroup ;
@@ -417,7 +417,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.xasProperties.xasSample
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-10-26'
+  dateOfLastChange: '2026-10-27'
 
 ```
 

@@ -419,12 +419,7 @@ and three physical-mapping entries.
             schema1:name "countColumns" ;
             schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
             schema1:value 3 ] ;
-    cdif:hasPhysicalMapping [ cdi:isRequired true ;
-            cdi:length 16 ;
-            cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ],
-        [ cdi:nullSequence "NA" ;
+    cdif:hasPhysicalMapping [ cdi:nullSequence "NA" ;
             cdif:format "YYYY-MM-DD" ;
             cdif:formats_InstanceVariable ex:var-date ;
             cdif:index 1 ;
@@ -435,7 +430,12 @@ and three physical-mapping entries.
             cdif:format "#,##0.00" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 2 ;
-            cdif:physicalDataType "Numeric" ] .
+            cdif:physicalDataType "Numeric" ],
+        [ cdi:isRequired true ;
+            cdi:length 16 ;
+            cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ] .
 
 
 ```
@@ -608,7 +608,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifTabularData
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-26'
+  dateOfLastChange: '2026-10-27'
 
 ```
 

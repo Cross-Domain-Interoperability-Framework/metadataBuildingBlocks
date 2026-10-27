@@ -2,7 +2,7 @@
   "title": "Validation report for cdif.bbr.metadata.odrlProperties.odrlConstraint - ODRL Constraint",
   "bblockName": "ODRL Constraint",
   "bblockId": "cdif.bbr.metadata.odrlProperties.odrlConstraint",
-  "generated": "2026-10-26T23:27:33.110441+00:00",
+  "generated": "2026-10-27T00:04:51.468182+00:00",
   "result": true,
   "items": [
     {
@@ -68,6 +68,37 @@
               "message": "ValidationError: ['odrl:Constraint'] does not contain items matching the given schema\n\nFailed validating 'contains' in schema[1]['properties']['@type']:\n    {'contains': {'const': 'odrl:LogicalConstraint'},\n     'items': {'type': 'string'},\n     'type': 'array'}\n\nOn instance['@type']:\n    ['odrl:Constraint']"
             }
           ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/odrlProperties/odrlConstraint/rules.shacl",
+              "graph": "@prefix odrl: <http://www.w3.org/ns/odrl/2/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode [ a odrl:Constraint ;\n                    odrl:operator odrl:eq ;\n                    odrl:rightOperand <http://publications.europa.eu/resource/authority/country/GBR> ] ;\n            sh:resultMessage \"An ODRL constraint must have exactly one odrl:leftOperand, given as an IRI (e.g. odrl:spatial).\" ;\n            sh:resultPath odrl:leftOperand ;\n            sh:resultSeverity sh:Violation ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape [ sh:maxCount 1 ;\n                    sh:message \"An ODRL constraint must have exactly one odrl:leftOperand, given as an IRI (e.g. odrl:spatial).\" ;\n                    sh:minCount 1 ;\n                    sh:nodeKind sh:IRI ;\n                    sh:path odrl:leftOperand ] ] .\n\n",
+              "isError": true,
+              "message": "Validation result for _sources/odrlProperties/odrlConstraint/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Constraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Violation\n  \tSource Shape: [ sh:maxCount Literal(\"1\", datatype=xsd:integer) ; sh:message Literal(\"An ODRL constraint must have exactly one odrl:leftOperand, given as an IRI (e.g. odrl:spatial).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:nodeKind sh:IRI ; sh:path odrl:leftOperand ]\n  \tFocus Node: [ odrl:operator odrl:eq ; odrl:rightOperand <http://publications.europa.eu/resource/authority/country/GBR> ; rdf:type odrl:Constraint ]\n  \tResult Path: odrl:leftOperand\n  \tMessage: An ODRL constraint must have exactly one odrl:leftOperand, given as an IRI (e.g. odrl:spatial).\n  "
+            },
+            {
+              "shaclFile": "_sources/odrlProperties/odrlConstraint/rules.shacl",
+              "focusNodes": {
+                "cdifd:ODRLConstraintShape": {
+                  "nodes": [
+                    "_:N2f1c7284e9024ce9aa036bc3940a7152"
+                  ]
+                },
+                "cdifd:ODRLConstraintSlotShape": {
+                  "nodes": []
+                },
+                "cdifd:ODRLLogicalConstraintShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/odrlProperties/odrlConstraint/rules.shacl:\n - Shape cdifd:ODRLConstraintShape: _:N2f1c7284e9024ce9aa036bc3940a7152\n - Shape cdifd:ODRLConstraintSlotShape: *none*\n - Shape cdifd:ODRLLogicalConstraintShape: *none*\n"
+            }
+          ]
         }
       ]
     },
@@ -121,6 +152,40 @@
               "result": true,
               "isError": false,
               "message": "Validation passed"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/odrlProperties/odrlConstraint/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/odrlProperties/odrlConstraint/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/odrlProperties/odrlConstraint/rules.shacl",
+              "focusNodes": {
+                "cdifd:ODRLConstraintShape": {
+                  "nodes": [
+                    "_:Nc67f335035e04e9d9c22c653b890c505",
+                    "_:Na9a79a09d1474421949c251ad7d5af52"
+                  ]
+                },
+                "cdifd:ODRLConstraintSlotShape": {
+                  "nodes": []
+                },
+                "cdifd:ODRLLogicalConstraintShape": {
+                  "nodes": [
+                    "_:N1b3265391fa24b61a0e546c0ca600a6d"
+                  ]
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/odrlProperties/odrlConstraint/rules.shacl:\n - Shape cdifd:ODRLConstraintShape: _:Nc67f335035e04e9d9c22c653b890c505,_:Na9a79a09d1474421949c251ad7d5af52\n - Shape cdifd:ODRLConstraintSlotShape: *none*\n - Shape cdifd:ODRLLogicalConstraintShape: _:N1b3265391fa24b61a0e546c0ca600a6d\n"
             }
           ]
         }

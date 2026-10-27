@@ -344,7 +344,15 @@ refined to those located in the UK. Illustrative values only.
                             odrl:operator odrl:lteq ;
                             odrl:rightOperand "2027-12-31"^^xsd:date ] ] ;
             odrl:target <https://example.org/dataset/3936/distribution/csv> ] ;
-    odrl:permission [ odrl:action cdifa1:download ;
+    odrl:permission [ odrl:action odrl:use ;
+            odrl:assignee [ a odrl:PartyCollection ;
+                    odrl:refinement [ a odrl:Constraint ;
+                            odrl:leftOperand odrl:spatial ;
+                            odrl:operator odrl:eq ;
+                            odrl:rightOperand <http://publications.europa.eu/resource/authority/country/GBR> ] ;
+                    odrl:source <https://example.org/partycollection/registered-users> ] ;
+            odrl:target <https://example.org/dataset/3936/distribution/csv> ],
+        [ odrl:action cdifa1:download ;
             odrl:constraint [ a odrl:Constraint ;
                     odrl:leftOperand odrl:spatial ;
                     odrl:operator odrl:eq ;
@@ -353,14 +361,6 @@ refined to those located in the UK. Illustrative values only.
                     odrl:constraint [ odrl:leftOperand odrl:event ;
                             odrl:operator odrl:lt ;
                             odrl:rightOperand odrl:policyUsage ] ] ;
-            odrl:target <https://example.org/dataset/3936/distribution/csv> ],
-        [ odrl:action odrl:use ;
-            odrl:assignee [ a odrl:PartyCollection ;
-                    odrl:refinement [ a odrl:Constraint ;
-                            odrl:leftOperand odrl:spatial ;
-                            odrl:operator odrl:eq ;
-                            odrl:rightOperand <http://publications.europa.eu/resource/authority/country/GBR> ] ;
-                    odrl:source <https://example.org/partycollection/registered-users> ] ;
             odrl:target <https://example.org/dataset/3936/distribution/csv> ] ;
     odrl:profile cdifa1:cdifa1.ttl ;
     odrl:prohibition [ odrl:action cdifa1:shareTRECredentials ;
@@ -634,7 +634,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.odrlProperties.odrlOffer
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-26'
+  dateOfLastChange: '2026-10-27'
 
 ```
 
