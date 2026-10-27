@@ -424,7 +424,7 @@ Both are `sh:Violation`. Free-label strings (no colon or don't match the URI sha
 
 **When adding a new required `contains` check for a URI additionalType or propertyID value:** use the `{"@id":}` object shape from the start. When writing a new XAS example: use `{"@id": "xas:foo"}` for all URI values on `schema:propertyID` and `schema:additionalType`. When updating an existing example that pre-dates the policy, convert bare-string CURIEs to `{"@id":}` objects at the same time.
 
-**Framed-example workflow reference.** The `_sources/profiles/cdifCompositeProfile/xasDocument/example_dds_framed.json` file exercises the full XAS-CDIF metadata pattern end-to-end (Dataverse export → CDIF-compliant JSON-LD). It validates against the `xasDocument` composite profile (conformance URI `https://w3id.org/cdif/xasDocument/1.0`). When walking a mapping template through the JSON-LD serialization policy, use this file as the reference — it demonstrates the peer `prov:used` instrument model, the required `xas:analysisevent` typing, the `{"@id":}` form for URI CURIEs, and the `schema:about "element.edge"` / `schema:about "element.symbol"` tagging.
+**Framed-example workflow reference.** The `_sources/profiles/cdifCompositeProfile/xasDocument/example_dds_framed.json` file exercises the full XAS-CDIF metadata pattern end-to-end (Dataverse export → CDIF-compliant JSON-LD). It validates against the `xasDocument` composite profile (conformance URI `https://w3id.org/cdif/xasDocument/1.1`). When walking a mapping template through the JSON-LD serialization policy, use this file as the reference — it demonstrates the peer `prov:used` instrument model, the required `xas:analysisevent` typing, the `{"@id":}` form for URI CURIEs, and the `schema:about "element.edge"` / `schema:about "element.symbol"` tagging.
 
 ## Building Block Conformance URIs
 
@@ -442,7 +442,7 @@ The JSON Schema `contains` remains a hard failure. JSON Schema has no advisory s
 | `cdifManifest` | `https://w3id.org/cdif/manifest/1.1` | *(no rules.shacl — JSON Schema only)* |
 | `cdifProvenance` | `https://w3id.org/cdif/provenance/1.1` | *(no rules.shacl — JSON Schema only)* |
 | `cdifAccess` | `https://w3id.org/cdif/access/1.1` (draft, not minted) | `CDIFAccessConformsToShape` (in `conformance.shacl`) |
-| `xasCore` | `https://w3id.org/cdif/xasCore/1.0` | `XasCoreConformsToShape` (XAS mandatory tier) |
+| `xasCore` | `https://w3id.org/cdif/xasCore/1.1` | `XasCoreConformsToShape` (XAS mandatory tier) |
 | `xasOptional` | *(none — no conformance claim; see below)* | *(none)* |
 
 **URI convention:** Conformance URIs must NOT have a trailing `/` character.
@@ -512,7 +512,7 @@ module. Every other module still pins unconditionally: composing the module *is*
 conformance claim, and the claim it used to make was broken in both of its forms at once.
 
 The JSON Schema pin was a top-level `if`/`then` — *if* the record has `schema:variableMeasured`,
-*then* `xasOptional/1.0` is required — intended to leave a record with no optional content
+*then* `xasOptional/1.1` is required — intended to leave a record with no optional content
 unaffected. But `cdifDataDescription` requires `schema:variableMeasured` **unconditionally**, so the
 guard was always true: the "recommended" tier was mandatory for every `xasDocument`.
 
@@ -538,7 +538,7 @@ the composite — and from the examples that declared it.
 | CDIFDataStructureProfile | `core/1.1` + `data_description/1.1` + `data_structure/1.1` |
 | CDIFcompleteProfile | `core/1.1` + `discovery/1.1` + `data_description/1.1` + `data_structure/1.1` + `manifest/1.1` + `provenance/1.1` |
 | CDIFCodelistProfile | *(no conformsTo constraints — uses SKOS ConceptScheme, not dataset metadata)* |
-| CDIFxasProfile (xasDocument) | `core/1.1` + `discovery/1.1` + `data_description/1.1` + `data_structure/1.1` + `xasCore/1.0` + `xasOptional/1.0` (conformance URI `xasDocument/1.0`) |
+| CDIFxasProfile (xasDocument) | `core/1.1` + `discovery/1.1` + `data_description/1.1` + `data_structure/1.1` + `xasCore/1.1` + `xasOptional/1.1` (conformance URI `xasDocument/1.1`) |
 
 These conformance URIs are distinct from the OGC building block identifiers (`https://w3id.org/cdif/bbr/metadata/...`). Both may appear in a record's conformsTo array.
 
