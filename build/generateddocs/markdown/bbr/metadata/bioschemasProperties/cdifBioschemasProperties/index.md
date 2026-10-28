@@ -243,13 +243,13 @@ ex:software-spectra-eval a schema1:SoftwareApplication ;
 
 [] bios:executesLabProtocol ex:protocol-xrf-soil ;
     bios:parameterValue [ a schema1:PropertyValue ;
-            schema1:name "X-ray tube current" ;
-            schema1:unitText "mA" ;
-            schema1:value 40 ],
-        [ a schema1:PropertyValue ;
             schema1:name "X-ray tube voltage" ;
             schema1:unitText "kV" ;
-            schema1:value 50 ] .
+            schema1:value 50 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "X-ray tube current" ;
+            schema1:unitText "mA" ;
+            schema1:value 40 ] .
 
 
 ```
@@ -717,7 +717,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.bioschemasProperties.cdifBioschemasProperties
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-27'
+  dateOfLastChange: '2026-10-28'
 
 ```
 

@@ -1058,18 +1058,18 @@ each with their own manufacturer/model/properties), relatedLink
 ex:component-gas-chromatograph a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Carrier gas flow rate" ;
+            schema1:propertyID "carrierGasFlow" ;
+            schema1:unitText "mL/min" ;
+            schema1:value 1.5e+00 ],
+        [ a schema1:PropertyValue ;
             schema1:name "Carrier gas" ;
             schema1:propertyID "carrierGas" ;
             schema1:value "Helium" ],
         [ a schema1:PropertyValue ;
             schema1:name "Column" ;
             schema1:propertyID "columnType" ;
-            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Carrier gas flow rate" ;
-            schema1:propertyID "carrierGasFlow" ;
-            schema1:unitText "mL/min" ;
-            schema1:value 1.5e+00 ] ;
+            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ] ;
     schema1:additionalType wd:Q848143 ;
     schema1:description "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -1108,15 +1108,15 @@ ex:component-mass-spectrometer a schema1:Product,
 ex:component-pyrolysis-oven a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Maximum heating rate" ;
-            schema1:propertyID "heatingRate" ;
-            schema1:unitText "°C/ms" ;
-            schema1:value 10 ],
-        [ a schema1:PropertyValue ;
             schema1:name "Maximum temperature" ;
             schema1:propertyID "maxTemperature" ;
             schema1:unitText "°C" ;
-            schema1:value 1300 ] ;
+            schema1:value 1300 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Maximum heating rate" ;
+            schema1:propertyID "heatingRate" ;
+            schema1:unitText "°C/ms" ;
+            schema1:value 10 ] ;
     schema1:additionalType wd:Q3099911 ;
     schema1:description "Flash pyrolysis front-end interface coupled to GC-MS. Flash heats at 10°C/ms to temperatures up to 1300°C. Samples loaded in quartz tubes." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -1128,6 +1128,11 @@ ex:component-pyrolysis-oven a schema1:Product,
 ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Full scan detection limit" ;
+            schema1:propertyID "detectionLimit" ;
+            schema1:unitText "ng" ;
+            schema1:value "sub-nanogram" ],
+        [ a schema1:PropertyValue ;
             schema1:name "MRM target compounds" ;
             schema1:propertyID "mrmCapability" ;
             schema1:value 38 ],
@@ -1142,28 +1147,23 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         [ a schema1:PropertyValue ;
             schema1:name "Full scan m/z range" ;
             schema1:propertyID "scanRange" ;
-            schema1:value "50-500" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Full scan detection limit" ;
-            schema1:propertyID "detectionLimit" ;
-            schema1:unitText "ng" ;
-            schema1:value "sub-nanogram" ] ;
+            schema1:value "50-500" ] ;
     schema1:additionalType wd:Q3099911,
         wd:Q420427 ;
     schema1:alternateName "GSFC Astrobiology Lab Pyrolysis GC-MS System",
         "Py-GC-MS/MS" ;
     schema1:category [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
+            schema1:termCode "Py-GC-MS" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://vocab.nerc.ac.uk/collection/L05/current/> ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/" ;
                     schema1:value "LAB02" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "GCMS" ],
-        [ a schema1:DefinedTerm ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "Py-GC-MS" ] ;
+            schema1:termCode "GCMS" ] ;
     schema1:contributor [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0001-8898-3457> ;
             schema1:roleName "Operator" ],
@@ -1201,11 +1201,6 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
     schema1:name "Pyrolysis-GC-MS/MS System (NASA GSFC Astrobiology Analytical Lab)" ;
     schema1:owner <https://ror.org/0171mag52> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "calibration record" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:name "2023 annual calibration report" ;
-                    schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "publication reporting results from this instrument" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
@@ -1215,7 +1210,12 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
             schema1:target [ a schema1:EntryPoint ;
                     schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
                     schema1:name "TSQ 9000 User Guide" ;
-                    schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ] ] ;
+                    schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "calibration record" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:name "2023 annual calibration report" ;
+                    schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ] ] ;
     schema1:subjectOf ex:metadata-instrument-pygcms-001 ;
     schema1:url "https://science.gsfc.nasa.gov/sed/bio/jason.p.dworkin" ;
     schema1:validFrom "2023-01-15" .
@@ -1839,15 +1839,15 @@ ex:component-autosampler-lab42 a schema1:Thing ;
 ex:instrument-icpms-lab42 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Detection limit (most elements)" ;
-            schema1:propertyID "detectionLimit" ;
-            schema1:unitText "parts per trillion" ;
-            schema1:value "sub-ppt" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Mass range" ;
             schema1:propertyID "massRange" ;
             schema1:unitText "amu" ;
-            schema1:value "2-260" ] ;
+            schema1:value "2-260" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Detection limit (most elements)" ;
+            schema1:propertyID "detectionLimit" ;
+            schema1:unitText "parts per trillion" ;
+            schema1:value "sub-ppt" ] ;
     schema1:additionalType wd:Q223767 ;
     schema1:alternateName "ICP-MS",
         "Lab 42 Quadrupole ICP-MS" ;
@@ -2279,7 +2279,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.schemaorgProperties.instrument
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.2'
-  dateOfLastChange: '2026-10-27'
+  dateOfLastChange: '2026-10-28'
 
 ```
 

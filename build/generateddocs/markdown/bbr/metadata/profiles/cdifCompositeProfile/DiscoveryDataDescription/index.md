@@ -2309,6 +2309,49 @@ ex:YOPx a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:OjHgIDO ;
                     cdif:physicalDataType "float32" ] ],
         [ a cdi:PhysicalDataSet,
+                cdi:TabularTextDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            cdi:commentPrefix "#" ;
+            cdi:delimiter "," ;
+            cdi:hasHeader true ;
+            cdi:headerRowCount 1 ;
+            cdi:isDelimited true ;
+            cdi:quoteCharacter "\"" ;
+            cdi:skipBlankRows true ;
+            cdi:skipRows 0 ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "countRows" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
+                    schema1:value 461 ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "countColumns" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
+                    schema1:value 2 ] ;
+            schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry analysis results" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ;
+            cdif:fileSize 4.6e+00 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 4 ;
+                    cdi:defaultValue "0.0" ;
+                    cdi:isRequired false ;
+                    cdi:nullSequence "-9999" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:OjHgIDO ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "float64" ] ],
+        [ a cdi:PhysicalDataSet,
                 schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
@@ -2331,49 +2374,6 @@ ex:YOPx a schema1:Dataset ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
                     spdx:checksumValue "h" ] ],
-        [ a cdi:PhysicalDataSet,
-                cdi:TabularTextDataSet,
-                schema1:DataDownload ;
-            cdi:characterSet "UTF-8" ;
-            cdi:commentPrefix "#" ;
-            cdi:delimiter "," ;
-            cdi:hasHeader true ;
-            cdi:headerRowCount 1 ;
-            cdi:isDelimited true ;
-            cdi:quoteCharacter "\"" ;
-            cdi:skipBlankRows true ;
-            cdi:skipRows 0 ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "countColumns" ;
-                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
-                    schema1:value 2 ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "countRows" ;
-                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
-                    schema1:value 461 ] ;
-            schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry analysis results" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ;
-            cdif:fileSize 4.6e+00 ;
-            cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
-                    cdi:defaultValue "0.0" ;
-                    cdi:isRequired false ;
-                    cdi:nullSequence "-9999" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:OjHgIDO ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "float64" ] ],
         [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
@@ -2384,10 +2384,6 @@ ex:YOPx a schema1:Dataset ;
                     schema1:object [ a schema1:DataFeed ;
                             schema1:description "Geochemistry observations collection" ] ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of features to return (default 100)" ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
@@ -2395,6 +2391,10 @@ ex:YOPx a schema1:Dataset ;
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination" ;
                             schema1:valueName "offset" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of features to return (default 100)" ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a cdi:PhysicalDataSet,
                                 cdi:TabularTextDataSet,
@@ -2410,15 +2410,15 @@ ex:YOPx a schema1:Dataset ;
                             schema1:name "Geochemistry query results" ;
                             cdif:fileSize 8e-01 ;
                             cdif:fileSizeUofM "MB" ;
-                            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                                    cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
-                                    cdif:index 0 ;
-                                    cdif:physicalDataType "float64" ],
-                                [ cdi:isRequired false ;
+                            cdif:hasPhysicalMapping [ cdi:isRequired false ;
                                     cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable ex:OjHgIDO ;
                                     cdif:index 1 ;
+                                    cdif:physicalDataType "float64" ],
+                                [ cdi:isRequired true ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                                    cdif:index 0 ;
                                     cdif:physicalDataType "float64" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "application/geo+json",
@@ -2436,17 +2436,17 @@ ex:YOPx a schema1:Dataset ;
                     schema1:termCode "ogcapi-features" ] ;
             schema1:termsOfService "Open access, no authentication required" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "lieopgXuumP" ] ;
             schema1:name "fhhbzh" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -2459,20 +2459,20 @@ ex:YOPx a schema1:Dataset ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID ex:rIPXjaCPQX ;
-                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
-                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
-            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
-            schema1:name "MiSqvcp" ;
-            schema1:termCode "bzOl" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://resource.org/identifier> ;
                     schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
                     schema1:value "tdUMYBItIwdJe" ] ;
             schema1:inDefinedTermSet "sqH" ;
             schema1:name "TiMuawt" ;
-            schema1:termCode "RUUxHY" ] ;
+            schema1:termCode "RUUxHY" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID ex:rIPXjaCPQX ;
+                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
+                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
+            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
+            schema1:name "MiSqvcp" ;
+            schema1:termCode "bzOl" ] ;
     schema1:license "Kmp",
         "dXhuFoqL" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
@@ -2488,16 +2488,16 @@ ex:YOPx a schema1:Dataset ;
     schema1:publisher ex:exampleOrg_fW ;
     schema1:publishingPrinciples "rxZsrPAbJrIGGgDVJ" ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "BOoRREnpDEUrdNaV" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "FNoslhw" ;
-                    schema1:name "atsDYJxuhHpivqLmw" ;
-                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:encodingFormat "gompgHAN" ;
                     schema1:name "oAuxEutsTEiB" ;
+                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "BOoRREnpDEUrdNaV" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "FNoslhw" ;
+                    schema1:name "atsDYJxuhHpivqLmw" ;
                     schema1:url "http://example.com/resource?foo=bar#fragment" ] ] ;
     schema1:sameAs [ a schema1:PropertyValue ;
             schema1:propertyID <urn:idorg:test> ;
@@ -2534,6 +2534,11 @@ ex:YOPx a schema1:Dataset ;
         ex:OjHgIDO ;
     schema1:version "OVVAYgJhmFkXyVyedlVo" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://example.org/quality/qartod-pass-rate" ;
+                    schema1:name "QARTOD primary level pass rate" ] ;
+            dqv:value "0.96" ],
+        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf "completeness" ;
             dqv:value "0.987" ],
         [ a dqv:QualityMeasurement ;
@@ -2541,12 +2546,7 @@ ex:YOPx a schema1:Dataset ;
             dqv:value [ a schema1:DefinedTerm ;
                     schema1:identifier "https://example.org/quality/levels/high" ;
                     schema1:name "high accuracy" ;
-                    schema1:termCode "HIGH" ] ],
-        [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://example.org/quality/qartod-pass-rate" ;
-                    schema1:name "QARTOD primary level pass rate" ] ;
-            dqv:value "0.96" ] .
+                    schema1:termCode "HIGH" ] ] .
 
 ex:corzCgjNrGcH a schema1:Organization ;
     schema1:additionalType "schema:NGO" ;
@@ -3356,10 +3356,14 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
             cdif:fileSize 1.846e+02 ;
             cdif:fileSizeUofM "MB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/temperature" ;
-                    cdi:nullSequence "NaN" ;
+                    cdi:locator "/lon" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:formats_InstanceVariable ex:var-lon ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/depth" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-depth ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
                     cdi:locator "/time" ;
@@ -3367,19 +3371,15 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-time ;
                     cdif:physicalDataType "int32" ],
                 [ cdi:isRequired true ;
-                    cdi:locator "/lon" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-lon ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
                     cdi:locator "/lat" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-lat ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
-                    cdi:locator "/depth" ;
+                    cdi:locator "/temperature" ;
+                    cdi:nullSequence "NaN" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-depth ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
                     cdif:physicalDataType "float32" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
@@ -4320,6 +4320,11 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
             cdif:fileSize 312 ;
             cdif:fileSizeUofM "KB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-station ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:isRequired true ;
                     cdif:format "YYYY-MM-DD" ;
                     cdif:formats_InstanceVariable ex:var-sample-date ;
                     cdif:index 1 ;
@@ -4327,14 +4332,14 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
                 [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-oxygen ;
-                    cdif:index 5 ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:index 3 ;
                     cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 3 ;
+                [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-salinity ;
-                    cdif:index 4 ;
+                    cdif:formats_InstanceVariable ex:var-oxygen ;
+                    cdif:index 5 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
@@ -4342,17 +4347,12 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-ph ;
                     cdif:index 2 ;
                     cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 2 ;
+                [ cdi:decimalPositions 3 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-temperature ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:isRequired true ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-station ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ] ] ;
+                    cdif:formats_InstanceVariable ex:var-salinity ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "float64" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.5281/zenodo.5151515" ;
@@ -5332,14 +5332,14 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
                     spdx:checksumValue "8b1a7c3e5d9f0a2b4c6d8e0f1a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b" ] ;
             cdif:fileSize 712 ;
             cdif:fileSizeUofM "KB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdif:format "YYYY-MM-DD" ;
-                    cdif:formats_InstanceVariable ex:var-sample-date ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "date" ],
-                [ cdif:format "string" ;
+            cdif:hasPhysicalMapping [ cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-unit ;
                     cdif:index 4 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:isRequired true ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-parameter ;
+                    cdif:index 2 ;
                     cdif:physicalDataType "string" ],
                 [ cdi:isRequired true ;
                     cdi:nullSequence "NA" ;
@@ -5348,10 +5348,10 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
                     cdif:index 3 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:isRequired true ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-parameter ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "string" ],
+                    cdif:format "YYYY-MM-DD" ;
+                    cdif:formats_InstanceVariable ex:var-sample-date ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "date" ],
                 [ cdi:isRequired true ;
                     cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-station ;
@@ -5509,6 +5509,2481 @@ ex:var-value a cdi:InstanceVariable,
 
 ```
 
+
+### Minimal conforming record.
+The least a record can carry and still conform: name, identifier,
+dateModified, license, url, one InstanceVariable, and a catalog record
+declaring core, discovery and data_description. Useful as the floor when
+checking whether a constraint is really required.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "ex": "https://example.org/",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@id": "ex:dataset/snowDepth-2024",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Snow depth in Northern Arizona, water year 2024",
+  "schema:identifier": "https://doi.org/10.1234/snowdepth-az-2024",
+  "schema:dateModified": "2024-10-15",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:url": "https://example.org/datasets/snowdepth-az-2024",
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var/snowDepth",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "snow_depth",
+      "schema:propertyID": [
+        {
+          "@id": "https://qudt.org/vocab/quantitykind/Depth"
+        }
+      ],
+      "schema:unitText": "cm"
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:dataset/snowDepth-2024/metadata",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "schema:about": {
+      "@id": "ex:dataset/snowDepth-2024"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "spdx": "http://spdx.org/rdf/terms#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "ex": "https://example.org/",
+      "prov": "http://www.w3.org/ns/prov#"
+    }
+  ],
+  "@id": "ex:dataset/snowDepth-2024",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Snow depth in Northern Arizona, water year 2024",
+  "schema:identifier": "https://doi.org/10.1234/snowdepth-az-2024",
+  "schema:dateModified": "2024-10-15",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:url": "https://example.org/datasets/snowdepth-az-2024",
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var/snowDepth",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "snow_depth",
+      "schema:propertyID": [
+        {
+          "@id": "https://qudt.org/vocab/quantitykind/Depth"
+        }
+      ],
+      "schema:unitText": "cm"
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:dataset/snowDepth-2024/metadata",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "schema:about": {
+      "@id": "ex:dataset/snowDepth-2024"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema1: <http://schema.org/> .
+
+<https://example.org/dataset/snowDepth-2024> a schema1:Dataset ;
+    schema1:dateModified "2024-10-15" ;
+    schema1:identifier "https://doi.org/10.1234/snowdepth-az-2024" ;
+    schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
+    schema1:name "Snow depth in Northern Arizona, water year 2024" ;
+    schema1:subjectOf <https://example.org/dataset/snowDepth-2024/metadata> ;
+    schema1:url "https://example.org/datasets/snowdepth-az-2024" ;
+    schema1:variableMeasured <https://example.org/var/snowDepth> .
+
+<https://example.org/dataset/snowDepth-2024/metadata> a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
+        <https://w3id.org/cdif/data_description/1.1>,
+        <https://w3id.org/cdif/discovery/1.1> ;
+    schema1:about <https://example.org/dataset/snowDepth-2024> ;
+    schema1:additionalType dcat:CatalogRecord .
+
+<https://example.org/var/snowDepth> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "snow_depth" ;
+    schema1:propertyID <https://qudt.org/vocab/quantitykind/Depth> ;
+    schema1:unitText "cm" .
+
+
+```
+
+
+### Complete record, every optional slice populated.
+Daily air temperature for Flagstaff, Arizona. Exercises the optional half of
+the profile that the other examples leave out: agents (creator, contributor,
+publisher, provider, funding), spatial and temporal coverage, quality
+measurements, provenance (prov:wasGeneratedBy, prov:wasDerivedFrom),
+cdif:hasPrimaryKey and cdif:statistics, and two distributions -- a delimited
+cdi:TabularTextDataSet with checksum and a cdi:StructuredDataSet -- each with
+its own cdif:hasPhysicalMapping.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "time": "http://www.w3.org/2006/time#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "ex:dataset/airTemperatureFlagstaff-2024",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Daily air temperature observations, Flagstaff Arizona, 2024",
+  "schema:description": "Daily mean, min, and max air temperature measured at the Flagstaff Pulliam Airport weather station for the 2024 calendar year. Quality-controlled hourly observations are aggregated to daily summaries. This 'Complete' example is intended to exercise every Data Description profile property at least once.",
+  "schema:additionalType": [
+    "https://www.wikidata.org/wiki/Q47652734"
+  ],
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": {
+      "@id": "https://doi.org"
+    },
+    "schema:value": "10.1234/airtemp-flg-2024",
+    "schema:url": "https://doi.org/10.1234/airtemp-flg-2024"
+  },
+  "schema:sameAs": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "urn:noaa-ghcnd:station-id"
+      },
+      "schema:value": "USW00003103",
+      "schema:url": "https://www.ncei.noaa.gov/access/services/data/v1?stations=USW00003103"
+    }
+  ],
+  "schema:version": "1.2",
+  "schema:url": "https://example.org/datasets/airtemp-flg-2024",
+  "schema:inLanguage": "en",
+  "schema:dateModified": "2024-12-31",
+  "schema:datePublished": "2025-01-15",
+  "schema:conditionsOfAccess": [
+    "Open access; no registration required."
+  ],
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:keywords": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Air temperature",
+      "schema:termCode": "AirTemp",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/P02/current/"
+        },
+        "schema:value": "AirTemp",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/CTMP/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P02/current/"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Climate observation",
+      "schema:termCode": "CLIMOBS",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/L05/current/"
+        },
+        "schema:value": "CLIMOBS",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/CLIMOBS/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+    },
+    "weather",
+    "Flagstaff"
+  ],
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:LinkRole"
+      ],
+      "schema:linkRelationship": "describedby",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:name": "Station metadata sheet (USW00003103)",
+        "schema:url": "https://www.ncei.noaa.gov/access/homr/file/USW00003103.station.html",
+        "schema:encodingFormat": "text/html"
+      }
+    }
+  ],
+  "schema:publishingPrinciples": [
+    {
+      "@type": [
+        "schema:CreativeWork",
+        "dcat:Relationship"
+      ],
+      "schema:name": "FAIR data policy",
+      "schema:url": "https://example.org/policy/fair-policy.html",
+      "schema:description": "Institutional FAIR data policy referenced by this catalog."
+    }
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-7933-2154",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Richard, Stephen M.",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
+          "schema:value": "0000-0002-7933-2154",
+          "schema:url": "https://orcid.org/0000-0002-7933-2154"
+        },
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "smr@example.org"
+        }
+      }
+    ]
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Curator",
+        "schema:inDefinedTermSet": "https://credit.niso.org/",
+        "schema:termCode": "data-curation"
+      },
+      "schema:contributor": {
+        "@id": "https://orcid.org/0000-0001-8898-3457",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Mojarro, Angel",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
+          "schema:value": "0000-0001-8898-3457",
+          "schema:url": "https://orcid.org/0000-0001-8898-3457"
+        }
+      }
+    }
+  ],
+  "schema:publisher": {
+    "@id": "https://ror.org/0171mag52",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Northern Arizona University, Earth Science Data Archive",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
+      "schema:value": "0171mag52",
+      "schema:url": "https://ror.org/0171mag52"
+    }
+  },
+  "schema:provider": [
+    {
+      "@id": "https://ror.org/0171mag52",
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Northern Arizona University, Earth Science Data Archive",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://ror.org"
+        },
+        "schema:value": "0171mag52",
+        "schema:url": "https://ror.org/0171mag52"
+      }
+    }
+  ],
+  "schema:funding": [
+    {
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "@id": "ex:grant/nsf-EAR-1234567",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://www.nsf.gov/awardsearch"
+        },
+        "schema:value": "EAR-1234567",
+        "schema:url": "https://www.nsf.gov/awardsearch/showAward?AWD_ID=1234567"
+      },
+      "schema:name": "NSF Award EAR-1234567",
+      "schema:funder": {
+        "@id": "https://ror.org/021nxhr62",
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "National Science Foundation",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": {
+            "@id": "https://ror.org"
+          },
+          "schema:value": "021nxhr62",
+          "schema:url": "https://ror.org/021nxhr62"
+        }
+      }
+    }
+  ],
+  "schema:measurementTechnique": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Resistance temperature detector",
+      "schema:termCode": "RTD",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://www.wikidata.org/wiki/"
+        },
+        "schema:value": "RTD",
+        "schema:url": "https://www.wikidata.org/wiki/Q1377889"
+      },
+      "schema:inDefinedTermSet": "https://www.wikidata.org/wiki/"
+    }
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:geo": {
+        "@type": [
+          "schema:GeoCoordinates"
+        ],
+        "schema:latitude": 35.1383,
+        "schema:longitude": -111.6707
+      },
+      "schema:name": "Flagstaff Pulliam Airport, Arizona, USA"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2024-01-01/2024-12-31"
+  ],
+  "dqv:hasQualityMeasurement": [
+    {
+      "@type": [
+        "dqv:QualityMeasurement"
+      ],
+      "@id": "ex:qm/completeness-2024",
+      "dqv:isMeasurementOf": {
+        "@id": "ex:metric/temporalCompleteness"
+      },
+      "dqv:value": "0.998",
+      "schema:description": "Fraction of expected daily observations present in 2024."
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:PhysicalDataSet",
+        "cdi:TabularTextDataSet"
+      ],
+      "@id": "ex:dist/airtemp-flg-2024.csv",
+      "schema:name": "airtemp-flg-2024.csv",
+      "schema:description": "Daily air temperature observations as delimited CSV text.",
+      "schema:contentUrl": "https://example.org/downloads/airtemp-flg-2024.csv",
+      "schema:contentSize": "421888",
+      "schema:encodingFormat": [
+        "text/csv"
+      ],
+      "cdi:isDelimited": true,
+      "cdi:delimiter": ",",
+      "cdi:hasHeader": true,
+      "cdi:headerRowCount": 1,
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "spdx:checksumAlgorithm_sha256",
+        "spdx:checksumValue": "9a4ee2f7ba1b3c1d5a6f7b0e2f3a4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d"
+      },
+      "dcterms:conformsTo": [
+        {
+          "@id": "https://example.org/schemas/airtemp.csvw.json"
+        }
+      ],
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 0,
+          "cdif:format": "YYYY-MM-DD",
+          "cdif:physicalDataType": "date",
+          "cdi:length": 10,
+          "cdi:isRequired": true,
+          "cdif:displayLabel": "Observation date",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/observationDate"
+          }
+        },
+        {
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:numberPattern": "#,##0.0",
+          "cdi:defaultDecimalSeparator": ".",
+          "cdi:defaultDigitGroupSeparator": ",",
+          "cdi:length": 7,
+          "cdi:minimumLength": 1,
+          "cdi:maximumLength": 7,
+          "cdi:scale": 1,
+          "cdi:decimalPositions": 1,
+          "cdi:defaultValue": "",
+          "cdi:nullSequence": "NA",
+          "cdi:isRequired": true,
+          "cdif:displayLabel": "Daily mean temperature (degC)",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMeanTemperature"
+          }
+        },
+        {
+          "cdif:index": 2,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMinTemperature"
+          }
+        },
+        {
+          "cdif:index": 3,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMaxTemperature"
+          }
+        },
+        {
+          "cdif:index": 4,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
+          "cdi:nullSequence": "",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/qcFlag"
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:PhysicalDataSet",
+        "cdi:StructuredDataSet"
+      ],
+      "@id": "ex:dist/airtemp-flg-2024.nc",
+      "schema:name": "airtemp-flg-2024.nc",
+      "schema:description": "Same observations packaged as a NetCDF-4 (HDF5) structured dataset; variables addressed by group/array path.",
+      "schema:contentUrl": "https://example.org/downloads/airtemp-flg-2024.nc",
+      "schema:contentSize": "528412",
+      "schema:encodingFormat": [
+        "application/x-netcdf"
+      ],
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdi:locator": "/time",
+          "cdif:physicalDataType": "int64",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/observationDate"
+          }
+        },
+        {
+          "cdi:locator": "/measurements/tavg",
+          "cdif:physicalDataType": "float64",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMeanTemperature"
+          }
+        },
+        {
+          "cdi:locator": "/measurements/tmin",
+          "cdif:physicalDataType": "float64",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMinTemperature"
+          }
+        },
+        {
+          "cdi:locator": "/measurements/tmax",
+          "cdif:physicalDataType": "float64",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMaxTemperature"
+          }
+        }
+      ]
+    }
+  ],
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "prov:Activity"
+      ],
+      "@id": "ex:act/aggregation-2024",
+      "prov:used": [
+        {
+          "@id": "ex:tool/noaa-aggregator"
+        }
+      ]
+    }
+  ],
+  "prov:wasDerivedFrom": [
+    {
+      "@type": [
+        "schema:CreativeWork",
+        "dcat:Relationship"
+      ],
+      "schema:name": "NOAA Integrated Surface Database, hourly observations 2024",
+      "schema:url": "https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database",
+      "schema:description": "Source archive for the hourly inputs to this dataset."
+    }
+  ],
+  "cdif:hasPrimaryKey": {
+    "@id": "ex:key/airtemp-flg-2024",
+    "@type": [
+      "cdif:Key"
+    ],
+    "cdif:isComposedOf": [
+      {
+        "@id": "ex:keycomp/observationDate",
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var/observationDate"
+        },
+        "cdi:value": 1
+      }
+    ]
+  },
+  "cdif:statistics": [
+    {
+      "@id": "ex:stats/dataset-rowcount",
+      "@type": [
+        "cdi:Statistics"
+      ],
+      "cdif:typeOfStatistic": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Row count",
+        "schema:termCode": "count",
+        "schema:inDefinedTermSet": "https://ddialliance.org/vocab/statistic-types"
+      },
+      "cdi:statistic": [
+        {
+          "cdi:computationBase": "Total",
+          "cdi:content": 366,
+          "cdi:isWeighted": false,
+          "cdi:typeOfNumericValue": "decimal"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var/observationDate",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "obs_date",
+      "schema:description": "ISO 8601 calendar date for the daily observation.",
+      "schema:alternateName": [
+        "date",
+        "observation_date"
+      ],
+      "schema:propertyID": [
+        {
+          "@id": "http://purl.obolibrary.org/obo/NCIT_C25164"
+        }
+      ],
+      "cdif:role": "UnitIdentifier",
+      "cdif:physicalDataType": "date",
+      "cdif:hasIntendedDataType": "xsd:date",
+      "cdif:function": [
+        "temporalDesignation"
+      ],
+      "cdif:uses": [
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Date",
+          "schema:inDefinedTermSet": "http://purl.obolibrary.org/obo/",
+          "schema:termCode": "NCIT_C25164"
+        }
+      ]
+    },
+    {
+      "@id": "ex:var/dailyMeanTemperature",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "tavg",
+      "schema:description": "Daily mean air temperature, degrees Celsius.",
+      "schema:alternateName": [
+        "mean_temp",
+        "tavg"
+      ],
+      "schema:propertyID": [
+        {
+          "@id": "https://qudt.org/vocab/quantitykind/Temperature"
+        }
+      ],
+      "schema:measurementTechnique": "Aggregation of QC'd hourly RTD observations to a daily mean.",
+      "schema:unitText": "degC",
+      "schema:unitCode": "CEL",
+      "schema:minValue": -22.4,
+      "schema:maxValue": 31.7,
+      "cdif:role": "Measure",
+      "cdif:physicalDataType": "float64",
+      "cdif:simpleUnitOfMeasure": "degree Celsius",
+      "cdif:hasIntendedDataType": "xsd:decimal",
+      "cdif:describedUnitOfMeasure": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "degree Celsius",
+        "schema:termCode": "CEL",
+        "schema:inDefinedTermSet": "https://qudt.org/vocab/unit/"
+      },
+      "cdif:platformType": "R statistical environment, v4.3",
+      "cdif:source": "Aggregated from NOAA ISD hourly air temperature.",
+      "cdif:uses": [
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Air temperature",
+          "schema:inDefinedTermSet": "https://qudt.org/vocab/quantitykind/",
+          "schema:termCode": "Temperature"
+        }
+      ],
+      "cdif:isDescribedBy_StatisticsCollection": {
+        "@id": "ex:statcoll/tavg",
+        "@type": [
+          "cdi:StatisticsCollection"
+        ],
+        "cdi:hasWeight": {
+          "@id": "ex:var/dailyMeanTemperature"
+        },
+        "cdif:has_Statistics": [
+          {
+            "@id": "ex:stats/tavg-count",
+            "@type": [
+              "cdi:Statistics"
+            ],
+            "cdif:typeOfStatistic": {
+              "@type": [
+                "schema:DefinedTerm"
+              ],
+              "schema:name": "Valid observations",
+              "schema:termCode": "count",
+              "schema:inDefinedTermSet": "https://ddialliance.org/vocab/statistic-types"
+            },
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 366,
+                "cdi:isWeighted": false,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ],
+            "cdif:has_CategoryStatistics": [
+              {
+                "@id": "ex:catstat/tavg-byMonth-jan",
+                "@type": [
+                  "cdi:CategoryStatistics"
+                ],
+                "cdi:for": {
+                  "@type": [
+                    "cdi:Category"
+                  ],
+                  "cdif:name": [
+                    "January"
+                  ],
+                  "cdif:definition": "Observations in calendar month January.",
+                  "cdif:displayLabel": [
+                    "Jan"
+                  ],
+                  "cdif:descriptiveText": "Month 01 of the observation year."
+                },
+                "cdif:typeOfStatistic": {
+                  "@type": [
+                    "schema:DefinedTerm"
+                  ],
+                  "schema:name": "Mean",
+                  "schema:termCode": "mean"
+                },
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": -3.2,
+                    "cdi:isWeighted": false,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "ex:stats/tavg-meanstddev",
+            "@type": [
+              "cdi:Statistics"
+            ],
+            "cdif:typeOfStatistic": {
+              "@type": [
+                "schema:DefinedTerm"
+              ],
+              "schema:name": "Standard deviation",
+              "schema:termCode": "stdDev"
+            },
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 9.84,
+                "cdi:isWeighted": false,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          }
+        ]
+      },
+      "cdi:takesSubstantiveValuesFrom": {
+        "@id": "ex:vd/temperature-substantive",
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:displayLabel": "Air temperature in degrees Celsius",
+        "cdif:recommendedDataType": [
+          "xsd:decimal"
+        ],
+        "cdi:isDescribedBy": {
+          "@id": "ex:vacd/temperature",
+          "@type": [
+            "cdi:ValueAndConceptDescription"
+          ],
+          "cdi:classificationLevel": "Interval",
+          "cdi:description": "Real-valued air temperature in degrees Celsius within plausible surface bounds.",
+          "cdif:identifier": {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": {
+              "@id": "https://example.org/vacd"
+            },
+            "schema:value": "temperature-degC",
+            "schema:url": "https://example.org/vacd/temperature-degC"
+          },
+          "cdif:formatPattern": "#,##0.0",
+          "cdif:logicalExpression": "all reals x such that -90 <= x <= 60",
+          "cdif:regularExpression": "^-?\\d{1,2}(\\.\\d)?$",
+          "cdi:minimumValueInclusive": "-90.0",
+          "cdi:minimumValueExclusive": "-273.15",
+          "cdi:maximumValueInclusive": "60.0",
+          "cdi:maximumValueExclusive": "100.0"
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
+        {
+          "@id": "ex:vd/temperature-sentinel",
+          "@type": [
+            "cdif:SentinelValueDomain"
+          ],
+          "cdif:displayLabel": "Missing-value codes for temperature",
+          "cdif:recommendedDataType": [
+            "xsd:string"
+          ],
+          "cdif:takesValuesFrom": {
+            "@id": "ex:enum/missingCodes",
+            "@type": [
+              "cdif:EnumerationDomain"
+            ],
+            "schema:name": "Temperature missing-value codes",
+            "cdif:purpose": "Distinguish absent observations from valid measurements.",
+            "cdif:identifier": {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": {
+                "@id": "https://example.org/codelists"
+              },
+              "schema:value": "missingCodes",
+              "schema:url": "https://example.org/codelists/missingCodes"
+            },
+            "cdif:references": {
+              "@id": "https://example.org/codelists/missingCodes/scheme"
+            }
+          },
+          "cdi:isDescribedBy": {
+            "@id": "ex:vacd/temperature-sentinel",
+            "@type": [
+              "cdi:ValueAndConceptDescription"
+            ],
+            "cdi:classificationLevel": "Nominal",
+            "cdi:description": "Sentinel codes used in the source file for missing or suspect values."
+          }
+        }
+      ]
+    },
+    {
+      "@id": "ex:var/dailyMinTemperature",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "tmin",
+      "schema:description": "Daily minimum air temperature, degrees Celsius.",
+      "schema:alternateName": [
+        "min_temp",
+        "tmin"
+      ],
+      "schema:propertyID": [
+        {
+          "@id": "https://qudt.org/vocab/quantitykind/Temperature"
+        }
+      ],
+      "schema:unitText": "degC",
+      "schema:unitCode": "CEL",
+      "schema:minValue": -28.1,
+      "schema:maxValue": 24.6,
+      "cdif:role": "Measure",
+      "cdif:physicalDataType": "float64",
+      "cdif:hasIntendedDataType": "xsd:decimal"
+    },
+    {
+      "@id": "ex:var/dailyMaxTemperature",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "tmax",
+      "schema:description": "Daily maximum air temperature, degrees Celsius.",
+      "schema:alternateName": [
+        "max_temp",
+        "tmax"
+      ],
+      "schema:propertyID": [
+        {
+          "@id": "https://qudt.org/vocab/quantitykind/Temperature"
+        }
+      ],
+      "schema:unitText": "degC",
+      "schema:unitCode": "CEL",
+      "schema:minValue": -15.3,
+      "schema:maxValue": 38.9,
+      "cdif:role": "Measure",
+      "cdif:physicalDataType": "float64",
+      "cdif:hasIntendedDataType": "xsd:decimal"
+    },
+    {
+      "@id": "ex:var/qcFlag",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qc_flag",
+      "schema:description": "Quality-control flag qualifying the daily mean temperature value.",
+      "schema:propertyID": [
+        {
+          "@id": "https://example.org/props/qcFlag"
+        }
+      ],
+      "cdif:role": "Attribute",
+      "cdif:physicalDataType": "string",
+      "cdif:hasIntendedDataType": "xsd:string",
+      "cdif:qualifies": {
+        "@id": "ex:var/dailyMeanTemperature"
+      },
+      "cdif:platformType": "R statistical environment, v4.3",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@id": "ex:vd/qcFlag-substantive",
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:displayLabel": "QC flag codes",
+        "cdif:recommendedDataType": [
+          "xsd:string"
+        ],
+        "cdif:takesValuesFrom": {
+          "@id": "ex:enum/qcFlags",
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "schema:name": "QC flag code list",
+          "cdif:purpose": "Quality-control flags applied to daily aggregates.",
+          "cdif:identifier": {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": {
+              "@id": "https://example.org/codelists"
+            },
+            "schema:value": "qcFlags",
+            "schema:url": "https://example.org/codelists/qcFlags"
+          },
+          "cdif:references": {
+            "@id": "https://example.org/codelists/qcFlags/scheme"
+          }
+        }
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:dataset/airTemperatureFlagstaff-2024/metadata",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "schema:name": "Catalog record for airtemp-flg-2024",
+    "schema:dateModified": "2025-01-15",
+    "schema:about": {
+      "@id": "ex:dataset/airTemperatureFlagstaff-2024"
+    },
+    "schema:creator": {
+      "@list": [
+        {
+          "@id": "https://orcid.org/0000-0002-7933-2154",
+          "@type": [
+            "schema:Person"
+          ],
+          "schema:name": "Richard, Stephen M.",
+          "schema:identifier": {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": {
+              "@id": "https://orcid.org"
+            },
+            "schema:value": "0000-0002-7933-2154",
+            "schema:url": "https://orcid.org/0000-0002-7933-2154"
+          }
+        }
+      ]
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "spdx": "http://spdx.org/rdf/terms#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "geosparql": "http://www.opengis.net/ont/geosparql#",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "dqv": "http://www.w3.org/ns/dqv#",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "time": "http://www.w3.org/2006/time#",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "prov": "http://www.w3.org/ns/prov#",
+      "ex": "https://example.org/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    }
+  ],
+  "@id": "ex:dataset/airTemperatureFlagstaff-2024",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Daily air temperature observations, Flagstaff Arizona, 2024",
+  "schema:description": "Daily mean, min, and max air temperature measured at the Flagstaff Pulliam Airport weather station for the 2024 calendar year. Quality-controlled hourly observations are aggregated to daily summaries. This 'Complete' example is intended to exercise every Data Description profile property at least once.",
+  "schema:additionalType": [
+    "https://www.wikidata.org/wiki/Q47652734"
+  ],
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": {
+      "@id": "https://doi.org"
+    },
+    "schema:value": "10.1234/airtemp-flg-2024",
+    "schema:url": "https://doi.org/10.1234/airtemp-flg-2024"
+  },
+  "schema:sameAs": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "urn:noaa-ghcnd:station-id"
+      },
+      "schema:value": "USW00003103",
+      "schema:url": "https://www.ncei.noaa.gov/access/services/data/v1?stations=USW00003103"
+    }
+  ],
+  "schema:version": "1.2",
+  "schema:url": "https://example.org/datasets/airtemp-flg-2024",
+  "schema:inLanguage": "en",
+  "schema:dateModified": "2024-12-31",
+  "schema:datePublished": "2025-01-15",
+  "schema:conditionsOfAccess": [
+    "Open access; no registration required."
+  ],
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:keywords": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Air temperature",
+      "schema:termCode": "AirTemp",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/P02/current/"
+        },
+        "schema:value": "AirTemp",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/CTMP/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P02/current/"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Climate observation",
+      "schema:termCode": "CLIMOBS",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/L05/current/"
+        },
+        "schema:value": "CLIMOBS",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/CLIMOBS/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+    },
+    "weather",
+    "Flagstaff"
+  ],
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:LinkRole"
+      ],
+      "schema:linkRelationship": "describedby",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:name": "Station metadata sheet (USW00003103)",
+        "schema:url": "https://www.ncei.noaa.gov/access/homr/file/USW00003103.station.html",
+        "schema:encodingFormat": "text/html"
+      }
+    }
+  ],
+  "schema:publishingPrinciples": [
+    {
+      "@type": [
+        "schema:CreativeWork",
+        "dcat:Relationship"
+      ],
+      "schema:name": "FAIR data policy",
+      "schema:url": "https://example.org/policy/fair-policy.html",
+      "schema:description": "Institutional FAIR data policy referenced by this catalog."
+    }
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0002-7933-2154",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Richard, Stephen M.",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
+          "schema:value": "0000-0002-7933-2154",
+          "schema:url": "https://orcid.org/0000-0002-7933-2154"
+        },
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "smr@example.org"
+        }
+      }
+    ]
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Curator",
+        "schema:inDefinedTermSet": "https://credit.niso.org/",
+        "schema:termCode": "data-curation"
+      },
+      "schema:contributor": {
+        "@id": "https://orcid.org/0000-0001-8898-3457",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Mojarro, Angel",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
+          "schema:value": "0000-0001-8898-3457",
+          "schema:url": "https://orcid.org/0000-0001-8898-3457"
+        }
+      }
+    }
+  ],
+  "schema:publisher": {
+    "@id": "https://ror.org/0171mag52",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Northern Arizona University, Earth Science Data Archive",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
+      "schema:value": "0171mag52",
+      "schema:url": "https://ror.org/0171mag52"
+    }
+  },
+  "schema:provider": [
+    {
+      "@id": "https://ror.org/0171mag52",
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Northern Arizona University, Earth Science Data Archive",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://ror.org"
+        },
+        "schema:value": "0171mag52",
+        "schema:url": "https://ror.org/0171mag52"
+      }
+    }
+  ],
+  "schema:funding": [
+    {
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "@id": "ex:grant/nsf-EAR-1234567",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://www.nsf.gov/awardsearch"
+        },
+        "schema:value": "EAR-1234567",
+        "schema:url": "https://www.nsf.gov/awardsearch/showAward?AWD_ID=1234567"
+      },
+      "schema:name": "NSF Award EAR-1234567",
+      "schema:funder": {
+        "@id": "https://ror.org/021nxhr62",
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "National Science Foundation",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": {
+            "@id": "https://ror.org"
+          },
+          "schema:value": "021nxhr62",
+          "schema:url": "https://ror.org/021nxhr62"
+        }
+      }
+    }
+  ],
+  "schema:measurementTechnique": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Resistance temperature detector",
+      "schema:termCode": "RTD",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://www.wikidata.org/wiki/"
+        },
+        "schema:value": "RTD",
+        "schema:url": "https://www.wikidata.org/wiki/Q1377889"
+      },
+      "schema:inDefinedTermSet": "https://www.wikidata.org/wiki/"
+    }
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:geo": {
+        "@type": [
+          "schema:GeoCoordinates"
+        ],
+        "schema:latitude": 35.1383,
+        "schema:longitude": -111.6707
+      },
+      "schema:name": "Flagstaff Pulliam Airport, Arizona, USA"
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2024-01-01/2024-12-31"
+  ],
+  "dqv:hasQualityMeasurement": [
+    {
+      "@type": [
+        "dqv:QualityMeasurement"
+      ],
+      "@id": "ex:qm/completeness-2024",
+      "dqv:isMeasurementOf": {
+        "@id": "ex:metric/temporalCompleteness"
+      },
+      "dqv:value": "0.998",
+      "schema:description": "Fraction of expected daily observations present in 2024."
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:PhysicalDataSet",
+        "cdi:TabularTextDataSet"
+      ],
+      "@id": "ex:dist/airtemp-flg-2024.csv",
+      "schema:name": "airtemp-flg-2024.csv",
+      "schema:description": "Daily air temperature observations as delimited CSV text.",
+      "schema:contentUrl": "https://example.org/downloads/airtemp-flg-2024.csv",
+      "schema:contentSize": "421888",
+      "schema:encodingFormat": [
+        "text/csv"
+      ],
+      "cdi:isDelimited": true,
+      "cdi:delimiter": ",",
+      "cdi:hasHeader": true,
+      "cdi:headerRowCount": 1,
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "spdx:checksumAlgorithm_sha256",
+        "spdx:checksumValue": "9a4ee2f7ba1b3c1d5a6f7b0e2f3a4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d"
+      },
+      "dcterms:conformsTo": [
+        {
+          "@id": "https://example.org/schemas/airtemp.csvw.json"
+        }
+      ],
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 0,
+          "cdif:format": "YYYY-MM-DD",
+          "cdif:physicalDataType": "date",
+          "cdi:length": 10,
+          "cdi:isRequired": true,
+          "cdif:displayLabel": "Observation date",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/observationDate"
+          }
+        },
+        {
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:numberPattern": "#,##0.0",
+          "cdi:defaultDecimalSeparator": ".",
+          "cdi:defaultDigitGroupSeparator": ",",
+          "cdi:length": 7,
+          "cdi:minimumLength": 1,
+          "cdi:maximumLength": 7,
+          "cdi:scale": 1,
+          "cdi:decimalPositions": 1,
+          "cdi:defaultValue": "",
+          "cdi:nullSequence": "NA",
+          "cdi:isRequired": true,
+          "cdif:displayLabel": "Daily mean temperature (degC)",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMeanTemperature"
+          }
+        },
+        {
+          "cdif:index": 2,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMinTemperature"
+          }
+        },
+        {
+          "cdif:index": 3,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMaxTemperature"
+          }
+        },
+        {
+          "cdif:index": 4,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
+          "cdi:nullSequence": "",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/qcFlag"
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:PhysicalDataSet",
+        "cdi:StructuredDataSet"
+      ],
+      "@id": "ex:dist/airtemp-flg-2024.nc",
+      "schema:name": "airtemp-flg-2024.nc",
+      "schema:description": "Same observations packaged as a NetCDF-4 (HDF5) structured dataset; variables addressed by group/array path.",
+      "schema:contentUrl": "https://example.org/downloads/airtemp-flg-2024.nc",
+      "schema:contentSize": "528412",
+      "schema:encodingFormat": [
+        "application/x-netcdf"
+      ],
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdi:locator": "/time",
+          "cdif:physicalDataType": "int64",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/observationDate"
+          }
+        },
+        {
+          "cdi:locator": "/measurements/tavg",
+          "cdif:physicalDataType": "float64",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMeanTemperature"
+          }
+        },
+        {
+          "cdi:locator": "/measurements/tmin",
+          "cdif:physicalDataType": "float64",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMinTemperature"
+          }
+        },
+        {
+          "cdi:locator": "/measurements/tmax",
+          "cdif:physicalDataType": "float64",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var/dailyMaxTemperature"
+          }
+        }
+      ]
+    }
+  ],
+  "prov:wasGeneratedBy": [
+    {
+      "@type": [
+        "prov:Activity"
+      ],
+      "@id": "ex:act/aggregation-2024",
+      "prov:used": [
+        {
+          "@id": "ex:tool/noaa-aggregator"
+        }
+      ]
+    }
+  ],
+  "prov:wasDerivedFrom": [
+    {
+      "@type": [
+        "schema:CreativeWork",
+        "dcat:Relationship"
+      ],
+      "schema:name": "NOAA Integrated Surface Database, hourly observations 2024",
+      "schema:url": "https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database",
+      "schema:description": "Source archive for the hourly inputs to this dataset."
+    }
+  ],
+  "cdif:hasPrimaryKey": {
+    "@id": "ex:key/airtemp-flg-2024",
+    "@type": [
+      "cdif:Key"
+    ],
+    "cdif:isComposedOf": [
+      {
+        "@id": "ex:keycomp/observationDate",
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var/observationDate"
+        },
+        "cdi:value": 1
+      }
+    ]
+  },
+  "cdif:statistics": [
+    {
+      "@id": "ex:stats/dataset-rowcount",
+      "@type": [
+        "cdi:Statistics"
+      ],
+      "cdif:typeOfStatistic": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Row count",
+        "schema:termCode": "count",
+        "schema:inDefinedTermSet": "https://ddialliance.org/vocab/statistic-types"
+      },
+      "cdi:statistic": [
+        {
+          "cdi:computationBase": "Total",
+          "cdi:content": 366,
+          "cdi:isWeighted": false,
+          "cdi:typeOfNumericValue": "decimal"
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var/observationDate",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "obs_date",
+      "schema:description": "ISO 8601 calendar date for the daily observation.",
+      "schema:alternateName": [
+        "date",
+        "observation_date"
+      ],
+      "schema:propertyID": [
+        {
+          "@id": "http://purl.obolibrary.org/obo/NCIT_C25164"
+        }
+      ],
+      "cdif:role": "UnitIdentifier",
+      "cdif:physicalDataType": "date",
+      "cdif:hasIntendedDataType": "xsd:date",
+      "cdif:function": [
+        "temporalDesignation"
+      ],
+      "cdif:uses": [
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Date",
+          "schema:inDefinedTermSet": "http://purl.obolibrary.org/obo/",
+          "schema:termCode": "NCIT_C25164"
+        }
+      ]
+    },
+    {
+      "@id": "ex:var/dailyMeanTemperature",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "tavg",
+      "schema:description": "Daily mean air temperature, degrees Celsius.",
+      "schema:alternateName": [
+        "mean_temp",
+        "tavg"
+      ],
+      "schema:propertyID": [
+        {
+          "@id": "https://qudt.org/vocab/quantitykind/Temperature"
+        }
+      ],
+      "schema:measurementTechnique": "Aggregation of QC'd hourly RTD observations to a daily mean.",
+      "schema:unitText": "degC",
+      "schema:unitCode": "CEL",
+      "schema:minValue": -22.4,
+      "schema:maxValue": 31.7,
+      "cdif:role": "Measure",
+      "cdif:physicalDataType": "float64",
+      "cdif:simpleUnitOfMeasure": "degree Celsius",
+      "cdif:hasIntendedDataType": "xsd:decimal",
+      "cdif:describedUnitOfMeasure": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "degree Celsius",
+        "schema:termCode": "CEL",
+        "schema:inDefinedTermSet": "https://qudt.org/vocab/unit/"
+      },
+      "cdif:platformType": "R statistical environment, v4.3",
+      "cdif:source": "Aggregated from NOAA ISD hourly air temperature.",
+      "cdif:uses": [
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Air temperature",
+          "schema:inDefinedTermSet": "https://qudt.org/vocab/quantitykind/",
+          "schema:termCode": "Temperature"
+        }
+      ],
+      "cdif:isDescribedBy_StatisticsCollection": {
+        "@id": "ex:statcoll/tavg",
+        "@type": [
+          "cdi:StatisticsCollection"
+        ],
+        "cdi:hasWeight": {
+          "@id": "ex:var/dailyMeanTemperature"
+        },
+        "cdif:has_Statistics": [
+          {
+            "@id": "ex:stats/tavg-count",
+            "@type": [
+              "cdi:Statistics"
+            ],
+            "cdif:typeOfStatistic": {
+              "@type": [
+                "schema:DefinedTerm"
+              ],
+              "schema:name": "Valid observations",
+              "schema:termCode": "count",
+              "schema:inDefinedTermSet": "https://ddialliance.org/vocab/statistic-types"
+            },
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 366,
+                "cdi:isWeighted": false,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ],
+            "cdif:has_CategoryStatistics": [
+              {
+                "@id": "ex:catstat/tavg-byMonth-jan",
+                "@type": [
+                  "cdi:CategoryStatistics"
+                ],
+                "cdi:for": {
+                  "@type": [
+                    "cdi:Category"
+                  ],
+                  "cdif:name": [
+                    "January"
+                  ],
+                  "cdif:definition": "Observations in calendar month January.",
+                  "cdif:displayLabel": [
+                    "Jan"
+                  ],
+                  "cdif:descriptiveText": "Month 01 of the observation year."
+                },
+                "cdif:typeOfStatistic": {
+                  "@type": [
+                    "schema:DefinedTerm"
+                  ],
+                  "schema:name": "Mean",
+                  "schema:termCode": "mean"
+                },
+                "cdi:statistic": [
+                  {
+                    "cdi:computationBase": "ValidOnly",
+                    "cdi:content": -3.2,
+                    "cdi:isWeighted": false,
+                    "cdi:typeOfNumericValue": "decimal"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "ex:stats/tavg-meanstddev",
+            "@type": [
+              "cdi:Statistics"
+            ],
+            "cdif:typeOfStatistic": {
+              "@type": [
+                "schema:DefinedTerm"
+              ],
+              "schema:name": "Standard deviation",
+              "schema:termCode": "stdDev"
+            },
+            "cdi:statistic": [
+              {
+                "cdi:computationBase": "ValidOnly",
+                "cdi:content": 9.84,
+                "cdi:isWeighted": false,
+                "cdi:typeOfNumericValue": "decimal"
+              }
+            ]
+          }
+        ]
+      },
+      "cdi:takesSubstantiveValuesFrom": {
+        "@id": "ex:vd/temperature-substantive",
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:displayLabel": "Air temperature in degrees Celsius",
+        "cdif:recommendedDataType": [
+          "xsd:decimal"
+        ],
+        "cdi:isDescribedBy": {
+          "@id": "ex:vacd/temperature",
+          "@type": [
+            "cdi:ValueAndConceptDescription"
+          ],
+          "cdi:classificationLevel": "Interval",
+          "cdi:description": "Real-valued air temperature in degrees Celsius within plausible surface bounds.",
+          "cdif:identifier": {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": {
+              "@id": "https://example.org/vacd"
+            },
+            "schema:value": "temperature-degC",
+            "schema:url": "https://example.org/vacd/temperature-degC"
+          },
+          "cdif:formatPattern": "#,##0.0",
+          "cdif:logicalExpression": "all reals x such that -90 <= x <= 60",
+          "cdif:regularExpression": "^-?\\d{1,2}(\\.\\d)?$",
+          "cdi:minimumValueInclusive": "-90.0",
+          "cdi:minimumValueExclusive": "-273.15",
+          "cdi:maximumValueInclusive": "60.0",
+          "cdi:maximumValueExclusive": "100.0"
+        }
+      },
+      "cdi:takesSentinelValuesFrom": [
+        {
+          "@id": "ex:vd/temperature-sentinel",
+          "@type": [
+            "cdif:SentinelValueDomain"
+          ],
+          "cdif:displayLabel": "Missing-value codes for temperature",
+          "cdif:recommendedDataType": [
+            "xsd:string"
+          ],
+          "cdif:takesValuesFrom": {
+            "@id": "ex:enum/missingCodes",
+            "@type": [
+              "cdif:EnumerationDomain"
+            ],
+            "schema:name": "Temperature missing-value codes",
+            "cdif:purpose": "Distinguish absent observations from valid measurements.",
+            "cdif:identifier": {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": {
+                "@id": "https://example.org/codelists"
+              },
+              "schema:value": "missingCodes",
+              "schema:url": "https://example.org/codelists/missingCodes"
+            },
+            "cdif:references": {
+              "@id": "https://example.org/codelists/missingCodes/scheme"
+            }
+          },
+          "cdi:isDescribedBy": {
+            "@id": "ex:vacd/temperature-sentinel",
+            "@type": [
+              "cdi:ValueAndConceptDescription"
+            ],
+            "cdi:classificationLevel": "Nominal",
+            "cdi:description": "Sentinel codes used in the source file for missing or suspect values."
+          }
+        }
+      ]
+    },
+    {
+      "@id": "ex:var/dailyMinTemperature",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "tmin",
+      "schema:description": "Daily minimum air temperature, degrees Celsius.",
+      "schema:alternateName": [
+        "min_temp",
+        "tmin"
+      ],
+      "schema:propertyID": [
+        {
+          "@id": "https://qudt.org/vocab/quantitykind/Temperature"
+        }
+      ],
+      "schema:unitText": "degC",
+      "schema:unitCode": "CEL",
+      "schema:minValue": -28.1,
+      "schema:maxValue": 24.6,
+      "cdif:role": "Measure",
+      "cdif:physicalDataType": "float64",
+      "cdif:hasIntendedDataType": "xsd:decimal"
+    },
+    {
+      "@id": "ex:var/dailyMaxTemperature",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "tmax",
+      "schema:description": "Daily maximum air temperature, degrees Celsius.",
+      "schema:alternateName": [
+        "max_temp",
+        "tmax"
+      ],
+      "schema:propertyID": [
+        {
+          "@id": "https://qudt.org/vocab/quantitykind/Temperature"
+        }
+      ],
+      "schema:unitText": "degC",
+      "schema:unitCode": "CEL",
+      "schema:minValue": -15.3,
+      "schema:maxValue": 38.9,
+      "cdif:role": "Measure",
+      "cdif:physicalDataType": "float64",
+      "cdif:hasIntendedDataType": "xsd:decimal"
+    },
+    {
+      "@id": "ex:var/qcFlag",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qc_flag",
+      "schema:description": "Quality-control flag qualifying the daily mean temperature value.",
+      "schema:propertyID": [
+        {
+          "@id": "https://example.org/props/qcFlag"
+        }
+      ],
+      "cdif:role": "Attribute",
+      "cdif:physicalDataType": "string",
+      "cdif:hasIntendedDataType": "xsd:string",
+      "cdif:qualifies": {
+        "@id": "ex:var/dailyMeanTemperature"
+      },
+      "cdif:platformType": "R statistical environment, v4.3",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@id": "ex:vd/qcFlag-substantive",
+        "@type": [
+          "cdif:SubstantiveValueDomain"
+        ],
+        "cdif:displayLabel": "QC flag codes",
+        "cdif:recommendedDataType": [
+          "xsd:string"
+        ],
+        "cdif:takesValuesFrom": {
+          "@id": "ex:enum/qcFlags",
+          "@type": [
+            "cdif:EnumerationDomain"
+          ],
+          "schema:name": "QC flag code list",
+          "cdif:purpose": "Quality-control flags applied to daily aggregates.",
+          "cdif:identifier": {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": {
+              "@id": "https://example.org/codelists"
+            },
+            "schema:value": "qcFlags",
+            "schema:url": "https://example.org/codelists/qcFlags"
+          },
+          "cdif:references": {
+            "@id": "https://example.org/codelists/qcFlags/scheme"
+          }
+        }
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:dataset/airTemperatureFlagstaff-2024/metadata",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      {
+        "@id": "dcat:CatalogRecord"
+      }
+    ],
+    "schema:name": "Catalog record for airtemp-flg-2024",
+    "schema:dateModified": "2025-01-15",
+    "schema:about": {
+      "@id": "ex:dataset/airTemperatureFlagstaff-2024"
+    },
+    "schema:creator": {
+      "@list": [
+        {
+          "@id": "https://orcid.org/0000-0002-7933-2154",
+          "@type": [
+            "schema:Person"
+          ],
+          "schema:name": "Richard, Stephen M.",
+          "schema:identifier": {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": {
+              "@id": "https://orcid.org"
+            },
+            "schema:value": "0000-0002-7933-2154",
+            "schema:url": "https://orcid.org/0000-0002-7933-2154"
+          }
+        }
+      ]
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.1"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.1"
+      }
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dqv: <http://www.w3.org/ns/dqv#> .
+@prefix ex: <https://example.org/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema1: <http://schema.org/> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/act/aggregation-2024> a prov:Activity ;
+    prov:used <https://example.org/tool/noaa-aggregator> .
+
+<https://example.org/catstat/tavg-byMonth-jan> a cdi:CategoryStatistics ;
+    cdi:for [ a cdi:Category ;
+            cdif:definition "Observations in calendar month January." ;
+            cdif:descriptiveText "Month 01 of the observation year." ;
+            cdif:displayLabel "Jan" ;
+            cdif:name "January" ] ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content -3.2e+00 ;
+            cdi:isWeighted false ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdif:typeOfStatistic [ a schema1:DefinedTerm ;
+            schema1:name "Mean" ;
+            schema1:termCode "mean" ] .
+
+<https://example.org/dataset/airTemperatureFlagstaff-2024> a schema1:Dataset ;
+    schema1:additionalType "https://www.wikidata.org/wiki/Q47652734" ;
+    schema1:conditionsOfAccess "Open access; no registration required." ;
+    schema1:contributor [ a schema1:Role ;
+            schema1:contributor <https://orcid.org/0000-0001-8898-3457> ;
+            schema1:roleName [ a schema1:DefinedTerm ;
+                    schema1:inDefinedTermSet "https://credit.niso.org/" ;
+                    schema1:name "Curator" ;
+                    schema1:termCode "data-curation" ] ] ;
+    schema1:creator ( <https://orcid.org/0000-0002-7933-2154> ) ;
+    schema1:dateModified "2024-12-31" ;
+    schema1:datePublished "2025-01-15" ;
+    schema1:description "Daily mean, min, and max air temperature measured at the Flagstaff Pulliam Airport weather station for the 2024 calendar year. Quality-controlled hourly observations are aggregated to daily summaries. This 'Complete' example is intended to exercise every Data Description profile property at least once." ;
+    schema1:distribution <https://example.org/dist/airtemp-flg-2024.csv>,
+        <https://example.org/dist/airtemp-flg-2024.nc> ;
+    schema1:funding <https://example.org/grant/nsf-EAR-1234567> ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID <https://doi.org> ;
+            schema1:url "https://doi.org/10.1234/airtemp-flg-2024" ;
+            schema1:value "10.1234/airtemp-flg-2024" ] ;
+    schema1:inLanguage "en" ;
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID <https://vocab.nerc.ac.uk/collection/P02/current/> ;
+                    schema1:url "https://vocab.nerc.ac.uk/collection/P02/current/CTMP/" ;
+                    schema1:value "AirTemp" ] ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:name "Air temperature" ;
+            schema1:termCode "AirTemp" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID <https://vocab.nerc.ac.uk/collection/L05/current/> ;
+                    schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/CLIMOBS/" ;
+                    schema1:value "CLIMOBS" ] ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Climate observation" ;
+            schema1:termCode "CLIMOBS" ],
+        "Flagstaff",
+        "weather" ;
+    schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
+    schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID <https://www.wikidata.org/wiki/> ;
+                    schema1:url "https://www.wikidata.org/wiki/Q1377889" ;
+                    schema1:value "RTD" ] ;
+            schema1:inDefinedTermSet "https://www.wikidata.org/wiki/" ;
+            schema1:name "Resistance temperature detector" ;
+            schema1:termCode "RTD" ] ;
+    schema1:name "Daily air temperature observations, Flagstaff Arizona, 2024" ;
+    schema1:provider <https://ror.org/0171mag52> ;
+    schema1:publisher <https://ror.org/0171mag52> ;
+    schema1:publishingPrinciples [ a schema1:CreativeWork,
+                dcat:Relationship ;
+            schema1:description "Institutional FAIR data policy referenced by this catalog." ;
+            schema1:name "FAIR data policy" ;
+            schema1:url "https://example.org/policy/fair-policy.html" ] ;
+    schema1:relatedLink [ a schema1:LinkRole ;
+            schema1:linkRelationship "describedby" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "text/html" ;
+                    schema1:name "Station metadata sheet (USW00003103)" ;
+                    schema1:url "https://www.ncei.noaa.gov/access/homr/file/USW00003103.station.html" ] ] ;
+    schema1:sameAs [ a schema1:PropertyValue ;
+            schema1:propertyID <urn:noaa-ghcnd:station-id> ;
+            schema1:url "https://www.ncei.noaa.gov/access/services/data/v1?stations=USW00003103" ;
+            schema1:value "USW00003103" ] ;
+    schema1:spatialCoverage [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoCoordinates ;
+                    schema1:latitude 3.51383e+01 ;
+                    schema1:longitude -1.116707e+02 ] ;
+            schema1:name "Flagstaff Pulliam Airport, Arizona, USA" ] ;
+    schema1:subjectOf <https://example.org/dataset/airTemperatureFlagstaff-2024/metadata> ;
+    schema1:temporalCoverage "2024-01-01/2024-12-31" ;
+    schema1:url "https://example.org/datasets/airtemp-flg-2024" ;
+    schema1:variableMeasured <https://example.org/var/dailyMaxTemperature>,
+        <https://example.org/var/dailyMeanTemperature>,
+        <https://example.org/var/dailyMinTemperature>,
+        <https://example.org/var/observationDate>,
+        <https://example.org/var/qcFlag> ;
+    schema1:version "1.2" ;
+    dqv:hasQualityMeasurement <https://example.org/qm/completeness-2024> ;
+    prov:wasDerivedFrom [ a schema1:CreativeWork,
+                dcat:Relationship ;
+            schema1:description "Source archive for the hourly inputs to this dataset." ;
+            schema1:name "NOAA Integrated Surface Database, hourly observations 2024" ;
+            schema1:url "https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database" ] ;
+    prov:wasGeneratedBy <https://example.org/act/aggregation-2024> ;
+    cdif:hasPrimaryKey <https://example.org/key/airtemp-flg-2024> ;
+    cdif:statistics <https://example.org/stats/dataset-rowcount> .
+
+<https://example.org/dataset/airTemperatureFlagstaff-2024/metadata> a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
+        <https://w3id.org/cdif/data_description/1.1>,
+        <https://w3id.org/cdif/discovery/1.1> ;
+    schema1:about <https://example.org/dataset/airTemperatureFlagstaff-2024> ;
+    schema1:additionalType dcat:CatalogRecord ;
+    schema1:creator ( <https://orcid.org/0000-0002-7933-2154> ) ;
+    schema1:dateModified "2025-01-15" ;
+    schema1:name "Catalog record for airtemp-flg-2024" .
+
+<https://example.org/dist/airtemp-flg-2024.csv> a cdi:PhysicalDataSet,
+        cdi:TabularTextDataSet,
+        schema1:DataDownload ;
+    cdi:delimiter "," ;
+    cdi:hasHeader true ;
+    cdi:headerRowCount 1 ;
+    cdi:isDelimited true ;
+    dcterms:conformsTo <https://example.org/schemas/airtemp.csvw.json> ;
+    schema1:contentSize "421888" ;
+    schema1:contentUrl "https://example.org/downloads/airtemp-flg-2024.csv" ;
+    schema1:description "Daily air temperature observations as delimited CSV text." ;
+    schema1:encodingFormat "text/csv" ;
+    schema1:name "airtemp-flg-2024.csv" ;
+    spdx:checksum [ a spdx:Checksum ;
+            spdx:algorithm "spdx:checksumAlgorithm_sha256" ;
+            spdx:checksumValue "9a4ee2f7ba1b3c1d5a6f7b0e2f3a4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d" ] ;
+    cdif:hasPhysicalMapping [ cdi:nullSequence "" ;
+            cdif:format "string" ;
+            cdif:formats_InstanceVariable <https://example.org/var/qcFlag> ;
+            cdif:index 4 ;
+            cdif:physicalDataType "string" ],
+        [ cdi:nullSequence "NA" ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
+            cdif:index 2 ;
+            cdif:physicalDataType "float64" ],
+        [ cdi:isRequired true ;
+            cdi:length 10 ;
+            cdif:displayLabel "Observation date" ;
+            cdif:format "YYYY-MM-DD" ;
+            cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
+            cdif:index 0 ;
+            cdif:physicalDataType "date" ],
+        [ cdi:decimalPositions 1 ;
+            cdi:defaultDecimalSeparator "." ;
+            cdi:defaultDigitGroupSeparator "," ;
+            cdi:defaultValue "" ;
+            cdi:isRequired true ;
+            cdi:length 7 ;
+            cdi:maximumLength 7 ;
+            cdi:minimumLength 1 ;
+            cdi:nullSequence "NA" ;
+            cdi:numberPattern "#,##0.0" ;
+            cdi:scale 1 ;
+            cdif:displayLabel "Daily mean temperature (degC)" ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable <https://example.org/var/dailyMeanTemperature> ;
+            cdif:index 1 ;
+            cdif:physicalDataType "float64" ],
+        [ cdi:nullSequence "NA" ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable <https://example.org/var/dailyMaxTemperature> ;
+            cdif:index 3 ;
+            cdif:physicalDataType "float64" ] .
+
+<https://example.org/dist/airtemp-flg-2024.nc> a cdi:PhysicalDataSet,
+        cdi:StructuredDataSet,
+        schema1:DataDownload ;
+    schema1:contentSize "528412" ;
+    schema1:contentUrl "https://example.org/downloads/airtemp-flg-2024.nc" ;
+    schema1:description "Same observations packaged as a NetCDF-4 (HDF5) structured dataset; variables addressed by group/array path." ;
+    schema1:encodingFormat "application/x-netcdf" ;
+    schema1:name "airtemp-flg-2024.nc" ;
+    cdif:hasPhysicalMapping [ cdi:locator "/time" ;
+            cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
+            cdif:physicalDataType "int64" ],
+        [ cdi:locator "/measurements/tmax" ;
+            cdif:formats_InstanceVariable <https://example.org/var/dailyMaxTemperature> ;
+            cdif:physicalDataType "float64" ],
+        [ cdi:locator "/measurements/tmin" ;
+            cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
+            cdif:physicalDataType "float64" ],
+        [ cdi:locator "/measurements/tavg" ;
+            cdif:formats_InstanceVariable <https://example.org/var/dailyMeanTemperature> ;
+            cdif:physicalDataType "float64" ] .
+
+<https://example.org/enum/missingCodes> a cdif:EnumerationDomain ;
+    schema1:name "Temperature missing-value codes" ;
+    cdif:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID ex:codelists ;
+            schema1:url "https://example.org/codelists/missingCodes" ;
+            schema1:value "missingCodes" ] ;
+    cdif:purpose "Distinguish absent observations from valid measurements." ;
+    cdif:references <https://example.org/codelists/missingCodes/scheme> .
+
+<https://example.org/enum/qcFlags> a cdif:EnumerationDomain ;
+    schema1:name "QC flag code list" ;
+    cdif:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID ex:codelists ;
+            schema1:url "https://example.org/codelists/qcFlags" ;
+            schema1:value "qcFlags" ] ;
+    cdif:purpose "Quality-control flags applied to daily aggregates." ;
+    cdif:references <https://example.org/codelists/qcFlags/scheme> .
+
+<https://example.org/grant/nsf-EAR-1234567> a schema1:MonetaryGrant ;
+    schema1:funder <https://ror.org/021nxhr62> ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID <https://www.nsf.gov/awardsearch> ;
+            schema1:url "https://www.nsf.gov/awardsearch/showAward?AWD_ID=1234567" ;
+            schema1:value "EAR-1234567" ] ;
+    schema1:name "NSF Award EAR-1234567" .
+
+<https://example.org/key/airtemp-flg-2024> a cdif:Key ;
+    cdif:isComposedOf <https://example.org/keycomp/observationDate> .
+
+<https://example.org/keycomp/observationDate> a cdi:ComponentPosition ;
+    cdi:indexes <https://example.org/var/observationDate> ;
+    cdi:value 1 .
+
+<https://example.org/qm/completeness-2024> a dqv:QualityMeasurement ;
+    schema1:description "Fraction of expected daily observations present in 2024." ;
+    dqv:isMeasurementOf <https://example.org/metric/temporalCompleteness> ;
+    dqv:value "0.998" .
+
+<https://example.org/statcoll/tavg> a cdi:StatisticsCollection ;
+    cdi:hasWeight <https://example.org/var/dailyMeanTemperature> ;
+    cdif:has_Statistics <https://example.org/stats/tavg-count>,
+        <https://example.org/stats/tavg-meanstddev> .
+
+<https://example.org/stats/dataset-rowcount> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "Total" ;
+            cdi:content 366 ;
+            cdi:isWeighted false ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdif:typeOfStatistic [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
+            schema1:name "Row count" ;
+            schema1:termCode "count" ] .
+
+<https://example.org/stats/tavg-count> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 366 ;
+            cdi:isWeighted false ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdif:has_CategoryStatistics <https://example.org/catstat/tavg-byMonth-jan> ;
+    cdif:typeOfStatistic [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
+            schema1:name "Valid observations" ;
+            schema1:termCode "count" ] .
+
+<https://example.org/stats/tavg-meanstddev> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
+            cdi:content 9.84e+00 ;
+            cdi:isWeighted false ;
+            cdi:typeOfNumericValue "decimal" ] ;
+    cdif:typeOfStatistic [ a schema1:DefinedTerm ;
+            schema1:name "Standard deviation" ;
+            schema1:termCode "stdDev" ] .
+
+<https://example.org/vacd/temperature> a cdi:ValueAndConceptDescription ;
+    cdi:classificationLevel "Interval" ;
+    cdi:description "Real-valued air temperature in degrees Celsius within plausible surface bounds." ;
+    cdi:maximumValueExclusive "100.0" ;
+    cdi:maximumValueInclusive "60.0" ;
+    cdi:minimumValueExclusive "-273.15" ;
+    cdi:minimumValueInclusive "-90.0" ;
+    cdif:formatPattern "#,##0.0" ;
+    cdif:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID ex:vacd ;
+            schema1:url "https://example.org/vacd/temperature-degC" ;
+            schema1:value "temperature-degC" ] ;
+    cdif:logicalExpression "all reals x such that -90 <= x <= 60" ;
+    cdif:regularExpression "^-?\\d{1,2}(\\.\\d)?$" .
+
+<https://example.org/vacd/temperature-sentinel> a cdi:ValueAndConceptDescription ;
+    cdi:classificationLevel "Nominal" ;
+    cdi:description "Sentinel codes used in the source file for missing or suspect values." .
+
+<https://example.org/vd/qcFlag-substantive> a cdif:SubstantiveValueDomain ;
+    cdif:displayLabel "QC flag codes" ;
+    cdif:recommendedDataType "xsd:string" ;
+    cdif:takesValuesFrom <https://example.org/enum/qcFlags> .
+
+<https://example.org/vd/temperature-sentinel> a cdif:SentinelValueDomain ;
+    cdi:isDescribedBy <https://example.org/vacd/temperature-sentinel> ;
+    cdif:displayLabel "Missing-value codes for temperature" ;
+    cdif:recommendedDataType "xsd:string" ;
+    cdif:takesValuesFrom <https://example.org/enum/missingCodes> .
+
+<https://example.org/vd/temperature-substantive> a cdif:SubstantiveValueDomain ;
+    cdi:isDescribedBy <https://example.org/vacd/temperature> ;
+    cdif:displayLabel "Air temperature in degrees Celsius" ;
+    cdif:recommendedDataType "xsd:decimal" .
+
+<https://orcid.org/0000-0001-8898-3457> a schema1:Person ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID <https://orcid.org> ;
+            schema1:url "https://orcid.org/0000-0001-8898-3457" ;
+            schema1:value "0000-0001-8898-3457" ] ;
+    schema1:name "Mojarro, Angel" .
+
+<https://ror.org/021nxhr62> a schema1:Organization ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID <https://ror.org> ;
+            schema1:url "https://ror.org/021nxhr62" ;
+            schema1:value "021nxhr62" ] ;
+    schema1:name "National Science Foundation" .
+
+<https://example.org/var/qcFlag> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/vd/qcFlag-substantive> ;
+    schema1:description "Quality-control flag qualifying the daily mean temperature value." ;
+    schema1:name "qc_flag" ;
+    schema1:propertyID <https://example.org/props/qcFlag> ;
+    cdif:hasIntendedDataType "xsd:string" ;
+    cdif:physicalDataType "string" ;
+    cdif:platformType "R statistical environment, v4.3" ;
+    cdif:qualifies <https://example.org/var/dailyMeanTemperature> ;
+    cdif:role "Attribute" .
+
+<https://orcid.org/0000-0002-7933-2154> a schema1:Person ;
+    schema1:contactPoint [ a schema1:ContactPoint ;
+            schema1:email "smr@example.org" ] ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID <https://orcid.org> ;
+            schema1:url "https://orcid.org/0000-0002-7933-2154" ;
+            schema1:value "0000-0002-7933-2154" ],
+        [ a schema1:PropertyValue ;
+            schema1:propertyID <https://orcid.org> ;
+            schema1:url "https://orcid.org/0000-0002-7933-2154" ;
+            schema1:value "0000-0002-7933-2154" ] ;
+    schema1:name "Richard, Stephen M." .
+
+<https://ror.org/0171mag52> a schema1:Organization ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID <https://ror.org> ;
+            schema1:url "https://ror.org/0171mag52" ;
+            schema1:value "0171mag52" ],
+        [ a schema1:PropertyValue ;
+            schema1:propertyID <https://ror.org> ;
+            schema1:url "https://ror.org/0171mag52" ;
+            schema1:value "0171mag52" ] ;
+    schema1:name "Northern Arizona University, Earth Science Data Archive" .
+
+<https://example.org/var/dailyMaxTemperature> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:alternateName "max_temp",
+        "tmax" ;
+    schema1:description "Daily maximum air temperature, degrees Celsius." ;
+    schema1:maxValue 3.89e+01 ;
+    schema1:minValue -1.53e+01 ;
+    schema1:name "tmax" ;
+    schema1:propertyID <https://qudt.org/vocab/quantitykind/Temperature> ;
+    schema1:unitCode "CEL" ;
+    schema1:unitText "degC" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" .
+
+<https://example.org/var/dailyMinTemperature> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:alternateName "min_temp",
+        "tmin" ;
+    schema1:description "Daily minimum air temperature, degrees Celsius." ;
+    schema1:maxValue 2.46e+01 ;
+    schema1:minValue -2.81e+01 ;
+    schema1:name "tmin" ;
+    schema1:propertyID <https://qudt.org/vocab/quantitykind/Temperature> ;
+    schema1:unitCode "CEL" ;
+    schema1:unitText "degC" ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" .
+
+<https://example.org/var/observationDate> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:alternateName "date",
+        "observation_date" ;
+    schema1:description "ISO 8601 calendar date for the daily observation." ;
+    schema1:name "obs_date" ;
+    schema1:propertyID <http://purl.obolibrary.org/obo/NCIT_C25164> ;
+    cdif:function "temporalDesignation" ;
+    cdif:hasIntendedDataType "xsd:date" ;
+    cdif:physicalDataType "date" ;
+    cdif:role "UnitIdentifier" ;
+    cdif:uses [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "http://purl.obolibrary.org/obo/" ;
+            schema1:name "Date" ;
+            schema1:termCode "NCIT_C25164" ] .
+
+<https://example.org/var/dailyMeanTemperature> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:takesSentinelValuesFrom <https://example.org/vd/temperature-sentinel> ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/vd/temperature-substantive> ;
+    schema1:alternateName "mean_temp",
+        "tavg" ;
+    schema1:description "Daily mean air temperature, degrees Celsius." ;
+    schema1:maxValue 3.17e+01 ;
+    schema1:measurementTechnique "Aggregation of QC'd hourly RTD observations to a daily mean." ;
+    schema1:minValue -2.24e+01 ;
+    schema1:name "tavg" ;
+    schema1:propertyID <https://qudt.org/vocab/quantitykind/Temperature> ;
+    schema1:unitCode "CEL" ;
+    schema1:unitText "degC" ;
+    cdif:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://qudt.org/vocab/unit/" ;
+            schema1:name "degree Celsius" ;
+            schema1:termCode "CEL" ] ;
+    cdif:hasIntendedDataType "xsd:decimal" ;
+    cdif:isDescribedBy_StatisticsCollection <https://example.org/statcoll/tavg> ;
+    cdif:physicalDataType "float64" ;
+    cdif:platformType "R statistical environment, v4.3" ;
+    cdif:role "Measure" ;
+    cdif:simpleUnitOfMeasure "degree Celsius" ;
+    cdif:source "Aggregated from NOAA ISD hourly air temperature." ;
+    cdif:uses [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://qudt.org/vocab/quantitykind/" ;
+            schema1:name "Air temperature" ;
+            schema1:termCode "Temperature" ] .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -5535,7 +8010,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescription
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-27'
+  dateOfLastChange: '2026-10-28'
 
 ```
 
