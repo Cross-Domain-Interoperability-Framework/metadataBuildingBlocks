@@ -392,6 +392,39 @@ their refs are resolved over the network at their build time, not ours.
   what instance it is supposed to reject and check that it does; a target that names the
   constraint's own property makes the rule decorative.
 
+- **A SHACL target that selects a schema.org TYPE claims far more than the building block does,
+  and the bill arrives in someone else's repo.** The mirror image of the trap above, settled
+  2026-10-28. `action/rules.shacl` selected every node typed `schema:Action` or one of twelve
+  subtypes and required `schema:target` → `EntryPoint` → `urlTemplate` of all of them. But this
+  block is a **web service operation** — `description.md` says "invoked via HTTP", and its only
+  consumer here is `webAPI`'s `schema:potentialAction`. `geochemBuildingBlocks` types each
+  analytical workflow step as a `schema:Action` (a step is a `schema:HowToStep`), so the rule
+  demanded a URL from a sample-preparation step: **744 violations, not one of them a defect.** The
+  `FILTER NOT EXISTS { ?this a prov:Activity }` in the old target was an earlier patch for the same
+  over-reach, and it covered only the one consumer that had complained — a type list can never
+  enumerate everyone else's modelling.
+  **This repo's corpus could not have caught it**, which is the part worth remembering: of 22
+  Action-typed nodes, every one with a target sits under `schema:potentialAction` and every one
+  without is `prov:Activity` co-typed and so excluded. A rule can be wrong in a way your own
+  examples are structurally incapable of showing, and the domain repos are where that surfaces.
+  The fix splits presence from content, each selected by what makes it true: presence is contextual
+  (`sh:targetObjectsOf schema:potentialAction` — context that does not read `schema:target`),
+  content applies wherever an Action does carry a target (SPARQL, still scoped to Action types,
+  because `linkRole`'s `schema:target` is also an `EntryPoint` and legitimately carries
+  `schema:url` instead of a template). Content must stay position-independent or it stops firing on
+  this block's own two standalone examples, which are root nodes rather than `potentialAction`
+  objects — presence-only targeting would have left them green and unchecked.
+  **Remember the JSON Schema still requires `schema:target`.** Relaxing the shape loses nothing
+  where the block is actually used; it only stops the rule from legislating for graphs that merely
+  reuse a schema.org type. That asymmetry — JSON Schema binds the block's users, SHACL binds every
+  node in the graph — is the thing to check before you write a type-selected target.
+  Reproduced before and after with five cases (the gBB step pattern, a `potentialAction` with no
+  target, a target with no `urlTemplate`, a target that is not an `EntryPoint`, and a
+  `prov:Activity`) run against `validate_shacl.py action --emit-shapes`, and the eight profiles
+  bundling these rules still report 0 violations. **The generated bundles in `profile-core`,
+  `doc-corediscovery`, `doc-discoverydatadescription` and `doc-discoverydatadescriptionstructure`
+  still carry the old shape** and need `--emit-shapes` plus a sync before the fix reaches anyone.
+
 - **The four retired XAS terms accept BOTH spellings, on purpose.** `xas:beamline`,
   `xas:xraysourcetype`, `xas:probe` and `xas:temperature` were retired onto NeXus base classes on
   2026-09-27 (`nxs:` = `https://manual.nexusformat.org/classes/`), and seven constraint sites are

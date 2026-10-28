@@ -741,6 +741,46 @@ docker run --rm --pull=always -v "$(pwd):/register" -p 9090:9090 \
 
 Per-example validation order in the postprocess: **1) JSON Schema → 2) JSON-LD uplift (JSON + `context.jsonld` → `.jsonld`/`.ttl`) → 3) SHACL.** `tools/validate_examples.py` covers only step 1; `tools/validate_shacl.py` approximates step 3 (it gathers rules from the `$ref` graph rather than the postprocessor's bundle, so confirm against the Docker run when it matters).
 
+### Shape targets: what a rule is allowed to claim
+
+A `rules.shacl` travels with the `$ref` graph and then applies to **every node in the consumer's
+graph**, not only to nodes that validate against the block. So a shape's target decides the scope
+of its claim, and two mistakes recur:
+
+- **A target selected by the property under test cannot fail.** Every node that reaches the
+  constraint already satisfies it (`xasFacility`, fixed 2026-09-27 by adding
+  `cdifd:xasAnalysisLocationClassified`, which establishes context from `schema:location` instead).
+- **A target selected by a schema.org TYPE claims the whole type.** `action/rules.shacl` required
+  `schema:target` of every `schema:Action` and twelve subtypes until 2026-10-28; because
+  `geochemBuildingBlocks` types each analytical workflow step as a `schema:Action` (a step is a
+  `schema:HowToStep`), the rule demanded an endpoint URL from a sample-preparation step — 744
+  violations, none a defect. A `FILTER NOT EXISTS` for the one complaining consumer had patched the
+  symptom; a type list cannot enumerate the rest.
+
+The convention that follows: **select on the context that makes the constraint true, not on the
+type that happens to carry it, and split presence from content when they have different triggers.**
+`action/rules.shacl` is the worked example —
+
+| Shape | Target | Claims |
+|---|---|---|
+| `cdifd:CDIFWebServiceActionShape` | `sh:targetObjectsOf schema:potentialAction` | an operation a resource offers must say where to invoke it |
+| `cdifd:CDIFActionTargetShape` | SPARQL: Action-typed **and** carries `schema:target` | that target must be an `EntryPoint` with a `urlTemplate` |
+| `cdifd:CDIFActionQueryInputShape` | `sh:targetSubjectsOf schema:query-input` | declared parameters must be described |
+
+Content is position-independent on purpose: the block's own two examples are root nodes, not
+`potentialAction` objects, so a presence-only target would have stopped checking them while
+reporting green. It stays scoped to Action types because `linkRole`'s `schema:target` is also an
+`EntryPoint` and legitimately carries `schema:url` instead of a template —
+`cdifd:CDIFEntryPointShape` is authoritative there and accepts either.
+
+Note the division of labour with JSON Schema, which is what makes relaxing a shape safe:
+`schema.yaml` still has `schema:target` in `required`, so the constraint is unchanged for every
+consumer that actually uses the block. SHACL should only assert what is true of any graph.
+
+When you change a target, prove the rule still rejects something — `validate_shacl.py <target>
+--emit-shapes shapes.ttl` gives you the bundle to run cases against, and a case the rule must
+*ignore* is as important as one it must reject.
+
 ### OGC conventions vs. this repo
 
 The generic OGC docs (<https://ogcincubator.github.io/bblocks-docs/all-bblocks-docs.md>) describe options we deliberately do or don't use:
