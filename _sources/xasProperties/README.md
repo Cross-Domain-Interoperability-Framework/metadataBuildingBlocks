@@ -25,10 +25,10 @@ XAS defines one conformance tier (there is no "discovery" tier):
 
 | Tier | Block | URI |
 |------|-------|-----|
-| Mandatory | `xasCore` | `https://w3id.org/cdif/xasCore/1.0` |
+| Mandatory | `xasCore` | `https://w3id.org/cdif/xasCore/1.1` |
 
 `xasOptional` is a module, not a conformance tier. Its URI
-`https://w3id.org/cdif/xasOptional/1.0` is no longer claimed by anything: the
+`https://w3id.org/cdif/xasOptional/1.1` is no longer claimed by anything: the
 module declares no required content, so conformance to it is vacuous and
 undetectable (2026-09-08).
 

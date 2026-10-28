@@ -212,7 +212,7 @@ Profile content is split across two trees (2026-05 reorg):
 | `CoreDiscovery` | cdifCore + cdifDiscovery | Smallest valid CDIF dataset metadata record |
 | `DiscoveryDataDescription` | cdifCore + cdifDiscovery + cdifDataDescription | Adds per-variable physical types, primary key, statistics, per-distribution physical mappings, file fingerprint |
 | `DiscoveryDataDescriptionStructure` | + cdifDataStructure | Full DDI-CDI structural complexity (DataStructure variants Dimensional / Long / Wide, six component subtypes, PrimaryKey / ForeignKey over RepresentedVariables with `cdif:position`) |
-| `xasDocument` | cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure + xasProperties (xasCore, xasOptional) | X-ray Absorption Spectroscopy document profile (conformance URI `xasDocument/1.0`; supersedes the archived 5-profile `XASdata` composite) |
+| `xasDocument` | cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure + xasProperties (xasCore, xasOptional) | X-ray Absorption Spectroscopy document profile (conformance URI `xasDocument/1.1`; supersedes the archived 5-profile `XASdata` composite) |
 | `cdifComplete` | cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure + cdifManifest + cdifProvenance | Everything |
 
 ### Profile modules

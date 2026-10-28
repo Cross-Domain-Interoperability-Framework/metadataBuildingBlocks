@@ -27,7 +27,7 @@ Each component is composed **once**; no component re-embeds another.
 ## Conformance
 
 The composite has its own conformance URI:
-`https://w3id.org/cdif/xasDocument/1.0`.
+`https://w3id.org/cdif/xasDocument/1.1`.
 
 A conforming XAS metadata record declares all six URIs in its
 `schema:subjectOf / dcterms:conformsTo`:
@@ -37,10 +37,10 @@ https://w3id.org/cdif/core/1.1
 https://w3id.org/cdif/discovery/1.1
 https://w3id.org/cdif/data_description/1.1
 https://w3id.org/cdif/data_structure/1.1
-https://w3id.org/cdif/xasCore/1.0
+https://w3id.org/cdif/xasCore/1.1
 ```
 
-`xasOptional/1.0` is deliberately **not** declared. That module adds no
+`xasOptional/1.1` is deliberately **not** declared. That module adds no
 required content, so conformance to it is satisfied vacuously by any
 document and `detect_conformance` has no rule that can check the claim.
 The requirement was removed from the schema and the advisory from the
