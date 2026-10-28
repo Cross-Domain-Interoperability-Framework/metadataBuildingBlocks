@@ -198,6 +198,28 @@ their refs are resolved over the network at their build time, not ours.
 - **CI auto-commits `build/` after every push** ("Building blocks postprocessing", "Generate JSON
   Forms schemas"), so `origin/main` moves on its own. Always `git fetch` and rebase before a
   follow-up push.
+
+- **A generated bundle is emitted from your WORKING TREE, so a stale branch publishes a stale
+  version pin — and the dry run blames the release repo.** Measured 2026-10-28, at the cost of a
+  pushed regression. Local `main` was at `54b7deaa58` (2026-10-27 00:06) and had not been fetched;
+  `origin/main` was 9 commits ahead at `0b02916c5e` (23:27), and one of those 9 was `1dc8ceb`, which
+  moved the XAS conformance URIs to `/1.1`. A branch cut from the unfetched local `main` therefore
+  held `xasCore/1.0`, `validate_shacl.py --emit-shapes` baked that into
+  `XAS-CDIF/release/xasDocumentRules.shacl`, and `XasCoreConformsToShape` went back to demanding
+  `xasCore/1.0` of records that all declare 1.1. Pushed to two remotes before it was caught.
+  **`sync_release_repos.py`'s dry run cannot tell you which side is stale.** It prints `WOULD COPY`
+  for "the release repo differs from your tree", which reads as *the release repo has drifted* and
+  is equally true when your tree is the stale one. Here it flagged XAS-CDIF's schema and two
+  examples, all three of which were correct and newer; copying them would have downgraded a
+  published artifact and overwritten real contact addresses with `missing@email.org`. The
+  conclusion that mBB had fallen behind its own release — recorded in a commit message and a PR
+  description before it was corrected — was pure artifact of the unfetched branch.
+  So: **`git fetch` and merge `origin/main` before emitting anything you intend to push
+  downstream**, and when a sync reports drift, check `git log <your-base>..origin/main` before
+  deciding which direction is wrong. `git status` saying "clean" means your tree matches your
+  branch, not that your branch matches the remote — and in this repo, where CI moves `main` on its
+  own several times a day, those are different claims. A version pin is the tell: if a diff changes
+  a `w3id.org/cdif/<profile>/1.x` value, stop and work out which value is current before pushing.
 - **Stage explicit paths, not `-A`.** Tracked-but-transient files at the root (`redirectTest.txt`,
   `output.json`, `expanded.ttl`) show as modified constantly; `audit_full.txt`, `audit_check.txt`
   and `resolve_run.log` are untracked tool output. None of them should ride along in a commit.
