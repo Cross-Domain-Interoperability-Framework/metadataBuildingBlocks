@@ -540,8 +540,17 @@ def self_test():
     register, scanned = build_register()
     _check(results, "real repo: the known classes are all still found",
            sorted(register["classes"]), KNOWN_CLASSES)
-    _check(results, "real repo: scanned the whole register", scanned, 69)  # 93 before the
-    # 24 ddiProperties blocks were archived on 2026-10-05
+    # The exact block count moves every time a block is added -- 93, then 69
+    # once the 24 ddiProperties blocks were archived on 2026-10-05, then 78
+    # with the ODRL blocks -- and pinning it had this check FAIL on legitimate
+    # growth, which is the one thing a self-test must not do: it is run first
+    # to prove the real checks still fire, so a standing red teaches you to
+    # ignore it. Assert the invariant instead: the walk reaches every
+    # non-archived schema.yaml, and the register is not near-empty.
+    on_disk = len([q for q in Path(rs.SOURCES_DIR).rglob("schema.yaml")
+                   if "archive" not in q.parts])
+    _check(results, "real repo: scanned the whole register", scanned, on_disk)
+    _check(results, "real repo: the register is not near-empty", scanned > 50, True)
 
     # Guides are optional: CI clones only this repo. A missing sibling
     # checkout must mean "no definitions", never a traceback -- so this

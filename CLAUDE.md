@@ -4,13 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Read first
 
-**`agents.md` (~1100 lines) is the authoritative reference** — repository structure, every tool's
+**`agents.md` (~1700 lines) is the authoritative reference** — repository structure, every tool's
 CLI, composition rules, namespace policy, conformance URIs, OGC-vs-this-repo deltas. Read the
 relevant section before non-trivial work, and update it when you change a convention or a tool.
 `README.md` documents the schema pipeline and the JSON Forms conversion.
 
-This file covers only what those two don't: the commands you'll actually run, and the handful of
-project-specific traps that cost real time.
+This file covers only what those two don't: the commands you'll actually run, and the
+project-specific traps that cost real time. The traps are in two sections — **Traps** is what bites
+you inside this repo, **Traps — other CDIF repos** is what bites downstream when a change here
+ships. Start with the first one.
 
 ## Commands
 
@@ -21,8 +23,8 @@ pip install -r requirements.txt          # jsonschema, PyYAML (+ optional pyshac
 **Regeneration — run both, always, in the same commit as the source edit:**
 
 ```bash
-python tools/resolve_schema.py --all      # -> resolvedSchema.json (68 blocks, ~5 s)
-python tools/regenerate_schema_json.py    # -> *Schema.json (69 blocks, seconds)
+python tools/resolve_schema.py --all      # -> resolvedSchema.json (78 blocks, ~5 s)
+python tools/regenerate_schema_json.py    # -> *Schema.json (78 blocks, <1 s)
 ```
 
 Locally, `--all` is still the honest thing to run before a commit. To regenerate only what your
@@ -35,7 +37,7 @@ python tools/affected_blocks.py --base origin/main    # prints schema.yaml paths
 **Validation:**
 
 ```bash
-python tools/validate_examples.py                        # JSON Schema gate, all examples (~10 min)
+python tools/validate_examples.py                        # JSON Schema gate, all examples (~12 s)
 python tools/validate_examples.py -f spatialExtent       # single block / substring filter
 python tools/validate_shacl.py <profile-name> --strict   # opt-in SHACL, one target
 python tools/audit_building_blocks.py                    # files, freshness, examples, SHACL coverage
@@ -46,7 +48,9 @@ python tools/audit_cdif_vocabulary.py --self-test         # then -o to inventory
 
 **`cdif:` terms are minted and defined nowhere.** Measured 2026-09-28: `https://w3id.org/cdif/`
 returns 200 only because it redirects to the book, while `https://w3id.org/cdif/Key` returns 404 —
-47 live terms (8 classes, 39 properties), no `model` block, no `ontology.ttl`.
+no `model` block, no `ontology.ttl`. The inventory stood at 47 terms (8 classes, 39 properties)
+that day and at **59 (8 classes, 51 properties) on 2026-10-28**, 15 of them with no definition from
+any source — the ODRL/access work is most of the growth.
 `audit_cdif_vocabulary.py` produces the annotatable inventory an ontology would be written from,
 and its outputs are gitignored like `ig_audit.*`. Authoring that ontology is **not scheduled work**.
 
@@ -61,9 +65,13 @@ python tools/audit_ig_consistency.py -o ig_audit.json    # re-run: annotations C
 
 Fixes are matched on `(check, guide, property)`, never on `line` — line numbers move as soon as
 anything above them is edited. The run prints how many carried and how many no longer have a
-finding; the second number is the useful one. **The register is at 0 findings as of 2026-09-27**
-(from 108), so a non-zero result means something new drifted. `ig_audit.json`, `ig_audit.md` and
-`ig_audit.*.json` are gitignored.
+finding; the second number is the useful one. It was driven to **0 findings on 2026-09-27** (from
+108) and has drifted back to **9 on 2026-10-28** — 8 `cardinality`, 1 `divergence`. Four are one
+`schema:email` choice-cardinality phrasing repeated across `doc-corediscovery`,
+`doc-discoverydatadescription`, `doc-discoverydatadescriptionstructure` and `profile-core`; four
+are new in the draft `profile-access` guide; the last is a `schema:conditionsOfAccess` description
+that is 405 chars in `profile-access` and 111 in `profile-codelist`. None is a schema defect.
+`ig_audit.json`, `ig_audit.md` and `ig_audit.*.json` are gitignored.
 
 A mismatch tells you the guide and the schema disagree, **not which is wrong.** Three of the
 cardinality findings settled in that pass were fixed on the *schema* side.
@@ -100,15 +108,37 @@ unconditional `--all` on push to `main` is what would catch that, so do not make
 incremental as well** — and note what a green incremental run does *not* claim: a stale artifact in
 a block the change set cannot reach was never regenerated on that run. The saving also varies
 hugely with position in the graph (`xasFacility` 4% of `--all`, `skosConcept` 65%), so a hub edit
-buys almost nothing. `regenerate_schema_json.py` stays full everywhere: 69 blocks in ~1.3 s.
+buys almost nothing. `regenerate_schema_json.py` stays full everywhere: 78 blocks in under a second.
 
-**Building block trees** under `_sources/`: `schemaorgProperties/`, `cdifDataType/`,
-`provProperties/`, `skosProperties/`, `xasProperties/`, `bioschemasProperties/`,
-`qualityProperties/`. The canonical DDI-CDI transcriptions moved to
-`archive/ddiProperties/` on 2026-10-05 -- reference-only, `$ref`d by no active schema. Profiles are split in two:
-`profiles/cdifProfile/` holds **modules** (each adds one slice, e.g. `cdifCore`, `cdifDiscovery`,
-`cdifProvenance`); `profiles/cdifCompositeProfile/` holds **composites** that are thin `allOf`s over
-modules (`CoreDiscovery`, `cdifComplete`, `xasDocument`, …).
+**Building block trees** under `_sources/`, 78 blocks as of 2026-10-28: `schemaorgProperties/` (19),
+`cdifDataType/` (22), `odrlProperties/` (8), `provProperties/` (3), `skosProperties/` (3),
+`xasProperties/` (6), `bioschemasProperties/` (1), `qualityProperties/` (2), `profiles/` (14). The
+canonical DDI-CDI transcriptions moved to `archive/ddiProperties/` on 2026-10-05 -- reference-only,
+`$ref`d by no active schema. Profiles are split in two: `profiles/cdifProfile/` holds the nine
+**modules** (each adds one slice: `cdifCore`, `cdifDiscovery`, `cdifProvenance`,
+`cdifDataDescription`, `cdifDataStructure`, `cdifManifest`, `cdifAccess`, plus the self-contained
+`cdifCodelist` and `cdifConceptScheme`); `profiles/cdifCompositeProfile/` holds the five
+**composites**, thin `allOf`s over modules (`CoreDiscovery`, `DiscoveryDataDescription`,
+`DiscoveryDataDescriptionStructure`, `cdifComplete`, `xasDocument`).
+
+**`odrlProperties/` and `cdifAccess` are the newest slice** — ODRL 2.2 access/licence policy, added
+in #54 and given SHACL in #56. The eight blocks are `odrlPolicy`, `odrlOffer`, `odrlRule`,
+`odrlAction`, `odrlAsset`, `odrlParty`, `odrlConstraint`, `odrlTerms`; `cdifAccess` is the module
+that wires them to a Dataset, and it is **the only slice-adding module in no composite** (measured
+2026-10-28 across all five), so there is no `cdifComplete`-style record that exercises it. It ships to `profile-access`, published as
+`profile-access-draft` and the 12th sync target. Four of the eight ODRL blocks and `cdifAccess`
+itself still have no `tests/`.
+
+**Six workflows, and three of them write to the repo.** `check-schema-drift.yml` (the regeneration
+gate, below), `process-bblocks.yml` (the OGC postprocessor; auto-commits `build/` as "Building
+blocks postprocessing"), `generate-jsonforms.yml` (auto-commits as "Generate JSON Forms schemas"),
+`deploy-viewer.yml` (publishes the record viewer), `check-release-drift.yml` (this repo's blocks vs
+the release repos' copies), `pr-check.yml`.
+
+**The record viewer is a deployed Flask app living in this repo**, not a side script:
+`tools/cdif_viewer_app.py` plus `tools/cdif_record_to_html.py`, `requirements-viewer.txt`,
+`render.yaml` (Render service) and `htmlViews/`. `python tools/cdif_viewer_app.py` runs it locally;
+`agents.md` documents both CLIs. Changing the record→HTML renderer changes a live service.
 
 **Composition rules** (violating these is the usual cause of a confusing validation error):
 - **Composites** (`profiles/cdifCompositeProfile/`) are pure `allOf` of module `$ref`s, with no
@@ -153,12 +183,12 @@ and receive shared tools via `tools/sync_resolve_schema.py`. A rename here silen
 their refs are resolved over the network at their build time, not ours.
 
 ## Traps
-
-- **`validate_examples.py` is the slow one now, at ~10 min; run it in the background.**
-  `resolve_schema.py --all` was ~11 min until 2026-10-06 and is **~5 s** here since #46 and #47, so
-  the old advice to background it no longer applies in this repo. It is still minutes in geochem
-  (242 blocks: ~62 min before those fixes, 5 min 49 s after), and `resolve_schema.py` is synced
-  there — so do not carry the 5 s figure into a domain repo.
+- **Nothing here is slow any more, and the advice has flipped twice — measure before you background
+  anything.** `resolve_schema.py --all` was ~11 min until 2026-10-06 and is **5.4 s** since #46 and
+  #47; `validate_examples.py` was described as ~10 min and ran its 139 examples in **11.6 s** on
+  2026-10-28. Both are foreground commands in this repo. The geochem figures are the ones that still
+  justify the background habit (242 blocks: ~62 min before those fixes, 5 min 49 s after), and
+  `resolve_schema.py` is synced there — so do not carry the 5 s figure into a domain repo.
 - **An unresolvable `$ref` is fatal and nothing is written.** Use `--allow-unresolved` only to
   inspect damage in a repo whose refs are already broken.
 - **Windows hides case bugs.** A `$ref` whose case doesn't match the file resolves here and 404s on
@@ -174,18 +204,26 @@ their refs are resolved over the network at their build time, not ours.
 - **Commit regenerated artifacts separately** from unrelated changes. When a regeneration sweeps up
   pre-existing drift, split it: revert your source edit, regenerate, commit the catch-up alone, then
   restore and commit your actual change.
-- **The JSON Schema gate is now clean: `validate_examples.py` should report 130 passed, 0 failed.**
+- **The JSON Schema gate is now clean: `validate_examples.py` should report 139 passed, 0 failed.**
   A failure means you broke something — this is no longer a run with expected noise to squint past.
-  The count tracks the corpus, so treat it as "0 failed" rather than a fixed number: it was 152 before 2026-09-05, 150 after, 152 again as of 2026-09-25, 154 by 2026-10-02, and 130 once the 24 `ddiProperties` blocks were archived on 2026-10-05. `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it: nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
+  The count tracks the corpus, so treat it as "0 failed" rather than a fixed number: it was 152 before 2026-09-05, 150 after, 152 again as of 2026-09-25, 154 by 2026-10-02, 130 once the 24 `ddiProperties` blocks were archived on 2026-10-05, and 139 on 2026-10-28 with the ODRL blocks wired. `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it: nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
   fixtures never referenced by their own `examples.yaml`, so nothing was validating them into
   conformance), and `ddicdiDataStructure` / `ddicdiRepresentedVariable` got fresh, validating
   replacements.
 - **An `example*.json` must be referenced from its block's `examples.yaml`**, as
   `snippets: [{language: json, ref: <file>}]` — that is what the OGC postprocessor publishes and
   validates. `validate_examples.py` finds examples by globbing `example*.json`, so an unreferenced
-  file still passes locally while being invisible to CI and to the published block. Every block now
-  wires its examples and **no `TODO: replace with a JSON-LD example` placeholder remains**; keep it
-  that way when adding a block.
+  file still passes locally while being invisible to CI and to the published block. **No
+  `TODO: replace with a JSON-LD example` placeholder remains, but the wiring half of that claim went
+  stale and nothing caught it:** on 2026-10-28 `DiscoveryDataDescription` had two tracked,
+  validating examples — `exampleCDIFDataDescriptionComplete.json` and
+  `exampleCDIFDataDescriptionMinimal.json` — that no `examples.yaml` named, so they had been
+  publishing to nobody for however long. Now wired. The one-liner that finds the next one:
+
+  ```bash
+  for f in $(find _sources -name 'example*.json'); do d=$(dirname "$f"); \
+    grep -q "$(basename "$f")" "$d/examples.yaml" || echo "UNREFERENCED: $f"; done
+  ```
 - **SHACL severity is not uniform, and the JSON Schema twin of a rule may be stricter.**
   "A record must declare conformance to <profile>" is `sh:Warning` — SHACL cannot tell
   whether a record meets a profile, so it does not fail one for not saying it does. The
@@ -218,11 +256,6 @@ their refs are resolved over the network at their build time, not ours.
   because `metadataProfileProperty` is referenced by a NodeShape in the same file and splitting it
   would leave a dangling reference in every consumer's bundle.
 
-- **Whether a `conformsTo` is *correct* is checked in `CDIF/validation`, not here.**
-  `detect_conformance` derives conformance from content; `ConformanceValidate` and
-  `FrameAndValidate -v` compare it against what the record declares and **fail an
-  over-claim**. Only the six detectable profiles are compared, and both halves are read
-  from the source document — framing drops evidence below `schema:distribution`.
 - **`ddiProperties` (now `archive/ddiProperties/`) examples use the canonical DDI-CDI datatypes, not CDIF's simplifications** —
   `cdi:name` is an `ObjectName` (`{@type, cdi:name}`), `cdi:definition` an `InternationalString`
   wrapping a `LanguageString`, `cdi:encoding`/`cdi:physicalDataType` a `ControlledVocabularyEntry`.
@@ -235,12 +268,13 @@ their refs are resolved over the network at their build time, not ours.
 - **A negative test that fails for the wrong reason asserts nothing.** The OGC layout puts
   `tests/*-fail.json` beside each block, meaning "this must NOT validate". `tools/test_fail_cases.py`
   (added 2026-09-11) checks *why* each one fails, not just that it does. **This has since been
-  fixed and must stay fixed: as of 2026-10-05 it reports 103 of 103 cases failing on the
-  constraint their filename names, 0 asserting nothing, 0 byte-identical copies.** It was far
+  fixed and must stay fixed: as of 2026-10-28 it reports 111 of 111 cases failing on the
+  constraint their filename names, 0 asserting nothing, 0 byte-identical copies** (103 of 103 on
+  2026-10-05, before the ODRL blocks). It was far
   worse when the tool was written -- 34 cases of which only 5 asserted their own constraint, 20
   byte-identical copies (`affiliation-fail.json` appeared verbatim in eight blocks, including
   `spatialExtent` and `xasDocument`, where affiliation means nothing), and 70 of 93 blocks with no
-  `tests/` at all. **13 of 69 blocks still have none.** Run it with `--strict` to fail on a case
+  `tests/` at all. **17 of 78 blocks still have none** (2026-10-28), four of them ODRL. Run it with `--strict` to fail on a case
   that asserts nothing, `--coverage` to list untested blocks. Note the matcher's own limits: an error on `@type` and an
   `anyOf` *message* (which prints the whole instance, so every token "matches") are both
   discounted, while the error *path* counts as strong evidence. Since 2026-10-01 `all_errors`
@@ -303,55 +337,11 @@ their refs are resolved over the network at their build time, not ours.
   outrank the real error on depth — of the three surfaced for the foreign-key case, two were
   branches refusing the node and only the third was the defect.
 
-- **Renaming a property breaks emitters, not just schemas.** `cdif:isDefinedBy_RepresentedVariable`
-  → `cdif:isDefinedBy_Variable` reached the release SHACL the same day and `cdifnexmetadata` did
-  not, so every document it produced failed a rule that had not existed that morning — and its own
-  test suite stayed green because a test asserted the old key. Downstream *writers* are as exposed
-  as downstream *readers*; check `CDIF/cdifnexmetadata` and the converters under
-  `validation/converters/` alongside the profile repos.
-
 - **Deleting a block from a `schema.yaml` by cutting to end-of-file will take `$defs` with it.**
   `$defs` is conventionally last. `resolve_schema.py` refuses to write anything when a `$ref` goes
   unresolved, so the damage surfaces immediately rather than shipping — but a verification that
   only checks for what you meant to remove will not notice what else went. Cut by explicit line
   boundaries and diff the top-level keys before and after.
-
-- **Release repos: `main` is the current release, and it is protected.** Since 2026-09-10 each
-  `profile-*` / `doc-*` repo serves GitHub Pages from `main`, work happens on an `updates`
-  branch, and `main` only advances by pull request (PR required, `enforce_admins: true` — with
-  admins excluded the protection is decorative, since an admin just pushes past it). So the
-  **merge is the release**: Pages republishes at merge time, before the tag exists. Local clones
-  are on `updates`, and `tools/sync_release_repos.py --apply` writes into whichever branch is
-  checked out — check first. The old `reviewRevision202606` branches are now `archive202609`.
-  `profile-provenance` is the exception: still in review, untagged, still on the old branch with
-  Pages sourced from it.
-
-- **A versioned conformance URI points at Pages only while that version is current.** Pages
-  serves `main`, and `main` is always the newest release — so when a newer minor version ships,
-  the outgoing version's `w3id` rules must be repointed to its release tag. Miss it and
-  `core/1.1/schema` silently serves 1.2: no build fails, because a 1.2 schema is a perfectly
-  valid schema. `raw.githubusercontent.com` serves `text/plain`, which was measured harmless for
-  every consumer CDIF has (the JSON Schema and SHACL loaders name the format rather than sniffing,
-  and records carry an inline `@context`) — so **do not "fix" a tag-pointing rule back to Pages**.
-  Rules live in a fork of `perma-id/w3id.org` and reach production by PR on that project's
-  schedule. **Upstream moved every rule directory under `ids/` on 2026-09-04**, so a PR must
-  target `ids/cdif/`; a fork that has not synced still shows the old top-level `cdif/`, and a
-  PR against that path re-creates a directory upstream deleted while leaving the live rules
-  untouched. The checklist is in `w3id.org/ids/cdif/CLAUDE.md` and the guard is
-  `validation/tools/check_w3id_redirects.py` (weekly workflow). Two details that are easy to
-  get wrong: repoint to the **last** patch tag of the outgoing series (`v1.1.1`, not `v1.1.0`
-  — the first one archives a spec nobody shipped), and a *patch* release requires no
-  `.htaccess` edit at all, because every release-repo rule targets a Pages base and Pages
-  serves `main`.
-
-- **The CDIF book pins its artifact links to release tags, so every patch release leaves them a
-  version behind.** Pinning is deliberate — a reader gets the spec the prose was written
-  against — and it is why the pins need a guard: a stale tag does not 404, it serves a
-  correct-looking page for a superseded release, and the book's own build cannot notice
-  because every link still resolves. `check_w3id_redirects.py` also scans cdifbook's source
-  tarball (every tracked file, so a link in a new chapter is covered the day it lands) and
-  reports `STALE`, or `MIXED` when a sweep was only partly applied. The 2026-09-10 v1.1.1 sweep
-  moved 82 links across 11 files.
 
 - **A key names variables by reference only, and there is one key class.** Settled 2026-09-25.
   `cdi:indexes` is an `objectReference` (sealed `{@id}`) at all three CDIF sites -- `cdifKey`, and
@@ -448,7 +438,9 @@ their refs are resolved over the network at their build time, not ours.
   committed and checked, not just present.
 
 - **`generate_shacl_shapes.py` output depends on your checkout's line endings, and the symptom
-  points at the wrong culprit.** A Windows working copy has CRLF in 39 of 81 `rules.shacl` files
+  points at the wrong culprit.** The tool is **not in this repo's `tools/`** — it is
+  `CDIF/validation/ShaclValidation/generate_shacl_shapes.py` (note: not `validation/tools/`, where
+  everything else lives) and it reads the `rules.shacl` files here. A Windows working copy has CRLF in 39 of 81 `rules.shacl` files
   (`core.autocrlf=true` overriding the repo's own `* text=auto eol=lf`), which puts CR *inside* the
   SPARQL string literals of `sh:select`. rdflib keeps those CRs in the literal **value** and
   re-emits them escaped, so a regenerated bundle differed from the committed one by 120-162 lines
@@ -459,6 +451,63 @@ their refs are resolved over the network at their build time, not ours.
   consumer's git config; the same commit stopped the header stamping `--bb-dir` verbatim (it could
   bake a local absolute path into a committed artifact) and pinned the output to LF. Before
   trusting a regenerated bundle, check the per-file diff is single digits, not three.
+
+## Traps — other CDIF repos
+
+These cost real time too, but none of them is actionable from this working directory. They are the
+ones that bite when a change here reaches `CDIF/validation`, the `profile-*` / `doc-*` release
+repos, `w3id.org`, `cdifbook`, `cdifnexmetadata` or the `cdif-umlmodel` mirror.
+
+- **Whether a `conformsTo` is *correct* is checked in `CDIF/validation`, not here.**
+  `detect_conformance` derives conformance from content; `ConformanceValidate` and
+  `FrameAndValidate -v` compare it against what the record declares and **fail an
+  over-claim**. Only the six detectable profiles are compared, and both halves are read
+  from the source document — framing drops evidence below `schema:distribution`.
+- **Renaming a property breaks emitters, not just schemas.** `cdif:isDefinedBy_RepresentedVariable`
+  → `cdif:isDefinedBy_Variable` reached the release SHACL the same day and `cdifnexmetadata` did
+  not, so every document it produced failed a rule that had not existed that morning — and its own
+  test suite stayed green because a test asserted the old key. Downstream *writers* are as exposed
+  as downstream *readers*; check `CDIF/cdifnexmetadata` and the converters under
+  `validation/converters/` alongside the profile repos.
+
+- **Release repos: `main` is the current release, and it is protected.** Since 2026-09-10 each
+  `profile-*` / `doc-*` repo serves GitHub Pages from `main`, work happens on an `updates`
+  branch, and `main` only advances by pull request (PR required, `enforce_admins: true` — with
+  admins excluded the protection is decorative, since an admin just pushes past it). So the
+  **merge is the release**: Pages republishes at merge time, before the tag exists. Local clones
+  are on `updates`, and `tools/sync_release_repos.py --apply` writes into whichever branch is
+  checked out — check first. The old `reviewRevision202606` branches are now `archive202609`.
+  There are **12 sync targets** as of 2026-10-28, and two are exceptions: `profile-provenance` is
+  still in review, untagged, still on the old branch with Pages sourced from it; `profile-access` is
+  a draft, published under the repo name `profile-access-draft` while the local clone is
+  `profile-access`, so the name is load-bearing and `sync_release_repos.py` says so in a comment.
+
+- **A versioned conformance URI points at Pages only while that version is current.** Pages
+  serves `main`, and `main` is always the newest release — so when a newer minor version ships,
+  the outgoing version's `w3id` rules must be repointed to its release tag. Miss it and
+  `core/1.1/schema` silently serves 1.2: no build fails, because a 1.2 schema is a perfectly
+  valid schema. `raw.githubusercontent.com` serves `text/plain`, which was measured harmless for
+  every consumer CDIF has (the JSON Schema and SHACL loaders name the format rather than sniffing,
+  and records carry an inline `@context`) — so **do not "fix" a tag-pointing rule back to Pages**.
+  Rules live in a fork of `perma-id/w3id.org` and reach production by PR on that project's
+  schedule. **Upstream moved every rule directory under `ids/` on 2026-09-04**, so a PR must
+  target `ids/cdif/`; a fork that has not synced still shows the old top-level `cdif/`, and a
+  PR against that path re-creates a directory upstream deleted while leaving the live rules
+  untouched. The checklist is in `w3id.org/ids/cdif/CLAUDE.md` and the guard is
+  `validation/tools/check_w3id_redirects.py` (weekly workflow). Two details that are easy to
+  get wrong: repoint to the **last** patch tag of the outgoing series (`v1.1.1`, not `v1.1.0`
+  — the first one archives a spec nobody shipped), and a *patch* release requires no
+  `.htaccess` edit at all, because every release-repo rule targets a Pages base and Pages
+  serves `main`.
+
+- **The CDIF book pins its artifact links to release tags, so every patch release leaves them a
+  version behind.** Pinning is deliberate — a reader gets the spec the prose was written
+  against — and it is why the pins need a guard: a stale tag does not 404, it serves a
+  correct-looking page for a superseded release, and the book's own build cannot notice
+  because every link still resolves. `check_w3id_redirects.py` also scans cdifbook's source
+  tarball (every tracked file, so a link in a new chapter is covered the day it lands) and
+  reports `STALE`, or `MIXED` when a sweep was only partly applied. The 2026-09-10 v1.1.1 sweep
+  moved 82 links across 11 files.
 
 - **An `@id` that is not a usable IRI silently deletes the triple, and the JSON Schema gate
   cannot see it.** Settled 2026-10-01 in `profile-provenance`. Galaxy writes RO-Crate `@id`s
@@ -556,8 +605,8 @@ their refs are resolved over the network at their build time, not ours.
   you would look.** `check-frameandvalidate.yml` lives in each release repo under
   `.github/workflows/`, but its source is `validation/tools/templates/check-frameandvalidate.yml`
   -- under `tools/`, not a top-level `templates/` -- and `sync_frameandvalidate.py --with-ci`
-  redeploys it. **Editing the eleven deployed copies without the template gets silently reverted
-  by the next `--with-ci`.** Found during the 2026-10-02 `actions/checkout` v4 -> v5 sweep: a
+  redeploys it. **Editing the deployed copies without the template gets silently reverted
+  by the next `--with-ci`** (there were eleven when this was measured; `profile-access` makes 12). Found during the 2026-10-02 `actions/checkout` v4 -> v5 sweep: a
   first survey globbed `templates/` and missed it entirely. After any such edit, check the copies
   are still byte-identical to the template (`diff` each; they were, 11 of 11). Two other things
   that sweep is worth remembering for: `validation/node_modules/` has its own vendored workflows
