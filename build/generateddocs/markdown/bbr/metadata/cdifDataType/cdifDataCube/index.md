@@ -144,15 +144,15 @@ use cdi:locator HDF5-style paths for each variable.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:StructuredDataSet ;
-    cdif:hasPhysicalMapping [ cdi:locator "/pressure[*][*]" ;
-            cdif:format "float64" ;
-            cdif:formats_InstanceVariable ex:var-pressure ;
-            cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdi:locator "/temperature[*][*]" ;
+    cdif:hasPhysicalMapping [ cdi:locator "/temperature[*][*]" ;
             cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 0 ;
+            cdif:physicalDataType "Numeric" ],
+        [ cdi:locator "/pressure[*][*]" ;
+            cdif:format "float64" ;
+            cdif:formats_InstanceVariable ex:var-pressure ;
+            cdif:index 1 ;
             cdif:physicalDataType "Numeric" ] .
 
 
@@ -197,7 +197,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifDataCube
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-28'
+  dateOfLastChange: '2026-10-29'
 
 ```
 

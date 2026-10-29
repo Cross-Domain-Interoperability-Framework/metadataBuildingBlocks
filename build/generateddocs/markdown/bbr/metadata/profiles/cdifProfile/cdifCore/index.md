@@ -1228,15 +1228,15 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:identifier ex:datasetIdentifier001 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-            schema1:name "Sea water temperature" ;
-            schema1:termCode "TEMPPR01" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/L06/current/46/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L06/current/" ;
             schema1:name "Argo" ;
             schema1:termCode "L06:46" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+            schema1:name "Sea water temperature" ;
+            schema1:termCode "TEMPPR01" ],
         "ocean temperature" ;
     schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
     schema1:name "Global Ocean Temperature Profiles 2010-2024" ;
@@ -1711,7 +1711,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifProfile.cdifCore
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-28'
+  dateOfLastChange: '2026-10-29'
 
 ```
 

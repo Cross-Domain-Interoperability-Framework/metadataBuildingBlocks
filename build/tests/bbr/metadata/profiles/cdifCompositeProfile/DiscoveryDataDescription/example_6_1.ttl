@@ -50,20 +50,20 @@
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID <https://vocab.nerc.ac.uk/collection/P02/current/> ;
-                    schema1:url "https://vocab.nerc.ac.uk/collection/P02/current/CTMP/" ;
-                    schema1:value "AirTemp" ] ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
-            schema1:name "Air temperature" ;
-            schema1:termCode "AirTemp" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://vocab.nerc.ac.uk/collection/L05/current/> ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/CLIMOBS/" ;
                     schema1:value "CLIMOBS" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Climate observation" ;
             schema1:termCode "CLIMOBS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID <https://vocab.nerc.ac.uk/collection/P02/current/> ;
+                    schema1:url "https://vocab.nerc.ac.uk/collection/P02/current/CTMP/" ;
+                    schema1:value "AirTemp" ] ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:name "Air temperature" ;
+            schema1:termCode "AirTemp" ],
         "Flagstaff",
         "weather" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
@@ -143,23 +143,16 @@
     spdx:checksum [ a spdx:Checksum ;
             spdx:algorithm "spdx:checksumAlgorithm_sha256" ;
             spdx:checksumValue "9a4ee2f7ba1b3c1d5a6f7b0e2f3a4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d" ] ;
-    cdif:hasPhysicalMapping [ cdi:nullSequence "" ;
-            cdif:format "string" ;
-            cdif:formats_InstanceVariable <https://example.org/var/qcFlag> ;
-            cdif:index 4 ;
-            cdif:physicalDataType "string" ],
-        [ cdi:nullSequence "NA" ;
+    cdif:hasPhysicalMapping [ cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
             cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
             cdif:index 2 ;
             cdif:physicalDataType "float64" ],
-        [ cdi:isRequired true ;
-            cdi:length 10 ;
-            cdif:displayLabel "Observation date" ;
-            cdif:format "YYYY-MM-DD" ;
-            cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
-            cdif:index 0 ;
-            cdif:physicalDataType "date" ],
+        [ cdi:nullSequence "" ;
+            cdif:format "string" ;
+            cdif:formats_InstanceVariable <https://example.org/var/qcFlag> ;
+            cdif:index 4 ;
+            cdif:physicalDataType "string" ],
         [ cdi:decimalPositions 1 ;
             cdi:defaultDecimalSeparator "." ;
             cdi:defaultDigitGroupSeparator "," ;
@@ -176,6 +169,13 @@
             cdif:formats_InstanceVariable <https://example.org/var/dailyMeanTemperature> ;
             cdif:index 1 ;
             cdif:physicalDataType "float64" ],
+        [ cdi:isRequired true ;
+            cdi:length 10 ;
+            cdif:displayLabel "Observation date" ;
+            cdif:format "YYYY-MM-DD" ;
+            cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
+            cdif:index 0 ;
+            cdif:physicalDataType "date" ],
         [ cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
             cdif:formats_InstanceVariable <https://example.org/var/dailyMaxTemperature> ;
@@ -190,18 +190,18 @@
     schema1:description "Same observations packaged as a NetCDF-4 (HDF5) structured dataset; variables addressed by group/array path." ;
     schema1:encodingFormat "application/x-netcdf" ;
     schema1:name "airtemp-flg-2024.nc" ;
-    cdif:hasPhysicalMapping [ cdi:locator "/time" ;
-            cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
-            cdif:physicalDataType "int64" ],
+    cdif:hasPhysicalMapping [ cdi:locator "/measurements/tmin" ;
+            cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
+            cdif:physicalDataType "float64" ],
         [ cdi:locator "/measurements/tmax" ;
             cdif:formats_InstanceVariable <https://example.org/var/dailyMaxTemperature> ;
             cdif:physicalDataType "float64" ],
-        [ cdi:locator "/measurements/tmin" ;
-            cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
-            cdif:physicalDataType "float64" ],
         [ cdi:locator "/measurements/tavg" ;
             cdif:formats_InstanceVariable <https://example.org/var/dailyMeanTemperature> ;
-            cdif:physicalDataType "float64" ] .
+            cdif:physicalDataType "float64" ],
+        [ cdi:locator "/time" ;
+            cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
+            cdif:physicalDataType "int64" ] .
 
 <https://example.org/enum/missingCodes> a cdif:EnumerationDomain ;
     schema1:name "Temperature missing-value codes" ;

@@ -289,7 +289,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-28'
+  dateOfLastChange: '2026-10-29'
 
 ```
 

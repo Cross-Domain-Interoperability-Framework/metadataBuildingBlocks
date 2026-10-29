@@ -2286,82 +2286,6 @@ ex:YOPx a schema1:Dataset ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
     schema1:distribution [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Gridded measurement data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/measurements/wavelength" ;
-                    cdi:nullSequence "NaN" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:decimalPositions 6 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/intensity" ;
-                    cdi:scale 1000 ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:OjHgIDO ;
-                    cdif:physicalDataType "float32" ] ],
-        [ a cdi:PhysicalDataSet,
-                cdi:TabularTextDataSet,
-                schema1:DataDownload ;
-            cdi:characterSet "UTF-8" ;
-            cdi:commentPrefix "#" ;
-            cdi:delimiter "," ;
-            cdi:hasHeader true ;
-            cdi:headerRowCount 1 ;
-            cdi:isDelimited true ;
-            cdi:quoteCharacter "\"" ;
-            cdi:skipBlankRows true ;
-            cdi:skipRows 0 ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "countRows" ;
-                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
-                    schema1:value 461 ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "countColumns" ;
-                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
-                    schema1:value 2 ] ;
-            schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry analysis results" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ;
-            cdif:fileSize 4.6e+00 ;
-            cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 4 ;
-                    cdi:defaultValue "0.0" ;
-                    cdi:isRequired false ;
-                    cdi:nullSequence "-9999" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:OjHgIDO ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "float64" ] ],
-        [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
-        [ a cdi:PhysicalDataSet,
                 schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
@@ -2389,12 +2313,12 @@ ex:YOPx a schema1:Dataset ;
                             schema1:valuePattern "csv|geojson" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination" ;
-                            schema1:valueName "offset" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Maximum number of features to return (default 100)" ;
                             schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination" ;
+                            schema1:valueName "offset" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a cdi:PhysicalDataSet,
                                 cdi:TabularTextDataSet,
@@ -2434,7 +2358,83 @@ ex:YOPx a schema1:Dataset ;
                     schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required" ] ;
+            schema1:termsOfService "Open access, no authentication required" ],
+        [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:TabularTextDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            cdi:commentPrefix "#" ;
+            cdi:delimiter "," ;
+            cdi:hasHeader true ;
+            cdi:headerRowCount 1 ;
+            cdi:isDelimited true ;
+            cdi:quoteCharacter "\"" ;
+            cdi:skipBlankRows true ;
+            cdi:skipRows 0 ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "countColumns" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
+                    schema1:value 2 ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "countRows" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
+                    schema1:value 461 ] ;
+            schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry analysis results" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ;
+            cdif:fileSize 4.6e+00 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 4 ;
+                    cdi:defaultValue "0.0" ;
+                    cdi:isRequired false ;
+                    cdi:nullSequence "-9999" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:OjHgIDO ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "float64" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Gridded measurement data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 6 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/measurements/intensity" ;
+                    cdi:scale 1000 ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:OjHgIDO ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/measurements/wavelength" ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdif:physicalDataType "float32" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -3356,14 +3356,20 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
             cdif:fileSize 1.846e+02 ;
             cdif:fileSizeUofM "MB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:locator "/lat" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-lat ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
                     cdi:locator "/lon" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-lon ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
-                    cdi:locator "/depth" ;
+                    cdi:locator "/temperature" ;
+                    cdi:nullSequence "NaN" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-depth ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
                     cdi:locator "/time" ;
@@ -3371,15 +3377,9 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-time ;
                     cdif:physicalDataType "int32" ],
                 [ cdi:isRequired true ;
-                    cdi:locator "/lat" ;
+                    cdi:locator "/depth" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-lat ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
-                    cdi:locator "/temperature" ;
-                    cdi:nullSequence "NaN" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:formats_InstanceVariable ex:var-depth ;
                     cdif:physicalDataType "float32" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
@@ -4319,27 +4319,11 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
                     spdx:checksumValue "2c8e4f1a6d7b9c0e3f5a1b2c4d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e" ] ;
             cdif:fileSize 312 ;
             cdif:fileSizeUofM "KB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-station ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
-                [ cdi:isRequired true ;
-                    cdif:format "YYYY-MM-DD" ;
-                    cdif:formats_InstanceVariable ex:var-sample-date ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "date" ],
-                [ cdi:decimalPositions 2 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 3 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-temperature ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 2 ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-oxygen ;
-                    cdif:index 5 ;
+                    cdif:formats_InstanceVariable ex:var-salinity ;
+                    cdif:index 4 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
@@ -4347,12 +4331,28 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-ph ;
                     cdif:index 2 ;
                     cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 3 ;
+                [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-salinity ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "float64" ] ] ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:isRequired true ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-station ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-oxygen ;
+                    cdif:index 5 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:isRequired true ;
+                    cdif:format "YYYY-MM-DD" ;
+                    cdif:formats_InstanceVariable ex:var-sample-date ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "date" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.5281/zenodo.5151515" ;
@@ -5332,30 +5332,30 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
                     spdx:checksumValue "8b1a7c3e5d9f0a2b4c6d8e0f1a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b" ] ;
             cdif:fileSize 712 ;
             cdif:fileSizeUofM "KB" ;
-            cdif:hasPhysicalMapping [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-unit ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "string" ],
-                [ cdi:isRequired true ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-parameter ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "string" ],
-                [ cdi:isRequired true ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-value ;
                     cdif:index 3 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:isRequired true ;
-                    cdif:format "YYYY-MM-DD" ;
-                    cdif:formats_InstanceVariable ex:var-sample-date ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "date" ],
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-parameter ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "string" ],
                 [ cdi:isRequired true ;
                     cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-station ;
                     cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:isRequired true ;
+                    cdif:format "YYYY-MM-DD" ;
+                    cdif:formats_InstanceVariable ex:var-sample-date ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "date" ],
+                [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-unit ;
+                    cdif:index 4 ;
                     cdif:physicalDataType "string" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
@@ -7594,20 +7594,20 @@ its own cdif:hasPhysicalMapping.
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID <https://vocab.nerc.ac.uk/collection/P02/current/> ;
-                    schema1:url "https://vocab.nerc.ac.uk/collection/P02/current/CTMP/" ;
-                    schema1:value "AirTemp" ] ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
-            schema1:name "Air temperature" ;
-            schema1:termCode "AirTemp" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://vocab.nerc.ac.uk/collection/L05/current/> ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/CLIMOBS/" ;
                     schema1:value "CLIMOBS" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Climate observation" ;
             schema1:termCode "CLIMOBS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID <https://vocab.nerc.ac.uk/collection/P02/current/> ;
+                    schema1:url "https://vocab.nerc.ac.uk/collection/P02/current/CTMP/" ;
+                    schema1:value "AirTemp" ] ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:name "Air temperature" ;
+            schema1:termCode "AirTemp" ],
         "Flagstaff",
         "weather" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
@@ -7687,23 +7687,16 @@ its own cdif:hasPhysicalMapping.
     spdx:checksum [ a spdx:Checksum ;
             spdx:algorithm "spdx:checksumAlgorithm_sha256" ;
             spdx:checksumValue "9a4ee2f7ba1b3c1d5a6f7b0e2f3a4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d" ] ;
-    cdif:hasPhysicalMapping [ cdi:nullSequence "" ;
-            cdif:format "string" ;
-            cdif:formats_InstanceVariable <https://example.org/var/qcFlag> ;
-            cdif:index 4 ;
-            cdif:physicalDataType "string" ],
-        [ cdi:nullSequence "NA" ;
+    cdif:hasPhysicalMapping [ cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
             cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
             cdif:index 2 ;
             cdif:physicalDataType "float64" ],
-        [ cdi:isRequired true ;
-            cdi:length 10 ;
-            cdif:displayLabel "Observation date" ;
-            cdif:format "YYYY-MM-DD" ;
-            cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
-            cdif:index 0 ;
-            cdif:physicalDataType "date" ],
+        [ cdi:nullSequence "" ;
+            cdif:format "string" ;
+            cdif:formats_InstanceVariable <https://example.org/var/qcFlag> ;
+            cdif:index 4 ;
+            cdif:physicalDataType "string" ],
         [ cdi:decimalPositions 1 ;
             cdi:defaultDecimalSeparator "." ;
             cdi:defaultDigitGroupSeparator "," ;
@@ -7720,6 +7713,13 @@ its own cdif:hasPhysicalMapping.
             cdif:formats_InstanceVariable <https://example.org/var/dailyMeanTemperature> ;
             cdif:index 1 ;
             cdif:physicalDataType "float64" ],
+        [ cdi:isRequired true ;
+            cdi:length 10 ;
+            cdif:displayLabel "Observation date" ;
+            cdif:format "YYYY-MM-DD" ;
+            cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
+            cdif:index 0 ;
+            cdif:physicalDataType "date" ],
         [ cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
             cdif:formats_InstanceVariable <https://example.org/var/dailyMaxTemperature> ;
@@ -7734,18 +7734,18 @@ its own cdif:hasPhysicalMapping.
     schema1:description "Same observations packaged as a NetCDF-4 (HDF5) structured dataset; variables addressed by group/array path." ;
     schema1:encodingFormat "application/x-netcdf" ;
     schema1:name "airtemp-flg-2024.nc" ;
-    cdif:hasPhysicalMapping [ cdi:locator "/time" ;
-            cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
-            cdif:physicalDataType "int64" ],
+    cdif:hasPhysicalMapping [ cdi:locator "/measurements/tmin" ;
+            cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
+            cdif:physicalDataType "float64" ],
         [ cdi:locator "/measurements/tmax" ;
             cdif:formats_InstanceVariable <https://example.org/var/dailyMaxTemperature> ;
             cdif:physicalDataType "float64" ],
-        [ cdi:locator "/measurements/tmin" ;
-            cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
-            cdif:physicalDataType "float64" ],
         [ cdi:locator "/measurements/tavg" ;
             cdif:formats_InstanceVariable <https://example.org/var/dailyMeanTemperature> ;
-            cdif:physicalDataType "float64" ] .
+            cdif:physicalDataType "float64" ],
+        [ cdi:locator "/time" ;
+            cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
+            cdif:physicalDataType "int64" ] .
 
 <https://example.org/enum/missingCodes> a cdif:EnumerationDomain ;
     schema1:name "Temperature missing-value codes" ;
@@ -8010,7 +8010,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescription
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-28'
+  dateOfLastChange: '2026-10-29'
 
 ```
 

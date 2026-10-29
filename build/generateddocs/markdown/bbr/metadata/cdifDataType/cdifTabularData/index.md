@@ -168,13 +168,13 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
     cdi:skipBlankRows false ;
     cdi:skipInitialSpace true ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "countColumns" ;
-            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
-            schema1:value 5 ],
-        [ a schema1:PropertyValue ;
             schema1:name "countRows" ;
             schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
-            schema1:value 1500 ] ;
+            schema1:value 1500 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "countColumns" ;
+            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
+            schema1:value 5 ] ;
     cdif:hasPhysicalMapping [ cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 1 ;
@@ -412,14 +412,19 @@ and three physical-mapping entries.
     cdi:treatConsecutiveDelimitersAsOne false ;
     cdi:trim "Both" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "countRows" ;
-            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
-            schema1:value 1500 ],
-        [ a schema1:PropertyValue ;
             schema1:name "countColumns" ;
             schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
-            schema1:value 3 ] ;
-    cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+            schema1:value 3 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "countRows" ;
+            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
+            schema1:value 1500 ] ;
+    cdif:hasPhysicalMapping [ cdi:nullSequence "NA" ;
+            cdif:format "YYYY-MM-DD" ;
+            cdif:formats_InstanceVariable ex:var-date ;
+            cdif:index 1 ;
+            cdif:physicalDataType "Date" ],
+        [ cdi:decimalPositions 2 ;
             cdi:length 12 ;
             cdi:scale 1 ;
             cdif:format "#,##0.00" ;
@@ -430,12 +435,7 @@ and three physical-mapping entries.
             cdi:length 16 ;
             cdif:formats_InstanceVariable ex:var-station-id ;
             cdif:index 0 ;
-            cdif:physicalDataType "String" ],
-        [ cdi:nullSequence "NA" ;
-            cdif:format "YYYY-MM-DD" ;
-            cdif:formats_InstanceVariable ex:var-date ;
-            cdif:index 1 ;
-            cdif:physicalDataType "Date" ] .
+            cdif:physicalDataType "String" ] .
 
 
 ```
@@ -608,7 +608,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifTabularData
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-28'
+  dateOfLastChange: '2026-10-29'
 
 ```
 

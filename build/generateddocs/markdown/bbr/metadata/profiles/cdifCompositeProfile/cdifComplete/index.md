@@ -2567,16 +2567,16 @@ quality measurements.
             schema1:unitText "byte" ;
             schema1:value 6249 ] ;
     cdif:hasPhysicalMapping [ cdi:isRequired true ;
+            cdif:format "string" ;
+            cdif:formats_InstanceVariable ex:var-sampleID ;
+            cdif:index 0 ;
+            cdif:physicalDataType "string" ],
+        [ cdi:isRequired true ;
             cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
             cdif:formats_InstanceVariable ex:var-concentration ;
             cdif:index 1 ;
             cdif:physicalDataType "float64" ],
-        [ cdi:isRequired true ;
-            cdif:format "string" ;
-            cdif:formats_InstanceVariable ex:var-sampleID ;
-            cdif:index 0 ;
-            cdif:physicalDataType "string" ],
         [ cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
@@ -2610,14 +2610,14 @@ quality measurements.
             schema1:unitText "byte" ;
             schema1:value 13743003 ] ;
     cdif:hasPhysicalMapping [ cdi:isRequired true ;
-            cdi:locator "/spectra/intensity" ;
-            cdif:format "decimal" ;
-            cdif:formats_InstanceVariable ex:var-intensity ;
-            cdif:physicalDataType "float32" ],
-        [ cdi:isRequired true ;
             cdi:locator "/spectra/wavelength" ;
             cdif:format "decimal" ;
             cdif:formats_InstanceVariable ex:var-wavelength ;
+            cdif:physicalDataType "float32" ],
+        [ cdi:isRequired true ;
+            cdi:locator "/spectra/intensity" ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable ex:var-intensity ;
             cdif:physicalDataType "float32" ] .
 
 ex:activity-geochem-analysis a schema1:Action,
@@ -2626,15 +2626,15 @@ ex:activity-geochem-analysis a schema1:Action,
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soils." ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C for 20 min in a microwave system." ;
-                    schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ;
-                    schema1:url "https://example.org/protocols/digestion-procedure" ],
-                [ a schema1:HowToStep ;
                     schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2711a (Montana II Soil)." ;
                     schema1:name "ICP-MS measurement and calibration" ;
                     schema1:position 2 ;
-                    schema1:url "https://example.org/protocols/icpms-measurement" ] ] ;
+                    schema1:url "https://example.org/protocols/icpms-measurement" ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C for 20 min in a microwave system." ;
+                    schema1:name "Sample preparation and acid digestion" ;
+                    schema1:position 1 ;
+                    schema1:url "https://example.org/protocols/digestion-procedure" ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
             schema1:name "Analysis Batch Identifier" ;
@@ -2685,12 +2685,12 @@ ex:activity-geochem-analysis a schema1:Action,
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 
 ex:geochem-detailed-structure a cdi:WideDataStructure ;
-    cdi:has_DataStructureComponent [ a cdi:AttributeComponent ;
-            cdif:isDefinedBy_Variable ex:var-uncertainty ],
+    cdi:has_DataStructureComponent [ a cdi:MeasureComponent ;
+            cdif:isDefinedBy_Variable ex:var-concentration ],
         [ a cdi:IdentifierComponent ;
             cdif:isDefinedBy_Variable ex:var-sampleID ],
-        [ a cdi:MeasureComponent ;
-            cdif:isDefinedBy_Variable ex:var-concentration ] .
+        [ a cdi:AttributeComponent ;
+            cdif:isDefinedBy_Variable ex:var-uncertainty ] .
 
 ex:ieda-catalog a schema1:DataCatalog ;
     schema1:name "IEDA Data Catalog" ;
@@ -2744,16 +2744,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:datePublished "2026-02-01" ;
     schema1:description "Comprehensive geochemistry dataset demonstrating the CDIF complete profile with single-file downloads, archive distribution with component files, and WebAPI access. Includes tabular CSV results, NetCDF data cubes, and an OGC API Features endpoint." ;
     schema1:distribution [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry summary results" ;
-            schema1:provider <https://ror.org/02fjgr047> ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
-        [ a cdi:PhysicalDataSet,
                 cdi:StructuredDataSet,
                 schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
@@ -2774,6 +2764,77 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-wavelength ;
                     cdif:physicalDataType "float32" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:TabularTextDataSet,
+                schema1:DataDownload ;
+            cdi:arrayBase 0 ;
+            cdi:commentPrefix "#" ;
+            cdi:delimiter "," ;
+            cdi:escapeCharacter "\\" ;
+            cdi:hasHeader true ;
+            cdi:headerIsCaseSensitive false ;
+            cdi:headerRowCount 1 ;
+            cdi:isDelimited true ;
+            cdi:isFixedWidth false ;
+            cdi:isStructuredBy ex:geochem-detailed-structure ;
+            cdi:lineTerminator "LF" ;
+            cdi:quoteCharacter "\"" ;
+            cdi:skipBlankRows false ;
+            cdi:skipDataColumns 0 ;
+            cdi:skipInitialSpace true ;
+            cdi:skipRows 0 ;
+            cdi:tableDirection "Ltr" ;
+            cdi:textDirection "Auto" ;
+            cdi:treatConsecutiveDelimitersAsOne false ;
+            cdi:trim "Both" ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "countRows" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
+                    schema1:value 461 ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "countColumns" ;
+                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
+                    schema1:value 3 ] ;
+            schema1:contentUrl "https://example.org/data/geochem-detailed.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Detailed geochemistry analysis results" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3" ] ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
+                    cdi:isRequired false ;
+                    cdi:length 12 ;
+                    cdi:nullSequence "-9999" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-uncertainty ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:defaultValue "UNKNOWN" ;
+                    cdi:isRequired true ;
+                    cdi:maximumLength 40 ;
+                    cdi:minimumLength 3 ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-sampleID ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:decimalPositions 4 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-concentration ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "float64" ] ],
+        [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry summary results" ;
+            schema1:provider <https://ror.org/02fjgr047> ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
         [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
@@ -2788,13 +2849,13 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of features to return" ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of features to return" ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:delimiter "," ;
@@ -2831,67 +2892,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:termCode "ogcapi-features" ] ;
             schema1:termsOfService "Open access, no authentication required" ],
         [ a cdi:PhysicalDataSet,
-                cdi:TabularTextDataSet,
-                schema1:DataDownload ;
-            cdi:arrayBase 0 ;
-            cdi:commentPrefix "#" ;
-            cdi:delimiter "," ;
-            cdi:escapeCharacter "\\" ;
-            cdi:hasHeader true ;
-            cdi:headerIsCaseSensitive false ;
-            cdi:headerRowCount 1 ;
-            cdi:isDelimited true ;
-            cdi:isFixedWidth false ;
-            cdi:isStructuredBy ex:geochem-detailed-structure ;
-            cdi:lineTerminator "LF" ;
-            cdi:quoteCharacter "\"" ;
-            cdi:skipBlankRows false ;
-            cdi:skipDataColumns 0 ;
-            cdi:skipInitialSpace true ;
-            cdi:skipRows 0 ;
-            cdi:tableDirection "Ltr" ;
-            cdi:textDirection "Auto" ;
-            cdi:treatConsecutiveDelimitersAsOne false ;
-            cdi:trim "Both" ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "countColumns" ;
-                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
-                    schema1:value 3 ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "countRows" ;
-                    schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
-                    schema1:value 461 ] ;
-            schema1:contentUrl "https://example.org/data/geochem-detailed.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Detailed geochemistry analysis results" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3" ] ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-concentration ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:defaultValue "UNKNOWN" ;
-                    cdi:isRequired true ;
-                    cdi:maximumLength 40 ;
-                    cdi:minimumLength 3 ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-sampleID ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
-                [ cdi:decimalPositions 4 ;
-                    cdi:isRequired false ;
-                    cdi:length 12 ;
-                    cdi:nullSequence "-9999" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-uncertainty ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "float64" ] ],
-        [ a cdi:PhysicalDataSet,
                 schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
@@ -2921,19 +2921,19 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://vocabularyserver.com/keyword> ;
-                    schema1:url "https://vocabularyserver.com/keyword/spectral-001" ;
-                    schema1:value "spectral-001" ] ;
-            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
-            schema1:name "spectral analysis" ;
-            schema1:termCode "SPECTRAL" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID <https://vocabularyserver.com/keyword> ;
                     schema1:url "https://vocabularyserver.com/keyword/geochem-001" ;
                     schema1:value "geochem-001" ] ;
             schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
             schema1:name "geochemistry" ;
-            schema1:termCode "GEOCHEM" ] ;
+            schema1:termCode "GEOCHEM" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID <https://vocabularyserver.com/keyword> ;
+                    schema1:url "https://vocabularyserver.com/keyword/spectral-001" ;
+                    schema1:value "spectral-001" ] ;
+            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
+            schema1:name "spectral analysis" ;
+            schema1:termCode "SPECTRAL" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -3169,7 +3169,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifCompositeProfile.cdifComplete
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-28'
+  dateOfLastChange: '2026-10-29'
 
 ```
 
