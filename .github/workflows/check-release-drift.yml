@@ -166,13 +166,24 @@ jobs:
           # org path 404s, which fails the checkout and the whole job.
           # It is public, so no token is needed.
           repository: smrgeoinfo/XAS-CDIF
-          # Pinned like profile-provenance: XAS-CDIF has no v1.1 release line,
-          # its publishable artifacts live under release/ rather than the repo
-          # root, and its Pages is served from gh-pages. It was added to
-          # sync_release_repos.py's table on 2026-09-08 but never given a
-          # checkout step here, so every run since raised FileNotFoundError on
-          # its examples directory and reported nothing at all.
-          ref: 'cdifxasRelease1.1'
+          # Pinned rather than following release_branch, like profile-provenance:
+          # XAS-CDIF has no v1.1 release line, its publishable artifacts live
+          # under release/ rather than the repo root, and its Pages is served
+          # from gh-pages. It was added to sync_release_repos.py's table on
+          # 2026-09-08 but never given a checkout step here, so every run since
+          # raised FileNotFoundError on its examples directory and reported
+          # nothing at all.
+          #
+          # The pin was 'cdifxasRelease1.1' until that branch was renamed
+          # 'updates' upstream, adopting the convention the other repos use.
+          # The last green run (2026-10-26 23:02) still fetched the old name;
+          # every run after it reported XAS-CDIF as MISSING and exited 1. A pin
+          # here cannot see a rename there, so keep this value and the branch
+          # names in `git ls-remote --heads https://github.com/smrgeoinfo/XAS-CDIF`
+          # in step whenever one moves -- and note the degradation above is what
+          # surfaced this, by naming the gap instead of reporting success for a
+          # repo it never compared.
+          ref: 'updates'
           path: cdif/XAS-CDIF
 
       - name: Set up Python
