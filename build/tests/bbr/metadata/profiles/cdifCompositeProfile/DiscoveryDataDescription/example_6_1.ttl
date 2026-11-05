@@ -148,11 +148,6 @@
             cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
             cdif:index 2 ;
             cdif:physicalDataType "float64" ],
-        [ cdi:nullSequence "" ;
-            cdif:format "string" ;
-            cdif:formats_InstanceVariable <https://example.org/var/qcFlag> ;
-            cdif:index 4 ;
-            cdif:physicalDataType "string" ],
         [ cdi:decimalPositions 1 ;
             cdi:defaultDecimalSeparator "." ;
             cdi:defaultDigitGroupSeparator "," ;
@@ -169,6 +164,11 @@
             cdif:formats_InstanceVariable <https://example.org/var/dailyMeanTemperature> ;
             cdif:index 1 ;
             cdif:physicalDataType "float64" ],
+        [ cdi:nullSequence "" ;
+            cdif:format "string" ;
+            cdif:formats_InstanceVariable <https://example.org/var/qcFlag> ;
+            cdif:index 4 ;
+            cdif:physicalDataType "string" ],
         [ cdi:isRequired true ;
             cdi:length 10 ;
             cdif:displayLabel "Observation date" ;
@@ -190,18 +190,18 @@
     schema1:description "Same observations packaged as a NetCDF-4 (HDF5) structured dataset; variables addressed by group/array path." ;
     schema1:encodingFormat "application/x-netcdf" ;
     schema1:name "airtemp-flg-2024.nc" ;
-    cdif:hasPhysicalMapping [ cdi:locator "/measurements/tmin" ;
-            cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
+    cdif:hasPhysicalMapping [ cdi:locator "/measurements/tavg" ;
+            cdif:formats_InstanceVariable <https://example.org/var/dailyMeanTemperature> ;
             cdif:physicalDataType "float64" ],
         [ cdi:locator "/measurements/tmax" ;
             cdif:formats_InstanceVariable <https://example.org/var/dailyMaxTemperature> ;
             cdif:physicalDataType "float64" ],
-        [ cdi:locator "/measurements/tavg" ;
-            cdif:formats_InstanceVariable <https://example.org/var/dailyMeanTemperature> ;
-            cdif:physicalDataType "float64" ],
         [ cdi:locator "/time" ;
             cdif:formats_InstanceVariable <https://example.org/var/observationDate> ;
-            cdif:physicalDataType "int64" ] .
+            cdif:physicalDataType "int64" ],
+        [ cdi:locator "/measurements/tmin" ;
+            cdif:formats_InstanceVariable <https://example.org/var/dailyMinTemperature> ;
+            cdif:physicalDataType "float64" ] .
 
 <https://example.org/enum/missingCodes> a cdif:EnumerationDomain ;
     schema1:name "Temperature missing-value codes" ;

@@ -1058,18 +1058,18 @@ each with their own manufacturer/model/properties), relatedLink
 ex:component-gas-chromatograph a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Carrier gas flow rate" ;
-            schema1:propertyID "carrierGasFlow" ;
-            schema1:unitText "mL/min" ;
-            schema1:value 1.5e+00 ],
-        [ a schema1:PropertyValue ;
             schema1:name "Column" ;
             schema1:propertyID "columnType" ;
             schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ],
         [ a schema1:PropertyValue ;
             schema1:name "Carrier gas" ;
             schema1:propertyID "carrierGas" ;
-            schema1:value "Helium" ] ;
+            schema1:value "Helium" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Carrier gas flow rate" ;
+            schema1:propertyID "carrierGasFlow" ;
+            schema1:unitText "mL/min" ;
+            schema1:value 1.5e+00 ] ;
     schema1:additionalType wd:Q848143 ;
     schema1:description "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -1081,14 +1081,14 @@ ex:component-gas-chromatograph a schema1:Product,
 ex:component-mass-spectrometer a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Detector gain" ;
-            schema1:propertyID "detectorGain" ;
-            schema1:value 100000 ],
-        [ a schema1:PropertyValue ;
             schema1:name "Full scan time" ;
             schema1:propertyID "scanTime" ;
             schema1:unitText "s" ;
             schema1:value 1e-01 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Detector gain" ;
+            schema1:propertyID "detectorGain" ;
+            schema1:value 100000 ],
         [ a schema1:PropertyValue ;
             schema1:name "Ion source temperature" ;
             schema1:propertyID "ionSourceTemperature" ;
@@ -1128,22 +1128,22 @@ ex:component-pyrolysis-oven a schema1:Product,
 ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Full scan m/z range" ;
+            schema1:propertyID "scanRange" ;
+            schema1:value "50-500" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Full scan detection limit" ;
             schema1:propertyID "detectionLimit" ;
             schema1:unitText "ng" ;
             schema1:value "sub-nanogram" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Ionization mode" ;
-            schema1:propertyID "ionizationMode" ;
-            schema1:value "Electron Ionization (EI), positive polarity" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Full scan m/z range" ;
-            schema1:propertyID "scanRange" ;
-            schema1:value "50-500" ],
-        [ a schema1:PropertyValue ;
             schema1:name "MRM target compounds" ;
             schema1:propertyID "mrmCapability" ;
             schema1:value 38 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Ionization mode" ;
+            schema1:propertyID "ionizationMode" ;
+            schema1:value "Electron Ionization (EI), positive polarity" ],
         [ a schema1:PropertyValue ;
             schema1:name "Measured variables" ;
             schema1:propertyID "MeasuredVariable" ;
@@ -1201,16 +1201,16 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
     schema1:name "Pyrolysis-GC-MS/MS System (NASA GSFC Astrobiology Analytical Lab)" ;
     schema1:owner <https://ror.org/0171mag52> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "publication reporting results from this instrument" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
-                    schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "user guide" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
                     schema1:name "TSQ 9000 User Guide" ;
                     schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "publication reporting results from this instrument" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
+                    schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ] ],
         [ a schema1:LinkRole ;
             schema1:linkRelationship "calibration record" ;
             schema1:target [ a schema1:EntryPoint ;
@@ -1869,12 +1869,12 @@ ex:instrument-icpms-lab42 a schema1:Product,
     schema1:hasPart ex:component-autosampler-lab42,
         ex:component-chiller-lab42 ;
     schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "inventoryNumber" ;
+            schema1:value "GEOL-LAB42-ICPMS-003" ],
+        [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.xxxx/instrument.icpms.lab42" ;
-            schema1:value "10.xxxx/instrument.icpms.lab42" ],
-        [ a schema1:PropertyValue ;
-            schema1:propertyID "inventoryNumber" ;
-            schema1:value "GEOL-LAB42-ICPMS-003" ] ;
+            schema1:value "10.xxxx/instrument.icpms.lab42" ] ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://ror.org> ;
@@ -2279,7 +2279,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.schemaorgProperties.instrument
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.2'
-  dateOfLastChange: '2026-10-29'
+  dateOfLastChange: '2026-11-05'
 
 ```
 

@@ -44,7 +44,7 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+        {"@id": "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"}
       ],
       "schema:name": "countRows",
       "schema:value": 1500
@@ -54,7 +54,7 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+        {"@id": "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"}
       ],
       "schema:name": "countColumns",
       "schema:value": 5
@@ -114,7 +114,9 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+        {
+          "@id": "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+        }
       ],
       "schema:name": "countRows",
       "schema:value": 1500
@@ -124,7 +126,9 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+        {
+          "@id": "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+        }
       ],
       "schema:name": "countColumns",
       "schema:value": 5
@@ -169,19 +173,19 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
     cdi:skipInitialSpace true ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
             schema1:name "countRows" ;
-            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
+            schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity> ;
             schema1:value 1500 ],
         [ a schema1:PropertyValue ;
             schema1:name "countColumns" ;
-            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
+            schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
             schema1:value 5 ] ;
-    cdif:hasPhysicalMapping [ cdif:format "float64" ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ],
+        [ cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ] .
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```
@@ -234,7 +238,7 @@ and three physical-mapping entries.
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+        {"@id": "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"}
       ],
       "schema:name": "countRows",
       "schema:value": 1500
@@ -244,7 +248,7 @@ and three physical-mapping entries.
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+        {"@id": "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"}
       ],
       "schema:name": "countColumns",
       "schema:value": 3
@@ -332,7 +336,9 @@ and three physical-mapping entries.
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+        {
+          "@id": "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+        }
       ],
       "schema:name": "countRows",
       "schema:value": 1500
@@ -342,7 +348,9 @@ and three physical-mapping entries.
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+        {
+          "@id": "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+        }
       ],
       "schema:name": "countColumns",
       "schema:value": 3
@@ -412,19 +420,14 @@ and three physical-mapping entries.
     cdi:treatConsecutiveDelimitersAsOne false ;
     cdi:trim "Both" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "countColumns" ;
-            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity" ;
-            schema1:value 3 ],
-        [ a schema1:PropertyValue ;
             schema1:name "countRows" ;
-            schema1:propertyID "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity" ;
-            schema1:value 1500 ] ;
-    cdif:hasPhysicalMapping [ cdi:nullSequence "NA" ;
-            cdif:format "YYYY-MM-DD" ;
-            cdif:formats_InstanceVariable ex:var-date ;
-            cdif:index 1 ;
-            cdif:physicalDataType "Date" ],
-        [ cdi:decimalPositions 2 ;
+            schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity> ;
+            schema1:value 1500 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "countColumns" ;
+            schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
+            schema1:value 3 ] ;
+    cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
             cdi:length 12 ;
             cdi:scale 1 ;
             cdif:format "#,##0.00" ;
@@ -435,7 +438,12 @@ and three physical-mapping entries.
             cdi:length 16 ;
             cdif:formats_InstanceVariable ex:var-station-id ;
             cdif:index 0 ;
-            cdif:physicalDataType "String" ] .
+            cdif:physicalDataType "String" ],
+        [ cdi:nullSequence "NA" ;
+            cdif:format "YYYY-MM-DD" ;
+            cdif:formats_InstanceVariable ex:var-date ;
+            cdif:index 1 ;
+            cdif:physicalDataType "Date" ] .
 
 
 ```
@@ -608,7 +616,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifTabularData
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-10-29'
+  dateOfLastChange: '2026-11-05'
 
 ```
 
