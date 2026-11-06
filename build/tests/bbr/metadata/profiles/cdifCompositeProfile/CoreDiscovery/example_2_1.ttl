@@ -1,5 +1,6 @@
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/dataset/minimal-discovery-001> a schema1:Dataset ;
@@ -9,12 +10,22 @@
     schema1:name "Arctic Sea Ice Extent Monthly Averages" ;
     schema1:subjectOf <https://example.org/metadata/minimal-discovery-001> ;
     schema1:url "https://example.org/dataset/arctic-sea-ice-extent" ;
-    schema1:variableMeasured [ a schema1:PropertyValue ;
-            schema1:name "sea ice extent" ] .
+    schema1:variableMeasured ex:varOxygen,
+        ex:varSalinity,
+        ex:yeujpk .
 
 <https://example.org/metadata/minimal-discovery-001> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about <https://example.org/dataset/minimal-discovery-001> ;
     schema1:additionalType dcat:CatalogRecord .
+
+ex:varOxygen a schema1:PropertyValue ;
+    schema1:name "dissolved_oxygen" .
+
+ex:varSalinity a schema1:PropertyValue ;
+    schema1:name "sea_water_practical_salinity" .
+
+ex:yeujpk a schema1:PropertyValue ;
+    schema1:name "sea ice extent" .
 

@@ -2,7 +2,7 @@
   "title": "Validation report for cdif.bbr.metadata.odrlProperties.odrlConstraint - ODRL Constraint",
   "bblockName": "ODRL Constraint",
   "bblockId": "cdif.bbr.metadata.odrlProperties.odrlConstraint",
-  "generated": "2026-11-05T07:24:01.301571+00:00",
+  "generated": "2026-11-06T11:02:49.592922+00:00",
   "result": true,
   "items": [
     {
@@ -14,6 +14,7 @@
         "language": "json"
       },
       "result": true,
+      "hasWarnings": false,
       "sections": [
         {
           "name": "GENERAL",
@@ -65,7 +66,7 @@
               "exception": "ValidationError",
               "errorMessage": "['odrl:Constraint'] does not contain items matching the given schema",
               "isError": true,
-              "message": "ValidationError: ['odrl:Constraint'] does not contain items matching the given schema\n\nFailed validating 'contains' in schema[1]['properties']['@type']:\n    {'contains': {'const': 'odrl:LogicalConstraint'},\n     'items': {'type': 'string'},\n     'type': 'array'}\n\nOn instance['@type']:\n    ['odrl:Constraint']"
+              "message": "ValidationError: ['odrl:Constraint'] does not contain items matching the given schema\n\nFailed validating 'contains' in schema[1]['properties']['@type']:\n    {'type': 'array',\n     'items': {'type': 'string'},\n     'contains': {'const': 'odrl:LogicalConstraint'}}\n\nOn instance['@type']:\n    ['odrl:Constraint']"
             }
           ]
         },
@@ -78,25 +79,26 @@
               "shaclFile": "_sources/odrlProperties/odrlConstraint/rules.shacl",
               "graph": "@prefix odrl: <http://www.w3.org/ns/odrl/2/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode [ a odrl:Constraint ;\n                    odrl:operator odrl:eq ;\n                    odrl:rightOperand <http://publications.europa.eu/resource/authority/country/GBR> ] ;\n            sh:resultMessage \"An ODRL constraint must have exactly one odrl:leftOperand, given as an IRI (e.g. odrl:spatial).\" ;\n            sh:resultPath odrl:leftOperand ;\n            sh:resultSeverity sh:Violation ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape [ sh:maxCount 1 ;\n                    sh:message \"An ODRL constraint must have exactly one odrl:leftOperand, given as an IRI (e.g. odrl:spatial).\" ;\n                    sh:minCount 1 ;\n                    sh:nodeKind sh:IRI ;\n                    sh:path odrl:leftOperand ] ] .\n\n",
               "isError": true,
+              "severity": "error",
               "message": "Validation result for _sources/odrlProperties/odrlConstraint/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Constraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Violation\n  \tSource Shape: [ sh:maxCount Literal(\"1\", datatype=xsd:integer) ; sh:message Literal(\"An ODRL constraint must have exactly one odrl:leftOperand, given as an IRI (e.g. odrl:spatial).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:nodeKind sh:IRI ; sh:path odrl:leftOperand ]\n  \tFocus Node: [ odrl:operator odrl:eq ; odrl:rightOperand <http://publications.europa.eu/resource/authority/country/GBR> ; rdf:type odrl:Constraint ]\n  \tResult Path: odrl:leftOperand\n  \tMessage: An ODRL constraint must have exactly one odrl:leftOperand, given as an IRI (e.g. odrl:spatial).\n  "
             },
             {
               "shaclFile": "_sources/odrlProperties/odrlConstraint/rules.shacl",
               "focusNodes": {
-                "cdifd:ODRLConstraintShape": {
-                  "nodes": [
-                    "_:N25bf741dfbec4af799e733009740f66d"
-                  ]
-                },
                 "cdifd:ODRLLogicalConstraintShape": {
                   "nodes": []
+                },
+                "cdifd:ODRLConstraintShape": {
+                  "nodes": [
+                    "_:N73528630b75f4809807ce4c7abdebb49"
+                  ]
                 },
                 "cdifd:ODRLConstraintSlotShape": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/odrlProperties/odrlConstraint/rules.shacl:\n - Shape cdifd:ODRLConstraintShape: _:N25bf741dfbec4af799e733009740f66d\n - Shape cdifd:ODRLLogicalConstraintShape: *none*\n - Shape cdifd:ODRLConstraintSlotShape: *none*\n"
+              "message": "Focus nodes for _sources/odrlProperties/odrlConstraint/rules.shacl:\n - Shape cdifd:ODRLLogicalConstraintShape: *none*\n - Shape cdifd:ODRLConstraintShape: _:N73528630b75f4809807ce4c7abdebb49\n - Shape cdifd:ODRLConstraintSlotShape: *none*\n"
             }
           ]
         }
@@ -113,6 +115,7 @@
         "language": "application/json"
       },
       "result": true,
+      "hasWarnings": false,
       "sections": [
         {
           "name": "FILES",
@@ -169,15 +172,15 @@
             {
               "shaclFile": "_sources/odrlProperties/odrlConstraint/rules.shacl",
               "focusNodes": {
-                "cdifd:ODRLConstraintShape": {
-                  "nodes": [
-                    "_:Nb04d17f858bc4945b78072046ca9d043",
-                    "_:N6dc8162e359d4733ad7033ed76d41d9a"
-                  ]
-                },
                 "cdifd:ODRLLogicalConstraintShape": {
                   "nodes": [
-                    "_:N9a2a633a2be74fdbaadf76d30c4d7de2"
+                    "_:N884c602e947e493fb6fcfa972ffc8e76"
+                  ]
+                },
+                "cdifd:ODRLConstraintShape": {
+                  "nodes": [
+                    "_:Nf5c9bbb060894e36af28e288c274d8e1",
+                    "_:Nf4716f606a8942b09c3c68831d0c992e"
                   ]
                 },
                 "cdifd:ODRLConstraintSlotShape": {
@@ -185,7 +188,7 @@
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/odrlProperties/odrlConstraint/rules.shacl:\n - Shape cdifd:ODRLConstraintShape: _:Nb04d17f858bc4945b78072046ca9d043,_:N6dc8162e359d4733ad7033ed76d41d9a\n - Shape cdifd:ODRLLogicalConstraintShape: _:N9a2a633a2be74fdbaadf76d30c4d7de2\n - Shape cdifd:ODRLConstraintSlotShape: *none*\n"
+              "message": "Focus nodes for _sources/odrlProperties/odrlConstraint/rules.shacl:\n - Shape cdifd:ODRLLogicalConstraintShape: _:N884c602e947e493fb6fcfa972ffc8e76\n - Shape cdifd:ODRLConstraintShape: _:Nf5c9bbb060894e36af28e288c274d8e1,_:Nf4716f606a8942b09c3c68831d0c992e\n - Shape cdifd:ODRLConstraintSlotShape: *none*\n"
             }
           ]
         }
@@ -193,6 +196,7 @@
     }
   ],
   "globalErrors": {},
+  "hasWarnings": false,
   "counts": {
     "total": 2,
     "passed": 2,

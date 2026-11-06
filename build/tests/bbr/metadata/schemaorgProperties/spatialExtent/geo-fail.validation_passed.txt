@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.schemaorgProperties.spatialExtent - Spatial Extent
-Generated 2026-11-05T07:24:03.593761+00:00
+Generated 2026-11-06T11:02:52.633012+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
@@ -17,7 +17,9 @@ Output Turtle geo-fail.ttl created
 ValidationError: 42 is not valid under any of the given schemas
 
 Failed validating 'anyOf' in schema['properties']['schema:geo']:
-    {'anyOf': [{'description': 'A point location. Point locations are '
+    {'description': 'Either a bounding box or a point location.',
+     'anyOf': [{'type': 'object',
+                'description': 'A point location. Point locations are '
                                'recommended for data that is associated '
                                'with specific sample locations, '
                                'particularly if these are widely spaced '
@@ -27,24 +29,24 @@ Failed validating 'anyOf' in schema['properties']['schema:geo']:
                                'client applications might only index or '
                                'display bounding box extents or a single '
                                'point location.',
-                'properties': {'@type': {'contains': {'const': 'schema:GeoCoordinates'},
-                                         'default': ['schema:GeoCoordinates'],
+                'properties': {'@type': {'default': ['schema:GeoCoordinates'],
+                                         'type': 'array',
                                          'items': {'type': 'string'},
-                                         'minItems': 1,
-                                         'type': 'array'},
-                               'schema:latitude': {'maximum': 90,
+                                         'contains': {'const': 'schema:GeoCoordinates'},
+                                         'minItems': 1},
+                               'schema:latitude': {'type': 'number',
                                                    'minimum': -90,
-                                                   'type': 'number',
+                                                   'maximum': 90,
                                                    'x-jsonld-id': 'http://schema.org/latitude'},
-                               'schema:longitude': {'maximum': 180,
+                               'schema:longitude': {'type': 'number',
                                                     'minimum': -180,
-                                                    'type': 'number',
+                                                    'maximum': 180,
                                                     'x-jsonld-id': 'http://schema.org/longitude'}},
                 'required': ['@type',
                              'schema:latitude',
-                             'schema:longitude'],
-                'type': 'object'},
-               {'description': 'A schema:GeoShape bounding box. The '
+                             'schema:longitude']},
+               {'type': 'object',
+                'description': 'A schema:GeoShape bounding box. The '
                                'geometry is described with a set of '
                                'latitude/longitude pairs (in that '
                                'order).The documentation for '
@@ -53,12 +55,13 @@ Failed validating 'anyOf' in schema['properties']['schema:geo']:
                                'and longitude; whitespace should be used '
                                'when writing a list of several such '
                                "points.'",
-                'properties': {'@type': {'contains': {'const': 'schema:GeoShape'},
-                                         'default': ['schema:GeoShape'],
+                'properties': {'@type': {'default': ['schema:GeoShape'],
+                                         'type': 'array',
                                          'items': {'type': 'string'},
-                                         'minItems': 1,
-                                         'type': 'array'},
-                               'schema:box': {'description': 'A GeoShape '
+                                         'contains': {'const': 'schema:GeoShape'},
+                                         'minItems': 1},
+                               'schema:box': {'type': 'string',
+                                              'description': 'A GeoShape '
                                                              'box defines '
                                                              'an area on '
                                                              'the surface '
@@ -97,19 +100,19 @@ Failed validating 'anyOf' in schema['properties']['schema:geo']:
                                                              'prime '
                                                              '(Greenwich) '
                                                              'meridian.',
-                                              'type': 'string',
                                               'x-jsonld-id': 'http://schema.org/box'}},
-                'required': ['@type', 'schema:box'],
-                'type': 'object'},
-               {'description': 'A schema:GeoShape curvilinear trace, for '
+                'required': ['@type', 'schema:box']},
+               {'type': 'object',
+                'description': 'A schema:GeoShape curvilinear trace, for '
                                'resource related to a linear trace like a '
                                'ship track or airplane flight line',
-                'properties': {'@type': {'contains': {'const': 'schema:GeoShape'},
-                                         'default': ['schema:GeoShape'],
+                'properties': {'@type': {'default': ['schema:GeoShape'],
+                                         'type': 'array',
                                          'items': {'type': 'string'},
-                                         'minItems': 1,
-                                         'type': 'array'},
-                               'schema:line': {'description': 'A GeoShape '
+                                         'contains': {'const': 'schema:GeoShape'},
+                                         'minItems': 1},
+                               'schema:line': {'type': 'string',
+                                               'description': 'A GeoShape '
                                                               'box defines '
                                                               'a '
                                                               'curvilinear '
@@ -147,11 +150,8 @@ Failed validating 'anyOf' in schema['properties']['schema:geo']:
                                                               '123.96 '
                                                               '41.00 '
                                                               "121.34' ",
-                                               'type': 'string',
                                                'x-jsonld-id': 'http://schema.org/line'}},
-                'required': ['@type', 'schema:line'],
-                'type': 'object'}],
-     'description': 'Either a bounding box or a point location.',
+                'required': ['@type', 'schema:line']}],
      'x-jsonld-id': 'http://schema.org/geo'}
 
 On instance['schema:geo']:
@@ -173,77 +173,77 @@ Validation result for _sources/schemaorgProperties/spatialExtent/rules.shacl:
   	Message: Recommended: provide a spatial coverage description if applicable using schema:Place, identified by a place name, an identifier, point location(s) (GeoCoordinates), or GeoShape (bounding box, line profile location, or polygon).
   
 Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab3: *none*
- - Shape cdifd:geoShapeNode: *none*
- - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab40: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab39: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab29: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab41: *none*
- - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab42: *none*
  - Shape cdifd:spatialExtentProperty: ex:SpatialExtentBox_my8
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab10: *none*
  - Shape cdifd:geoCoordinatesNode: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b39: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b13: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b16: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b4: *none*
+ - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b29: *none*
  - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab13: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b44: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b42: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b41: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b15: *none*
  - Shape cdifd:CDIFDefinedTermShape: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab44: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab16: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b3: *none*
+ - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b24: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab4: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab38: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab24: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab9: *none*
- - Shape _:n8df6ed8640b24850b510fc863ed59eaab15: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b9: *none*
+ - Shape cdifd:geoShapeNode: *none*
  - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b10: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b38: *none*
+ - Shape _:ne5459857b9254785aa90ab1509e23849b40: *none*
 
 Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
- - Shape _:n31edae01fb41411cb3928a7ac03cd59eb10: *none*
- - Shape _:n31edae01fb41411cb3928a7ac03cd59eb26: *none*
- - Shape cdifd:CDIFDefinedTermShape: *none*
- - Shape _:n31edae01fb41411cb3928a7ac03cd59eb19: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:n31edae01fb41411cb3928a7ac03cd59eb8: *none*
+ - Shape _:nc53d24e57e124f95bad374329916d800b7: *none*
+ - Shape _:nc53d24e57e124f95bad374329916d800b10: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:nc53d24e57e124f95bad374329916d800b26: *none*
+ - Shape _:nc53d24e57e124f95bad374329916d800b19: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n31edae01fb41411cb3928a7ac03cd59eb5: *none*
- - Shape _:n31edae01fb41411cb3928a7ac03cd59eb4: *none*
- - Shape _:n31edae01fb41411cb3928a7ac03cd59eb7: *none*
+ - Shape _:nc53d24e57e124f95bad374329916d800b6: *none*
+ - Shape _:nc53d24e57e124f95bad374329916d800b4: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n31edae01fb41411cb3928a7ac03cd59eb6: *none*
+ - Shape _:nc53d24e57e124f95bad374329916d800b5: *none*
+ - Shape _:nc53d24e57e124f95bad374329916d800b8: *none*
 
 Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
- - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
- - Shape _:n41e7def177e24fbeae465cc094b12c08b22: *none*
- - Shape _:n41e7def177e24fbeae465cc094b12c08b23: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n41e7def177e24fbeae465cc094b12c08b10: *none*
- - Shape cdifd:CDIFIdentifierShape: *none*
+ - Shape _:n6e3be179af414e6a8e88d85f5f2cee6eb25: *none*
  - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n41e7def177e24fbeae465cc094b12c08b25: *none*
- - Shape _:n41e7def177e24fbeae465cc094b12c08b21: *none*
- - Shape _:n41e7def177e24fbeae465cc094b12c08b20: *none*
+ - Shape _:n6e3be179af414e6a8e88d85f5f2cee6eb22: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
  - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape _:n6e3be179af414e6a8e88d85f5f2cee6eb11: *none*
+ - Shape _:n6e3be179af414e6a8e88d85f5f2cee6eb21: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n41e7def177e24fbeae465cc094b12c08b11: *none*
+ - Shape _:n6e3be179af414e6a8e88d85f5f2cee6eb10: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:n6e3be179af414e6a8e88d85f5f2cee6eb23: *none*
+ - Shape _:n6e3be179af414e6a8e88d85f5f2cee6eb20: *none*
 
 Validation result for _sources/skosProperties/skosConcept/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:prefLabelUniqueLangShape: *none*
  - Shape skosv:ConceptShape: *none*
  - Shape skosv:conceptBroaderNotSelfShape: *none*
- - Shape skosv:prefLabelUniqueLangShape: *none*
 
 === End SHACL ===
 

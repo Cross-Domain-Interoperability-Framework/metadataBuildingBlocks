@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription - CDIF Data Description
-Generated 2026-11-05T07:24:07.754595+00:00
+Generated 2026-11-06T11:02:58.025774+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
@@ -18,25 +18,23 @@ ValidationError: 'schema:variableMeasured' is a required property
 
 Failed validating 'required' in schema:
     {'$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'title': 'CDIF Data Description properties',
      'description': 'Additional constraints for CDIF data description '
                     'level. Adds cdif:physicalDataType requirement on '
                     'variableMeasured items and distribution-level cdi '
                     'properties for file characterization (characterSet, '
                     'fileSize, fileSizeUofM).',
-     'if': {'properties': {'schema:variableMeasured': {'minItems': 1,
-                                                       'type': 'array'}},
-            'required': ['schema:variableMeasured']},
-     'properties': {'@context': {'description': 'Additional JSON-LD '
+     'type': 'object',
+     'properties': {'@context': {'type': 'object',
+                                 'description': 'Additional JSON-LD '
                                                 'namespace prefixes for '
                                                 'discovery and data '
                                                 'description.',
-                                 'properties': {'cdi': {'const': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/'},
+                                 'properties': {'geosparql': {'const': 'http://www.opengis.net/ont/geosparql#'},
                                                 'dqv': {'const': 'http://www.w3.org/ns/dqv#'},
-                                                'geosparql': {'const': 'http://www.opengis.net/ont/geosparql#'}},
-                                 'type': 'object'},
+                                                'cdi': {'const': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/'}}},
                     'cdif:hasPrimaryKey': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml'},
-                                                     {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml',
-                                                      'description': 'object '
+                                                     {'description': 'object '
                                                                      'reference '
                                                                      'via '
                                                                      'URI '
@@ -50,7 +48,8 @@ Failed validating 'required' in schema:
                                                                      'in '
                                                                      'the '
                                                                      'same '
-                                                                     'document'}],
+                                                                     'document',
+                                                      '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'}],
                                            'description': 'Primary key of '
                                                           'the dataset: a '
                                                           'cdif:Key whose '
@@ -63,7 +62,8 @@ Failed validating 'required' in schema:
                                                           'that uniquely '
                                                           'identify each '
                                                           'data instance.'},
-                    'cdif:statistics': {'description': '**Dataset-scope** '
+                    'cdif:statistics': {'type': 'array',
+                                        'description': '**Dataset-scope** '
                                                        'summary statistics '
                                                        '— statistics that '
                                                        'describe the '
@@ -125,8 +125,127 @@ Failed validating 'required' in schema:
                                                        'variable-anchored '
                                                        'path.',
                                         'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/schema.yaml'},
-                                                            {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'}]},
-                                        'type': 'array'},
+                                                            {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'}]}},
+                    'schema:subjectOf': {'properties': {'dcterms:conformsTo': {'type': 'array',
+                                                                               'items': {'description': 'uri '
+                                                                                                        'for '
+                                                                                                        'specifications '
+                                                                                                        'that '
+                                                                                                        'this '
+                                                                                                        'metadata '
+                                                                                                        'record '
+                                                                                                        'conforms '
+                                                                                                        'to',
+                                                                                         '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'},
+                                                                               'minItems': 1}}},
+                    'schema:variableMeasured': {'type': 'array',
+                                                'items': {'allOf': [{'type': 'object',
+                                                                     'description': 'All '
+                                                                                    'variableMeasured '
+                                                                                    'items '
+                                                                                    'at '
+                                                                                    'data '
+                                                                                    'description '
+                                                                                    'level '
+                                                                                    'must '
+                                                                                    'have '
+                                                                                    'an '
+                                                                                    '@id '
+                                                                                    'and '
+                                                                                    'cdif:physicalDataType '
+                                                                                    'so '
+                                                                                    'physical '
+                                                                                    'mappings '
+                                                                                    'can '
+                                                                                    'reference '
+                                                                                    'them.',
+                                                                     'properties': {'@id': {'type': 'string',
+                                                                                            'description': 'URI '
+                                                                                                           'identifier '
+                                                                                                           'for '
+                                                                                                           'this '
+                                                                                                           'variable, '
+                                                                                                           'used '
+                                                                                                           'as '
+                                                                                                           'the '
+                                                                                                           'target '
+                                                                                                           'of '
+                                                                                                           'cdif:formats_InstanceVariable '
+                                                                                                           'references '
+                                                                                                           'in '
+                                                                                                           'physical '
+                                                                                                           'mappings.'}},
+                                                                     'required': ['@id']},
+                                                                    {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml'},
+                                                                    {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml'},
+                                                                    {'type': 'object',
+                                                                     'description': 'At '
+                                                                                    'the '
+                                                                                    'Data '
+                                                                                    'Description '
+                                                                                    'profile '
+                                                                                    'level, '
+                                                                                    'InstanceVariables '
+                                                                                    'may '
+                                                                                    'also '
+                                                                                    'carry '
+                                                                                    'substantive '
+                                                                                    'and '
+                                                                                    'sentinel '
+                                                                                    'value '
+                                                                                    'domains '
+                                                                                    'directly '
+                                                                                    '(in '
+                                                                                    'profiles '
+                                                                                    'that '
+                                                                                    'introduce '
+                                                                                    'a '
+                                                                                    'RepresentedVariable '
+                                                                                    '- '
+                                                                                    'e.g., '
+                                                                                    'CDIFDataStructureProfile '
+                                                                                    '- '
+                                                                                    'these '
+                                                                                    'properties '
+                                                                                    'live '
+                                                                                    'on '
+                                                                                    'the '
+                                                                                    'RepresentedVariable '
+                                                                                    'instead '
+                                                                                    'and '
+                                                                                    'are '
+                                                                                    'disallowed '
+                                                                                    'here).',
+                                                                     'properties': {'cdi:takesSentinelValuesFrom': {'type': 'array',
+                                                                                                                    'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain'},
+                                                                                                                                        {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'}]},
+                                                                                                                    'description': 'Sentinel '
+                                                                                                                                   '(missing '
+                                                                                                                                   '/ '
+                                                                                                                                   'not-applicable) '
+                                                                                                                                   'value '
+                                                                                                                                   'domain(s) '
+                                                                                                                                   'for '
+                                                                                                                                   'this '
+                                                                                                                                   'variable '
+                                                                                                                                   '(RepresentedVariable.takesSentinelValuesFrom).'},
+                                                                                    'cdi:takesSubstantiveValuesFrom': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain'},
+                                                                                                                                 {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'}],
+                                                                                                                       'description': 'The '
+                                                                                                                                      'substantive '
+                                                                                                                                      'value '
+                                                                                                                                      'domain '
+                                                                                                                                      'for '
+                                                                                                                                      'this '
+                                                                                                                                      'variable '
+                                                                                                                                      '- '
+                                                                                                                                      'the '
+                                                                                                                                      'set '
+                                                                                                                                      'of '
+                                                                                                                                      'valid, '
+                                                                                                                                      'meaningful '
+                                                                                                                                      'values '
+                                                                                                                                      '(RepresentedVariable.takesSubstantiveValuesFrom).'}}}]}},
                     'schema:distribution': {'description': 'Each '
                                                            'schema:DataDownload '
                                                            'distribution '
@@ -159,29 +278,10 @@ Failed validating 'required' in schema:
                                                            'runtime '
                                                            'enforcement is '
                                                            'needed.',
+                                            'type': 'array',
                                             'items': {'allOf': [{'if': {'properties': {'@type': {'contains': {'const': 'schema:DataDownload'}}}},
-                                                                 'then': {'properties': {'cdi:characterSet': {'description': 'The '
-                                                                                                                             'character '
-                                                                                                                             'set '
-                                                                                                                             'used '
-                                                                                                                             'in '
-                                                                                                                             'the '
-                                                                                                                             'distribution '
-                                                                                                                             '(e.g., '
-                                                                                                                             'UTF-8, '
-                                                                                                                             'ASCII).',
-                                                                                                              'type': 'string'},
-                                                                                         'cdi:fingerprint': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataFingerprint/schema.yaml',
-                                                                                                             'description': 'Integrity '
-                                                                                                                            'fingerprint '
-                                                                                                                            '(checksum/hash) '
-                                                                                                                            'of '
-                                                                                                                            'this '
-                                                                                                                            "distribution's "
-                                                                                                                            'bytes '
-                                                                                                                            '(DDI-CDI '
-                                                                                                                            'DataFingerprint).'},
-                                                                                         'cdif:hasPhysicalMapping': {'description': 'Per-field '
+                                                                 'then': {'properties': {'cdif:hasPhysicalMapping': {'type': 'array',
+                                                                                                                     'description': 'Per-field '
                                                                                                                                     'physical '
                                                                                                                                     'mappings '
                                                                                                                                     'linking '
@@ -237,25 +337,35 @@ Failed validating 'required' in schema:
                                                                                                                                     'type.',
                                                                                                                      'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml'},
                                                                                                                                          {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTextMapping/schema.yaml'},
-                                                                                                                                         {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifLocatorMapping/schema.yaml'}]},
-                                                                                                                     'type': 'array'}}}},
+                                                                                                                                         {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifLocatorMapping/schema.yaml'}]}},
+                                                                                         'cdi:characterSet': {'type': 'string',
+                                                                                                              'description': 'The '
+                                                                                                                             'character '
+                                                                                                                             'set '
+                                                                                                                             'used '
+                                                                                                                             'in '
+                                                                                                                             'the '
+                                                                                                                             'distribution '
+                                                                                                                             '(e.g., '
+                                                                                                                             'UTF-8, '
+                                                                                                                             'ASCII).'},
+                                                                                         'cdi:fingerprint': {'description': 'Integrity '
+                                                                                                                            'fingerprint '
+                                                                                                                            '(checksum/hash) '
+                                                                                                                            'of '
+                                                                                                                            'this '
+                                                                                                                            "distribution's "
+                                                                                                                            'bytes '
+                                                                                                                            '(DDI-CDI '
+                                                                                                                            'DataFingerprint).',
+                                                                                                             '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataFingerprint/schema.yaml'}}}},
                                                                 {'if': {'properties': {'@type': {'contains': {'const': 'cdi:TabularTextDataSet'}}}},
                                                                  'then': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTabularTextDataSet/schema.yaml'}},
                                                                 {'if': {'properties': {'@type': {'contains': {'const': 'cdi:StructuredDataSet'}}}},
                                                                  'then': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStructuredDataSet/schema.yaml'}},
                                                                 {'if': {'properties': {'@type': {'contains': {'const': 'schema:WebAPI'}}}},
-                                                                 'then': {'properties': {'schema:potentialAction': {'items': {'properties': {'schema:result': {'properties': {'cdi:characterSet': {'description': 'The '
-                                                                                                                                                                                                                  'character '
-                                                                                                                                                                                                                  'set '
-                                                                                                                                                                                                                  'used '
-                                                                                                                                                                                                                  'in '
-                                                                                                                                                                                                                  'the '
-                                                                                                                                                                                                                  'API '
-                                                                                                                                                                                                                  'response '
-                                                                                                                                                                                                                  '(e.g., '
-                                                                                                                                                                                                                  'UTF-8).',
-                                                                                                                                                                                                   'type': 'string'},
-                                                                                                                                                                              'cdif:hasPhysicalMapping': {'description': 'Per-field '
+                                                                 'then': {'properties': {'schema:potentialAction': {'items': {'properties': {'schema:result': {'properties': {'cdif:hasPhysicalMapping': {'type': 'array',
+                                                                                                                                                                                                          'description': 'Per-field '
                                                                                                                                                                                                                          'physical '
                                                                                                                                                                                                                          'mappings '
                                                                                                                                                                                                                          'for '
@@ -288,231 +398,122 @@ Failed validating 'required' in schema:
                                                                                                                                                                                                                          'cdifLocatorMapping).',
                                                                                                                                                                                                           'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml'},
                                                                                                                                                                                                                               {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTextMapping/schema.yaml'},
-                                                                                                                                                                                                                              {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifLocatorMapping/schema.yaml'}]},
-                                                                                                                                                                                                          'type': 'array'}}}}}}}}}]},
-                                            'type': 'array'},
-                    'schema:subjectOf': {'properties': {'dcterms:conformsTo': {'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml',
-                                                                                         'description': 'uri '
-                                                                                                        'for '
-                                                                                                        'specifications '
-                                                                                                        'that '
-                                                                                                        'this '
-                                                                                                        'metadata '
-                                                                                                        'record '
-                                                                                                        'conforms '
-                                                                                                        'to'},
-                                                                               'minItems': 1,
-                                                                               'type': 'array'}}},
-                    'schema:variableMeasured': {'items': {'allOf': [{'description': 'All '
-                                                                                    'variableMeasured '
-                                                                                    'items '
-                                                                                    'at '
-                                                                                    'data '
-                                                                                    'description '
-                                                                                    'level '
-                                                                                    'must '
-                                                                                    'have '
-                                                                                    'an '
-                                                                                    '@id '
-                                                                                    'and '
-                                                                                    'cdif:physicalDataType '
-                                                                                    'so '
-                                                                                    'physical '
-                                                                                    'mappings '
-                                                                                    'can '
-                                                                                    'reference '
-                                                                                    'them.',
-                                                                     'properties': {'@id': {'description': 'URI '
-                                                                                                           'identifier '
-                                                                                                           'for '
-                                                                                                           'this '
-                                                                                                           'variable, '
-                                                                                                           'used '
-                                                                                                           'as '
-                                                                                                           'the '
-                                                                                                           'target '
-                                                                                                           'of '
-                                                                                                           'cdif:formats_InstanceVariable '
-                                                                                                           'references '
-                                                                                                           'in '
-                                                                                                           'physical '
-                                                                                                           'mappings.',
-                                                                                            'type': 'string'}},
-                                                                     'required': ['@id'],
-                                                                     'type': 'object'},
-                                                                    {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml'},
-                                                                    {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml'},
-                                                                    {'description': 'At '
-                                                                                    'the '
-                                                                                    'Data '
-                                                                                    'Description '
-                                                                                    'profile '
-                                                                                    'level, '
-                                                                                    'InstanceVariables '
-                                                                                    'may '
-                                                                                    'also '
-                                                                                    'carry '
-                                                                                    'substantive '
-                                                                                    'and '
-                                                                                    'sentinel '
-                                                                                    'value '
-                                                                                    'domains '
-                                                                                    'directly '
-                                                                                    '(in '
-                                                                                    'profiles '
-                                                                                    'that '
-                                                                                    'introduce '
-                                                                                    'a '
-                                                                                    'RepresentedVariable '
-                                                                                    '- '
-                                                                                    'e.g., '
-                                                                                    'CDIFDataStructureProfile '
-                                                                                    '- '
-                                                                                    'these '
-                                                                                    'properties '
-                                                                                    'live '
-                                                                                    'on '
-                                                                                    'the '
-                                                                                    'RepresentedVariable '
-                                                                                    'instead '
-                                                                                    'and '
-                                                                                    'are '
-                                                                                    'disallowed '
-                                                                                    'here).',
-                                                                     'properties': {'cdi:takesSentinelValuesFrom': {'description': 'Sentinel '
-                                                                                                                                   '(missing '
-                                                                                                                                   '/ '
-                                                                                                                                   'not-applicable) '
-                                                                                                                                   'value '
-                                                                                                                                   'domain(s) '
-                                                                                                                                   'for '
-                                                                                                                                   'this '
-                                                                                                                                   'variable '
-                                                                                                                                   '(RepresentedVariable.takesSentinelValuesFrom).',
-                                                                                                                    'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain'},
-                                                                                                                                        {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'}]},
-                                                                                                                    'type': 'array'},
-                                                                                    'cdi:takesSubstantiveValuesFrom': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain'},
-                                                                                                                                 {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'}],
-                                                                                                                       'description': 'The '
-                                                                                                                                      'substantive '
-                                                                                                                                      'value '
-                                                                                                                                      'domain '
-                                                                                                                                      'for '
-                                                                                                                                      'this '
-                                                                                                                                      'variable '
-                                                                                                                                      '- '
-                                                                                                                                      'the '
-                                                                                                                                      'set '
-                                                                                                                                      'of '
-                                                                                                                                      'valid, '
-                                                                                                                                      'meaningful '
-                                                                                                                                      'values '
-                                                                                                                                      '(RepresentedVariable.takesSubstantiveValuesFrom).'}},
-                                                                     'type': 'object'}]},
-                                                'type': 'array'}},
+                                                                                                                                                                                                                              {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifLocatorMapping/schema.yaml'}]}},
+                                                                                                                                                                              'cdi:characterSet': {'type': 'string',
+                                                                                                                                                                                                   'description': 'The '
+                                                                                                                                                                                                                  'character '
+                                                                                                                                                                                                                  'set '
+                                                                                                                                                                                                                  'used '
+                                                                                                                                                                                                                  'in '
+                                                                                                                                                                                                                  'the '
+                                                                                                                                                                                                                  'API '
+                                                                                                                                                                                                                  'response '
+                                                                                                                                                                                                                  '(e.g., '
+                                                                                                                                                                                                                  'UTF-8).'}}}}}}}}}]}}},
      'required': ['schema:variableMeasured'],
-     'then': {'properties': {'schema:subjectOf': {'properties': {'dcterms:conformsTo': {'contains': {'additionalProperties': False,
-                                                                                                     'properties': {'@id': {'const': 'https://w3id.org/cdif/data_description/1.1'}},
+     'if': {'required': ['schema:variableMeasured'],
+            'properties': {'schema:variableMeasured': {'type': 'array',
+                                                       'minItems': 1}}},
+     'then': {'required': ['schema:subjectOf'],
+              'properties': {'schema:subjectOf': {'required': ['dcterms:conformsTo'],
+                                                  'properties': {'dcterms:conformsTo': {'contains': {'type': 'object',
                                                                                                      'required': ['@id'],
-                                                                                                     'type': 'object'}}},
-                                                  'required': ['dcterms:conformsTo']}},
-              'required': ['schema:subjectOf']},
-     'title': 'CDIF Data Description properties',
-     'type': 'object',
-     'x-bblocks-metadata': {'dateOfLastChange': '2026-11-05',
-                            'itemIdentifier': 'cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription',
+                                                                                                     'additionalProperties': False,
+                                                                                                     'properties': {'@id': {'const': 'https://w3id.org/cdif/data_description/1.1'}}}}}}}},
+     'x-bblocks-metadata': {'itemIdentifier': 'cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription',
                             'register': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json',
-                            'version': '0.1'}}
+                            'version': '0.1',
+                            'dateOfLastChange': '2026-11-06'},
+     '$id': 'file:///github/workspace/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema.yaml'}
 
 On instance:
-    {'@context': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
-                  'cdif': 'https://w3id.org/cdif/',
-                  'dcat': 'http://www.w3.org/ns/dcat#',
+    {'@context': {'schema': 'http://schema.org/',
+                  'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
                   'dcterms': 'http://purl.org/dc/terms/',
+                  'dcat': 'http://www.w3.org/ns/dcat#',
                   'ex': 'https://example.org/',
-                  'schema': 'http://schema.org/'},
+                  'cdif': 'https://w3id.org/cdif/'},
      '@id': 'ex:dataset/oceanTemp2025',
      '@type': ['schema:Dataset'],
+     'schema:name': 'Ocean Temperature Monitoring Data',
+     'schema:identifier': 'https://doi.org/10.1234/ocean-temp-2025',
+     'schema:url': 'https://example.org/datasets/ocean-temp-2025',
      'schema:dateModified': '2025-09-01',
+     'schema:license': ['https://creativecommons.org/licenses/by/4.0/'],
+     'schema:subjectOf': {'@type': ['schema:Dataset'],
+                          'schema:additionalType': [{'@id': 'dcat:CatalogRecord'}],
+                          '@id': 'ex:dataset/oceanTemp2025/metadata',
+                          'schema:about': {'@id': 'ex:dataset/oceanTemp2025'},
+                          'dcterms:conformsTo': [{'@id': 'https://w3id.org/cdif/data_description/1.1'}]},
      'schema:distribution': [{'@type': ['schema:DataDownload',
                                         'cdi:TabularTextDataSet',
                                         'cdi:PhysicalDataSet'],
+                              'schema:name': 'Ocean temperature CSV',
+                              'schema:contentUrl': 'https://example.org/downloads/ocean-temp-2025.csv',
+                              'schema:encodingFormat': ['text/csv'],
                               'cdi:characterSet': 'UTF-8',
-                              'cdi:commentPrefix': '#',
+                              'cdif:fileSize': 1.2,
+                              'cdif:fileSizeUofM': 'MB',
+                              'cdi:isDelimited': True,
                               'cdi:delimiter': ',',
                               'cdi:hasHeader': True,
                               'cdi:headerRowCount': 1,
-                              'cdi:isDelimited': True,
-                              'cdi:quoteCharacter': '"',
-                              'cdi:skipBlankRows': True,
                               'cdi:skipRows': 0,
+                              'cdi:skipBlankRows': True,
+                              'cdi:commentPrefix': '#',
+                              'cdi:quoteCharacter': '"',
                               'cdi:trim': 'Both',
-                              'cdif:fileSize': 1.2,
-                              'cdif:fileSizeUofM': 'MB',
-                              'cdif:hasPhysicalMapping': [{'cdi:isRequired': True,
+                              'cdif:hasPhysicalMapping': [{'cdif:index': 0,
+                                                           'cdif:physicalDataType': 'String',
                                                            'cdi:length': 20,
-                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/stationId'},
-                                                           'cdif:index': 0,
-                                                           'cdif:physicalDataType': 'String'},
-                                                          {'cdi:decimalPositions': 1,
                                                            'cdi:isRequired': True,
-                                                           'cdi:nullSequence': '-999.9',
-                                                           'cdi:scale': 1,
+                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/stationId'}},
+                                                          {'cdif:index': 1,
+                                                           'cdif:physicalDataType': 'Numeric',
                                                            'cdif:format': '0.0',
-                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/measurementDepth'},
-                                                           'cdif:index': 1,
-                                                           'cdif:physicalDataType': 'Numeric'},
-                                                          {'cdi:decimalPositions': 2,
-                                                           'cdi:defaultValue': 'NaN',
-                                                           'cdi:isRequired': False,
-                                                           'cdi:maximumLength': 10,
-                                                           'cdi:minimumLength': 1,
-                                                           'cdi:nullSequence': '-999.99',
-                                                           'cdi:scale': 2,
+                                                           'cdi:scale': 1,
+                                                           'cdi:decimalPositions': 1,
+                                                           'cdi:nullSequence': '-999.9',
+                                                           'cdi:isRequired': True,
+                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/measurementDepth'}},
+                                                          {'cdif:index': 2,
+                                                           'cdif:physicalDataType': 'Numeric',
                                                            'cdif:format': '0.00',
-                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/seaWaterTemp'},
-                                                           'cdif:index': 2,
-                                                           'cdif:physicalDataType': 'Numeric'},
-                                                          {'cdi:isRequired': False,
-                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/qcFlag'},
-                                                           'cdif:index': 3,
-                                                           'cdif:physicalDataType': 'Integer'},
-                                                          {'cdi:isRequired': False,
-                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/sourceCruise'},
-                                                           'cdif:index': 4,
-                                                           'cdif:physicalDataType': 'String'}],
-                              'schema:contentUrl': 'https://example.org/downloads/ocean-temp-2025.csv',
-                              'schema:encodingFormat': ['text/csv'],
-                              'schema:name': 'Ocean temperature CSV'},
+                                                           'cdi:scale': 2,
+                                                           'cdi:decimalPositions': 2,
+                                                           'cdi:nullSequence': '-999.99',
+                                                           'cdi:defaultValue': 'NaN',
+                                                           'cdi:minimumLength': 1,
+                                                           'cdi:maximumLength': 10,
+                                                           'cdi:isRequired': False,
+                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/seaWaterTemp'}},
+                                                          {'cdif:index': 3,
+                                                           'cdif:physicalDataType': 'Integer',
+                                                           'cdi:isRequired': False,
+                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/qcFlag'}},
+                                                          {'cdif:index': 4,
+                                                           'cdif:physicalDataType': 'String',
+                                                           'cdi:isRequired': False,
+                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/sourceCruise'}}]},
                              {'@type': ['schema:DataDownload',
                                         'cdi:StructuredDataSet',
                                         'cdi:PhysicalDataSet'],
+                              'schema:name': 'Ocean temperature NetCDF '
+                                             'cube',
+                              'schema:contentUrl': 'https://example.org/downloads/ocean-temp-2025.nc',
+                              'schema:encodingFormat': ['application/x-netcdf'],
                               'cdi:characterSet': 'UTF-8',
                               'cdif:fileSize': 240.0,
                               'cdif:fileSizeUofM': 'MB',
-                              'cdif:hasPhysicalMapping': [{'cdi:isRequired': True,
+                              'cdif:hasPhysicalMapping': [{'cdif:physicalDataType': 'float32',
                                                            'cdi:locator': '/measurements/seaWaterTemperature',
                                                            'cdi:nullSequence': 'NaN',
-                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/seaWaterTemp'},
-                                                           'cdif:physicalDataType': 'float32'},
-                                                          {'cdi:isRequired': True,
+                                                           'cdi:isRequired': True,
+                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/seaWaterTemp'}},
+                                                          {'cdif:physicalDataType': 'float32',
                                                            'cdi:locator': '/coordinates/depth',
-                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/measurementDepth'},
-                                                           'cdif:physicalDataType': 'float32'}],
-                              'schema:contentUrl': 'https://example.org/downloads/ocean-temp-2025.nc',
-                              'schema:encodingFormat': ['application/x-netcdf'],
-                              'schema:name': 'Ocean temperature NetCDF '
-                                             'cube'}],
-     'schema:identifier': 'https://doi.org/10.1234/ocean-temp-2025',
-     'schema:license': ['https://creativecommons.org/licenses/by/4.0/'],
-     'schema:name': 'Ocean Temperature Monitoring Data',
-     'schema:subjectOf': {'@id': 'ex:dataset/oceanTemp2025/metadata',
-                          '@type': ['schema:Dataset'],
-                          'dcterms:conformsTo': [{'@id': 'https://w3id.org/cdif/data_description/1.1'}],
-                          'schema:about': {'@id': 'ex:dataset/oceanTemp2025'},
-                          'schema:additionalType': [{'@id': 'dcat:CatalogRecord'}]},
-     'schema:url': 'https://example.org/datasets/ocean-temp-2025'}
+                                                           'cdi:isRequired': True,
+                                                           'cdif:formats_InstanceVariable': {'@id': 'ex:dataset/oceanTemp2025/var/measurementDepth'}}]}]}
 === End JSON Schema ===
 
 === SHACL ===
@@ -530,100 +531,100 @@ Validation result for _sources/profiles/cdifProfile/cdifDataDescription/rules.sh
   	Message: A Dataset declaring conformance to the data_description profile must carry at least one schema:variableMeasured.
   
 Focus nodes for _sources/profiles/cdifProfile/cdifDataDescription/rules.shacl:
+ - Shape cdifd:dataDescriptionDatasetShape: *none*
+ - Shape cdifd:dataDescriptionVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nd779a0dbba584a87a1ee19c3ece2b447b5: *none*
+ - Shape cdifd:datasetScopeStatisticsShape: *none*
+ - Shape cdifd:dataDescriptionVariableShape: *none*
  - Shape cdifd:CDIFDataDescriptionConformsToShape: *none*
  - Shape cdifd:structuredDataSetLocatorMappingShape/sh:property/sh:node: *none*
  - Shape cdifd:structuredDataSetLocatorMappingShape: <https://example.org/dataset/oceanTemp2025>/schema1:distribution
- - Shape _:n2b42a98d3a4b44f3834f6763f76ebc0bb5: *none*
- - Shape cdifd:dataDescriptionVariableShape: *none*
- - Shape cdifd:dataDescriptionVariableShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n2b42a98d3a4b44f3834f6763f76ebc0bb6: *none*
- - Shape cdifd:dataDescriptionDatasetShape: *none*
- - Shape cdifd:datasetScopeStatisticsShape: *none*
+ - Shape _:nd779a0dbba584a87a1ee19c3ece2b447b6: *none*
 
 Validation result for _sources/cdifDataType/cdifInstanceVariable/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/cdifDataType/cdifInstanceVariable/rules.shacl:
- - Shape cdifd:InstanceVariableRepresentedVariableExclusivityShape: *none*
- - Shape cdifd:CDIFxasInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db18: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db16: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db11: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db71: *none*
- - Shape cdifd:QualifiesCoherenceShape: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db20: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db73: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b71: *none*
  - Shape cdifd:QualifiesNotAllowedWithoutAttributeShape: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db14: *none*
- - Shape cdifd:CDIFInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db69: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b70: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b17: *none*
  - Shape cdifd:CDIFInstanceVariableShape: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db13: *none*
- - Shape cdifd:CDIFxasInstanceVariableShape: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db66: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db72: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db70: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db75: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db10: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db15: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b14: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b72: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b75: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b67: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b73: *none*
+ - Shape cdifd:QualifiesCoherenceShape: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b16: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b11: *none*
  - Shape cdifd:QualifiesRequiredForAttributeShape: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db67: *none*
- - Shape _:n24414a9c9f2e4488b30f9dc4a96db86db17: *none*
+ - Shape cdifd:CDIFInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b13: *none*
+ - Shape cdifd:CDIFxasInstanceVariableShape: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b18: *none*
+ - Shape cdifd:CDIFxasInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b69: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b66: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b20: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b10: *none*
+ - Shape _:n455b3782416847b48f6593e297c83d20b15: *none*
+ - Shape cdifd:InstanceVariableRepresentedVariableExclusivityShape: *none*
 
 Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
- - Shape _:n8766bf2a27b54986b77c7ad703af9e79b4: *none*
- - Shape _:n8766bf2a27b54986b77c7ad703af9e79b6: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:n6804fe44023746f3b3bd1d5693fc8f08b26: *none*
+ - Shape _:n6804fe44023746f3b3bd1d5693fc8f08b4: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n8766bf2a27b54986b77c7ad703af9e79b5: *none*
- - Shape _:n8766bf2a27b54986b77c7ad703af9e79b10: *none*
- - Shape _:n8766bf2a27b54986b77c7ad703af9e79b8: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:n8766bf2a27b54986b77c7ad703af9e79b26: *none*
- - Shape _:n8766bf2a27b54986b77c7ad703af9e79b7: *none*
- - Shape _:n8766bf2a27b54986b77c7ad703af9e79b19: *none*
+ - Shape _:n6804fe44023746f3b3bd1d5693fc8f08b7: *none*
+ - Shape _:n6804fe44023746f3b3bd1d5693fc8f08b10: *none*
+ - Shape _:n6804fe44023746f3b3bd1d5693fc8f08b19: *none*
+ - Shape _:n6804fe44023746f3b3bd1d5693fc8f08b5: *none*
+ - Shape _:n6804fe44023746f3b3bd1d5693fc8f08b8: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n6804fe44023746f3b3bd1d5693fc8f08b6: *none*
 
 Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
- - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n1197557e28fb4d0295d313857d6bae35b22: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
- - Shape _:n03ea4982f3a44ad0a95be8d40eb24d92b11: *none*
- - Shape _:n03ea4982f3a44ad0a95be8d40eb24d92b20: *none*
- - Shape cdifd:CDIFIdentifierShape: *none*
  - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n03ea4982f3a44ad0a95be8d40eb24d92b21: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n03ea4982f3a44ad0a95be8d40eb24d92b23: *none*
- - Shape _:n03ea4982f3a44ad0a95be8d40eb24d92b10: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
  - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
- - Shape _:n03ea4982f3a44ad0a95be8d40eb24d92b22: *none*
- - Shape _:n03ea4982f3a44ad0a95be8d40eb24d92b25: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n1197557e28fb4d0295d313857d6bae35b20: *none*
+ - Shape _:n1197557e28fb4d0295d313857d6bae35b23: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n1197557e28fb4d0295d313857d6bae35b11: *none*
+ - Shape _:n1197557e28fb4d0295d313857d6bae35b21: *none*
+ - Shape _:n1197557e28fb4d0295d313857d6bae35b25: *none*
+ - Shape _:n1197557e28fb4d0295d313857d6bae35b10: *none*
 
 Validation result for _sources/skosProperties/skosConcept/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:prefLabelUniqueLangShape: *none*
  - Shape skosv:ConceptShape: *none*
  - Shape skosv:conceptBroaderNotSelfShape: *none*
- - Shape skosv:prefLabelUniqueLangShape: *none*
 
 Validation result for _sources/cdifDataType/cdifStatistics/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/cdifDataType/cdifStatistics/rules.shacl:
- - Shape cdifd:cdifCategoryStatisticShape: *none*
  - Shape cdifd:cdifStatisticsCollectionShape: *none*
+ - Shape cdifd:cdifCategoryStatisticShape: *none*
  - Shape cdifd:cdifStatisticsShape: *none*
 
 Validation result for _sources/schemaorgProperties/variableMeasured/rules.shacl:
@@ -631,44 +632,44 @@ Validation result for _sources/schemaorgProperties/variableMeasured/rules.shacl:
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/variableMeasured/rules.shacl:
- - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb14: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb12: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb51: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb5: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb45: *none*
- - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb11: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb44: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb10: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb30: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb8: *none*
  - Shape cdifd:CDIFVariableMeasuredShape: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb37: *none*
- - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb9: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb38: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb7: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb4: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb29: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb44: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb45: *none*
  - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
  - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:na90a4fa1e0b44309a83c5e0d3c62302cb52: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb7: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb38: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb5: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb30: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb51: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb9: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb4: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb10: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb37: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb8: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb12: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb29: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb52: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb11: *none*
+ - Shape _:nbe863ab70a3b43f4b01c383b1697769cb14: *none*
 
 Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:
- - Shape _:n3cb774d91019453faa8fb8556d22ba45b7: *none*
- - Shape _:n3cb774d91019453faa8fb8556d22ba45b6: *none*
- - Shape cdifd:CDIFRelationShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n3cb774d91019453faa8fb8556d22ba45b5: *none*
- - Shape _:n3cb774d91019453faa8fb8556d22ba45b4: *none*
+ - Shape _:n56a7e3c3a9f9433d883bb4555053cad9b7: *none*
+ - Shape _:n56a7e3c3a9f9433d883bb4555053cad9b5: *none*
+ - Shape _:n56a7e3c3a9f9433d883bb4555053cad9b15: *none*
+ - Shape _:n56a7e3c3a9f9433d883bb4555053cad9b6: *none*
  - Shape cdifd:CDIFRelationShape: *none*
  - Shape cdifd:CDIFRelationShape/sh:property/sh:or/rdf:first: *none*
  - Shape cdifd:CDIFLabeledLinkShape: *none*
- - Shape _:n3cb774d91019453faa8fb8556d22ba45b15: *none*
+ - Shape cdifd:CDIFRelationShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n56a7e3c3a9f9433d883bb4555053cad9b4: *none*
 
 Validation result for _sources/cdifDataType/cdifKey/rules.shacl:
   Validation Report
@@ -682,6 +683,7 @@ Validation result for _sources/cdifDataType/cdifPhysicalMapping/rules.shacl:
   Conforms: True
   
 Focus nodes for _sources/cdifDataType/cdifPhysicalMapping/rules.shacl:
+ - Shape cdifd:tabularTextDataSetMappingsShape: <https://example.org/dataset/oceanTemp2025>/schema1:distribution
  - Shape cdifd:physicalMappingShape: *none*
 
 Validation result for _sources/cdifDataType/cdifValueDomain/rules.shacl:
@@ -689,26 +691,26 @@ Validation result for _sources/cdifDataType/cdifValueDomain/rules.shacl:
   Conforms: True
   
 Focus nodes for _sources/cdifDataType/cdifValueDomain/rules.shacl:
- - Shape cdifd:cdifSubstantiveValueDomainShape: *none*
  - Shape cdifd:cdifSentinelValueDomainShape: *none*
+ - Shape cdifd:cdifSubstantiveValueDomainShape: *none*
 
 Validation result for _sources/cdifDataType/cdifEnumerationDomain/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/cdifDataType/cdifEnumerationDomain/rules.shacl:
- - Shape cdifd:cdifEnumerationDomainShape: *none*
  - Shape cdifd:cdifEnumerationDomainValuesStatedShape/sh:or/rdf:first: *none*
  - Shape cdifd:cdifEnumerationDomainValuesStatedShape/sh:or/rdf:rest/rdf:first: *none*
  - Shape cdifd:cdifEnumerationDomainValuesStatedShape: *none*
+ - Shape cdifd:cdifEnumerationDomainShape: *none*
 
 Validation result for _sources/profiles/cdifProfile/cdifCodelist/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/profiles/cdifProfile/cdifCodelist/rules.shacl:
- - Shape cdifd:CDIFCodelistShape: *none*
  - Shape cdifd:CDIFCodelistConceptShape: *none*
+ - Shape cdifd:CDIFCodelistShape: *none*
 
 === End SHACL ===
 

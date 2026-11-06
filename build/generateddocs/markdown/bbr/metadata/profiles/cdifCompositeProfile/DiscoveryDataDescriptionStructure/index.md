@@ -1987,22 +1987,22 @@ optional Attribute) and its own cdif:Key.
             schema1:name "vitals-long.csv" ;
             cdif:fileSize 2.4e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdif:format "ISO8601" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "dateTime" ],
+            cdif:hasPhysicalMapping [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
                 [ cdif:format "string" ;
                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                     cdif:index 1 ;
                     cdif:physicalDataType "string" ],
-                [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
                 [ cdif:format "decimal" ;
                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                     cdif:index 2 ;
-                    cdif:physicalDataType "decimal" ] ],
+                    cdif:physicalDataType "decimal" ],
+                [ cdif:format "ISO8601" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "dateTime" ] ],
         [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
@@ -2042,6 +2042,10 @@ optional Attribute) and its own cdif:Key.
                                     cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
                                     cdif:index 3 ;
                                     cdif:physicalDataType "dateTime" ],
+                                [ cdif:format "string" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                                    cdif:index 0 ;
+                                    cdif:physicalDataType "string" ],
                                 [ cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                                     cdif:index 2 ;
@@ -2049,10 +2053,6 @@ optional Attribute) and its own cdif:Key.
                                 [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                                     cdif:index 1 ;
-                                    cdif:physicalDataType "string" ],
-                                [ cdif:format "string" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                                    cdif:index 0 ;
                                     cdif:physicalDataType "string" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "text/csv" ;
@@ -2132,11 +2132,11 @@ optional Attribute) and its own cdif:Key.
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ] .
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ] .
 
 <https://example.org/grant/nih-R01-XXXX> a schema1:MonetaryGrant ;
     schema1:funder <https://ror.org/01cwqze88> ;
@@ -2163,14 +2163,14 @@ optional Attribute) and its own cdif:Key.
 
 <https://example.org/struct/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ],
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ] .
+            cdi:indexes <https://example.org/var/observedAt> ;
+            cdi:value 3 ] .
 
 <https://example.org/struct/vitalsLong/rv/diastolicBP> a cdi:RepresentedVariable ;
     cdi:simpleUnitOfMeasure "mmHg" ;
@@ -2193,14 +2193,14 @@ optional Attribute) and its own cdif:Key.
     cdif:name "body_temperature_celsius" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
-            cdif:value "temp_c" ],
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
+            cdif:value "diastolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
             cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
+            cdif:value "temp_c" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
-            cdif:value "diastolic_bp" ] .
+            cdif:value "heart_rate" ] .
 
 <https://orcid.org/0000-0001-8898-3457> a schema1:Person ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -2307,7 +2307,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescriptionStructure
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-05'
+  dateOfLastChange: '2026-11-06'
 
 ```
 

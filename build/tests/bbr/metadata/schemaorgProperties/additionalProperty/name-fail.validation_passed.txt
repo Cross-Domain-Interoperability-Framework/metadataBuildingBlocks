@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.schemaorgProperties.additionalProperty - schema additionalProperty properties
-Generated 2026-11-05T07:24:02.098544+00:00
+Generated 2026-11-06T11:02:50.697018+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
@@ -17,20 +17,19 @@ Output Turtle name-fail.ttl created
 ValidationError: 'schema:name' is a required property
 
 Failed validating 'required' in schema:
-    {'$defs': {'DefinedTerm': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml'},
-               'propertyID_item': {'anyOf': [{'type': 'string'},
-                                             {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'},
-                                             {'$ref': '#/$defs/DefinedTerm'}]}},
-     '$schema': 'https://json-schema.org/draft/2020-12/schema',
+    {'$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'type': 'object',
+     'title': 'additionalProperty PropertyValue',
      'description': 'PropertyValue values required to define a soft-typed '
                     'property with a value. ',
-     'properties': {'@type': {'contains': {'const': 'schema:PropertyValue'},
+     'properties': {'@type': {'type': 'array',
                               'items': {'type': 'string'},
-                              'minItems': 1,
-                              'type': 'array'},
-                    'schema:name': {'type': 'string',
-                                    'x-jsonld-id': 'http://schema.org/name'},
-                    'schema:propertyID': {'description': 'identifier or '
+                              'contains': {'const': 'schema:PropertyValue'},
+                              'minItems': 1},
+                    'schema:propertyID': {'type': 'array',
+                                          'items': {'$ref': '#/$defs/propertyID_item'},
+                                          'minItems': 1,
+                                          'description': 'identifier or '
                                                          'name for the '
                                                          'property concept '
                                                          'quantified by '
@@ -42,35 +41,37 @@ Failed validating 'required' in schema:
                                                          'property at '
                                                          'different levels '
                                                          'of granularity.',
-                                          'items': {'$ref': '#/$defs/propertyID_item'},
-                                          'minItems': 1,
-                                          'type': 'array',
                                           'x-jsonld-id': 'http://schema.org/propertyID'},
-                    'schema:unitCode': {'anyOf': [{'type': 'string'},
-                                                  {'$ref': '#/$defs/DefinedTerm'}],
-                                        'x-jsonld-id': 'http://schema.org/unitCode'},
-                    'schema:unitText': {'type': 'string',
-                                        'x-jsonld-id': 'http://schema.org/unitText'},
+                    'schema:name': {'type': 'string',
+                                    'x-jsonld-id': 'http://schema.org/name'},
                     'schema:value': {'anyOf': [{'type': 'string'},
                                                {'type': 'number'},
                                                {'type': 'boolean'},
                                                {'type': 'object'}],
-                                     'x-jsonld-id': 'http://schema.org/value'}},
+                                     'x-jsonld-id': 'http://schema.org/value'},
+                    'schema:unitCode': {'anyOf': [{'type': 'string'},
+                                                  {'$ref': '#/$defs/DefinedTerm'}],
+                                        'x-jsonld-id': 'http://schema.org/unitCode'},
+                    'schema:unitText': {'type': 'string',
+                                        'x-jsonld-id': 'http://schema.org/unitText'}},
      'required': ['schema:name', 'schema:value'],
-     'title': 'additionalProperty PropertyValue',
-     'type': 'object',
-     'x-bblocks-metadata': {'dateOfLastChange': '2026-11-05',
-                            'itemIdentifier': 'cdif.bbr.metadata.schemaorgProperties.additionalProperty',
+     '$defs': {'DefinedTerm': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml'},
+               'propertyID_item': {'anyOf': [{'type': 'string'},
+                                             {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'},
+                                             {'$ref': '#/$defs/DefinedTerm'}]}},
+     'x-jsonld-prefixes': {'schema': 'http://schema.org/',
+                           'nxs': 'https://manual.nexusformat.org/classes/'},
+     'x-bblocks-metadata': {'itemIdentifier': 'cdif.bbr.metadata.schemaorgProperties.additionalProperty',
                             'register': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json',
-                            'version': '0.1'},
-     'x-jsonld-prefixes': {'nxs': 'https://manual.nexusformat.org/classes/',
-                           'schema': 'http://schema.org/'}}
+                            'version': '0.1',
+                            'dateOfLastChange': '2026-11-06'},
+     '$id': 'file:///github/workspace/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml'}
 
 On instance:
-    {'@context': {'ex': 'https://example.org/',
-                  'nxs': 'https://manual.nexusformat.org/classes/',
-                  'schema': 'http://schema.org/',
-                  'xsd': 'http://www.w3.org/2001/XMLSchema#'},
+    {'@context': {'schema': 'http://schema.org/',
+                  'ex': 'https://example.org/',
+                  'xsd': 'http://www.w3.org/2001/XMLSchema#',
+                  'nxs': 'https://manual.nexusformat.org/classes/'},
      '@id': 'ex:exampleAdditionalProperty_lkj09',
      '@type': ['schema:PropertyValue'],
      'schema:propertyID': [{'@id': 'nxs:Field/NXsource/probe'},
@@ -84,64 +85,64 @@ Validation result for _sources/schemaorgProperties/additionalProperty/rules.shac
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/additionalProperty/rules.shacl:
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb20: *none*
- - Shape cdifd:AdditionalTypeUriShouldBeIRIShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb13: *none*
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb6: *none*
- - Shape cdifd:PropertyIDUriShouldBeIRIShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape: <https://manual.nexusformat.org/classes/Field/NXsource/probe>,ex:addPropdefinedTerm_zZc
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b21: *none*
  - Shape cdifd:CDIFAddPropertyTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb29: *none*
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb28: *none*
- - Shape cdifd:AdditionalTypeUriShouldBeIRIShape: *none*
- - Shape cdifd:AdditionalTypeUriShouldBeIRIShape/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFadditionalPropertyShape: *none*
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb7: *none*
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb14: *none*
- - Shape cdifd:PropertyIDUriShouldBeIRIShape/sh:or/rdf:first: *none*
- - Shape cdifd:PropertyIDUriShouldBeIRIShape: ex:addPropdefinedTerm_zZc,<https://manual.nexusformat.org/classes/Field/NXsource/probe>
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb21: *none*
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb30: *none*
  - Shape cdifd:CDIFadditionalPropertyShape/sh:property/sh:or/rdf:first: *none*
  - Shape cdifd:CDIFAddPropertyTermShape: *none*
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb31: *none*
- - Shape _:n35b4528d28884d928ef9c0b6517a88cfb33: *none*
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b29: *none*
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b7: *none*
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b6: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape/sh:or/rdf:first: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b28: *none*
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b14: *none*
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b33: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape: *none*
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b31: *none*
+ - Shape cdifd:CDIFadditionalPropertyShape: *none*
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b30: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b13: *none*
+ - Shape _:n15cf8a474fe5474f8ec6edae06feac29b20: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape/sh:or/rdf:first: *none*
 
 Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
- - Shape _:n728328caf691457383eee6c42cbb9d65b8: *none*
- - Shape _:n728328caf691457383eee6c42cbb9d65b26: *none*
- - Shape cdifd:CDIFDefinedTermShape: *none*
- - Shape _:n728328caf691457383eee6c42cbb9d65b5: *none*
- - Shape _:n728328caf691457383eee6c42cbb9d65b10: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n728328caf691457383eee6c42cbb9d65b4: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:n701f7d4689d54b5da709444bdd03fb41b26: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n728328caf691457383eee6c42cbb9d65b6: *none*
- - Shape _:n728328caf691457383eee6c42cbb9d65b7: *none*
- - Shape _:n728328caf691457383eee6c42cbb9d65b19: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:n701f7d4689d54b5da709444bdd03fb41b7: *none*
+ - Shape _:n701f7d4689d54b5da709444bdd03fb41b5: *none*
+ - Shape _:n701f7d4689d54b5da709444bdd03fb41b8: *none*
+ - Shape _:n701f7d4689d54b5da709444bdd03fb41b10: *none*
+ - Shape _:n701f7d4689d54b5da709444bdd03fb41b19: *none*
+ - Shape _:n701f7d4689d54b5da709444bdd03fb41b4: *none*
+ - Shape _:n701f7d4689d54b5da709444bdd03fb41b6: *none*
 
 Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
- - Shape _:n0e66fc69683941ff959fece2400c0969b10: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n0e66fc69683941ff959fece2400c0969b25: *none*
+ - Shape _:nf459ea50668f426ba2e6ad4ad7220909b22: *none*
+ - Shape _:nf459ea50668f426ba2e6ad4ad7220909b21: *none*
+ - Shape _:nf459ea50668f426ba2e6ad4ad7220909b23: *none*
  - Shape cdifd:CDIFIdentifierShape: *none*
- - Shape _:n0e66fc69683941ff959fece2400c0969b11: *none*
- - Shape _:n0e66fc69683941ff959fece2400c0969b22: *none*
- - Shape _:n0e66fc69683941ff959fece2400c0969b20: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
- - Shape _:n0e66fc69683941ff959fece2400c0969b23: *none*
- - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
  - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
- - Shape _:n0e66fc69683941ff959fece2400c0969b21: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nf459ea50668f426ba2e6ad4ad7220909b10: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nf459ea50668f426ba2e6ad4ad7220909b25: *none*
+ - Shape _:nf459ea50668f426ba2e6ad4ad7220909b20: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nf459ea50668f426ba2e6ad4ad7220909b11: *none*
 
 === End SHACL ===
 

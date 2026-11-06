@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.cdifDataType.cdifKey - CDIF Key
-Generated 2026-11-05T07:24:01.047395+00:00
+Generated 2026-11-06T11:02:49.275480+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
@@ -18,6 +18,7 @@ ValidationError: 'cdif:isComposedOf' is a required property
 
 Failed validating 'required' in schema:
     {'$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'title': 'CDIF Key',
      'description': 'Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the '
                     'role of an ordered set of cdi:InstanceVariables '
                     '(referenced via cdifInstanceVariable) that uniquely '
@@ -27,13 +28,15 @@ Failed validating 'required' in schema:
                     '(the variable) and cdi:value (the integer position), '
                     'matching the canonical DDI-CDI PrimaryKey structure '
                     'in ddicdiDataStructure.',
-     'properties': {'@id': {'description': 'Identifier for this Key node.',
-                            'type': 'string'},
-                    '@type': {'contains': {'const': 'cdif:Key'},
+     'type': 'object',
+     'properties': {'@type': {'type': 'array',
                               'items': {'type': 'string'},
-                              'minItems': 1,
-                              'type': 'array'},
-                    'cdif:isComposedOf': {'description': 'Ordered list of '
+                              'contains': {'const': 'cdif:Key'},
+                              'minItems': 1},
+                    '@id': {'type': 'string',
+                            'description': 'Identifier for this Key node.'},
+                    'cdif:isComposedOf': {'type': 'array',
+                                          'description': 'Ordered list of '
                                                          'cdi:ComponentPosition '
                                                          'wrappers. Each '
                                                          'wrapper carries '
@@ -48,7 +51,8 @@ Failed validating 'required' in schema:
                                                          '1-based integer '
                                                          'position in the '
                                                          'key).',
-                                          'items': {'description': 'ComponentPosition '
+                                          'items': {'type': 'object',
+                                                    'description': 'ComponentPosition '
                                                                    'wrapper '
                                                                    'indexing '
                                                                    'one '
@@ -56,18 +60,17 @@ Failed validating 'required' in schema:
                                                                    'position '
                                                                    'in the '
                                                                    'key.',
-                                                    'properties': {'@id': {'description': 'Identifier '
+                                                    'properties': {'@type': {'type': 'array',
+                                                                             'items': {'type': 'string'},
+                                                                             'contains': {'const': 'cdi:ComponentPosition'},
+                                                                             'minItems': 1},
+                                                                   '@id': {'type': 'string',
+                                                                           'description': 'Identifier '
                                                                                           'for '
                                                                                           'this '
                                                                                           'ComponentPosition '
-                                                                                          'node.',
-                                                                           'type': 'string'},
-                                                                   '@type': {'contains': {'const': 'cdi:ComponentPosition'},
-                                                                             'items': {'type': 'string'},
-                                                                             'minItems': 1,
-                                                                             'type': 'array'},
-                                                                   'cdi:indexes': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml',
-                                                                                   'description': 'The '
+                                                                                          'node.'},
+                                                                   'cdi:indexes': {'description': 'The '
                                                                                                   'variable '
                                                                                                   'this '
                                                                                                   'position '
@@ -141,8 +144,11 @@ Failed validating 'required' in schema:
                                                                                                   'that '
                                                                                                   'already '
                                                                                                   'exists.',
+                                                                                   '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml',
                                                                                    'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes'},
-                                                                   'cdi:value': {'default': 1,
+                                                                   'cdi:value': {'type': 'integer',
+                                                                                 'minimum': 1,
+                                                                                 'default': 1,
                                                                                  'description': '1-based '
                                                                                                 'position '
                                                                                                 'of '
@@ -202,35 +208,30 @@ Failed validating 'required' in schema:
                                                                                                 'never '
                                                                                                 'honoured '
                                                                                                 'anywhere.',
-                                                                                 'minimum': 1,
-                                                                                 'type': 'integer',
                                                                                  'x-jsonld-id': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value'}},
                                                     'required': ['@type',
                                                                  'cdi:indexes',
-                                                                 'cdi:value'],
-                                                    'type': 'object'},
+                                                                 'cdi:value']},
                                           'minItems': 1,
-                                          'type': 'array',
                                           'x-jsonld-id': 'https://w3id.org/cdif/isComposedOf'}},
      'required': ['@type', 'cdif:isComposedOf'],
-     'title': 'CDIF Key',
-     'type': 'object',
-     'x-bblocks-metadata': {'dateOfLastChange': '2026-11-05',
-                            'itemIdentifier': 'cdif.bbr.metadata.cdifDataType.cdifKey',
+     'x-jsonld-prefixes': {'schema': 'http://schema.org/',
+                           'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
+                           'cdif': 'https://w3id.org/cdif/'},
+     'x-bblocks-metadata': {'itemIdentifier': 'cdif.bbr.metadata.cdifDataType.cdifKey',
                             'register': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json',
-                            'version': '0.1'},
-     'x-jsonld-prefixes': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
-                           'cdif': 'https://w3id.org/cdif/',
-                           'schema': 'http://schema.org/'}}
+                            'version': '0.1',
+                            'dateOfLastChange': '2026-11-06'},
+     '$id': 'file:///github/workspace/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml'}
 
 On instance:
-    {'@context': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
+    {'@context': {'schema': 'http://schema.org/',
+                  'xsd': 'http://www.w3.org/2001/XMLSchema#',
+                  'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
                   'cdif': 'https://w3id.org/cdif/',
-                  'ex': 'https://example.org/',
-                  'schema': 'http://schema.org/',
-                  'xsd': 'http://www.w3.org/2001/XMLSchema#'},
-     '@id': 'ex:dataset/observations/key/primary',
-     '@type': ['cdif:Key']}
+                  'ex': 'https://example.org/'},
+     '@type': ['cdif:Key'],
+     '@id': 'ex:dataset/observations/key/primary'}
 === End JSON Schema ===
 
 === SHACL ===
