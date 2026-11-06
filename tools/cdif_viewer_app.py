@@ -308,9 +308,33 @@ SAMPLES = [
         ('_sources/profiles/cdifCompositeProfile/CoreDiscovery/'
          'exampleCDIFDiscoveryComplete.json',
          'The same profile filled in: agents, coverage, distributions, funding.'),
+        ('_sources/profiles/cdifCompositeProfile/CoreDiscovery/'
+         'exampleCDIFDiscovery.json',
+         'The profile at working size, between the minimal and complete ones.'),
+        ('_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/'
+         'exampleCDIFDataDescriptionMinimal.json',
+         'Data description at its floor: one variable, nothing optional.'),
+        ('_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/'
+         'exampleCDIFDataDescription.json',
+         'Three distributions -- a single file, an archive with hasPart, a WebAPI.'),
         ('_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/'
          'exampleCDIFDataDescriptionComplete.json',
          'Adds described variables -- what the dataset actually measures.'),
+        ('_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/'
+         'exampleCDIFDataDescription_wide.json',
+         'Wide form: one row per station-visit, one column per parameter.'),
+        ('_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/'
+         'exampleCDIFDataDescription_widesimple.json',
+         'The same record with a plain-string identifier instead of a PropertyValue.'),
+        ('_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/'
+         'exampleCDIFDataDescription_widesimple_minimal.json',
+         'That record stripped to what the composite actually requires.'),
+        ('_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/'
+         'exampleCDIFDataDescription_long.json',
+         'Long form: a descriptor column and a value column instead of one per parameter.'),
+        ('_sources/profiles/cdifCompositeProfile/DiscoveryDataDescription/'
+         'exampleCDIFDataDescription_dimensional.json',
+         'A data cube: four dimensions and a measure, located by cdi:locator in NetCDF.'),
         ('_sources/profiles/cdifCompositeProfile/'
          'DiscoveryDataDescriptionStructure/'
          'exampleCDIFDataStructureComplete.json',
