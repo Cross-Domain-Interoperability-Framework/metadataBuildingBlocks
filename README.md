@@ -112,6 +112,40 @@ Both emitters share the same `_static/style.css` + `diagram.js` for visual consi
 
 Diagram layout uses three skinparams (`ranksep 250`, `nodesep 20`, `linetype ortho`) to push the bounding box toward ~1:1 aspect ratio instead of the default very-wide Graphviz dot layout.
 
+## Record Viewer (`tools/cdif_viewer_app.py`)
+
+Renders a CDIF JSON-LD **metadata record** as a tabbed, self-contained HTML page. Not to be confused with the bblocks register viewer above, which browses this repository's building blocks; this one reads one record at a time and shows what that record says.
+
+The layout is driven by the record itself: the conformance URIs in `schema:subjectOf` → `dcterms:conformsTo` select which profile modules apply, and each selected module contributes one tab holding the properties it defines. Properties present in the record but defined by no selected module are still rendered — root-level ones in an "Additional" tab, nested ones in place — so nothing in the record is silently dropped. Profile modules are discovered by scanning the building-block sources for the conformance URI each one pins, so adding a module or bumping a version URI needs no change to the viewer.
+
+Two entry points over the same renderer:
+
+```bash
+# The pick-and-render web app: open a local file, paste a URL, or pick a sample
+python tools/cdif_viewer_app.py                  # opens the picker in a browser
+python tools/cdif_viewer_app.py --no-browser     # just serve it
+python tools/cdif_viewer_app.py --port 8800      # a busy port falls back to a free one
+python tools/cdif_viewer_app.py --no-validate    # skip the SHACL pass
+python tools/cdif_viewer_app.py --fetch-context  # allow remote @context fetches
+
+# The renderer on its own, for one record or a batch plus a catalogue page
+python tools/cdif_record_to_html.py record.json -o record.html
+python tools/cdif_record_to_html.py record.json --validate --offline
+python tools/cdif_record_to_html.py --list-profiles
+```
+
+Note the asymmetry: the app validates **by default** and `--no-validate` turns it off, while the renderer does not and `--validate` turns it on. Both default to offline, so a remote `@context` is not fetched unless asked; a record whose context could not be resolved is reported as *not validated* rather than as clean.
+
+Each record's SHACL findings are shown in two places, because they carry different weight. `sh:Violation` results — the record breaks a rule it is subject to — appear above the tabs, together with the one-line statement of whether validation happened at all. `sh:Warning` and `sh:Info` results are advisory, since SHACL cannot tell whether a record *meets* a profile, and a sound record routinely carries dozens; those are listed at the foot of the page.
+
+`tools/cdif_record_to_html.py` holds the record→HTML renderer and `tools/cdif_viewer_app.py` the picker, gallery and HTTP serving. The gallery (`SAMPLES`) spans hand-written profile examples from this repository, machine conversions from four other metadata formats, and records harvested from live repositories that were never written with CDIF in mind. Rendered output lives in `htmlViews/`.
+
+**Requirements:** `requirements-viewer.txt` — PyYAML plus `pyshacl` for the per-record findings. Deliberately not the full `requirements.txt`, which also pulls in `jsonschema` and the build tooling.
+
+**Deployment.** The app is a live service, not only a local script: `render.yaml` is a [Render](https://render.com) blueprint publishing it as `cdif-record-viewer`, started with `python tools/cdif_viewer_app.py --no-browser`. It runs on the free plan, so it sleeps after inactivity and the first request then takes ~30 s to wake. The blueprint's `buildFilter` restricts rebuilds to the paths the running service actually reads — the two Python files, `_sources/profiles/`, `_sources/xasProperties/`, `_sources/jsonforms/profiles/`, every `_sources/**/*.shacl`, `requirements-viewer.txt` and `render.yaml` — because CI auto-commits to `main` several times a day and without the filter each of those would redeploy a service whose code had not changed. **Editing either Python file therefore changes a deployed service once it reaches `main`.**
+
+`agents.md` documents both CLIs in full, including the per-record HTML structure and the companion-page handling for records with very large property lists.
+
 ## Other Tools
 
 ### UML → Schema Generator (`uml_to_schema.py`)
