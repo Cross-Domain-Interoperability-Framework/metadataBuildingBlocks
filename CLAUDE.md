@@ -226,9 +226,9 @@ their refs are resolved over the network at their build time, not ours.
 - **Commit regenerated artifacts separately** from unrelated changes. When a regeneration sweeps up
   pre-existing drift, split it: revert your source edit, regenerate, commit the catch-up alone, then
   restore and commit your actual change.
-- **The JSON Schema gate is now clean: `validate_examples.py` should report 139 passed, 0 failed.**
+- **The JSON Schema gate is now clean: `validate_examples.py` should report 141 passed, 0 failed.**
   A failure means you broke something — this is no longer a run with expected noise to squint past.
-  The count tracks the corpus, so treat it as "0 failed" rather than a fixed number: it was 152 before 2026-09-05, 150 after, 152 again as of 2026-09-25, 154 by 2026-10-02, 130 once the 24 `ddiProperties` blocks were archived on 2026-10-05, and 139 on 2026-10-28 with the ODRL blocks wired. `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it: nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
+  The count tracks the corpus, so treat it as "0 failed" rather than a fixed number: it was 152 before 2026-09-05, 150 after, 152 again as of 2026-09-25, 154 by 2026-10-02, 130 once the 24 `ddiProperties` blocks were archived on 2026-10-05, 139 on 2026-10-28 with the ODRL blocks wired, and 141 on 2026-11-06 with the two wide-form `DiscoveryDataDescription` examples. `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it: nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
   fixtures never referenced by their own `examples.yaml`, so nothing was validating them into
   conformance), and `ddicdiDataStructure` / `ddicdiRepresentedVariable` got fresh, validating
   replacements.
@@ -443,9 +443,13 @@ their refs are resolved over the network at their build time, not ours.
   Reproduced before and after with five cases (the gBB step pattern, a `potentialAction` with no
   target, a target with no `urlTemplate`, a target that is not an `EntryPoint`, and a
   `prov:Activity`) run against `validate_shacl.py action --emit-shapes`, and the eight profiles
-  bundling these rules still report 0 violations. **The generated bundles in `profile-core`,
-  `doc-corediscovery`, `doc-discoverydatadescription` and `doc-discoverydatadescriptionstructure`
-  still carry the old shape** and need `--emit-shapes` plus a sync before the fix reaches anyone.
+  bundling these rules still report 0 violations. **This reached the release repos before
+  2026-11-06; `profile-core` carries the re-emit as `bb680ea`.** The note that stood here --
+  that four named bundles still held the old shape and needed `--emit-shapes` plus a sync --
+  was already spent when it was read and acted on, and it had cost a wasted search by then. A
+  "needs a sync" line in this file goes stale the moment the sync runs, and nothing updates
+  it; check the release repo's own log for a re-emit commit rather than trusting a paragraph
+  here.
 
 - **The four retired XAS terms accept BOTH spellings, on purpose.** `xas:beamline`,
   `xas:xraysourcetype`, `xas:probe` and `xas:temperature` were retired onto NeXus base classes on
@@ -506,6 +510,78 @@ their refs are resolved over the network at their build time, not ours.
   consumer's git config; the same commit stopped the header stamping `--bb-dir` verbatim (it could
   bake a local absolute path into a committed artifact) and pinned the output to LF. Before
   trusting a regenerated bundle, check the per-file diff is single digits, not three.
+
+- **A `rules.shacl` travels the `$ref` graph, so a rule's HOME decides which bundles can enforce
+  it, and a rule in the wrong home reports nothing while looking healthy.** Settled 2026-11-06.
+  `cdifd:tabularDataShape` required `cdif:hasPhysicalMapping` of every `cdi:TabularTextDataSet` at
+  **`sh:Violation`**, with a message asserting it was "required by the JSON Schema". True on one
+  path only: `cdifManifest` refs `cdifTabularData`, whose schema does require it, while
+  `cdifDataDescription` refs `cdifTabularTextDataSet`, which required nothing and has no
+  `rules.shacl` at all. Measured: the shape was in the `cdifManifest` and `cdifComplete` bundles
+  and in none of `cdifDataDescription`, `DiscoveryDataDescription`,
+  `DiscoveryDataDescriptionStructure` or `xasDocument`, so a distribution could omit its mappings
+  and hear nothing from either layer. Fixed by giving `cdifTabularTextDataSet` the `required`
+  (`@type` stays out -- it is an attribute mixin and the type token is carried by the distribution)
+  and **moving** the presence constraint into `cdifPhysicalMapping/rules.shacl`, the one
+  `rules.shacl` both paths reach. Duplicating it into `cdifTabularTextDataSet` was the obvious fix
+  and the wrong one: `cdifComplete` composes both modules, so one node would report the same
+  violation twice. Only presence moved -- `tabularDataShape` keeps its `sh:or` on
+  `cdi:isDelimited` / `cdi:isFixedWidth`, which mirrors `cdifTabularData`'s own `oneOf` and has no
+  counterpart in `cdifTabularTextDataSet`. **`cdifTabularData` and `cdifTabularTextDataSet` are
+  near-duplicates** -- the same `cdi:` layout properties, one refd only by `cdifManifest` and the
+  other only by `cdifDataDescription` -- and that duplication is what let the two paths disagree.
+  It will let them disagree again.
+
+- **A length floor is not a vocabulary check, and one `sh:message` cannot serve two constraints.**
+  `cdifInstanceVariable`'s `cdif:physicalDataType` `sh:or` had `sh:datatype xsd:string` with
+  `sh:minLength 5` as its string branch, so the legitimate four-character token `"date"` took no
+  branch at all. Worse, `sh:minCount 1` and the `sh:or` shared one message, so a value that WAS
+  provided reported as a missing property and sent every reader looking for an absent key. The
+  schema types this property as `cdifConceptOrTermOrString`, whose string branch carries no length
+  constraint, so 5 was a SHACL-only invention; the floor is 1 since 2026-11-06, and presence and
+  value are separate property shapes. A vocabulary constraint belongs in an `sh:in`. The second
+  `sh:minLength 5`, inside the `DefinedTerm` branch on `schema:identifier`, is a different claim
+  and is deliberately left alone.
+
+- **A type-selected shape over-reaches downward too: `schema:Dataset` catches the files inside a
+  zip.** The mirror of the `schema:Action` case below, found 2026-11-06 in the Astromat record in
+  `doc-discoverydatadescription`. `cdifd:CDIFDatasetMandatoryShape` selects every `schema:Dataset`
+  minus catalog records and minus provenance references, so a zip distribution listing its
+  components as `schema:hasPart`, each typed `schema:Dataset`, had an identifier, a licence, a
+  `dateModified` and a landing page demanded of every component -- 8 of that record's 11
+  violations, against a distribution whose own description says the components "are not
+  individually accessible". The only way to satisfy it was to invent metadata for a file nobody
+  can fetch. Now excluded, and scoped to parts of a **distribution** rather than to every object
+  of `schema:hasPart`: `hasPart` carries several meanings here, and a member dataset of a
+  collection IS an independently documented resource. The test that distinguishes narrowing from
+  disabling is the same bare node in two positions -- as `hasPart` of the collection it must still
+  raise, as `hasPart` of the distribution it must not.
+
+- **A composite does not necessarily enforce its modules' conformance declarations: sibling
+  `contains` on one path merge, and the last writer wins.** Measured 2026-11-06, NOT FIXED.
+  `cdifCore`, `cdifDiscovery` and `cdifDataDescription` each declare a hard `contains` pinning
+  their own profile URI under `schema:subjectOf` / `dcterms:conformsTo`. The
+  `DiscoveryDataDescription` composite `allOf`s all three, but its `resolvedSchema.json` carries
+  **`data_description/1.1` alone** -- three sibling branches constraining the same path with
+  `contains` collapse into one object key. A record declaring only `data_description/1.1` passes
+  the composite while skipping the core and discovery declarations. Grep the profile URIs out of
+  each `resolvedSchema.json` to see it: the three modules have one each, the composite has one in
+  total.
+
+- **The viewer's gallery rots silently, and a declared profile can be attributed to the wrong
+  module.** Both 2026-11-06. `SAMPLES` in `tools/cdif_viewer_app.py` pointed four entries at
+  `validation/main/converters/...`; the converters moved to a repo of their own
+  (`Cross-Domain-Interoperability-Framework/converters`, that repo's `e5fe741`), so a quarter of
+  the gallery 404ed -- and because a remote sample is deliberately not fetched at boot, nothing
+  said so until someone clicked one. Repointed. Separately, and NOT FIXED: `load_modules` maps
+  `manifest/1.1` to the module labelled **Data Structure**, because `cdifDataStructure/schema.yaml`
+  pins `data_structure/1.1` AND `manifest/1.1` while `cdifManifest` pins only the latter, and the
+  sorted directory scan reaches `cdifDataStructure` first. No module labelled Manifest is in the
+  map at all, so a `manifest/1.1` record is rendered and validated as Data Structure. On the same
+  date `render_validation` was split into `render_violations` (top of page) and
+  `render_advisories` (foot): one list under one summary buried the finding that needs acting on
+  among dozens of recommendations -- the minimal `DiscoveryDataDescription` example reports 30
+  advisory findings and no violation.
 
 ## Traps — other CDIF repos
 
