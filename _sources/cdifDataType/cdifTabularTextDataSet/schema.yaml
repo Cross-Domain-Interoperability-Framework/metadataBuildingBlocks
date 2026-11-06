@@ -89,3 +89,32 @@ properties:
     - Start
     description: Which spaces to remove from a data value (DDI-CDI TabularTextDataSet.trim,
       TrimValues enumeration).
+
+# A TabularTextDataSet is a physical layout, and a layout that does not say which
+# column holds which variable describes nothing usable -- the mappings are the
+# point of the class rather than an optional extra. Two layers already said so and
+# neither reached this path:
+#
+#   * cdifTabularData, the near-duplicate of this block that cdifManifest refs,
+#     has carried `required: [cdif:hasPhysicalMapping]` since it was written.
+#   * cdifd:tabularDataShape enforces it at sh:Violation on any node typed
+#     cdi:TabularTextDataSet, with a message asserting it is "required by the
+#     JSON Schema" -- true on the manifest path only.
+#
+# cdifDataDescription refs THIS block, where nothing required it; and the shape
+# does not reach that profile's bundle either, because rules.shacl travels the
+# $ref graph and this block has none. So a data-description distribution could
+# omit its mappings and hear nothing from either layer, while the rule that
+# would have caught it sat at Violation severity in a bundle it never joined.
+#
+# The property itself is declared by cdifDataDescription's schema:DataDownload
+# branch as an anyOf over the three mapping kinds; declaring it here too would be
+# a second definition free to drift from that one, so this states the requirement
+# alone. @type is deliberately absent: this is an attribute mixin and the type
+# token is carried by the distribution. Measured 2026-11-06, all nine
+# cdi:TabularTextDataSet distributions in the corpus already carry the mappings,
+# so this codifies practice rather than changing it -- but the domain repos
+# resolve this block over the network at their own build time and are not
+# measured here.
+required:
+- 'cdif:hasPhysicalMapping'
