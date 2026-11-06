@@ -283,7 +283,16 @@ def fetch_record(url, allowed_types):
 # Note the branch appears only inside this format string, so grepping the tree
 # for a full raw.githubusercontent URL will not find it.
 _GH = 'https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/'
-RAW_VALIDATION = _GH + 'validation/main/'
+# The converters moved out of `validation` into a repo of their own -- that
+# repo's e5fe741, "Remove converters/ (moved to
+# Cross-Domain-Interoperability-Framework/converters)". The old
+# validation/main/converters/... URLs 404, and since a remote sample is not
+# fetched at boot (see available_samples), all four entries below sat in the
+# gallery handing whoever clicked one a fetch error rather than a record.
+# Paths below the repo root did not change, only the repo and the dropped
+# `converters/` prefix. Measured 2026-11-06: all four resolve, via the
+# contents API rather than raw, which is CDN-cached.
+RAW_CONVERTERS = _GH + 'converters/main/'
 RAW_DOC = _GH + '%s/main/'
 
 # The gallery, grouped. `src` is either a path inside this repo or a URL fetched
@@ -315,18 +324,18 @@ SAMPLES = [
     ]),
 
     ('Converted from other metadata formats', [
-        (RAW_VALIDATION + 'converters/DDICodebook/Examples/cdif/'
+        (RAW_CONVERTERS + 'DDICodebook/Examples/cdif/'
          'cdif_MWI_2019_MICS_v01_M.json',
          'DDI Codebook: a household survey. 1793 variables and a physical '
          'mapping per column, so the variable list gets its own paged view.'),
-        (RAW_VALIDATION + 'converters/croissant/MLCroissantExamples/'
+        (RAW_CONVERTERS + 'croissant/MLCroissantExamples/'
          'cdif-output/hf-imdb-cdif.jsonld',
          'Croissant: a Hugging Face machine-learning dataset.'),
-        (RAW_VALIDATION + 'converters/DCAT/cdifOK/01-dcat-ap/3.0.0-hvd/'
+        (RAW_CONVERTERS + 'DCAT/cdifOK/01-dcat-ap/3.0.0-hvd/'
          'example-ms_dataset_2_distributions__dcat-the-population-of-bees.jsonld',
          'DCAT-AP: two distributions, with high-value-dataset terms carried '
          'through as extensions.'),
-        (RAW_VALIDATION + 'converters/DDI-CDI/Examples/cdif/'
+        (RAW_CONVERTERS + 'DDI-CDI/Examples/cdif/'
          'cdif_SPSS_Example.json',
          'DDI-CDI XML: a data structure with coded value domains.'),
     ]),
