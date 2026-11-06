@@ -44,6 +44,43 @@
     - language: json
       ref: exampleCDIFDataDescription_wide.json
 
+- title: Wide example with a plain-string identifier.
+  content: |-
+    The same wide-form record as above, differing in exactly two respects:
+    schema:identifier is a bare DOI string rather than a structured
+    schema:PropertyValue carrying propertyID / value / url, and schema:version and
+    schema:datePublished are omitted. No other path differs in value. Read it
+    against the previous example when deciding which identifier form to emit --
+    both validate.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    dcterms: http://purl.org/dc/terms/
+    spdx: http://spdx.org/rdf/terms#
+  snippets:
+    - language: json
+      ref: exampleCDIFDataDescription_widesimple.json
+
+- title: Wide example stripped to what the composite requires.
+  content: |-
+    The record above reduced to the properties the profile actually demands: ten at
+    the root instead of twenty-two, each of the six InstanceVariables cut to @id,
+    @type, schema:name and cdif:physicalDataType, and six physical mappings cut to
+    cdif:index plus cdif:formats_InstanceVariable. Unlike the hand-written minimal
+    record below, this one is a reduction of a specific richer record, so the
+    difference between the two files is exactly what the profile treats as optional.
+    Note that the floor it reaches is lower than it ought to be: @context,
+    schema:license and schema:distribution are required keys with no constraint on
+    their contents, so an empty object or array satisfies them.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    dcterms: http://purl.org/dc/terms/
+    spdx: http://spdx.org/rdf/terms#
+  snippets:
+    - language: json
+      ref: exampleCDIFDataDescription_widesimple_minimal.json
+
 - title: Long (descriptor/value) example.
   content: |-
     The same water-quality observations cast in long form: each row is one
