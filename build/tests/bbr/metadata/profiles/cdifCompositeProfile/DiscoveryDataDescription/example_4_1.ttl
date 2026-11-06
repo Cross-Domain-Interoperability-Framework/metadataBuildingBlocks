@@ -3,19 +3,17 @@
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix schema1: <http://schema.org/> .
 @prefix spdx: <http://spdx.org/rdf/terms#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:gom-water-quality-long-2025 a schema1:Dataset ;
+ex:gom-water-quality-wide-2025 a schema1:Dataset ;
     schema1:creator ( <https://ror.org/03m2x1q45> ) ;
     schema1:dateModified "2025-10-20" ;
-    schema1:datePublished "2025-10-20" ;
-    schema1:description "Same monthly water-quality observations from 12 buoys as the wide-form release, recast in long (narrow) form. Each row is one observation: station, date, parameter name (descriptor), value, and reporting unit." ;
-    schema1:distribution [ a cdi:LongStructureDataSet,
-                cdi:PhysicalDataSet,
+    schema1:description "Monthly water-quality observations from 12 monitoring buoys. One row per station-visit; one column per measured parameter (pH, temperature, salinity, dissolved oxygen). Primary key is the (station, sample_date) pair." ;
+    schema1:distribution [ a cdi:PhysicalDataSet,
+                cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
             cdi:delimiter "," ;
@@ -25,90 +23,100 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
             cdi:quoteCharacter "\"" ;
             cdi:skipBlankRows true ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "countColumns" ;
-                    schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
-                    schema1:value 5 ],
-                [ a schema1:PropertyValue ;
                     schema1:name "countRows" ;
                     schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity> ;
-                    schema1:value 576 ] ;
-            schema1:contentUrl "https://example.org/data/gom-water-quality-long-2025.csv" ;
+                    schema1:value 144 ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "countColumns" ;
+                    schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
+                    schema1:value 6 ] ;
+            schema1:contentUrl "https://example.org/data/gom-water-quality-wide-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
-            schema1:name "Long-form water-quality observations (CSV)" ;
+            schema1:name "Wide-form water-quality observations (CSV)" ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "8b1a7c3e5d9f0a2b4c6d8e0f1a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b" ] ;
-            cdif:fileSize 712 ;
+                    spdx:checksumValue "2c8e4f1a6d7b9c0e3f5a1b2c4d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e" ] ;
+            cdif:fileSize 312 ;
             cdif:fileSizeUofM "KB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdif:format "YYYY-MM-DD" ;
-                    cdif:formats_InstanceVariable ex:var-sample-date ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "date" ],
-                [ cdi:isRequired true ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-parameter ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-ph ;
                     cdif:index 2 ;
-                    cdif:physicalDataType "string" ],
-                [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-unit ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "string" ],
+                    cdif:physicalDataType "float64" ],
                 [ cdi:isRequired true ;
                     cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-station ;
                     cdif:index 0 ;
                     cdif:physicalDataType "string" ],
-                [ cdi:isRequired true ;
+                [ cdi:decimalPositions 3 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-value ;
+                    cdif:formats_InstanceVariable ex:var-salinity ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
                     cdif:index 3 ;
-                    cdif:physicalDataType "float64" ] ] ;
-    schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID <https://doi.org> ;
-            schema1:url "https://doi.org/10.5281/zenodo.5151516" ;
-            schema1:value "10.5281/zenodo.5151516" ] ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-oxygen ;
+                    cdif:index 5 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:isRequired true ;
+                    cdif:format "YYYY-MM-DD" ;
+                    cdif:formats_InstanceVariable ex:var-sample-date ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "date" ] ] ;
+    schema1:identifier "https://doi.org/10.5281/zenodo.5151515" ;
     schema1:keywords "Gulf of Maine",
-        "long format",
-        "tidy data",
-        "water quality" ;
+        "monitoring",
+        "water quality",
+        "wide format" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique "CTD profiler",
         "Glass electrode pH meter",
         "Optode dissolved-oxygen sensor" ;
-    schema1:name "Gulf of Maine water-quality monitoring stations, 2025 (long form)" ;
+    schema1:name "Gulf of Maine water-quality monitoring stations, 2025 (wide form)" ;
     schema1:publisher <https://ror.org/03m2x1q45> ;
     schema1:spatialCoverage [ a schema1:Place ;
             schema1:geo [ a schema1:GeoShape ;
                     schema1:box "41.0 -71.0 45.0 -65.0" ] ;
             schema1:name "Gulf of Maine" ] ;
-    schema1:subjectOf <https://example.org/gom-water-quality-long-2025/catalog-record> ;
+    schema1:subjectOf <https://example.org/gom-water-quality-wide-2025/catalog-record> ;
     schema1:temporalCoverage "2025-01-01/2025-12-31" ;
-    schema1:variableMeasured ex:var-dissolved-oxygen,
-        ex:var-parameter,
+    schema1:variableMeasured ex:var-oxygen,
         ex:var-ph,
         ex:var-salinity,
         ex:var-sample-date,
         ex:var-station,
-        ex:var-temperature,
-        ex:var-unit,
-        ex:var-value ;
-    schema1:version "2025.10" ;
-    prov:wasDerivedFrom ex:gom-water-quality-wide-2025 .
+        ex:var-temperature ;
+    cdif:hasPrimaryKey <https://example.org/gom-water-quality-wide-2025/pk> .
 
-<https://example.org/gom-water-quality-long-2025/catalog-record> a schema1:Dataset ;
+<https://example.org/gom-water-quality-wide-2025/catalog-record> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
         <https://w3id.org/cdif/data_description/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
-    schema1:about ex:gom-water-quality-long-2025 ;
+    schema1:about ex:gom-water-quality-wide-2025 ;
     schema1:additionalType dcat:CatalogRecord ;
     schema1:sdDatePublished "2025-10-20" .
 
-ex:var-dissolved-oxygen a cdi:InstanceVariable,
+<https://example.org/gom-water-quality-wide-2025/pk> a cdif:Key ;
+    cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes ex:var-station ;
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes ex:var-sample-date ;
+            cdi:value 2 ] .
+
+ex:var-oxygen a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
-    schema1:description "Dissolved oxygen parameter. Rows whose descriptor column equals 'dissolved_oxygen' record values for this variable." ;
+    schema1:description "Dissolved oxygen concentration in water." ;
     schema1:maxValue 1.5e+01 ;
     schema1:measurementTechnique "Optode sensor" ;
     schema1:minValue 0e+00 ;
@@ -124,11 +132,12 @@ ex:var-dissolved-oxygen a cdi:InstanceVariable,
 ex:var-ph a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
-    schema1:description "pH parameter. Rows whose descriptor column equals 'ph' record values for this variable." ;
+    schema1:description "pH of the water sample (unitless)." ;
     schema1:maxValue 1.4e+01 ;
     schema1:measurementTechnique "Glass electrode, two-point calibration" ;
     schema1:minValue 0e+00 ;
     schema1:name "ph" ;
+    schema1:propertyID <http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/> ;
     cdif:displayLabel "pH" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
@@ -138,7 +147,7 @@ ex:var-ph a cdi:InstanceVariable,
 ex:var-salinity a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
-    schema1:description "Practical salinity parameter. Rows whose descriptor column equals 'salinity' record values for this variable." ;
+    schema1:description "Practical salinity (PSU)." ;
     schema1:maxValue 4.2e+01 ;
     schema1:measurementTechnique "CTD profiler" ;
     schema1:minValue 0e+00 ;
@@ -152,7 +161,7 @@ ex:var-salinity a cdi:InstanceVariable,
 ex:var-temperature a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
-    schema1:description "Temperature parameter. Rows whose descriptor column equals 'temperature' record values for this variable." ;
+    schema1:description "Sea-water temperature at sample depth." ;
     schema1:maxValue 3e+01 ;
     schema1:measurementTechnique "CTD profiler" ;
     schema1:minValue -2e+00 ;
@@ -165,19 +174,13 @@ ex:var-temperature a cdi:InstanceVariable,
     cdif:role "Measure" ;
     cdif:simpleUnitOfMeasure "Cel" .
 
-ex:var-parameter a cdi:InstanceVariable,
-        schema1:PropertyValue ;
-    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
-    schema1:description "Descriptor column. Each value names the measured property whose numeric reading is recorded in the value column. Permitted codes are ph, temperature, salinity, dissolved_oxygen." ;
-    schema1:name "parameter" ;
-    cdif:displayLabel "Parameter" ;
-    cdif:physicalDataType "string" ;
-    cdif:role "Descriptor" .
+<https://ror.org/03m2x1q45> a schema1:Organization ;
+    schema1:name "University of Arizona" .
 
 ex:var-sample-date a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#date" ;
-    schema1:description "Date the water sample was collected." ;
+    schema1:description "Date the water sample was collected; primary key component." ;
     schema1:name "sample_date" ;
     cdif:displayLabel "Sampling date" ;
     cdif:physicalDataType "date" ;
@@ -186,31 +189,9 @@ ex:var-sample-date a cdi:InstanceVariable,
 ex:var-station a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
-    schema1:description "Monitoring station identifier; unit of observation." ;
+    schema1:description "Monitoring station identifier; primary key component." ;
     schema1:name "station_id" ;
     cdif:displayLabel "Monitoring station" ;
     cdif:physicalDataType "string" ;
     cdif:role "UnitIdentifier" .
-
-ex:var-unit a cdi:InstanceVariable,
-        schema1:PropertyValue ;
-    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
-    schema1:description "Reporting unit symbol for the row's value (e.g., Cel, 1, mg/L)." ;
-    schema1:name "unit" ;
-    cdif:displayLabel "Unit of measure" ;
-    cdif:physicalDataType "string" ;
-    cdif:qualifies ex:var-value ;
-    cdif:role "Attribute" .
-
-<https://ror.org/03m2x1q45> a schema1:Organization ;
-    schema1:name "University of Arizona" .
-
-ex:var-value a cdi:InstanceVariable,
-        schema1:PropertyValue ;
-    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
-    schema1:description "Reference column. Holds the numeric value of whichever parameter is named in the descriptor column for that row." ;
-    schema1:name "value" ;
-    cdif:displayLabel "Measured value" ;
-    cdif:physicalDataType "float64" ;
-    cdif:role "ReferenceVariable" .
 
