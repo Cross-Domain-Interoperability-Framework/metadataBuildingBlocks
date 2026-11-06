@@ -1183,6 +1183,7 @@ ul.cards .card-desc{font-size:.85rem;margin-top:.4rem}
 .validation.clean{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}
 .validation.skipped{background:var(--card);color:var(--muted)}
 .validation.findings{background:var(--card);color:var(--fg)}
+.validation.violations{background:#fef2f2;color:#991b1b;border-color:#fecaca}
 .validation .sev{display:inline-block;min-width:5.5em;font-weight:600;font-size:.75rem;
       text-transform:uppercase;letter-spacing:.02em}
 .sev-violation .sev{color:#b91c1c}
@@ -1974,30 +1975,75 @@ def _short(uri):
     return tail or uri
 
 
-def render_validation(findings, reason):
-    """The validation block, or an honest statement that nothing was checked."""
-    if reason:
-        return ('<p class="note validation skipped"><strong>Not validated.</strong> %s</p>'
-                % esc(reason))
-    if not findings:
-        return ('<p class="note validation clean"><strong>SHACL: no findings.</strong> '
-                'Checked against every profile this record declares.</p>')
-    counts = {}
-    for f in findings:
-        counts[f.severity] = counts.get(f.severity, 0) + 1
-    summary = ', '.join('%d %s%s' % (counts[s], s.lower(), '' if counts[s] == 1 else 's')
-                        for s in ('Violation', 'Warning', 'Info') if s in counts)
-    rows = ''.join(
+def _finding_rows(findings):
+    """The <li> rows for a list of findings, severity badge included."""
+    return ''.join(
         '<li class="sev-%s"><span class="sev">%s</span> %s%s</li>'
         % (esc(f.severity.lower()), esc(f.severity),
            ('<code>%s</code> ' % esc(_short(f.path))) if f.path else '',
            esc(f.message or _short(f.focus)))
         for f in findings)
+
+
+def _count_summary(findings):
+    """"2 violations, 17 warnings" -- severities in rank order, omitting absent."""
+    counts = {}
+    for f in findings:
+        counts[f.severity] = counts.get(f.severity, 0) + 1
+    return ', '.join('%d %s%s' % (counts[s], s.lower(), '' if counts[s] == 1 else 's')
+                     for s in ('Violation', 'Warning', 'Info') if s in counts)
+
+
+def render_violations(findings, reason):
+    """Top of the page: whether checking happened at all, and every violation.
+
+    Violations and advisories are two blocks in two places because they carry
+    different weight. A sh:Violation means the record breaks a rule it is
+    subject to, and that belongs above the fold. A sh:Warning cannot mean
+    that -- SHACL cannot tell whether a record MEETS a profile, so "declare
+    conformance" and "a description is recommended" are advice, and a sound
+    record routinely carries dozens. Until 2026-11-06 both went into one list,
+    sorted violations-first but under a single summary line, so the finding
+    that needs acting on arrived among thirty that do not: the minimal
+    DiscoveryDataDescription example reports 17 warnings and 13 info and no
+    violation at all, and looked the same as a record that breaks a rule.
+
+    The not-validated and no-violations notes stay HERE rather than moving to
+    the foot with the advisories. They answer "was this record checked?", which
+    is the question a reader has before they have scrolled anywhere -- and a
+    skipped check that reads as a clean one is the failure this block exists to
+    prevent (see tools/test_viewer_validation.py).
+    """
+    if reason:
+        return ('<p class="note validation skipped"><strong>Not validated.</strong> %s</p>'
+                % esc(reason))
+    violations = [f for f in findings if f.severity == 'Violation']
+    if not violations:
+        advisory = _count_summary([f for f in findings if f.severity != 'Violation'])
+        return ('<p class="note validation clean"><strong>SHACL: no violations.</strong> '
+                'Checked against every profile this record declares.%s</p>'
+                % ((' %s listed at the foot of this page.' % esc(advisory))
+                   if advisory else ''))
+    return ('<details class="note validation violations" open>'
+            '<summary><strong>SHACL: %s.</strong> This record breaks a rule it is '
+            'subject to.</summary><ul>%s</ul></details>'
+            % (esc(_count_summary(violations)), _finding_rows(violations)))
+
+
+def render_advisories(findings, reason):
+    """Foot of the page: warnings and info. See render_violations for why the
+    split exists. Returns '' when there is nothing advisory to say, so a record
+    with no findings grows no empty block."""
+    if reason:
+        return ''
+    advisories = [f for f in findings if f.severity != 'Violation']
+    if not advisories:
+        return ''
     return ('<details class="note validation findings" open>'
-            '<summary><strong>SHACL: %s.</strong> A warning is advisory -- SHACL '
+            '<summary><strong>SHACL advisories: %s.</strong> Advisory only -- SHACL '
             'cannot tell whether a record meets a profile, only whether it breaks '
             'a rule it is subject to.</summary><ul>%s</ul></details>'
-            % (esc(summary), rows))
+            % (esc(_count_summary(advisories)), _finding_rows(advisories)))
 
 
 def render_html(record, modules, title=None, offline=True, type_index=None,
@@ -2066,9 +2112,11 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
     # from the wild often declares no conformsTo and gets no Metadata Record
     # tab, so a validation result placed there would sometimes be dropped -- and
     # a validation result that silently fails to appear is the worst of all.
+    advisory_note = ''
     if validate:
         findings, reason = shacl_findings(record, selected, allow_fetch=allow_fetch)
-        banner_note += render_validation(findings, reason)
+        banner_note += render_violations(findings, reason)
+        advisory_note = render_advisories(findings, reason)
 
     controls = ('<span class="bulk"><button type="button" id="expand-all">expand all</button><button type="button" id="collapse-all">collapse all</button></span>')
     tab_html = ''.join(
@@ -2093,13 +2141,13 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
         '<div class="wrap">\n%s\n'
         '<header class="banner">\n  <div>%s</div>\n  <h1>%s</h1>\n'
         '  <div class="ids">%s</div>\n  %s\n</header>\n%s'
-        '<nav class="tabs" role="tablist">%s%s</nav>\n%s\n'
+        '<nav class="tabs" role="tablist">%s%s</nav>\n%s\n%s'
         '<footer>Rendered from a CDIF JSON-LD record. Layout selected by declared '
         'conformance: %s.</footer>\n%s\n</div>\n<script>%s</script>\n</body>\n</html>\n'
         % (esc(title or name), CSS, site_header(),
            ''.join('<span class="badge">%s</span>' % esc(t) for t in types),
            esc(name), ' '.join(ids), abstract, banner_note,
-           tab_html, controls, panel_html,
+           tab_html, controls, panel_html, advisory_note,
            esc(profiles), site_footer(), JS)
     )
 

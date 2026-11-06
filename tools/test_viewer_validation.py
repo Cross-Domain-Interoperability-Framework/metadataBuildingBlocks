@@ -36,7 +36,7 @@ def selected_for(record):
 def run(label, record, allow_fetch, expect):
     findings, reason = R.shacl_findings(record, selected_for(record),
                                         allow_fetch=allow_fetch)
-    html = R.render_validation(findings, reason)
+    html = R.render_violations(findings, reason)
     if expect == "skipped":
         ok = reason is not None and "Not validated" in html
         got = "skipped: %s" % (reason or "")[:70]
@@ -97,6 +97,34 @@ ok = reason is None and findings and all(f.severity in ("Violation", "Warning", 
 sevs = sorted({f.severity for f in findings})
 print("  %-6s %-52s %s" % ("PASS" if ok else "**FAIL**",
                            "severities read from the report graph", sevs))
+results.append(ok)
+
+# 6. Violations and advisories must land in DIFFERENT blocks -- violations in
+#    the top one, warnings and info in the one at the foot. Until 2026-11-06
+#    both went into a single list, sorted violations-first but under one
+#    summary line, which put the finding that needs acting on among dozens of
+#    recommendations. `broken` is the useful record here because it yields both
+#    severities at once; a record with only one proves nothing about the split.
+findings, reason = R.shacl_findings(broken, selected_for(broken), allow_fetch=False)
+top = R.render_violations(findings, reason)
+foot = R.render_advisories(findings, reason)
+ok = ("sev-violation" in top and "sev-warning" not in top
+      and "sev-warning" in foot and "sev-violation" not in foot)
+print("  %-6s %-52s %s" % ("PASS" if ok else "**FAIL**",
+                           "violations at top, advisories at foot",
+                           "top has violation=%s warning=%s | foot has violation=%s "
+                           "warning=%s" % ("sev-violation" in top, "sev-warning" in top,
+                                           "sev-violation" in foot, "sev-warning" in foot)))
+results.append(ok)
+
+# 7. A record that was never validated must grow no advisory block either. An
+#    empty <details> at the foot of such a page reads as "we looked and found
+#    nothing advisory", which is the same lie case 1 guards against at the top.
+ok = R.render_advisories(*R.shacl_findings(remote, selected_for(remote),
+                                           allow_fetch=False)) == ""
+print("  %-6s %-52s %s" % ("PASS" if ok else "**FAIL**",
+                           "not validated -> no advisory block",
+                           "empty" if ok else "NON-EMPTY"))
 results.append(ok)
 
 print("\n  %d/%d passed" % (sum(results), len(results)))
