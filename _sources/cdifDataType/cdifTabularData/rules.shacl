@@ -14,12 +14,11 @@
 cdifd:tabularDataShape
     a sh:NodeShape ;
     sh:targetClass cdi:TabularTextDataSet ;
-    sh:property [
-        sh:path cdif:hasPhysicalMapping ;
-        sh:minCount 1 ;
-        sh:severity sh:Violation ;
-        sh:message "A TabularTextDataSet must have physical mappings (cdif:hasPhysicalMapping) linking variables to columns (required by the JSON Schema)." ;
-    ] ;
+    # The cdif:hasPhysicalMapping minCount moved to
+    # cdifPhysicalMapping/rules.shacl on 2026-11-06, which is the only
+    # rules.shacl that both this block's consumer (cdifManifest) and
+    # cdifDataDescription reach. Kept here, the rule never entered a
+    # data-description bundle. See that file for the measurement.
     sh:or (
         [sh:property [
             sh:path cdi:isDelimited ;

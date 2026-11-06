@@ -31,3 +31,44 @@ cdifd:physicalMappingShape
     ] ;
     sh:message "Physical mapping nodes should link to their corresponding variable definition." ;
     .
+
+
+# The PRESENCE half of cdif:hasPhysicalMapping, and it lives here rather than
+# with either dataset block because this is the only rules.shacl both paths
+# reach. It was cdifd:tabularDataShape's sh:property in
+# cdifTabularData/rules.shacl, a block only cdifManifest refs;
+# cdifDataDescription refs cdifTabularTextDataSet instead, and that block has
+# no rules.shacl, so a bundle gathered for a data-description profile never
+# picked the rule up. Measured 2026-11-06: tabularDataShape was present in the
+# cdifManifest and cdifComplete bundles and absent from cdifDataDescription,
+# DiscoveryDataDescription, DiscoveryDataDescriptionStructure and xasDocument,
+# while physicalMappingShape below was in all six. A Violation-severity rule
+# was sitting in bundles it could not act from while the records it was written
+# for went unchecked -- the dead-rule shape, where a green result means the
+# rule never ran.
+#
+# Duplicating it into cdifTabularTextDataSet/rules.shacl was the alternative
+# and is worse: cdifComplete composes both cdifManifest and
+# cdifDataDescription, so a single node would report the same violation twice.
+# That is the duplication that cost cdifd:actionNameProperty its place in
+# action/rules.shacl.
+#
+# Only the presence constraint moved. tabularDataShape keeps its sh:or on
+# cdi:isDelimited / cdi:isFixedWidth, because that mirrors cdifTabularData's
+# own `oneOf`, which cdifTabularTextDataSet does not have -- moving it would
+# impose on the data-description path a rule its schema never states.
+#
+# targetClass is safe here in a way it is not for a schema.org type: anything
+# typed cdi:TabularTextDataSet IS a delimited or fixed-width text dataset, and
+# both blocks' schemas now require the mappings for it. Measured the same day,
+# all 14 such nodes in the corpus already carry them.
+cdifd:tabularTextDataSetMappingsShape
+    a sh:NodeShape ;
+    sh:targetClass cdi:TabularTextDataSet ;
+    sh:property [
+        sh:path cdif:hasPhysicalMapping ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A TabularTextDataSet must have physical mappings (cdif:hasPhysicalMapping) linking variables to columns; required by the JSON Schema of both cdifTabularData and cdifTabularTextDataSet." ;
+    ] ;
+    .
