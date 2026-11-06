@@ -241,7 +241,7 @@ cdifd:CDIFxasInstanceVariableShape
    sh:or (
 	  [sh:nodeKind sh:IRI ] 
 	  [sh:datatype xsd:string;  
-         sh:minLength 5 ]
+         sh:minLength 1 ]
 	  [sh:class schema:DefinedTerm ;
  	    sh:property [
      	sh:path schema:identifier;
@@ -274,6 +274,20 @@ cdifd:CDIFxasInstanceVariableShape
 		];
 	]
    );
+   sh:severity sh:Warning ;
+   sh:message "a cdif:physicalDataType must be an IRI, a non-empty string, or a schema:DefinedTerm carrying an identifier." ;
+] ;
+  # Presence and value are separate property shapes so the two failures no
+  # longer share one message: until 2026-11-06 a single shape carried
+  # sh:minCount 1 and the sh:or together with "a physical data type should be
+  # provided", so `"date"` -- which fell short of the string branch's
+  # sh:minLength 5 -- was reported as a MISSING property, sending every reader
+  # looking for an absent key. The floor is now 1; the schema types this
+  # property as cdifConceptOrTermOrString, whose string branch carries no
+  # length constraint at all, so 5 was a SHACL-only invention. A vocabulary
+  # check belongs in an sh:in listing the accepted tokens, not in a length.
+  sh:property [
+   sh:path cdif:physicalDataType;
    sh:minCount 1 ;
    sh:severity sh:Warning ;
    sh:message "for cdi InstanceVariable a physical data type should be provided." ;
