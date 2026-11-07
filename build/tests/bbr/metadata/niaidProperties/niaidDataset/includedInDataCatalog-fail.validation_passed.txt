@@ -1,0 +1,928 @@
+Validation report for cdif.bbr.metadata.niaidProperties.niaidDataset - NIAID dataset properties
+Generated 2026-11-07T11:48:09.849331+00:00
+=== General ===
+Test was expected to fail and it did.
+=== End General ===
+
+=== Files ===
+Using includedInDataCatalog-fail.json from test resources
+JSON-LD context is present - uplifting
+Output JSON-LD includedInDataCatalog-fail.jsonld created
+Output Turtle includedInDataCatalog-fail.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: 'schema:includedInDataCatalog' is a required property
+
+Failed validating 'required' in schema:
+    {'$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'title': 'NIAID dataset properties',
+     'description': 'The properties NIAID Data Discovery Portal records '
+                    'add to a CDIF dataset (composed with cdifCore and '
+                    'cdifDiscovery by the cdifNIAID profile; this module '
+                    "does NOT re-embed them). nde: terms are NIAID's "
+                    '(https://discovery.biothings.io/ns/nde/), bios: terms '
+                    "Bioschemas' (from the bioschemasSample block), and "
+                    'cdifniaid: terms the ones the portal uses that '
+                    'neither vocabulary declares, defined by this block. '
+                    'Every property accepts one value or an array, because '
+                    'framing collapses a one-element array to its value.',
+     'type': 'object',
+     'required': ['schema:includedInDataCatalog'],
+     'properties': {'@context': {'type': 'object',
+                                 'properties': {'nde': {'const': 'https://discovery.biothings.io/ns/nde/'},
+                                                'bios': {'const': 'https://bioschemas.org/'},
+                                                'cdifniaid': {'const': 'https://w3id.org/cdif/niaid/terms/'}}},
+                    'schema:subjectOf': {'properties': {'dcterms:conformsTo': {'type': 'array',
+                                                                               'items': {'description': 'uri '
+                                                                                                        'for '
+                                                                                                        'specifications '
+                                                                                                        'that '
+                                                                                                        'this '
+                                                                                                        'metadata '
+                                                                                                        'record '
+                                                                                                        'conforms '
+                                                                                                        'to',
+                                                                                         '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'},
+                                                                               'minItems': 1,
+                                                                               'contains': {'type': 'object',
+                                                                                            'required': ['@id'],
+                                                                                            'additionalProperties': False,
+                                                                                            'properties': {'@id': {'const': 'https://w3id.org/cdif/niaid/1.0'}}},
+                                                                               'x-jsonld-id': 'http://purl.org/dc/terms/conformsTo'}},
+                                         'x-jsonld-id': 'http://schema.org/subjectOf'},
+                    'schema:includedInDataCatalog': {'description': 'The '
+                                                                    'repositories '
+                                                                    'holding '
+                                                                    'the '
+                                                                    'dataset, '
+                                                                    'which '
+                                                                    'the '
+                                                                    'portal '
+                                                                    'aggregates '
+                                                                    'from.',
+                                                     'anyOf': [{'$ref': '#/$defs/catalog'},
+                                                               {'type': 'array',
+                                                                'minItems': 1,
+                                                                'items': {'$ref': '#/$defs/catalog'}}],
+                                                     'x-jsonld-id': 'http://schema.org/includedInDataCatalog'},
+                    'nde:date': {'description': "The portal's summary date "
+                                                'for the record.',
+                                 '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/date',
+                                 'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/date'},
+                    'nde:species': {'description': 'Species the dataset '
+                                                   'was collected from or '
+                                                   'is about.',
+                                    '$ref': '#/$defs/annotatedTerms',
+                                    'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/species'},
+                    'nde:topicCategory': {'description': 'Topics of the '
+                                                         'dataset, from '
+                                                         'the EDAM topic '
+                                                         'ontology.',
+                                          '$ref': '#/$defs/annotatedTerms',
+                                          'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/topicCategory'},
+                    'schema:infectiousAgent': {'description': 'Infectious '
+                                                              'agents the '
+                                                              'dataset is '
+                                                              'about.',
+                                               '$ref': '#/$defs/annotatedTerms',
+                                               'x-jsonld-id': 'http://schema.org/infectiousAgent'},
+                    'schema:healthCondition': {'description': 'Health '
+                                                              'conditions '
+                                                              'the dataset '
+                                                              'is about.',
+                                               '$ref': '#/$defs/annotatedTerms',
+                                               'x-jsonld-id': 'http://schema.org/healthCondition'},
+                    'schema:measurementTechnique': {'description': "NIAID's "
+                                                                   'annotations '
+                                                                   'on the '
+                                                                   'measurement '
+                                                                   'techniques '
+                                                                   'CDIF '
+                                                                   'discovery '
+                                                                   'describes.',
+                                                    '$ref': '#/$defs/annotatedTermsOrText',
+                                                    'x-jsonld-id': 'http://schema.org/measurementTechnique'},
+                    'schema:variableMeasured': {'description': "NIAID's "
+                                                               'annotations '
+                                                               'on the '
+                                                               'variables '
+                                                               'CDIF '
+                                                               'discovery '
+                                                               'describes.',
+                                                '$ref': '#/$defs/annotatedTermsOrText',
+                                                'x-jsonld-id': 'http://schema.org/variableMeasured'},
+                    'nde:nctid': {'description': 'ClinicalTrials.gov '
+                                                 'identifier of the study.',
+                                  'anyOf': [{'$ref': '#/$defs/nctid'},
+                                            {'type': 'array',
+                                             'items': {'$ref': '#/$defs/nctid'}}],
+                                  'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/nctid'},
+                    'nde:citedBy': {'description': 'Works that cite the '
+                                                   'dataset.',
+                                    '$ref': '#/$defs/works',
+                                    'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/citedBy'},
+                    'schema:citation': {'description': "NIAID's journal "
+                                                       'and PubMed details '
+                                                       "on CDIF's "
+                                                       'citations.',
+                                        'anyOf': [{'$ref': '#/$defs/citation'},
+                                                  {'type': 'array',
+                                                   'items': {'$ref': '#/$defs/citation'}}],
+                                        'x-jsonld-id': 'http://schema.org/citation'},
+                    'nde:curatedBy': {'description': 'Who curated the '
+                                                     'record, and from '
+                                                     'which version of '
+                                                     'their catalog.',
+                                      '$ref': '#/$defs/curator',
+                                      'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/curatedBy'},
+                    'nde:isBasisFor': {'description': 'Resources based on '
+                                                      'this dataset.',
+                                       '$ref': '#/$defs/relatedResources',
+                                       'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/isBasisFor'},
+                    'nde:isRelatedTo': {'description': 'Related resources, '
+                                                       'with the '
+                                                       'relationship '
+                                                       'named.',
+                                        '$ref': '#/$defs/relatedResources',
+                                        'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/isRelatedTo'},
+                    'nde:sample': {'description': 'The samples used to '
+                                                  'generate the dataset, '
+                                                  'or a collection of '
+                                                  'them.',
+                                   'anyOf': [{'$ref': '#/$defs/sample'},
+                                             {'$ref': '#/$defs/sampleCollection'},
+                                             {'type': 'array',
+                                              'items': {'anyOf': [{'$ref': '#/$defs/sample'},
+                                                                  {'$ref': '#/$defs/sampleCollection'}]}}],
+                                   'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/sample'},
+                    'schema:funding': {'description': "NIAID's grant "
+                                                      "details on CDIF's "
+                                                      'funding.',
+                                       'anyOf': [{'$ref': '#/$defs/grant'},
+                                                 {'type': 'array',
+                                                  'items': {'$ref': '#/$defs/grant'}}],
+                                       'x-jsonld-id': 'http://schema.org/funding'},
+                    'schema:spatialCoverage': {'description': "NIAID's "
+                                                              'location '
+                                                              'details on '
+                                                              "CDIF's "
+                                                              'spatial '
+                                                              'coverage.',
+                                               'anyOf': [{'$ref': '#/$defs/place'},
+                                                         {'type': 'array',
+                                                          'items': {'$ref': '#/$defs/place'}}],
+                                               'x-jsonld-id': 'http://schema.org/spatialCoverage'},
+                    'schema:sourceOrganization': {'description': 'Projects '
+                                                                 'and '
+                                                                 'programs '
+                                                                 'the '
+                                                                 'dataset '
+                                                                 'comes '
+                                                                 'from.',
+                                                  'anyOf': [{'$ref': '#/$defs/sourceOrganization'},
+                                                            {'type': 'array',
+                                                             'items': {'$ref': '#/$defs/sourceOrganization'}}],
+                                                  'x-jsonld-id': 'http://schema.org/sourceOrganization'},
+                    'bios:alternateIdentifier': {'description': 'Identifiers '
+                                                                'beyond '
+                                                                'the one '
+                                                                "CDIF's "
+                                                                'schema:identifier '
+                                                                'holds.',
+                                                 '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts',
+                                                 'x-jsonld-id': 'https://bioschemas.org/alternateIdentifier'},
+                    'cdifniaid:temporalIntervals': {'description': 'The '
+                                                                   "portal's "
+                                                                   'temporal '
+                                                                   'intervals '
+                                                                   'where '
+                                                                   'they '
+                                                                   'hold '
+                                                                   'more '
+                                                                   'than '
+                                                                   'dates, '
+                                                                   'kept '
+                                                                   'whole '
+                                                                   'beside '
+                                                                   'schema:temporalCoverage.',
+                                                    'anyOf': [{'$ref': '#/$defs/temporalInterval'},
+                                                              {'type': 'array',
+                                                               'items': {'$ref': '#/$defs/temporalInterval'}}],
+                                                    'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/temporalIntervals'},
+                    'cdifniaid:unlinkedHasPart': {'description': 'Parts of '
+                                                                 'the '
+                                                                 'dataset '
+                                                                 'with no '
+                                                                 'address, '
+                                                                 'which '
+                                                                 'cannot '
+                                                                 'be CDIF '
+                                                                 'manifest '
+                                                                 'parts.',
+                                                  'anyOf': [{'$ref': '#/$defs/namedThing'},
+                                                            {'type': 'array',
+                                                             'items': {'$ref': '#/$defs/namedThing'}}],
+                                                  'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/unlinkedHasPart'},
+                    'cdifniaid:assayformat': {'description': 'The assay '
+                                                             'format, as '
+                                                             'the portal '
+                                                             'gives it.',
+                                              '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts',
+                                              'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/assayformat'},
+                    'cdifniaid:publication': {'description': 'PubMed '
+                                                             'identifiers '
+                                                             'of '
+                                                             'publications '
+                                                             'about the '
+                                                             'dataset.',
+                                              'anyOf': [{'$ref': '#/$defs/pmid'},
+                                                        {'type': 'array',
+                                                         'items': {'$ref': '#/$defs/pmid'}}],
+                                              'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/publication'},
+                    'schema:distribution': {'description': "NIAID's "
+                                                           'archive '
+                                                           'members that '
+                                                           'come with an '
+                                                           'address only.',
+                                            'anyOf': [{'$ref': '#/$defs/distribution'},
+                                                      {'type': 'array',
+                                                       'items': {'$ref': '#/$defs/distribution'}}],
+                                            'x-jsonld-id': 'http://schema.org/distribution'}},
+     '$defs': {'types': {'anyOf': [{'type': 'string'},
+                                   {'type': 'array',
+                                    'items': {'type': 'string'}}]},
+               'catalog': {'type': 'object',
+                           'properties': {'schema:name': {'type': 'string',
+                                                          'x-jsonld-id': 'http://schema.org/name'},
+                                          'schema:url': {'type': 'string',
+                                                         'x-jsonld-id': 'http://schema.org/url'},
+                                          'schema:archivedAt': {'type': 'string',
+                                                                'x-jsonld-id': 'http://schema.org/archivedAt'},
+                                          'nde:versionDate': {'type': 'string',
+                                                              'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/versionDate'}},
+                           'anyOf': [{'required': ['schema:name']},
+                                     {'required': ['schema:url']},
+                                     {'required': ['@id']}]},
+               'annotation': {'description': "NIAID's annotations on a "
+                                             'term: whether it was '
+                                             'curated, by whom, the text '
+                                             'it was matched from, and '
+                                             'which method produced it.',
+                              'type': 'object',
+                              'properties': {'nde:isCurated': {'type': 'boolean',
+                                                               'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/isCurated'},
+                                             'nde:originalName': {'type': 'string',
+                                                                  'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/originalName'},
+                                             'nde:curatedBy': {'$ref': '#/$defs/curator',
+                                                               'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/curatedBy'},
+                                             'cdifniaid:fromGPT': {'description': 'The '
+                                                                                  'term '
+                                                                                  'was '
+                                                                                  'suggested '
+                                                                                  'by '
+                                                                                  'a '
+                                                                                  'GPT '
+                                                                                  'language '
+                                                                                  'model.',
+                                                                   'type': 'boolean',
+                                                                   'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/fromGPT'},
+                                             'cdifniaid:fromPMID': {'description': 'The '
+                                                                                   'term '
+                                                                                   'was '
+                                                                                   'taken '
+                                                                                   'from '
+                                                                                   'a '
+                                                                                   'PubMed '
+                                                                                   'record '
+                                                                                   'linked '
+                                                                                   'to '
+                                                                                   'the '
+                                                                                   'dataset.',
+                                                                    'type': 'boolean',
+                                                                    'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/fromPMID'},
+                                             'cdifniaid:fromEXTRACT': {'description': 'The '
+                                                                                      'term '
+                                                                                      'was '
+                                                                                      'found '
+                                                                                      'by '
+                                                                                      'the '
+                                                                                      'EXTRACT '
+                                                                                      'text-mining '
+                                                                                      'tool.',
+                                                                       'type': 'boolean',
+                                                                       'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/fromEXTRACT'},
+                                             'cdifniaid:fromNCT': {'description': 'The '
+                                                                                  'term '
+                                                                                  'was '
+                                                                                  'taken '
+                                                                                  'from '
+                                                                                  'the '
+                                                                                  "dataset's "
+                                                                                  'ClinicalTrials.gov '
+                                                                                  'record.',
+                                                                   'type': 'boolean',
+                                                                   'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/fromNCT'},
+                                             'cdifniaid:classification': {'description': 'The '
+                                                                                         'role '
+                                                                                         'a '
+                                                                                         'taxon '
+                                                                                         'plays '
+                                                                                         'for '
+                                                                                         'the '
+                                                                                         'dataset, '
+                                                                                         'e.g. '
+                                                                                         'infectiousAgent '
+                                                                                         'or '
+                                                                                         'host.',
+                                                                          'type': 'string',
+                                                                          'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/classification'},
+                                             'cdifniaid:commonName': {'description': 'The '
+                                                                                     'common '
+                                                                                     'name '
+                                                                                     'of '
+                                                                                     'a '
+                                                                                     'taxon.',
+                                                                      'type': 'string',
+                                                                      'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/commonName'},
+                                             'cdifniaid:displayName': {'description': 'The '
+                                                                                      'name '
+                                                                                      'the '
+                                                                                      'portal '
+                                                                                      'displays '
+                                                                                      'for '
+                                                                                      'a '
+                                                                                      'taxon.',
+                                                                       'type': 'string',
+                                                                       'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/displayName'}}},
+               'annotatedTerm': {'allOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/term'},
+                                           {'$ref': '#/$defs/annotation'}]},
+               'annotatedTerms': {'anyOf': [{'$ref': '#/$defs/annotatedTerm'},
+                                            {'type': 'array',
+                                             'items': {'$ref': '#/$defs/annotatedTerm'}}]},
+               'annotatedTermsOrText': {'anyOf': [{'type': 'string'},
+                                                  {'$ref': '#/$defs/annotation'},
+                                                  {'type': 'array',
+                                                   'items': {'anyOf': [{'type': 'string'},
+                                                                       {'$ref': '#/$defs/annotation'}]}}]},
+               'curator': {'type': 'object',
+                           'properties': {'schema:name': {'type': 'string',
+                                                          'x-jsonld-id': 'http://schema.org/name'},
+                                          'schema:url': {'type': 'string',
+                                                         'x-jsonld-id': 'http://schema.org/url'},
+                                          'schema:dateModified': {'type': 'string',
+                                                                  'x-jsonld-id': 'http://schema.org/dateModified'},
+                                          'schema:archivedAt': {'type': 'string',
+                                                                'x-jsonld-id': 'http://schema.org/archivedAt'},
+                                          'nde:versionDate': {'type': 'string',
+                                                              'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/versionDate'}}},
+               'nctid': {'type': 'string', 'pattern': '^NCT\\d{8}$'},
+               'work': {'type': 'object',
+                        'properties': {'schema:name': {'type': 'string',
+                                                       'x-jsonld-id': 'http://schema.org/name'},
+                                       'schema:url': {'type': 'string',
+                                                      'x-jsonld-id': 'http://schema.org/url'},
+                                       'nde:doi': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts',
+                                                   'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/doi'},
+                                       'nde:pmid': {'$ref': '#/$defs/pmid',
+                                                    'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/pmid'}}},
+               'pmid': {'type': 'string', 'pattern': '^\\d+$'},
+               'distribution': {'type': 'object',
+                                'properties': {'cdifniaid:partUrl': {'description': 'URLs '
+                                                                                    'of '
+                                                                                    'files '
+                                                                                    'in '
+                                                                                    'the '
+                                                                                    'archive, '
+                                                                                    'given '
+                                                                                    'with '
+                                                                                    'no '
+                                                                                    'name '
+                                                                                    'or '
+                                                                                    'format, '
+                                                                                    'so '
+                                                                                    'they '
+                                                                                    'cannot '
+                                                                                    'be '
+                                                                                    'CDIF '
+                                                                                    'archive '
+                                                                                    'parts.',
+                                                                     'anyOf': [{'type': 'string'},
+                                                                               {'type': 'array',
+                                                                                'items': {'type': 'string'}}],
+                                                                     'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/partUrl'}}},
+               'works': {'anyOf': [{'$ref': '#/$defs/work'},
+                                   {'type': 'array',
+                                    'items': {'$ref': '#/$defs/work'}}]},
+               'citation': {'anyOf': [{'type': 'string'},
+                                      {'allOf': [{'$ref': '#/$defs/work'},
+                                                 {'type': 'object',
+                                                  'properties': {'nde:journalName': {'type': 'string',
+                                                                                     'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/journalName'},
+                                                                 'nde:journalNameAbbrev': {'type': 'string',
+                                                                                           'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/journalNameAbbrev'},
+                                                                 'cdifniaid:fromPMID': {'type': 'boolean',
+                                                                                        'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/fromPMID'}}}]}]},
+               'relatedResource': {'type': 'object',
+                                   'properties': {'schema:name': {'type': 'string',
+                                                                  'x-jsonld-id': 'http://schema.org/name'},
+                                                  'nde:relationship': {'description': 'How '
+                                                                                      'the '
+                                                                                      'resource '
+                                                                                      'is '
+                                                                                      'related, '
+                                                                                      'e.g. '
+                                                                                      '"has '
+                                                                                      'part" '
+                                                                                      'or '
+                                                                                      '"is '
+                                                                                      'part '
+                                                                                      'of".',
+                                                                       'type': 'string',
+                                                                       'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/relationship'},
+                                                  'nde:doi': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts',
+                                                              'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/doi'}}},
+               'relatedResources': {'anyOf': [{'$ref': '#/$defs/relatedResource'},
+                                              {'type': 'array',
+                                               'items': {'$ref': '#/$defs/relatedResource'}}]},
+               'grant': {'type': 'object',
+                         'properties': {'cdifniaid:fromPMID': {'type': 'boolean',
+                                                               'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/fromPMID'},
+                                        'cdifniaid:projectNumSplit': {'$ref': '#/$defs/projectNumber',
+                                                                      'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/projectNumSplit'},
+                                        'schema:funder': {'type': 'object',
+                                                          'properties': {'cdifniaid:alternateNames': {'description': 'An '
+                                                                                                                     "agent's "
+                                                                                                                     'second '
+                                                                                                                     'and '
+                                                                                                                     'later '
+                                                                                                                     'alternate '
+                                                                                                                     'names; '
+                                                                                                                     'schema:alternateName '
+                                                                                                                     'holds '
+                                                                                                                     'the '
+                                                                                                                     'first.',
+                                                                                                      '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts',
+                                                                                                      'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/alternateNames'}},
+                                                          'x-jsonld-id': 'http://schema.org/funder'}}},
+               'projectNumber': {'description': 'The parts of an NIH '
+                                                'project number such as '
+                                                '5R01AI012345-03, which '
+                                                'NIH grant identifiers '
+                                                'follow.',
+                                 'type': 'object',
+                                 'properties': {'cdifniaid:applTypeCode': {'description': 'Application '
+                                                                                          'type, '
+                                                                                          'e.g. '
+                                                                                          '5 '
+                                                                                          'for '
+                                                                                          'a '
+                                                                                          'non-competing '
+                                                                                          'continuation.',
+                                                                           'type': 'string',
+                                                                           'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/applTypeCode'},
+                                                'cdifniaid:activityCode': {'description': 'Activity '
+                                                                                          'code, '
+                                                                                          'e.g. '
+                                                                                          'R01.',
+                                                                           'type': 'string',
+                                                                           'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/activityCode'},
+                                                'cdifniaid:icCode': {'description': 'The '
+                                                                                    'NIH '
+                                                                                    'institute '
+                                                                                    'or '
+                                                                                    'center, '
+                                                                                    'e.g. '
+                                                                                    'AI '
+                                                                                    'for '
+                                                                                    'NIAID.',
+                                                                     'type': 'string',
+                                                                     'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/icCode'},
+                                                'cdifniaid:serialNum': {'description': 'Serial '
+                                                                                       'number '
+                                                                                       'of '
+                                                                                       'the '
+                                                                                       'grant.',
+                                                                        'type': 'string',
+                                                                        'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/serialNum'},
+                                                'cdifniaid:supportYear': {'description': 'Year '
+                                                                                         'of '
+                                                                                         'support.',
+                                                                          'type': 'string',
+                                                                          'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/supportYear'},
+                                                'cdifniaid:fullSupportYear': {'description': 'Year '
+                                                                                             'of '
+                                                                                             'support '
+                                                                                             'with '
+                                                                                             'any '
+                                                                                             'suffix.',
+                                                                              'type': 'string',
+                                                                              'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/fullSupportYear'},
+                                                'cdifniaid:suffixCode': {'description': 'Suffix, '
+                                                                                        'e.g. '
+                                                                                        'S1 '
+                                                                                        'for '
+                                                                                        'a '
+                                                                                        'supplement.',
+                                                                         'type': 'string',
+                                                                         'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/suffixCode'}}},
+               'place': {'type': 'object',
+                         'properties': {'cdifniaid:country': {'description': 'The '
+                                                                             'country '
+                                                                             'the '
+                                                                             'place '
+                                                                             'is '
+                                                                             'in.',
+                                                              'type': 'string',
+                                                              'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/country'},
+                                        'nde:locationType': {'type': 'string',
+                                                             'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/locationType'},
+                                        'nde:administrativeType': {'type': 'string',
+                                                                   'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/administrativeType'}}},
+               'sourceOrganization': {'type': 'object',
+                                      'properties': {'cdifniaid:correctionApproved': {'description': 'A '
+                                                                                                     'correction '
+                                                                                                     'to '
+                                                                                                     'the '
+                                                                                                     "portal's "
+                                                                                                     'record '
+                                                                                                     'of '
+                                                                                                     'the '
+                                                                                                     'project '
+                                                                                                     'has '
+                                                                                                     'been '
+                                                                                                     'approved.',
+                                                                                      'type': 'boolean',
+                                                                                      'x-jsonld-id': 'https://w3id.org/cdif/niaid/terms/correctionApproved'}}},
+               'temporalInterval': {'type': 'object',
+                                    'properties': {'@type': {'$ref': '#/$defs/types'},
+                                                   'schema:startDate': {'type': 'string',
+                                                                        'x-jsonld-id': 'http://schema.org/startDate'},
+                                                   'schema:endDate': {'type': 'string',
+                                                                      'x-jsonld-id': 'http://schema.org/endDate'},
+                                                   'schema:duration': {'type': 'string',
+                                                                       'x-jsonld-id': 'http://schema.org/duration'},
+                                                   'schema:name': {'type': 'string',
+                                                                   'x-jsonld-id': 'http://schema.org/name'},
+                                                   'nde:temporalType': {'type': 'string',
+                                                                        'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/temporalType'}}},
+               'namedThing': {'type': 'object',
+                              'properties': {'@type': {'$ref': '#/$defs/types'},
+                                             'schema:name': {'type': 'string',
+                                                             'x-jsonld-id': 'http://schema.org/name'}},
+                              'required': ['schema:name']},
+               'sample': {'description': "A sample; nde:Sample is NIAID's "
+                                         'subclass of the Bioschemas '
+                                         'sample.',
+                          'allOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml'},
+                                    {'type': 'object',
+                                     'properties': {'nde:cellType': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/termsOrText',
+                                                                     'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/cellType'},
+                                                    'nde:species': {'$ref': '#/$defs/annotatedTerms',
+                                                                    'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/species'},
+                                                    'schema:aggregateElement': {'$ref': '#/$defs/sample',
+                                                                                'x-jsonld-id': 'http://schema.org/aggregateElement'}}}]},
+               'sampleCollection': {'description': 'A collection of '
+                                                   'samples, which NIAID '
+                                                   'types as an ItemList.',
+                                    'type': 'object',
+                                    'properties': {'@type': {'$ref': '#/$defs/types'},
+                                                   'schema:numberOfItems': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/quantity',
+                                                                            'x-jsonld-id': 'http://schema.org/numberOfItems'},
+                                                   'schema:aggregateElement': {'$ref': '#/$defs/sample',
+                                                                               'x-jsonld-id': 'http://schema.org/aggregateElement'},
+                                                   'schema:itemListElement': {'anyOf': [{'$ref': '#/$defs/sample'},
+                                                                                        {'type': 'array',
+                                                                                         'items': {'$ref': '#/$defs/sample'}}],
+                                                                              'x-jsonld-id': 'http://schema.org/itemListElement'}}}},
+     'x-jsonld-prefixes': {'schema': 'http://schema.org/',
+                           'dcterms': 'http://purl.org/dc/terms/',
+                           'dcat': 'http://www.w3.org/ns/dcat#',
+                           'prov': 'http://www.w3.org/ns/prov#',
+                           'nde': 'https://discovery.biothings.io/ns/nde/',
+                           'bios': 'https://bioschemas.org/',
+                           'cdifniaid': 'https://w3id.org/cdif/niaid/terms/'},
+     'x-bblocks-metadata': {'itemIdentifier': 'cdif.bbr.metadata.niaidProperties.niaidDataset',
+                            'register': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json',
+                            'version': '1.0',
+                            'dateOfLastChange': '2026-11-07'},
+     '$id': 'file:///github/workspace/build/annotated/bbr/metadata/niaidProperties/niaidDataset/schema.yaml'}
+
+On instance:
+    {'@context': {'schema': 'http://schema.org/',
+                  'dcterms': 'http://purl.org/dc/terms/',
+                  'dcat': 'http://www.w3.org/ns/dcat#',
+                  'prov': 'http://www.w3.org/ns/prov#',
+                  'nde': 'https://discovery.biothings.io/ns/nde/',
+                  'bios': 'https://bioschemas.org/',
+                  'cdifniaid': 'https://w3id.org/cdif/niaid/terms/'},
+     '@type': ['schema:Dataset'],
+     '@id': 'https://data.niaid.nih.gov/resources?id=pxd027351',
+     'schema:subjectOf': {'schema:url': 'https://data.niaid.nih.gov/resources?id=pxd027351',
+                          '@type': ['schema:Dataset'],
+                          'schema:additionalType': [{'@id': 'dcat:CatalogRecord'}],
+                          '@id': 'https://data.niaid.nih.gov/resources?id=pxd027351#metadata',
+                          'schema:name': 'Metadata record for: Online '
+                                         'Nanoflow Two-Dimension '
+                                         'Comprehensive Active Modulation '
+                                         'Reversed Phase-Reversed Phase '
+                                         'Liquid Chromatography High R',
+                          'schema:about': {'@id': 'https://data.niaid.nih.gov/resources?id=pxd027351'},
+                          'dcterms:conformsTo': [{'@id': 'https://w3id.org/cdif/core/1.1'},
+                                                 {'@id': 'https://w3id.org/cdif/discovery/1.1'},
+                                                 {'@id': 'https://w3id.org/cdif/niaid/1.0'}],
+                          'schema:description': 'CDIF metadata harvested '
+                                                'from the NIAID Data '
+                                                'Discovery Portal API '
+                                                '(index build 2026-10-28), '
+                                                'record pxd027351, and '
+                                                'converted by '
+                                                'harvest_niaid_to_cdif.py. '
+                                                'The portal aggregates '
+                                                'this record from the '
+                                                'repositories named in '
+                                                'schema:includedInDataCatalog; '
+                                                'nde: properties, '
+                                                "including the portal's "
+                                                'term annotations, are as '
+                                                'the portal publishes '
+                                                'them.',
+                          'schema:includedInDataCatalog': {'@type': ['schema:DataCatalog'],
+                                                           'schema:name': 'NIAID '
+                                                                          'Data '
+                                                                          'Discovery '
+                                                                          'Portal',
+                                                           'schema:url': 'https://data.niaid.nih.gov/'},
+                          'schema:sdDatePublished': '2026-10-28'},
+     'schema:identifier': {'@type': ['schema:PropertyValue'],
+                           'schema:propertyID': {'@id': 'https://registry.identifiers.org/registry/doi'},
+                           'schema:value': '10.6019/PXD027351',
+                           'schema:url': 'https://doi.org/10.6019/PXD027351'},
+     'bios:alternateIdentifier': ['PXD027351'],
+     'schema:dateModified': '2022-05-20',
+     'schema:datePublished': '2022-05-20',
+     'schema:dateCreated': '2021-07-16',
+     'nde:date': '2022-05-20',
+     'schema:creator': {'@list': [{'@type': ['schema:Person'],
+                                   'schema:affiliation': {'@type': ['schema:Organization'],
+                                                          'schema:name': 'Woods '
+                                                                         'Hole '
+                                                                         'Oceanographic '
+                                                                         'Inst.'},
+                                   'schema:identifier': 'https://orcid.org/0000-0002-5301-8365',
+                                   'schema:name': 'Matthew McIlvin'},
+                                  {'@type': ['schema:Person'],
+                                   'schema:affiliation': {'@type': ['schema:Organization'],
+                                                          'schema:name': 'Marine '
+                                                                         'Chemistry '
+                                                                         'and '
+                                                                         'Geochemistry, '
+                                                                         'Woods '
+                                                                         'Hole '
+                                                                         'Oceanographic '
+                                                                         'Institution, '
+                                                                         'Unites '
+                                                                         'States'},
+                                   'schema:name': 'Mak Saito'}]},
+     'schema:citation': [{'@type': ['schema:ScholarlyArticle'],
+                          'schema:author': [{'@type': ['schema:Person'],
+                                             'schema:name': 'McIlvin MR'},
+                                            {'@type': ['schema:Person'],
+                                             'schema:name': 'Saito MA'}],
+                          'schema:datePublished': '2021-09-03',
+                          'cdifniaid:fromPMID': True,
+                          'schema:identifier': 'PMID:34384028',
+                          'nde:journalName': 'Journal of proteome research',
+                          'schema:name': 'Online Nanoflow Two-Dimension '
+                                         'Comprehensive Active Modulation '
+                                         'Reversed Phase-Reversed Phase '
+                                         'Liquid Chromatography '
+                                         'High-Resolution Mass '
+                                         'Spectrometry for Metaproteomics '
+                                         'of Environmental and Microbiome '
+                                         'Samples.',
+                          'nde:pmid': '34384028',
+                          'schema:url': 'https://pubmed.ncbi.nlm.nih.gov/34384028/'}],
+     'schema:conditionsOfAccess': ['Open'],
+     'schema:description': 'Metaproteomics is a powerful analytical '
+                           'approach that can assess the functional '
+                           'capabilities deployed by microbial '
+                           'communi-ties in both environmental and '
+                           'biomedical microbiome settings. Yet the mass '
+                           'spectra resulting from these mixed biological '
+                           'communities are challenging due to the high '
+                           'number of low intensity peak features. The use '
+                           'of multiple dimensions of chroma-tographic '
+                           'separation prior to mass spectrometry analyses '
+                           'has been applied to proteomics previously but '
+                           'can require increased sampling handling and '
+                           'instrument time. Here we demonstrate an '
+                           'automated online comprehensive '
+                           'active-modulation two-dimensional liquid '
+                           'chromatography method for metaproteome sample '
+                           'analysis. A high pH PLRP-S column was used in '
+                           'the first dimension followed by low pH '
+                           'separation in the second dimension using dual '
+                           'modulating C18 traps and a C18 column. This '
+                           'method increased the number of unique peptides '
+                           'found in ocean metaproteome samples by more '
+                           'than 50% when com-pared to a one dimension '
+                           'separation while using the same amount of '
+                           'sample and instrument time.',
+     'schema:distribution': [{'@type': ['schema:DataDownload'],
+                              'schema:contentUrl': 'https://www.omicsdi.org/ws/dataset/pride/PXD027351',
+                              'schema:encodingFormat': ['XML']}],
+     'schema:funding': [{'@type': ['schema:MonetaryGrant'],
+                         'schema:endDate': '2024-04-30',
+                         'schema:funder': {'@type': ['schema:Organization'],
+                                           'schema:alternateName': 'NIGMS',
+                                           'cdifniaid:alternateNames': ['U.S. '
+                                                                        'National '
+                                                                        'Institute '
+                                                                        'of '
+                                                                        'General '
+                                                                        'Medical '
+                                                                        'Sciences'],
+                                           'schema:identifier': 'https://ror.org/04q48ey07',
+                                           'schema:name': 'National '
+                                                          'Institute of '
+                                                          'General Medical '
+                                                          'Sciences',
+                                           'schema:parentOrganization': 'National '
+                                                                        'Institutes '
+                                                                        'of '
+                                                                        'Health'},
+                         'schema:identifier': {'@type': ['schema:PropertyValue'],
+                                               'schema:value': '1R01GM135709-01A1'},
+                         'schema:name': 'Response of the Bacterial '
+                                        'Metalloproteome to Environmental '
+                                        'Conditions',
+                         'cdifniaid:projectNumSplit': {'cdifniaid:activityCode': 'R01',
+                                                       'cdifniaid:applTypeCode': '1',
+                                                       'cdifniaid:fullSupportYear': '01A1',
+                                                       'cdifniaid:icCode': 'GM',
+                                                       'cdifniaid:serialNum': '135709',
+                                                       'cdifniaid:suffixCode': 'A1',
+                                                       'cdifniaid:supportYear': '01'},
+                         'schema:startDate': '2020-06-10',
+                         'schema:url': 'https://reporter.nih.gov/project-details/10052790'}],
+     'schema:healthCondition': [{'@type': ['schema:DefinedTerm'],
+                                 'schema:alternateName': ['Disease-free',
+                                                          'Disease Free'],
+                                 'nde:curatedBy': {'@type': ['schema:SoftwareApplication'],
+                                                   'schema:dateModified': '2024-11-30',
+                                                   'schema:name': 'Biothings '
+                                                                  'API',
+                                                   'schema:url': 'https://biothings.io/'},
+                                 'schema:identifier': 'C173158',
+                                 'schema:inDefinedTermSet': 'NCIT',
+                                 'nde:isCurated': True,
+                                 'schema:name': 'Disease Free',
+                                 'nde:originalName': 'disease-free',
+                                 'schema:url': 'http://purl.obolibrary.org/obo/NCIT_C173158'}],
+     'schema:infectiousAgent': [{'@type': ['schema:DefinedTerm'],
+                                 'schema:alternateName': ['uncultured '
+                                                          'marine '
+                                                          'plankton'],
+                                 'cdifniaid:classification': 'infectiousAgent',
+                                 'cdifniaid:displayName': 'marine plankton '
+                                                          'environmental '
+                                                          'sample',
+                                 'schema:identifier': '632957',
+                                 'schema:inDefinedTermSet': 'UniProt',
+                                 'nde:isCurated': False,
+                                 'schema:name': 'marine plankton '
+                                                'environmental sample',
+                                 'nde:originalName': 'Marine Plankton '
+                                                     'Environmental Sample',
+                                 'schema:url': 'https://www.uniprot.org/taxonomy/632957'}],
+     'schema:keywords': ['',
+                         'Metaproteomics',
+                         'Lcms',
+                         'Proteomics',
+                         'Automated',
+                         'Rprp',
+                         'Lc',
+                         '2dlc',
+                         'Comprehensive active modulation',
+                         'Ocean'],
+     'schema:license': ['https://www.proteomexchange.org/pxcollaborativeagreement_2024.pdf'],
+     'schema:measurementTechnique': [{'@type': ['schema:DefinedTerm'],
+                                      'schema:identifier': '0000534',
+                                      'schema:inDefinedTermSet': 'MMO',
+                                      'nde:isCurated': True,
+                                      'schema:name': 'mass spectrometry',
+                                      'nde:originalName': 'Mass '
+                                                          'Spectrometry',
+                                      'schema:url': 'http://purl.obolibrary.org/obo/MMO_0000534'},
+                                     {'@type': ['schema:DefinedTerm'],
+                                      'schema:identifier': '0000470',
+                                      'schema:inDefinedTermSet': 'OBI',
+                                      'nde:isCurated': True,
+                                      'schema:name': 'mass spectrometry '
+                                                     'assay',
+                                      'nde:originalName': 'Mass '
+                                                          'Spectrometry',
+                                      'schema:url': 'http://purl.obolibrary.org/obo/OBI_0000470'},
+                                     {'@type': ['schema:DefinedTerm'],
+                                      'schema:identifier': '0000428',
+                                      'schema:inDefinedTermSet': 'PRIDE',
+                                      'nde:isCurated': True,
+                                      'schema:name': 'Bottom-up proteomics',
+                                      'nde:originalName': 'Shotgun '
+                                                          'proteomics',
+                                      'schema:url': 'http://purl.obolibrary.org/obo/PRIDE_0000428'},
+                                     {'@type': ['schema:DefinedTerm'],
+                                      'schema:identifier': '0003229',
+                                      'schema:inDefinedTermSet': 'OBI',
+                                      'nde:isCurated': True,
+                                      'schema:name': 'plasma proteomics '
+                                                     'assay',
+                                      'nde:originalName': 'Shotgun '
+                                                          'proteomics',
+                                      'schema:url': 'http://purl.obolibrary.org/obo/OBI_0003229'}],
+     'schema:name': 'Online Nanoflow Two-Dimension Comprehensive Active '
+                    'Modulation Reversed Phase-Reversed Phase Liquid '
+                    'Chromatography High Resolution Mass Spectrometry for '
+                    'Metaproteomics of Environmen-tal and Microbiome '
+                    'Samples',
+     'schema:sameAs': ['https://www.ebi.ac.uk/pride/archive/projects/PXD027351',
+                       'https://www.omicsdi.org/dataset/pride/PXD027351'],
+     'nde:sample': {'@type': ['nde:Sample', 'bios:Sample'],
+                    'schema:instrument': [{'@type': ['schema:DefinedTerm'],
+                                           'schema:name': 'Orbitrap '
+                                                          'Fusion'}]},
+     'schema:sdPublisher': {'@type': ['schema:Organization'],
+                            'schema:name': 'Pride',
+                            'schema:url': 'https://www.omicsdi.org/dataset/pride/PXD027351'},
+     'nde:species': [{'@type': ['schema:DefinedTerm'],
+                      'schema:alternateName': ['Homo sapients',
+                                               'human',
+                                               'Homo sapiens Linnaeus, '
+                                               '1758',
+                                               'Homo sapians',
+                                               'Homo sapien',
+                                               'Homo sapian',
+                                               'Homo spaiens',
+                                               'Human',
+                                               'Homo sapines',
+                                               'Home sapiens',
+                                               'Homo sapience',
+                                               'Homo spiens',
+                                               'Homo sapeins',
+                                               'Homo sapiense',
+                                               'Humo sapiens',
+                                               'Homo sampiens'],
+                      'cdifniaid:classification': 'host',
+                      'cdifniaid:commonName': 'Human',
+                      'cdifniaid:displayName': 'Human | Homo sapiens',
+                      'schema:identifier': '9606',
+                      'schema:inDefinedTermSet': 'UniProt',
+                      'nde:isCurated': False,
+                      'schema:name': 'Homo sapiens',
+                      'nde:originalName': 'Homo Sapiens (human)',
+                      'schema:url': 'https://www.uniprot.org/taxonomy/9606'}],
+     'nde:topicCategory': [{'@type': ['schema:DefinedTerm'],
+                            'nde:curatedBy': {'@type': ['schema:SoftwareApplication'],
+                                              'schema:name': 'GPT-4o-mini',
+                                              'schema:url': 'https://openai.com/index/chatgpt'},
+                            'cdifniaid:fromGPT': True,
+                            'schema:identifier': 'topic_3370',
+                            'schema:inDefinedTermSet': 'EDAM',
+                            'schema:name': 'Analytical chemistry',
+                            'schema:url': 'http://edamontology.org/topic_3370'},
+                           {'@type': ['schema:DefinedTerm'],
+                            'nde:curatedBy': {'@type': ['schema:SoftwareApplication'],
+                                              'schema:name': 'GPT-4o-mini',
+                                              'schema:url': 'https://openai.com/index/chatgpt'},
+                            'cdifniaid:fromGPT': True,
+                            'schema:identifier': 'topic_0121',
+                            'schema:inDefinedTermSet': 'EDAM',
+                            'schema:name': 'Proteomics',
+                            'schema:url': 'http://edamontology.org/topic_0121'},
+                           {'@type': ['schema:DefinedTerm'],
+                            'nde:curatedBy': {'@type': ['schema:SoftwareApplication'],
+                                              'schema:name': 'GPT-4o-mini',
+                                              'schema:url': 'https://openai.com/index/chatgpt'},
+                            'cdifniaid:fromGPT': True,
+                            'schema:identifier': 'topic_3174',
+                            'schema:inDefinedTermSet': 'EDAM',
+                            'schema:name': 'Metagenomics',
+                            'schema:url': 'http://edamontology.org/topic_3174'}],
+     'schema:url': 'https://www.omicsdi.org/dataset/pride/PXD027351',
+     'schema:usageInfo': [{'@type': ['schema:CreativeWork'],
+                           'schema:url': 'https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf'}],
+     'schema:variableMeasured': [{'schema:name': 'Proteomics',
+                                  '@type': ['schema:PropertyValue']}]}
+=== End JSON Schema ===
+
+=== SHACL ===
+Validation result for _sources/niaidProperties/niaidDataset/rules.shacl: no results
+Focus nodes for _sources/niaidProperties/niaidDataset/rules.shacl:
+ - Shape cdifd:NiaidAnnotationShape: <https://data.niaid.nih.gov/resources?id=pxd027351>/schema1:healthCondition,<https://data.niaid.nih.gov/resources?id=pxd027351>/nde:topicCategory,<https://data.niaid.nih.gov/resources?id=pxd027351>/schema1:measurementTechnique,<https://data.niaid.nih.gov/resources?id=pxd027351>/nde:topicCategory,<https://data.niaid.nih.gov/resources?id=pxd027351>/schema1:citation,<https://data.niaid.nih.gov/resources?id=pxd027351>/schema1:measurementTechnique,<https://data.niaid.nih.gov/resources?id=pxd027351>/nde:topicCategory,<https://data.niaid.nih.gov/resources?id=pxd027351>/schema1:infectiousAgent,<https://data.niaid.nih.gov/resources?id=pxd027351>/schema1:measurementTechnique,<https://data.niaid.nih.gov/resources?id=pxd027351>/schema1:measurementTechnique,<https://data.niaid.nih.gov/resources?id=pxd027351>/nde:species
+ - Shape cdifd:NiaidNctidShape: *none*
+
+=== End SHACL ===
+

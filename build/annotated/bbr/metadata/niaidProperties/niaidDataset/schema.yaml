@@ -1,0 +1,519 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: NIAID dataset properties
+description: 'The properties NIAID Data Discovery Portal records add to a CDIF dataset
+  (composed with cdifCore and cdifDiscovery by the cdifNIAID profile; this module
+  does NOT re-embed them). nde: terms are NIAID''s (https://discovery.biothings.io/ns/nde/),
+  bios: terms Bioschemas'' (from the bioschemasSample block), and cdifniaid: terms
+  the ones the portal uses that neither vocabulary declares, defined by this block.
+  Every property accepts one value or an array, because framing collapses a one-element
+  array to its value.'
+type: object
+required:
+- schema:includedInDataCatalog
+properties:
+  '@context':
+    type: object
+    properties:
+      nde:
+        const: https://discovery.biothings.io/ns/nde/
+      bios:
+        const: https://bioschemas.org/
+      cdifniaid:
+        const: https://w3id.org/cdif/niaid/terms/
+  schema:subjectOf:
+    properties:
+      dcterms:conformsTo:
+        type: array
+        items:
+          description: uri for specifications that this metadata record conforms to
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+        minItems: 1
+        contains:
+          type: object
+          required:
+          - '@id'
+          additionalProperties: false
+          properties:
+            '@id':
+              const: https://w3id.org/cdif/niaid/1.0
+        x-jsonld-id: http://purl.org/dc/terms/conformsTo
+    x-jsonld-id: http://schema.org/subjectOf
+  schema:includedInDataCatalog:
+    description: The repositories holding the dataset, which the portal aggregates
+      from.
+    anyOf:
+    - $ref: '#/$defs/catalog'
+    - type: array
+      minItems: 1
+      items:
+        $ref: '#/$defs/catalog'
+    x-jsonld-id: http://schema.org/includedInDataCatalog
+  nde:date:
+    description: The portal's summary date for the record.
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/date
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/date
+  nde:species:
+    description: Species the dataset was collected from or is about.
+    $ref: '#/$defs/annotatedTerms'
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/species
+  nde:topicCategory:
+    description: Topics of the dataset, from the EDAM topic ontology.
+    $ref: '#/$defs/annotatedTerms'
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/topicCategory
+  schema:infectiousAgent:
+    description: Infectious agents the dataset is about.
+    $ref: '#/$defs/annotatedTerms'
+    x-jsonld-id: http://schema.org/infectiousAgent
+  schema:healthCondition:
+    description: Health conditions the dataset is about.
+    $ref: '#/$defs/annotatedTerms'
+    x-jsonld-id: http://schema.org/healthCondition
+  schema:measurementTechnique:
+    description: NIAID's annotations on the measurement techniques CDIF discovery
+      describes.
+    $ref: '#/$defs/annotatedTermsOrText'
+    x-jsonld-id: http://schema.org/measurementTechnique
+  schema:variableMeasured:
+    description: NIAID's annotations on the variables CDIF discovery describes.
+    $ref: '#/$defs/annotatedTermsOrText'
+    x-jsonld-id: http://schema.org/variableMeasured
+  nde:nctid:
+    description: ClinicalTrials.gov identifier of the study.
+    anyOf:
+    - $ref: '#/$defs/nctid'
+    - type: array
+      items:
+        $ref: '#/$defs/nctid'
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/nctid
+  nde:citedBy:
+    description: Works that cite the dataset.
+    $ref: '#/$defs/works'
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/citedBy
+  schema:citation:
+    description: NIAID's journal and PubMed details on CDIF's citations.
+    anyOf:
+    - $ref: '#/$defs/citation'
+    - type: array
+      items:
+        $ref: '#/$defs/citation'
+    x-jsonld-id: http://schema.org/citation
+  nde:curatedBy:
+    description: Who curated the record, and from which version of their catalog.
+    $ref: '#/$defs/curator'
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/curatedBy
+  nde:isBasisFor:
+    description: Resources based on this dataset.
+    $ref: '#/$defs/relatedResources'
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/isBasisFor
+  nde:isRelatedTo:
+    description: Related resources, with the relationship named.
+    $ref: '#/$defs/relatedResources'
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/isRelatedTo
+  nde:sample:
+    description: The samples used to generate the dataset, or a collection of them.
+    anyOf:
+    - $ref: '#/$defs/sample'
+    - $ref: '#/$defs/sampleCollection'
+    - type: array
+      items:
+        anyOf:
+        - $ref: '#/$defs/sample'
+        - $ref: '#/$defs/sampleCollection'
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/sample
+  schema:funding:
+    description: NIAID's grant details on CDIF's funding.
+    anyOf:
+    - $ref: '#/$defs/grant'
+    - type: array
+      items:
+        $ref: '#/$defs/grant'
+    x-jsonld-id: http://schema.org/funding
+  schema:spatialCoverage:
+    description: NIAID's location details on CDIF's spatial coverage.
+    anyOf:
+    - $ref: '#/$defs/place'
+    - type: array
+      items:
+        $ref: '#/$defs/place'
+    x-jsonld-id: http://schema.org/spatialCoverage
+  schema:sourceOrganization:
+    description: Projects and programs the dataset comes from.
+    anyOf:
+    - $ref: '#/$defs/sourceOrganization'
+    - type: array
+      items:
+        $ref: '#/$defs/sourceOrganization'
+    x-jsonld-id: http://schema.org/sourceOrganization
+  bios:alternateIdentifier:
+    description: Identifiers beyond the one CDIF's schema:identifier holds.
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+    x-jsonld-id: https://bioschemas.org/alternateIdentifier
+  cdifniaid:temporalIntervals:
+    description: The portal's temporal intervals where they hold more than dates,
+      kept whole beside schema:temporalCoverage.
+    anyOf:
+    - $ref: '#/$defs/temporalInterval'
+    - type: array
+      items:
+        $ref: '#/$defs/temporalInterval'
+    x-jsonld-id: https://w3id.org/cdif/niaid/terms/temporalIntervals
+  cdifniaid:unlinkedHasPart:
+    description: Parts of the dataset with no address, which cannot be CDIF manifest
+      parts.
+    anyOf:
+    - $ref: '#/$defs/namedThing'
+    - type: array
+      items:
+        $ref: '#/$defs/namedThing'
+    x-jsonld-id: https://w3id.org/cdif/niaid/terms/unlinkedHasPart
+  cdifniaid:assayformat:
+    description: The assay format, as the portal gives it.
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+    x-jsonld-id: https://w3id.org/cdif/niaid/terms/assayformat
+  cdifniaid:publication:
+    description: PubMed identifiers of publications about the dataset.
+    anyOf:
+    - $ref: '#/$defs/pmid'
+    - type: array
+      items:
+        $ref: '#/$defs/pmid'
+    x-jsonld-id: https://w3id.org/cdif/niaid/terms/publication
+  schema:distribution:
+    description: NIAID's archive members that come with an address only.
+    anyOf:
+    - $ref: '#/$defs/distribution'
+    - type: array
+      items:
+        $ref: '#/$defs/distribution'
+    x-jsonld-id: http://schema.org/distribution
+$defs:
+  types:
+    anyOf:
+    - type: string
+    - type: array
+      items:
+        type: string
+  catalog:
+    type: object
+    properties:
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      schema:url:
+        type: string
+        x-jsonld-id: http://schema.org/url
+      schema:archivedAt:
+        type: string
+        x-jsonld-id: http://schema.org/archivedAt
+      nde:versionDate:
+        type: string
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/versionDate
+    anyOf:
+    - required:
+      - schema:name
+    - required:
+      - schema:url
+    - required:
+      - '@id'
+  annotation:
+    description: 'NIAID''s annotations on a term: whether it was curated, by whom,
+      the text it was matched from, and which method produced it.'
+    type: object
+    properties:
+      nde:isCurated:
+        type: boolean
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/isCurated
+      nde:originalName:
+        type: string
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/originalName
+      nde:curatedBy:
+        $ref: '#/$defs/curator'
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/curatedBy
+      cdifniaid:fromGPT:
+        description: The term was suggested by a GPT language model.
+        type: boolean
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromGPT
+      cdifniaid:fromPMID:
+        description: The term was taken from a PubMed record linked to the dataset.
+        type: boolean
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromPMID
+      cdifniaid:fromEXTRACT:
+        description: The term was found by the EXTRACT text-mining tool.
+        type: boolean
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromEXTRACT
+      cdifniaid:fromNCT:
+        description: The term was taken from the dataset's ClinicalTrials.gov record.
+        type: boolean
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromNCT
+      cdifniaid:classification:
+        description: The role a taxon plays for the dataset, e.g. infectiousAgent
+          or host.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/classification
+      cdifniaid:commonName:
+        description: The common name of a taxon.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/commonName
+      cdifniaid:displayName:
+        description: The name the portal displays for a taxon.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/displayName
+  annotatedTerm:
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/term
+    - $ref: '#/$defs/annotation'
+  annotatedTerms:
+    anyOf:
+    - $ref: '#/$defs/annotatedTerm'
+    - type: array
+      items:
+        $ref: '#/$defs/annotatedTerm'
+  annotatedTermsOrText:
+    anyOf:
+    - type: string
+    - $ref: '#/$defs/annotation'
+    - type: array
+      items:
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/annotation'
+  curator:
+    type: object
+    properties:
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      schema:url:
+        type: string
+        x-jsonld-id: http://schema.org/url
+      schema:dateModified:
+        type: string
+        x-jsonld-id: http://schema.org/dateModified
+      schema:archivedAt:
+        type: string
+        x-jsonld-id: http://schema.org/archivedAt
+      nde:versionDate:
+        type: string
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/versionDate
+  nctid:
+    type: string
+    pattern: ^NCT\d{8}$
+  work:
+    type: object
+    properties:
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      schema:url:
+        type: string
+        x-jsonld-id: http://schema.org/url
+      nde:doi:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/doi
+      nde:pmid:
+        $ref: '#/$defs/pmid'
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/pmid
+  pmid:
+    type: string
+    pattern: ^\d+$
+  distribution:
+    type: object
+    properties:
+      cdifniaid:partUrl:
+        description: URLs of files in the archive, given with no name or format, so
+          they cannot be CDIF archive parts.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/partUrl
+  works:
+    anyOf:
+    - $ref: '#/$defs/work'
+    - type: array
+      items:
+        $ref: '#/$defs/work'
+  citation:
+    anyOf:
+    - type: string
+    - allOf:
+      - $ref: '#/$defs/work'
+      - type: object
+        properties:
+          nde:journalName:
+            type: string
+            x-jsonld-id: https://discovery.biothings.io/ns/nde/journalName
+          nde:journalNameAbbrev:
+            type: string
+            x-jsonld-id: https://discovery.biothings.io/ns/nde/journalNameAbbrev
+          cdifniaid:fromPMID:
+            type: boolean
+            x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromPMID
+  relatedResource:
+    type: object
+    properties:
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      nde:relationship:
+        description: How the resource is related, e.g. "has part" or "is part of".
+        type: string
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/relationship
+      nde:doi:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/doi
+  relatedResources:
+    anyOf:
+    - $ref: '#/$defs/relatedResource'
+    - type: array
+      items:
+        $ref: '#/$defs/relatedResource'
+  grant:
+    type: object
+    properties:
+      cdifniaid:fromPMID:
+        type: boolean
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromPMID
+      cdifniaid:projectNumSplit:
+        $ref: '#/$defs/projectNumber'
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/projectNumSplit
+      schema:funder:
+        type: object
+        properties:
+          cdifniaid:alternateNames:
+            description: An agent's second and later alternate names; schema:alternateName
+              holds the first.
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+            x-jsonld-id: https://w3id.org/cdif/niaid/terms/alternateNames
+        x-jsonld-id: http://schema.org/funder
+  projectNumber:
+    description: The parts of an NIH project number such as 5R01AI012345-03, which
+      NIH grant identifiers follow.
+    type: object
+    properties:
+      cdifniaid:applTypeCode:
+        description: Application type, e.g. 5 for a non-competing continuation.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/applTypeCode
+      cdifniaid:activityCode:
+        description: Activity code, e.g. R01.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/activityCode
+      cdifniaid:icCode:
+        description: The NIH institute or center, e.g. AI for NIAID.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/icCode
+      cdifniaid:serialNum:
+        description: Serial number of the grant.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/serialNum
+      cdifniaid:supportYear:
+        description: Year of support.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/supportYear
+      cdifniaid:fullSupportYear:
+        description: Year of support with any suffix.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fullSupportYear
+      cdifniaid:suffixCode:
+        description: Suffix, e.g. S1 for a supplement.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/suffixCode
+  place:
+    type: object
+    properties:
+      cdifniaid:country:
+        description: The country the place is in.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/country
+      nde:locationType:
+        type: string
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/locationType
+      nde:administrativeType:
+        type: string
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/administrativeType
+  sourceOrganization:
+    type: object
+    properties:
+      cdifniaid:correctionApproved:
+        description: A correction to the portal's record of the project has been approved.
+        type: boolean
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/correctionApproved
+  temporalInterval:
+    type: object
+    properties:
+      '@type':
+        $ref: '#/$defs/types'
+      schema:startDate:
+        type: string
+        x-jsonld-id: http://schema.org/startDate
+      schema:endDate:
+        type: string
+        x-jsonld-id: http://schema.org/endDate
+      schema:duration:
+        type: string
+        x-jsonld-id: http://schema.org/duration
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      nde:temporalType:
+        type: string
+        x-jsonld-id: https://discovery.biothings.io/ns/nde/temporalType
+  namedThing:
+    type: object
+    properties:
+      '@type':
+        $ref: '#/$defs/types'
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+    required:
+    - schema:name
+  sample:
+    description: A sample; nde:Sample is NIAID's subclass of the Bioschemas sample.
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml
+    - type: object
+      properties:
+        nde:cellType:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/termsOrText
+          x-jsonld-id: https://discovery.biothings.io/ns/nde/cellType
+        nde:species:
+          $ref: '#/$defs/annotatedTerms'
+          x-jsonld-id: https://discovery.biothings.io/ns/nde/species
+        schema:aggregateElement:
+          $ref: '#/$defs/sample'
+          x-jsonld-id: http://schema.org/aggregateElement
+  sampleCollection:
+    description: A collection of samples, which NIAID types as an ItemList.
+    type: object
+    properties:
+      '@type':
+        $ref: '#/$defs/types'
+      schema:numberOfItems:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/quantity
+        x-jsonld-id: http://schema.org/numberOfItems
+      schema:aggregateElement:
+        $ref: '#/$defs/sample'
+        x-jsonld-id: http://schema.org/aggregateElement
+      schema:itemListElement:
+        anyOf:
+        - $ref: '#/$defs/sample'
+        - type: array
+          items:
+            $ref: '#/$defs/sample'
+        x-jsonld-id: http://schema.org/itemListElement
+x-jsonld-prefixes:
+  schema: http://schema.org/
+  dcterms: http://purl.org/dc/terms/
+  dcat: http://www.w3.org/ns/dcat#
+  prov: http://www.w3.org/ns/prov#
+  nde: https://discovery.biothings.io/ns/nde/
+  bios: https://bioschemas.org/
+  cdifniaid: https://w3id.org/cdif/niaid/terms/
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.niaidProperties.niaidDataset
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '1.0'
+  dateOfLastChange: '2026-11-07'

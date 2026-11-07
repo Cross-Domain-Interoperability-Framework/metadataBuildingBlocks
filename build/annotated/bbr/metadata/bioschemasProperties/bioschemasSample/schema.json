@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bioschemas Sample properties",
+  "description": "Properties of a biological sample from the Bioschemas Sample draft (https://bioschemas.org/), in the bios: namespace. A node using them is typed with bios:Sample beside its own type. Every property accepts one value or an array, because framing collapses a one-element array to its value. Ranges follow the Bioschemas draft where it gives one, and allow text where real records use text for a term.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "bios:anatomicalStructure": {
+      "description": "The organ or tissue the sample was collected from.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/anatomicalStructure"
+    },
+    "bios:anatomicalSystem": {
+      "description": "The anatomical system the sample was collected from, e.g. circulatory, digestive, immune.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/anatomicalSystem"
+    },
+    "bios:associatedPhenotype": {
+      "description": "Defining characteristics expressed by the biological source of the sample.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/associatedPhenotype"
+    },
+    "bios:collectionMethod": {
+      "description": "Conditions and methods of acquisition of the sample.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/collectionMethod"
+    },
+    "bios:collector": {
+      "description": "The Person or Organization who collected the sample.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/agent"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/agent"
+          }
+        }
+      ],
+      "x-jsonld-id": "https://bioschemas.org/collector"
+    },
+    "bios:dateCollected": {
+      "description": "The date the sample was collected.",
+      "$ref": "#/$defs/dates",
+      "x-jsonld-id": "https://bioschemas.org/dateCollected"
+    },
+    "bios:dateProcessed": {
+      "description": "The date the sample was processed or used in a method.",
+      "$ref": "#/$defs/dates",
+      "x-jsonld-id": "https://bioschemas.org/dateProcessed"
+    },
+    "bios:developmentalStage": {
+      "description": "The age or developmental stage of the source when the sample was created, as a term or a quantity.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/termOrQuantity"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/termOrQuantity"
+          }
+        }
+      ],
+      "x-jsonld-id": "https://bioschemas.org/developmentalStage"
+    },
+    "bios:environmentalSystem": {
+      "description": "The habitat or ecosystem where the sample was collected.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/environmentalSystem"
+    },
+    "bios:experimentalPurpose": {
+      "description": "The planned or executed experimental procedures involving the sample.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/experimentalPurpose"
+    },
+    "bios:isControl": {
+      "description": "Whether the sample is used as a normal control.",
+      "type": "boolean",
+      "x-jsonld-id": "https://bioschemas.org/isControl"
+    },
+    "bios:locationOfOrigin": {
+      "description": "The location from which the sample was originally collected.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/locationOfOrigin"
+    },
+    "bios:sampleAvailability": {
+      "description": "Whether the sample is available for reuse.",
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "$ref": "#/$defs/termsOrText"
+        }
+      ],
+      "x-jsonld-id": "https://bioschemas.org/sampleAvailability"
+    },
+    "bios:sampleProcess": {
+      "description": "The processing technique applied to the sample.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/sampleProcess"
+    },
+    "bios:sampleQuantity": {
+      "description": "The size of the sample.",
+      "$ref": "#/$defs/quantities",
+      "x-jsonld-id": "https://bioschemas.org/sampleQuantity"
+    },
+    "bios:sampleState": {
+      "description": "The condition, composition or state of the sample, e.g. dried, frozen.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/sampleState"
+    },
+    "bios:sampleStorageTemperature": {
+      "description": "The temperature at which the sample is stored.",
+      "$ref": "#/$defs/quantities",
+      "x-jsonld-id": "https://bioschemas.org/sampleStorageTemperature"
+    },
+    "bios:sampleType": {
+      "description": "The type of sample, intentionally broad (cells, rock, sand).",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/sampleType"
+    },
+    "bios:sex": {
+      "description": "The biological sex of the individual the sample was obtained from.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/sex"
+    },
+    "bios:studyID": {
+      "description": "The identifier of the study the sample belongs to.",
+      "$ref": "#/$defs/texts",
+      "x-jsonld-id": "https://bioschemas.org/studyID"
+    },
+    "bios:studyTitle": {
+      "description": "The title of the study the sample belongs to.",
+      "$ref": "#/$defs/texts",
+      "x-jsonld-id": "https://bioschemas.org/studyTitle"
+    },
+    "bios:project": {
+      "description": "The project the sample belongs to.",
+      "$ref": "#/$defs/termsOrText",
+      "x-jsonld-id": "https://bioschemas.org/project"
+    }
+  },
+  "$defs": {
+    "texts": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "dates": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/date"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/date"
+          }
+        }
+      ]
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?([T ].*)?$"
+    },
+    "term": {
+      "description": "A defined term, or a reference to one. It must name or identify the term.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/name"
+        },
+        "schema:identifier": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/identifier"
+        },
+        "schema:url": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/url"
+        },
+        "schema:inDefinedTermSet": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/inDefinedTermSet"
+        },
+        "schema:termCode": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/termCode"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "schema:name"
+          ]
+        },
+        {
+          "required": [
+            "schema:identifier"
+          ]
+        },
+        {
+          "required": [
+            "@id"
+          ]
+        }
+      ]
+    },
+    "termOrText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/term"
+        }
+      ]
+    },
+    "termsOrText": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/termOrText"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/termOrText"
+          }
+        }
+      ]
+    },
+    "quantity": {
+      "description": "A schema:QuantitativeValue; a range uses minValue and maxValue.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:value": {
+          "type": [
+            "number",
+            "string"
+          ],
+          "x-jsonld-id": "http://schema.org/value"
+        },
+        "schema:minValue": {
+          "type": "number",
+          "x-jsonld-id": "http://schema.org/minValue"
+        },
+        "schema:maxValue": {
+          "type": "number",
+          "x-jsonld-id": "http://schema.org/maxValue"
+        },
+        "schema:unitText": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/unitText"
+        },
+        "schema:unitCode": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/unitCode"
+        },
+        "schema:name": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/name"
+        }
+      }
+    },
+    "quantities": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/quantity"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quantity"
+          }
+        }
+      ]
+    },
+    "termOrQuantity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/termOrText"
+        },
+        {
+          "$ref": "#/$defs/quantity"
+        }
+      ]
+    },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:name": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/name"
+        }
+      },
+      "required": [
+        "schema:name"
+      ]
+    }
+  },
+  "x-jsonld-prefixes": {
+    "schema": "http://schema.org/",
+    "bios": "https://bioschemas.org/"
+  },
+  "x-bblocks-metadata": {
+    "itemIdentifier": "cdif.bbr.metadata.bioschemasProperties.bioschemasSample",
+    "register": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json",
+    "version": "0.1",
+    "dateOfLastChange": "2026-11-07"
+  }
+}
