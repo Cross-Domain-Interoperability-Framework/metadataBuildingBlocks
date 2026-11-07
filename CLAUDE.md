@@ -246,6 +246,22 @@ their refs are resolved over the network at their build time, not ours.
   for f in $(find _sources -name 'example*.json'); do d=$(dirname "$f"); \
     grep -q "$(basename "$f")" "$d/examples.yaml" || echo "UNREFERENCED: $f"; done
   ```
+
+  **The inverse is worse, and the one-liner above cannot see it: a file that IS
+  referenced but is not named `example*.json`.** Both local tools find examples
+  by globbing `example*.json` -- `validate_examples.py` and
+  `validate_shacl.py` alike -- while the postprocessor publishes and validates
+  whatever `examples.yaml` names. So `xasDocument/CDIF-XAS-Full.json`, listed
+  at line 22 of its own `examples.yaml`, was validated by CI and by neither
+  tool here. Measured 2026-11-07: it bound `cdif` to
+  `https://cdif.org/profiles/` while all 95 other declarations in the repo use
+  `https://w3id.org/cdif/`, so its 31 `cdif:` predicates expanded to IRIs
+  nothing else uses, and the shapes requiring the properties it did carry
+  reported them missing -- 2 Violations and 6 Warnings that vanished on fixing
+  the prefix, with the triple count unchanged at 509. `validate_shacl.py
+  xasDocument` still reports "across 2 examples" for a block with three. Either
+  rename such a file or widen the globs; until then, trust `examples.yaml` over
+  either tool's file list.
 - **SHACL severity is not uniform, and the JSON Schema twin of a rule may be stricter.**
   "A record must declare conformance to <profile>" is `sh:Warning` — SHACL cannot tell
   whether a record meets a profile, so it does not fail one for not saying it does. The
