@@ -88,9 +88,6 @@ properties:
   nde:isBasisFor:
     description: Resources based on this dataset.
     $ref: '#/$defs/relatedResources'
-  nde:isRelatedTo:
-    description: Related resources, with the relationship named.
-    $ref: '#/$defs/relatedResources'
   nde:sample:
     description: The samples used to generate the dataset, or a collection of them.
     anyOf:
@@ -125,13 +122,6 @@ properties:
   bios:alternateIdentifier:
     description: Identifiers beyond the one CDIF's schema:identifier holds.
     $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
-  cdifniaid:temporalIntervals:
-    description: The portal's temporal intervals where they hold more than dates, kept whole beside schema:temporalCoverage.
-    anyOf:
-    - $ref: '#/$defs/temporalInterval'
-    - type: array
-      items:
-        $ref: '#/$defs/temporalInterval'
   cdifniaid:assayformat:
     description: The assay format, as the portal gives it.
     $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
@@ -250,21 +240,6 @@ $defs:
       cdifniaid:correctionApproved:
         description: A correction to the portal's record of the project has been approved.
         type: boolean
-  temporalInterval:
-    type: object
-    properties:
-      '@type':
-        $ref: '#/$defs/types'
-      schema:startDate:
-        type: string
-      schema:endDate:
-        type: string
-      schema:duration:
-        type: string
-      schema:name:
-        type: string
-      nde:temporalType:
-        type: string
   sample:
     description: A sample; nde:Sample is NIAID's subclass of the Bioschemas sample.
     allOf:

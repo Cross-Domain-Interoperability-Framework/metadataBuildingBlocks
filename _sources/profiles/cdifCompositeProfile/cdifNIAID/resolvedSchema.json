@@ -1700,30 +1700,40 @@
     "nde:isBasisFor": {
       "anyOf": [
         {
-          "$ref": "#/$defs/relatedResource"
+          "type": "object",
+          "properties": {
+            "schema:name": {
+              "type": "string"
+            },
+            "nde:relationship": {
+              "description": "How the resource is related, e.g. \"has part\" or \"is part of\".",
+              "type": "string"
+            },
+            "nde:doi": {
+              "$ref": "#/$defs/texts"
+            }
+          }
         },
         {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/relatedResource"
+            "type": "object",
+            "properties": {
+              "schema:name": {
+                "type": "string"
+              },
+              "nde:relationship": {
+                "description": "How the resource is related, e.g. \"has part\" or \"is part of\".",
+                "type": "string"
+              },
+              "nde:doi": {
+                "$ref": "#/$defs/texts"
+              }
+            }
           }
         }
       ],
       "description": "Resources based on this dataset."
-    },
-    "nde:isRelatedTo": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/relatedResource"
-        },
-        {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/relatedResource"
-          }
-        }
-      ],
-      "description": "Related resources, with the relationship named."
     },
     "nde:sample": {
       "description": "The samples used to generate the dataset, or a collection of them.",
@@ -1736,7 +1746,17 @@
           "type": "object",
           "properties": {
             "@type": {
-              "$ref": "#/$defs/types"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
             },
             "schema:numberOfItems": {
               "$ref": "#/$defs/quantity"
@@ -1771,7 +1791,17 @@
                 "type": "object",
                 "properties": {
                   "@type": {
-                    "$ref": "#/$defs/types"
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ]
                   },
                   "schema:numberOfItems": {
                     "$ref": "#/$defs/quantity"
@@ -1898,60 +1928,6 @@
     "bios:alternateIdentifier": {
       "$ref": "#/$defs/texts",
       "description": "Identifiers beyond the one CDIF's schema:identifier holds."
-    },
-    "cdifniaid:temporalIntervals": {
-      "description": "The portal's temporal intervals where they hold more than dates, kept whole beside schema:temporalCoverage.",
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "@type": {
-              "$ref": "#/$defs/types"
-            },
-            "schema:startDate": {
-              "type": "string"
-            },
-            "schema:endDate": {
-              "type": "string"
-            },
-            "schema:duration": {
-              "type": "string"
-            },
-            "schema:name": {
-              "type": "string"
-            },
-            "nde:temporalType": {
-              "type": "string"
-            }
-          }
-        },
-        {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "@type": {
-                "$ref": "#/$defs/types"
-              },
-              "schema:startDate": {
-                "type": "string"
-              },
-              "schema:endDate": {
-                "type": "string"
-              },
-              "schema:duration": {
-                "type": "string"
-              },
-              "schema:name": {
-                "type": "string"
-              },
-              "nde:temporalType": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      ]
     },
     "cdifniaid:assayformat": {
       "$ref": "#/$defs/texts",
@@ -3376,34 +3352,6 @@
             "required": [
               "@type"
             ]
-          }
-        }
-      ]
-    },
-    "relatedResource": {
-      "type": "object",
-      "properties": {
-        "schema:name": {
-          "type": "string"
-        },
-        "nde:relationship": {
-          "description": "How the resource is related, e.g. \"has part\" or \"is part of\".",
-          "type": "string"
-        },
-        "nde:doi": {
-          "$ref": "#/$defs/texts"
-        }
-      }
-    },
-    "types": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "array",
-          "items": {
-            "type": "string"
           }
         }
       ]

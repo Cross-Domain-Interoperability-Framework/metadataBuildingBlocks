@@ -51,7 +51,7 @@ type. `niaidDataset` points its properties at them.
 | `nde:nctid` | dataset | ClinicalTrials.gov id, `NCT` and eight digits |
 | `nde:citedBy` | dataset | Works citing the dataset |
 | `nde:curatedBy` | dataset | The repository that curated the record, with `nde:versionDate` |
-| `nde:isRelatedTo`, `nde:isBasisFor` | dataset | Related resources, with `nde:relationship` |
+| `nde:isBasisFor` | dataset | Related resources, with `nde:relationship` |
 | `nde:sample` | dataset | An `nde:Sample` or `nde:SampleCollection` |
 | `nde:cellType` | sample | Term or text |
 
@@ -60,7 +60,6 @@ type. `niaidDataset` points its properties at them.
 | Term | On | Definition |
 |---|---|---|
 | `cdifniaid:correctionApproved` | source organization | A correction to the portal's record of the project was approved |
-| `cdifniaid:temporalIntervals` | dataset | The portal's intervals where they hold more than dates (a type, a name, a duration), kept whole beside `schema:temporalCoverage` |
 | `cdifniaid:assayformat` | dataset | The assay format, as the portal gives it |
 | `cdifniaid:publication` | dataset | PubMed ids of publications about the dataset |
 
@@ -69,3 +68,10 @@ not properties here: the converter turns them into one sentence each, "Metadata
 source from GPT." and so on, on the catalog record's description. A person's
 `role` becomes a `schema:contributor` that is a `schema:Role` holding the person,
 CDIF's pattern for roles.
+
+NIAID's `isRelatedTo` is not a property here either: each related resource is a
+`schema:relatedLink` LinkRole with `schema:linkRelationship` "related to", its
+address as target, and the portal's relationship in the LinkRole's description.
+A temporal interval with more than dates (a name, a temporalType, a text
+duration) is a `schema:temporalCoverage` interval with calendar-date bounds,
+whose description gives those as `nde:name: ...; nde:temporalType: ...`.
