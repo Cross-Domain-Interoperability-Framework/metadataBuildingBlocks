@@ -5,6 +5,13 @@ description: 'The time interval during which data was collected or observations 
   the 18th century) (see https://documentation.ardc.edu.au/display/DOC/Temporal+coverage). For documentation
   of Earth Science, Paleobiology or Paleontology datasets, we are interested in the second case-- the
   time period that data are linked to thematically. NOTE-- context must include "time": "http://www.w3.org/2006/time#"}'
+properties:
+  'schema:description':
+    type: string
+    description: >-
+      free text description of the temporal extent. Declared here rather than in
+      one interval form so that any object form below may carry it; the plain
+      ISO 8601 string form cannot.
 anyOf:
 - type: object
   description: a w3c time proper interval with bounds that are named time ordinal eras with identifier,
@@ -18,9 +25,6 @@ anyOf:
       contains:
         const: time:ProperInterval
       minItems: 1
-    'schema:description':
-      type: string
-      description: free text description of the temporal interval
     'time:intervalStartedBy':
       type: string
       format: uri
@@ -61,9 +65,6 @@ anyOf:
       contains:
         const: time:ProperInterval
       minItems: 1
-    'schema:description':
-      type: string
-      description: free text description of the temporal interval
     'time:hasBeginning':
       type: object
       properties:
