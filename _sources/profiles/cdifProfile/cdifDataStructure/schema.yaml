@@ -7,6 +7,18 @@ description: >-
   on its schema:DataDownload item; the structure value is any of the four DataStructure variants. Metadata
   records must declare conformance to cdif/data_structure/1.0.
 type: object
+# The cdif: namespace this block's own property names live in. cdifDataStructure
+# and cdifDataDescription are the only two modules that introduce cdif: terms,
+# and @context sits on the record root, so the nested blocks carrying most of
+# them cannot constrain it. A const rather than a required: a record that uses
+# no cdif: term declares no cdif prefix, and only the declared value is wrong.
+properties:
+  '@context':
+    type: object
+    description: JSON-LD namespace prefixes for data structure description.
+    properties:
+      cdif:
+        const: "https://w3id.org/cdif/"
 # Dispatch on the root @type:
 #   - root is one of the DataStructure variants  -> validate a STANDALONE
 #     data-structure object (the inline definition is the document).

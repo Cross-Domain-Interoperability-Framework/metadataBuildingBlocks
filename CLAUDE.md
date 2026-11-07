@@ -599,16 +599,43 @@ their refs are resolved over the network at their build time, not ours.
   disabling is the same bare node in two positions -- as `hasPart` of the collection it must still
   raise, as `hasPart` of the distribution it must not.
 
-- **A composite does not necessarily enforce its modules' conformance declarations: sibling
-  `contains` on one path merge, and the last writer wins.** Measured 2026-11-06, NOT FIXED.
-  `cdifCore`, `cdifDiscovery` and `cdifDataDescription` each declare a hard `contains` pinning
-  their own profile URI under `schema:subjectOf` / `dcterms:conformsTo`. The
-  `DiscoveryDataDescription` composite `allOf`s all three, but its `resolvedSchema.json` carries
-  **`data_description/1.1` alone** -- three sibling branches constraining the same path with
-  `contains` collapse into one object key. A record declaring only `data_description/1.1` passes
-  the composite while skipping the core and discovery declarations. Grep the profile URIs out of
-  each `resolvedSchema.json` to see it: the three modules have one each, the composite has one in
-  total.
+- **One line in `deep_merge` decided what a composite enforces, and it was throwing constraints
+  away.** Found and fixed 2026-11-07; it had eaten two separate families of constraint, recorded
+  here as two unrelated traps until the cause turned out to be shared. `_deep_merge_inner`, with
+  `in_properties=True`, **replaced** the base property definition outright whenever the overlay
+  "looked complete" (carried `type`, `oneOf`, `anyOf`, `allOf` or `$ref`). Replacing is right when
+  the two state different *shapes* -- `cdifCore`'s `schema:distribution` is an `anyOf` and a
+  domain profile's is a `oneOf`, and combining those produces a schema nothing satisfies. It is
+  wrong when they state the same shape from different angles, and a full resolve did that 18
+  times: **7 lost information, every one of them `@context`.**
+  What was lost. Every module states the record's `@context` as a plain object of prefixes, so in
+  a composite only the last module merged survived. `cdifCore` pins `schema`, `dcterms`, `dcat`,
+  `prov` and `spdx` and *requires* the first four be declared -- **none of that reached any
+  composite**, so the `schema` = `http://schema.org/` pin the namespace section above calls
+  load-bearing was decorative in every profile a record actually declares. `CoreDiscovery` kept
+  `cdifDiscovery`'s block, `xasDocument` kept `xasOptional`'s, `cdifNIAID` kept `niaidDataset`'s.
+  Separately, a base holding nothing but accumulated `{contains: ...}` entries was replaced by
+  another module's `{items, minItems, type}`, which is how `DiscoveryDataDescription` came to
+  demand `data_description/1.1` and forget that it also composes core and discovery.
+  The fix is two rules beside the existing `contains` and `items` cases. **Plain object schemas
+  merge instead of choosing** (`_is_plain_object_schema`: `type: object` with `properties` and no
+  `oneOf`/`anyOf`/`allOf`/`$ref`/`not`/`if`/`then`/`else`), with `required` as the **union** --
+  the generic merge would not do that, because a list is replaced wholesale. And **a `contains`
+  survives a replacement** (`_contains_entries`), because it is a separate constraint rather than
+  part of the shape. A property that really is a choice between shapes still replaces, which is
+  what keeps the `distribution` case working.
+  Measured: 5 composite artifacts changed and nothing else; **30 pins gained, 0 lost**; 4 cases
+  that the pre-fix artifacts accepted and the post-fix ones reject (a required prefix removed, a
+  prefix bound elsewhere, a record declaring one of three profile URIs -- the last two in
+  `xasDocument`, which the pins could not reach at all before). `validate_examples.py` 141/141 and
+  `test_fail_cases.py --strict` 111/111 either side. The one example that broke was genuinely
+  wrong: `exampleCDIFDataDescription_widesimple_minimal.json` declared no `prov` prefix, which
+  `cdifCore` has required all along.
+  **The check for any of this is a wrong-value instance, not a grep.** Validate
+  `{"@context": {"<pfx>": "urn:wrong"}}` and look for a `const` error whose path ends
+  `@context/<pfx>`, descending into `error.context` -- most class targets here are `anyOf`, so the
+  real error is never the top-level one. A constraint that does not survive the merge reports
+  nothing and reads exactly like a constraint that passes.
 
 - **The same merge eats `@context` prefix pins, and `cdifCore`'s reach no composite at all.**
   Measured 2026-11-07, PARTLY FIXED. Nineteen prefixes are pinned somewhere with a `const` under

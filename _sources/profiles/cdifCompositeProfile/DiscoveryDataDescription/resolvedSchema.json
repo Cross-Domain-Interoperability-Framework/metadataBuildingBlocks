@@ -8,6 +8,21 @@
       "type": "object",
       "description": "Additional JSON-LD namespace prefixes for discovery and data description.",
       "properties": {
+        "schema": {
+          "const": "http://schema.org/"
+        },
+        "dcterms": {
+          "const": "http://purl.org/dc/terms/"
+        },
+        "spdx": {
+          "const": "http://spdx.org/rdf/terms#"
+        },
+        "dcat": {
+          "const": "http://www.w3.org/ns/dcat#"
+        },
+        "prov": {
+          "const": "http://www.w3.org/ns/prov#"
+        },
         "geosparql": {
           "const": "http://www.opengis.net/ont/geosparql#"
         },
@@ -20,7 +35,13 @@
         "cdif": {
           "const": "https://w3id.org/cdif/"
         }
-      }
+      },
+      "required": [
+        "dcat",
+        "dcterms",
+        "prov",
+        "schema"
+      ]
     },
     "@id": {
       "type": "string",
@@ -1474,7 +1495,37 @@
               }
             ]
           },
-          "minItems": 1
+          "minItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "const": "https://w3id.org/cdif/core/1.1"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "const": "https://w3id.org/cdif/discovery/1.1"
+                  }
+                }
+              }
+            }
+          ]
         },
         "schema:maintainer": {
           "description": "Identification of the agent that maintains the metadata, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
