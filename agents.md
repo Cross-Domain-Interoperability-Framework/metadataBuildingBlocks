@@ -1373,10 +1373,24 @@ takes.
 DNS resolution with private / loopback / link-local / reserved addresses refused, a 20-second
 timeout and a 32 MB cap.
 
-**Deployment.** `render.yaml` runs it on Render from `requirements-viewer.txt` (PyYAML only — the
-viewer neither validates nor needs pyshacl), with `HOST`/`PORT` from the environment and a
-`buildFilter` so only `tools/**` and `_sources/**` changes trigger a build. Bound to a non-loopback
-host the picker drops the "nothing leaves your machine" wording, which would be untrue there.
+**Deployment.** `render.yaml` runs it on Render as the service `cdif-record-viewer`, from
+`requirements-viewer.txt` — **PyYAML and `pyshacl`**, because the viewer does validate: `validate`
+defaults to True in the app and `--no-validate` turns it off. (This paragraph said "PyYAML only —
+the viewer neither validates nor needs pyshacl" until 2026-11-06, which had stopped being true.)
+`HOST`/`PORT` come from the environment, and the `buildFilter` names eight specific paths rather
+than whole trees: the two viewer Python files, `_sources/profiles/**`, `_sources/xasProperties/**`,
+`_sources/jsonforms/profiles/**`, every `_sources/**/*.shacl`, `requirements-viewer.txt` and
+`render.yaml`. It has to be that narrow because CI auto-commits to `main` several times a day;
+measured 2026-11-06, the last six of those touched only `build/` and matched nothing in the filter.
+Bound to a non-loopback host the picker drops the "nothing leaves your machine" wording, which
+would be untrue there.
+
+**Page chrome.** `site_header(home_url=None)` renders the CDIF bar: the logo on the left links to
+the handbook, and a **Home** link appears at the right end only when `home_url` is given.
+`render_html` and `render_part_page` take it and pass it through; the app supplies `/` for served
+pages and the picker gets none, being home itself. The CLI leaves it unset on purpose — a
+hardcoded `/` inside a standalone file resolves against whatever later serves that file, which is
+a filesystem root or somebody else's site.
 
 **Large records.** A property with more than 100 items moves to its own companion page, paginated
 at 100 per page, leaving a preview and a link in place. The MICS record — 1793 variables with a

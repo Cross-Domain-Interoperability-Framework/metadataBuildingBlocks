@@ -1631,7 +1631,8 @@ def _pager(page, pages, page_href):
 
 
 def render_part_page(part, record, modules, offline=True, back=None,
-                     page=1, per_page=PART_PAGE, page_href=None):
+                     page=1, per_page=PART_PAGE, page_href=None,
+                     home_url=None):
     """One page of a split-out list.
 
     Deliberately plain: the same stylesheet, a heading naming the property and
@@ -1670,7 +1671,8 @@ def render_part_page(part, record, modules, offline=True, back=None,
         '<p class="part-sub"><code>%s</code> &middot; %s</p>\n'
         '%s<div class="prop-val">%s</div>\n%s\n%s</main>\n</body>\n</html>\n'
         % (esc(part['title']), (' (page %d of %d)' % (page, pages)) if pages > 1 else '',
-           CSS, site_header(), nav, esc(part['title']), esc(part['property']), span,
+           CSS, site_header(home_url), nav, esc(part['title']),
+           esc(part['property']), span,
            pager, body, pager, site_footer())
     )
 
@@ -1709,15 +1711,28 @@ def asset_data_uri(name, mime):
     return _ASSET_CACHE[name]
 
 
-def site_header():
-    """The CDIF banner that sits above every page."""
+def site_header(home_url=None):
+    """The CDIF banner that sits above every page.
+
+    `home_url` adds a return-to-home link at the right end of the bar. Only the
+    viewer app passes it, because only there does a home page exist: the same
+    renderer writes standalone files through the CLI, and a hardcoded "/" in one
+    of those resolves against whatever happens to serve the file later -- a
+    filesystem root, or someone else's site. No URL, no link.
+
+    The logo on the left keeps pointing at the handbook, which is a different
+    destination and was the only thing resembling "home" before this.
+    """
     logo = asset_data_uri("cdif-logo.png", "image/png")
     img = ('<img class="cdif-logo" src="%s" alt="CDIF">' % logo) if logo \
         else '<span class="cdif-wordmark">CDIF</span>'
+    home = ('<a class="cdif-back" href="%s" '
+            'title="Back to the record picker">Home</a>' % esc(home_url)
+            ) if home_url else ''
     return ('<header class="cdif-bar">'
             '<a class="cdif-home" href="%s">%s</a>'
             '<span class="cdif-tag">Cross-Domain Interoperability Framework</span>'
-            '</header>' % (HANDBOOK_URL, img))
+            '%s</header>' % (HANDBOOK_URL, img, home))
 
 
 def site_footer():
@@ -1751,6 +1766,12 @@ BRAND_CSS = """
 .cdif-bar .cdif-logo{height:38px;width:auto;display:block}
 .cdif-bar .cdif-wordmark{font-weight:700;font-size:1.1rem;color:var(--fg)}
 .cdif-bar .cdif-tag{color:var(--muted);font-size:.82rem}
+/* margin-left:auto pushes it to the right end of the flex bar; the bar wraps at
+   narrow widths, so it drops below the tag rather than overlapping it. */
+.cdif-bar .cdif-back{margin-left:auto;text-decoration:none;font-size:.85rem;
+  padding:.3rem .7rem;border:1px solid var(--line);border-radius:999px;
+  color:var(--fg);background:var(--card);white-space:nowrap}
+.cdif-bar .cdif-back:hover{border-color:var(--accent);color:var(--accent)}
 .cdif-footer{margin-top:3em;padding-top:1rem;border-top:1px solid var(--line);
              font-size:.85em;opacity:.85;color:var(--muted)}
 .cdif-footer p{margin:.5em 0;font-style:italic}
@@ -2048,7 +2069,7 @@ def render_advisories(findings, reason):
 
 def render_html(record, modules, title=None, offline=True, type_index=None,
                 layouts=None, filename=None, parts=None, source_note=None,
-                validate=False, allow_fetch=False):
+                validate=False, allow_fetch=False, home_url=None):
     record, companions = split_graph(record)
     prefixes = record_context(record, offline=offline)
     # The display name is computed further down, but a split-out list needs it
@@ -2144,7 +2165,7 @@ def render_html(record, modules, title=None, offline=True, type_index=None,
         '<nav class="tabs" role="tablist">%s%s</nav>\n%s\n%s'
         '<footer>Rendered from a CDIF JSON-LD record. Layout selected by declared '
         'conformance: %s.</footer>\n%s\n</div>\n<script>%s</script>\n</body>\n</html>\n'
-        % (esc(title or name), CSS, site_header(),
+        % (esc(title or name), CSS, site_header(home_url),
            ''.join('<span class="badge">%s</span>' % esc(t) for t in types),
            esc(name), ' '.join(ids), abstract, banner_note,
            tab_html, controls, panel_html, advisory_note,

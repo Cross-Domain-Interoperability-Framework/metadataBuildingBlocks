@@ -475,7 +475,8 @@ class Handler(BaseHTTPRequestHandler):
                 page = 1
             self._send(200, R.render_part_page(
                 part, stub, self.modules, offline=self.offline, page=page,
-                page_href=lambda n, t=token: '/part/%s?page=%d' % (t, n)))
+                page_href=lambda n, t=token: '/part/%s?page=%d' % (t, n),
+                home_url='/'))
             return
         if self.path not in ('/', '/index.html'):
             self._send(404, 'not found', 'text/plain; charset=utf-8')
@@ -565,7 +566,7 @@ class Handler(BaseHTTPRequestHandler):
             html = R.render_html(record, self.modules, offline=self.offline,
                                  type_index=self.known, layouts=self.layouts,
                                  filename=name, parts=parts, source_note=note,
-                                 validate=self.validate,
+                                 validate=self.validate, home_url='/',
                                  allow_fetch=not self.offline)
         except Exception as exc:               # a malformed record should not kill the app
             self._send(500, 'Could not render:\n%s: %s' % (type(exc).__name__, exc),
