@@ -444,6 +444,7 @@ The JSON Schema `contains` remains a hard failure. JSON Schema has no advisory s
 | `cdifAccess` | `https://w3id.org/cdif/access/1.1` (draft, not minted) | `CDIFAccessConformsToShape` (in `conformance.shacl`) |
 | `xasCore` | `https://w3id.org/cdif/xasCore/1.1` | `XasCoreConformsToShape` (XAS mandatory tier) |
 | `xasOptional` | *(none — no conformance claim; see below)* | *(none)* |
+| `cdifNIAID` | `https://w3id.org/cdif/niaid/1.0` (draft, not minted) | *(none; `conformance.json` presence marks it)* |
 
 **URI convention:** Conformance URIs must NOT have a trailing `/` character.
 

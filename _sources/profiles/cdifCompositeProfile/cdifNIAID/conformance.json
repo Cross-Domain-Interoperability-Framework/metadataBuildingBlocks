@@ -1,0 +1,11 @@
+{
+  "$schema": "https://w3id.org/cdif/schema/conformance-declaration/0.2",
+  "conformsTo": "https://w3id.org/cdif/niaid/1.0",
+  "title": "CDIF NIAID profile",
+  "description": "Marked by USE of a NIAID nde: property on the dataset (not the catalog record): the records the NIAID Data Discovery Portal publishes carry nde:date or one of its annotated terms. Requires cdifCore. No content SHACL of its own; niaidDataset's rules travel with the $ref graph.",
+  "presence": "PREFIX nde: <https://discovery.biothings.io/ns/nde/>\nASK {\n  ?d a schema:Dataset ; ?p ?x .\n  FILTER NOT EXISTS { ?d schema:additionalType dcat:CatalogRecord }\n  FILTER(STRSTARTS(STR(?p), STR(nde:)))\n}",
+  "requires": [
+    "https://w3id.org/cdif/core/1.1"
+  ],
+  "validityShapes": null
+}

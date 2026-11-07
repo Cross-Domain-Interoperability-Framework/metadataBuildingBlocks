@@ -1,0 +1,419 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: NIAID dataset properties
+description: >-
+  The properties NIAID Data Discovery Portal records add to a CDIF dataset
+  (composed with cdifCore and cdifDiscovery by the cdifNIAID profile; this
+  module does NOT re-embed them). nde: terms are NIAID's
+  (https://discovery.biothings.io/ns/nde/), bios: terms Bioschemas' (from the
+  bioschemasSample block), and cdifniaid: terms the ones the portal uses that
+  neither vocabulary declares, defined by this block. Every property accepts one
+  value or an array, because framing collapses a one-element array to its value.
+type: object
+required:
+- schema:includedInDataCatalog
+properties:
+  '@context':
+    type: object
+    properties:
+      nde:
+        const: https://discovery.biothings.io/ns/nde/
+      bios:
+        const: https://bioschemas.org/
+      cdifniaid:
+        const: https://w3id.org/cdif/niaid/terms/
+  schema:subjectOf:
+    properties:
+      dcterms:conformsTo:
+        type: array
+        items:
+          description: uri for specifications that this metadata record conforms to
+          $ref: ../../cdifDataType/objectReference/schema.yaml
+        minItems: 1
+        contains:
+          type: object
+          required:
+          - '@id'
+          additionalProperties: false
+          properties:
+            '@id':
+              const: https://w3id.org/cdif/niaid/1.0
+  schema:includedInDataCatalog:
+    description: The repositories holding the dataset, which the portal aggregates from.
+    anyOf:
+    - $ref: '#/$defs/catalog'
+    - type: array
+      minItems: 1
+      items:
+        $ref: '#/$defs/catalog'
+  nde:date:
+    description: The portal's summary date for the record.
+    $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/date
+  nde:species:
+    description: Species the dataset was collected from or is about.
+    $ref: '#/$defs/annotatedTerms'
+  nde:topicCategory:
+    description: Topics of the dataset, from the EDAM topic ontology.
+    $ref: '#/$defs/annotatedTerms'
+  schema:infectiousAgent:
+    description: Infectious agents the dataset is about.
+    $ref: '#/$defs/annotatedTerms'
+  schema:healthCondition:
+    description: Health conditions the dataset is about.
+    $ref: '#/$defs/annotatedTerms'
+  schema:measurementTechnique:
+    description: NIAID's annotations on the measurement techniques CDIF discovery describes.
+    $ref: '#/$defs/annotatedTermsOrText'
+  schema:variableMeasured:
+    description: NIAID's annotations on the variables CDIF discovery describes.
+    $ref: '#/$defs/annotatedTermsOrText'
+  nde:nctid:
+    description: ClinicalTrials.gov identifier of the study.
+    anyOf:
+    - $ref: '#/$defs/nctid'
+    - type: array
+      items:
+        $ref: '#/$defs/nctid'
+  nde:citedBy:
+    description: Works that cite the dataset.
+    $ref: '#/$defs/works'
+  schema:citation:
+    description: NIAID's journal and PubMed details on CDIF's citations.
+    anyOf:
+    - $ref: '#/$defs/citation'
+    - type: array
+      items:
+        $ref: '#/$defs/citation'
+  nde:curatedBy:
+    description: Who curated the record, and from which version of their catalog.
+    $ref: '#/$defs/curator'
+  nde:isBasisFor:
+    description: Resources based on this dataset.
+    $ref: '#/$defs/relatedResources'
+  nde:isRelatedTo:
+    description: Related resources, with the relationship named.
+    $ref: '#/$defs/relatedResources'
+  nde:sample:
+    description: The samples used to generate the dataset, or a collection of them.
+    anyOf:
+    - $ref: '#/$defs/sample'
+    - $ref: '#/$defs/sampleCollection'
+    - type: array
+      items:
+        anyOf:
+        - $ref: '#/$defs/sample'
+        - $ref: '#/$defs/sampleCollection'
+  schema:funding:
+    description: NIAID's grant details on CDIF's funding.
+    anyOf:
+    - $ref: '#/$defs/grant'
+    - type: array
+      items:
+        $ref: '#/$defs/grant'
+  schema:spatialCoverage:
+    description: NIAID's location details on CDIF's spatial coverage.
+    anyOf:
+    - $ref: '#/$defs/place'
+    - type: array
+      items:
+        $ref: '#/$defs/place'
+  schema:sourceOrganization:
+    description: Projects and programs the dataset comes from.
+    anyOf:
+    - $ref: '#/$defs/sourceOrganization'
+    - type: array
+      items:
+        $ref: '#/$defs/sourceOrganization'
+  bios:alternateIdentifier:
+    description: Identifiers beyond the one CDIF's schema:identifier holds.
+    $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+  cdifniaid:temporalIntervals:
+    description: The portal's temporal intervals where they hold more than dates, kept whole beside schema:temporalCoverage.
+    anyOf:
+    - $ref: '#/$defs/temporalInterval'
+    - type: array
+      items:
+        $ref: '#/$defs/temporalInterval'
+  cdifniaid:unlinkedHasPart:
+    description: Parts of the dataset with no address, which cannot be CDIF manifest parts.
+    anyOf:
+    - $ref: '#/$defs/namedThing'
+    - type: array
+      items:
+        $ref: '#/$defs/namedThing'
+  cdifniaid:assayformat:
+    description: The assay format, as the portal gives it.
+    $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+  cdifniaid:publication:
+    description: PubMed identifiers of publications about the dataset.
+    anyOf:
+    - $ref: '#/$defs/pmid'
+    - type: array
+      items:
+        $ref: '#/$defs/pmid'
+  schema:distribution:
+    description: NIAID's archive members that come with an address only.
+    anyOf:
+    - $ref: '#/$defs/distribution'
+    - type: array
+      items:
+        $ref: '#/$defs/distribution'
+$defs:
+  types:
+    anyOf:
+    - type: string
+    - type: array
+      items:
+        type: string
+  catalog:
+    type: object
+    properties:
+      schema:name:
+        type: string
+      schema:url:
+        type: string
+      schema:archivedAt:
+        type: string
+      nde:versionDate:
+        type: string
+    anyOf:
+    - required:
+      - schema:name
+    - required:
+      - schema:url
+    - required:
+      - '@id'
+  annotation:
+    description: >-
+      NIAID's annotations on a term: whether it was curated, by whom, the text it
+      was matched from, and which method produced it.
+    type: object
+    properties:
+      nde:isCurated:
+        type: boolean
+      nde:originalName:
+        type: string
+      nde:curatedBy:
+        $ref: '#/$defs/curator'
+      cdifniaid:fromGPT:
+        description: The term was suggested by a GPT language model.
+        type: boolean
+      cdifniaid:fromPMID:
+        description: The term was taken from a PubMed record linked to the dataset.
+        type: boolean
+      cdifniaid:fromEXTRACT:
+        description: The term was found by the EXTRACT text-mining tool.
+        type: boolean
+      cdifniaid:fromNCT:
+        description: The term was taken from the dataset's ClinicalTrials.gov record.
+        type: boolean
+      cdifniaid:classification:
+        description: The role a taxon plays for the dataset, e.g. infectiousAgent or host.
+        type: string
+      cdifniaid:commonName:
+        description: The common name of a taxon.
+        type: string
+      cdifniaid:displayName:
+        description: The name the portal displays for a taxon.
+        type: string
+  annotatedTerm:
+    allOf:
+    - $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/term
+    - $ref: '#/$defs/annotation'
+  annotatedTerms:
+    anyOf:
+    - $ref: '#/$defs/annotatedTerm'
+    - type: array
+      items:
+        $ref: '#/$defs/annotatedTerm'
+  annotatedTermsOrText:
+    anyOf:
+    - type: string
+    - $ref: '#/$defs/annotation'
+    - type: array
+      items:
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/annotation'
+  curator:
+    type: object
+    properties:
+      schema:name:
+        type: string
+      schema:url:
+        type: string
+      schema:dateModified:
+        type: string
+      schema:archivedAt:
+        type: string
+      nde:versionDate:
+        type: string
+  nctid:
+    type: string
+    pattern: ^NCT\d{8}$
+  work:
+    type: object
+    properties:
+      schema:name:
+        type: string
+      schema:url:
+        type: string
+      nde:doi:
+        $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+      nde:pmid:
+        $ref: '#/$defs/pmid'
+  pmid:
+    type: string
+    pattern: ^\d+$
+  distribution:
+    type: object
+    properties:
+      cdifniaid:partUrl:
+        description: URLs of files in the archive, given with no name or format, so they cannot be CDIF archive parts.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+  works:
+    anyOf:
+    - $ref: '#/$defs/work'
+    - type: array
+      items:
+        $ref: '#/$defs/work'
+  citation:
+    anyOf:
+    - type: string
+    - allOf:
+      - $ref: '#/$defs/work'
+      - type: object
+        properties:
+          nde:journalName:
+            type: string
+          nde:journalNameAbbrev:
+            type: string
+          cdifniaid:fromPMID:
+            type: boolean
+  relatedResource:
+    type: object
+    properties:
+      schema:name:
+        type: string
+      nde:relationship:
+        description: How the resource is related, e.g. "has part" or "is part of".
+        type: string
+      nde:doi:
+        $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+  relatedResources:
+    anyOf:
+    - $ref: '#/$defs/relatedResource'
+    - type: array
+      items:
+        $ref: '#/$defs/relatedResource'
+  grant:
+    type: object
+    properties:
+      cdifniaid:fromPMID:
+        type: boolean
+      cdifniaid:projectNumSplit:
+        $ref: '#/$defs/projectNumber'
+      schema:funder:
+        type: object
+        properties:
+          cdifniaid:alternateNames:
+            description: An agent's second and later alternate names; schema:alternateName holds the first.
+            $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+  projectNumber:
+    description: >-
+      The parts of an NIH project number such as 5R01AI012345-03, which NIH
+      grant identifiers follow.
+    type: object
+    properties:
+      cdifniaid:applTypeCode:
+        description: Application type, e.g. 5 for a non-competing continuation.
+        type: string
+      cdifniaid:activityCode:
+        description: Activity code, e.g. R01.
+        type: string
+      cdifniaid:icCode:
+        description: The NIH institute or center, e.g. AI for NIAID.
+        type: string
+      cdifniaid:serialNum:
+        description: Serial number of the grant.
+        type: string
+      cdifniaid:supportYear:
+        description: Year of support.
+        type: string
+      cdifniaid:fullSupportYear:
+        description: Year of support with any suffix.
+        type: string
+      cdifniaid:suffixCode:
+        description: Suffix, e.g. S1 for a supplement.
+        type: string
+  place:
+    type: object
+    properties:
+      cdifniaid:country:
+        description: The country the place is in.
+        type: string
+      nde:locationType:
+        type: string
+      nde:administrativeType:
+        type: string
+  sourceOrganization:
+    type: object
+    properties:
+      cdifniaid:correctionApproved:
+        description: A correction to the portal's record of the project has been approved.
+        type: boolean
+  temporalInterval:
+    type: object
+    properties:
+      '@type':
+        $ref: '#/$defs/types'
+      schema:startDate:
+        type: string
+      schema:endDate:
+        type: string
+      schema:duration:
+        type: string
+      schema:name:
+        type: string
+      nde:temporalType:
+        type: string
+  namedThing:
+    type: object
+    properties:
+      '@type':
+        $ref: '#/$defs/types'
+      schema:name:
+        type: string
+    required:
+    - schema:name
+  sample:
+    description: A sample; nde:Sample is NIAID's subclass of the Bioschemas sample.
+    allOf:
+    - $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml
+    - type: object
+      properties:
+        nde:cellType:
+          $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/termsOrText
+        nde:species:
+          $ref: '#/$defs/annotatedTerms'
+        schema:aggregateElement:
+          $ref: '#/$defs/sample'
+  sampleCollection:
+    description: A collection of samples, which NIAID types as an ItemList.
+    type: object
+    properties:
+      '@type':
+        $ref: '#/$defs/types'
+      schema:numberOfItems:
+        $ref: ../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/quantity
+      schema:aggregateElement:
+        $ref: '#/$defs/sample'
+      schema:itemListElement:
+        anyOf:
+        - $ref: '#/$defs/sample'
+        - type: array
+          items:
+            $ref: '#/$defs/sample'
