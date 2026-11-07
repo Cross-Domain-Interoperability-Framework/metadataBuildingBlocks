@@ -594,6 +594,30 @@ their refs are resolved over the network at their build time, not ours.
   each `resolvedSchema.json` to see it: the three modules have one each, the composite has one in
   total.
 
+- **The same merge eats `@context` prefix pins, and `cdifCore`'s reach no composite at all.**
+  Measured 2026-11-07, PARTLY FIXED. Nineteen prefixes are pinned somewhere with a `const` under
+  `properties/@context/properties`, and a module's pins are real when that module is validated
+  alone -- but a composite merges every module's top-level `properties` into one object, so
+  sibling `@context` blocks collapse to whichever merged last. `cdifCore` pins `schema`,
+  `dcterms`, `dcat`, `prov` and `spdx`; **none of the five fires in any of the six composites** --
+  `CoreDiscovery` keeps `cdifDiscovery`'s block, `xasDocument` keeps `xasOptional`'s (`xas`,
+  `nxs`), `cdifNIAID` keeps `niaidDataset`'s (`bios`, `cdifniaid`, `nde`). So the
+  `schema` = `http://schema.org/` pin that the namespace section above calls load-bearing is
+  decorative in every profile a record actually declares.
+  Two consequences. **Adding a pin to a second module is a net loss**: a `properties/@context`
+  added to `cdifDataStructure` won the collapse in `DiscoveryDataDescriptionStructure` and took
+  `geosparql`, `dqv` and `cdi` out of it to gain `cdif`. Moving it into a single-branch `allOf`
+  does not help -- the resolver hoists it back to the root and emits a byte-identical artifact.
+  So `cdif` = `https://w3id.org/cdif/` went into `cdifDataDescription` only, beside the `cdi` it
+  belongs with: measured 4 schemas gained the pin (`cdifDataDescription`,
+  `DiscoveryDataDescription`, `DiscoveryDataDescriptionStructure`, `cdifComplete`) and 0 lost one.
+  **And it still does not reach `xasDocument`** -- the one composite whose example carried a
+  mis-bound `"cdif": "https://cdif.org/profiles/"` (#66), because `xasOptional`'s block displaces
+  everything there. A pin cannot be placed to catch that until the merge itself is fixed.
+  The check is a wrong-value instance per prefix: validate `{"@context": {"<pfx>": "urn:wrong"}}`
+  and look for a `const` error whose path ends `@context/<pfx>`, descending into `error.context`.
+  A pin that does not survive reports nothing and reads exactly like a pin that passes.
+
 - **The viewer's gallery rots silently, and a declared profile can be attributed to the wrong
   module.** Both 2026-11-06. `SAMPLES` in `tools/cdif_viewer_app.py` pointed four entries at
   `validation/main/converters/...`; the converters moved to a repo of their own
