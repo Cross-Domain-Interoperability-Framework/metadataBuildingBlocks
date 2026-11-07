@@ -37,7 +37,7 @@ type. `niaidDataset` points its properties at them.
 | Block | Type | NIAID properties | Used for |
 |---|---|---|---|
 | [`niaidDefinedTerm`](../niaidDefinedTerm/) | `schema:DefinedTerm` | `nde:isCurated`, `nde:originalName`, `nde:curatedBy`, `cdifniaid:commonName` | `nde:species`, `nde:topicCategory`, `schema:infectiousAgent`, `schema:healthCondition`; `schema:measurementTechnique` and `schema:variableMeasured` items that carry an annotation |
-| [`niaidMonetaryGrant`](../niaidMonetaryGrant/) | `schema:MonetaryGrant` | `cdifniaid:projectNumSplit`, the funder's `cdifniaid:alternateNames` | `schema:funding` |
+| [`niaidMonetaryGrant`](../niaidMonetaryGrant/) | `schema:MonetaryGrant` | `cdifniaid:projectNumSplit` | `schema:funding` |
 | [`niaidCreativeWork`](../niaidCreativeWork/) | `schema:CreativeWork` or `schema:ScholarlyArticle` | `nde:pmid`, `nde:doi`, `nde:journalName`, `nde:journalNameAbbrev` | `schema:citation` and `nde:citedBy` items that carry one of them |
 | [`niaidPlace`](../niaidPlace/) | `schema:Place` | `nde:administrativeType` | `schema:spatialCoverage` |
 | [`niaidDataCatalog`](../niaidDataCatalog/) | `schema:DataCatalog` | `nde:versionDate`, `schema:archivedAt` | `schema:includedInDataCatalog` |

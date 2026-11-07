@@ -10,4 +10,3 @@ these objects, and gives the type to one the portal left untyped.
 | Property | Value | Meaning |
 |---|---|---|
 | `cdifniaid:projectNumSplit` | object | The parts of an NIH project number such as `5R01AI012345-03`: `cdifniaid:applTypeCode` (5), `activityCode` (R01), `icCode` (AI), `serialNum`, `supportYear`, `fullSupportYear`, `suffixCode` |
-| `cdifniaid:alternateNames` | text (on the funder) | The funder's second and later alternate names; `schema:alternateName` holds the first, as CDIF agents take one |

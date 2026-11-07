@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "NIAID monetary grant",
-  "description": "A schema:MonetaryGrant, as CDIF's monetaryGrant block defines it, with the NIAID Data Discovery Portal's parts of an NIH project number, and its funder's further alternate names.",
+  "description": "A schema:MonetaryGrant, as CDIF's monetaryGrant block defines it, with the NIAID Data Discovery Portal's parts of an NIH project number.",
   "type": "object",
   "allOf": [
     {
@@ -80,8 +80,18 @@
                   ]
                 },
                 "schema:alternateName": {
-                  "type": "string",
-                  "description": "other labels by which the person might be known"
+                  "description": "other labels by which the person might be known. A list when there are several; a single label may be a plain string, as JSON-LD framing writes a one-item list.",
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  ]
                 },
                 "schema:affiliation": {
                   "type": "object",
@@ -218,8 +228,18 @@
                       "description": "string label for organization that is meaningful for human users"
                     },
                     "schema:alternateName": {
-                      "type": "string",
-                      "description": "other labels by which the organization might be known"
+                      "description": "other labels by which the organization might be known. A list when there are several; a single label may be a plain string, as JSON-LD framing writes a one-item list.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
                     },
                     "schema:description": {
                       "type": "string",
@@ -487,8 +507,18 @@
                   "description": "string label for organization that is meaningful for human users"
                 },
                 "schema:alternateName": {
-                  "type": "string",
-                  "description": "other labels by which the organization might be known"
+                  "description": "other labels by which the organization might be known. A list when there are several; a single label may be a plain string, as JSON-LD framing writes a one-item list.",
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  ]
                 },
                 "schema:description": {
                   "type": "string",
@@ -606,25 +636,6 @@
         "cdifniaid:suffixCode": {
           "description": "Suffix, e.g. S1 for a supplement.",
           "type": "string"
-        }
-      }
-    },
-    "schema:funder": {
-      "type": "object",
-      "properties": {
-        "cdifniaid:alternateNames": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          ],
-          "description": "An agent's second and later alternate names; schema:alternateName holds the first, as CDIF agents take one."
         }
       }
     }
