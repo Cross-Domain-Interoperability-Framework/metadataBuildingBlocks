@@ -464,11 +464,11 @@ ComponentPosition wrapper.
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ] .
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ] .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdif:hasIntendedDataType "xsd:decimal" ;
@@ -483,10 +483,10 @@ ComponentPosition wrapper.
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ] .
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ] .
 
 <https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;
     cdif:isDefinedBy_Variable <https://example.org/struct/vitalsLong/rv/measureValue> .
@@ -849,14 +849,14 @@ each cell in the cube.
 
 <https://example.org/struct/salesCube/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/productCategory> ;
-            cdi:value 3 ],
+            cdi:indexes <https://example.org/var/quarter> ;
+            cdi:value 2 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/country> ;
             cdi:value 1 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/quarter> ;
-            cdi:value 2 ] .
+            cdi:indexes <https://example.org/var/productCategory> ;
+            cdi:value 3 ] .
 
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
     cdif:hasIntendedDataType "xsd:string" ;
@@ -1416,6 +1416,13 @@ description: Adds data-structure description to a CDIF metadata record. Defines 
   item; the structure value is any of the four DataStructure variants. Metadata records
   must declare conformance to cdif/data_structure/1.0.
 type: object
+properties:
+  '@context':
+    type: object
+    description: JSON-LD namespace prefixes for data structure description.
+    properties:
+      cdif:
+        const: https://w3id.org/cdif/
 if:
   required:
   - '@type'
