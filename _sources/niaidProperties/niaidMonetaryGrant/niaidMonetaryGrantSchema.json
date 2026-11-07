@@ -1,0 +1,74 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "NIAID monetary grant",
+    "description": "A schema:MonetaryGrant, as CDIF's monetaryGrant block defines it, with the NIAID Data Discovery Portal's parts of an NIH project number, and its funder's further alternate names.",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "../../schemaorgProperties/monetaryGrant/monetaryGrantSchema.json"
+        }
+    ],
+    "properties": {
+        "@type": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "contains": {
+                "const": "schema:MonetaryGrant"
+            },
+            "minItems": 1
+        },
+        "cdifniaid:projectNumSplit": {
+            "$ref": "#/$defs/projectNumber"
+        },
+        "schema:funder": {
+            "type": "object",
+            "properties": {
+                "cdifniaid:alternateNames": {
+                    "description": "An agent's second and later alternate names; schema:alternateName holds the first, as CDIF agents take one.",
+                    "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts"
+                }
+            }
+        }
+    },
+    "required": [
+        "@type"
+    ],
+    "$defs": {
+        "projectNumber": {
+            "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+            "type": "object",
+            "properties": {
+                "cdifniaid:applTypeCode": {
+                    "description": "Application type, e.g. 5 for a non-competing continuation.",
+                    "type": "string"
+                },
+                "cdifniaid:activityCode": {
+                    "description": "Activity code, e.g. R01.",
+                    "type": "string"
+                },
+                "cdifniaid:icCode": {
+                    "description": "The NIH institute or center, e.g. AI for NIAID.",
+                    "type": "string"
+                },
+                "cdifniaid:serialNum": {
+                    "description": "Serial number of the grant.",
+                    "type": "string"
+                },
+                "cdifniaid:supportYear": {
+                    "description": "Year of support.",
+                    "type": "string"
+                },
+                "cdifniaid:fullSupportYear": {
+                    "description": "Year of support with any suffix.",
+                    "type": "string"
+                },
+                "cdifniaid:suffixCode": {
+                    "description": "Suffix, e.g. S1 for a supplement.",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

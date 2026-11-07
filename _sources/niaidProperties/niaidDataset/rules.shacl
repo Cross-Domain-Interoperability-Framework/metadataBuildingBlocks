@@ -1,33 +1,9 @@
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @prefix nde: <https://discovery.biothings.io/ns/nde/> .
-@prefix cdifniaid: <https://w3id.org/cdif/niaid/terms/> .
 @prefix schema: <http://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# NIAID's term annotations are flags. The JSON Schema checks them on the framed
-# tree; these check the same on the graph, wherever a term appears.
-# Targets are subjects of the property, so a renamed property selects nothing:
-# check that NiaidAnnotationShape still fires on tests/isCurated-fail.json after
-# any change to these names.
-cdifd:NiaidAnnotationShape a sh:NodeShape ;
-    sh:targetSubjectsOf nde:isCurated, cdifniaid:fromGPT, cdifniaid:fromPMID,
-        cdifniaid:fromEXTRACT, cdifniaid:fromNCT ;
-    sh:property [ sh:path nde:isCurated ; sh:datatype xsd:boolean ; sh:maxCount 1 ;
-            sh:severity sh:Violation ;
-            sh:message "nde:isCurated must be a single boolean." ] ,
-        [ sh:path cdifniaid:fromGPT ; sh:datatype xsd:boolean ; sh:maxCount 1 ;
-            sh:severity sh:Violation ;
-            sh:message "cdifniaid:fromGPT must be a single boolean." ] ,
-        [ sh:path cdifniaid:fromPMID ; sh:datatype xsd:boolean ; sh:maxCount 1 ;
-            sh:severity sh:Violation ;
-            sh:message "cdifniaid:fromPMID must be a single boolean." ] ,
-        [ sh:path cdifniaid:fromEXTRACT ; sh:datatype xsd:boolean ; sh:maxCount 1 ;
-            sh:severity sh:Violation ;
-            sh:message "cdifniaid:fromEXTRACT must be a single boolean." ] ,
-        [ sh:path cdifniaid:fromNCT ; sh:datatype xsd:boolean ; sh:maxCount 1 ;
-            sh:severity sh:Violation ;
-            sh:message "cdifniaid:fromNCT must be a single boolean." ] .
+# nde:isCurated is checked by niaidDefinedTerm/rules.shacl.
 
 cdifd:NiaidNctidShape a sh:NodeShape ;
     sh:targetSubjectsOf nde:nctid ;

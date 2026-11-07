@@ -29,45 +29,44 @@ defined here and nowhere else. They sit under `terms/` so that the profile URI
 Everything else is optional but typed. Every property accepts one value or an
 array, because framing collapses a one-element array to its value.
 
-### NIAID terms
+### Extensions of other types
+
+NIAID adds properties to five other types, each in a block that requires the
+type. `niaidDataset` points its properties at them.
+
+| Block | Type | NIAID properties | Used for |
+|---|---|---|---|
+| [`niaidDefinedTerm`](../niaidDefinedTerm/) | `schema:DefinedTerm` | `nde:isCurated`, `nde:originalName`, `nde:curatedBy`, `cdifniaid:commonName` | `nde:species`, `nde:topicCategory`, `schema:infectiousAgent`, `schema:healthCondition`; `schema:measurementTechnique` and `schema:variableMeasured` items that carry an annotation |
+| [`niaidMonetaryGrant`](../niaidMonetaryGrant/) | `schema:MonetaryGrant` | `cdifniaid:projectNumSplit`, the funder's `cdifniaid:alternateNames` | `schema:funding` |
+| [`niaidCreativeWork`](../niaidCreativeWork/) | `schema:CreativeWork` or `schema:ScholarlyArticle` | `nde:pmid`, `nde:doi`, `nde:journalName`, `nde:journalNameAbbrev` | `schema:citation` and `nde:citedBy` items that carry one of them |
+| [`niaidPlace`](../niaidPlace/) | `schema:Place` | `nde:administrativeType` | `schema:spatialCoverage` |
+| [`niaidDataCatalog`](../niaidDataCatalog/) | `schema:DataCatalog` | `nde:versionDate`, `schema:archivedAt` | `schema:includedInDataCatalog` |
+
+### NIAID terms on the dataset
 
 | Property | On | Value |
 |---|---|---|
 | `nde:date` | dataset | The portal's summary date |
-| `nde:species`, `nde:topicCategory` | dataset | Annotated terms |
+| `nde:species`, `nde:topicCategory` | dataset, sample | NIAID defined terms |
 | `nde:nctid` | dataset | ClinicalTrials.gov id, `NCT` and eight digits |
 | `nde:citedBy` | dataset | Works citing the dataset |
-| `nde:curatedBy` | dataset, term | Who curated it, with `nde:versionDate` |
+| `nde:curatedBy` | dataset | The repository that curated the record, with `nde:versionDate` |
 | `nde:isRelatedTo`, `nde:isBasisFor` | dataset | Related resources, with `nde:relationship` |
 | `nde:sample` | dataset | An `nde:Sample` or `nde:SampleCollection` |
-| `nde:isCurated`, `nde:originalName` | term | Whether a curator checked the term, and the text it was matched from |
-| `nde:doi`, `nde:pmid`, `nde:journalName` | work | Identifiers and journal of a cited work |
 | `nde:cellType` | sample | Term or text |
 
-NIAID's annotations also appear on CDIF's own `schema:infectiousAgent`,
-`schema:healthCondition`, `schema:measurementTechnique` and
-`schema:variableMeasured`.
-
-### cdifniaid terms
+### cdifniaid terms on the dataset
 
 | Term | On | Definition |
 |---|---|---|
-| `cdifniaid:fromGPT` | term | The term was suggested by a GPT language model |
-| `cdifniaid:fromPMID` | term, citation, grant | The value was taken from a PubMed record linked to the dataset |
-| `cdifniaid:fromEXTRACT` | term | The term was found by the EXTRACT text-mining tool |
-| `cdifniaid:fromNCT` | term | The term was taken from the dataset's ClinicalTrials.gov record |
-| `cdifniaid:classification` | taxon term | The role the taxon plays, e.g. `infectiousAgent` or `host` |
-| `cdifniaid:commonName` | taxon term | Its common name |
-| `cdifniaid:displayName` | taxon term | The name the portal displays |
-| `cdifniaid:projectNumSplit` | grant | The parts of an NIH project number such as `5R01AI012345-03`: `cdifniaid:applTypeCode` (5), `activityCode` (R01), `icCode` (AI), `serialNum`, `supportYear`, `fullSupportYear`, `suffixCode` |
-| `cdifniaid:alternateNames` | agent | Second and later alternate names; `schema:alternateName` holds the first, as CDIF agents take one |
 | `cdifniaid:correctionApproved` | source organization | A correction to the portal's record of the project was approved |
-| `cdifniaid:country` | place | The country the place is in |
 | `cdifniaid:temporalIntervals` | dataset | The portal's intervals where they hold more than dates (a type, a name, a duration), kept whole beside `schema:temporalCoverage` |
 | `cdifniaid:unlinkedHasPart` | dataset | Parts with no address, which cannot be CDIF manifest parts |
-| `cdifniaid:partUrl` | distribution | Archive members given only as URLs, with no name or format, which CDIF archive parts need |
 | `cdifniaid:assayformat` | dataset | The assay format, as the portal gives it |
 | `cdifniaid:publication` | dataset | PubMed ids of publications about the dataset |
 
-The `from*` meanings are inferred from the names and where the portal uses them;
-NIAID's schema does not define them.
+The portal's `from*` flags (`fromGPT`, `fromPMID`, `fromEXTRACT`, `fromNCT`) are
+not properties here: the converter turns them into one sentence each, "Metadata
+source from GPT." and so on, on the catalog record's description. A person's
+`role` becomes a `schema:contributor` that is a `schema:Role` holding the person,
+CDIF's pattern for roles.

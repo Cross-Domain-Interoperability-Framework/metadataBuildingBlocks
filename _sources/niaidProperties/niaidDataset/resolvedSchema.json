@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "NIAID dataset properties",
-  "description": "The properties NIAID Data Discovery Portal records add to a CDIF dataset (composed with cdifCore and cdifDiscovery by the cdifNIAID profile; this module does NOT re-embed them). nde: terms are NIAID's (https://discovery.biothings.io/ns/nde/), bios: terms Bioschemas' (from the bioschemasSample block), and cdifniaid: terms the ones the portal uses that neither vocabulary declares, defined by this block. Every property accepts one value or an array, because framing collapses a one-element array to its value.",
+  "description": "The properties NIAID Data Discovery Portal records add to a CDIF dataset (composed with cdifCore and cdifDiscovery by the cdifNIAID profile; this module does NOT re-embed them). nde: terms are NIAID's (https://discovery.biothings.io/ns/nde/), bios: terms Bioschemas' (from the bioschemasSample block), and cdifniaid: terms the ones the portal uses that neither vocabulary declares. The properties NIAID adds to a DefinedTerm, a MonetaryGrant, a cited work, a Place and a DataCatalog are defined by the niaidDefinedTerm, niaidMonetaryGrant, niaidCreativeWork, niaidPlace and niaidDataCatalog blocks, which require those types. Every property accepts one value or an array, because framing collapses a one-element array to its value.",
   "type": "object",
   "required": [
     "schema:includedInDataCatalog"
@@ -26,19 +26,8 @@
         "dcterms:conformsTo": {
           "type": "array",
           "items": {
-            "title": "Object Reference",
-            "description": "uri for specifications that this metadata record conforms to",
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "resolvable @id of the referenced node"
-              }
-            },
-            "required": [
-              "@id"
-            ],
-            "additionalProperties": false
+            "$ref": "#/$defs/reference",
+            "description": "uri for specifications that this metadata record conforms to"
           },
           "minItems": 1,
           "contains": {
@@ -60,35 +49,54 @@
       "description": "The repositories holding the dataset, which the portal aggregates from.",
       "anyOf": [
         {
-          "type": "object",
-          "properties": {
-            "schema:name": {
-              "type": "string"
-            },
-            "schema:url": {
-              "type": "string"
-            },
-            "schema:archivedAt": {
-              "type": "string"
-            },
-            "nde:versionDate": {
-              "type": "string"
-            }
-          },
           "anyOf": [
             {
-              "required": [
-                "schema:name"
-              ]
+              "$ref": "#/$defs/reference"
             },
             {
+              "title": "NIAID data catalog",
+              "description": "A repository a NIAID Data Discovery Portal dataset comes from: its name and address, the dataset's page there (schema:archivedAt), and the version of the catalog the portal harvested (nde:versionDate).",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:DataCatalog"
+                  },
+                  "minItems": 1
+                },
+                "schema:name": {
+                  "type": "string"
+                },
+                "schema:url": {
+                  "type": "string"
+                },
+                "schema:archivedAt": {
+                  "description": "The dataset's page in this catalog.",
+                  "type": "string"
+                },
+                "nde:versionDate": {
+                  "description": "The date of the version of the catalog the portal harvested.",
+                  "type": "string"
+                }
+              },
               "required": [
-                "schema:url"
-              ]
-            },
-            {
-              "required": [
-                "@id"
+                "@type"
+              ],
+              "anyOf": [
+                {
+                  "required": [
+                    "schema:name"
+                  ]
+                },
+                {
+                  "required": [
+                    "schema:url"
+                  ]
+                }
               ]
             }
           ]
@@ -97,35 +105,54 @@
           "type": "array",
           "minItems": 1,
           "items": {
-            "type": "object",
-            "properties": {
-              "schema:name": {
-                "type": "string"
-              },
-              "schema:url": {
-                "type": "string"
-              },
-              "schema:archivedAt": {
-                "type": "string"
-              },
-              "nde:versionDate": {
-                "type": "string"
-              }
-            },
             "anyOf": [
               {
-                "required": [
-                  "schema:name"
-                ]
+                "$ref": "#/$defs/reference"
               },
               {
+                "title": "NIAID data catalog",
+                "description": "A repository a NIAID Data Discovery Portal dataset comes from: its name and address, the dataset's page there (schema:archivedAt), and the version of the catalog the portal harvested (nde:versionDate).",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:DataCatalog"
+                    },
+                    "minItems": 1
+                  },
+                  "schema:name": {
+                    "type": "string"
+                  },
+                  "schema:url": {
+                    "type": "string"
+                  },
+                  "schema:archivedAt": {
+                    "description": "The dataset's page in this catalog.",
+                    "type": "string"
+                  },
+                  "nde:versionDate": {
+                    "description": "The date of the version of the catalog the portal harvested.",
+                    "type": "string"
+                  }
+                },
                 "required": [
-                  "schema:url"
-                ]
-              },
-              {
-                "required": [
-                  "@id"
+                  "@type"
+                ],
+                "anyOf": [
+                  {
+                    "required": [
+                      "schema:name"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:url"
+                    ]
+                  }
                 ]
               }
             ]
@@ -138,19 +165,19 @@
       "description": "The portal's summary date for the record."
     },
     "nde:species": {
-      "$ref": "#/$defs/annotatedTerms",
+      "$ref": "#/$defs/terms",
       "description": "Species the dataset was collected from or is about."
     },
     "nde:topicCategory": {
-      "$ref": "#/$defs/annotatedTerms",
+      "$ref": "#/$defs/terms",
       "description": "Topics of the dataset, from the EDAM topic ontology."
     },
     "schema:infectiousAgent": {
-      "$ref": "#/$defs/annotatedTerms",
+      "$ref": "#/$defs/terms",
       "description": "Infectious agents the dataset is about."
     },
     "schema:healthCondition": {
-      "$ref": "#/$defs/annotatedTerms",
+      "$ref": "#/$defs/terms",
       "description": "Health conditions the dataset is about."
     },
     "schema:measurementTechnique": {
@@ -159,7 +186,35 @@
           "type": "string"
         },
         {
-          "$ref": "#/$defs/annotation"
+          "description": "An object carrying one of NIAID's term annotations, which must then be a NIAID defined term. Other objects are left to CDIF's own rules.",
+          "type": "object",
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "nde:isCurated"
+                ]
+              },
+              {
+                "required": [
+                  "nde:originalName"
+                ]
+              },
+              {
+                "required": [
+                  "nde:curatedBy"
+                ]
+              },
+              {
+                "required": [
+                  "cdifniaid:commonName"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "$ref": "#/$defs/NiaidDefinedTerm"
+          }
         },
         {
           "type": "array",
@@ -169,7 +224,35 @@
                 "type": "string"
               },
               {
-                "$ref": "#/$defs/annotation"
+                "description": "An object carrying one of NIAID's term annotations, which must then be a NIAID defined term. Other objects are left to CDIF's own rules.",
+                "type": "object",
+                "if": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "nde:isCurated"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:originalName"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:curatedBy"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "cdifniaid:commonName"
+                      ]
+                    }
+                  ]
+                },
+                "then": {
+                  "$ref": "#/$defs/NiaidDefinedTerm"
+                }
               }
             ]
           }
@@ -183,7 +266,35 @@
           "type": "string"
         },
         {
-          "$ref": "#/$defs/annotation"
+          "description": "An object carrying one of NIAID's term annotations, which must then be a NIAID defined term. Other objects are left to CDIF's own rules.",
+          "type": "object",
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "nde:isCurated"
+                ]
+              },
+              {
+                "required": [
+                  "nde:originalName"
+                ]
+              },
+              {
+                "required": [
+                  "nde:curatedBy"
+                ]
+              },
+              {
+                "required": [
+                  "cdifniaid:commonName"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "$ref": "#/$defs/NiaidDefinedTerm"
+          }
         },
         {
           "type": "array",
@@ -193,7 +304,35 @@
                 "type": "string"
               },
               {
-                "$ref": "#/$defs/annotation"
+                "description": "An object carrying one of NIAID's term annotations, which must then be a NIAID defined term. Other objects are left to CDIF's own rules.",
+                "type": "object",
+                "if": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "nde:isCurated"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:originalName"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:curatedBy"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "cdifniaid:commonName"
+                      ]
+                    }
+                  ]
+                },
+                "then": {
+                  "$ref": "#/$defs/NiaidDefinedTerm"
+                }
               }
             ]
           }
@@ -220,82 +359,333 @@
     "nde:citedBy": {
       "anyOf": [
         {
-          "$ref": "#/$defs/work"
-        },
-        {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/work"
-          }
-        }
-      ],
-      "description": "Works that cite the dataset."
-    },
-    "schema:citation": {
-      "description": "NIAID's journal and PubMed details on CDIF's citations.",
-      "anyOf": [
-        {
+          "description": "A cited or citing work. One carrying NIAID's PubMed id, DOI or journal names must be a NIAID creative work; a string or any other object is left to CDIF's own rules.",
           "anyOf": [
             {
               "type": "string"
             },
             {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/work"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "nde:journalName": {
-                      "type": "string"
-                    },
-                    "nde:journalNameAbbrev": {
-                      "type": "string"
-                    },
-                    "cdifniaid:fromPMID": {
-                      "type": "boolean"
-                    }
+              "type": "object",
+              "if": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "nde:pmid"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "nde:doi"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "nde:journalName"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "nde:journalNameAbbrev"
+                    ]
                   }
-                }
-              ]
+                ]
+              },
+              "then": {
+                "title": "NIAID creative work",
+                "description": "A work that a NIAID Data Discovery Portal dataset cites or is cited by, with the portal's PubMed id, DOI and journal names. The portal types these as ScholarlyArticle or CreativeWork; JSON Schema cannot follow schema.org's subclass hierarchy, so both are listed.",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "enum": [
+                        "schema:CreativeWork",
+                        "schema:ScholarlyArticle"
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "schema:name": {
+                    "type": "string"
+                  },
+                  "schema:url": {
+                    "type": "string"
+                  },
+                  "nde:pmid": {
+                    "$ref": "#/$defs/NiaidCreativeWork_pmid",
+                    "description": "The PubMed id, digits only."
+                  },
+                  "nde:doi": {
+                    "$ref": "#/$defs/texts",
+                    "description": "The DOI, as the portal gives it."
+                  },
+                  "nde:journalName": {
+                    "type": "string"
+                  },
+                  "nde:journalNameAbbrev": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
+              }
             }
           ]
         },
         {
           "type": "array",
           "items": {
+            "description": "A cited or citing work. One carrying NIAID's PubMed id, DOI or journal names must be a NIAID creative work; a string or any other object is left to CDIF's own rules.",
             "anyOf": [
               {
                 "type": "string"
               },
               {
-                "allOf": [
-                  {
-                    "$ref": "#/$defs/work"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "nde:journalName": {
-                        "type": "string"
-                      },
-                      "nde:journalNameAbbrev": {
-                        "type": "string"
-                      },
-                      "cdifniaid:fromPMID": {
-                        "type": "boolean"
-                      }
+                "type": "object",
+                "if": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "nde:pmid"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:doi"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:journalName"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:journalNameAbbrev"
+                      ]
                     }
-                  }
-                ]
+                  ]
+                },
+                "then": {
+                  "title": "NIAID creative work",
+                  "description": "A work that a NIAID Data Discovery Portal dataset cites or is cited by, with the portal's PubMed id, DOI and journal names. The portal types these as ScholarlyArticle or CreativeWork; JSON Schema cannot follow schema.org's subclass hierarchy, so both are listed.",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "enum": [
+                          "schema:CreativeWork",
+                          "schema:ScholarlyArticle"
+                        ]
+                      },
+                      "minItems": 1
+                    },
+                    "schema:name": {
+                      "type": "string"
+                    },
+                    "schema:url": {
+                      "type": "string"
+                    },
+                    "nde:pmid": {
+                      "$ref": "#/$defs/NiaidCreativeWork_pmid",
+                      "description": "The PubMed id, digits only."
+                    },
+                    "nde:doi": {
+                      "$ref": "#/$defs/texts",
+                      "description": "The DOI, as the portal gives it."
+                    },
+                    "nde:journalName": {
+                      "type": "string"
+                    },
+                    "nde:journalNameAbbrev": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@type"
+                  ]
+                }
               }
             ]
           }
         }
-      ]
+      ],
+      "description": "Works that cite the dataset."
+    },
+    "schema:citation": {
+      "anyOf": [
+        {
+          "description": "A cited or citing work. One carrying NIAID's PubMed id, DOI or journal names must be a NIAID creative work; a string or any other object is left to CDIF's own rules.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "if": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "nde:pmid"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "nde:doi"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "nde:journalName"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "nde:journalNameAbbrev"
+                    ]
+                  }
+                ]
+              },
+              "then": {
+                "title": "NIAID creative work",
+                "description": "A work that a NIAID Data Discovery Portal dataset cites or is cited by, with the portal's PubMed id, DOI and journal names. The portal types these as ScholarlyArticle or CreativeWork; JSON Schema cannot follow schema.org's subclass hierarchy, so both are listed.",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "enum": [
+                        "schema:CreativeWork",
+                        "schema:ScholarlyArticle"
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "schema:name": {
+                    "type": "string"
+                  },
+                  "schema:url": {
+                    "type": "string"
+                  },
+                  "nde:pmid": {
+                    "$ref": "#/$defs/NiaidCreativeWork_pmid",
+                    "description": "The PubMed id, digits only."
+                  },
+                  "nde:doi": {
+                    "$ref": "#/$defs/texts",
+                    "description": "The DOI, as the portal gives it."
+                  },
+                  "nde:journalName": {
+                    "type": "string"
+                  },
+                  "nde:journalNameAbbrev": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "description": "A cited or citing work. One carrying NIAID's PubMed id, DOI or journal names must be a NIAID creative work; a string or any other object is left to CDIF's own rules.",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "if": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "nde:pmid"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:doi"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:journalName"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:journalNameAbbrev"
+                      ]
+                    }
+                  ]
+                },
+                "then": {
+                  "title": "NIAID creative work",
+                  "description": "A work that a NIAID Data Discovery Portal dataset cites or is cited by, with the portal's PubMed id, DOI and journal names. The portal types these as ScholarlyArticle or CreativeWork; JSON Schema cannot follow schema.org's subclass hierarchy, so both are listed.",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "enum": [
+                          "schema:CreativeWork",
+                          "schema:ScholarlyArticle"
+                        ]
+                      },
+                      "minItems": 1
+                    },
+                    "schema:name": {
+                      "type": "string"
+                    },
+                    "schema:url": {
+                      "type": "string"
+                    },
+                    "nde:pmid": {
+                      "$ref": "#/$defs/NiaidCreativeWork_pmid",
+                      "description": "The PubMed id, digits only."
+                    },
+                    "nde:doi": {
+                      "$ref": "#/$defs/texts",
+                      "description": "The DOI, as the portal gives it."
+                    },
+                    "nde:journalName": {
+                      "type": "string"
+                    },
+                    "nde:journalNameAbbrev": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@type"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "description": "NIAID's journal and PubMed details on CDIF's citations."
     },
     "nde:curatedBy": {
+      "description": "Who curated the record, and from which version of their catalog.",
       "type": "object",
       "properties": {
         "schema:name": {
@@ -313,8 +703,7 @@
         "nde:versionDate": {
           "type": "string"
         }
-      },
-      "description": "Who curated the record, and from which version of their catalog."
+      }
     },
     "nde:isBasisFor": {
       "anyOf": [
@@ -470,146 +859,1338 @@
       "description": "NIAID's grant details on CDIF's funding.",
       "anyOf": [
         {
-          "type": "object",
-          "properties": {
-            "cdifniaid:fromPMID": {
-              "type": "boolean"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
             },
-            "cdifniaid:projectNumSplit": {
-              "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+            {
+              "title": "NIAID monetary grant",
+              "description": "A schema:MonetaryGrant, as CDIF's monetaryGrant block defines it, with the NIAID Data Discovery Portal's parts of an NIH project number, and its funder's further alternate names.",
               "type": "object",
-              "properties": {
-                "cdifniaid:applTypeCode": {
-                  "description": "Application type, e.g. 5 for a non-competing continuation.",
-                  "type": "string"
-                },
-                "cdifniaid:activityCode": {
-                  "description": "Activity code, e.g. R01.",
-                  "type": "string"
-                },
-                "cdifniaid:icCode": {
-                  "description": "The NIH institute or center, e.g. AI for NIAID.",
-                  "type": "string"
-                },
-                "cdifniaid:serialNum": {
-                  "description": "Serial number of the grant.",
-                  "type": "string"
-                },
-                "cdifniaid:supportYear": {
-                  "description": "Year of support.",
-                  "type": "string"
-                },
-                "cdifniaid:fullSupportYear": {
-                  "description": "Year of support with any suffix.",
-                  "type": "string"
-                },
-                "cdifniaid:suffixCode": {
-                  "description": "Suffix, e.g. S1 for a supplement.",
-                  "type": "string"
+              "allOf": [
+                {
+                  "description": "Funding acknowledgement properties, profile of schema.org/MonetaryGrant",
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "URI identifier for this funding record"
+                    },
+                    "@type": {
+                      "default": [
+                        "schema:MonetaryGrant"
+                      ],
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "schema:MonetaryGrant"
+                      },
+                      "minItems": 1
+                    },
+                    "schema:identifier": {
+                      "$ref": "#/$defs/Identifier",
+                      "description": "identifier for a particular grant"
+                    },
+                    "schema:description": {
+                      "type": "string",
+                      "description": "description of the funding or grant"
+                    },
+                    "schema:name": {
+                      "type": "string",
+                      "description": "title of the grant"
+                    },
+                    "schema:funder": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/reference",
+                          "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                        },
+                        {
+                          "description": "schema for cdif profile of schema.org/Person",
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            },
+                            "@type": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "contains": {
+                                "const": "schema:Person"
+                              },
+                              "minItems": 1
+                            },
+                            "schema:name": {
+                              "type": "string",
+                              "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
+                            },
+                            "schema:description": {
+                              "type": "string",
+                              "description": "additional information about the agent or their relation to the described resource"
+                            },
+                            "schema:identifier": {
+                              "description": "identifier for person, recommend ORCID",
+                              "anyOf": [
+                                {
+                                  "$ref": "#/$defs/Identifier"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "schema:alternateName": {
+                              "type": "string",
+                              "description": "other labels by which the person might be known"
+                            },
+                            "schema:affiliation": {
+                              "type": "object",
+                              "properties": {
+                                "@id": {
+                                  "type": "string"
+                                },
+                                "@type": {
+                                  "default": [
+                                    "schema:Organization"
+                                  ],
+                                  "type": "array",
+                                  "items": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "schema:Organization",
+                                          "schema:FundingAgency",
+                                          "schema:Consortium",
+                                          "schema:Corporation",
+                                          "schema:EducationalOrganization",
+                                          "schema:FundingScheme",
+                                          "schema:GovernmentOrganization",
+                                          "schema:NGO",
+                                          "schema:Project",
+                                          "schema:ResearchOrganization"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "contains": {
+                                    "const": "schema:Organization"
+                                  },
+                                  "minItems": 1
+                                },
+                                "schema:additionalType": {
+                                  "type": "array",
+                                  "items": {
+                                    "title": "CDIF Concept-or-Term-or-String",
+                                    "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+                                        "anyOf": [
+                                          {
+                                            "$ref": "#/$defs/reference",
+                                            "description": "reference to a skos concept for the data type"
+                                          },
+                                          {
+                                            "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+                                            "type": "object",
+                                            "properties": {
+                                              "@type": {
+                                                "type": "array",
+                                                "items": {
+                                                  "type": "string"
+                                                },
+                                                "contains": {
+                                                  "const": "schema:DefinedTerm"
+                                                },
+                                                "minItems": 1
+                                              },
+                                              "schema:name": {
+                                                "type": "string",
+                                                "description": "text label for the term that is useful to human user"
+                                              },
+                                              "schema:identifier": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "$ref": "#/$defs/Identifier"
+                                                  }
+                                                ]
+                                              },
+                                              "schema:inDefinedTermSet": {
+                                                "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "$ref": "#/$defs/reference"
+                                                  }
+                                                ]
+                                              },
+                                              "schema:termCode": {
+                                                "type": "string",
+                                                "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                                              }
+                                            },
+                                            "allOf": [
+                                              {
+                                                "required": [
+                                                  "@type"
+                                                ]
+                                              },
+                                              {
+                                                "anyOf": [
+                                                  {
+                                                    "required": [
+                                                      "schema:name"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "required": [
+                                                      "schema:identifier"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "required": [
+                                                      "schema:termCode"
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "$ref": "#/$defs/Concept"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "schema:name": {
+                                  "type": "string",
+                                  "description": "string label for organization that is meaningful for human users"
+                                },
+                                "schema:alternateName": {
+                                  "type": "string",
+                                  "description": "other labels by which the organization might be known"
+                                },
+                                "schema:description": {
+                                  "type": "string",
+                                  "description": "additional information about the agent or their relation to the described resource"
+                                },
+                                "schema:identifier": {
+                                  "description": "identifier for organization",
+                                  "anyOf": [
+                                    {
+                                      "$ref": "#/$defs/Identifier"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "schema:sameAs": {
+                                  "type": "array",
+                                  "description": "other identifiers for the organization",
+                                  "items": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "$ref": "#/$defs/reference"
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              "allOf": [
+                                {
+                                  "required": [
+                                    "@type"
+                                  ]
+                                },
+                                {
+                                  "anyOf": [
+                                    {
+                                      "required": [
+                                        "schema:name"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "schema:identifier"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "description": "if affiliation is present, value must be a schema:Organization."
+                            },
+                            "schema:contactPoint": {
+                              "type": "object",
+                              "description": "An email address or a contact web page (a form, an issue tracker), or both; at least one is required. Schema.org also allows telephone and postal contacts. A URL-only contact is ordinary in DCAT (a vcard:Kind with only vcard:hasURL), so requiring email made such records invalid.",
+                              "properties": {
+                                "@type": {
+                                  "default": [
+                                    "schema:ContactPoint"
+                                  ],
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "contains": {
+                                    "const": "schema:ContactPoint"
+                                  },
+                                  "minItems": 1
+                                },
+                                "schema:email": {
+                                  "type": "string"
+                                },
+                                "schema:url": {
+                                  "type": "string",
+                                  "format": "uri"
+                                }
+                              },
+                              "required": [
+                                "@type"
+                              ],
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "schema:email"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "schema:url"
+                                  ]
+                                }
+                              ]
+                            },
+                            "schema:sameAs": {
+                              "type": "array",
+                              "description": "other identifiers for the person",
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "$ref": "#/$defs/reference"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "required": [
+                                "@type"
+                              ]
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "schema:name"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "schema:identifier"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            },
+                            "@type": {
+                              "default": [
+                                "schema:Organization"
+                              ],
+                              "type": "array",
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "schema:Organization",
+                                      "schema:FundingAgency",
+                                      "schema:Consortium",
+                                      "schema:Corporation",
+                                      "schema:EducationalOrganization",
+                                      "schema:FundingScheme",
+                                      "schema:GovernmentOrganization",
+                                      "schema:NGO",
+                                      "schema:Project",
+                                      "schema:ResearchOrganization"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "contains": {
+                                "const": "schema:Organization"
+                              },
+                              "minItems": 1
+                            },
+                            "schema:additionalType": {
+                              "type": "array",
+                              "items": {
+                                "title": "CDIF Concept-or-Term-or-String",
+                                "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/$defs/reference",
+                                        "description": "reference to a skos concept for the data type"
+                                      },
+                                      {
+                                        "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+                                        "type": "object",
+                                        "properties": {
+                                          "@type": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "contains": {
+                                              "const": "schema:DefinedTerm"
+                                            },
+                                            "minItems": 1
+                                          },
+                                          "schema:name": {
+                                            "type": "string",
+                                            "description": "text label for the term that is useful to human user"
+                                          },
+                                          "schema:identifier": {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "$ref": "#/$defs/Identifier"
+                                              }
+                                            ]
+                                          },
+                                          "schema:inDefinedTermSet": {
+                                            "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "$ref": "#/$defs/reference"
+                                              }
+                                            ]
+                                          },
+                                          "schema:termCode": {
+                                            "type": "string",
+                                            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                                          }
+                                        },
+                                        "allOf": [
+                                          {
+                                            "required": [
+                                              "@type"
+                                            ]
+                                          },
+                                          {
+                                            "anyOf": [
+                                              {
+                                                "required": [
+                                                  "schema:name"
+                                                ]
+                                              },
+                                              {
+                                                "required": [
+                                                  "schema:identifier"
+                                                ]
+                                              },
+                                              {
+                                                "required": [
+                                                  "schema:termCode"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "$ref": "#/$defs/Concept"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            "schema:name": {
+                              "type": "string",
+                              "description": "string label for organization that is meaningful for human users"
+                            },
+                            "schema:alternateName": {
+                              "type": "string",
+                              "description": "other labels by which the organization might be known"
+                            },
+                            "schema:description": {
+                              "type": "string",
+                              "description": "additional information about the agent or their relation to the described resource"
+                            },
+                            "schema:identifier": {
+                              "description": "identifier for organization",
+                              "anyOf": [
+                                {
+                                  "$ref": "#/$defs/Identifier"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "schema:sameAs": {
+                              "type": "array",
+                              "description": "other identifiers for the organization",
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "$ref": "#/$defs/reference"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "required": [
+                                "@type"
+                              ]
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "schema:name"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "schema:identifier"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "anyOf": [
+                    {
+                      "required": [
+                        "schema:funder"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:identifier"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:name"
+                      ]
+                    }
+                  ]
                 }
-              }
-            },
-            "schema:funder": {
-              "type": "object",
+              ],
               "properties": {
-                "cdifniaid:alternateNames": {
-                  "$ref": "#/$defs/texts",
-                  "description": "An agent's second and later alternate names; schema:alternateName holds the first."
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:MonetaryGrant"
+                  },
+                  "minItems": 1
+                },
+                "cdifniaid:projectNumSplit": {
+                  "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+                  "type": "object",
+                  "properties": {
+                    "cdifniaid:applTypeCode": {
+                      "description": "Application type, e.g. 5 for a non-competing continuation.",
+                      "type": "string"
+                    },
+                    "cdifniaid:activityCode": {
+                      "description": "Activity code, e.g. R01.",
+                      "type": "string"
+                    },
+                    "cdifniaid:icCode": {
+                      "description": "The NIH institute or center, e.g. AI for NIAID.",
+                      "type": "string"
+                    },
+                    "cdifniaid:serialNum": {
+                      "description": "Serial number of the grant.",
+                      "type": "string"
+                    },
+                    "cdifniaid:supportYear": {
+                      "description": "Year of support.",
+                      "type": "string"
+                    },
+                    "cdifniaid:fullSupportYear": {
+                      "description": "Year of support with any suffix.",
+                      "type": "string"
+                    },
+                    "cdifniaid:suffixCode": {
+                      "description": "Suffix, e.g. S1 for a supplement.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "schema:funder": {
+                  "type": "object",
+                  "properties": {
+                    "cdifniaid:alternateNames": {
+                      "$ref": "#/$defs/texts",
+                      "description": "An agent's second and later alternate names; schema:alternateName holds the first, as CDIF agents take one."
+                    }
+                  }
                 }
-              }
+              },
+              "required": [
+                "@type"
+              ]
             }
-          }
+          ]
         },
         {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "cdifniaid:fromPMID": {
-                "type": "boolean"
+            "anyOf": [
+              {
+                "$ref": "#/$defs/reference"
               },
-              "cdifniaid:projectNumSplit": {
-                "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+              {
+                "title": "NIAID monetary grant",
+                "description": "A schema:MonetaryGrant, as CDIF's monetaryGrant block defines it, with the NIAID Data Discovery Portal's parts of an NIH project number, and its funder's further alternate names.",
                 "type": "object",
-                "properties": {
-                  "cdifniaid:applTypeCode": {
-                    "description": "Application type, e.g. 5 for a non-competing continuation.",
-                    "type": "string"
-                  },
-                  "cdifniaid:activityCode": {
-                    "description": "Activity code, e.g. R01.",
-                    "type": "string"
-                  },
-                  "cdifniaid:icCode": {
-                    "description": "The NIH institute or center, e.g. AI for NIAID.",
-                    "type": "string"
-                  },
-                  "cdifniaid:serialNum": {
-                    "description": "Serial number of the grant.",
-                    "type": "string"
-                  },
-                  "cdifniaid:supportYear": {
-                    "description": "Year of support.",
-                    "type": "string"
-                  },
-                  "cdifniaid:fullSupportYear": {
-                    "description": "Year of support with any suffix.",
-                    "type": "string"
-                  },
-                  "cdifniaid:suffixCode": {
-                    "description": "Suffix, e.g. S1 for a supplement.",
-                    "type": "string"
+                "allOf": [
+                  {
+                    "description": "Funding acknowledgement properties, profile of schema.org/MonetaryGrant",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "URI identifier for this funding record"
+                      },
+                      "@type": {
+                        "default": [
+                          "schema:MonetaryGrant"
+                        ],
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "schema:MonetaryGrant"
+                        },
+                        "minItems": 1
+                      },
+                      "schema:identifier": {
+                        "$ref": "#/$defs/Identifier",
+                        "description": "identifier for a particular grant"
+                      },
+                      "schema:description": {
+                        "type": "string",
+                        "description": "description of the funding or grant"
+                      },
+                      "schema:name": {
+                        "type": "string",
+                        "description": "title of the grant"
+                      },
+                      "schema:funder": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/reference",
+                            "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                          },
+                          {
+                            "description": "schema for cdif profile of schema.org/Person",
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              },
+                              "@type": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "contains": {
+                                  "const": "schema:Person"
+                                },
+                                "minItems": 1
+                              },
+                              "schema:name": {
+                                "type": "string",
+                                "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
+                              },
+                              "schema:description": {
+                                "type": "string",
+                                "description": "additional information about the agent or their relation to the described resource"
+                              },
+                              "schema:identifier": {
+                                "description": "identifier for person, recommend ORCID",
+                                "anyOf": [
+                                  {
+                                    "$ref": "#/$defs/Identifier"
+                                  },
+                                  {
+                                    "type": "string"
+                                  }
+                                ]
+                              },
+                              "schema:alternateName": {
+                                "type": "string",
+                                "description": "other labels by which the person might be known"
+                              },
+                              "schema:affiliation": {
+                                "type": "object",
+                                "properties": {
+                                  "@id": {
+                                    "type": "string"
+                                  },
+                                  "@type": {
+                                    "default": [
+                                      "schema:Organization"
+                                    ],
+                                    "type": "array",
+                                    "items": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string",
+                                          "enum": [
+                                            "schema:Organization",
+                                            "schema:FundingAgency",
+                                            "schema:Consortium",
+                                            "schema:Corporation",
+                                            "schema:EducationalOrganization",
+                                            "schema:FundingScheme",
+                                            "schema:GovernmentOrganization",
+                                            "schema:NGO",
+                                            "schema:Project",
+                                            "schema:ResearchOrganization"
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "contains": {
+                                      "const": "schema:Organization"
+                                    },
+                                    "minItems": 1
+                                  },
+                                  "schema:additionalType": {
+                                    "type": "array",
+                                    "items": {
+                                      "title": "CDIF Concept-or-Term-or-String",
+                                      "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+                                          "anyOf": [
+                                            {
+                                              "$ref": "#/$defs/reference",
+                                              "description": "reference to a skos concept for the data type"
+                                            },
+                                            {
+                                              "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+                                              "type": "object",
+                                              "properties": {
+                                                "@type": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "string"
+                                                  },
+                                                  "contains": {
+                                                    "const": "schema:DefinedTerm"
+                                                  },
+                                                  "minItems": 1
+                                                },
+                                                "schema:name": {
+                                                  "type": "string",
+                                                  "description": "text label for the term that is useful to human user"
+                                                },
+                                                "schema:identifier": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "$ref": "#/$defs/Identifier"
+                                                    }
+                                                  ]
+                                                },
+                                                "schema:inDefinedTermSet": {
+                                                  "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "$ref": "#/$defs/reference"
+                                                    }
+                                                  ]
+                                                },
+                                                "schema:termCode": {
+                                                  "type": "string",
+                                                  "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                                                }
+                                              },
+                                              "allOf": [
+                                                {
+                                                  "required": [
+                                                    "@type"
+                                                  ]
+                                                },
+                                                {
+                                                  "anyOf": [
+                                                    {
+                                                      "required": [
+                                                        "schema:name"
+                                                      ]
+                                                    },
+                                                    {
+                                                      "required": [
+                                                        "schema:identifier"
+                                                      ]
+                                                    },
+                                                    {
+                                                      "required": [
+                                                        "schema:termCode"
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "$ref": "#/$defs/Concept"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "schema:name": {
+                                    "type": "string",
+                                    "description": "string label for organization that is meaningful for human users"
+                                  },
+                                  "schema:alternateName": {
+                                    "type": "string",
+                                    "description": "other labels by which the organization might be known"
+                                  },
+                                  "schema:description": {
+                                    "type": "string",
+                                    "description": "additional information about the agent or their relation to the described resource"
+                                  },
+                                  "schema:identifier": {
+                                    "description": "identifier for organization",
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/$defs/Identifier"
+                                      },
+                                      {
+                                        "type": "string"
+                                      }
+                                    ]
+                                  },
+                                  "schema:sameAs": {
+                                    "type": "array",
+                                    "description": "other identifiers for the organization",
+                                    "items": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "$ref": "#/$defs/reference"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "allOf": [
+                                  {
+                                    "required": [
+                                      "@type"
+                                    ]
+                                  },
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "schema:name"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "schema:identifier"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ],
+                                "description": "if affiliation is present, value must be a schema:Organization."
+                              },
+                              "schema:contactPoint": {
+                                "type": "object",
+                                "description": "An email address or a contact web page (a form, an issue tracker), or both; at least one is required. Schema.org also allows telephone and postal contacts. A URL-only contact is ordinary in DCAT (a vcard:Kind with only vcard:hasURL), so requiring email made such records invalid.",
+                                "properties": {
+                                  "@type": {
+                                    "default": [
+                                      "schema:ContactPoint"
+                                    ],
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "contains": {
+                                      "const": "schema:ContactPoint"
+                                    },
+                                    "minItems": 1
+                                  },
+                                  "schema:email": {
+                                    "type": "string"
+                                  },
+                                  "schema:url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                  }
+                                },
+                                "required": [
+                                  "@type"
+                                ],
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "schema:email"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:url"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "schema:sameAs": {
+                                "type": "array",
+                                "description": "other identifiers for the person",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "$ref": "#/$defs/reference"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "allOf": [
+                              {
+                                "required": [
+                                  "@type"
+                                ]
+                              },
+                              {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "schema:name"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:identifier"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              },
+                              "@type": {
+                                "default": [
+                                  "schema:Organization"
+                                ],
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "schema:Organization",
+                                        "schema:FundingAgency",
+                                        "schema:Consortium",
+                                        "schema:Corporation",
+                                        "schema:EducationalOrganization",
+                                        "schema:FundingScheme",
+                                        "schema:GovernmentOrganization",
+                                        "schema:NGO",
+                                        "schema:Project",
+                                        "schema:ResearchOrganization"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "contains": {
+                                  "const": "schema:Organization"
+                                },
+                                "minItems": 1
+                              },
+                              "schema:additionalType": {
+                                "type": "array",
+                                "items": {
+                                  "title": "CDIF Concept-or-Term-or-String",
+                                  "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+                                      "anyOf": [
+                                        {
+                                          "$ref": "#/$defs/reference",
+                                          "description": "reference to a skos concept for the data type"
+                                        },
+                                        {
+                                          "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+                                          "type": "object",
+                                          "properties": {
+                                            "@type": {
+                                              "type": "array",
+                                              "items": {
+                                                "type": "string"
+                                              },
+                                              "contains": {
+                                                "const": "schema:DefinedTerm"
+                                              },
+                                              "minItems": 1
+                                            },
+                                            "schema:name": {
+                                              "type": "string",
+                                              "description": "text label for the term that is useful to human user"
+                                            },
+                                            "schema:identifier": {
+                                              "anyOf": [
+                                                {
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "$ref": "#/$defs/Identifier"
+                                                }
+                                              ]
+                                            },
+                                            "schema:inDefinedTermSet": {
+                                              "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+                                              "anyOf": [
+                                                {
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "$ref": "#/$defs/reference"
+                                                }
+                                              ]
+                                            },
+                                            "schema:termCode": {
+                                              "type": "string",
+                                              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                                            }
+                                          },
+                                          "allOf": [
+                                            {
+                                              "required": [
+                                                "@type"
+                                              ]
+                                            },
+                                            {
+                                              "anyOf": [
+                                                {
+                                                  "required": [
+                                                    "schema:name"
+                                                  ]
+                                                },
+                                                {
+                                                  "required": [
+                                                    "schema:identifier"
+                                                  ]
+                                                },
+                                                {
+                                                  "required": [
+                                                    "schema:termCode"
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "$ref": "#/$defs/Concept"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "schema:name": {
+                                "type": "string",
+                                "description": "string label for organization that is meaningful for human users"
+                              },
+                              "schema:alternateName": {
+                                "type": "string",
+                                "description": "other labels by which the organization might be known"
+                              },
+                              "schema:description": {
+                                "type": "string",
+                                "description": "additional information about the agent or their relation to the described resource"
+                              },
+                              "schema:identifier": {
+                                "description": "identifier for organization",
+                                "anyOf": [
+                                  {
+                                    "$ref": "#/$defs/Identifier"
+                                  },
+                                  {
+                                    "type": "string"
+                                  }
+                                ]
+                              },
+                              "schema:sameAs": {
+                                "type": "array",
+                                "description": "other identifiers for the organization",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "$ref": "#/$defs/reference"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "allOf": [
+                              {
+                                "required": [
+                                  "@type"
+                                ]
+                              },
+                              {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "schema:name"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:identifier"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "anyOf": [
+                      {
+                        "required": [
+                          "schema:funder"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:identifier"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:name"
+                        ]
+                      }
+                    ]
                   }
-                }
-              },
-              "schema:funder": {
-                "type": "object",
+                ],
                 "properties": {
-                  "cdifniaid:alternateNames": {
-                    "$ref": "#/$defs/texts",
-                    "description": "An agent's second and later alternate names; schema:alternateName holds the first."
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:MonetaryGrant"
+                    },
+                    "minItems": 1
+                  },
+                  "cdifniaid:projectNumSplit": {
+                    "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+                    "type": "object",
+                    "properties": {
+                      "cdifniaid:applTypeCode": {
+                        "description": "Application type, e.g. 5 for a non-competing continuation.",
+                        "type": "string"
+                      },
+                      "cdifniaid:activityCode": {
+                        "description": "Activity code, e.g. R01.",
+                        "type": "string"
+                      },
+                      "cdifniaid:icCode": {
+                        "description": "The NIH institute or center, e.g. AI for NIAID.",
+                        "type": "string"
+                      },
+                      "cdifniaid:serialNum": {
+                        "description": "Serial number of the grant.",
+                        "type": "string"
+                      },
+                      "cdifniaid:supportYear": {
+                        "description": "Year of support.",
+                        "type": "string"
+                      },
+                      "cdifniaid:fullSupportYear": {
+                        "description": "Year of support with any suffix.",
+                        "type": "string"
+                      },
+                      "cdifniaid:suffixCode": {
+                        "description": "Suffix, e.g. S1 for a supplement.",
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "schema:funder": {
+                    "type": "object",
+                    "properties": {
+                      "cdifniaid:alternateNames": {
+                        "$ref": "#/$defs/texts",
+                        "description": "An agent's second and later alternate names; schema:alternateName holds the first, as CDIF agents take one."
+                      }
+                    }
                   }
-                }
+                },
+                "required": [
+                  "@type"
+                ]
               }
-            }
+            ]
           }
         }
       ]
     },
     "schema:spatialCoverage": {
-      "description": "NIAID's location details on CDIF's spatial coverage.",
+      "description": "NIAID's administrative type on CDIF's spatial coverage.",
       "anyOf": [
         {
-          "type": "object",
-          "properties": {
-            "cdifniaid:country": {
-              "description": "The country the place is in.",
-              "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
             },
-            "nde:locationType": {
-              "type": "string"
-            },
-            "nde:administrativeType": {
-              "type": "string"
+            {
+              "title": "NIAID place",
+              "description": "A place in a NIAID Data Discovery Portal dataset's spatial coverage. The portal types it AdministrativeArea; the converter adds schema:Place, which CDIF's spatial extent looks for. NIAID adds the kind of administrative area.",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:Place"
+                  },
+                  "minItems": 1
+                },
+                "nde:administrativeType": {
+                  "description": "The kind of administrative area, e.g. country.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@type"
+              ]
             }
-          }
+          ]
         },
         {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "cdifniaid:country": {
-                "description": "The country the place is in.",
-                "type": "string"
+            "anyOf": [
+              {
+                "$ref": "#/$defs/reference"
               },
-              "nde:locationType": {
-                "type": "string"
-              },
-              "nde:administrativeType": {
-                "type": "string"
+              {
+                "title": "NIAID place",
+                "description": "A place in a NIAID Data Discovery Portal dataset's spatial coverage. The portal types it AdministrativeArea; the converter adds schema:Place, which CDIF's spatial extent looks for. NIAID adds the kind of administrative area.",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:Place"
+                    },
+                    "minItems": 1
+                  },
+                  "nde:administrativeType": {
+                    "description": "The kind of administrative area, e.g. country.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
               }
-            }
+            ]
           }
         }
       ]
@@ -742,24 +2323,48 @@
       "description": "PubMed identifiers of publications about the dataset.",
       "anyOf": [
         {
-          "$ref": "#/$defs/pmid"
+          "type": "string",
+          "pattern": "^\\d+$"
         },
         {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/pmid"
+            "type": "string",
+            "pattern": "^\\d+$"
           }
         }
       ]
+    }
+  },
+  "$defs": {
+    "reference": {
+      "title": "Object Reference",
+      "description": "A reference to a node defined elsewhere, by its @id.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "resolvable @id of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ],
+      "additionalProperties": false
     },
-    "schema:distribution": {
-      "description": "NIAID's archive members that come with an address only.",
-      "anyOf": [
+    "NiaidDefinedTerm": {
+      "title": "NIAID defined term",
+      "description": "A schema:DefinedTerm with NIAID's annotations. The NIAID Data Discovery Portal annotates every term it attaches to a dataset (species, infectious agents, health conditions, measurement techniques, variables): whether a curator checked it, the text it was matched from, who or what curated it, and for a taxon its common name. Across the portal's records these properties appear on DefinedTerms and nowhere else, so this block is an extension of that type and requires it.",
+      "type": "object",
+      "allOf": [
         {
+          "description": "A defined term, or a reference to one. It must name or identify the term.",
           "type": "object",
           "properties": {
-            "cdifniaid:partUrl": {
-              "description": "URLs of files in the archive, given with no name or format, so they cannot be CDIF archive parts.",
+            "@id": {
+              "type": "string"
+            },
+            "@type": {
               "anyOf": [
                 {
                   "type": "string"
@@ -771,59 +2376,73 @@
                   }
                 }
               ]
-            }
-          }
-        },
-        {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "cdifniaid:partUrl": {
-                "description": "URLs of files in the archive, given with no name or format, so they cannot be CDIF archive parts.",
-                "anyOf": [
-                  {
+            },
+            "schema:name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
                     "type": "string"
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
                   }
-                ]
-              }
+                }
+              ]
+            },
+            "schema:identifier": {
+              "type": "string"
+            },
+            "schema:url": {
+              "type": "string"
+            },
+            "schema:inDefinedTermSet": {
+              "type": "string"
+            },
+            "schema:termCode": {
+              "type": "string"
             }
-          }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "@id"
+              ]
+            }
+          ]
         }
-      ]
-    }
-  },
-  "$defs": {
-    "types": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
+      ],
+      "properties": {
+        "@type": {
           "type": "array",
           "items": {
             "type": "string"
-          }
-        }
-      ]
-    },
-    "annotation": {
-      "description": "NIAID's annotations on a term: whether it was curated, by whom, the text it was matched from, and which method produced it.",
-      "type": "object",
-      "properties": {
+          },
+          "contains": {
+            "const": "schema:DefinedTerm"
+          },
+          "minItems": 1
+        },
         "nde:isCurated": {
+          "description": "Whether a curator checked the term against its source text.",
           "type": "boolean"
         },
         "nde:originalName": {
+          "description": "The text in the source record the term was matched from.",
           "type": "string"
         },
         "nde:curatedBy": {
+          "description": "Who or what produced or checked the annotation, often software (PubTator, GPT-4o-mini, the Biothings API).",
           "type": "object",
           "properties": {
             "schema:name": {
@@ -843,83 +2462,98 @@
             }
           }
         },
-        "cdifniaid:fromGPT": {
-          "description": "The term was suggested by a GPT language model.",
-          "type": "boolean"
-        },
-        "cdifniaid:fromPMID": {
-          "description": "The term was taken from a PubMed record linked to the dataset.",
-          "type": "boolean"
-        },
-        "cdifniaid:fromEXTRACT": {
-          "description": "The term was found by the EXTRACT text-mining tool.",
-          "type": "boolean"
-        },
-        "cdifniaid:fromNCT": {
-          "description": "The term was taken from the dataset's ClinicalTrials.gov record.",
-          "type": "boolean"
-        },
-        "cdifniaid:classification": {
-          "description": "The role a taxon plays for the dataset, e.g. infectiousAgent or host.",
-          "type": "string"
-        },
         "cdifniaid:commonName": {
-          "description": "The common name of a taxon.",
-          "type": "string"
-        },
-        "cdifniaid:displayName": {
-          "description": "The name the portal displays for a taxon.",
+          "description": "The common name of a taxon, e.g. Human for Homo sapiens.",
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "@type"
+      ]
     },
-    "annotatedTerms": {
-      "anyOf": [
-        {
-          "allOf": [
+    "Identifier": {
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "anyOf": [
             {
-              "$ref": "#/$defs/term"
+              "type": "string"
             },
             {
-              "$ref": "#/$defs/annotation"
+              "$ref": "#/$defs/reference"
+            }
+          ],
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
             }
           ]
+        }
+      ]
+    },
+    "types": {
+      "anyOf": [
+        {
+          "type": "string"
         },
         {
           "type": "array",
           "items": {
-            "allOf": [
-              {
-                "$ref": "#/$defs/term"
-              },
-              {
-                "$ref": "#/$defs/annotation"
-              }
-            ]
+            "type": "string"
           }
         }
       ]
     },
-    "work": {
-      "type": "object",
-      "properties": {
-        "schema:name": {
-          "type": "string"
+    "terms": {
+      "description": "NIAID's annotated terms; each must be a schema:DefinedTerm.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NiaidDefinedTerm"
         },
-        "schema:url": {
-          "type": "string"
-        },
-        "nde:doi": {
-          "$ref": "#/$defs/texts"
-        },
-        "nde:pmid": {
-          "$ref": "#/$defs/pmid"
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NiaidDefinedTerm"
+          }
         }
-      }
-    },
-    "pmid": {
-      "type": "string",
-      "pattern": "^\\d+$"
+      ]
     },
     "sample": {
       "description": "A sample; nde:Sample is NIAID's subclass of the Bioschemas sample.",
@@ -943,19 +2577,19 @@
               ]
             },
             "bios:anatomicalStructure": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The organ or tissue the sample was collected from."
             },
             "bios:anatomicalSystem": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The anatomical system the sample was collected from, e.g. circulatory, digestive, immune."
             },
             "bios:associatedPhenotype": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "Defining characteristics expressed by the biological source of the sample."
             },
             "bios:collectionMethod": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "Conditions and methods of acquisition of the sample."
             },
             "bios:collector": {
@@ -1071,11 +2705,11 @@
               ]
             },
             "bios:environmentalSystem": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The habitat or ecosystem where the sample was collected."
             },
             "bios:experimentalPurpose": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The planned or executed experimental procedures involving the sample."
             },
             "bios:isControl": {
@@ -1083,7 +2717,7 @@
               "type": "boolean"
             },
             "bios:locationOfOrigin": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The location from which the sample was originally collected."
             },
             "bios:sampleAvailability": {
@@ -1093,12 +2727,12 @@
                   "type": "boolean"
                 },
                 {
-                  "$ref": "#/$defs/termsOrText"
+                  "$ref": "#/$defs/BioschemasSample_termsOrText"
                 }
               ]
             },
             "bios:sampleProcess": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The processing technique applied to the sample."
             },
             "bios:sampleQuantity": {
@@ -1116,7 +2750,7 @@
               "description": "The size of the sample."
             },
             "bios:sampleState": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The condition, composition or state of the sample, e.g. dried, frozen."
             },
             "bios:sampleStorageTemperature": {
@@ -1134,11 +2768,11 @@
               "description": "The temperature at which the sample is stored."
             },
             "bios:sampleType": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The type of sample, intentionally broad (cells, rock, sand)."
             },
             "bios:sex": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The biological sex of the individual the sample was obtained from."
             },
             "bios:studyID": {
@@ -1150,7 +2784,7 @@
               "description": "The title of the study the sample belongs to."
             },
             "bios:project": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The project the sample belongs to."
             }
           }
@@ -1159,10 +2793,10 @@
           "type": "object",
           "properties": {
             "nde:cellType": {
-              "$ref": "#/$defs/termsOrText"
+              "$ref": "#/$defs/BioschemasSample_termsOrText"
             },
             "nde:species": {
-              "$ref": "#/$defs/annotatedTerms"
+              "$ref": "#/$defs/terms"
             },
             "schema:aggregateElement": {
               "$ref": "#/$defs/sample"
@@ -1188,7 +2822,7 @@
         }
       ]
     },
-    "termsOrText": {
+    "BioschemasSample_termsOrText": {
       "anyOf": [
         {
           "$ref": "#/$defs/termOrText"
@@ -1201,68 +2835,294 @@
         }
       ]
     },
-    "term": {
-      "description": "A defined term, or a reference to one. It must name or identify the term.",
+    "NiaidCreativeWork_pmid": {
+      "type": "string",
+      "pattern": "^\\d+$"
+    },
+    "Concept": {
       "type": "object",
       "properties": {
+        "@context": {
+          "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "skos": {
+                  "const": "http://www.w3.org/2004/02/skos/core#"
+                }
+              },
+              "required": [
+                "skos"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              },
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "skos": {
+                    "const": "http://www.w3.org/2004/02/skos/core#"
+                  }
+                },
+                "required": [
+                  "skos"
+                ]
+              }
+            }
+          ]
+        },
         "@id": {
-          "type": "string"
+          "type": "string",
+          "description": "URI identifier for this concept."
         },
         "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "skos:Concept"
+          },
+          "minItems": 1
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
           "anyOf": [
             {
               "type": "string"
             },
             {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
               "type": "array",
               "items": {
-                "type": "string"
+                "$ref": "#/$defs/LanguageTaggedValue"
               }
             }
           ]
         },
-        "schema:name": {
+        "skos:notation": {
+          "description": "Classification code for this concept within a scheme (a single notation string, consistent with CdifCodelistConcept).",
+          "type": "string"
+        },
+        "skos:definition": {
+          "description": "Formal explanation of the meaning of this concept.",
           "anyOf": [
             {
               "type": "string"
             },
             {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
               "type": "array",
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
               }
             }
           ]
         },
-        "schema:identifier": {
-          "type": "string"
+        "skos:scopeNote": {
+          "description": "Note clarifying meaning and/or intended use.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
         },
-        "schema:url": {
-          "type": "string"
+        "skos:note": {
+          "description": "General note about this concept.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
         },
-        "schema:inDefinedTermSet": {
-          "type": "string"
+        "skos:historyNote": {
+          "description": "Note about past state or use.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
         },
-        "schema:termCode": {
-          "type": "string"
+        "skos:changeNote": {
+          "description": "Note documenting a change.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:editorialNote": {
+          "description": "Note for editors and maintainers.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:inScheme": {
+          "description": "Concept scheme(s) this concept belongs to.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/reference"
+              }
+            }
+          ]
+        },
+        "skos:topConceptOf": {
+          "description": "Concept scheme(s) for which this is a top concept.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/reference"
+              }
+            }
+          ]
+        },
+        "skos:broader": {
+          "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/reference"
+              },
+              {
+                "$ref": "#/$defs/Concept"
+              }
+            ]
+          }
+        },
+        "skos:narrower": {
+          "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/reference"
+              },
+              {
+                "$ref": "#/$defs/Concept"
+              }
+            ]
+          }
         }
       },
-      "anyOf": [
-        {
-          "required": [
-            "schema:name"
-          ]
-        },
-        {
-          "required": [
-            "schema:identifier"
-          ]
-        },
-        {
-          "required": [
-            "@id"
-          ]
-        }
+      "required": [
+        "@type",
+        "skos:prefLabel",
+        "skos:definition",
+        "skos:inScheme"
       ]
     },
     "quantity": {
@@ -1311,8 +3171,87 @@
           "type": "string"
         },
         {
-          "$ref": "#/$defs/term"
+          "description": "A defined term, or a reference to one. It must name or identify the term.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string"
+            },
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "schema:name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "schema:identifier": {
+              "type": "string"
+            },
+            "schema:url": {
+              "type": "string"
+            },
+            "schema:inDefinedTermSet": {
+              "type": "string"
+            },
+            "schema:termCode": {
+              "type": "string"
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "@id"
+              ]
+            }
+          ]
         }
+      ]
+    },
+    "LanguageTaggedValue": {
+      "type": "object",
+      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
+      "properties": {
+        "@value": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "@language": {
+          "type": "string",
+          "description": "BCP 47 language tag (e.g. en, fr, de)."
+        }
+      },
+      "required": [
+        "@value",
+        "@language"
       ]
     }
   }
