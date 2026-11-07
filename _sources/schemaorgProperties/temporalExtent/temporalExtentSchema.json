@@ -101,7 +101,10 @@
                         "time:inTimePosition": {
                             "$ref": "#/$defs/timePosition_type"
                         }
-                    }
+                    },
+                    "required": [
+                        "time:inTimePosition"
+                    ]
                 },
                 "time:hasEnd": {
                     "type": "object",
@@ -119,9 +122,52 @@
                         "time:inTimePosition": {
                             "$ref": "#/$defs/timePosition_type"
                         }
-                    }
+                    },
+                    "required": [
+                        "time:inTimePosition"
+                    ]
                 }
             },
+            "anyOf": [
+                {
+                    "required": [
+                        "time:hasBeginning"
+                    ]
+                },
+                {
+                    "required": [
+                        "time:hasEnd"
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "object",
+            "description": "a w3c time proper interval with calendar date bounds, each a time:Instant giving its date as time:inXSDDate (an xsd:date, YYYY-MM-DD). The object form of a calendar interval, for when the interval needs a description, which the ISO 8601 string form below cannot carry.",
+            "properties": {
+                "@type": {
+                    "default": [
+                        "time:ProperInterval"
+                    ],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "time:ProperInterval"
+                    },
+                    "minItems": 1
+                },
+                "time:hasBeginning": {
+                    "$ref": "#/$defs/calendarInstant_type"
+                },
+                "time:hasEnd": {
+                    "$ref": "#/$defs/calendarInstant_type"
+                }
+            },
+            "required": [
+                "@type"
+            ],
             "anyOf": [
                 {
                     "required": [
@@ -141,6 +187,33 @@
         }
     ],
     "$defs": {
+        "calendarInstant_type": {
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "default": [
+                        "time:Instant"
+                    ],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "time:Instant"
+                    },
+                    "minItems": 1
+                },
+                "time:inXSDDate": {
+                    "type": "string",
+                    "description": "the date of the instant, as an xsd:date",
+                    "pattern": "^-?\\d{4,}-\\d{2}-\\d{2}(Z|[+-]\\d{2}:\\d{2})?$"
+                }
+            },
+            "required": [
+                "@type",
+                "time:inXSDDate"
+            ]
+        },
         "timePosition_type": {
             "type": "object",
             "properties": {
