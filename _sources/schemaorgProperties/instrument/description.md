@@ -15,7 +15,10 @@ Schema for describing laboratory instruments and instrument systems. Combines in
 - **schema:url** - landing page URL
 - **schema:manufacturer** - organization that manufactured the instrument
 - **schema:model** - product model (name, identifier)
-- **schema:category** - instrument type from controlled vocabulary
+- **schema:category** - instrument type from controlled vocabulary. Either this or
+  **schema:additionalType** satisfies the classification check in `rules.shacl`
+  (`cdifd:instrumentClassified`); most CDIF records use `schema:additionalType`, carrying an IRI
+  such as `xas:xraymonochromator` or `nxs:base_classes/NXinstrument.html`.
 - **schema:owner** - organization that owns the instrument
 - **schema:contributor** - agents in roles (operator, custodian, PI — use schema:owner for ownership)
 - **schema:additionalProperty** - instrument-specific properties (measured variables, detection limits, calibration, etc.)

@@ -542,6 +542,32 @@ their refs are resolved over the network at their build time, not ours.
   value are separate property shapes. A vocabulary constraint belongs in an `sh:in`. The second
   `sh:minLength 5`, inside the `DefinedTerm` branch on `schema:identifier`, is a different claim
   and is deliberately left alone.
+  **The same shape of defect turned up again the same day in `schema:propertyID`**, which carried
+  `sh:minCount 1` and an `sh:or` under one message describing the value's FORMAT -- so a variable
+  with no `propertyID` at all was told *"a propertID must be a uri reference, a name string, or a
+  schema:DefinedTerm"*. It accounted for 32 of the 52 warnings across the viewer's local gallery
+  records. Split the same way on 2026-11-06. Treat one `sh:message` above both a `minCount` and a
+  value constraint as a defect on sight: the message can only describe one of them, and it will
+  describe the wrong one for every record that trips the other.
+  That rule is **declared identically in two blocks** -- `schemaorgProperties/variableMeasured`
+  and `cdifDataType/cdifInstanceVariable` -- so every finding is raised twice. The record viewer
+  dedupes on `(severity, focus, path, message)` and hides it; a raw `validate_shacl.py` report
+  does not. Not deduplicated, because removing either copy risks the rule going silent for a
+  consumer that refs only one of the two blocks -- the move wants its own change, done the way
+  `cdifd:tabularTextDataSetMappingsShape` was moved.
+
+- **A rule can ask for the wrong property and look like a data problem for as long as nobody
+  counts.** `schemaorgProperties/instrument` required `schema:category` for an instrument's
+  classification, so `exampleCDIFxas` reported four warnings against four instruments that were
+  all correctly classified -- in `schema:additionalType`, as controlled-vocabulary IRIs
+  (`xas:xraymonochromator`, `nxs:base_classes/NXinstrument.html`). Measured 2026-11-06 across every
+  mBB example: of 21 instrument nodes, **14 carry `additionalType` only, 3 `category` only, 1 both,
+  3 neither**, and the schema declares both properties. A rule satisfied by 4 of 21 instances is
+  not catching a widespread defect, it is describing a convention nobody adopted. Now
+  `cdifd:instrumentClassified`, a second NodeShape over the same target with an `sh:or` across the
+  two paths -- separate rather than a node-level `sh:or` on `cdifd:instrumentNode`, because the
+  `sh:severity` that would need would also demote that shape's `sh:Violation` name rule.
+  **Count the corpus before concluding the records are wrong.**
 
 - **A type-selected shape over-reaches downward too: `schema:Dataset` catches the files inside a
   zip.** The mirror of the `schema:Action` case below, found 2026-11-06 in the Astromat record in

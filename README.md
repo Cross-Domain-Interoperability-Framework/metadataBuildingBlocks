@@ -138,7 +138,9 @@ Note the asymmetry: the app validates **by default** and `--no-validate` turns i
 
 Each record's SHACL findings are shown in two places, because they carry different weight. `sh:Violation` results — the record breaks a rule it is subject to — appear above the tabs, together with the one-line statement of whether validation happened at all. `sh:Warning` and `sh:Info` results are advisory, since SHACL cannot tell whether a record *meets* a profile, and a sound record routinely carries dozens; those are listed at the foot of the page.
 
-`tools/cdif_record_to_html.py` holds the record→HTML renderer and `tools/cdif_viewer_app.py` the picker, gallery and HTTP serving. The gallery (`SAMPLES`) spans hand-written profile examples from this repository, machine conversions from four other metadata formats, and records harvested from live repositories that were never written with CDIF in mind. Rendered output lives in `htmlViews/`.
+`tools/cdif_record_to_html.py` holds the record→HTML renderer and `tools/cdif_viewer_app.py` the picker, gallery and HTTP serving. The gallery (`SAMPLES`) spans hand-written profile examples from this repository, machine conversions from four other metadata formats, and records harvested from live repositories that were never written with CDIF in mind — 24 entries in three groups. Rendered output lives in `htmlViews/`.
+
+Served pages carry a **Home** link at the right of the CDIF bar, back to the picker. Standalone files written by the renderer's CLI do not: `render_html` and `render_part_page` take an optional `home_url`, which only the app passes, because a hardcoded `/` in a file someone opens from disk or republishes elsewhere resolves against whatever happens to serve it. The logo on the left is a separate link, to the handbook.
 
 **Requirements:** `requirements-viewer.txt` — PyYAML plus `pyshacl` for the per-record findings. Deliberately not the full `requirements.txt`, which also pulls in `jsonschema` and the build tooling.
 
