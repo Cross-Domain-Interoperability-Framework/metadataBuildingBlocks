@@ -1,0 +1,342 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bioschemas Sample properties",
+  "description": "Properties of a biological sample from the Bioschemas Sample draft (https://bioschemas.org/), in the bios: namespace. A node using them is typed with bios:Sample beside its own type. Every property accepts one value or an array, because framing collapses a one-element array to its value. Ranges follow the Bioschemas draft where it gives one, and allow text where real records use text for a term.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "bios:anatomicalStructure": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "The organ or tissue the sample was collected from."
+    },
+    "bios:anatomicalSystem": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "The anatomical system the sample was collected from, e.g. circulatory, digestive, immune."
+    },
+    "bios:associatedPhenotype": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "Defining characteristics expressed by the biological source of the sample."
+    },
+    "bios:collectionMethod": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "Conditions and methods of acquisition of the sample."
+    },
+    "bios:collector": {
+      "description": "The Person or Organization who collected the sample.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/agent"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/agent"
+          }
+        }
+      ]
+    },
+    "bios:dateCollected": {
+      "$ref": "#/$defs/dates",
+      "description": "The date the sample was collected."
+    },
+    "bios:dateProcessed": {
+      "$ref": "#/$defs/dates",
+      "description": "The date the sample was processed or used in a method."
+    },
+    "bios:developmentalStage": {
+      "description": "The age or developmental stage of the source when the sample was created, as a term or a quantity.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/termOrQuantity"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/termOrQuantity"
+          }
+        }
+      ]
+    },
+    "bios:environmentalSystem": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "The habitat or ecosystem where the sample was collected."
+    },
+    "bios:experimentalPurpose": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "The planned or executed experimental procedures involving the sample."
+    },
+    "bios:isControl": {
+      "description": "Whether the sample is used as a normal control.",
+      "type": "boolean"
+    },
+    "bios:locationOfOrigin": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "The location from which the sample was originally collected."
+    },
+    "bios:sampleAvailability": {
+      "description": "Whether the sample is available for reuse.",
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "$ref": "#/$defs/termsOrText"
+        }
+      ]
+    },
+    "bios:sampleProcess": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "The processing technique applied to the sample."
+    },
+    "bios:sampleQuantity": {
+      "$ref": "#/$defs/quantities",
+      "description": "The size of the sample."
+    },
+    "bios:sampleState": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "The condition, composition or state of the sample, e.g. dried, frozen."
+    },
+    "bios:sampleStorageTemperature": {
+      "$ref": "#/$defs/quantities",
+      "description": "The temperature at which the sample is stored."
+    },
+    "bios:sampleType": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "The type of sample, intentionally broad (cells, rock, sand)."
+    },
+    "bios:sex": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "The biological sex of the individual the sample was obtained from."
+    },
+    "bios:studyID": {
+      "$ref": "#/$defs/texts",
+      "description": "The identifier of the study the sample belongs to."
+    },
+    "bios:studyTitle": {
+      "$ref": "#/$defs/texts",
+      "description": "The title of the study the sample belongs to."
+    },
+    "bios:project": {
+      "$ref": "#/$defs/termsOrText",
+      "description": "The project the sample belongs to."
+    }
+  },
+  "$defs": {
+    "texts": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "dates": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/date"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/date"
+          }
+        }
+      ]
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?([T ].*)?$"
+    },
+    "term": {
+      "description": "A defined term, or a reference to one. It must name or identify the term.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:identifier": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string"
+        },
+        "schema:inDefinedTermSet": {
+          "type": "string"
+        },
+        "schema:termCode": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "schema:name"
+          ]
+        },
+        {
+          "required": [
+            "schema:identifier"
+          ]
+        },
+        {
+          "required": [
+            "@id"
+          ]
+        }
+      ]
+    },
+    "termOrText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/term"
+        }
+      ]
+    },
+    "termsOrText": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/termOrText"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/termOrText"
+          }
+        }
+      ]
+    },
+    "quantity": {
+      "description": "A schema:QuantitativeValue; a range uses minValue and maxValue.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:value": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "schema:minValue": {
+          "type": "number"
+        },
+        "schema:maxValue": {
+          "type": "number"
+        },
+        "schema:unitText": {
+          "type": "string"
+        },
+        "schema:unitCode": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string"
+        }
+      }
+    },
+    "quantities": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/quantity"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quantity"
+          }
+        }
+      ]
+    },
+    "termOrQuantity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/termOrText"
+        },
+        {
+          "$ref": "#/$defs/quantity"
+        }
+      ]
+    },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema:name"
+      ]
+    }
+  }
+}

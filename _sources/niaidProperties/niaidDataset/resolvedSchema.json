@@ -1,0 +1,1319 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NIAID dataset properties",
+  "description": "The properties NIAID Data Discovery Portal records add to a CDIF dataset (composed with cdifCore and cdifDiscovery by the cdifNIAID profile; this module does NOT re-embed them). nde: terms are NIAID's (https://discovery.biothings.io/ns/nde/), bios: terms Bioschemas' (from the bioschemasSample block), and cdifniaid: terms the ones the portal uses that neither vocabulary declares, defined by this block. Every property accepts one value or an array, because framing collapses a one-element array to its value.",
+  "type": "object",
+  "required": [
+    "schema:includedInDataCatalog"
+  ],
+  "properties": {
+    "@context": {
+      "type": "object",
+      "properties": {
+        "nde": {
+          "const": "https://discovery.biothings.io/ns/nde/"
+        },
+        "bios": {
+          "const": "https://bioschemas.org/"
+        },
+        "cdifniaid": {
+          "const": "https://w3id.org/cdif/niaid/terms/"
+        }
+      }
+    },
+    "schema:subjectOf": {
+      "properties": {
+        "dcterms:conformsTo": {
+          "type": "array",
+          "items": {
+            "title": "Object Reference",
+            "description": "uri for specifications that this metadata record conforms to",
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string",
+                "description": "resolvable @id of the referenced node"
+              }
+            },
+            "required": [
+              "@id"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "contains": {
+            "type": "object",
+            "required": [
+              "@id"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "@id": {
+                "const": "https://w3id.org/cdif/niaid/1.0"
+              }
+            }
+          }
+        }
+      }
+    },
+    "schema:includedInDataCatalog": {
+      "description": "The repositories holding the dataset, which the portal aggregates from.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "schema:name": {
+              "type": "string"
+            },
+            "schema:url": {
+              "type": "string"
+            },
+            "schema:archivedAt": {
+              "type": "string"
+            },
+            "nde:versionDate": {
+              "type": "string"
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            },
+            {
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "schema:name": {
+                "type": "string"
+              },
+              "schema:url": {
+                "type": "string"
+              },
+              "schema:archivedAt": {
+                "type": "string"
+              },
+              "nde:versionDate": {
+                "type": "string"
+              }
+            },
+            "anyOf": [
+              {
+                "required": [
+                  "schema:name"
+                ]
+              },
+              {
+                "required": [
+                  "schema:url"
+                ]
+              },
+              {
+                "required": [
+                  "@id"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "nde:date": {
+      "$ref": "#/$defs/date",
+      "description": "The portal's summary date for the record."
+    },
+    "nde:species": {
+      "$ref": "#/$defs/annotatedTerms",
+      "description": "Species the dataset was collected from or is about."
+    },
+    "nde:topicCategory": {
+      "$ref": "#/$defs/annotatedTerms",
+      "description": "Topics of the dataset, from the EDAM topic ontology."
+    },
+    "schema:infectiousAgent": {
+      "$ref": "#/$defs/annotatedTerms",
+      "description": "Infectious agents the dataset is about."
+    },
+    "schema:healthCondition": {
+      "$ref": "#/$defs/annotatedTerms",
+      "description": "Health conditions the dataset is about."
+    },
+    "schema:measurementTechnique": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/annotation"
+        },
+        {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/$defs/annotation"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "NIAID's annotations on the measurement techniques CDIF discovery describes."
+    },
+    "schema:variableMeasured": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/annotation"
+        },
+        {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/$defs/annotation"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "NIAID's annotations on the variables CDIF discovery describes."
+    },
+    "nde:nctid": {
+      "description": "ClinicalTrials.gov identifier of the study.",
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^NCT\\d{8}$"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^NCT\\d{8}$"
+          }
+        }
+      ]
+    },
+    "nde:citedBy": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/work"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/work"
+          }
+        }
+      ],
+      "description": "Works that cite the dataset."
+    },
+    "schema:citation": {
+      "description": "NIAID's journal and PubMed details on CDIF's citations.",
+      "anyOf": [
+        {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/work"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "nde:journalName": {
+                      "type": "string"
+                    },
+                    "nde:journalNameAbbrev": {
+                      "type": "string"
+                    },
+                    "cdifniaid:fromPMID": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/work"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "nde:journalName": {
+                        "type": "string"
+                      },
+                      "nde:journalNameAbbrev": {
+                        "type": "string"
+                      },
+                      "cdifniaid:fromPMID": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "nde:curatedBy": {
+      "type": "object",
+      "properties": {
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string"
+        },
+        "schema:dateModified": {
+          "type": "string"
+        },
+        "schema:archivedAt": {
+          "type": "string"
+        },
+        "nde:versionDate": {
+          "type": "string"
+        }
+      },
+      "description": "Who curated the record, and from which version of their catalog."
+    },
+    "nde:isBasisFor": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "schema:name": {
+              "type": "string"
+            },
+            "nde:relationship": {
+              "description": "How the resource is related, e.g. \"has part\" or \"is part of\".",
+              "type": "string"
+            },
+            "nde:doi": {
+              "$ref": "#/$defs/texts"
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "schema:name": {
+                "type": "string"
+              },
+              "nde:relationship": {
+                "description": "How the resource is related, e.g. \"has part\" or \"is part of\".",
+                "type": "string"
+              },
+              "nde:doi": {
+                "$ref": "#/$defs/texts"
+              }
+            }
+          }
+        }
+      ],
+      "description": "Resources based on this dataset."
+    },
+    "nde:isRelatedTo": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "schema:name": {
+              "type": "string"
+            },
+            "nde:relationship": {
+              "description": "How the resource is related, e.g. \"has part\" or \"is part of\".",
+              "type": "string"
+            },
+            "nde:doi": {
+              "$ref": "#/$defs/texts"
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "schema:name": {
+                "type": "string"
+              },
+              "nde:relationship": {
+                "description": "How the resource is related, e.g. \"has part\" or \"is part of\".",
+                "type": "string"
+              },
+              "nde:doi": {
+                "$ref": "#/$defs/texts"
+              }
+            }
+          }
+        }
+      ],
+      "description": "Related resources, with the relationship named."
+    },
+    "nde:sample": {
+      "description": "The samples used to generate the dataset, or a collection of them.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/sample"
+        },
+        {
+          "description": "A collection of samples, which NIAID types as an ItemList.",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "$ref": "#/$defs/types"
+            },
+            "schema:numberOfItems": {
+              "$ref": "#/$defs/quantity"
+            },
+            "schema:aggregateElement": {
+              "$ref": "#/$defs/sample"
+            },
+            "schema:itemListElement": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/sample"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/sample"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/sample"
+              },
+              {
+                "description": "A collection of samples, which NIAID types as an ItemList.",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "$ref": "#/$defs/types"
+                  },
+                  "schema:numberOfItems": {
+                    "$ref": "#/$defs/quantity"
+                  },
+                  "schema:aggregateElement": {
+                    "$ref": "#/$defs/sample"
+                  },
+                  "schema:itemListElement": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/sample"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/$defs/sample"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "schema:funding": {
+      "description": "NIAID's grant details on CDIF's funding.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "cdifniaid:fromPMID": {
+              "type": "boolean"
+            },
+            "cdifniaid:projectNumSplit": {
+              "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+              "type": "object",
+              "properties": {
+                "cdifniaid:applTypeCode": {
+                  "description": "Application type, e.g. 5 for a non-competing continuation.",
+                  "type": "string"
+                },
+                "cdifniaid:activityCode": {
+                  "description": "Activity code, e.g. R01.",
+                  "type": "string"
+                },
+                "cdifniaid:icCode": {
+                  "description": "The NIH institute or center, e.g. AI for NIAID.",
+                  "type": "string"
+                },
+                "cdifniaid:serialNum": {
+                  "description": "Serial number of the grant.",
+                  "type": "string"
+                },
+                "cdifniaid:supportYear": {
+                  "description": "Year of support.",
+                  "type": "string"
+                },
+                "cdifniaid:fullSupportYear": {
+                  "description": "Year of support with any suffix.",
+                  "type": "string"
+                },
+                "cdifniaid:suffixCode": {
+                  "description": "Suffix, e.g. S1 for a supplement.",
+                  "type": "string"
+                }
+              }
+            },
+            "schema:funder": {
+              "type": "object",
+              "properties": {
+                "cdifniaid:alternateNames": {
+                  "$ref": "#/$defs/texts",
+                  "description": "An agent's second and later alternate names; schema:alternateName holds the first."
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "cdifniaid:fromPMID": {
+                "type": "boolean"
+              },
+              "cdifniaid:projectNumSplit": {
+                "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+                "type": "object",
+                "properties": {
+                  "cdifniaid:applTypeCode": {
+                    "description": "Application type, e.g. 5 for a non-competing continuation.",
+                    "type": "string"
+                  },
+                  "cdifniaid:activityCode": {
+                    "description": "Activity code, e.g. R01.",
+                    "type": "string"
+                  },
+                  "cdifniaid:icCode": {
+                    "description": "The NIH institute or center, e.g. AI for NIAID.",
+                    "type": "string"
+                  },
+                  "cdifniaid:serialNum": {
+                    "description": "Serial number of the grant.",
+                    "type": "string"
+                  },
+                  "cdifniaid:supportYear": {
+                    "description": "Year of support.",
+                    "type": "string"
+                  },
+                  "cdifniaid:fullSupportYear": {
+                    "description": "Year of support with any suffix.",
+                    "type": "string"
+                  },
+                  "cdifniaid:suffixCode": {
+                    "description": "Suffix, e.g. S1 for a supplement.",
+                    "type": "string"
+                  }
+                }
+              },
+              "schema:funder": {
+                "type": "object",
+                "properties": {
+                  "cdifniaid:alternateNames": {
+                    "$ref": "#/$defs/texts",
+                    "description": "An agent's second and later alternate names; schema:alternateName holds the first."
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "schema:spatialCoverage": {
+      "description": "NIAID's location details on CDIF's spatial coverage.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "cdifniaid:country": {
+              "description": "The country the place is in.",
+              "type": "string"
+            },
+            "nde:locationType": {
+              "type": "string"
+            },
+            "nde:administrativeType": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "cdifniaid:country": {
+                "description": "The country the place is in.",
+                "type": "string"
+              },
+              "nde:locationType": {
+                "type": "string"
+              },
+              "nde:administrativeType": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "schema:sourceOrganization": {
+      "description": "Projects and programs the dataset comes from.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "cdifniaid:correctionApproved": {
+              "description": "A correction to the portal's record of the project has been approved.",
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "cdifniaid:correctionApproved": {
+                "description": "A correction to the portal's record of the project has been approved.",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "bios:alternateIdentifier": {
+      "$ref": "#/$defs/texts",
+      "description": "Identifiers beyond the one CDIF's schema:identifier holds."
+    },
+    "cdifniaid:temporalIntervals": {
+      "description": "The portal's temporal intervals where they hold more than dates, kept whole beside schema:temporalCoverage.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@type": {
+              "$ref": "#/$defs/types"
+            },
+            "schema:startDate": {
+              "type": "string"
+            },
+            "schema:endDate": {
+              "type": "string"
+            },
+            "schema:duration": {
+              "type": "string"
+            },
+            "schema:name": {
+              "type": "string"
+            },
+            "nde:temporalType": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@type": {
+                "$ref": "#/$defs/types"
+              },
+              "schema:startDate": {
+                "type": "string"
+              },
+              "schema:endDate": {
+                "type": "string"
+              },
+              "schema:duration": {
+                "type": "string"
+              },
+              "schema:name": {
+                "type": "string"
+              },
+              "nde:temporalType": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "cdifniaid:unlinkedHasPart": {
+      "description": "Parts of the dataset with no address, which cannot be CDIF manifest parts.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@type": {
+              "$ref": "#/$defs/types"
+            },
+            "schema:name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "schema:name"
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@type": {
+                "$ref": "#/$defs/types"
+              },
+              "schema:name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "schema:name"
+            ]
+          }
+        }
+      ]
+    },
+    "cdifniaid:assayformat": {
+      "$ref": "#/$defs/texts",
+      "description": "The assay format, as the portal gives it."
+    },
+    "cdifniaid:publication": {
+      "description": "PubMed identifiers of publications about the dataset.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/pmid"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pmid"
+          }
+        }
+      ]
+    },
+    "schema:distribution": {
+      "description": "NIAID's archive members that come with an address only.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "cdifniaid:partUrl": {
+              "description": "URLs of files in the archive, given with no name or format, so they cannot be CDIF archive parts.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "cdifniaid:partUrl": {
+                "description": "URLs of files in the archive, given with no name or format, so they cannot be CDIF archive parts.",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "types": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "annotation": {
+      "description": "NIAID's annotations on a term: whether it was curated, by whom, the text it was matched from, and which method produced it.",
+      "type": "object",
+      "properties": {
+        "nde:isCurated": {
+          "type": "boolean"
+        },
+        "nde:originalName": {
+          "type": "string"
+        },
+        "nde:curatedBy": {
+          "type": "object",
+          "properties": {
+            "schema:name": {
+              "type": "string"
+            },
+            "schema:url": {
+              "type": "string"
+            },
+            "schema:dateModified": {
+              "type": "string"
+            },
+            "schema:archivedAt": {
+              "type": "string"
+            },
+            "nde:versionDate": {
+              "type": "string"
+            }
+          }
+        },
+        "cdifniaid:fromGPT": {
+          "description": "The term was suggested by a GPT language model.",
+          "type": "boolean"
+        },
+        "cdifniaid:fromPMID": {
+          "description": "The term was taken from a PubMed record linked to the dataset.",
+          "type": "boolean"
+        },
+        "cdifniaid:fromEXTRACT": {
+          "description": "The term was found by the EXTRACT text-mining tool.",
+          "type": "boolean"
+        },
+        "cdifniaid:fromNCT": {
+          "description": "The term was taken from the dataset's ClinicalTrials.gov record.",
+          "type": "boolean"
+        },
+        "cdifniaid:classification": {
+          "description": "The role a taxon plays for the dataset, e.g. infectiousAgent or host.",
+          "type": "string"
+        },
+        "cdifniaid:commonName": {
+          "description": "The common name of a taxon.",
+          "type": "string"
+        },
+        "cdifniaid:displayName": {
+          "description": "The name the portal displays for a taxon.",
+          "type": "string"
+        }
+      }
+    },
+    "annotatedTerms": {
+      "anyOf": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/term"
+            },
+            {
+              "$ref": "#/$defs/annotation"
+            }
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/term"
+              },
+              {
+                "$ref": "#/$defs/annotation"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "work": {
+      "type": "object",
+      "properties": {
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string"
+        },
+        "nde:doi": {
+          "$ref": "#/$defs/texts"
+        },
+        "nde:pmid": {
+          "$ref": "#/$defs/pmid"
+        }
+      }
+    },
+    "pmid": {
+      "type": "string",
+      "pattern": "^\\d+$"
+    },
+    "sample": {
+      "description": "A sample; nde:Sample is NIAID's subclass of the Bioschemas sample.",
+      "allOf": [
+        {
+          "title": "Bioschemas Sample properties",
+          "description": "Properties of a biological sample from the Bioschemas Sample draft (https://bioschemas.org/), in the bios: namespace. A node using them is typed with bios:Sample beside its own type. Every property accepts one value or an array, because framing collapses a one-element array to its value. Ranges follow the Bioschemas draft where it gives one, and allow text where real records use text for a term.",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "bios:anatomicalStructure": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "The organ or tissue the sample was collected from."
+            },
+            "bios:anatomicalSystem": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "The anatomical system the sample was collected from, e.g. circulatory, digestive, immune."
+            },
+            "bios:associatedPhenotype": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "Defining characteristics expressed by the biological source of the sample."
+            },
+            "bios:collectionMethod": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "Conditions and methods of acquisition of the sample."
+            },
+            "bios:collector": {
+              "description": "The Person or Organization who collected the sample.",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    },
+                    "schema:name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "schema:name"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "@type": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        ]
+                      },
+                      "schema:name": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "schema:name"
+                    ]
+                  }
+                }
+              ]
+            },
+            "bios:dateCollected": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/date"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/date"
+                  }
+                }
+              ],
+              "description": "The date the sample was collected."
+            },
+            "bios:dateProcessed": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/date"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/date"
+                  }
+                }
+              ],
+              "description": "The date the sample was processed or used in a method."
+            },
+            "bios:developmentalStage": {
+              "description": "The age or developmental stage of the source when the sample was created, as a term or a quantity.",
+              "anyOf": [
+                {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/termOrText"
+                    },
+                    {
+                      "$ref": "#/$defs/quantity"
+                    }
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/termOrText"
+                      },
+                      {
+                        "$ref": "#/$defs/quantity"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "bios:environmentalSystem": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "The habitat or ecosystem where the sample was collected."
+            },
+            "bios:experimentalPurpose": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "The planned or executed experimental procedures involving the sample."
+            },
+            "bios:isControl": {
+              "description": "Whether the sample is used as a normal control.",
+              "type": "boolean"
+            },
+            "bios:locationOfOrigin": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "The location from which the sample was originally collected."
+            },
+            "bios:sampleAvailability": {
+              "description": "Whether the sample is available for reuse.",
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "$ref": "#/$defs/termsOrText"
+                }
+              ]
+            },
+            "bios:sampleProcess": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "The processing technique applied to the sample."
+            },
+            "bios:sampleQuantity": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/quantity"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/quantity"
+                  }
+                }
+              ],
+              "description": "The size of the sample."
+            },
+            "bios:sampleState": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "The condition, composition or state of the sample, e.g. dried, frozen."
+            },
+            "bios:sampleStorageTemperature": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/quantity"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/quantity"
+                  }
+                }
+              ],
+              "description": "The temperature at which the sample is stored."
+            },
+            "bios:sampleType": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "The type of sample, intentionally broad (cells, rock, sand)."
+            },
+            "bios:sex": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "The biological sex of the individual the sample was obtained from."
+            },
+            "bios:studyID": {
+              "$ref": "#/$defs/texts",
+              "description": "The identifier of the study the sample belongs to."
+            },
+            "bios:studyTitle": {
+              "$ref": "#/$defs/texts",
+              "description": "The title of the study the sample belongs to."
+            },
+            "bios:project": {
+              "$ref": "#/$defs/termsOrText",
+              "description": "The project the sample belongs to."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "nde:cellType": {
+              "$ref": "#/$defs/termsOrText"
+            },
+            "nde:species": {
+              "$ref": "#/$defs/annotatedTerms"
+            },
+            "schema:aggregateElement": {
+              "$ref": "#/$defs/sample"
+            }
+          }
+        }
+      ]
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?([T ].*)?$"
+    },
+    "texts": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "termsOrText": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/termOrText"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/termOrText"
+          }
+        }
+      ]
+    },
+    "term": {
+      "description": "A defined term, or a reference to one. It must name or identify the term.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:identifier": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string"
+        },
+        "schema:inDefinedTermSet": {
+          "type": "string"
+        },
+        "schema:termCode": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "schema:name"
+          ]
+        },
+        {
+          "required": [
+            "schema:identifier"
+          ]
+        },
+        {
+          "required": [
+            "@id"
+          ]
+        }
+      ]
+    },
+    "quantity": {
+      "description": "A schema:QuantitativeValue; a range uses minValue and maxValue.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:value": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "schema:minValue": {
+          "type": "number"
+        },
+        "schema:maxValue": {
+          "type": "number"
+        },
+        "schema:unitText": {
+          "type": "string"
+        },
+        "schema:unitCode": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string"
+        }
+      }
+    },
+    "termOrText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/term"
+        }
+      ]
+    }
+  }
+}
