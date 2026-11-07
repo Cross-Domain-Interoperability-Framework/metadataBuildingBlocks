@@ -61,7 +61,6 @@ type. `niaidDataset` points its properties at them.
 |---|---|---|
 | `cdifniaid:correctionApproved` | source organization | A correction to the portal's record of the project was approved |
 | `cdifniaid:temporalIntervals` | dataset | The portal's intervals where they hold more than dates (a type, a name, a duration), kept whole beside `schema:temporalCoverage` |
-| `cdifniaid:unlinkedHasPart` | dataset | Parts with no address, which cannot be CDIF manifest parts |
 | `cdifniaid:assayformat` | dataset | The assay format, as the portal gives it |
 | `cdifniaid:publication` | dataset | PubMed ids of publications about the dataset |
 
