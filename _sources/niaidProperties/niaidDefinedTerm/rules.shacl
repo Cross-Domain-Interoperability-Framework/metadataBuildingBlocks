@@ -1,0 +1,15 @@
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@prefix nde: <https://discovery.biothings.io/ns/nde/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# NIAID's curation flag. The JSON Schema checks it on the framed tree; this checks
+# the same on the graph, wherever a term appears. The target is the property's
+# subjects, not schema:DefinedTerm: a shape on a schema.org type would claim every
+# DefinedTerm in any graph that uses this block. A renamed property selects nothing,
+# so check that the shape still fires on tests/isCurated-fail.json after any change.
+cdifd:NiaidAnnotationShape a sh:NodeShape ;
+    sh:targetSubjectsOf nde:isCurated ;
+    sh:property [ sh:path nde:isCurated ; sh:datatype xsd:boolean ; sh:maxCount 1 ;
+            sh:severity sh:Violation ;
+            sh:message "nde:isCurated must be a single boolean." ] .

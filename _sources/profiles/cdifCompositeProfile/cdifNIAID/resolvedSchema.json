@@ -181,50 +181,525 @@
       "description": "Web Location of a page describing the dataset (landing page), typically providing links or instructions to get the actual resource content; analogous to dcat:accessURL. If a direct link is available to get the data, put in distribution/contentUrl"
     },
     "schema:distribution": {
-      "description": "NIAID's archive members that come with an address only.",
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "cdifniaid:partUrl": {
-              "description": "URLs of files in the archive, given with no name or format, so they cannot be CDIF archive parts.",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "type": "array",
-          "items": {
+      "description": "specifies how to download the data in a specific format or access via a web API. This property describes where to get the data and in what format by using the schema:DataDownload type. If user must access data through a landing page, provide link to landing page in the 'url' property for the dataset",
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
             "type": "object",
             "properties": {
-              "cdifniaid:partUrl": {
-                "description": "URLs of files in the archive, given with no name or format, so they cannot be CDIF archive parts.",
+              "@id": {
+                "type": "string"
+              },
+              "@type": {
+                "type": "array",
+                "description": "implement as array because extensions might need to add additional types",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "schema:DataDownload"
+                },
+                "minItems": 1
+              },
+              "schema:name": {
+                "type": "string"
+              },
+              "schema:description": {
+                "type": "string",
+                "description": "Description of this distribution, e.g. what format, access constraints, etc."
+              },
+              "schema:contentUrl": {
+                "type": "string",
+                "format": "uri"
+              },
+              "schema:encodingFormat": {
+                "type": "array",
+                "description": "MIME type with extension; should indicate the serialization scheme in sufficient detail that machine can know how to parse.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "schema:additionalType": {
+                "type": "array",
+                "description": "Domain-specific type classification for this distribution: what KIND of thing the file is, beyond its MIME type. schema:encodingFormat says how to parse the bytes; this says what they are. A plain string is accepted, but a schema:DefinedTerm carrying schema:inDefinedTermSet is preferred where the value comes from a controlled vocabulary, so the vocabulary travels with the data rather than being asserted only in a profile.",
+                "items": {
+                  "$ref": "#/$defs/cdifConceptOrTermOrString"
+                }
+              },
+              "schema:contentSize": {
+                "type": "string",
+                "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize."
+              },
+              "schema:width": {
+                "type": "object",
+                "description": "Pixel width of this distribution when it is a single raster file, as a QuantitativeValue. schema:width has schema:MediaObject in its domain. A QuantitativeValue rather than a bare number because the same property carries physical dimensions elsewhere, so the unit has to be stated. (schema:contentSize above is a plain string for historical reasons; that inconsistency is left alone rather than widened.)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:QuantitativeValue"
+                    },
+                    "minItems": 1
+                  },
+                  "schema:value": {
+                    "type": "number",
+                    "description": "Width in pixels."
+                  },
+                  "schema:unitText": {
+                    "type": "string",
+                    "description": "Unit of measure, e.g. 'pixel'."
+                  }
+                }
+              },
+              "schema:height": {
+                "type": "object",
+                "description": "Pixel height of this distribution when it is a single raster file, as a QuantitativeValue. schema:height has schema:MediaObject in its domain. A QuantitativeValue rather than a bare number because the same property carries physical dimensions elsewhere, so the unit has to be stated. (schema:contentSize above is a plain string for historical reasons; that inconsistency is left alone rather than widened.)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:QuantitativeValue"
+                    },
+                    "minItems": 1
+                  },
+                  "schema:value": {
+                    "type": "number",
+                    "description": "Height in pixels."
+                  },
+                  "schema:unitText": {
+                    "type": "string",
+                    "description": "Unit of measure, e.g. 'pixel'."
+                  }
+                }
+              },
+              "spdx:checksum": {
+                "type": "object",
+                "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "spdx:Checksum"
+                    },
+                    "minItems": 1
+                  },
+                  "spdx:algorithm": {
+                    "type": "string"
+                  },
+                  "spdx:checksumValue": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@type",
+                  "spdx:algorithm",
+                  "spdx:checksumValue"
+                ]
+              },
+              "dcterms:conformsTo": {
+                "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/$defs/ObjectReference",
+                  "description": "uri for specification that this distribution conforms to"
+                }
+              },
+              "schema:provider": {
+                "type": "array",
+                "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/ObjectReference",
+                      "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                    },
+                    {
+                      "$ref": "#/$defs/Person"
+                    },
+                    {
+                      "$ref": "#/$defs/Organization"
+                    }
+                  ]
+                }
+              }
+            },
+            "required": [
+              "@type"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "not": {
+                    "type": "object",
+                    "required": [
+                      "@type"
+                    ],
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "contains": {
+                          "const": "schema:Collection"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "schema:contentUrl"
+                  ]
+                },
+                "else": {
+                  "required": [
+                    "schema:hasPart"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "title": "Direct data access to a resource via web servcie",
+            "description": "use schema.org Action to document url or url template and parameters to request data through a web accessible location. At this point, schema is set up for one action-- an HTTP Get that requests data. The url template parameters (in curly brackets '{}') specify query paramters to filter the source data, request particular output formats or other aspects of data.",
+            "type": "object",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "schema:WebAPI"
+                },
+                "minItems": 1
+              },
+              "schema:serviceType": {
                 "anyOf": [
                   {
                     "type": "string"
                   },
                   {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
+                    "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+                    "type": "object",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "schema:DefinedTerm"
+                        },
+                        "minItems": 1
+                      },
+                      "schema:name": {
+                        "type": "string",
+                        "description": "text label for the term that is useful to human user"
+                      },
+                      "schema:identifier": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "$ref": "#/$defs/Identifier"
+                          }
+                        ]
+                      },
+                      "schema:inDefinedTermSet": {
+                        "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "$ref": "#/$defs/ObjectReference"
+                          }
+                        ]
+                      },
+                      "schema:termCode": {
+                        "type": "string",
+                        "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                      }
+                    },
+                    "allOf": [
+                      {
+                        "required": [
+                          "@type"
+                        ]
+                      },
+                      {
+                        "anyOf": [
+                          {
+                            "required": [
+                              "schema:name"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:identifier"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:termCode"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "description": "specify the kind of service. Ideally this should be a resolvable identifier. Currently there is no widely adopted registry for serviceType identifiers, in large part because services might be defined at different levels of granularity, and classifications might focus on function, data formats, thematic content, security, or other aspects of the service definition. For interoperability, there must be an external arrangement between data providers and consumers on the strings that will be used to specify service types."
+              },
+              "schema:termsOfService": {
+                "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments. Note that access constraints applying to all distributions of the resource should be specified in the access constraints for the resource description as a whole.",
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "default": "not specified"
+                  },
+                  {
+                    "$ref": "#/$defs/Reference"
                   }
                 ]
+              },
+              "schema:documentation": {
+                "description": "a document that provides a machine-actionable description of a service instance. Examples include OpenAPI documents, OGC Capabilities documents. Software designed to utilise a particular service type will typically include functionality to parse such a description document and engage with the service endpoint. If such a document is available for the service instance providing the resource distribution, it should be included in the distribution metadata.",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/Reference"
+                  }
+                ]
+              },
+              "schema:potentialAction": {
+                "type": "array",
+                "description": "actions that can be invoked via the API",
+                "items": {
+                  "title": "Action ",
+                  "type": "object",
+                  "description": "this element defines an action (operation) that can be invoked via messages using the protocol defined. In most cases this will be an http request via TCP/IP, but in desktop or LAN environments, other protocols might be used. The target property defines the endpoint and syntax for invoking the action. Result specifies the encoding format for the (possible) response(s) when the action is invoked. Object specifies the information model for the resource that is the object of the action. This approach is an adoptation of the Action Blog Post from schema.org (see https://schema.org/docs/actions.html, and https://github.com/schemaorg/suggestions-questions-brainstorming/issues/62) ",
+                  "properties": {
+                    "@type": {
+                      "description": "The type of action. Must be schema:Action or one of its subtypes.",
+                      "default": [
+                        "schema:Action"
+                      ],
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "enum": [
+                          "schema:Action",
+                          "schema:AssessAction",
+                          "schema:ConsumeAction",
+                          "schema:ControlAction",
+                          "schema:CreateAction",
+                          "schema:DeleteAction",
+                          "schema:FindAction",
+                          "schema:InteractAction",
+                          "schema:MoveAction",
+                          "schema:PlayAction",
+                          "schema:SearchAction",
+                          "schema:TransferAction",
+                          "schema:UpdateAction"
+                        ]
+                      },
+                      "minItems": 1
+                    },
+                    "schema:name": {
+                      "type": "string",
+                      "description": "text label for the action"
+                    },
+                    "schema:target": {
+                      "type": "object",
+                      "description": "specifies the request target location and request syntax. Documentation of the URL end point and syntax to invoke the service. This schema doesn't handle post requests.",
+                      "properties": {
+                        "@type": {
+                          "default": [
+                            "schema:EntryPoint"
+                          ],
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "schema:EntryPoint"
+                          },
+                          "minItems": 1
+                        },
+                        "schema:description": {
+                          "type": "string"
+                        },
+                        "schema:urlTemplate": {
+                          "type": "string",
+                          "description": "a templated URL; parameters are enclosed in curly braces ({..}); parameters are not required. If included, parameters MUST be documented in the query-input element. Template should be consitent with URI Template (https://datatracker.ietf.org/doc/html/rfc6570) examples: - http://portal.chordsrt.com/api/v1/data.{encoding}; single parameter - http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end} ; multiple parameters - {endpoint}{encoding}; endpoint URL path is a parameter,should only appear in potential actions for API specification descriptions, which are generic-not specific to a particular endpoint."
+                        },
+                        "schema:httpMethod": {
+                          "title": "HTTP Method",
+                          "description": "only applicable if protocol is http or a protocol that tunnels on http",
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "default": "GET",
+                            "enum": [
+                              "GET",
+                              "PUT",
+                              "POST",
+                              "PATCH",
+                              "DELETE",
+                              "COPY",
+                              "HEAD",
+                              "OPTIONS",
+                              "PROPFIND"
+                            ]
+                          }
+                        },
+                        "schema:contentType": {
+                          "type": "array",
+                          "description": "The supported content type(s) for an EntryPoint response. a MIME type (https://www.iana.org/assignments/media-types/media-types.xhtml) that specifies the content type for messages in resonses from the service endpoint. This is a schema.org property, and is redundant with encodingFormat in the result property for the Action.",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "schema:urlTemplate"
+                      ]
+                    },
+                    "schema:result": {
+                      "title": "Action result",
+                      "description": "specifies the serialization scheme (encoding format, information model) for the expected representation of the data - documentation of the serialization format for the API response. See the actionResult building block.",
+                      "type": "object",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "description": "Type of result object. Typically schema:DataDownload, but may include additional types.",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "schema:DataDownload"
+                          },
+                          "minItems": 1
+                        },
+                        "schema:name": {
+                          "type": "string",
+                          "description": "text label for the result/response format."
+                        },
+                        "schema:description": {
+                          "type": "string",
+                          "description": "description of the result/response representation."
+                        },
+                        "schema:encodingFormat": {
+                          "type": "array",
+                          "description": "MIME type(s) of the response serialization.",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "dcterms:conformsTo": {
+                          "type": "array",
+                          "description": "identifier(s) for a standard or specification the response conforms to.",
+                          "items": {
+                            "$ref": "#/$defs/ObjectReference"
+                          }
+                        }
+                      }
+                    },
+                    "schema:object": {
+                      "type": "object",
+                      "description": "The entity upon which the action is carried out, whose state is kept intact or changed. This is an open ended class for general description of Actions. When schema:Action (or a subclass) is used to describe operations for a WebAPI distribution, the object is implicitly the resource that is the subject of the containing metadata record, so this property would be superfluous.",
+                      "properties": {
+                        "@type": {
+                          "default": [
+                            "schema:Thing"
+                          ],
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 1
+                        },
+                        "schema:description": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "schema:query-input": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Query input parameter for a web API action, typed as schema:PropertyValueSpecification.",
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          },
+                          "@type": {
+                            "default": [
+                              "schema:PropertyValueSpecification"
+                            ],
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "const": "schema:PropertyValueSpecification"
+                            },
+                            "minItems": 1
+                          },
+                          "schema:valueName": {
+                            "type": "string"
+                          },
+                          "schema:description": {
+                            "type": "string"
+                          },
+                          "schema:valueRequired": {
+                            "type": "boolean",
+                            "default": true
+                          },
+                          "schema:valuePattern": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "schema:valueName",
+                          "schema:description"
+                        ]
+                      },
+                      "description": "set of explanations of the parameters in the URL template for the target."
+                    }
+                  },
+                  "required": [
+                    "schema:name",
+                    "schema:target"
+                  ]
+                }
               }
-            }
+            },
+            "required": [
+              "schema:serviceType",
+              "schema:potentialAction",
+              "schema:termsOfService"
+            ]
           }
-        }
-      ]
+        ]
+      }
     },
     "schema:relatedLink": {
       "type": "array",
@@ -308,11 +783,8 @@
       }
     },
     "schema:keywords": {
-      "description": "Keywords are an array of strings, an array of schema:DefinedTerms, or some combination of these. If you have information about a controlled vocabulary from which keywords come from, use schema:DefinedTerm to descibe that keyword. This allowed variability makes parsing metadata hard; recommend using DefinedTerm for all keywords if any of them are from a known vocabulary, otherwise an array of strings.",
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/cdifConceptOrTermOrString"
-      }
+      "$ref": "#/$defs/termsOrText",
+      "description": "NIAID's annotations on keyword terms, such as the dataset's EDAM topic categories."
     },
     "schema:creator": {
       "description": "author or orginator of intellectual content of dataset. Uset the JSON-LD @list construct to preserve author order. Use contributor with the Role property to specify other roles related to creation or stewardship of the resource.",
@@ -433,108 +905,264 @@
       "description": "NIAID's grant details on CDIF's funding.",
       "anyOf": [
         {
-          "type": "object",
-          "properties": {
-            "cdifniaid:fromPMID": {
-              "type": "boolean"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ObjectReference"
             },
-            "cdifniaid:projectNumSplit": {
-              "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+            {
+              "title": "NIAID monetary grant",
+              "description": "A schema:MonetaryGrant, as CDIF's monetaryGrant block defines it, with the NIAID Data Discovery Portal's parts of an NIH project number.",
               "type": "object",
-              "properties": {
-                "cdifniaid:applTypeCode": {
-                  "description": "Application type, e.g. 5 for a non-competing continuation.",
-                  "type": "string"
-                },
-                "cdifniaid:activityCode": {
-                  "description": "Activity code, e.g. R01.",
-                  "type": "string"
-                },
-                "cdifniaid:icCode": {
-                  "description": "The NIH institute or center, e.g. AI for NIAID.",
-                  "type": "string"
-                },
-                "cdifniaid:serialNum": {
-                  "description": "Serial number of the grant.",
-                  "type": "string"
-                },
-                "cdifniaid:supportYear": {
-                  "description": "Year of support.",
-                  "type": "string"
-                },
-                "cdifniaid:fullSupportYear": {
-                  "description": "Year of support with any suffix.",
-                  "type": "string"
-                },
-                "cdifniaid:suffixCode": {
-                  "description": "Suffix, e.g. S1 for a supplement.",
-                  "type": "string"
+              "allOf": [
+                {
+                  "description": "Funding acknowledgement properties, profile of schema.org/MonetaryGrant",
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "URI identifier for this funding record"
+                    },
+                    "@type": {
+                      "default": [
+                        "schema:MonetaryGrant"
+                      ],
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "schema:MonetaryGrant"
+                      },
+                      "minItems": 1
+                    },
+                    "schema:identifier": {
+                      "$ref": "#/$defs/Identifier",
+                      "description": "identifier for a particular grant"
+                    },
+                    "schema:description": {
+                      "type": "string",
+                      "description": "description of the funding or grant"
+                    },
+                    "schema:name": {
+                      "type": "string",
+                      "description": "title of the grant"
+                    },
+                    "schema:funder": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/ObjectReference",
+                          "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                        },
+                        {
+                          "$ref": "#/$defs/Person"
+                        },
+                        {
+                          "$ref": "#/$defs/Organization"
+                        }
+                      ]
+                    }
+                  },
+                  "anyOf": [
+                    {
+                      "required": [
+                        "schema:funder"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:identifier"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:name"
+                      ]
+                    }
+                  ]
                 }
-              }
-            },
-            "schema:funder": {
-              "type": "object",
+              ],
               "properties": {
-                "cdifniaid:alternateNames": {
-                  "$ref": "#/$defs/texts",
-                  "description": "An agent's second and later alternate names; schema:alternateName holds the first."
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:MonetaryGrant"
+                  },
+                  "minItems": 1
+                },
+                "cdifniaid:projectNumSplit": {
+                  "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+                  "type": "object",
+                  "properties": {
+                    "cdifniaid:applTypeCode": {
+                      "description": "Application type, e.g. 5 for a non-competing continuation.",
+                      "type": "string"
+                    },
+                    "cdifniaid:activityCode": {
+                      "description": "Activity code, e.g. R01.",
+                      "type": "string"
+                    },
+                    "cdifniaid:icCode": {
+                      "description": "The NIH institute or center, e.g. AI for NIAID.",
+                      "type": "string"
+                    },
+                    "cdifniaid:serialNum": {
+                      "description": "Serial number of the grant.",
+                      "type": "string"
+                    },
+                    "cdifniaid:supportYear": {
+                      "description": "Year of support.",
+                      "type": "string"
+                    },
+                    "cdifniaid:fullSupportYear": {
+                      "description": "Year of support with any suffix.",
+                      "type": "string"
+                    },
+                    "cdifniaid:suffixCode": {
+                      "description": "Suffix, e.g. S1 for a supplement.",
+                      "type": "string"
+                    }
+                  }
                 }
-              }
+              },
+              "required": [
+                "@type"
+              ]
             }
-          }
+          ]
         },
         {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "cdifniaid:fromPMID": {
-                "type": "boolean"
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ObjectReference"
               },
-              "cdifniaid:projectNumSplit": {
-                "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+              {
+                "title": "NIAID monetary grant",
+                "description": "A schema:MonetaryGrant, as CDIF's monetaryGrant block defines it, with the NIAID Data Discovery Portal's parts of an NIH project number.",
                 "type": "object",
-                "properties": {
-                  "cdifniaid:applTypeCode": {
-                    "description": "Application type, e.g. 5 for a non-competing continuation.",
-                    "type": "string"
-                  },
-                  "cdifniaid:activityCode": {
-                    "description": "Activity code, e.g. R01.",
-                    "type": "string"
-                  },
-                  "cdifniaid:icCode": {
-                    "description": "The NIH institute or center, e.g. AI for NIAID.",
-                    "type": "string"
-                  },
-                  "cdifniaid:serialNum": {
-                    "description": "Serial number of the grant.",
-                    "type": "string"
-                  },
-                  "cdifniaid:supportYear": {
-                    "description": "Year of support.",
-                    "type": "string"
-                  },
-                  "cdifniaid:fullSupportYear": {
-                    "description": "Year of support with any suffix.",
-                    "type": "string"
-                  },
-                  "cdifniaid:suffixCode": {
-                    "description": "Suffix, e.g. S1 for a supplement.",
-                    "type": "string"
+                "allOf": [
+                  {
+                    "description": "Funding acknowledgement properties, profile of schema.org/MonetaryGrant",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "URI identifier for this funding record"
+                      },
+                      "@type": {
+                        "default": [
+                          "schema:MonetaryGrant"
+                        ],
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "schema:MonetaryGrant"
+                        },
+                        "minItems": 1
+                      },
+                      "schema:identifier": {
+                        "$ref": "#/$defs/Identifier",
+                        "description": "identifier for a particular grant"
+                      },
+                      "schema:description": {
+                        "type": "string",
+                        "description": "description of the funding or grant"
+                      },
+                      "schema:name": {
+                        "type": "string",
+                        "description": "title of the grant"
+                      },
+                      "schema:funder": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/ObjectReference",
+                            "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                          },
+                          {
+                            "$ref": "#/$defs/Person"
+                          },
+                          {
+                            "$ref": "#/$defs/Organization"
+                          }
+                        ]
+                      }
+                    },
+                    "anyOf": [
+                      {
+                        "required": [
+                          "schema:funder"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:identifier"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:name"
+                        ]
+                      }
+                    ]
                   }
-                }
-              },
-              "schema:funder": {
-                "type": "object",
+                ],
                 "properties": {
-                  "cdifniaid:alternateNames": {
-                    "$ref": "#/$defs/texts",
-                    "description": "An agent's second and later alternate names; schema:alternateName holds the first."
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:MonetaryGrant"
+                    },
+                    "minItems": 1
+                  },
+                  "cdifniaid:projectNumSplit": {
+                    "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
+                    "type": "object",
+                    "properties": {
+                      "cdifniaid:applTypeCode": {
+                        "description": "Application type, e.g. 5 for a non-competing continuation.",
+                        "type": "string"
+                      },
+                      "cdifniaid:activityCode": {
+                        "description": "Activity code, e.g. R01.",
+                        "type": "string"
+                      },
+                      "cdifniaid:icCode": {
+                        "description": "The NIH institute or center, e.g. AI for NIAID.",
+                        "type": "string"
+                      },
+                      "cdifniaid:serialNum": {
+                        "description": "Serial number of the grant.",
+                        "type": "string"
+                      },
+                      "cdifniaid:supportYear": {
+                        "description": "Year of support.",
+                        "type": "string"
+                      },
+                      "cdifniaid:fullSupportYear": {
+                        "description": "Year of support with any suffix.",
+                        "type": "string"
+                      },
+                      "cdifniaid:suffixCode": {
+                        "description": "Suffix, e.g. S1 for a supplement.",
+                        "type": "string"
+                      }
+                    }
                   }
-                }
+                },
+                "required": [
+                  "@type"
+                ]
               }
-            }
+            ]
           }
         }
       ]
@@ -822,35 +1450,54 @@
       "description": "The repositories holding the dataset, which the portal aggregates from.",
       "anyOf": [
         {
-          "type": "object",
-          "properties": {
-            "schema:name": {
-              "type": "string"
-            },
-            "schema:url": {
-              "type": "string"
-            },
-            "schema:archivedAt": {
-              "type": "string"
-            },
-            "nde:versionDate": {
-              "type": "string"
-            }
-          },
           "anyOf": [
             {
-              "required": [
-                "schema:name"
-              ]
+              "$ref": "#/$defs/ObjectReference"
             },
             {
+              "title": "NIAID data catalog",
+              "description": "A repository a NIAID Data Discovery Portal dataset comes from: its name and address, the dataset's page there (schema:archivedAt), and the version of the catalog the portal harvested (nde:versionDate).",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:DataCatalog"
+                  },
+                  "minItems": 1
+                },
+                "schema:name": {
+                  "type": "string"
+                },
+                "schema:url": {
+                  "type": "string"
+                },
+                "schema:archivedAt": {
+                  "description": "The dataset's page in this catalog.",
+                  "type": "string"
+                },
+                "nde:versionDate": {
+                  "description": "The date of the version of the catalog the portal harvested.",
+                  "type": "string"
+                }
+              },
               "required": [
-                "schema:url"
-              ]
-            },
-            {
-              "required": [
-                "@id"
+                "@type"
+              ],
+              "anyOf": [
+                {
+                  "required": [
+                    "schema:name"
+                  ]
+                },
+                {
+                  "required": [
+                    "schema:url"
+                  ]
+                }
               ]
             }
           ]
@@ -859,35 +1506,54 @@
           "type": "array",
           "minItems": 1,
           "items": {
-            "type": "object",
-            "properties": {
-              "schema:name": {
-                "type": "string"
-              },
-              "schema:url": {
-                "type": "string"
-              },
-              "schema:archivedAt": {
-                "type": "string"
-              },
-              "nde:versionDate": {
-                "type": "string"
-              }
-            },
             "anyOf": [
               {
-                "required": [
-                  "schema:name"
-                ]
+                "$ref": "#/$defs/ObjectReference"
               },
               {
+                "title": "NIAID data catalog",
+                "description": "A repository a NIAID Data Discovery Portal dataset comes from: its name and address, the dataset's page there (schema:archivedAt), and the version of the catalog the portal harvested (nde:versionDate).",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:DataCatalog"
+                    },
+                    "minItems": 1
+                  },
+                  "schema:name": {
+                    "type": "string"
+                  },
+                  "schema:url": {
+                    "type": "string"
+                  },
+                  "schema:archivedAt": {
+                    "description": "The dataset's page in this catalog.",
+                    "type": "string"
+                  },
+                  "nde:versionDate": {
+                    "description": "The date of the version of the catalog the portal harvested.",
+                    "type": "string"
+                  }
+                },
                 "required": [
-                  "schema:url"
-                ]
-              },
-              {
-                "required": [
-                  "@id"
+                  "@type"
+                ],
+                "anyOf": [
+                  {
+                    "required": [
+                      "schema:name"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:url"
+                    ]
+                  }
                 ]
               }
             ]
@@ -900,67 +1566,23 @@
       "description": "The portal's summary date for the record."
     },
     "nde:species": {
-      "$ref": "#/$defs/annotatedTerms",
+      "$ref": "#/$defs/terms",
       "description": "Species the dataset was collected from or is about."
     },
-    "nde:topicCategory": {
-      "$ref": "#/$defs/annotatedTerms",
-      "description": "Topics of the dataset, from the EDAM topic ontology."
-    },
     "schema:infectiousAgent": {
-      "$ref": "#/$defs/annotatedTerms",
+      "$ref": "#/$defs/terms",
       "description": "Infectious agents the dataset is about."
     },
     "schema:healthCondition": {
-      "$ref": "#/$defs/annotatedTerms",
+      "$ref": "#/$defs/terms",
       "description": "Health conditions the dataset is about."
     },
     "schema:measurementTechnique": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "$ref": "#/$defs/annotation"
-        },
-        {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/$defs/annotation"
-              }
-            ]
-          }
-        }
-      ],
+      "$ref": "#/$defs/termsOrText",
       "description": "NIAID's annotations on the measurement techniques CDIF discovery describes."
     },
     "schema:variableMeasured": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "$ref": "#/$defs/annotation"
-        },
-        {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/$defs/annotation"
-              }
-            ]
-          }
-        }
-      ],
+      "$ref": "#/$defs/termsOrText",
       "description": "NIAID's annotations on the variables CDIF discovery describes."
     },
     "nde:nctid": {
@@ -994,70 +1616,21 @@
       "description": "Works that cite the dataset."
     },
     "schema:citation": {
-      "description": "NIAID's journal and PubMed details on CDIF's citations.",
       "anyOf": [
         {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/work"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "nde:journalName": {
-                      "type": "string"
-                    },
-                    "nde:journalNameAbbrev": {
-                      "type": "string"
-                    },
-                    "cdifniaid:fromPMID": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
+          "$ref": "#/$defs/work"
         },
         {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "allOf": [
-                  {
-                    "$ref": "#/$defs/work"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "nde:journalName": {
-                        "type": "string"
-                      },
-                      "nde:journalNameAbbrev": {
-                        "type": "string"
-                      },
-                      "cdifniaid:fromPMID": {
-                        "type": "boolean"
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
+            "$ref": "#/$defs/work"
           }
         }
-      ]
+      ],
+      "description": "NIAID's journal and PubMed details on CDIF's citations."
     },
     "nde:curatedBy": {
+      "description": "Who curated the record, and from which version of their catalog.",
       "type": "object",
       "properties": {
         "schema:name": {
@@ -1075,36 +1648,45 @@
         "nde:versionDate": {
           "type": "string"
         }
-      },
-      "description": "Who curated the record, and from which version of their catalog."
+      }
     },
     "nde:isBasisFor": {
       "anyOf": [
         {
-          "$ref": "#/$defs/relatedResource"
+          "type": "object",
+          "properties": {
+            "schema:name": {
+              "type": "string"
+            },
+            "nde:relationship": {
+              "description": "How the resource is related, e.g. \"has part\" or \"is part of\".",
+              "type": "string"
+            },
+            "nde:doi": {
+              "$ref": "#/$defs/texts"
+            }
+          }
         },
         {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/relatedResource"
+            "type": "object",
+            "properties": {
+              "schema:name": {
+                "type": "string"
+              },
+              "nde:relationship": {
+                "description": "How the resource is related, e.g. \"has part\" or \"is part of\".",
+                "type": "string"
+              },
+              "nde:doi": {
+                "$ref": "#/$defs/texts"
+              }
+            }
           }
         }
       ],
       "description": "Resources based on this dataset."
-    },
-    "nde:isRelatedTo": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/relatedResource"
-        },
-        {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/relatedResource"
-          }
-        }
-      ],
-      "description": "Related resources, with the relationship named."
     },
     "nde:sample": {
       "description": "The samples used to generate the dataset, or a collection of them.",
@@ -1113,11 +1695,20 @@
           "$ref": "#/$defs/sample"
         },
         {
-          "description": "A collection of samples, which NIAID types as an ItemList.",
+          "description": "A collection of samples, typed nde:SampleCollection. The type is required, so that a sample is not taken for a collection.",
           "type": "object",
+          "required": [
+            "@type"
+          ],
           "properties": {
             "@type": {
-              "$ref": "#/$defs/types"
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "nde:SampleCollection"
+              }
             },
             "schema:numberOfItems": {
               "$ref": "#/$defs/quantity"
@@ -1148,11 +1739,20 @@
                 "$ref": "#/$defs/sample"
               },
               {
-                "description": "A collection of samples, which NIAID types as an ItemList.",
+                "description": "A collection of samples, typed nde:SampleCollection. The type is required, so that a sample is not taken for a collection.",
                 "type": "object",
+                "required": [
+                  "@type"
+                ],
                 "properties": {
                   "@type": {
-                    "$ref": "#/$defs/types"
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "nde:SampleCollection"
+                    }
                   },
                   "schema:numberOfItems": {
                     "$ref": "#/$defs/quantity"
@@ -1181,39 +1781,71 @@
       ]
     },
     "schema:spatialCoverage": {
-      "description": "NIAID's location details on CDIF's spatial coverage.",
+      "description": "NIAID's administrative type on CDIF's spatial coverage.",
       "anyOf": [
         {
-          "type": "object",
-          "properties": {
-            "cdifniaid:country": {
-              "description": "The country the place is in.",
-              "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ObjectReference"
             },
-            "nde:locationType": {
-              "type": "string"
-            },
-            "nde:administrativeType": {
-              "type": "string"
+            {
+              "title": "NIAID place",
+              "description": "A place in a NIAID Data Discovery Portal dataset's spatial coverage. The portal types it AdministrativeArea; the converter adds schema:Place, which CDIF's spatial extent looks for. NIAID adds the kind of administrative area.",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:Place"
+                  },
+                  "minItems": 1
+                },
+                "nde:administrativeType": {
+                  "description": "The kind of administrative area, e.g. country.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@type"
+              ]
             }
-          }
+          ]
         },
         {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "cdifniaid:country": {
-                "description": "The country the place is in.",
-                "type": "string"
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ObjectReference"
               },
-              "nde:locationType": {
-                "type": "string"
-              },
-              "nde:administrativeType": {
-                "type": "string"
+              {
+                "title": "NIAID place",
+                "description": "A place in a NIAID Data Discovery Portal dataset's spatial coverage. The portal types it AdministrativeArea; the converter adds schema:Place, which CDIF's spatial extent looks for. NIAID adds the kind of administrative area.",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:Place"
+                    },
+                    "minItems": 1
+                  },
+                  "nde:administrativeType": {
+                    "description": "The kind of administrative area, e.g. country.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
               }
-            }
+            ]
           }
         }
       ]
@@ -1248,96 +1880,6 @@
       "$ref": "#/$defs/texts",
       "description": "Identifiers beyond the one CDIF's schema:identifier holds."
     },
-    "cdifniaid:temporalIntervals": {
-      "description": "The portal's temporal intervals where they hold more than dates, kept whole beside schema:temporalCoverage.",
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "@type": {
-              "$ref": "#/$defs/types"
-            },
-            "schema:startDate": {
-              "type": "string"
-            },
-            "schema:endDate": {
-              "type": "string"
-            },
-            "schema:duration": {
-              "type": "string"
-            },
-            "schema:name": {
-              "type": "string"
-            },
-            "nde:temporalType": {
-              "type": "string"
-            }
-          }
-        },
-        {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "@type": {
-                "$ref": "#/$defs/types"
-              },
-              "schema:startDate": {
-                "type": "string"
-              },
-              "schema:endDate": {
-                "type": "string"
-              },
-              "schema:duration": {
-                "type": "string"
-              },
-              "schema:name": {
-                "type": "string"
-              },
-              "nde:temporalType": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      ]
-    },
-    "cdifniaid:unlinkedHasPart": {
-      "description": "Parts of the dataset with no address, which cannot be CDIF manifest parts.",
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "@type": {
-              "$ref": "#/$defs/types"
-            },
-            "schema:name": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "schema:name"
-          ]
-        },
-        {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "@type": {
-                "$ref": "#/$defs/types"
-              },
-              "schema:name": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "schema:name"
-            ]
-          }
-        }
-      ]
-    },
     "cdifniaid:assayformat": {
       "$ref": "#/$defs/texts",
       "description": "The assay format, as the portal gives it."
@@ -1346,12 +1888,14 @@
       "description": "PubMed identifiers of publications about the dataset.",
       "anyOf": [
         {
-          "$ref": "#/$defs/pmid"
+          "type": "string",
+          "pattern": "^\\d+$"
         },
         {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/pmid"
+            "type": "string",
+            "pattern": "^\\d+$"
           }
         }
       ]
@@ -1954,31 +2498,216 @@
         }
       ]
     },
+    "NiaidDefinedTerm": {
+      "title": "NIAID defined term",
+      "description": "A schema:DefinedTerm with NIAID's annotations. The NIAID Data Discovery Portal annotates every term it attaches to a dataset (species, infectious agents, health conditions, measurement techniques, variables): whether a curator checked it, the text it was matched from, who or what curated it, and for a taxon its common name. Across the portal's records these properties appear on DefinedTerms and nowhere else, so this block is an extension of that type and requires it.",
+      "type": "object",
+      "allOf": [
+        {
+          "description": "A defined term, or a reference to one. It must name or identify the term.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string"
+            },
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "schema:name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "schema:identifier": {
+              "type": "string"
+            },
+            "schema:url": {
+              "type": "string"
+            },
+            "schema:inDefinedTermSet": {
+              "type": "string"
+            },
+            "schema:termCode": {
+              "type": "string"
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:DefinedTerm"
+          },
+          "minItems": 1
+        },
+        "nde:isCurated": {
+          "description": "Whether a curator checked the term against its source text.",
+          "type": "boolean"
+        },
+        "nde:originalName": {
+          "description": "The text in the source record the term was matched from.",
+          "type": "string"
+        },
+        "nde:curatedBy": {
+          "description": "Who or what produced or checked the annotation, often software (PubTator, GPT-4o-mini, the Biothings API).",
+          "type": "object",
+          "properties": {
+            "schema:name": {
+              "type": "string"
+            },
+            "schema:url": {
+              "type": "string"
+            },
+            "schema:dateModified": {
+              "type": "string"
+            },
+            "schema:archivedAt": {
+              "type": "string"
+            },
+            "nde:versionDate": {
+              "type": "string"
+            }
+          }
+        },
+        "cdifniaid:commonName": {
+          "description": "The common name of a taxon, e.g. Human for Homo sapiens.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
     "date": {
       "type": "string",
       "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?([T ].*)?$"
     },
-    "annotatedTerms": {
+    "terms": {
+      "description": "NIAID's annotated terms; each must be a schema:DefinedTerm.",
       "anyOf": [
         {
-          "allOf": [
-            {
-              "$ref": "#/$defs/term"
-            },
-            {
-              "$ref": "#/$defs/annotation"
-            }
-          ]
+          "$ref": "#/$defs/NiaidDefinedTerm"
         },
         {
           "type": "array",
           "items": {
-            "allOf": [
+            "$ref": "#/$defs/NiaidDefinedTerm"
+          }
+        }
+      ]
+    },
+    "termsOrText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "description": "An object carrying one of NIAID's term annotations, which must then be a NIAID defined term. Other objects are left to CDIF's own rules.",
+          "type": "object",
+          "if": {
+            "anyOf": [
               {
-                "$ref": "#/$defs/term"
+                "required": [
+                  "nde:isCurated"
+                ]
               },
               {
-                "$ref": "#/$defs/annotation"
+                "required": [
+                  "nde:originalName"
+                ]
+              },
+              {
+                "required": [
+                  "nde:curatedBy"
+                ]
+              },
+              {
+                "required": [
+                  "cdifniaid:commonName"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "$ref": "#/$defs/NiaidDefinedTerm"
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "An object carrying one of NIAID's term annotations, which must then be a NIAID defined term. Other objects are left to CDIF's own rules.",
+                "type": "object",
+                "if": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "nde:isCurated"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:originalName"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:curatedBy"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "cdifniaid:commonName"
+                      ]
+                    }
+                  ]
+                },
+                "then": {
+                  "$ref": "#/$defs/NiaidDefinedTerm"
+                }
               }
             ]
           }
@@ -2007,19 +2736,19 @@
               ]
             },
             "bios:anatomicalStructure": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The organ or tissue the sample was collected from."
             },
             "bios:anatomicalSystem": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The anatomical system the sample was collected from, e.g. circulatory, digestive, immune."
             },
             "bios:associatedPhenotype": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "Defining characteristics expressed by the biological source of the sample."
             },
             "bios:collectionMethod": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "Conditions and methods of acquisition of the sample."
             },
             "bios:collector": {
@@ -2135,11 +2864,11 @@
               ]
             },
             "bios:environmentalSystem": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The habitat or ecosystem where the sample was collected."
             },
             "bios:experimentalPurpose": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The planned or executed experimental procedures involving the sample."
             },
             "bios:isControl": {
@@ -2147,7 +2876,7 @@
               "type": "boolean"
             },
             "bios:locationOfOrigin": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The location from which the sample was originally collected."
             },
             "bios:sampleAvailability": {
@@ -2157,12 +2886,12 @@
                   "type": "boolean"
                 },
                 {
-                  "$ref": "#/$defs/termsOrText"
+                  "$ref": "#/$defs/BioschemasSample_termsOrText"
                 }
               ]
             },
             "bios:sampleProcess": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The processing technique applied to the sample."
             },
             "bios:sampleQuantity": {
@@ -2180,7 +2909,7 @@
               "description": "The size of the sample."
             },
             "bios:sampleState": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The condition, composition or state of the sample, e.g. dried, frozen."
             },
             "bios:sampleStorageTemperature": {
@@ -2198,11 +2927,11 @@
               "description": "The temperature at which the sample is stored."
             },
             "bios:sampleType": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The type of sample, intentionally broad (cells, rock, sand)."
             },
             "bios:sex": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The biological sex of the individual the sample was obtained from."
             },
             "bios:studyID": {
@@ -2214,7 +2943,7 @@
               "description": "The title of the study the sample belongs to."
             },
             "bios:project": {
-              "$ref": "#/$defs/termsOrText",
+              "$ref": "#/$defs/BioschemasSample_termsOrText",
               "description": "The project the sample belongs to."
             }
           }
@@ -2223,10 +2952,13 @@
           "type": "object",
           "properties": {
             "nde:cellType": {
-              "$ref": "#/$defs/termsOrText"
+              "$ref": "#/$defs/BioschemasSample_termsOrText"
+            },
+            "nde:associatedGenotype": {
+              "$ref": "#/$defs/BioschemasSample_termsOrText"
             },
             "nde:species": {
-              "$ref": "#/$defs/annotatedTerms"
+              "$ref": "#/$defs/terms"
             },
             "schema:aggregateElement": {
               "$ref": "#/$defs/sample"
@@ -2247,10 +2979,6 @@
           }
         }
       ]
-    },
-    "pmid": {
-      "type": "string",
-      "pattern": "^\\d+$"
     },
     "Concept": {
       "type": "object",
@@ -2538,7 +3266,7 @@
         "skos:inScheme"
       ]
     },
-    "termsOrText": {
+    "BioschemasSample_termsOrText": {
       "anyOf": [
         {
           "$ref": "#/$defs/termOrText"
@@ -2551,107 +3279,81 @@
         }
       ]
     },
-    "annotation": {
-      "description": "NIAID's annotations on a term: whether it was curated, by whom, the text it was matched from, and which method produced it.",
-      "type": "object",
-      "properties": {
-        "nde:isCurated": {
-          "type": "boolean"
-        },
-        "nde:originalName": {
-          "type": "string"
-        },
-        "nde:curatedBy": {
-          "type": "object",
-          "properties": {
-            "schema:name": {
-              "type": "string"
-            },
-            "schema:url": {
-              "type": "string"
-            },
-            "schema:dateModified": {
-              "type": "string"
-            },
-            "schema:archivedAt": {
-              "type": "string"
-            },
-            "nde:versionDate": {
-              "type": "string"
-            }
-          }
-        },
-        "cdifniaid:fromGPT": {
-          "description": "The term was suggested by a GPT language model.",
-          "type": "boolean"
-        },
-        "cdifniaid:fromPMID": {
-          "description": "The term was taken from a PubMed record linked to the dataset.",
-          "type": "boolean"
-        },
-        "cdifniaid:fromEXTRACT": {
-          "description": "The term was found by the EXTRACT text-mining tool.",
-          "type": "boolean"
-        },
-        "cdifniaid:fromNCT": {
-          "description": "The term was taken from the dataset's ClinicalTrials.gov record.",
-          "type": "boolean"
-        },
-        "cdifniaid:classification": {
-          "description": "The role a taxon plays for the dataset, e.g. infectiousAgent or host.",
-          "type": "string"
-        },
-        "cdifniaid:commonName": {
-          "description": "The common name of a taxon.",
-          "type": "string"
-        },
-        "cdifniaid:displayName": {
-          "description": "The name the portal displays for a taxon.",
-          "type": "string"
-        }
-      }
-    },
     "work": {
-      "type": "object",
-      "properties": {
-        "schema:name": {
-          "type": "string"
-        },
-        "schema:url": {
-          "type": "string"
-        },
-        "nde:doi": {
-          "$ref": "#/$defs/texts"
-        },
-        "nde:pmid": {
-          "$ref": "#/$defs/pmid"
-        }
-      }
-    },
-    "relatedResource": {
-      "type": "object",
-      "properties": {
-        "schema:name": {
-          "type": "string"
-        },
-        "nde:relationship": {
-          "description": "How the resource is related, e.g. \"has part\" or \"is part of\".",
-          "type": "string"
-        },
-        "nde:doi": {
-          "$ref": "#/$defs/texts"
-        }
-      }
-    },
-    "types": {
+      "description": "A cited or citing work. One carrying NIAID's PubMed id, DOI or journal names must be a NIAID creative work; a string or any other object is left to CDIF's own rules.",
       "anyOf": [
         {
           "type": "string"
         },
         {
-          "type": "array",
-          "items": {
-            "type": "string"
+          "type": "object",
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "nde:pmid"
+                ]
+              },
+              {
+                "required": [
+                  "nde:doi"
+                ]
+              },
+              {
+                "required": [
+                  "nde:journalName"
+                ]
+              },
+              {
+                "required": [
+                  "nde:journalNameAbbrev"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "title": "NIAID creative work",
+            "description": "A work that a NIAID Data Discovery Portal dataset cites or is cited by, with the portal's PubMed id, DOI and journal names. The portal types these as ScholarlyArticle or CreativeWork; JSON Schema cannot follow schema.org's subclass hierarchy, so both are listed.",
+            "type": "object",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "enum": [
+                    "schema:CreativeWork",
+                    "schema:ScholarlyArticle"
+                  ]
+                },
+                "minItems": 1
+              },
+              "schema:name": {
+                "type": "string"
+              },
+              "schema:url": {
+                "type": "string"
+              },
+              "nde:pmid": {
+                "type": "string",
+                "pattern": "^\\d+$",
+                "description": "The PubMed id, digits only."
+              },
+              "nde:doi": {
+                "$ref": "#/$defs/texts",
+                "description": "The DOI, as the portal gives it."
+              },
+              "nde:journalName": {
+                "type": "string"
+              },
+              "nde:journalNameAbbrev": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@type"
+            ]
           }
         }
       ]
@@ -2720,70 +3422,67 @@
           "type": "string"
         },
         {
-          "$ref": "#/$defs/term"
-        }
-      ]
-    },
-    "term": {
-      "description": "A defined term, or a reference to one. It must name or identify the term.",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string"
-        },
-        "@type": {
-          "anyOf": [
-            {
+          "description": "A defined term, or a reference to one. It must name or identify the term.",
+          "type": "object",
+          "properties": {
+            "@id": {
               "type": "string"
             },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          ]
-        },
-        "schema:name": {
-          "anyOf": [
-            {
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "schema:name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "schema:identifier": {
               "type": "string"
             },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+            "schema:url": {
+              "type": "string"
+            },
+            "schema:inDefinedTermSet": {
+              "type": "string"
+            },
+            "schema:termCode": {
+              "type": "string"
             }
-          ]
-        },
-        "schema:identifier": {
-          "type": "string"
-        },
-        "schema:url": {
-          "type": "string"
-        },
-        "schema:inDefinedTermSet": {
-          "type": "string"
-        },
-        "schema:termCode": {
-          "type": "string"
-        }
-      },
-      "anyOf": [
-        {
-          "required": [
-            "schema:name"
-          ]
-        },
-        {
-          "required": [
-            "schema:identifier"
-          ]
-        },
-        {
-          "required": [
-            "@id"
+          },
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "@id"
+              ]
+            }
           ]
         }
       ]

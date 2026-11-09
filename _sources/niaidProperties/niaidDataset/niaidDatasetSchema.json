@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "NIAID dataset properties",
-    "description": "The properties NIAID Data Discovery Portal records add to a CDIF dataset (composed with cdifCore and cdifDiscovery by the cdifNIAID profile; this module does NOT re-embed them). nde: terms are NIAID's (https://discovery.biothings.io/ns/nde/), bios: terms Bioschemas' (from the bioschemasSample block), and cdifniaid: terms the ones the portal uses that neither vocabulary declares, defined by this block. Every property accepts one value or an array, because framing collapses a one-element array to its value.",
+    "description": "The properties NIAID Data Discovery Portal records add to a CDIF dataset (composed with cdifCore and cdifDiscovery by the cdifNIAID profile; this module does NOT re-embed them). nde: terms are NIAID's (https://discovery.biothings.io/ns/nde/), bios: terms Bioschemas' (from the bioschemasSample block), and cdifniaid: terms the ones the portal uses that neither vocabulary declares. The properties NIAID adds to a DefinedTerm, a MonetaryGrant, a cited work, a Place and a DataCatalog are defined by the niaidDefinedTerm, niaidMonetaryGrant, niaidCreativeWork, niaidPlace and niaidDataCatalog blocks, which require those types. Every property accepts one value or an array, because framing collapses a one-element array to its value.",
     "type": "object",
     "required": [
         "schema:includedInDataCatalog"
@@ -66,27 +66,27 @@
         },
         "nde:species": {
             "description": "Species the dataset was collected from or is about.",
-            "$ref": "#/$defs/annotatedTerms"
+            "$ref": "#/$defs/terms"
         },
-        "nde:topicCategory": {
-            "description": "Topics of the dataset, from the EDAM topic ontology.",
-            "$ref": "#/$defs/annotatedTerms"
+        "schema:keywords": {
+            "description": "NIAID's annotations on keyword terms, such as the dataset's EDAM topic categories.",
+            "$ref": "#/$defs/termsOrText"
         },
         "schema:infectiousAgent": {
             "description": "Infectious agents the dataset is about.",
-            "$ref": "#/$defs/annotatedTerms"
+            "$ref": "#/$defs/terms"
         },
         "schema:healthCondition": {
             "description": "Health conditions the dataset is about.",
-            "$ref": "#/$defs/annotatedTerms"
+            "$ref": "#/$defs/terms"
         },
         "schema:measurementTechnique": {
             "description": "NIAID's annotations on the measurement techniques CDIF discovery describes.",
-            "$ref": "#/$defs/annotatedTermsOrText"
+            "$ref": "#/$defs/termsOrText"
         },
         "schema:variableMeasured": {
             "description": "NIAID's annotations on the variables CDIF discovery describes.",
-            "$ref": "#/$defs/annotatedTermsOrText"
+            "$ref": "#/$defs/termsOrText"
         },
         "nde:nctid": {
             "description": "ClinicalTrials.gov identifier of the study.",
@@ -108,28 +108,14 @@
         },
         "schema:citation": {
             "description": "NIAID's journal and PubMed details on CDIF's citations.",
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/citation"
-                },
-                {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/citation"
-                    }
-                }
-            ]
+            "$ref": "#/$defs/works"
         },
         "nde:curatedBy": {
             "description": "Who curated the record, and from which version of their catalog.",
-            "$ref": "#/$defs/curator"
+            "$ref": "../niaidDefinedTerm/schema.yaml#/$defs/curator"
         },
         "nde:isBasisFor": {
             "description": "Resources based on this dataset.",
-            "$ref": "#/$defs/relatedResources"
-        },
-        "nde:isRelatedTo": {
-            "description": "Related resources, with the relationship named.",
             "$ref": "#/$defs/relatedResources"
         },
         "nde:sample": {
@@ -171,7 +157,7 @@
             ]
         },
         "schema:spatialCoverage": {
-            "description": "NIAID's location details on CDIF's spatial coverage.",
+            "description": "NIAID's administrative type on CDIF's spatial coverage.",
             "anyOf": [
                 {
                     "$ref": "#/$defs/place"
@@ -202,34 +188,6 @@
             "description": "Identifiers beyond the one CDIF's schema:identifier holds.",
             "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts"
         },
-        "cdifniaid:temporalIntervals": {
-            "description": "The portal's temporal intervals where they hold more than dates, kept whole beside schema:temporalCoverage.",
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/temporalInterval"
-                },
-                {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/temporalInterval"
-                    }
-                }
-            ]
-        },
-        "cdifniaid:unlinkedHasPart": {
-            "description": "Parts of the dataset with no address, which cannot be CDIF manifest parts.",
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/namedThing"
-                },
-                {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/namedThing"
-                    }
-                }
-            ]
-        },
         "cdifniaid:assayformat": {
             "description": "The assay format, as the portal gives it.",
             "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts"
@@ -244,20 +202,6 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/$defs/pmid"
-                    }
-                }
-            ]
-        },
-        "schema:distribution": {
-            "description": "NIAID's archive members that come with an address only.",
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/distribution"
-                },
-                {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/distribution"
                     }
                 }
             ]
@@ -277,113 +221,71 @@
                 }
             ]
         },
+        "reference": {
+            "$ref": "../../cdifDataType/objectReference/objectReferenceSchema.json"
+        },
         "catalog": {
-            "type": "object",
-            "properties": {
-                "schema:name": {
-                    "type": "string"
-                },
-                "schema:url": {
-                    "type": "string"
-                },
-                "schema:archivedAt": {
-                    "type": "string"
-                },
-                "nde:versionDate": {
-                    "type": "string"
-                }
-            },
             "anyOf": [
                 {
-                    "required": [
-                        "schema:name"
-                    ]
+                    "$ref": "#/$defs/reference"
                 },
                 {
-                    "required": [
-                        "schema:url"
-                    ]
-                },
-                {
-                    "required": [
-                        "@id"
-                    ]
+                    "$ref": "../niaidDataCatalog/niaidDataCatalogSchema.json"
                 }
             ]
         },
-        "annotation": {
-            "description": "NIAID's annotations on a term: whether it was curated, by whom, the text it was matched from, and which method produced it.",
-            "type": "object",
-            "properties": {
-                "nde:isCurated": {
-                    "type": "boolean"
-                },
-                "nde:originalName": {
-                    "type": "string"
-                },
-                "nde:curatedBy": {
-                    "$ref": "#/$defs/curator"
-                },
-                "cdifniaid:fromGPT": {
-                    "description": "The term was suggested by a GPT language model.",
-                    "type": "boolean"
-                },
-                "cdifniaid:fromPMID": {
-                    "description": "The term was taken from a PubMed record linked to the dataset.",
-                    "type": "boolean"
-                },
-                "cdifniaid:fromEXTRACT": {
-                    "description": "The term was found by the EXTRACT text-mining tool.",
-                    "type": "boolean"
-                },
-                "cdifniaid:fromNCT": {
-                    "description": "The term was taken from the dataset's ClinicalTrials.gov record.",
-                    "type": "boolean"
-                },
-                "cdifniaid:classification": {
-                    "description": "The role a taxon plays for the dataset, e.g. infectiousAgent or host.",
-                    "type": "string"
-                },
-                "cdifniaid:commonName": {
-                    "description": "The common name of a taxon.",
-                    "type": "string"
-                },
-                "cdifniaid:displayName": {
-                    "description": "The name the portal displays for a taxon.",
-                    "type": "string"
-                }
-            }
-        },
-        "annotatedTerm": {
-            "allOf": [
-                {
-                    "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/term"
-                },
-                {
-                    "$ref": "#/$defs/annotation"
-                }
-            ]
-        },
-        "annotatedTerms": {
+        "terms": {
+            "description": "NIAID's annotated terms; each must be a schema:DefinedTerm.",
             "anyOf": [
                 {
-                    "$ref": "#/$defs/annotatedTerm"
+                    "$ref": "../niaidDefinedTerm/niaidDefinedTermSchema.json"
                 },
                 {
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/annotatedTerm"
+                        "$ref": "../niaidDefinedTerm/niaidDefinedTermSchema.json"
                     }
                 }
             ]
         },
-        "annotatedTermsOrText": {
+        "annotated": {
+            "description": "An object carrying one of NIAID's term annotations, which must then be a NIAID defined term. Other objects are left to CDIF's own rules.",
+            "type": "object",
+            "if": {
+                "anyOf": [
+                    {
+                        "required": [
+                            "nde:isCurated"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "nde:originalName"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "nde:curatedBy"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "cdifniaid:commonName"
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "$ref": "../niaidDefinedTerm/niaidDefinedTermSchema.json"
+            }
+        },
+        "termsOrText": {
             "anyOf": [
                 {
                     "type": "string"
                 },
                 {
-                    "$ref": "#/$defs/annotation"
+                    "$ref": "#/$defs/annotated"
                 },
                 {
                     "type": "array",
@@ -393,76 +295,58 @@
                                 "type": "string"
                             },
                             {
-                                "$ref": "#/$defs/annotation"
+                                "$ref": "#/$defs/annotated"
                             }
                         ]
                     }
                 }
             ]
         },
-        "curator": {
-            "type": "object",
-            "properties": {
-                "schema:name": {
-                    "type": "string"
-                },
-                "schema:url": {
-                    "type": "string"
-                },
-                "schema:dateModified": {
-                    "type": "string"
-                },
-                "schema:archivedAt": {
-                    "type": "string"
-                },
-                "nde:versionDate": {
-                    "type": "string"
-                }
-            }
-        },
         "nctid": {
             "type": "string",
             "pattern": "^NCT\\d{8}$"
-        },
-        "work": {
-            "type": "object",
-            "properties": {
-                "schema:name": {
-                    "type": "string"
-                },
-                "schema:url": {
-                    "type": "string"
-                },
-                "nde:doi": {
-                    "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts"
-                },
-                "nde:pmid": {
-                    "$ref": "#/$defs/pmid"
-                }
-            }
         },
         "pmid": {
             "type": "string",
             "pattern": "^\\d+$"
         },
-        "distribution": {
-            "type": "object",
-            "properties": {
-                "cdifniaid:partUrl": {
-                    "description": "URLs of files in the archive, given with no name or format, so they cannot be CDIF archive parts.",
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
+        "work": {
+            "description": "A cited or citing work. One carrying NIAID's PubMed id, DOI or journal names must be a NIAID creative work; a string or any other object is left to CDIF's own rules.",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object",
+                    "if": {
+                        "anyOf": [
+                            {
+                                "required": [
+                                    "nde:pmid"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "nde:doi"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "nde:journalName"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "nde:journalNameAbbrev"
+                                ]
                             }
-                        }
-                    ]
+                        ]
+                    },
+                    "then": {
+                        "$ref": "../niaidCreativeWork/niaidCreativeWorkSchema.json"
+                    }
                 }
-            }
+            ]
         },
         "works": {
             "anyOf": [
@@ -474,34 +358,6 @@
                     "items": {
                         "$ref": "#/$defs/work"
                     }
-                }
-            ]
-        },
-        "citation": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "allOf": [
-                        {
-                            "$ref": "#/$defs/work"
-                        },
-                        {
-                            "type": "object",
-                            "properties": {
-                                "nde:journalName": {
-                                    "type": "string"
-                                },
-                                "nde:journalNameAbbrev": {
-                                    "type": "string"
-                                },
-                                "cdifniaid:fromPMID": {
-                                    "type": "boolean"
-                                }
-                            }
-                        }
-                    ]
                 }
             ]
         },
@@ -534,73 +390,24 @@
             ]
         },
         "grant": {
-            "type": "object",
-            "properties": {
-                "cdifniaid:fromPMID": {
-                    "type": "boolean"
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/reference"
                 },
-                "cdifniaid:projectNumSplit": {
-                    "$ref": "#/$defs/projectNumber"
-                },
-                "schema:funder": {
-                    "type": "object",
-                    "properties": {
-                        "cdifniaid:alternateNames": {
-                            "description": "An agent's second and later alternate names; schema:alternateName holds the first.",
-                            "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts"
-                        }
-                    }
+                {
+                    "$ref": "../niaidMonetaryGrant/niaidMonetaryGrantSchema.json"
                 }
-            }
-        },
-        "projectNumber": {
-            "description": "The parts of an NIH project number such as 5R01AI012345-03, which NIH grant identifiers follow.",
-            "type": "object",
-            "properties": {
-                "cdifniaid:applTypeCode": {
-                    "description": "Application type, e.g. 5 for a non-competing continuation.",
-                    "type": "string"
-                },
-                "cdifniaid:activityCode": {
-                    "description": "Activity code, e.g. R01.",
-                    "type": "string"
-                },
-                "cdifniaid:icCode": {
-                    "description": "The NIH institute or center, e.g. AI for NIAID.",
-                    "type": "string"
-                },
-                "cdifniaid:serialNum": {
-                    "description": "Serial number of the grant.",
-                    "type": "string"
-                },
-                "cdifniaid:supportYear": {
-                    "description": "Year of support.",
-                    "type": "string"
-                },
-                "cdifniaid:fullSupportYear": {
-                    "description": "Year of support with any suffix.",
-                    "type": "string"
-                },
-                "cdifniaid:suffixCode": {
-                    "description": "Suffix, e.g. S1 for a supplement.",
-                    "type": "string"
-                }
-            }
+            ]
         },
         "place": {
-            "type": "object",
-            "properties": {
-                "cdifniaid:country": {
-                    "description": "The country the place is in.",
-                    "type": "string"
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/reference"
                 },
-                "nde:locationType": {
-                    "type": "string"
-                },
-                "nde:administrativeType": {
-                    "type": "string"
+                {
+                    "$ref": "../niaidPlace/niaidPlaceSchema.json"
                 }
-            }
+            ]
         },
         "sourceOrganization": {
             "type": "object",
@@ -610,43 +417,6 @@
                     "type": "boolean"
                 }
             }
-        },
-        "temporalInterval": {
-            "type": "object",
-            "properties": {
-                "@type": {
-                    "$ref": "#/$defs/types"
-                },
-                "schema:startDate": {
-                    "type": "string"
-                },
-                "schema:endDate": {
-                    "type": "string"
-                },
-                "schema:duration": {
-                    "type": "string"
-                },
-                "schema:name": {
-                    "type": "string"
-                },
-                "nde:temporalType": {
-                    "type": "string"
-                }
-            }
-        },
-        "namedThing": {
-            "type": "object",
-            "properties": {
-                "@type": {
-                    "$ref": "#/$defs/types"
-                },
-                "schema:name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "schema:name"
-            ]
         },
         "sample": {
             "description": "A sample; nde:Sample is NIAID's subclass of the Bioschemas sample.",
@@ -660,8 +430,11 @@
                         "nde:cellType": {
                             "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/termsOrText"
                         },
+                        "nde:associatedGenotype": {
+                            "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/termsOrText"
+                        },
                         "nde:species": {
-                            "$ref": "#/$defs/annotatedTerms"
+                            "$ref": "#/$defs/terms"
                         },
                         "schema:aggregateElement": {
                             "$ref": "#/$defs/sample"
@@ -671,11 +444,20 @@
             ]
         },
         "sampleCollection": {
-            "description": "A collection of samples, which NIAID types as an ItemList.",
+            "description": "A collection of samples, typed nde:SampleCollection. The type is required, so that a sample is not taken for a collection.",
             "type": "object",
+            "required": [
+                "@type"
+            ],
             "properties": {
                 "@type": {
-                    "$ref": "#/$defs/types"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "nde:SampleCollection"
+                    }
                 },
                 "schema:numberOfItems": {
                     "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/quantity"

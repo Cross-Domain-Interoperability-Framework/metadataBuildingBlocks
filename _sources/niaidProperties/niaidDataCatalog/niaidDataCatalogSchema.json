@@ -1,0 +1,47 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "NIAID data catalog",
+    "description": "A repository a NIAID Data Discovery Portal dataset comes from: its name and address, the dataset's page there (schema:archivedAt), and the version of the catalog the portal harvested (nde:versionDate).",
+    "type": "object",
+    "properties": {
+        "@type": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "contains": {
+                "const": "schema:DataCatalog"
+            },
+            "minItems": 1
+        },
+        "schema:name": {
+            "type": "string"
+        },
+        "schema:url": {
+            "type": "string"
+        },
+        "schema:archivedAt": {
+            "description": "The dataset's page in this catalog.",
+            "type": "string"
+        },
+        "nde:versionDate": {
+            "description": "The date of the version of the catalog the portal harvested.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "@type"
+    ],
+    "anyOf": [
+        {
+            "required": [
+                "schema:name"
+            ]
+        },
+        {
+            "required": [
+                "schema:url"
+            ]
+        }
+    ]
+}
