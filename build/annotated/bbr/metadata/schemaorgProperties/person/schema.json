@@ -39,8 +39,18 @@
       "x-jsonld-id": "http://schema.org/identifier"
     },
     "schema:alternateName": {
-      "type": "string",
-      "description": "other labels by which the person might be known",
+      "description": "other labels by which the person might be known. A list when there are several; a single label may be a plain string, as JSON-LD framing writes a one-item list.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
       "x-jsonld-id": "http://schema.org/alternateName"
     },
     "schema:affiliation": {
@@ -136,6 +146,6 @@
     "itemIdentifier": "cdif.bbr.metadata.schemaorgProperties.person",
     "register": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json",
     "version": "0.1",
-    "dateOfLastChange": "2026-11-07"
+    "dateOfLastChange": "2026-11-09"
   }
 }

@@ -133,7 +133,7 @@ name, alternateName, description, identifier (ROR), and sameAs (string and objec
     "schema:EducationalOrganization"
   ],
   "schema:name": "Massachusetts Institute of Technology",
-  "schema:alternateName": "MIT",
+  "schema:alternateName": ["MIT", "Massachusetts Inst. of Technology"],
   "schema:description": "Private research university in Cambridge, Massachusetts, founded in 1861",
   "schema:identifier": {
     "@type": [
@@ -177,7 +177,10 @@ name, alternateName, description, identifier (ROR), and sameAs (string and objec
     "schema:EducationalOrganization"
   ],
   "schema:name": "Massachusetts Institute of Technology",
-  "schema:alternateName": "MIT",
+  "schema:alternateName": [
+    "MIT",
+    "Massachusetts Inst. of Technology"
+  ],
   "schema:description": "Private research university in Cambridge, Massachusetts, founded in 1861",
   "schema:identifier": {
     "@type": [
@@ -206,7 +209,8 @@ name, alternateName, description, identifier (ROR), and sameAs (string and objec
 ex:OrgComplete_001 a schema1:Organization ;
     schema1:additionalType "schema:EducationalOrganization",
         "schema:ResearchOrganization" ;
-    schema1:alternateName "MIT" ;
+    schema1:alternateName "MIT",
+        "Massachusetts Inst. of Technology" ;
     schema1:description "Private research university in Cambridge, Massachusetts, founded in 1861" ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
@@ -258,8 +262,14 @@ properties:
     description: string label for organization that is meaningful for human users
     x-jsonld-id: http://schema.org/name
   schema:alternateName:
-    type: string
-    description: other labels by which the organization might be known
+    description: other labels by which the organization might be known. A list when
+      there are several; a single label may be a plain string, as JSON-LD framing
+      writes a one-item list.
+    anyOf:
+    - type: string
+    - type: array
+      items:
+        type: string
     x-jsonld-id: http://schema.org/alternateName
   schema:description:
     type: string
@@ -297,7 +307,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.schemaorgProperties.organization
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-07'
+  dateOfLastChange: '2026-11-09'
 
 ```
 

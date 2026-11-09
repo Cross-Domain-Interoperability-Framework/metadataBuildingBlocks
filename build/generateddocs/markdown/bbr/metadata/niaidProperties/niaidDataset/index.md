@@ -1050,15 +1050,15 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
             schema1:url "https://doi.org/10.6019/PXD027351" ;
             schema1:value "10.6019/PXD027351" ] ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
-            schema1:archivedAt "https://www.omicsdi.org/dataset/pride/PXD027351" ;
-            schema1:name "Omics Discovery Index (OmicsDI)" ;
-            schema1:url "https://www.omicsdi.org/" ;
-            nde:versionDate "2026-10-23" ],
-        [ a schema1:DataCatalog ;
             schema1:archivedAt "http://www.ebi.ac.uk/pride/archive/projects/PXD027351" ;
             schema1:name "ProteomeXchange" ;
             schema1:url "https://www.proteomexchange.org/" ;
-            nde:versionDate "2026-10-01" ] ;
+            nde:versionDate "2026-10-01" ],
+        [ a schema1:DataCatalog ;
+            schema1:archivedAt "https://www.omicsdi.org/dataset/pride/PXD027351" ;
+            schema1:name "Omics Discovery Index (OmicsDI)" ;
+            schema1:url "https://www.omicsdi.org/" ;
+            nde:versionDate "2026-10-23" ] ;
     schema1:infectiousAgent [ a schema1:DefinedTerm ;
             schema1:alternateName "uncultured marine plankton" ;
             schema1:identifier "632957" ;
@@ -1081,20 +1081,6 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         "Rprp" ;
     schema1:license "https://www.proteomexchange.org/pxcollaborativeagreement_2024.pdf" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "0003229" ;
-            schema1:inDefinedTermSet "OBI" ;
-            schema1:name "plasma proteomics assay" ;
-            schema1:url "http://purl.obolibrary.org/obo/OBI_0003229" ;
-            nde:isCurated true ;
-            nde:originalName "Shotgun proteomics" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "0000428" ;
-            schema1:inDefinedTermSet "PRIDE" ;
-            schema1:name "Bottom-up proteomics" ;
-            schema1:url "http://purl.obolibrary.org/obo/PRIDE_0000428" ;
-            nde:isCurated true ;
-            nde:originalName "Shotgun proteomics" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "0000470" ;
             schema1:inDefinedTermSet "OBI" ;
             schema1:name "mass spectrometry assay" ;
@@ -1102,12 +1088,26 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
             nde:isCurated true ;
             nde:originalName "Mass Spectrometry" ],
         [ a schema1:DefinedTerm ;
+            schema1:identifier "0003229" ;
+            schema1:inDefinedTermSet "OBI" ;
+            schema1:name "plasma proteomics assay" ;
+            schema1:url "http://purl.obolibrary.org/obo/OBI_0003229" ;
+            nde:isCurated true ;
+            nde:originalName "Shotgun proteomics" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier "0000534" ;
             schema1:inDefinedTermSet "MMO" ;
             schema1:name "mass spectrometry" ;
             schema1:url "http://purl.obolibrary.org/obo/MMO_0000534" ;
             nde:isCurated true ;
-            nde:originalName "Mass Spectrometry" ] ;
+            nde:originalName "Mass Spectrometry" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "0000428" ;
+            schema1:inDefinedTermSet "PRIDE" ;
+            schema1:name "Bottom-up proteomics" ;
+            schema1:url "http://purl.obolibrary.org/obo/PRIDE_0000428" ;
+            nde:isCurated true ;
+            nde:originalName "Shotgun proteomics" ] ;
     schema1:name "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High Resolution Mass Spectrometry for Metaproteomics of Environmen-tal and Microbiome Samples" ;
     schema1:sameAs "https://www.ebi.ac.uk/pride/archive/projects/PXD027351",
         "https://www.omicsdi.org/dataset/pride/PXD027351" ;
@@ -1153,10 +1153,10 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
             cdifniaid:commonName "Human" ;
             cdifniaid:displayName "Human | Homo sapiens" ] ;
     nde:topicCategory [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3370" ;
+            schema1:identifier "topic_0121" ;
             schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Analytical chemistry" ;
-            schema1:url "http://edamontology.org/topic_3370" ;
+            schema1:name "Proteomics" ;
+            schema1:url "http://edamontology.org/topic_0121" ;
             nde:curatedBy [ a schema1:SoftwareApplication ;
                     schema1:name "GPT-4o-mini" ;
                     schema1:url "https://openai.com/index/chatgpt" ] ;
@@ -1171,10 +1171,10 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
                     schema1:url "https://openai.com/index/chatgpt" ] ;
             cdifniaid:fromGPT true ],
         [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_0121" ;
+            schema1:identifier "topic_3370" ;
             schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Proteomics" ;
-            schema1:url "http://edamontology.org/topic_0121" ;
+            schema1:name "Analytical chemistry" ;
+            schema1:url "http://edamontology.org/topic_3370" ;
             nde:curatedBy [ a schema1:SoftwareApplication ;
                     schema1:name "GPT-4o-mini" ;
                     schema1:url "https://openai.com/index/chatgpt" ] ;
@@ -4454,57 +4454,57 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
 <https://data.niaid.nih.gov/resources?id=vdj_prjna272713> a schema1:Dataset ;
     schema1:citation [ a schema1:ScholarlyArticle ;
             schema1:author [ a schema1:Person ;
-                    schema1:name "Wu X" ],
-                [ a schema1:Person ;
-                    schema1:name "Connors M" ],
-                [ a schema1:Person ;
                     schema1:name "Lynch RM" ],
                 [ a schema1:Person ;
-                    schema1:name "Chuang GY" ],
-                [ a schema1:Person ;
-                    schema1:name "Kwon YD" ],
+                    schema1:name "Wu X" ],
                 [ a schema1:Person ;
                     schema1:name "Zhang B" ],
                 [ a schema1:Person ;
-                    schema1:name "Georgiev IS" ],
+                    schema1:name "Kwong PD" ],
                 [ a schema1:Person ;
-                    schema1:name "Zhou T" ],
+                    schema1:name "Joyce MG" ],
                 [ a schema1:Person ;
-                    schema1:name "Soto C" ],
+                    schema1:name "Connors M" ],
+                [ a schema1:Person ;
+                    schema1:name "Saunders KO" ],
                 [ a schema1:Person ;
                     schema1:name "Bailer RT" ],
                 [ a schema1:Person ;
-                    schema1:name "Longo NS" ],
-                [ a schema1:Person ;
-                    schema1:name "Kwong PD" ],
-                [ a schema1:Person ;
-                    schema1:name "Schramm CA" ],
-                [ a schema1:Person ;
-                    schema1:name "Srivatsan S" ],
+                    schema1:name "O'Dell S" ],
                 [ a schema1:Person ;
                     schema1:name "Mullikin JC" ],
                 [ a schema1:Person ;
-                    schema1:name "McKee K" ],
+                    schema1:name "Mascola JR" ],
                 [ a schema1:Person ;
-                    schema1:name "Zhang Z" ],
+                    schema1:name "Soto C" ],
                 [ a schema1:Person ;
-                    schema1:name "Yang Y" ],
+                    schema1:name "Chuang GY" ],
+                [ a schema1:Person ;
+                    schema1:name "Shapiro L" ],
+                [ a schema1:Person ;
+                    schema1:name "Schramm CA" ],
                 [ a schema1:Person ;
                     schema1:name "Sheng Z" ],
                 [ a schema1:Person ;
-                    schema1:name "Saunders KO" ],
+                    schema1:name "Georgiev IS" ],
+                [ a schema1:Person ;
+                    schema1:name "Yang Y" ],
+                [ a schema1:Person ;
+                    schema1:name "Longo NS" ],
                 [ a schema1:Organization ;
                     schema1:name "NISC Comparative Sequencing Program" ],
                 [ a schema1:Person ;
                     schema1:name "Louder MK" ],
                 [ a schema1:Person ;
-                    schema1:name "Joyce MG" ],
+                    schema1:name "Zhou T" ],
                 [ a schema1:Person ;
-                    schema1:name "O'Dell S" ],
+                    schema1:name "McKee K" ],
                 [ a schema1:Person ;
-                    schema1:name "Mascola JR" ],
+                    schema1:name "Zhang Z" ],
                 [ a schema1:Person ;
-                    schema1:name "Shapiro L" ] ;
+                    schema1:name "Srivatsan S" ],
+                [ a schema1:Person ;
+                    schema1:name "Kwon YD" ] ;
             schema1:datePublished "2015-04-23" ;
             schema1:identifier "PMID:25865483" ;
             schema1:name "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection." ;
@@ -4526,78 +4526,66 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
     schema1:datePublished "2020-08-17" ;
     schema1:description "HIV-1-neutralizing antibodies develop in most HIV-1-infected individuals, although highly effective antibodies are generally observed only after years of chronic infection. Here, we characterize the rate of maturation and extent of diversity for the lineage that produced the broadly neutralizing antibody VRC01 through longitudinal sampling of peripheral B cell transcripts over 15 years and co-crystal structures of lineage members. Next-generation sequencing identified VRC01-lineage transcripts, which encompassed diverse antibodies organized into distinct phylogenetic clades. Prevalent clades maintained characteristic features of antigen recognition, though each evolved binding loops and disulfides that formed distinct recognition surfaces. Over the course of the study period, VRC01-lineage clades showed continuous evolution, with rates of ∼2 substitutions per 100 nucleotides per year, comparable to that of HIV-1 evolution. This high rate of antibody evolution provides a mechanism by which antibody lineages can achieve extraordinary diversity and, over years of chronic infection, develop effective HIV-1 neutralization." ;
     schema1:distribution [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767428_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767437_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767418_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767447_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767425_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767436_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767438_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767427_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767441_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767443_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767444_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767430_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767446_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767433_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767425_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767439_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767421_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767440_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767420_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767443_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767436_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767424_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767435_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767426_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767429_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767434_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767442_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767428_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767419_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767445_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767433_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767422_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767431_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767430_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767442_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767420_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767426_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767439_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767427_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767446_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767438_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767429_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767423_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767432_1.unique.igblast.airr.tsv.gz" ] ;
+            schema1:contentUrl "SRR1767447_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767424_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767437_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767435_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767441_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767440_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767432_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767422_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767418_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767434_1.unique.igblast.airr.tsv.gz" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
-                    schema1:identifier "https://ror.org/043z4tv69" ;
-                    schema1:name "National Institute of Allergy and Infectious Diseases" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "Instituto Nacional de Alergias y Enfermedades Infecciosas",
-                        "NIAID" ] ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:value "1ZIAAI005022-08" ] ;
-            schema1:name "Neutralization Mechanisms Of Anti-HIV-1 Monoclonal Antibodies" ;
-            schema1:url "https://reporter.nih.gov/project-details/7964824" ],
-        [ a schema1:MonetaryGrant ;
             schema1:endDate "2019-03-31" ;
             schema1:funder [ a schema1:Organization ;
                     schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
@@ -4614,7 +4602,19 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                     schema1:value "1P01AI104722-01A1" ] ;
             schema1:name "High Resolution Analysis of Env-directed B Cells to Accelerate Vaccine Design" ;
             schema1:startDate "2014-04-01" ;
-            schema1:url "https://reporter.nih.gov/project-details/8680621" ] ;
+            schema1:url "https://reporter.nih.gov/project-details/8680621" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder [ a schema1:Organization ;
+                    schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
+                    schema1:identifier "https://ror.org/043z4tv69" ;
+                    schema1:name "National Institute of Allergy and Infectious Diseases" ;
+                    schema1:parentOrganization "National Institutes of Health" ;
+                    cdifniaid:alternateNames "Instituto Nacional de Alergias y Enfermedades Infecciosas",
+                        "NIAID" ] ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:value "1ZIAAI005022-08" ] ;
+            schema1:name "Neutralization Mechanisms Of Anti-HIV-1 Monoclonal Antibodies" ;
+            schema1:url "https://reporter.nih.gov/project-details/7964824" ] ;
     schema1:healthCondition [ a schema1:DefinedTerm ;
             schema1:alternateName "HIV infection",
                 "Human immunodeficiency virus caused disease or disorder",
@@ -4657,15 +4657,15 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
     schema1:sameAs "https://vdjserver.org/community?study_id=PRJNA272713" ;
     schema1:subjectOf <https://data.niaid.nih.gov/resources?id=vdj_prjna272713#metadata> ;
     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ;
-    schema1:variableMeasured [ a schema1:DefinedTerm,
+    schema1:variableMeasured [ a schema1:PropertyValue ;
+            schema1:description "African American" ;
+            schema1:name "race" ],
+        [ a schema1:DefinedTerm,
                 schema1:PropertyValue ;
             schema1:identifier "data_2977" ;
             schema1:inDefinedTermSet "EDAM" ;
             schema1:name "Nucleic acid sequence" ;
             schema1:url "https://edamontology.org/data_2977" ],
-        [ a schema1:PropertyValue ;
-            schema1:description "African American" ;
-            schema1:name "race" ],
         [ a schema1:DefinedTerm,
                 schema1:PropertyValue ;
             schema1:identifier "C20971" ;
@@ -4682,35 +4682,15 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                     schema1:additionalType "ExperimentalRunSample" ;
                     schema1:conditionsOfAccess "Open" ;
                     schema1:distribution [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767440_R1.fastq" ;
+                            schema1:contentUrl "SRR1767444_R1.fastq" ;
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
                         [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767437_R1.fastq" ;
+                            schema1:contentUrl "SRR1767447_R1.fastq" ;
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
                         [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767431_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767419_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767425_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767443_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767441_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767420_R1.fastq" ;
+                            schema1:contentUrl "SRR1767418_R1.fastq" ;
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
                         [ a schema1:DataDownload ;
@@ -4722,10 +4702,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
                         [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767439_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
                             schema1:contentUrl "SRR1767432_R1.fastq" ;
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
@@ -4734,59 +4710,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
                         [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767446_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767427_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767433_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767435_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767436_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767423_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767444_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767442_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767418_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767421_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
                             schema1:contentUrl "SRR1767430_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767422_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767426_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767428_R1.fastq" ;
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
                         [ a schema1:DataDownload ;
@@ -4798,17 +4722,93 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
                         [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767447_R1.fastq" ;
+                            schema1:contentUrl "SRR1767426_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767422_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767433_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767421_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767431_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767428_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767436_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767437_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767419_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767440_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767435_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767443_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767425_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767423_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767442_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767446_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767439_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767427_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767441_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767420_R1.fastq" ;
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ] ;
                     schema1:healthCondition [ a schema1:DefinedTerm ;
-                            schema1:name "HIV-1 positive" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:name "HIV-1 positive" ],
-                        [ a schema1:DefinedTerm ;
                             schema1:identifier "DOID:526" ;
                             schema1:inDefinedTermSet "DOID" ;
                             schema1:name "human immunodeficiency virus infectious disease" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:name "HIV-1 positive" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:name "HIV-1 positive" ],
                         [ a schema1:DefinedTerm ;
                             schema1:identifier "DOID:526" ;
                             schema1:inDefinedTermSet "DOID" ;
@@ -4820,7 +4820,9 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                     schema1:isAccessibleForFree true ;
                     schema1:license "https://creativecommons.org/public-domain/" ;
                     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-                            schema1:name "PCR" ],
+                            schema1:identifier "NCIT:C15273" ;
+                            schema1:inDefinedTermSet "NCIT" ;
+                            schema1:name "Longitudinal Study" ],
                         [ a schema1:DefinedTerm ;
                             schema1:name "PCR" ],
                         [ a schema1:DefinedTerm ;
@@ -4828,9 +4830,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                             schema1:inDefinedTermSet "NCIT" ;
                             schema1:name "Longitudinal Study" ],
                         [ a schema1:DefinedTerm ;
-                            schema1:identifier "NCIT:C15273" ;
-                            schema1:inDefinedTermSet "NCIT" ;
-                            schema1:name "Longitudinal Study" ] ;
+                            schema1:name "PCR" ] ;
                     schema1:name "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection (1015503308190519786-242ac116-0001-012)",
                         "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection (1092125524751159786-242ac116-0001-012)",
                         "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection (1105053376312119786-242ac116-0001-012)",
@@ -4862,27 +4862,27 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                         "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection (962889958814519786-242ac116-0001-012)",
                         "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection (980628173746999786-242ac116-0001-012)" ;
                     schema1:temporalCoverage [ a nde:TemporalInterval ;
-                            schema1:name "06-02-2009" ],
+                            schema1:name "08-19-2008" ],
                         [ a nde:TemporalInterval ;
                             schema1:name "08-19-2008" ],
                         [ a nde:TemporalInterval ;
                             schema1:name "07-30-2001" ],
                         [ a nde:TemporalInterval ;
-                            schema1:name "01-09-2007" ],
+                            schema1:name "01-17-2008" ],
                         [ a nde:TemporalInterval ;
                             schema1:name "07-12-2007" ],
                         [ a nde:TemporalInterval ;
-                            schema1:name "08-19-2008" ],
-                        [ a nde:TemporalInterval ;
-                            schema1:name "12-31-2009" ],
-                        [ a nde:TemporalInterval ;
-                            schema1:name "07-14-2006" ],
-                        [ a nde:TemporalInterval ;
                             schema1:name "04-16-2002" ],
+                        [ a nde:TemporalInterval ;
+                            schema1:name "06-02-2009" ],
+                        [ a nde:TemporalInterval ;
+                            schema1:name "01-09-2007" ],
                         [ a nde:TemporalInterval ;
                             schema1:name "03-20-1995" ],
                         [ a nde:TemporalInterval ;
-                            schema1:name "01-17-2008" ] ;
+                            schema1:name "12-31-2009" ],
+                        [ a nde:TemporalInterval ;
+                            schema1:name "07-14-2006" ] ;
                     schema1:usageInfo [ a schema1:Thing ;
                             schema1:description "The software is under the GNU Affero General Public License, the data is Public Domain" ;
                             schema1:name "AIRR Data Commons usage info" ] ;
@@ -4893,45 +4893,45 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                             schema1:url "https://evsexplore.semantics.cancer.gov/evsexplore/concept/ncit/C20971" ],
                         [ a schema1:DefinedTerm ;
                             schema1:name "IGH" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:description "Chronic" ;
-                            schema1:name "disease severity" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:identifier "data_2977" ;
-                            schema1:inDefinedTermSet "EDAM" ;
-                            schema1:name "Nucleic acid sequence" ;
-                            schema1:url "https://edamontology.org/data_2977" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:identifier "data_2977" ;
-                            schema1:inDefinedTermSet "EDAM" ;
-                            schema1:name "Nucleic acid sequence" ;
-                            schema1:url "https://edamontology.org/data_2977" ],
+                        [ schema1:description "African American" ;
+                            schema1:name "race" ],
                         [ a schema1:DefinedTerm ;
                             schema1:name "IGH" ],
                         [ a schema1:DefinedTerm ;
-                            schema1:name "IGK" ],
-                        [ schema1:description "Chronic" ;
+                            schema1:identifier "data_2977" ;
+                            schema1:inDefinedTermSet "EDAM" ;
+                            schema1:name "Nucleic acid sequence" ;
+                            schema1:url "https://edamontology.org/data_2977" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:description "African American" ;
+                            schema1:name "race" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:description "Chronic" ;
                             schema1:name "disease severity" ],
-                        [ schema1:description "African American" ;
-                            schema1:name "race" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:description "African American" ;
-                            schema1:name "race" ],
-                        [ schema1:description "African American" ;
-                            schema1:name "race" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:description "African American" ;
-                            schema1:name "race" ],
                         [ a schema1:DefinedTerm ;
                             schema1:identifier "C20971" ;
                             schema1:inDefinedTermSet "NCIT" ;
                             schema1:name "V(D)J Recombination" ;
                             schema1:url "https://evsexplore.semantics.cancer.gov/evsexplore/concept/ncit/C20971" ],
+                        [ schema1:description "African American" ;
+                            schema1:name "race" ],
+                        [ schema1:description "Chronic" ;
+                            schema1:name "disease severity" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:name "IGK" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:identifier "data_2977" ;
+                            schema1:inDefinedTermSet "EDAM" ;
+                            schema1:name "Nucleic acid sequence" ;
+                            schema1:url "https://edamontology.org/data_2977" ],
                         [ a schema1:DefinedTerm ;
                             schema1:description "Chronic" ;
                             schema1:name "disease severity" ],
                         [ schema1:description "Chronic" ;
-                            schema1:name "disease severity" ] ;
+                            schema1:name "disease severity" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:description "African American" ;
+                            schema1:name "race" ] ;
                     bios:alternateIdentifier "1015503308190519786-242ac116-0001-012",
                         "105783803776265750-242ac116-0001-012",
                         "1092125524751159786-242ac116-0001-012",
@@ -5049,65 +5049,65 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                             schema1:identifier "NCBITAXON:9606" ;
                             schema1:inDefinedTermSet "NCBITAXON" ;
                             schema1:name "Homo sapiens" ] ] ;
-            schema1:itemListElement [ schema1:identifier "SRS823735" ;
+            schema1:itemListElement [ schema1:identifier "SRS823739" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823728" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823745" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823722" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823726" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823729" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823730" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823727" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823725" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823736" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823737" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823744" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823720" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823735" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823734" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823733" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823730" ;
+                [ schema1:identifier "SRS823731" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823740" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823728" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823737" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823738" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823724" ;
+                [ schema1:identifier "SRS823719" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823746" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823739" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823731" ;
+                [ schema1:identifier "SRS823743" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823718" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823724" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823723" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823738" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823740" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823721" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823732" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823741" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823742" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823729" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823719" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823745" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823743" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823727" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823747" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823732" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823723" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823744" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823725" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823726" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823721" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823736" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ] ;
             schema1:numberOfItems [ a schema1:QuantitativeValue ;
                     schema1:unitText "sample" ;
@@ -5143,6 +5143,15 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
             cdifniaid:commonName "Human" ;
             cdifniaid:displayName "Human | Homo sapiens" ] ;
     nde:topicCategory [ a schema1:DefinedTerm ;
+            schema1:identifier "topic_3299" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Evolutionary biology" ;
+            schema1:url "http://edamontology.org/topic_3299" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ;
+            cdifniaid:fromGPT true ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier "topic_0804" ;
             schema1:inDefinedTermSet "EDAM" ;
             schema1:name "Immunology" ;
@@ -5156,15 +5165,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
             schema1:inDefinedTermSet "EDAM" ;
             schema1:name "Genetics" ;
             schema1:url "http://edamontology.org/topic_3053" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3299" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Evolutionary biology" ;
-            schema1:url "http://edamontology.org/topic_3299" ;
             nde:curatedBy [ a schema1:SoftwareApplication ;
                     schema1:name "GPT-4o-mini" ;
                     schema1:url "https://openai.com/index/chatgpt" ] ;
@@ -5932,14 +5932,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
     schema1:dateModified "2025-10-30" ;
     schema1:description "Using polymers to deliver broadly reactive influenza subunit vaccines" ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
-                    schema1:identifier "https://ror.org/043z4tv69" ;
-                    schema1:name "National Institute of Allergy and Infectious Diseases" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "Instituto Nacional de Alergias y Enfermedades Infecciosas",
-                        "NIAID" ] ],
-        [ a schema1:MonetaryGrant ;
             schema1:endDate "2020-09-09" ;
             schema1:funder [ a schema1:Organization ;
                     schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
@@ -5952,7 +5944,15 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
                     schema1:value "75N93019C00052-0-9999-1" ] ;
             schema1:name "CIVIC: University of Georgia Center for Influenza Vaccine Research in High Risk Populations" ;
             schema1:startDate "2019-09-10" ;
-            schema1:url "https://reporter.nih.gov/project-details/10021763" ] ;
+            schema1:url "https://reporter.nih.gov/project-details/10021763" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder [ a schema1:Organization ;
+                    schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
+                    schema1:identifier "https://ror.org/043z4tv69" ;
+                    schema1:name "National Institute of Allergy and Infectious Diseases" ;
+                    schema1:parentOrganization "National Institutes of Health" ;
+                    cdifniaid:alternateNames "Instituto Nacional de Alergias y Enfermedades Infecciosas",
+                        "NIAID" ] ] ;
     schema1:healthCondition [ a schema1:DefinedTerm ;
             schema1:identifier "8469" ;
             schema1:inDefinedTermSet "DOID" ;
@@ -6010,19 +6010,19 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "influenza" ;
     schema1:license "https://www.immport.org/agreement" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "0000011" ;
-            schema1:inDefinedTermSet "OBI" ;
-            schema1:name "planned process" ;
-            schema1:url "http://purl.obolibrary.org/obo/OBI_0000011" ;
-            nde:isCurated true ;
-            nde:originalName "Other" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "0000075" ;
             schema1:inDefinedTermSet "MMO" ;
             schema1:name "enzyme linked immunosorbent assay" ;
             schema1:url "http://purl.obolibrary.org/obo/MMO_0000075" ;
             nde:isCurated true ;
-            nde:originalName "ELISA" ] ;
+            nde:originalName "ELISA" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "0000011" ;
+            schema1:inDefinedTermSet "OBI" ;
+            schema1:name "planned process" ;
+            schema1:url "http://purl.obolibrary.org/obo/OBI_0000011" ;
+            nde:isCurated true ;
+            nde:originalName "Other" ] ;
     schema1:name "Polymer delivery of Influenza Vaccine" ;
     schema1:sameAs "https://doi.org/10.21430/m3c49tyd79",
         "https://immport.org/shared/study/SDY2580" ;
@@ -7280,10 +7280,10 @@ behaviour, but I found no effect of migratoriness on either Hb or Hct. Fluctuati
             cdifniaid:displayName "birds | Aves" ;
             cdifniaid:fromEXTRACT true ] ;
     nde:topicCategory [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_0610" ;
+            schema1:identifier "topic_3299" ;
             schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Ecology" ;
-            schema1:url "http://edamontology.org/topic_0610" ;
+            schema1:name "Evolutionary biology" ;
+            schema1:url "http://edamontology.org/topic_3299" ;
             nde:curatedBy [ a schema1:SoftwareApplication ;
                     schema1:name "GPT-4o-mini" ;
                     schema1:url "https://openai.com/index/chatgpt" ] ;
@@ -7298,10 +7298,10 @@ behaviour, but I found no effect of migratoriness on either Hb or Hct. Fluctuati
                     schema1:url "https://openai.com/index/chatgpt" ] ;
             cdifniaid:fromGPT true ],
         [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3299" ;
+            schema1:identifier "topic_0610" ;
             schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Evolutionary biology" ;
-            schema1:url "http://edamontology.org/topic_3299" ;
+            schema1:name "Ecology" ;
+            schema1:url "http://edamontology.org/topic_0610" ;
             nde:curatedBy [ a schema1:SoftwareApplication ;
                     schema1:name "GPT-4o-mini" ;
                     schema1:url "https://openai.com/index/chatgpt" ] ;
@@ -8033,15 +8033,15 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
             schema1:url "https://doi.org/10.60773/gwn0-p070" ;
             schema1:value "10.60773/gwn0-p070" ] ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
-            schema1:archivedAt "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs003686.v1.p1" ;
-            schema1:name "NCBI Database of Genotypes and Phenotypes (NCBI dbGaP)" ;
-            schema1:url "https://www.ncbi.nlm.nih.gov/gap/" ;
-            nde:versionDate "2026-10-14" ],
-        [ a schema1:DataCatalog ;
             schema1:archivedAt "https://radxdatahub.nih.gov/study/271" ;
             schema1:name "COVID Rapid Acceleration of Diagnostics (RADx) Data Hub" ;
             schema1:url "https://radxdatahub.nih.gov/" ;
-            nde:versionDate "2025-03-26" ] ;
+            nde:versionDate "2025-03-26" ],
+        [ a schema1:DataCatalog ;
+            schema1:archivedAt "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs003686.v1.p1" ;
+            schema1:name "NCBI Database of Genotypes and Phenotypes (NCBI dbGaP)" ;
+            schema1:url "https://www.ncbi.nlm.nih.gov/gap/" ;
+            nde:versionDate "2026-10-14" ] ;
     schema1:infectiousAgent [ a schema1:DefinedTerm ;
             schema1:alternateName "2019-nCoV",
                 "COVID-19",
@@ -8074,6 +8074,13 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
         "Testing Rate or Uptake" ;
     schema1:license "https://sharing.nih.gov/accessing-data/accessing-genomic-data/how-to-request-and-access-datasets-from-dbgap" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:identifier "C17176" ;
+            schema1:inDefinedTermSet "NCIT" ;
+            schema1:name "survey" ;
+            schema1:url "http://purl.obolibrary.org/obo/NCIT_C17176" ;
+            nde:isCurated true ;
+            nde:originalName "Survey" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier "C15208" ;
             schema1:inDefinedTermSet "NCIT" ;
             schema1:name "Cohort Study" ;
@@ -8086,14 +8093,7 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
             schema1:name "survey" ;
             schema1:url "http://purl.obolibrary.org/obo/NCIT_C17176" ;
             nde:isCurated true ;
-            nde:originalName "Questionnaire or Survey" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "C17176" ;
-            schema1:inDefinedTermSet "NCIT" ;
-            schema1:name "survey" ;
-            schema1:url "http://purl.obolibrary.org/obo/NCIT_C17176" ;
-            nde:isCurated true ;
-            nde:originalName "Survey" ] ;
+            nde:originalName "Questionnaire or Survey" ] ;
     schema1:name "CO-CREATE-Ex: Community-engaged Optimization of COVID-19 Rapid Evaluation And  TEsting Experiences" ;
     schema1:sameAs "https://radxdatahub.nih.gov/study/271" ;
     schema1:sdPublisher [ a schema1:DataCatalog ;
@@ -9424,41 +9424,41 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
 <https://data.niaid.nih.gov/resources?id=empiar-10514> a schema1:Dataset ;
     schema1:citation [ a schema1:ScholarlyArticle ;
             schema1:author [ a schema1:Person ;
-                    schema1:name "Herreros D" ],
-                [ a schema1:Person ;
-                    schema1:name "Del Cano L" ],
-                [ a schema1:Person ;
-                    schema1:name "Marabini R" ],
-                [ a schema1:Person ;
-                    schema1:name "Melero R" ],
-                [ a schema1:Person ;
-                    schema1:name "Losana P" ],
-                [ a schema1:Person ;
-                    schema1:name "Ramirez-Aportela E" ],
-                [ a schema1:Person ;
                     schema1:name "McLellan JS" ],
-                [ a schema1:Person ;
-                    schema1:name "Tagare HD" ],
-                [ a schema1:Person ;
-                    schema1:name "Fonseca-Reyna YC" ],
-                [ a schema1:Person ;
-                    schema1:name "Wrapp D" ],
                 [ a schema1:Person ;
                     schema1:name "Foster B" ],
                 [ a schema1:Person ;
-                    schema1:name "Martinez M" ],
+                    schema1:name "Wrapp D" ],
+                [ a schema1:Person ;
+                    schema1:name "Fonseca-Reyna YC" ],
+                [ a schema1:Person ;
+                    schema1:name "Herreros D" ],
                 [ a schema1:Person ;
                     schema1:name "Chacon P" ],
                 [ a schema1:Person ;
-                    schema1:name "Conesa P" ],
+                    schema1:name "Tagare HD" ],
+                [ a schema1:Person ;
+                    schema1:name "Marabini R" ],
+                [ a schema1:Person ;
+                    schema1:name "Carazo JM" ],
                 [ a schema1:Person ;
                     schema1:name "Sanchez-Garcia R" ],
+                [ a schema1:Person ;
+                    schema1:name "Martinez M" ],
                 [ a schema1:Person ;
                     schema1:name "Vilas JL" ],
                 [ a schema1:Person ;
                     schema1:name "Sorzano COS" ],
                 [ a schema1:Person ;
-                    schema1:name "Carazo JM" ] ;
+                    schema1:name "Ramirez-Aportela E" ],
+                [ a schema1:Person ;
+                    schema1:name "Conesa P" ],
+                [ a schema1:Person ;
+                    schema1:name "Losana P" ],
+                [ a schema1:Person ;
+                    schema1:name "Melero R" ],
+                [ a schema1:Person ;
+                    schema1:name "Del Cano L" ] ;
             schema1:datePublished "2020-09-29" ;
             schema1:identifier "PMID:33063791" ;
             schema1:name "Continuous flexibility analysis of SARS-CoV-2 spike prefusion structures." ;
@@ -9468,41 +9468,41 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
             cdifniaid:fromPMID true ],
         [ a schema1:ScholarlyArticle ;
             schema1:author [ a schema1:Person ;
-                    schema1:name "Martínez M" ],
-                [ a schema1:Person ;
-                    schema1:name "Conesa P" ],
-                [ a schema1:Person ;
-                    schema1:name "Del Caño L" ],
+                    schema1:name "Ramírez-Aportela E" ],
                 [ a schema1:Person ;
                     schema1:name "Fonseca-Reyna YC" ],
-                [ a schema1:Person ;
-                    schema1:name "Wrapp D" ],
-                [ a schema1:Person ;
-                    schema1:name "Sorzano COS" ],
-                [ a schema1:Person ;
-                    schema1:name "McLellan JS" ],
-                [ a schema1:Person ;
-                    schema1:name "Losana P" ],
-                [ a schema1:Person ;
-                    schema1:name "Chacon P" ],
-                [ a schema1:Person ;
-                    schema1:name "Foster B" ],
                 [ a schema1:Person ;
                     schema1:name "Vilas JL" ],
                 [ a schema1:Person ;
                     schema1:name "Marabini R" ],
                 [ a schema1:Person ;
-                    schema1:name "Ramírez-Aportela E" ],
+                    schema1:name "Tagare HD" ],
+                [ a schema1:Person ;
+                    schema1:name "Conesa P" ],
                 [ a schema1:Person ;
                     schema1:name "Herreros D" ],
                 [ a schema1:Person ;
-                    schema1:name "Sanchez-Garcia R" ],
+                    schema1:name "McLellan JS" ],
                 [ a schema1:Person ;
-                    schema1:name "Tagare HD" ],
+                    schema1:name "Foster B" ],
+                [ a schema1:Person ;
+                    schema1:name "Del Caño L" ],
+                [ a schema1:Person ;
+                    schema1:name "Wrapp D" ],
                 [ a schema1:Person ;
                     schema1:name "Melero R" ],
                 [ a schema1:Person ;
-                    schema1:name "Carazo JM" ] ;
+                    schema1:name "Sanchez-Garcia R" ],
+                [ a schema1:Person ;
+                    schema1:name "Carazo JM" ],
+                [ a schema1:Person ;
+                    schema1:name "Sorzano COS" ],
+                [ a schema1:Person ;
+                    schema1:name "Martínez M" ],
+                [ a schema1:Person ;
+                    schema1:name "Losana P" ],
+                [ a schema1:Person ;
+                    schema1:name "Chacon P" ] ;
             schema1:datePublished "2020" ;
             schema1:issueNumber "Pt 6" ;
             schema1:name "Continuous flexibility analysis of SARS-CoV-2 spike prefusion structures" ;
@@ -9538,6 +9538,23 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
             schema1:contentUrl "http://www.opengis.net/def/nil/OGC/0/missing" ;
             schema1:encodingFormat "TIFF" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
+            schema1:endDate "2022-02-28" ;
+            schema1:funder [ a schema1:Organization ;
+                    schema1:alternateName "NIGMS" ;
+                    schema1:employee [ a schema1:Person ;
+                            schema1:familyName "SAMMAK" ;
+                            schema1:givenName "PAUL" ;
+                            schema1:name "PAUL SAMMAK" ] ;
+                    schema1:identifier "https://ror.org/04q48ey07" ;
+                    schema1:name "National Institute of General Medical Sciences" ;
+                    schema1:parentOrganization "National Institutes of Health" ;
+                    cdifniaid:alternateNames "U.S. National Institute of General Medical Sciences" ] ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:value "1R01GM125769-01" ] ;
+            schema1:name "Principal subspace analysis of cryo-EM heterogeneity" ;
+            schema1:startDate "2018-03-01" ;
+            schema1:url "https://reporter.nih.gov/project-details/9419436" ],
+        [ a schema1:MonetaryGrant ;
             schema1:endDate "2017-12-31" ;
             schema1:funder [ a schema1:Organization ;
                     schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
@@ -9554,24 +9571,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
                     schema1:value "1R01AI127521-01A1" ] ;
             schema1:name "Structure, Function and Antigenicity of Coronavirus Spike Proteins" ;
             schema1:startDate "2017-02-09" ;
-            schema1:url "https://reporter.nih.gov/project-details/9328799" ],
-        [ a schema1:MonetaryGrant ;
-            schema1:endDate "2022-02-28" ;
-            schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "NIGMS" ;
-                    schema1:employee [ a schema1:Person ;
-                            schema1:familyName "SAMMAK" ;
-                            schema1:givenName "PAUL" ;
-                            schema1:name "PAUL SAMMAK" ] ;
-                    schema1:identifier "https://ror.org/04q48ey07" ;
-                    schema1:name "National Institute of General Medical Sciences" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "U.S. National Institute of General Medical Sciences" ] ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:value "1R01GM125769-01" ] ;
-            schema1:name "Principal subspace analysis of cryo-EM heterogeneity" ;
-            schema1:startDate "2018-03-01" ;
-            schema1:url "https://reporter.nih.gov/project-details/9419436" ] ;
+            schema1:url "https://reporter.nih.gov/project-details/9328799" ] ;
     schema1:healthCondition [ a schema1:DefinedTerm ;
             schema1:alternateName "sars-cov-2",
                 "sars-cov-2 measurement",
@@ -9656,15 +9656,15 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
             schema1:name "Structural biology" ;
             schema1:url "http://edamontology.org/topic_1317" ],
         [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_0611" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Electron microscopy" ;
-            schema1:url "http://edamontology.org/topic_0611" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "topic_3383" ;
             schema1:inDefinedTermSet "EDAM" ;
             schema1:name "Bioimaging" ;
-            schema1:url "http://edamontology.org/topic_3383" ] .
+            schema1:url "http://edamontology.org/topic_3383" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "topic_0611" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Electron microscopy" ;
+            schema1:url "http://edamontology.org/topic_0611" ] .
 
 <https://data.niaid.nih.gov/resources?id=empiar-10514#metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -10533,39 +10533,39 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
             nde:doi "doi: 10.1016/j.stem.2020.06.006" ],
         [ a schema1:ScholarlyArticle ;
             schema1:author [ a schema1:Person ;
-                    schema1:name "Liebscher S" ],
-                [ a schema1:Person ;
-                    schema1:name "Van Handel B" ],
-                [ a schema1:Person ;
                     schema1:name "Hicks M" ],
                 [ a schema1:Person ;
-                    schema1:name "Langerman J" ],
+                    schema1:name "Marzi J" ],
+                [ a schema1:Person ;
+                    schema1:name "Plath K" ],
+                [ a schema1:Person ;
+                    schema1:name "Fujiwara W" ],
                 [ a schema1:Person ;
                     schema1:name "Sabri S" ],
                 [ a schema1:Person ;
-                    schema1:name "Gonzalez K" ],
+                    schema1:name "Young CS" ],
                 [ a schema1:Person ;
                     schema1:name "Spencer M" ],
                 [ a schema1:Person ;
-                    schema1:name "Young CS" ],
+                    schema1:name "Langerman J" ],
+                [ a schema1:Person ;
+                    schema1:name "Younesi S" ],
+                [ a schema1:Person ;
+                    schema1:name "Liebscher S" ],
                 [ a schema1:Person ;
                     schema1:name "Schenke-Layland K" ],
                 [ a schema1:Person ;
                     schema1:name "Chien P" ],
                 [ a schema1:Person ;
-                    schema1:name "Plath K" ],
-                [ a schema1:Person ;
-                    schema1:name "Younesi S" ],
-                [ a schema1:Person ;
-                    schema1:name "Marzi J" ],
-                [ a schema1:Person ;
                     schema1:name "Evseenko D" ],
                 [ a schema1:Person ;
-                    schema1:name "Fujiwara W" ],
+                    schema1:name "Pyle AD" ],
                 [ a schema1:Person ;
                     schema1:name "Xi H" ],
                 [ a schema1:Person ;
-                    schema1:name "Pyle AD" ] ;
+                    schema1:name "Gonzalez K" ],
+                [ a schema1:Person ;
+                    schema1:name "Van Handel B" ] ;
             schema1:datePublished "2020-07-02" ;
             schema1:identifier "PMID:32619514" ;
             schema1:name "A Human Skeletal Muscle Atlas Identifies the Trajectories of Stem and Progenitor Cells across Development and from Human Pluripotent Stem Cells." ;
@@ -11245,7 +11245,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.niaidProperties.niaidDataset
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-11-07'
+  dateOfLastChange: '2026-11-09'
 
 ```
 

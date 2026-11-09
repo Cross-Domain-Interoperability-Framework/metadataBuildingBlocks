@@ -151,7 +151,7 @@ identifier (ORCID), affiliation, contactPoint, and sameAs (string and object).
   ],
   "schema:name": "Jane A. Researcher",
   "schema:description": "Marine geochemist specializing in isotope analysis, based at Woods Hole Oceanographic Institution",
-  "schema:alternateName": "Researcher, J.A.",
+  "schema:alternateName": ["Researcher, J.A.", "J. A. Researcher"],
   "schema:identifier": {
     "@type": [
       "schema:PropertyValue"
@@ -213,7 +213,10 @@ identifier (ORCID), affiliation, contactPoint, and sameAs (string and object).
   ],
   "schema:name": "Jane A. Researcher",
   "schema:description": "Marine geochemist specializing in isotope analysis, based at Woods Hole Oceanographic Institution",
-  "schema:alternateName": "Researcher, J.A.",
+  "schema:alternateName": [
+    "Researcher, J.A.",
+    "J. A. Researcher"
+  ],
   "schema:identifier": {
     "@type": [
       "schema:PropertyValue"
@@ -267,7 +270,8 @@ ex:PersonComplete_001 a schema1:Person ;
                     schema1:url "https://ror.org/03zbnzt98" ;
                     schema1:value "03zbnzt98" ] ;
             schema1:name "Woods Hole Oceanographic Institution" ] ;
-    schema1:alternateName "Researcher, J.A." ;
+    schema1:alternateName "J. A. Researcher",
+        "Researcher, J.A." ;
     schema1:contactPoint [ a schema1:ContactPoint ;
             schema1:email "jresearcher@whoi.edu" ] ;
     schema1:description "Marine geochemist specializing in isotope analysis, based at Woods Hole Oceanographic Institution" ;
@@ -315,8 +319,14 @@ properties:
     - type: string
     x-jsonld-id: http://schema.org/identifier
   schema:alternateName:
-    type: string
-    description: other labels by which the person might be known
+    description: other labels by which the person might be known. A list when there
+      are several; a single label may be a plain string, as JSON-LD framing writes
+      a one-item list.
+    anyOf:
+    - type: string
+    - type: array
+      items:
+        type: string
     x-jsonld-id: http://schema.org/alternateName
   schema:affiliation:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
@@ -375,7 +385,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.schemaorgProperties.person
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-07'
+  dateOfLastChange: '2026-11-09'
 
 ```
 
