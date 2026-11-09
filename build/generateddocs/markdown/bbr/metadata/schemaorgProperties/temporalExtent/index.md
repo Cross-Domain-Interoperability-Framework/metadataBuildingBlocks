@@ -14,6 +14,9 @@ Schema defining metadata elements to document the temporal extent applicable to 
 Defines a set of properties for use describing a the temporal extent related to a resource, for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile. The schema allows a string value (consistent with expected type for schema.org temporalCoverage), or use of w3c time temporalInterval. The temporalInterval implemenation adds a schema:description property to allow text description of the interval, including information about determination method and uncertainty. 
 
 If a document declares conformance with a profile that includes a schema:temporalCoverage property, and a schema:temporalCoverage property is present in the document, the processor should look for an ISO8601 string value, or a  time:ProperInterval object, and if that's present, then look for a description (string), or either time:intervalStartedBy/intervalEndedBy (with URIs that mean something) or time:hasBeginning/hasEnd, with numeric values and a reference system so they know how to interpret the values.  Lots of other owl time elements might be floating around, and if the processor is inclined, they might try and do something with those, but by default they just ignore them. If a temporalCoverage value object is not rdf:typed time:ProperInterval, the json validator will throw an error. Currently there isn't a regex in the schema to test ISO8601 conformance for the string, so any string will validate.
+
+The interval forms: bounds that are named eras (`time:intervalStartedBy` / `time:intervalFinishedBy`), bounds that are numeric ages (`time:hasBeginning` / `time:hasEnd` with a `time:TimePosition`), and bounds that are calendar dates (`time:hasBeginning` / `time:hasEnd` as a `time:Instant` with `time:inXSDDate`). `schema:description` may be given with any of the three. The calendar form is the object version of an ISO 8601 interval such as `2008-07-15/2011-07-15`, for an interval that needs a description; the string form cannot carry one.
+
 ## Examples
 
 ### Example Temporal extent.
@@ -227,6 +230,87 @@ hasBeginning/hasEnd with TimePosition (hasTRS, numericPosition).
 
 ```
 
+
+### Calendar-date temporal extent with a description.
+A proper interval with calendar date bounds (time:inXSDDate), the object form
+of an ISO 8601 interval such as 2008-07-15/2011-07-15, carrying a description.
+From NICHD DASH record nichd_dash_dataset_1132, as the NIAID Data Discovery
+Portal gives it: a collection period, described by its nde:temporalType.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "time": "http://www.w3.org/2006/time#"
+  },
+  "@type": [
+    "time:ProperInterval"
+  ],
+  "schema:description": "nde:temporalType: collection",
+  "time:hasBeginning": {
+    "@type": [
+      "time:Instant"
+    ],
+    "time:inXSDDate": "2008-07-15"
+  },
+  "time:hasEnd": {
+    "@type": [
+      "time:Instant"
+    ],
+    "time:inXSDDate": "2011-07-15"
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "time": "http://www.w3.org/2006/time#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "time": "http://www.w3.org/2006/time#"
+    }
+  ],
+  "@type": [
+    "time:ProperInterval"
+  ],
+  "schema:description": "nde:temporalType: collection",
+  "time:hasBeginning": {
+    "@type": [
+      "time:Instant"
+    ],
+    "time:inXSDDate": "2008-07-15"
+  },
+  "time:hasEnd": {
+    "@type": [
+      "time:Instant"
+    ],
+    "time:inXSDDate": "2011-07-15"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix schema1: <http://schema.org/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+[] a time:ProperInterval ;
+    schema1:description "nde:temporalType: collection" ;
+    time:hasBeginning [ a time:Instant ;
+            time:inXSDDate "2008-07-15" ] ;
+    time:hasEnd [ a time:Instant ;
+            time:inXSDDate "2011-07-15" ] .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -237,6 +321,13 @@ description: 'The time interval during which data was collected or observations 
   For documentation of Earth Science, Paleobiology or Paleontology datasets, we are
   interested in the second case-- the time period that data are linked to thematically.
   NOTE-- context must include "time": "http://www.w3.org/2006/time#"}'
+properties:
+  schema:description:
+    type: string
+    description: free text description of the temporal extent. Declared here rather
+      than in one interval form so that any object form below may carry it; the plain
+      ISO 8601 string form cannot.
+    x-jsonld-id: http://schema.org/description
 anyOf:
 - type: object
   description: a w3c time proper interval with bounds that are named time ordinal
@@ -251,10 +342,6 @@ anyOf:
       contains:
         const: time:ProperInterval
       minItems: 1
-    schema:description:
-      type: string
-      description: free text description of the temporal interval
-      x-jsonld-id: http://schema.org/description
     time:intervalStartedBy:
       type: string
       format: uri
@@ -298,10 +385,6 @@ anyOf:
       contains:
         const: time:ProperInterval
       minItems: 1
-    schema:description:
-      type: string
-      description: free text description of the temporal interval
-      x-jsonld-id: http://schema.org/description
     time:hasBeginning:
       type: object
       properties:
@@ -315,6 +398,8 @@ anyOf:
         time:inTimePosition:
           $ref: '#/$defs/timePosition_type'
           x-jsonld-id: http://www.w3.org/2006/time#inTimePosition
+      required:
+      - time:inTimePosition
       x-jsonld-id: http://www.w3.org/2006/time#hasBeginning
     time:hasEnd:
       type: object
@@ -329,7 +414,37 @@ anyOf:
         time:inTimePosition:
           $ref: '#/$defs/timePosition_type'
           x-jsonld-id: http://www.w3.org/2006/time#inTimePosition
+      required:
+      - time:inTimePosition
       x-jsonld-id: http://www.w3.org/2006/time#hasEnd
+  anyOf:
+  - required:
+    - time:hasBeginning
+  - required:
+    - time:hasEnd
+- type: object
+  description: a w3c time proper interval with calendar date bounds, each a time:Instant
+    giving its date as time:inXSDDate (an xsd:date, YYYY-MM-DD). The object form of
+    a calendar interval, for when the interval needs a description, which the ISO
+    8601 string form below cannot carry.
+  properties:
+    '@type':
+      default:
+      - time:ProperInterval
+      type: array
+      items:
+        type: string
+      contains:
+        const: time:ProperInterval
+      minItems: 1
+    time:hasBeginning:
+      $ref: '#/$defs/calendarInstant_type'
+      x-jsonld-id: http://www.w3.org/2006/time#hasBeginning
+    time:hasEnd:
+      $ref: '#/$defs/calendarInstant_type'
+      x-jsonld-id: http://www.w3.org/2006/time#hasEnd
+  required:
+  - '@type'
   anyOf:
   - required:
     - time:hasBeginning
@@ -339,6 +454,26 @@ anyOf:
   description: Simple ISO8601 encoding of calendar date, dateTime, or time interval
     with calendar date bounds
 $defs:
+  calendarInstant_type:
+    type: object
+    properties:
+      '@type':
+        default:
+        - time:Instant
+        type: array
+        items:
+          type: string
+        contains:
+          const: time:Instant
+        minItems: 1
+      time:inXSDDate:
+        type: string
+        description: the date of the instant, as an xsd:date
+        pattern: ^-?\d{4,}-\d{2}-\d{2}(Z|[+-]\d{2}:\d{2})?$
+        x-jsonld-id: http://www.w3.org/2006/time#inXSDDate
+    required:
+    - '@type'
+    - time:inXSDDate
   timePosition_type:
     type: object
     properties:

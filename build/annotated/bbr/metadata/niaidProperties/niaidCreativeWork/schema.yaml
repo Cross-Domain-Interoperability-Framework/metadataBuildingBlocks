@@ -1,0 +1,53 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: NIAID creative work
+description: A work that a NIAID Data Discovery Portal dataset cites or is cited by,
+  with the portal's PubMed id, DOI and journal names. The portal types these as ScholarlyArticle
+  or CreativeWork; JSON Schema cannot follow schema.org's subclass hierarchy, so both
+  are listed.
+type: object
+properties:
+  '@type':
+    type: array
+    items:
+      type: string
+    contains:
+      enum:
+      - schema:CreativeWork
+      - schema:ScholarlyArticle
+    minItems: 1
+  schema:name:
+    type: string
+    x-jsonld-id: http://schema.org/name
+  schema:url:
+    type: string
+    x-jsonld-id: http://schema.org/url
+  nde:pmid:
+    description: The PubMed id, digits only.
+    $ref: '#/$defs/pmid'
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/pmid
+  nde:doi:
+    description: The DOI, as the portal gives it.
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/doi
+  nde:journalName:
+    type: string
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/journalName
+  nde:journalNameAbbrev:
+    type: string
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/journalNameAbbrev
+required:
+- '@type'
+$defs:
+  pmid:
+    type: string
+    pattern: ^\d+$
+x-jsonld-prefixes:
+  schema: http://schema.org/
+  nde: https://discovery.biothings.io/ns/nde/
+  bios: https://bioschemas.org/
+  cdifniaid: https://w3id.org/cdif/niaid/terms/
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.niaidProperties.niaidCreativeWork
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '1.0'
+  dateOfLastChange: '2026-11-09'

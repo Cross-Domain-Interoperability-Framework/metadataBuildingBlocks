@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NIAID defined term",
+  "description": "A schema:DefinedTerm with NIAID's annotations. The NIAID Data Discovery Portal annotates every term it attaches to a dataset (species, infectious agents, health conditions, measurement techniques, variables): whether a curator checked it, the text it was matched from, who or what curated it, and for a taxon its common name. Across the portal's records these properties appear on DefinedTerms and nowhere else, so this block is an extension of that type and requires it.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.json#/$defs/term"
+    }
+  ],
+  "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "schema:DefinedTerm"
+      },
+      "minItems": 1
+    },
+    "nde:isCurated": {
+      "description": "Whether a curator checked the term against its source text.",
+      "type": "boolean",
+      "x-jsonld-id": "https://discovery.biothings.io/ns/nde/isCurated"
+    },
+    "nde:originalName": {
+      "description": "The text in the source record the term was matched from.",
+      "type": "string",
+      "x-jsonld-id": "https://discovery.biothings.io/ns/nde/originalName"
+    },
+    "nde:curatedBy": {
+      "description": "Who or what produced or checked the annotation, often software (PubTator, GPT-4o-mini, the Biothings API).",
+      "$ref": "#/$defs/curator",
+      "x-jsonld-id": "https://discovery.biothings.io/ns/nde/curatedBy"
+    },
+    "cdifniaid:commonName": {
+      "description": "The common name of a taxon, e.g. Human for Homo sapiens.",
+      "type": "string",
+      "x-jsonld-id": "https://w3id.org/cdif/niaid/terms/commonName"
+    }
+  },
+  "required": [
+    "@type"
+  ],
+  "$defs": {
+    "curator": {
+      "description": "An agent, software application or catalog that curated something, and when. The portal types it as SoftwareApplication, Organization or DataCatalog, so the type is not constrained.",
+      "type": "object",
+      "properties": {
+        "schema:name": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/name"
+        },
+        "schema:url": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/url"
+        },
+        "schema:dateModified": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/dateModified"
+        },
+        "schema:archivedAt": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/archivedAt"
+        },
+        "nde:versionDate": {
+          "type": "string",
+          "x-jsonld-id": "https://discovery.biothings.io/ns/nde/versionDate"
+        }
+      }
+    }
+  },
+  "x-jsonld-prefixes": {
+    "schema": "http://schema.org/",
+    "nde": "https://discovery.biothings.io/ns/nde/",
+    "bios": "https://bioschemas.org/",
+    "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
+  },
+  "x-bblocks-metadata": {
+    "itemIdentifier": "cdif.bbr.metadata.niaidProperties.niaidDefinedTerm",
+    "register": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json",
+    "version": "1.0",
+    "dateOfLastChange": "2026-11-09"
+  }
+}

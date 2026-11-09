@@ -1,0 +1,283 @@
+{
+  "title": "Validation report for cdif.bbr.metadata.niaidProperties.niaidDefinedTerm - NIAID defined term",
+  "bblockName": "NIAID defined term",
+  "bblockId": "cdif.bbr.metadata.niaidProperties.niaidDefinedTerm",
+  "generated": "2026-11-09T16:53:00.641987+00:00",
+  "result": true,
+  "items": [
+    {
+      "source": {
+        "type": "TEST_RESOURCE",
+        "requireFail": true,
+        "filename": "_sources/niaidProperties/niaidDefinedTerm/tests/isCurated-fail.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/niaidProperties/niaidDefinedTerm/tests/isCurated-fail.json",
+        "language": "json"
+      },
+      "result": true,
+      "hasWarnings": false,
+      "sections": [
+        {
+          "name": "GENERAL",
+          "title": "General",
+          "entries": [
+            {
+              "op": "require-fail",
+              "isError": false,
+              "message": "Test was expected to fail and it did."
+            }
+          ]
+        },
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using isCurated-fail.json from test resources"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "isCurated-fail.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD isCurated-fail.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "isCurated-fail.ttl",
+              "size": 40,
+              "isError": false,
+              "message": "Output Turtle isCurated-fail.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": false,
+              "exception": "ValidationError",
+              "errorMessage": "'yes' is not of type 'boolean'",
+              "isError": true,
+              "message": "ValidationError: 'yes' is not of type 'boolean'\n\nFailed validating 'type' in schema['properties']['nde:isCurated']:\n    {'description': 'Whether a curator checked the term against its source '\n                    'text.',\n     'type': 'boolean',\n     'x-jsonld-id': 'https://discovery.biothings.io/ns/nde/isCurated'}\n\nOn instance['nde:isCurated']:\n    'yes'"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/niaidProperties/niaidDefinedTerm/rules.shacl",
+              "graph": "@prefix nde: <https://discovery.biothings.io/ns/nde/> .\n@prefix ns1: <http://schema.org/> .\n@prefix ns2: <https://w3id.org/cdif/niaid/terms/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode [ a ns1:DefinedTerm ;\n                    ns1:alternateName \"ATCC 9930\",\n                        \"CCUG 27879\",\n                        \"CFBP 5561\",\n                        \"DSM 30135\",\n                        \"Ensifer meliloti\",\n                        \"Ensifer meliloti (Dangeard 1926) Young 2003\",\n                        \"Ensifer sp. AC50a\",\n                        \"Ensifer sp. AC50e\",\n                        \"HAMBI 2148\",\n                        \"IAM 12611\",\n                        \"ICMP 12623\",\n                        \"IFO 14782\",\n                        \"JCM 20682\",\n                        \"LMG 6133\",\n                        \"LMG:6133\",\n                        \"NBRC 14782\",\n                        \"NCAIM B.01520\",\n                        \"NRRL L-45\",\n                        \"NRRL:L:45\",\n                        \"NZP 4027\",\n                        \"Rhizobium meliloti (megaplasmid pRME41B SYM)\",\n                        \"Rhizobium meliloti (plasmid pRmeGR4b)\",\n                        \"Rhizobium meliloti Dangeard 1926 (Approved Lists 1980)\",\n                        \"Rhizobium meliloti plasmid pRmeGR4b\",\n                        \"Rhizobium sp. AC50e\",\n                        \"Sinorhizobium meliloti (Dangeard 1926) De Lajudie et al. 1994\",\n                        \"USDA 1002\" ;\n                    ns1:identifier \"382\" ;\n                    ns1:inDefinedTermSet \"UniProt\" ;\n                    ns1:name \"Rhizobium meliloti\" ;\n                    ns1:url \"https://www.uniprot.org/taxonomy/382\" ;\n                    nde:curatedBy [ a ns1:SoftwareApplication ;\n                            ns1:dateModified \"2024-01-26\" ;\n                            ns1:name \"PubTator\" ;\n                            ns1:url \"https://www.ncbi.nlm.nih.gov/research/pubtator/api.html\" ] ;\n                    nde:isCurated \"yes\" ;\n                    nde:originalName \"Sinorhizobium meliloti\" ;\n                    ns2:commonName \"Ensifer meliloti\" ] ;\n            sh:resultMessage \"nde:isCurated must be a single boolean.\" ;\n            sh:resultPath nde:isCurated ;\n            sh:resultSeverity sh:Violation ;\n            sh:sourceConstraintComponent sh:DatatypeConstraintComponent ;\n            sh:sourceShape [ sh:datatype xsd:boolean ;\n                    sh:maxCount 1 ;\n                    sh:message \"nde:isCurated must be a single boolean.\" ;\n                    sh:path nde:isCurated ;\n                    sh:severity sh:Violation ] ;\n            sh:value \"yes\" ] .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/niaidProperties/niaidDefinedTerm/rules.shacl: 1 violation"
+            },
+            {
+              "op": "shacl-result",
+              "resultSeverity": "http://www.w3.org/ns/shacl#Violation",
+              "focusNode": "N589af79507b247b287486e4cc97aed16",
+              "resultPath": "nde:isCurated",
+              "sourceConstraintComponent": "http://www.w3.org/ns/shacl#DatatypeConstraintComponent",
+              "sourceShape": null,
+              "sourceShapeDescription": "cdifd:NiaidAnnotationShape/sh:property (path nde:isCurated)",
+              "value": "\"yes\"",
+              "resultMessage": "nde:isCurated must be a single boolean.",
+              "shaclFile": "_sources/niaidProperties/niaidDefinedTerm/rules.shacl",
+              "isError": true,
+              "severity": "error",
+              "message": "Violation (sh:DatatypeConstraintComponent):\n  Source shape: cdifd:NiaidAnnotationShape/sh:property (path nde:isCurated)\n  Focus node: _:N589af79507b247b287486e4cc97aed16\n  Result path: nde:isCurated\n  Value: \"yes\"\n  Message: nde:isCurated must be a single boolean."
+            },
+            {
+              "shaclFile": "_sources/niaidProperties/niaidDefinedTerm/rules.shacl",
+              "focusNodes": {
+                "cdifd:NiaidAnnotationShape": {
+                  "nodes": [
+                    "_:N589af79507b247b287486e4cc97aed16"
+                  ]
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/niaidProperties/niaidDefinedTerm/rules.shacl:\n - Shape cdifd:NiaidAnnotationShape: _:N589af79507b247b287486e4cc97aed16\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source": {
+        "type": "EXAMPLE",
+        "requireFail": false,
+        "filename": "build/tests/bbr/metadata/niaidProperties/niaidDefinedTerm/example_1_1.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/niaidProperties/niaidDefinedTerm/example_1_1.json",
+        "exampleIndex": 1,
+        "snippetIndex": 1,
+        "language": "application/json"
+      },
+      "result": true,
+      "hasWarnings": false,
+      "sections": [
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using exampleNiaidDefinedTermMinimal.json from examples"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "example_1_1.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD example_1_1.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "example_1_1.ttl",
+              "size": 3,
+              "isError": false,
+              "message": "Output Turtle example_1_1.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": true,
+              "isError": false,
+              "message": "Validation passed"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/niaidProperties/niaidDefinedTerm/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/niaidProperties/niaidDefinedTerm/rules.shacl: no results"
+            },
+            {
+              "shaclFile": "_sources/niaidProperties/niaidDefinedTerm/rules.shacl",
+              "focusNodes": {
+                "cdifd:NiaidAnnotationShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/niaidProperties/niaidDefinedTerm/rules.shacl:\n - Shape cdifd:NiaidAnnotationShape: *none*\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source": {
+        "type": "EXAMPLE",
+        "requireFail": false,
+        "filename": "build/tests/bbr/metadata/niaidProperties/niaidDefinedTerm/example_2_1.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/niaidProperties/niaidDefinedTerm/example_2_1.json",
+        "exampleIndex": 2,
+        "snippetIndex": 1,
+        "language": "application/json"
+      },
+      "result": true,
+      "hasWarnings": false,
+      "sections": [
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using exampleNiaidDefinedTermComplete.json from examples"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "example_2_1.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD example_2_1.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "example_2_1.ttl",
+              "size": 40,
+              "isError": false,
+              "message": "Output Turtle example_2_1.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": true,
+              "isError": false,
+              "message": "Validation passed"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/niaidProperties/niaidDefinedTerm/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/niaidProperties/niaidDefinedTerm/rules.shacl: no results"
+            },
+            {
+              "shaclFile": "_sources/niaidProperties/niaidDefinedTerm/rules.shacl",
+              "focusNodes": {
+                "cdifd:NiaidAnnotationShape": {
+                  "nodes": [
+                    "_:N089fe052a1d54b55b66e1efa49b9f2f5"
+                  ]
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/niaidProperties/niaidDefinedTerm/rules.shacl:\n - Shape cdifd:NiaidAnnotationShape: _:N089fe052a1d54b55b66e1efa49b9f2f5\n"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "globalErrors": {},
+  "hasWarnings": false,
+  "counts": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  }
+}

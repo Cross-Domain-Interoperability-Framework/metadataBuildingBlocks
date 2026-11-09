@@ -15,6 +15,7 @@
       "prov": "http://www.w3.org/ns/prov#",
       "nde": "https://discovery.biothings.io/ns/nde/",
       "bios": "https://bioschemas.org/",
+      "time": "http://www.w3.org/2006/time#",
       "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
     }
   ],
@@ -23,7 +24,9 @@
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=phs003686",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=phs003686",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=phs003686"
+    },
     "@type": [
       "schema:Dataset"
     ],
@@ -34,9 +37,6 @@
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=phs003686#metadata",
     "schema:name": "Metadata record for: CO-CREATE-Ex: Community-engaged Optimization of COVID-19 Rapid Evaluation And  TEsting Experiences",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=phs003686"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -175,7 +175,6 @@
         "Human coronavirus 2019",
         "COVID-19"
       ],
-      "cdifniaid:classification": "infectiousAgent",
       "cdifniaid:commonName": "2019-nCoV",
       "nde:curatedBy": {
         "@type": [
@@ -185,7 +184,6 @@
         "schema:name": "Data Discovery Engine",
         "schema:url": "https://discovery.biothings.io/"
       },
-      "cdifniaid:displayName": "2019-nCoV | Severe acute respiratory syndrome coronavirus 2",
       "schema:identifier": "2697049",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -194,17 +192,33 @@
       "schema:url": "https://www.uniprot.org/taxonomy/2697049"
     }
   ],
-  "schema:isBasedOn": {
-    "@type": [
-      "schema:CreativeWork"
-    ],
-    "schema:url": "https://clinicaltrials.gov/study/NCT05894655"
-  },
+  "prov:wasDerivedFrom": [
+    {
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:url": "https://clinicaltrials.gov/study/NCT05894655"
+    }
+  ],
   "schema:keywords": [
     "Diagnostic Testing",
     "Community Outreach Programs",
     "Testing Rate or Uptake",
-    "At-Home or Over-the-Counter (OTC) Self-Testing"
+    "At-Home or Over-the-Counter (OTC) Self-Testing",
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://sharing.nih.gov/accessing-data/accessing-genomic-data/how-to-request-and-access-datasets-from-dbgap"
@@ -274,7 +288,6 @@
         "Homo spiens",
         "Humo sapiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
       "nde:curatedBy": {
         "@type": [
@@ -284,7 +297,6 @@
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -294,22 +306,26 @@
     }
   ],
   "schema:temporalCoverage": [
-    "2022-11-01/2024-10-31"
-  ],
-  "cdifniaid:temporalIntervals": [
     {
       "@type": [
-        "nde:TemporalInterval"
+        "time:ProperInterval"
       ],
-      "schema:endDate": "2024-10-31",
-      "schema:startDate": "2022-11-01",
-      "nde:temporalType": "study date"
+      "time:hasBeginning": {
+        "@type": [
+          "time:Instant"
+        ],
+        "time:inXSDDate": "2022-11-01"
+      },
+      "time:hasEnd": {
+        "@type": [
+          "time:Instant"
+        ],
+        "time:inXSDDate": "2024-10-31"
+      },
+      "schema:description": "nde:temporalType: study date"
     }
   ],
   "schema:url": "https://radxdatahub.nih.gov/study/271",
-  "schema:sameAs": [
-    "https://radxdatahub.nih.gov/study/271"
-  ],
   "schema:variableMeasured": [
     {
       "@type": [

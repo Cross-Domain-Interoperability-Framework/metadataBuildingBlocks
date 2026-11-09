@@ -3,8 +3,10 @@
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix nde: <https://discovery.biothings.io/ns/nde/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix schema1: <http://schema.org/> .
+@prefix time: <http://www.w3.org/2006/time#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://data.niaid.nih.gov/resources?id=phs003686> a schema1:Dataset ;
@@ -72,12 +74,14 @@
                     schema1:url "https://discovery.biothings.io/" ] ;
             nde:isCurated true ;
             nde:originalName "Severe acute respiratory syndrome coronavirus 2" ;
-            cdifniaid:classification "infectiousAgent" ;
-            cdifniaid:commonName "2019-nCoV" ;
-            cdifniaid:displayName "2019-nCoV | Severe acute respiratory syndrome coronavirus 2" ] ;
-    schema1:isBasedOn [ a schema1:CreativeWork ;
-            schema1:url "https://clinicaltrials.gov/study/NCT05894655" ] ;
-    schema1:keywords "At-Home or Over-the-Counter (OTC) Self-Testing",
+            cdifniaid:commonName "2019-nCoV" ] ;
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "infectiousAgent" ],
+        "At-Home or Over-the-Counter (OTC) Self-Testing",
         "Community Outreach Programs",
         "Diagnostic Testing",
         "Testing Rate or Uptake" ;
@@ -104,11 +108,15 @@
             nde:isCurated true ;
             nde:originalName "Questionnaire or Survey" ] ;
     schema1:name "CO-CREATE-Ex: Community-engaged Optimization of COVID-19 Rapid Evaluation And  TEsting Experiences" ;
-    schema1:sameAs "https://radxdatahub.nih.gov/study/271" ;
     schema1:sdPublisher [ a schema1:DataCatalog ;
             schema1:name "RADx-UP" ] ;
     schema1:subjectOf <https://data.niaid.nih.gov/resources?id=phs003686#metadata> ;
-    schema1:temporalCoverage "2022-11-01/2024-10-31" ;
+    schema1:temporalCoverage [ a time:ProperInterval ;
+            schema1:description "nde:temporalType: study date" ;
+            time:hasBeginning [ a time:Instant ;
+                    time:inXSDDate "2022-11-01" ] ;
+            time:hasEnd [ a time:Instant ;
+                    time:inXSDDate "2024-10-31" ] ] ;
     schema1:url "https://radxdatahub.nih.gov/study/271" ;
     schema1:variableMeasured [ a schema1:DefinedTerm,
                 schema1:PropertyValue ;
@@ -116,6 +124,8 @@
         [ a schema1:DefinedTerm,
                 schema1:PropertyValue ;
             schema1:name "Human Data" ] ;
+    prov:wasDerivedFrom [ a schema1:CreativeWork ;
+            schema1:url "https://clinicaltrials.gov/study/NCT05894655" ] ;
     bios:alternateIdentifier "phs003686" ;
     nde:date "2024-09-13" ;
     nde:species [ a schema1:DefinedTerm ;
@@ -145,13 +155,7 @@
                     schema1:url "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html" ] ;
             nde:isCurated true ;
             nde:originalName "homo sapiens" ;
-            cdifniaid:classification "host" ;
-            cdifniaid:commonName "Human" ;
-            cdifniaid:displayName "Human | Homo sapiens" ] ;
-    cdifniaid:temporalIntervals [ a nde:TemporalInterval ;
-            schema1:endDate "2024-10-31" ;
-            schema1:startDate "2022-11-01" ;
-            nde:temporalType "study date" ] .
+            cdifniaid:commonName "Human" ] .
 
 <https://data.niaid.nih.gov/resources?id=phs003686#metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -164,6 +168,5 @@
             schema1:name "NIAID Data Discovery Portal" ;
             schema1:url "https://data.niaid.nih.gov/" ] ;
     schema1:name "Metadata record for: CO-CREATE-Ex: Community-engaged Optimization of COVID-19 Rapid Evaluation And  TEsting Experiences" ;
-    schema1:sdDatePublished "2026-10-28" ;
-    schema1:url "https://data.niaid.nih.gov/resources?id=phs003686" .
+    schema1:sdDatePublished "2026-10-28" .
 

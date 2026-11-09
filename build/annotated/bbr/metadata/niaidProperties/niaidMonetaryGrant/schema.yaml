@@ -1,0 +1,64 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: NIAID monetary grant
+description: A schema:MonetaryGrant, as CDIF's monetaryGrant block defines it, with
+  the NIAID Data Discovery Portal's parts of an NIH project number.
+type: object
+allOf:
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema.yaml
+properties:
+  '@type':
+    type: array
+    items:
+      type: string
+    contains:
+      const: schema:MonetaryGrant
+    minItems: 1
+  cdifniaid:projectNumSplit:
+    $ref: '#/$defs/projectNumber'
+    x-jsonld-id: https://w3id.org/cdif/niaid/terms/projectNumSplit
+required:
+- '@type'
+$defs:
+  projectNumber:
+    description: The parts of an NIH project number such as 5R01AI012345-03, which
+      NIH grant identifiers follow.
+    type: object
+    properties:
+      cdifniaid:applTypeCode:
+        description: Application type, e.g. 5 for a non-competing continuation.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/applTypeCode
+      cdifniaid:activityCode:
+        description: Activity code, e.g. R01.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/activityCode
+      cdifniaid:icCode:
+        description: The NIH institute or center, e.g. AI for NIAID.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/icCode
+      cdifniaid:serialNum:
+        description: Serial number of the grant.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/serialNum
+      cdifniaid:supportYear:
+        description: Year of support.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/supportYear
+      cdifniaid:fullSupportYear:
+        description: Year of support with any suffix.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fullSupportYear
+      cdifniaid:suffixCode:
+        description: Suffix, e.g. S1 for a supplement.
+        type: string
+        x-jsonld-id: https://w3id.org/cdif/niaid/terms/suffixCode
+x-jsonld-prefixes:
+  schema: http://schema.org/
+  nde: https://discovery.biothings.io/ns/nde/
+  bios: https://bioschemas.org/
+  cdifniaid: https://w3id.org/cdif/niaid/terms/
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.niaidProperties.niaidMonetaryGrant
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '1.0'
+  dateOfLastChange: '2026-11-09'

@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.niaidProperties.niaidDataset` *v1.0*
 
-The properties NIAID Data Discovery Portal records add to a CDIF dataset, layered on cdifCore by the cdifNIAID profile: NIAID's nde: terms (species, topic category, portal date, ClinicalTrials.gov id, curator, samples, related resources), NIAID's annotations on terms (curation, matched text, and the method that produced them), and cdifniaid: terms for names the portal uses that neither NIAID's schema nor Bioschemas declares, such as the parts of an NIH project number. Requires schema:includedInDataCatalog and a cdifNIAID conformsTo claim. Uses building blocks: bioschemasSample (bioschemasProperties), objectReference (cdifDataType).
+The properties NIAID Data Discovery Portal records add to a CDIF dataset, layered on cdifCore by the cdifNIAID profile: NIAID's nde: terms (species, topic category, portal date, ClinicalTrials.gov id, curator, samples, related resources) and cdifniaid: terms for names the portal uses that neither NIAID's schema nor Bioschemas declares. NIAID's additions to terms, grants, cited works, places and catalogs are in type-bound blocks it uses. Requires schema:includedInDataCatalog and a cdifNIAID conformsTo claim. Uses building blocks: niaidDefinedTerm, niaidMonetaryGrant, niaidCreativeWork, niaidPlace, niaidDataCatalog (niaidProperties), bioschemasSample (bioschemasProperties), objectReference (cdifDataType).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -40,48 +40,52 @@ defined here and nowhere else. They sit under `terms/` so that the profile URI
 Everything else is optional but typed. Every property accepts one value or an
 array, because framing collapses a one-element array to its value.
 
-### NIAID terms
+### Extensions of other types
+
+NIAID adds properties to five other types, each in a block that requires the
+type. `niaidDataset` points its properties at them.
+
+| Block | Type | NIAID properties | Used for |
+|---|---|---|---|
+| [`niaidDefinedTerm`](../niaidDefinedTerm/) | `schema:DefinedTerm` | `nde:isCurated`, `nde:originalName`, `nde:curatedBy`, `cdifniaid:commonName` | `nde:species`, `schema:infectiousAgent`, `schema:healthCondition`; `schema:keywords`, `schema:measurementTechnique` and `schema:variableMeasured` items that carry an annotation |
+| [`niaidMonetaryGrant`](../niaidMonetaryGrant/) | `schema:MonetaryGrant` | `cdifniaid:projectNumSplit` | `schema:funding` |
+| [`niaidCreativeWork`](../niaidCreativeWork/) | `schema:CreativeWork` or `schema:ScholarlyArticle` | `nde:pmid`, `nde:doi`, `nde:journalName`, `nde:journalNameAbbrev` | `schema:citation` and `nde:citedBy` items that carry one of them |
+| [`niaidPlace`](../niaidPlace/) | `schema:Place` | `nde:administrativeType` | `schema:spatialCoverage` |
+| [`niaidDataCatalog`](../niaidDataCatalog/) | `schema:DataCatalog` | `nde:versionDate`, `schema:archivedAt` | `schema:includedInDataCatalog` |
+
+### NIAID terms on the dataset
 
 | Property | On | Value |
 |---|---|---|
 | `nde:date` | dataset | The portal's summary date |
-| `nde:species`, `nde:topicCategory` | dataset | Annotated terms |
+| `nde:species` | dataset, sample | NIAID defined terms |
 | `nde:nctid` | dataset | ClinicalTrials.gov id, `NCT` and eight digits |
 | `nde:citedBy` | dataset | Works citing the dataset |
-| `nde:curatedBy` | dataset, term | Who curated it, with `nde:versionDate` |
-| `nde:isRelatedTo`, `nde:isBasisFor` | dataset | Related resources, with `nde:relationship` |
+| `nde:curatedBy` | dataset | The repository that curated the record, with `nde:versionDate` |
+| `nde:isBasisFor` | dataset | Related resources, with `nde:relationship` |
 | `nde:sample` | dataset | An `nde:Sample` or `nde:SampleCollection` |
-| `nde:isCurated`, `nde:originalName` | term | Whether a curator checked the term, and the text it was matched from |
-| `nde:doi`, `nde:pmid`, `nde:journalName` | work | Identifiers and journal of a cited work |
-| `nde:cellType` | sample | Term or text |
+| `nde:cellType`, `nde:associatedGenotype` | sample | Term or text |
 
-NIAID's annotations also appear on CDIF's own `schema:infectiousAgent`,
-`schema:healthCondition`, `schema:measurementTechnique` and
-`schema:variableMeasured`.
-
-### cdifniaid terms
+### cdifniaid terms on the dataset
 
 | Term | On | Definition |
 |---|---|---|
-| `cdifniaid:fromGPT` | term | The term was suggested by a GPT language model |
-| `cdifniaid:fromPMID` | term, citation, grant | The value was taken from a PubMed record linked to the dataset |
-| `cdifniaid:fromEXTRACT` | term | The term was found by the EXTRACT text-mining tool |
-| `cdifniaid:fromNCT` | term | The term was taken from the dataset's ClinicalTrials.gov record |
-| `cdifniaid:classification` | taxon term | The role the taxon plays, e.g. `infectiousAgent` or `host` |
-| `cdifniaid:commonName` | taxon term | Its common name |
-| `cdifniaid:displayName` | taxon term | The name the portal displays |
-| `cdifniaid:projectNumSplit` | grant | The parts of an NIH project number such as `5R01AI012345-03`: `cdifniaid:applTypeCode` (5), `activityCode` (R01), `icCode` (AI), `serialNum`, `supportYear`, `fullSupportYear`, `suffixCode` |
-| `cdifniaid:alternateNames` | agent | Second and later alternate names; `schema:alternateName` holds the first, as CDIF agents take one |
 | `cdifniaid:correctionApproved` | source organization | A correction to the portal's record of the project was approved |
-| `cdifniaid:country` | place | The country the place is in |
-| `cdifniaid:temporalIntervals` | dataset | The portal's intervals where they hold more than dates (a type, a name, a duration), kept whole beside `schema:temporalCoverage` |
-| `cdifniaid:unlinkedHasPart` | dataset | Parts with no address, which cannot be CDIF manifest parts |
-| `cdifniaid:partUrl` | distribution | Archive members given only as URLs, with no name or format, which CDIF archive parts need |
 | `cdifniaid:assayformat` | dataset | The assay format, as the portal gives it |
 | `cdifniaid:publication` | dataset | PubMed ids of publications about the dataset |
 
-The `from*` meanings are inferred from the names and where the portal uses them;
-NIAID's schema does not define them.
+The portal's `from*` flags (`fromGPT`, `fromPMID`, `fromEXTRACT`, `fromNCT`) are
+not properties here: the converter turns them into one sentence each, "Metadata
+source from GPT." and so on, on the catalog record's description. A person's
+`role` becomes a `schema:contributor` that is a `schema:Role` holding the person,
+CDIF's pattern for roles.
+
+NIAID's `isRelatedTo` is not a property here either: each related resource is a
+`schema:relatedLink` LinkRole with `schema:linkRelationship` "related to", its
+address as target, and the portal's relationship in the LinkRole's description.
+A temporal interval with more than dates (a name, a temporalType, a text
+duration) is a `schema:temporalCoverage` interval with calendar-date bounds,
+whose description gives those as `nde:name: ...; nde:temporalType: ...`.
 
 ## Examples
 
@@ -98,6 +102,7 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
     "prov": "http://www.w3.org/ns/prov#",
     "nde": "https://discovery.biothings.io/ns/nde/",
     "bios": "https://bioschemas.org/",
+    "time": "http://www.w3.org/2006/time#",
     "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
   },
   "@type": [
@@ -105,7 +110,10 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=pxd027351",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=pxd027351",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=pxd027351"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from PMID.\n\nMetadata source from GPT.",
     "@type": [
       "schema:Dataset"
     ],
@@ -116,9 +124,6 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=pxd027351#metadata",
     "schema:name": "Metadata record for: Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High R",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=pxd027351"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -130,7 +135,6 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -206,7 +210,6 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         }
       ],
       "schema:datePublished": "2021-09-03",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "PMID:34384028",
       "nde:journalName": "Journal of proteome research",
       "schema:name": "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High-Resolution Mass Spectrometry for Metaproteomics of Environmental and Microbiome Samples.",
@@ -239,8 +242,8 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "NIGMS",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "NIGMS",
           "U.S. National Institute of General Medical Sciences"
         ],
         "schema:identifier": "https://ror.org/04q48ey07",
@@ -320,8 +323,6 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
       "schema:alternateName": [
         "uncultured marine plankton"
       ],
-      "cdifniaid:classification": "infectiousAgent",
-      "cdifniaid:displayName": "marine plankton environmental sample",
       "schema:identifier": "632957",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -340,7 +341,72 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
     "Lc",
     "2dlc",
     "Comprehensive active modulation",
-    "Ocean"
+    "Ocean",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3370",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Analytical chemistry",
+      "schema:url": "http://edamontology.org/topic_3370",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_0121",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Proteomics",
+      "schema:url": "http://edamontology.org/topic_0121",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3174",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Metagenomics",
+      "schema:url": "http://edamontology.org/topic_3174",
+      "schema:about": "topicCategory"
+    },
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://www.proteomexchange.org/pxcollaborativeagreement_2024.pdf"
@@ -393,8 +459,7 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
   ],
   "schema:name": "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High Resolution Mass Spectrometry for Metaproteomics of Environmen-tal and Microbiome Samples",
   "schema:sameAs": [
-    "https://www.ebi.ac.uk/pride/archive/projects/PXD027351",
-    "https://www.omicsdi.org/dataset/pride/PXD027351"
+    "https://www.ebi.ac.uk/pride/archive/projects/PXD027351"
   ],
   "nde:sample": {
     "@type": [
@@ -440,9 +505,7 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         "Humo sapiens",
         "Homo sampiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -451,66 +514,19 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
       "schema:url": "https://www.uniprot.org/taxonomy/9606"
     }
   ],
-  "nde:topicCategory": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3370",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Analytical chemistry",
-      "schema:url": "http://edamontology.org/topic_3370"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_0121",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Proteomics",
-      "schema:url": "http://edamontology.org/topic_0121"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3174",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Metagenomics",
-      "schema:url": "http://edamontology.org/topic_3174"
-    }
-  ],
   "schema:url": "https://www.omicsdi.org/dataset/pride/PXD027351",
-  "schema:usageInfo": [
+  "schema:relatedLink": [
     {
       "@type": [
-        "schema:CreativeWork"
+        "schema:LinkRole"
       ],
-      "schema:url": "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf"
+      "schema:linkRelationship": "nde:usageInfo",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf"
+      }
     }
   ],
   "schema:variableMeasured": [
@@ -545,6 +561,7 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
       "prov": "http://www.w3.org/ns/prov#",
       "nde": "https://discovery.biothings.io/ns/nde/",
       "bios": "https://bioschemas.org/",
+      "time": "http://www.w3.org/2006/time#",
       "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
     }
   ],
@@ -553,7 +570,10 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=pxd027351",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=pxd027351",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=pxd027351"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from PMID.\n\nMetadata source from GPT.",
     "@type": [
       "schema:Dataset"
     ],
@@ -564,9 +584,6 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=pxd027351#metadata",
     "schema:name": "Metadata record for: Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High R",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=pxd027351"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -578,7 +595,6 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -654,7 +670,6 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         }
       ],
       "schema:datePublished": "2021-09-03",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "PMID:34384028",
       "nde:journalName": "Journal of proteome research",
       "schema:name": "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High-Resolution Mass Spectrometry for Metaproteomics of Environmental and Microbiome Samples.",
@@ -687,8 +702,8 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "NIGMS",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "NIGMS",
           "U.S. National Institute of General Medical Sciences"
         ],
         "schema:identifier": "https://ror.org/04q48ey07",
@@ -768,8 +783,6 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
       "schema:alternateName": [
         "uncultured marine plankton"
       ],
-      "cdifniaid:classification": "infectiousAgent",
-      "cdifniaid:displayName": "marine plankton environmental sample",
       "schema:identifier": "632957",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -788,7 +801,72 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
     "Lc",
     "2dlc",
     "Comprehensive active modulation",
-    "Ocean"
+    "Ocean",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3370",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Analytical chemistry",
+      "schema:url": "http://edamontology.org/topic_3370",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_0121",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Proteomics",
+      "schema:url": "http://edamontology.org/topic_0121",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3174",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Metagenomics",
+      "schema:url": "http://edamontology.org/topic_3174",
+      "schema:about": "topicCategory"
+    },
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://www.proteomexchange.org/pxcollaborativeagreement_2024.pdf"
@@ -841,8 +919,7 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
   ],
   "schema:name": "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High Resolution Mass Spectrometry for Metaproteomics of Environmen-tal and Microbiome Samples",
   "schema:sameAs": [
-    "https://www.ebi.ac.uk/pride/archive/projects/PXD027351",
-    "https://www.omicsdi.org/dataset/pride/PXD027351"
+    "https://www.ebi.ac.uk/pride/archive/projects/PXD027351"
   ],
   "nde:sample": {
     "@type": [
@@ -888,9 +965,7 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         "Humo sapiens",
         "Homo sampiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -899,66 +974,19 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
       "schema:url": "https://www.uniprot.org/taxonomy/9606"
     }
   ],
-  "nde:topicCategory": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3370",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Analytical chemistry",
-      "schema:url": "http://edamontology.org/topic_3370"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_0121",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Proteomics",
-      "schema:url": "http://edamontology.org/topic_0121"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3174",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Metagenomics",
-      "schema:url": "http://edamontology.org/topic_3174"
-    }
-  ],
   "schema:url": "https://www.omicsdi.org/dataset/pride/PXD027351",
-  "schema:usageInfo": [
+  "schema:relatedLink": [
     {
       "@type": [
-        "schema:CreativeWork"
+        "schema:LinkRole"
       ],
-      "schema:url": "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf"
+      "schema:linkRelationship": "nde:usageInfo",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf"
+      }
     }
   ],
   "schema:variableMeasured": [
@@ -986,16 +1014,15 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
 <https://data.niaid.nih.gov/resources?id=pxd027351> a schema1:Dataset ;
     schema1:citation [ a schema1:ScholarlyArticle ;
             schema1:author [ a schema1:Person ;
-                    schema1:name "McIlvin MR" ],
+                    schema1:name "Saito MA" ],
                 [ a schema1:Person ;
-                    schema1:name "Saito MA" ] ;
+                    schema1:name "McIlvin MR" ] ;
             schema1:datePublished "2021-09-03" ;
             schema1:identifier "PMID:34384028" ;
             schema1:name "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High-Resolution Mass Spectrometry for Metaproteomics of Environmental and Microbiome Samples." ;
             schema1:url "https://pubmed.ncbi.nlm.nih.gov/34384028/" ;
             nde:journalName "Journal of proteome research" ;
-            nde:pmid "34384028" ;
-            cdifniaid:fromPMID true ] ;
+            nde:pmid "34384028" ] ;
     schema1:conditionsOfAccess "Open" ;
     schema1:creator ( [ a schema1:Person ;
                 schema1:affiliation [ a schema1:Organization ;
@@ -1015,11 +1042,11 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:endDate "2024-04-30" ;
             schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "NIGMS" ;
+                    schema1:alternateName "NIGMS",
+                        "U.S. National Institute of General Medical Sciences" ;
                     schema1:identifier "https://ror.org/04q48ey07" ;
                     schema1:name "National Institute of General Medical Sciences" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "U.S. National Institute of General Medical Sciences" ] ;
+                    schema1:parentOrganization "National Institutes of Health" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:value "1R01GM135709-01A1" ] ;
             schema1:name "Response of the Bacterial Metalloproteome to Environmental Conditions" ;
@@ -1050,15 +1077,15 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
             schema1:url "https://doi.org/10.6019/PXD027351" ;
             schema1:value "10.6019/PXD027351" ] ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
-            schema1:archivedAt "http://www.ebi.ac.uk/pride/archive/projects/PXD027351" ;
-            schema1:name "ProteomeXchange" ;
-            schema1:url "https://www.proteomexchange.org/" ;
-            nde:versionDate "2026-10-01" ],
-        [ a schema1:DataCatalog ;
             schema1:archivedAt "https://www.omicsdi.org/dataset/pride/PXD027351" ;
             schema1:name "Omics Discovery Index (OmicsDI)" ;
             schema1:url "https://www.omicsdi.org/" ;
-            nde:versionDate "2026-10-23" ] ;
+            nde:versionDate "2026-10-23" ],
+        [ a schema1:DataCatalog ;
+            schema1:archivedAt "http://www.ebi.ac.uk/pride/archive/projects/PXD027351" ;
+            schema1:name "ProteomeXchange" ;
+            schema1:url "https://www.proteomexchange.org/" ;
+            nde:versionDate "2026-10-01" ] ;
     schema1:infectiousAgent [ a schema1:DefinedTerm ;
             schema1:alternateName "uncultured marine plankton" ;
             schema1:identifier "632957" ;
@@ -1066,10 +1093,41 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
             schema1:name "marine plankton environmental sample" ;
             schema1:url "https://www.uniprot.org/taxonomy/632957" ;
             nde:isCurated false ;
-            nde:originalName "Marine Plankton Environmental Sample" ;
-            cdifniaid:classification "infectiousAgent" ;
-            cdifniaid:displayName "marine plankton environmental sample" ] ;
-    schema1:keywords "",
+            nde:originalName "Marine Plankton Environmental Sample" ] ;
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_3174" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Metagenomics" ;
+            schema1:url "http://edamontology.org/topic_3174" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_0121" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Proteomics" ;
+            schema1:url "http://edamontology.org/topic_0121" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "infectiousAgent" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_3370" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Analytical chemistry" ;
+            schema1:url "http://edamontology.org/topic_3370" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        "",
         "2dlc",
         "Automated",
         "Comprehensive active modulation",
@@ -1081,13 +1139,6 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         "Rprp" ;
     schema1:license "https://www.proteomexchange.org/pxcollaborativeagreement_2024.pdf" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "0000470" ;
-            schema1:inDefinedTermSet "OBI" ;
-            schema1:name "mass spectrometry assay" ;
-            schema1:url "http://purl.obolibrary.org/obo/OBI_0000470" ;
-            nde:isCurated true ;
-            nde:originalName "Mass Spectrometry" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "0003229" ;
             schema1:inDefinedTermSet "OBI" ;
             schema1:name "plasma proteomics assay" ;
@@ -1095,29 +1146,37 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
             nde:isCurated true ;
             nde:originalName "Shotgun proteomics" ],
         [ a schema1:DefinedTerm ;
-            schema1:identifier "0000534" ;
-            schema1:inDefinedTermSet "MMO" ;
-            schema1:name "mass spectrometry" ;
-            schema1:url "http://purl.obolibrary.org/obo/MMO_0000534" ;
-            nde:isCurated true ;
-            nde:originalName "Mass Spectrometry" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "0000428" ;
             schema1:inDefinedTermSet "PRIDE" ;
             schema1:name "Bottom-up proteomics" ;
             schema1:url "http://purl.obolibrary.org/obo/PRIDE_0000428" ;
             nde:isCurated true ;
-            nde:originalName "Shotgun proteomics" ] ;
+            nde:originalName "Shotgun proteomics" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "0000470" ;
+            schema1:inDefinedTermSet "OBI" ;
+            schema1:name "mass spectrometry assay" ;
+            schema1:url "http://purl.obolibrary.org/obo/OBI_0000470" ;
+            nde:isCurated true ;
+            nde:originalName "Mass Spectrometry" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "0000534" ;
+            schema1:inDefinedTermSet "MMO" ;
+            schema1:name "mass spectrometry" ;
+            schema1:url "http://purl.obolibrary.org/obo/MMO_0000534" ;
+            nde:isCurated true ;
+            nde:originalName "Mass Spectrometry" ] ;
     schema1:name "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High Resolution Mass Spectrometry for Metaproteomics of Environmen-tal and Microbiome Samples" ;
-    schema1:sameAs "https://www.ebi.ac.uk/pride/archive/projects/PXD027351",
-        "https://www.omicsdi.org/dataset/pride/PXD027351" ;
+    schema1:relatedLink [ a schema1:LinkRole ;
+            schema1:linkRelationship "nde:usageInfo" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:url "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf" ] ] ;
+    schema1:sameAs "https://www.ebi.ac.uk/pride/archive/projects/PXD027351" ;
     schema1:sdPublisher [ a schema1:Organization ;
             schema1:name "Pride" ;
             schema1:url "https://www.omicsdi.org/dataset/pride/PXD027351" ] ;
     schema1:subjectOf <https://data.niaid.nih.gov/resources?id=pxd027351#metadata> ;
     schema1:url "https://www.omicsdi.org/dataset/pride/PXD027351" ;
-    schema1:usageInfo [ a schema1:CreativeWork ;
-            schema1:url "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf" ] ;
     schema1:variableMeasured [ a schema1:PropertyValue ;
             schema1:name "Proteomics" ] ;
     bios:alternateIdentifier "PXD027351" ;
@@ -1149,36 +1208,7 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
             schema1:url "https://www.uniprot.org/taxonomy/9606" ;
             nde:isCurated false ;
             nde:originalName "Homo Sapiens (human)" ;
-            cdifniaid:classification "host" ;
-            cdifniaid:commonName "Human" ;
-            cdifniaid:displayName "Human | Homo sapiens" ] ;
-    nde:topicCategory [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_0121" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Proteomics" ;
-            schema1:url "http://edamontology.org/topic_0121" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3174" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Metagenomics" ;
-            schema1:url "http://edamontology.org/topic_3174" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3370" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Analytical chemistry" ;
-            schema1:url "http://edamontology.org/topic_3370" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ] .
+            cdifniaid:commonName "Human" ] .
 
 <https://data.niaid.nih.gov/resources?id=pxd027351#metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -1186,13 +1216,16 @@ converted by converters/NIAID/harvest_niaid_to_cdif.py.
         <https://w3id.org/cdif/niaid/1.0> ;
     schema1:about <https://data.niaid.nih.gov/resources?id=pxd027351> ;
     schema1:additionalType dcat:CatalogRecord ;
-    schema1:description "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them." ;
+    schema1:description """CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.
+
+Metadata source from PMID.
+
+Metadata source from GPT.""" ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
             schema1:name "NIAID Data Discovery Portal" ;
             schema1:url "https://data.niaid.nih.gov/" ] ;
     schema1:name "Metadata record for: Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High R" ;
-    schema1:sdDatePublished "2026-10-28" ;
-    schema1:url "https://data.niaid.nih.gov/resources?id=pxd027351" .
+    schema1:sdDatePublished "2026-10-28" .
 
 
 ```
@@ -1211,6 +1244,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
     "prov": "http://www.w3.org/ns/prov#",
     "nde": "https://discovery.biothings.io/ns/nde/",
     "bios": "https://bioschemas.org/",
+    "time": "http://www.w3.org/2006/time#",
     "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
   },
   "@type": [
@@ -1218,7 +1252,10 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=vdj_prjna272713",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=vdj_prjna272713",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=vdj_prjna272713"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record vdj_prjna272713, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from PMID.\n\nMetadata source from GPT.",
     "@type": [
       "schema:Dataset"
     ],
@@ -1229,9 +1266,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=vdj_prjna272713#metadata",
     "schema:name": "Metadata record for: Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=vdj_prjna272713"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -1243,7 +1277,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record vdj_prjna272713, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -1253,7 +1286,16 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
     },
     "schema:sdDatePublished": "2026-10-28"
   },
-  "schema:identifier": "PRJNA272713",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/bioproject"
+    },
+    "schema:value": "PRJNA272713",
+    "schema:url": "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA272713"
+  },
   "schema:dateModified": "2023-01-20",
   "schema:datePublished": "2020-08-17",
   "nde:date": "2023-01-20",
@@ -1455,7 +1497,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         }
       ],
       "schema:datePublished": "2015-04-23",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "PMID:25865483",
       "nde:journalName": "Cell",
       "schema:name": "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection.",
@@ -1467,7 +1508,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
     "Open",
     "AIRR Data Commons usage info: The software is under the GNU Affero General Public License, the data is Public Domain"
   ],
-  "schema:description": "HIV-1-neutralizing antibodies develop in most HIV-1-infected individuals, although highly effective antibodies are generally observed only after years of chronic infection. Here, we characterize the rate of maturation and extent of diversity for the lineage that produced the broadly neutralizing antibody VRC01 through longitudinal sampling of peripheral B cell transcripts over 15 years and co-crystal structures of lineage members. Next-generation sequencing identified VRC01-lineage transcripts, which encompassed diverse antibodies organized into distinct phylogenetic clades. Prevalent clades maintained characteristic features of antigen recognition, though each evolved binding loops and disulfides that formed distinct recognition surfaces. Over the course of the study period, VRC01-lineage clades showed continuous evolution, with rates of \u223c2 substitutions per 100 nucleotides per year, comparable to that of HIV-1 evolution. This high rate of antibody evolution provides a mechanism by which antibody lineages can achieve extraordinary diversity and, over years of chronic infection, develop effective HIV-1 neutralization.",
+  "schema:description": "HIV-1-neutralizing antibodies develop in most HIV-1-infected individuals, although highly effective antibodies are generally observed only after years of chronic infection. Here, we characterize the rate of maturation and extent of diversity for the lineage that produced the broadly neutralizing antibody VRC01 through longitudinal sampling of peripheral B cell transcripts over 15 years and co-crystal structures of lineage members. Next-generation sequencing identified VRC01-lineage transcripts, which encompassed diverse antibodies organized into distinct phylogenetic clades. Prevalent clades maintained characteristic features of antigen recognition, though each evolved binding loops and disulfides that formed distinct recognition surfaces. Over the course of the study period, VRC01-lineage clades showed continuous evolution, with rates of ∼2 substitutions per 100 nucleotides per year, comparable to that of HIV-1 evolution. This high rate of antibody evolution provides a mechanism by which antibody lineages can achieve extraordinary diversity and, over years of chronic infection, develop effective HIV-1 neutralization.",
   "schema:distribution": [
     {
       "@type": [
@@ -1659,8 +1700,8 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "National Institute of Allergy & Infectious Diseases",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "National Institute of Allergy & Infectious Diseases",
           "NIAID",
           "Instituto Nacional de Alergias y Enfermedades Infecciosas"
         ],
@@ -1686,8 +1727,8 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "National Institute of Allergy & Infectious Diseases",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "National Institute of Allergy & Infectious Diseases",
           "NIAID",
           "Instituto Nacional de Alergias y Enfermedades Infecciosas"
         ],
@@ -1753,9 +1794,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "AIDS virus",
         "HIV"
       ],
-      "cdifniaid:classification": "infectiousAgent",
-      "cdifniaid:displayName": "Human immunodeficiency virus",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "12721",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -1765,7 +1803,72 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
   ],
   "schema:isAccessibleForFree": true,
   "schema:keywords": [
-    "Chronic"
+    "Chronic",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_0804",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Immunology",
+      "schema:url": "http://edamontology.org/topic_0804",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3053",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Genetics",
+      "schema:url": "http://edamontology.org/topic_3053",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3299",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Evolutionary biology",
+      "schema:url": "http://edamontology.org/topic_3299",
+      "schema:about": "topicCategory"
+    },
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://creativecommons.org/public-domain/"
@@ -2700,7 +2803,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "Homo spiens",
         "Humo sapiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
       "nde:curatedBy": {
         "@type": [
@@ -2710,7 +2812,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -2719,63 +2820,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
       "schema:url": "https://www.uniprot.org/taxonomy/9606"
     }
   ],
-  "nde:topicCategory": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_0804",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Immunology",
-      "schema:url": "http://edamontology.org/topic_0804"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3053",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Genetics",
-      "schema:url": "http://edamontology.org/topic_3053"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3299",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Evolutionary biology",
-      "schema:url": "http://edamontology.org/topic_3299"
-    }
-  ],
   "schema:url": "https://vdjserver.org/community?study_id=PRJNA272713",
-  "schema:sameAs": [
-    "https://vdjserver.org/community?study_id=PRJNA272713"
-  ],
   "schema:variableMeasured": [
     {
       "@type": [
@@ -2835,6 +2880,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
       "prov": "http://www.w3.org/ns/prov#",
       "nde": "https://discovery.biothings.io/ns/nde/",
       "bios": "https://bioschemas.org/",
+      "time": "http://www.w3.org/2006/time#",
       "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
     }
   ],
@@ -2843,7 +2889,10 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=vdj_prjna272713",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=vdj_prjna272713",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=vdj_prjna272713"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record vdj_prjna272713, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from PMID.\n\nMetadata source from GPT.",
     "@type": [
       "schema:Dataset"
     ],
@@ -2854,9 +2903,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=vdj_prjna272713#metadata",
     "schema:name": "Metadata record for: Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=vdj_prjna272713"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -2868,7 +2914,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record vdj_prjna272713, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -2878,7 +2923,16 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
     },
     "schema:sdDatePublished": "2026-10-28"
   },
-  "schema:identifier": "PRJNA272713",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/bioproject"
+    },
+    "schema:value": "PRJNA272713",
+    "schema:url": "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA272713"
+  },
   "schema:dateModified": "2023-01-20",
   "schema:datePublished": "2020-08-17",
   "nde:date": "2023-01-20",
@@ -3080,7 +3134,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         }
       ],
       "schema:datePublished": "2015-04-23",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "PMID:25865483",
       "nde:journalName": "Cell",
       "schema:name": "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection.",
@@ -3284,8 +3337,8 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "National Institute of Allergy & Infectious Diseases",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "National Institute of Allergy & Infectious Diseases",
           "NIAID",
           "Instituto Nacional de Alergias y Enfermedades Infecciosas"
         ],
@@ -3311,8 +3364,8 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "National Institute of Allergy & Infectious Diseases",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "National Institute of Allergy & Infectious Diseases",
           "NIAID",
           "Instituto Nacional de Alergias y Enfermedades Infecciosas"
         ],
@@ -3378,9 +3431,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "AIDS virus",
         "HIV"
       ],
-      "cdifniaid:classification": "infectiousAgent",
-      "cdifniaid:displayName": "Human immunodeficiency virus",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "12721",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -3390,7 +3440,72 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
   ],
   "schema:isAccessibleForFree": true,
   "schema:keywords": [
-    "Chronic"
+    "Chronic",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_0804",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Immunology",
+      "schema:url": "http://edamontology.org/topic_0804",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3053",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Genetics",
+      "schema:url": "http://edamontology.org/topic_3053",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3299",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Evolutionary biology",
+      "schema:url": "http://edamontology.org/topic_3299",
+      "schema:about": "topicCategory"
+    },
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://creativecommons.org/public-domain/"
@@ -4325,7 +4440,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "Homo spiens",
         "Humo sapiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
       "nde:curatedBy": {
         "@type": [
@@ -4335,7 +4449,6 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -4344,63 +4457,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
       "schema:url": "https://www.uniprot.org/taxonomy/9606"
     }
   ],
-  "nde:topicCategory": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_0804",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Immunology",
-      "schema:url": "http://edamontology.org/topic_0804"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3053",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Genetics",
-      "schema:url": "http://edamontology.org/topic_3053"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3299",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Evolutionary biology",
-      "schema:url": "http://edamontology.org/topic_3299"
-    }
-  ],
   "schema:url": "https://vdjserver.org/community?study_id=PRJNA272713",
-  "schema:sameAs": [
-    "https://vdjserver.org/community?study_id=PRJNA272713"
-  ],
   "schema:variableMeasured": [
     {
       "@type": [
@@ -4454,64 +4511,63 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
 <https://data.niaid.nih.gov/resources?id=vdj_prjna272713> a schema1:Dataset ;
     schema1:citation [ a schema1:ScholarlyArticle ;
             schema1:author [ a schema1:Person ;
+                    schema1:name "Schramm CA" ],
+                [ a schema1:Person ;
+                    schema1:name "Connors M" ],
+                [ a schema1:Person ;
+                    schema1:name "Srivatsan S" ],
+                [ a schema1:Organization ;
+                    schema1:name "NISC Comparative Sequencing Program" ],
+                [ a schema1:Person ;
+                    schema1:name "Sheng Z" ],
+                [ a schema1:Person ;
+                    schema1:name "Zhou T" ],
+                [ a schema1:Person ;
+                    schema1:name "Chuang GY" ],
+                [ a schema1:Person ;
+                    schema1:name "Mullikin JC" ],
+                [ a schema1:Person ;
                     schema1:name "Lynch RM" ],
                 [ a schema1:Person ;
-                    schema1:name "Wu X" ],
-                [ a schema1:Person ;
                     schema1:name "Zhang B" ],
+                [ a schema1:Person ;
+                    schema1:name "Zhang Z" ],
+                [ a schema1:Person ;
+                    schema1:name "Kwon YD" ],
+                [ a schema1:Person ;
+                    schema1:name "Yang Y" ],
+                [ a schema1:Person ;
+                    schema1:name "Soto C" ],
                 [ a schema1:Person ;
                     schema1:name "Kwong PD" ],
                 [ a schema1:Person ;
                     schema1:name "Joyce MG" ],
                 [ a schema1:Person ;
-                    schema1:name "Connors M" ],
+                    schema1:name "Longo NS" ],
                 [ a schema1:Person ;
-                    schema1:name "Saunders KO" ],
-                [ a schema1:Person ;
-                    schema1:name "Bailer RT" ],
-                [ a schema1:Person ;
-                    schema1:name "O'Dell S" ],
-                [ a schema1:Person ;
-                    schema1:name "Mullikin JC" ],
+                    schema1:name "Wu X" ],
                 [ a schema1:Person ;
                     schema1:name "Mascola JR" ],
                 [ a schema1:Person ;
-                    schema1:name "Soto C" ],
-                [ a schema1:Person ;
-                    schema1:name "Chuang GY" ],
+                    schema1:name "Bailer RT" ],
                 [ a schema1:Person ;
                     schema1:name "Shapiro L" ],
                 [ a schema1:Person ;
-                    schema1:name "Schramm CA" ],
+                    schema1:name "O'Dell S" ],
                 [ a schema1:Person ;
-                    schema1:name "Sheng Z" ],
-                [ a schema1:Person ;
-                    schema1:name "Georgiev IS" ],
-                [ a schema1:Person ;
-                    schema1:name "Yang Y" ],
-                [ a schema1:Person ;
-                    schema1:name "Longo NS" ],
-                [ a schema1:Organization ;
-                    schema1:name "NISC Comparative Sequencing Program" ],
+                    schema1:name "Saunders KO" ],
                 [ a schema1:Person ;
                     schema1:name "Louder MK" ],
                 [ a schema1:Person ;
-                    schema1:name "Zhou T" ],
-                [ a schema1:Person ;
                     schema1:name "McKee K" ],
                 [ a schema1:Person ;
-                    schema1:name "Zhang Z" ],
-                [ a schema1:Person ;
-                    schema1:name "Srivatsan S" ],
-                [ a schema1:Person ;
-                    schema1:name "Kwon YD" ] ;
+                    schema1:name "Georgiev IS" ] ;
             schema1:datePublished "2015-04-23" ;
             schema1:identifier "PMID:25865483" ;
             schema1:name "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection." ;
             schema1:url "https://pubmed.ncbi.nlm.nih.gov/25865483/" ;
             nde:journalName "Cell" ;
-            nde:pmid "25865483" ;
-            cdifniaid:fromPMID true ] ;
+            nde:pmid "25865483" ] ;
     schema1:conditionsOfAccess "AIRR Data Commons usage info: The software is under the GNU Affero General Public License, the data is Public Domain",
         "Open" ;
     schema1:creator ( [ a schema1:Person ;
@@ -4526,78 +4582,78 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
     schema1:datePublished "2020-08-17" ;
     schema1:description "HIV-1-neutralizing antibodies develop in most HIV-1-infected individuals, although highly effective antibodies are generally observed only after years of chronic infection. Here, we characterize the rate of maturation and extent of diversity for the lineage that produced the broadly neutralizing antibody VRC01 through longitudinal sampling of peripheral B cell transcripts over 15 years and co-crystal structures of lineage members. Next-generation sequencing identified VRC01-lineage transcripts, which encompassed diverse antibodies organized into distinct phylogenetic clades. Prevalent clades maintained characteristic features of antigen recognition, though each evolved binding loops and disulfides that formed distinct recognition surfaces. Over the course of the study period, VRC01-lineage clades showed continuous evolution, with rates of ∼2 substitutions per 100 nucleotides per year, comparable to that of HIV-1 evolution. This high rate of antibody evolution provides a mechanism by which antibody lineages can achieve extraordinary diversity and, over years of chronic infection, develop effective HIV-1 neutralization." ;
     schema1:distribution [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767443_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767444_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767430_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767446_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767433_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767425_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767439_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767421_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767420_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767436_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767428_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767419_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767445_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767431_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767442_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767426_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767427_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767438_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767418_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767429_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767444_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767423_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767431_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767447_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767424_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767437_1.unique.igblast.airr.tsv.gz" ],
-        [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767435_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767430_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767441_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767440_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767446_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767432_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767439_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
             schema1:contentUrl "SRR1767422_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767418_1.unique.igblast.airr.tsv.gz" ],
+            schema1:contentUrl "SRR1767436_1.unique.igblast.airr.tsv.gz" ],
         [ a schema1:DataDownload ;
-            schema1:contentUrl "SRR1767434_1.unique.igblast.airr.tsv.gz" ] ;
+            schema1:contentUrl "SRR1767432_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767435_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767443_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767421_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767424_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767433_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767429_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767440_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767437_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767434_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767425_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767419_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767447_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767420_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767442_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767423_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767445_1.unique.igblast.airr.tsv.gz" ],
+        [ a schema1:DataDownload ;
+            schema1:contentUrl "SRR1767438_1.unique.igblast.airr.tsv.gz" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:endDate "2019-03-31" ;
             schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
+                    schema1:alternateName "Instituto Nacional de Alergias y Enfermedades Infecciosas",
+                        "NIAID",
+                        "National Institute of Allergy & Infectious Diseases" ;
                     schema1:employee [ a schema1:Person ;
                             schema1:familyName "SINGH" ;
                             schema1:givenName "ANJALI" ;
                             schema1:name "ANJALI SINGH" ] ;
                     schema1:identifier "https://ror.org/043z4tv69" ;
                     schema1:name "National Institute of Allergy and Infectious Diseases" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "Instituto Nacional de Alergias y Enfermedades Infecciosas",
-                        "NIAID" ] ;
+                    schema1:parentOrganization "National Institutes of Health" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:value "1P01AI104722-01A1" ] ;
             schema1:name "High Resolution Analysis of Env-directed B Cells to Accelerate Vaccine Design" ;
@@ -4605,12 +4661,12 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
             schema1:url "https://reporter.nih.gov/project-details/8680621" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
+                    schema1:alternateName "Instituto Nacional de Alergias y Enfermedades Infecciosas",
+                        "NIAID",
+                        "National Institute of Allergy & Infectious Diseases" ;
                     schema1:identifier "https://ror.org/043z4tv69" ;
                     schema1:name "National Institute of Allergy and Infectious Diseases" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "Instituto Nacional de Alergias y Enfermedades Infecciosas",
-                        "NIAID" ] ;
+                    schema1:parentOrganization "National Institutes of Health" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:value "1ZIAAI005022-08" ] ;
             schema1:name "Neutralization Mechanisms Of Anti-HIV-1 Monoclonal Antibodies" ;
@@ -4626,7 +4682,10 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
             schema1:url "http://purl.obolibrary.org/obo/MONDO_0005109" ;
             nde:isCurated true ;
             nde:originalName "human immunodeficiency virus infectious disease" ] ;
-    schema1:identifier "PRJNA272713" ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID <https://registry.identifiers.org/registry/bioproject> ;
+            schema1:url "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA272713" ;
+            schema1:value "PRJNA272713" ] ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
             schema1:archivedAt "https://vdjserver.org/community?study_id=PRJNA272713" ;
             schema1:name "VDJServer" ;
@@ -4639,12 +4698,42 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
             schema1:inDefinedTermSet "UniProt" ;
             schema1:name "Human immunodeficiency virus" ;
             schema1:url "https://www.uniprot.org/taxonomy/12721" ;
-            nde:isCurated false ;
-            cdifniaid:classification "infectiousAgent" ;
-            cdifniaid:displayName "Human immunodeficiency virus" ;
-            cdifniaid:fromPMID true ] ;
+            nde:isCurated false ] ;
     schema1:isAccessibleForFree true ;
-    schema1:keywords "Chronic" ;
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_3299" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Evolutionary biology" ;
+            schema1:url "http://edamontology.org/topic_3299" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "infectiousAgent" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_3053" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Genetics" ;
+            schema1:url "http://edamontology.org/topic_3053" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_0804" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Immunology" ;
+            schema1:url "http://edamontology.org/topic_0804" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        "Chronic" ;
     schema1:license "https://creativecommons.org/public-domain/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier "0200082" ;
@@ -4654,12 +4743,14 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
             nde:isCurated true ;
             nde:originalName "Longitudinal Study" ] ;
     schema1:name "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection" ;
-    schema1:sameAs "https://vdjserver.org/community?study_id=PRJNA272713" ;
     schema1:subjectOf <https://data.niaid.nih.gov/resources?id=vdj_prjna272713#metadata> ;
     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ;
     schema1:variableMeasured [ a schema1:PropertyValue ;
             schema1:description "African American" ;
             schema1:name "race" ],
+        [ a schema1:PropertyValue ;
+            schema1:description "Chronic" ;
+            schema1:name "disease severity" ],
         [ a schema1:DefinedTerm,
                 schema1:PropertyValue ;
             schema1:identifier "data_2977" ;
@@ -4671,10 +4762,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
             schema1:identifier "C20971" ;
             schema1:inDefinedTermSet "NCIT" ;
             schema1:name "V(D)J Recombination" ;
-            schema1:url "https://evsexplore.semantics.cancer.gov/evsexplore/concept/ncit/C20971" ],
-        [ a schema1:PropertyValue ;
-            schema1:description "Chronic" ;
-            schema1:name "disease severity" ] ;
+            schema1:url "https://evsexplore.semantics.cancer.gov/evsexplore/concept/ncit/C20971" ] ;
     nde:date "2023-01-20" ;
     nde:sample [ a nde:SampleCollection ;
             schema1:aggregateElement [ a bios:Sample,
@@ -4682,107 +4770,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                     schema1:additionalType "ExperimentalRunSample" ;
                     schema1:conditionsOfAccess "Open" ;
                     schema1:distribution [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767444_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767447_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767418_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767438_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767445_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767432_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767424_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767430_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767434_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767429_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767426_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767422_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767433_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767421_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
                             schema1:contentUrl "SRR1767431_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767428_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767436_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767437_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767419_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767440_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767435_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767443_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767425_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767423_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767442_R1.fastq" ;
-                            schema1:description "direction: forward" ;
-                            schema1:encodingFormat "fastq" ],
-                        [ a schema1:DataDownload ;
-                            schema1:contentUrl "SRR1767446_R1.fastq" ;
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
                         [ a schema1:DataDownload ;
@@ -4794,25 +4782,125 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
                         [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767444_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
                             schema1:contentUrl "SRR1767441_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767429_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767435_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767428_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767432_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767434_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767443_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767446_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767421_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767436_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767426_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767424_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767440_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767433_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767418_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767447_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767445_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767425_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767437_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767442_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767423_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767438_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767430_R1.fastq" ;
+                            schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767419_R1.fastq" ;
                             schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ],
                         [ a schema1:DataDownload ;
                             schema1:contentUrl "SRR1767420_R1.fastq" ;
                             schema1:description "direction: forward" ;
+                            schema1:encodingFormat "fastq" ],
+                        [ a schema1:DataDownload ;
+                            schema1:contentUrl "SRR1767422_R1.fastq" ;
+                            schema1:description "direction: forward" ;
                             schema1:encodingFormat "fastq" ] ;
                     schema1:healthCondition [ a schema1:DefinedTerm ;
+                            schema1:name "HIV-1 positive" ],
+                        [ a schema1:DefinedTerm ;
                             schema1:identifier "DOID:526" ;
                             schema1:inDefinedTermSet "DOID" ;
                             schema1:name "human immunodeficiency virus infectious disease" ],
                         [ a schema1:DefinedTerm ;
-                            schema1:name "HIV-1 positive" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:name "HIV-1 positive" ],
-                        [ a schema1:DefinedTerm ;
                             schema1:identifier "DOID:526" ;
                             schema1:inDefinedTermSet "DOID" ;
-                            schema1:name "human immunodeficiency virus infectious disease" ] ;
+                            schema1:name "human immunodeficiency virus infectious disease" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:name "HIV-1 positive" ] ;
                     schema1:instrument [ a schema1:DefinedTerm ;
                             schema1:name "454 GS FLX+" ],
                         [ a schema1:DefinedTerm ;
@@ -4820,9 +4908,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                     schema1:isAccessibleForFree true ;
                     schema1:license "https://creativecommons.org/public-domain/" ;
                     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-                            schema1:identifier "NCIT:C15273" ;
-                            schema1:inDefinedTermSet "NCIT" ;
-                            schema1:name "Longitudinal Study" ],
+                            schema1:name "PCR" ],
                         [ a schema1:DefinedTerm ;
                             schema1:name "PCR" ],
                         [ a schema1:DefinedTerm ;
@@ -4830,7 +4916,9 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                             schema1:inDefinedTermSet "NCIT" ;
                             schema1:name "Longitudinal Study" ],
                         [ a schema1:DefinedTerm ;
-                            schema1:name "PCR" ] ;
+                            schema1:identifier "NCIT:C15273" ;
+                            schema1:inDefinedTermSet "NCIT" ;
+                            schema1:name "Longitudinal Study" ] ;
                     schema1:name "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection (1015503308190519786-242ac116-0001-012)",
                         "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection (1092125524751159786-242ac116-0001-012)",
                         "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection (1105053376312119786-242ac116-0001-012)",
@@ -4862,39 +4950,62 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                         "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection (962889958814519786-242ac116-0001-012)",
                         "Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection (980628173746999786-242ac116-0001-012)" ;
                     schema1:temporalCoverage [ a nde:TemporalInterval ;
-                            schema1:name "08-19-2008" ],
-                        [ a nde:TemporalInterval ;
-                            schema1:name "08-19-2008" ],
-                        [ a nde:TemporalInterval ;
-                            schema1:name "07-30-2001" ],
+                            schema1:name "04-16-2002" ],
                         [ a nde:TemporalInterval ;
                             schema1:name "01-17-2008" ],
                         [ a nde:TemporalInterval ;
-                            schema1:name "07-12-2007" ],
+                            schema1:name "12-31-2009" ],
                         [ a nde:TemporalInterval ;
-                            schema1:name "04-16-2002" ],
+                            schema1:name "08-19-2008" ],
                         [ a nde:TemporalInterval ;
                             schema1:name "06-02-2009" ],
                         [ a nde:TemporalInterval ;
                             schema1:name "01-09-2007" ],
                         [ a nde:TemporalInterval ;
+                            schema1:name "07-14-2006" ],
+                        [ a nde:TemporalInterval ;
                             schema1:name "03-20-1995" ],
                         [ a nde:TemporalInterval ;
-                            schema1:name "12-31-2009" ],
+                            schema1:name "08-19-2008" ],
                         [ a nde:TemporalInterval ;
-                            schema1:name "07-14-2006" ] ;
+                            schema1:name "07-12-2007" ],
+                        [ a nde:TemporalInterval ;
+                            schema1:name "07-30-2001" ] ;
                     schema1:usageInfo [ a schema1:Thing ;
                             schema1:description "The software is under the GNU Affero General Public License, the data is Public Domain" ;
                             schema1:name "AIRR Data Commons usage info" ] ;
                     schema1:variableMeasured [ a schema1:DefinedTerm ;
+                            schema1:description "Chronic" ;
+                            schema1:name "disease severity" ],
+                        [ schema1:description "Chronic" ;
+                            schema1:name "disease severity" ],
+                        [ schema1:description "Chronic" ;
+                            schema1:name "disease severity" ],
+                        [ schema1:description "African American" ;
+                            schema1:name "race" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:description "Chronic" ;
+                            schema1:name "disease severity" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:name "IGH" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:description "African American" ;
+                            schema1:name "race" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:description "African American" ;
+                            schema1:name "race" ],
+                        [ a schema1:DefinedTerm ;
                             schema1:identifier "C20971" ;
                             schema1:inDefinedTermSet "NCIT" ;
                             schema1:name "V(D)J Recombination" ;
                             schema1:url "https://evsexplore.semantics.cancer.gov/evsexplore/concept/ncit/C20971" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:name "IGH" ],
                         [ schema1:description "African American" ;
                             schema1:name "race" ],
+                        [ a schema1:DefinedTerm ;
+                            schema1:identifier "data_2977" ;
+                            schema1:inDefinedTermSet "EDAM" ;
+                            schema1:name "Nucleic acid sequence" ;
+                            schema1:url "https://edamontology.org/data_2977" ],
                         [ a schema1:DefinedTerm ;
                             schema1:name "IGH" ],
                         [ a schema1:DefinedTerm ;
@@ -4903,35 +5014,12 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                             schema1:name "Nucleic acid sequence" ;
                             schema1:url "https://edamontology.org/data_2977" ],
                         [ a schema1:DefinedTerm ;
-                            schema1:description "African American" ;
-                            schema1:name "race" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:description "Chronic" ;
-                            schema1:name "disease severity" ],
-                        [ a schema1:DefinedTerm ;
                             schema1:identifier "C20971" ;
                             schema1:inDefinedTermSet "NCIT" ;
                             schema1:name "V(D)J Recombination" ;
                             schema1:url "https://evsexplore.semantics.cancer.gov/evsexplore/concept/ncit/C20971" ],
-                        [ schema1:description "African American" ;
-                            schema1:name "race" ],
-                        [ schema1:description "Chronic" ;
-                            schema1:name "disease severity" ],
                         [ a schema1:DefinedTerm ;
-                            schema1:name "IGK" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:identifier "data_2977" ;
-                            schema1:inDefinedTermSet "EDAM" ;
-                            schema1:name "Nucleic acid sequence" ;
-                            schema1:url "https://edamontology.org/data_2977" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:description "Chronic" ;
-                            schema1:name "disease severity" ],
-                        [ schema1:description "Chronic" ;
-                            schema1:name "disease severity" ],
-                        [ a schema1:DefinedTerm ;
-                            schema1:description "African American" ;
-                            schema1:name "race" ] ;
+                            schema1:name "IGK" ] ;
                     bios:alternateIdentifier "1015503308190519786-242ac116-0001-012",
                         "105783803776265750-242ac116-0001-012",
                         "1092125524751159786-242ac116-0001-012",
@@ -5049,65 +5137,65 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                             schema1:identifier "NCBITAXON:9606" ;
                             schema1:inDefinedTermSet "NCBITAXON" ;
                             schema1:name "Homo sapiens" ] ] ;
-            schema1:itemListElement [ schema1:identifier "SRS823739" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823728" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823745" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823722" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823726" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823729" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823730" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823727" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823725" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823736" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823737" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823744" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823720" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823735" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823734" ;
+            schema1:itemListElement [ schema1:identifier "SRS823728" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823733" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823731" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823719" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823746" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823743" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823718" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823724" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823723" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823738" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823740" ;
-                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823721" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823732" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
-                [ schema1:identifier "SRS823741" ;
+                [ schema1:identifier "SRS823724" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823744" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823745" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823731" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823729" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823718" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823736" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823746" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823727" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823742" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823720" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823725" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823735" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823741" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823738" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823722" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823723" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823719" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823726" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823737" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
                 [ schema1:identifier "SRS823747" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823734" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823730" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823721" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823739" ;
+                    schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ],
+                [ schema1:identifier "SRS823743" ;
                     schema1:url "https://vdjserver.org/community?study_id=PRJNA272713" ] ;
             schema1:numberOfItems [ a schema1:QuantitativeValue ;
                     schema1:unitText "sample" ;
@@ -5139,36 +5227,7 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
                     schema1:url "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html" ] ;
             nde:isCurated true ;
             nde:originalName "homo sapiens" ;
-            cdifniaid:classification "host" ;
-            cdifniaid:commonName "Human" ;
-            cdifniaid:displayName "Human | Homo sapiens" ] ;
-    nde:topicCategory [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3299" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Evolutionary biology" ;
-            schema1:url "http://edamontology.org/topic_3299" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_0804" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Immunology" ;
-            schema1:url "http://edamontology.org/topic_0804" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3053" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Genetics" ;
-            schema1:url "http://edamontology.org/topic_3053" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ] .
+            cdifniaid:commonName "Human" ] .
 
 <https://data.niaid.nih.gov/resources?id=vdj_prjna272713#metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -5176,13 +5235,16 @@ Record vdj_prjna272713 from VDJServer, as the NIAID Data Discovery Portal API re
         <https://w3id.org/cdif/niaid/1.0> ;
     schema1:about <https://data.niaid.nih.gov/resources?id=vdj_prjna272713> ;
     schema1:additionalType dcat:CatalogRecord ;
-    schema1:description "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record vdj_prjna272713, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them." ;
+    schema1:description """CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record vdj_prjna272713, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.
+
+Metadata source from PMID.
+
+Metadata source from GPT.""" ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
             schema1:name "NIAID Data Discovery Portal" ;
             schema1:url "https://data.niaid.nih.gov/" ] ;
     schema1:name "Metadata record for: Maturation and Diversity of the VRC01-Antibody Lineage over 15 Years of Chronic HIV-1 Infection" ;
-    schema1:sdDatePublished "2026-10-28" ;
-    schema1:url "https://data.niaid.nih.gov/resources?id=vdj_prjna272713" .
+    schema1:sdDatePublished "2026-10-28" .
 
 
 ```
@@ -5201,6 +5263,7 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
     "prov": "http://www.w3.org/ns/prov#",
     "nde": "https://discovery.biothings.io/ns/nde/",
     "bios": "https://bioschemas.org/",
+    "time": "http://www.w3.org/2006/time#",
     "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
   },
   "@type": [
@@ -5208,7 +5271,9 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=sdy2580",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=sdy2580",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=sdy2580"
+    },
     "@type": [
       "schema:Dataset"
     ],
@@ -5219,9 +5284,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=sdy2580#metadata",
     "schema:name": "Metadata record for: Polymer delivery of Influenza Vaccine",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=sdy2580"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -5256,9 +5318,8 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
   "bios:alternateIdentifier": [
     "SDY2580"
   ],
-  "nde:date": "2025-10-30",
   "schema:dateModified": "2025-10-30",
-  "schema:abstract": "Not Provided",
+  "nde:date": "2025-10-30",
   "schema:alternateName": [
     "SDY2580",
     "10.21430/m3c49tyd79",
@@ -5303,7 +5364,7 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
     "schema:url": "https://immport.org",
     "nde:versionDate": "2025-10-30T00:00:00"
   },
-  "schema:description": "Using polymers to deliver broadly reactive influenza subunit vaccines",
+  "schema:description": "Using polymers to deliver broadly reactive influenza subunit vaccines\n\nNot Provided",
   "schema:funding": [
     {
       "@type": [
@@ -5314,8 +5375,8 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "National Institute of Allergy & Infectious Diseases",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "National Institute of Allergy & Infectious Diseases",
           "NIAID",
           "Instituto Nacional de Alergias y Enfermedades Infecciosas"
         ],
@@ -5341,8 +5402,8 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "National Institute of Allergy & Infectious Diseases",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "National Institute of Allergy & Infectious Diseases",
           "NIAID",
           "Instituto Nacional de Alergias y Enfermedades Infecciosas"
         ],
@@ -5401,7 +5462,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "unidentified root endophyte",
         "unclassified sequence"
       ],
-      "cdifniaid:classification": "infectiousAgent",
       "nde:curatedBy": {
         "@type": [
           "schema:SoftwareApplication"
@@ -5410,7 +5470,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "unidentified",
       "schema:identifier": "32644",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -5420,24 +5479,34 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
     }
   ],
   "schema:isAccessibleForFree": true,
-  "schema:isBasedOn": [
+  "prov:wasDerivedFrom": [
     {
       "@type": [
         "schema:CreativeWork"
       ],
       "schema:url": "https://www.immport.org/browser/?path=SDY2580",
-      "schema:identifier": "PTL11743",
-      "schema:additionalType": {
-        "schema:name": "Study Protocol"
-      },
-      "schema:description": "Methods associated with Metal-Organic Coordination Plymer for Delivery of a Subunit Broadly Acting Influenza Vaccine publication",
-      "schema:name": "Eckshtain-Levi.pdf"
+      "schema:name": "Eckshtain-Levi.pdf",
+      "schema:description": "Methods associated with Metal-Organic Coordination Plymer for Delivery of a Subunit Broadly Acting Influenza Vaccine publication"
     }
   ],
   "schema:keywords": [
     "influenza",
     "PXRD, molecular modeling, endotoxin quantification assessment, scanning electron microscopy, zeta particle size analysis, high performance liquid chromatography, MTT assay, sandwich ELISA, nitride concentration assessment",
-    "CIVICs Collaborative Influenza Vaccine Innovation Centers"
+    "CIVICs Collaborative Influenza Vaccine Innovation Centers",
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://www.immport.org/agreement"
@@ -5468,8 +5537,7 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
   ],
   "schema:name": "Polymer delivery of Influenza Vaccine",
   "schema:sameAs": [
-    "https://doi.org/10.21430/m3c49tyd79",
-    "https://immport.org/shared/study/SDY2580"
+    "https://doi.org/10.21430/m3c49tyd79"
   ],
   "nde:sample": {
     "@type": [
@@ -5490,14 +5558,13 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
       "@type": [
         "schema:ResearchProject"
       ],
-      "schema:abstract": "Collaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers working collaboratively to develop next-generation influenza vaccines. Their goal is to create vaccines that provide broader, longer-lasting protection against influenza viruses.",
       "schema:alternateName": [
         "CIVIC",
         "Collaborative Influenza Vaccine Innovation Centers",
         "CIVICs"
       ],
       "cdifniaid:correctionApproved": true,
-      "schema:description": "Collaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers that will work together in a coordinated, multidisciplinary effort to develop more durable, broadly protective and longer-lasting influenza vaccines. For more information, visit the NIAID program page: https://www.niaid.nih.gov/research/civics",
+      "schema:description": "Collaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers that will work together in a coordinated, multidisciplinary effort to develop more durable, broadly protective and longer-lasting influenza vaccines. For more information, visit the NIAID program page: https://www.niaid.nih.gov/research/civics\n\nCollaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers working collaboratively to develop next-generation influenza vaccines. Their goal is to create vaccines that provide broader, longer-lasting protection against influenza viruses.",
       "schema:name": "NIAID CIVICs Network",
       "schema:parentOrganization": [
         "NIAID"
@@ -5521,7 +5588,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "nude mice",
         "transgenic mice"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Mouse",
       "nde:curatedBy": {
         "@type": [
@@ -5531,7 +5597,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "Mouse | Mus musculus",
       "schema:identifier": "10090",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -5564,6 +5629,7 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
       "prov": "http://www.w3.org/ns/prov#",
       "nde": "https://discovery.biothings.io/ns/nde/",
       "bios": "https://bioschemas.org/",
+      "time": "http://www.w3.org/2006/time#",
       "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
     }
   ],
@@ -5572,7 +5638,9 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=sdy2580",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=sdy2580",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=sdy2580"
+    },
     "@type": [
       "schema:Dataset"
     ],
@@ -5583,9 +5651,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=sdy2580#metadata",
     "schema:name": "Metadata record for: Polymer delivery of Influenza Vaccine",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=sdy2580"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -5620,9 +5685,8 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
   "bios:alternateIdentifier": [
     "SDY2580"
   ],
-  "nde:date": "2025-10-30",
   "schema:dateModified": "2025-10-30",
-  "schema:abstract": "Not Provided",
+  "nde:date": "2025-10-30",
   "schema:alternateName": [
     "SDY2580",
     "10.21430/m3c49tyd79",
@@ -5667,7 +5731,7 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
     "schema:url": "https://immport.org",
     "nde:versionDate": "2025-10-30T00:00:00"
   },
-  "schema:description": "Using polymers to deliver broadly reactive influenza subunit vaccines",
+  "schema:description": "Using polymers to deliver broadly reactive influenza subunit vaccines\n\nNot Provided",
   "schema:funding": [
     {
       "@type": [
@@ -5678,8 +5742,8 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "National Institute of Allergy & Infectious Diseases",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "National Institute of Allergy & Infectious Diseases",
           "NIAID",
           "Instituto Nacional de Alergias y Enfermedades Infecciosas"
         ],
@@ -5705,8 +5769,8 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "National Institute of Allergy & Infectious Diseases",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "National Institute of Allergy & Infectious Diseases",
           "NIAID",
           "Instituto Nacional de Alergias y Enfermedades Infecciosas"
         ],
@@ -5765,7 +5829,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "unidentified root endophyte",
         "unclassified sequence"
       ],
-      "cdifniaid:classification": "infectiousAgent",
       "nde:curatedBy": {
         "@type": [
           "schema:SoftwareApplication"
@@ -5774,7 +5837,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "unidentified",
       "schema:identifier": "32644",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -5784,24 +5846,34 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
     }
   ],
   "schema:isAccessibleForFree": true,
-  "schema:isBasedOn": [
+  "prov:wasDerivedFrom": [
     {
       "@type": [
         "schema:CreativeWork"
       ],
       "schema:url": "https://www.immport.org/browser/?path=SDY2580",
-      "schema:identifier": "PTL11743",
-      "schema:additionalType": {
-        "schema:name": "Study Protocol"
-      },
-      "schema:description": "Methods associated with Metal-Organic Coordination Plymer for Delivery of a Subunit Broadly Acting Influenza Vaccine publication",
-      "schema:name": "Eckshtain-Levi.pdf"
+      "schema:name": "Eckshtain-Levi.pdf",
+      "schema:description": "Methods associated with Metal-Organic Coordination Plymer for Delivery of a Subunit Broadly Acting Influenza Vaccine publication"
     }
   ],
   "schema:keywords": [
     "influenza",
     "PXRD, molecular modeling, endotoxin quantification assessment, scanning electron microscopy, zeta particle size analysis, high performance liquid chromatography, MTT assay, sandwich ELISA, nitride concentration assessment",
-    "CIVICs Collaborative Influenza Vaccine Innovation Centers"
+    "CIVICs Collaborative Influenza Vaccine Innovation Centers",
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://www.immport.org/agreement"
@@ -5832,8 +5904,7 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
   ],
   "schema:name": "Polymer delivery of Influenza Vaccine",
   "schema:sameAs": [
-    "https://doi.org/10.21430/m3c49tyd79",
-    "https://immport.org/shared/study/SDY2580"
+    "https://doi.org/10.21430/m3c49tyd79"
   ],
   "nde:sample": {
     "@type": [
@@ -5854,14 +5925,13 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
       "@type": [
         "schema:ResearchProject"
       ],
-      "schema:abstract": "Collaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers working collaboratively to develop next-generation influenza vaccines. Their goal is to create vaccines that provide broader, longer-lasting protection against influenza viruses.",
       "schema:alternateName": [
         "CIVIC",
         "Collaborative Influenza Vaccine Innovation Centers",
         "CIVICs"
       ],
       "cdifniaid:correctionApproved": true,
-      "schema:description": "Collaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers that will work together in a coordinated, multidisciplinary effort to develop more durable, broadly protective and longer-lasting influenza vaccines. For more information, visit the NIAID program page: https://www.niaid.nih.gov/research/civics",
+      "schema:description": "Collaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers that will work together in a coordinated, multidisciplinary effort to develop more durable, broadly protective and longer-lasting influenza vaccines. For more information, visit the NIAID program page: https://www.niaid.nih.gov/research/civics\n\nCollaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers working collaboratively to develop next-generation influenza vaccines. Their goal is to create vaccines that provide broader, longer-lasting protection against influenza viruses.",
       "schema:name": "NIAID CIVICs Network",
       "schema:parentOrganization": [
         "NIAID"
@@ -5885,7 +5955,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "nude mice",
         "transgenic mice"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Mouse",
       "nde:curatedBy": {
         "@type": [
@@ -5895,7 +5964,6 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "Mouse | Mus musculus",
       "schema:identifier": "10090",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -5915,12 +5983,12 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix nde: <https://discovery.biothings.io/ns/nde/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://data.niaid.nih.gov/resources?id=sdy2580> a schema1:Dataset ;
-    schema1:abstract "Not Provided" ;
     schema1:alternateName "10.21430/m3c49tyd79",
         "Polymer delivery of Influenza Vaccine",
         "SDY2580" ;
@@ -5930,29 +5998,31 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
                         schema1:name "University of North Carolina" ] ;
                 schema1:name "Kristy Ainslie" ] ) ;
     schema1:dateModified "2025-10-30" ;
-    schema1:description "Using polymers to deliver broadly reactive influenza subunit vaccines" ;
+    schema1:description """Using polymers to deliver broadly reactive influenza subunit vaccines
+
+Not Provided""" ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:endDate "2020-09-09" ;
             schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
+                    schema1:alternateName "Instituto Nacional de Alergias y Enfermedades Infecciosas",
+                        "NIAID",
+                        "National Institute of Allergy & Infectious Diseases" ;
                     schema1:identifier "https://ror.org/043z4tv69" ;
                     schema1:name "National Institute of Allergy and Infectious Diseases" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "Instituto Nacional de Alergias y Enfermedades Infecciosas",
-                        "NIAID" ] ;
+                    schema1:parentOrganization "National Institutes of Health" ] ],
+        [ a schema1:MonetaryGrant ;
+            schema1:endDate "2020-09-09" ;
+            schema1:funder [ a schema1:Organization ;
+                    schema1:alternateName "Instituto Nacional de Alergias y Enfermedades Infecciosas",
+                        "NIAID",
+                        "National Institute of Allergy & Infectious Diseases" ;
+                    schema1:identifier "https://ror.org/043z4tv69" ;
+                    schema1:name "National Institute of Allergy and Infectious Diseases" ;
+                    schema1:parentOrganization "National Institutes of Health" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:value "75N93019C00052-0-9999-1" ] ;
             schema1:name "CIVIC: University of Georgia Center for Influenza Vaccine Research in High Risk Populations" ;
             schema1:startDate "2019-09-10" ;
-            schema1:url "https://reporter.nih.gov/project-details/10021763" ],
-        [ a schema1:MonetaryGrant ;
-            schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
-                    schema1:identifier "https://ror.org/043z4tv69" ;
-                    schema1:name "National Institute of Allergy and Infectious Diseases" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "Instituto Nacional de Alergias y Enfermedades Infecciosas",
-                        "NIAID" ] ] ;
+            schema1:url "https://reporter.nih.gov/project-details/10021763" ] ;
     schema1:healthCondition [ a schema1:DefinedTerm ;
             schema1:identifier "8469" ;
             schema1:inDefinedTermSet "DOID" ;
@@ -5995,17 +6065,15 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
                     schema1:name "PubTator" ;
                     schema1:url "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html" ] ;
             nde:isCurated true ;
-            nde:originalName "not specified" ;
-            cdifniaid:classification "infectiousAgent" ;
-            cdifniaid:displayName "unidentified" ] ;
+            nde:originalName "not specified" ] ;
     schema1:isAccessibleForFree true ;
-    schema1:isBasedOn [ a schema1:CreativeWork ;
-            schema1:additionalType [ schema1:name "Study Protocol" ] ;
-            schema1:description "Methods associated with Metal-Organic Coordination Plymer for Delivery of a Subunit Broadly Acting Influenza Vaccine publication" ;
-            schema1:identifier "PTL11743" ;
-            schema1:name "Eckshtain-Levi.pdf" ;
-            schema1:url "https://www.immport.org/browser/?path=SDY2580" ] ;
-    schema1:keywords "CIVICs Collaborative Influenza Vaccine Innovation Centers",
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "infectiousAgent" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
+        "CIVICs Collaborative Influenza Vaccine Innovation Centers",
         "PXRD, molecular modeling, endotoxin quantification assessment, scanning electron microscopy, zeta particle size analysis, high performance liquid chromatography, MTT assay, sandwich ELISA, nitride concentration assessment",
         "influenza" ;
     schema1:license "https://www.immport.org/agreement" ;
@@ -6024,20 +6092,24 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
             nde:isCurated true ;
             nde:originalName "Other" ] ;
     schema1:name "Polymer delivery of Influenza Vaccine" ;
-    schema1:sameAs "https://doi.org/10.21430/m3c49tyd79",
-        "https://immport.org/shared/study/SDY2580" ;
+    schema1:sameAs "https://doi.org/10.21430/m3c49tyd79" ;
     schema1:sourceOrganization [ a schema1:ResearchProject ;
-            schema1:abstract "Collaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers working collaboratively to develop next-generation influenza vaccines. Their goal is to create vaccines that provide broader, longer-lasting protection against influenza viruses." ;
             schema1:alternateName "CIVIC",
                 "CIVICs",
                 "Collaborative Influenza Vaccine Innovation Centers" ;
-            schema1:description "Collaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers that will work together in a coordinated, multidisciplinary effort to develop more durable, broadly protective and longer-lasting influenza vaccines. For more information, visit the NIAID program page: https://www.niaid.nih.gov/research/civics" ;
+            schema1:description """Collaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers that will work together in a coordinated, multidisciplinary effort to develop more durable, broadly protective and longer-lasting influenza vaccines. For more information, visit the NIAID program page: https://www.niaid.nih.gov/research/civics
+
+Collaborative Influenza Vaccine Innovation Centers (CIVICs) is a network of research centers working collaboratively to develop next-generation influenza vaccines. Their goal is to create vaccines that provide broader, longer-lasting protection against influenza viruses.""" ;
             schema1:name "NIAID CIVICs Network" ;
             schema1:parentOrganization "NIAID" ;
             schema1:url "https://www.niaidcivics.org/" ;
             cdifniaid:correctionApproved true ] ;
     schema1:subjectOf <https://data.niaid.nih.gov/resources?id=sdy2580#metadata> ;
     schema1:url "https://immport.org/shared/study/SDY2580" ;
+    prov:wasDerivedFrom [ a schema1:CreativeWork ;
+            schema1:description "Methods associated with Metal-Organic Coordination Plymer for Delivery of a Subunit Broadly Acting Influenza Vaccine publication" ;
+            schema1:name "Eckshtain-Levi.pdf" ;
+            schema1:url "https://www.immport.org/browser/?path=SDY2580" ] ;
     bios:alternateIdentifier "SDY2580" ;
     nde:citedBy [ a schema1:ScholarlyArticle ;
             schema1:name "Metal-Organic Coordination Polymer for Delivery of a Subunit Broadly Acting Influenza Vaccine." ;
@@ -6076,9 +6148,7 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
                     schema1:url "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html" ] ;
             nde:isCurated true ;
             nde:originalName "mus musculus" ;
-            cdifniaid:classification "host" ;
-            cdifniaid:commonName "Mouse" ;
-            cdifniaid:displayName "Mouse | Mus musculus" ] .
+            cdifniaid:commonName "Mouse" ] .
 
 <https://data.niaid.nih.gov/resources?id=sdy2580#metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -6091,8 +6161,7 @@ Record sdy2580 from Immunology Database and Analysis Portal (ImmPort), as the NI
             schema1:name "NIAID Data Discovery Portal" ;
             schema1:url "https://data.niaid.nih.gov/" ] ;
     schema1:name "Metadata record for: Polymer delivery of Influenza Vaccine" ;
-    schema1:sdDatePublished "2026-10-28" ;
-    schema1:url "https://data.niaid.nih.gov/resources?id=sdy2580" .
+    schema1:sdDatePublished "2026-10-28" .
 
 
 ```
@@ -6111,6 +6180,7 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
     "prov": "http://www.w3.org/ns/prov#",
     "nde": "https://discovery.biothings.io/ns/nde/",
     "bios": "https://bioschemas.org/",
+    "time": "http://www.w3.org/2006/time#",
     "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
   },
   "@type": [
@@ -6118,7 +6188,10 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=lds-1224",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=lds-1224",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=lds-1224"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record lds-1224, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from EXTRACT.",
     "@type": [
       "schema:Dataset"
     ],
@@ -6129,9 +6202,6 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=lds-1224#metadata",
     "schema:name": "Metadata record for: Synovial Fibroblast 3.1: Secretion response of seven primary human synovial fibroblast samples from healthy and rheumato",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=lds-1224"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -6143,7 +6213,6 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record lds-1224, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -6226,7 +6295,6 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
         "Arthritis or polyarthritis, rheumatic",
         "atrophic Arthritis"
       ],
-      "cdifniaid:fromEXTRACT": true,
       "schema:identifier": "7148",
       "schema:inDefinedTermSet": "DOID",
       "nde:isCurated": true,
@@ -6244,7 +6312,7 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
     "schema:url": "https://lincsportal.ccs.miami.edu/datasets/",
     "nde:versionDate": "2026-10-24"
   },
-  "schema:isBasedOn": [
+  "prov:wasDerivedFrom": [
     {
       "@type": [
         "schema:CreativeWork"
@@ -6253,21 +6321,35 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
       "schema:name": "protocol"
     }
   ],
-  "nde:isRelatedTo": {
-    "@type": [
-      "schema:CreativeWork"
-    ],
-    "schema:url": "https://lincsportal.ccs.miami.edu/datasets/view/LDG-1218",
-    "schema:identifier": "LDG-1218",
-    "schema:name": "LDG-1218"
-  },
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:LinkRole"
+      ],
+      "schema:linkRelationship": "related to",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://lincsportal.ccs.miami.edu/datasets/view/LDG-1218"
+      },
+      "schema:name": "LDG-1218"
+    }
+  ],
   "schema:keywords": [
     "Bead-based immunoassay",
     "TNF-a",
     "Binding",
     "Post-translational protein modification, Signaling",
     "Protein profile",
-    "IL-1 alpha"
+    "IL-1 alpha",
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "http://www.opengis.net/def/nil/OGC/0/missing"
@@ -6309,10 +6391,7 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
         "Homo sapiense",
         "human"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
-      "cdifniaid:displayName": "Human | Homo sapiens",
-      "cdifniaid:fromEXTRACT": true,
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -6322,9 +6401,6 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
     }
   ],
   "schema:url": "https://lincsportal.ccs.miami.edu/datasets/view/LDS-1224",
-  "schema:sameAs": [
-    "https://lincsportal.ccs.miami.edu/datasets/view/LDS-1224"
-  ],
   "schema:variableMeasured": [
     {
       "@type": [
@@ -6357,6 +6433,7 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
       "prov": "http://www.w3.org/ns/prov#",
       "nde": "https://discovery.biothings.io/ns/nde/",
       "bios": "https://bioschemas.org/",
+      "time": "http://www.w3.org/2006/time#",
       "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
     }
   ],
@@ -6365,7 +6442,10 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=lds-1224",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=lds-1224",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=lds-1224"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record lds-1224, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from EXTRACT.",
     "@type": [
       "schema:Dataset"
     ],
@@ -6376,9 +6456,6 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=lds-1224#metadata",
     "schema:name": "Metadata record for: Synovial Fibroblast 3.1: Secretion response of seven primary human synovial fibroblast samples from healthy and rheumato",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=lds-1224"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -6390,7 +6467,6 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record lds-1224, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -6473,7 +6549,6 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
         "Arthritis or polyarthritis, rheumatic",
         "atrophic Arthritis"
       ],
-      "cdifniaid:fromEXTRACT": true,
       "schema:identifier": "7148",
       "schema:inDefinedTermSet": "DOID",
       "nde:isCurated": true,
@@ -6491,7 +6566,7 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
     "schema:url": "https://lincsportal.ccs.miami.edu/datasets/",
     "nde:versionDate": "2026-10-24"
   },
-  "schema:isBasedOn": [
+  "prov:wasDerivedFrom": [
     {
       "@type": [
         "schema:CreativeWork"
@@ -6500,21 +6575,35 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
       "schema:name": "protocol"
     }
   ],
-  "nde:isRelatedTo": {
-    "@type": [
-      "schema:CreativeWork"
-    ],
-    "schema:url": "https://lincsportal.ccs.miami.edu/datasets/view/LDG-1218",
-    "schema:identifier": "LDG-1218",
-    "schema:name": "LDG-1218"
-  },
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:LinkRole"
+      ],
+      "schema:linkRelationship": "related to",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://lincsportal.ccs.miami.edu/datasets/view/LDG-1218"
+      },
+      "schema:name": "LDG-1218"
+    }
+  ],
   "schema:keywords": [
     "Bead-based immunoassay",
     "TNF-a",
     "Binding",
     "Post-translational protein modification, Signaling",
     "Protein profile",
-    "IL-1 alpha"
+    "IL-1 alpha",
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "http://www.opengis.net/def/nil/OGC/0/missing"
@@ -6556,10 +6645,7 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
         "Homo sapiense",
         "human"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
-      "cdifniaid:displayName": "Human | Homo sapiens",
-      "cdifniaid:fromEXTRACT": true,
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -6569,9 +6655,6 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
     }
   ],
   "schema:url": "https://lincsportal.ccs.miami.edu/datasets/view/LDS-1224",
-  "schema:sameAs": [
-    "https://lincsportal.ccs.miami.edu/datasets/view/LDS-1224"
-  ],
   "schema:variableMeasured": [
     {
       "@type": [
@@ -6590,6 +6673,7 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix nde: <https://discovery.biothings.io/ns/nde/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -6622,18 +6706,17 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
             schema1:name "rheumatoid arthritis" ;
             schema1:url "http://purl.obolibrary.org/obo/DOID_7148" ;
             nde:isCurated true ;
-            nde:originalName "rheumatoid arthritis" ;
-            cdifniaid:fromEXTRACT true ] ;
+            nde:originalName "rheumatoid arthritis" ] ;
     schema1:identifier "LDS-1224" ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
             schema1:archivedAt "https://lincsportal.ccs.miami.edu/datasets/view/LDS-1224" ;
             schema1:name "Library of Integrated Network-based Cellular Signatures (LINCS)" ;
             schema1:url "https://lincsportal.ccs.miami.edu/datasets/" ;
             nde:versionDate "2026-10-24" ] ;
-    schema1:isBasedOn [ a schema1:CreativeWork ;
-            schema1:name "protocol" ;
-            schema1:url "LDG-1218_Protocol.pdf" ] ;
-    schema1:keywords "Bead-based immunoassay",
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
+        "Bead-based immunoassay",
         "Binding",
         "IL-1 alpha",
         "Post-translational protein modification, Signaling",
@@ -6648,17 +6731,20 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
             nde:isCurated true ;
             nde:originalName "Bead-based immunoassay for protein state" ] ;
     schema1:name "Synovial Fibroblast 3.1: Secretion response of seven primary human synovial fibroblast samples from healthy and rheumatoid arthritis donors to a panel of 3 stimuli and 5 small molecule inhibitors (replicate 1 of 2)" ;
-    schema1:sameAs "https://lincsportal.ccs.miami.edu/datasets/view/LDS-1224" ;
+    schema1:relatedLink [ a schema1:LinkRole ;
+            schema1:linkRelationship "related to" ;
+            schema1:name "LDG-1218" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:url "https://lincsportal.ccs.miami.edu/datasets/view/LDG-1218" ] ] ;
     schema1:subjectOf <https://data.niaid.nih.gov/resources?id=lds-1224#metadata> ;
     schema1:url "https://lincsportal.ccs.miami.edu/datasets/view/LDS-1224" ;
     schema1:variableMeasured [ a schema1:DefinedTerm,
                 schema1:PropertyValue ;
             schema1:name "Fluorescence intensity" ] ;
+    prov:wasDerivedFrom [ a schema1:CreativeWork ;
+            schema1:name "protocol" ;
+            schema1:url "LDG-1218_Protocol.pdf" ] ;
     nde:date "2017-09-19" ;
-    nde:isRelatedTo [ a schema1:CreativeWork ;
-            schema1:identifier "LDG-1218" ;
-            schema1:name "LDG-1218" ;
-            schema1:url "https://lincsportal.ccs.miami.edu/datasets/view/LDG-1218" ] ;
     nde:species [ a schema1:DefinedTerm ;
             schema1:alternateName "Home sapiens",
                 "Homo sampiens",
@@ -6682,10 +6768,7 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
             schema1:url "https://www.uniprot.org/taxonomy/9606" ;
             nde:isCurated false ;
             nde:originalName "human" ;
-            cdifniaid:classification "host" ;
-            cdifniaid:commonName "Human" ;
-            cdifniaid:displayName "Human | Homo sapiens" ;
-            cdifniaid:fromEXTRACT true ] ;
+            cdifniaid:commonName "Human" ] ;
     cdifniaid:assayformat "Cell based" .
 
 <https://data.niaid.nih.gov/resources?id=lds-1224#metadata> a schema1:Dataset ;
@@ -6694,13 +6777,14 @@ Record lds-1224 from Library of Integrated Network-based Cellular Signatures (LI
         <https://w3id.org/cdif/niaid/1.0> ;
     schema1:about <https://data.niaid.nih.gov/resources?id=lds-1224> ;
     schema1:additionalType dcat:CatalogRecord ;
-    schema1:description "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record lds-1224, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them." ;
+    schema1:description """CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record lds-1224, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.
+
+Metadata source from EXTRACT.""" ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
             schema1:name "NIAID Data Discovery Portal" ;
             schema1:url "https://data.niaid.nih.gov/" ] ;
     schema1:name "Metadata record for: Synovial Fibroblast 3.1: Secretion response of seven primary human synovial fibroblast samples from healthy and rheumato" ;
-    schema1:sdDatePublished "2026-10-28" ;
-    schema1:url "https://data.niaid.nih.gov/resources?id=lds-1224" .
+    schema1:sdDatePublished "2026-10-28" .
 
 
 ```
@@ -6719,6 +6803,7 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
     "prov": "http://www.w3.org/ns/prov#",
     "nde": "https://discovery.biothings.io/ns/nde/",
     "bios": "https://bioschemas.org/",
+    "time": "http://www.w3.org/2006/time#",
     "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
   },
   "@type": [
@@ -6726,7 +6811,10 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=dryad_p79tm37",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=dryad_p79tm37",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=dryad_p79tm37"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record dryad_p79tm37, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from EXTRACT.\n\nMetadata source from GPT.",
     "@type": [
       "schema:Dataset"
     ],
@@ -6737,9 +6825,6 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=dryad_p79tm37#metadata",
     "schema:name": "Metadata record for: Ecology and evolution of blood oxygen-carrying capacity in birds",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=dryad_p79tm37"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -6748,10 +6833,12 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
         "@id": "https://w3id.org/cdif/discovery/1.1"
       },
       {
+        "@id": "https://w3id.org/cdif/manifest/1.1"
+      },
+      {
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record dryad_p79tm37, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -6785,7 +6872,7 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
             "schema:Organization"
           ],
           "schema:identifier": "https://ror.org/05cq64r17",
-          "schema:name": "University of \u0141\u00f3d\u017a",
+          "schema:name": "University of Łódź",
           "schema:sameAs": [
             "https://ror.org/05cq64r17"
           ]
@@ -6812,23 +6899,24 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
   "schema:distribution": [
     {
       "@type": [
-        "schema:DataDownload"
+        "schema:DataDownload",
+        "schema:Collection"
       ],
       "schema:contentUrl": "http://datadryad.org/api/v2/datasets/doi%253A10.5061%252Fdryad.p79tm37/download",
       "schema:encodingFormat": [
         "application/zip"
       ],
-      "cdifniaid:partUrl": [
-        "http://datadryad.org/downloads/file_stream/1462203"
+      "schema:hasPart": [
+        {
+          "@type": [
+            "schema:MediaObject"
+          ],
+          "schema:name": "Minias RAW DATARaw data for \"Ecology and evolution of blood oxygen-carrying capacity in birds\".",
+          "schema:encodingFormat": [
+            "application/octet-stream"
+          ]
+        }
       ]
-    }
-  ],
-  "cdifniaid:unlinkedHasPart": [
-    {
-      "@type": [
-        "schema:Thing"
-      ],
-      "schema:name": "Minias RAW DATARaw data for \"Ecology and evolution of blood oxygen-carrying capacity in birds\"."
     }
   ],
   "schema:includedInDataCatalog": [
@@ -6854,7 +6942,65 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
   "schema:isAccessibleForFree": true,
   "schema:keywords": [
     "Evolution: physiological",
-    "Physiology: comparative"
+    "Physiology: comparative",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_0610",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Ecology",
+      "schema:url": "http://edamontology.org/topic_0610",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3500",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Zoology",
+      "schema:url": "http://edamontology.org/topic_3500",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3299",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Evolutionary biology",
+      "schema:url": "http://edamontology.org/topic_3299",
+      "schema:about": "topicCategory"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://spdx.org/licenses/CC0-1.0.html"
@@ -6878,10 +7024,7 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
         "birds",
         "avian"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "birds",
-      "cdifniaid:displayName": "birds | Aves",
-      "cdifniaid:fromEXTRACT": true,
       "schema:identifier": "8782",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -6893,62 +7036,14 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
   "schema:temporalCoverage": [
     "../2022-04-26"
   ],
-  "nde:topicCategory": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_0610",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Ecology",
-      "schema:url": "http://edamontology.org/topic_0610"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3500",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Zoology",
-      "schema:url": "http://edamontology.org/topic_3500"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3299",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Evolutionary biology",
-      "schema:url": "http://edamontology.org/topic_3299"
-    }
-  ],
   "schema:url": "http://datadryad.org/dataset/doi%253A10.5061%252Fdryad.p79tm37",
-  "schema:sameAs": [
-    "http://datadryad.org/dataset/doi%253A10.5061%252Fdryad.p79tm37"
+  "schema:hasPart": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://datadryad.org/downloads/file_stream/1462203"
+    }
   ]
 }
 
@@ -6973,6 +7068,7 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
       "prov": "http://www.w3.org/ns/prov#",
       "nde": "https://discovery.biothings.io/ns/nde/",
       "bios": "https://bioschemas.org/",
+      "time": "http://www.w3.org/2006/time#",
       "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
     }
   ],
@@ -6981,7 +7077,10 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=dryad_p79tm37",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=dryad_p79tm37",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=dryad_p79tm37"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record dryad_p79tm37, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from EXTRACT.\n\nMetadata source from GPT.",
     "@type": [
       "schema:Dataset"
     ],
@@ -6992,9 +7091,6 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=dryad_p79tm37#metadata",
     "schema:name": "Metadata record for: Ecology and evolution of blood oxygen-carrying capacity in birds",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=dryad_p79tm37"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -7003,10 +7099,12 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
         "@id": "https://w3id.org/cdif/discovery/1.1"
       },
       {
+        "@id": "https://w3id.org/cdif/manifest/1.1"
+      },
+      {
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record dryad_p79tm37, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -7067,23 +7165,24 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
   "schema:distribution": [
     {
       "@type": [
-        "schema:DataDownload"
+        "schema:DataDownload",
+        "schema:Collection"
       ],
       "schema:contentUrl": "http://datadryad.org/api/v2/datasets/doi%253A10.5061%252Fdryad.p79tm37/download",
       "schema:encodingFormat": [
         "application/zip"
       ],
-      "cdifniaid:partUrl": [
-        "http://datadryad.org/downloads/file_stream/1462203"
+      "schema:hasPart": [
+        {
+          "@type": [
+            "schema:MediaObject"
+          ],
+          "schema:name": "Minias RAW DATARaw data for \"Ecology and evolution of blood oxygen-carrying capacity in birds\".",
+          "schema:encodingFormat": [
+            "application/octet-stream"
+          ]
+        }
       ]
-    }
-  ],
-  "cdifniaid:unlinkedHasPart": [
-    {
-      "@type": [
-        "schema:Thing"
-      ],
-      "schema:name": "Minias RAW DATARaw data for \"Ecology and evolution of blood oxygen-carrying capacity in birds\"."
     }
   ],
   "schema:includedInDataCatalog": [
@@ -7109,7 +7208,65 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
   "schema:isAccessibleForFree": true,
   "schema:keywords": [
     "Evolution: physiological",
-    "Physiology: comparative"
+    "Physiology: comparative",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_0610",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Ecology",
+      "schema:url": "http://edamontology.org/topic_0610",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3500",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Zoology",
+      "schema:url": "http://edamontology.org/topic_3500",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3299",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Evolutionary biology",
+      "schema:url": "http://edamontology.org/topic_3299",
+      "schema:about": "topicCategory"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://spdx.org/licenses/CC0-1.0.html"
@@ -7133,10 +7290,7 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
         "birds",
         "avian"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "birds",
-      "cdifniaid:displayName": "birds | Aves",
-      "cdifniaid:fromEXTRACT": true,
       "schema:identifier": "8782",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -7148,62 +7302,14 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
   "schema:temporalCoverage": [
     "../2022-04-26"
   ],
-  "nde:topicCategory": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_0610",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Ecology",
-      "schema:url": "http://edamontology.org/topic_0610"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3500",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Zoology",
-      "schema:url": "http://edamontology.org/topic_3500"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3299",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Evolutionary biology",
-      "schema:url": "http://edamontology.org/topic_3299"
-    }
-  ],
   "schema:url": "http://datadryad.org/dataset/doi%253A10.5061%252Fdryad.p79tm37",
-  "schema:sameAs": [
-    "http://datadryad.org/dataset/doi%253A10.5061%252Fdryad.p79tm37"
+  "schema:hasPart": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:contentUrl": "http://datadryad.org/downloads/file_stream/1462203"
+    }
   ]
 }
 ```
@@ -7235,30 +7341,64 @@ Record dryad_p79tm37 from Dryad Digital Repository (Dryad), as the NIAID Data Di
     schema1:datePublished "2022-04-26" ;
     schema1:description """Blood oxygen-carrying capacity is one of important determinants of oxygen amounts supplied to the tissues per unit time and plays a key role in oxidative metabolism. In wild vertebrates, blood oxygen-carrying capacity is most commonly measured with the total blood haemoglobin concentration (Hb) and haematocrit (Hct), which is the volume percentage of red blood cells in blood. Here, I used published estimates of avian Hb and Hct (nearly one thousand estimates from 300 species) to examine macroevolutionary patterns in blood oxygen-carrying capacity of blood in birds. Phylogenetically-informed comparative analysis indicated that blood oxygen-carrying capacity was primarily determined by species distribution (latitude and elevation) and morphological constraints (body mass). I found little support for the effect of life history components on blood oxygen-carrying capacity, except for a positive association of Hct with clutch size. Hb was also positively associated with diving
 behaviour, but I found no effect of migratoriness on either Hb or Hct. Fluctuating selection was identified as the major force shaping the evolution of blood oxygen-carrying capacity. The results offer novel insights into the evolution of Hb and Hct in birds, as well as they provide a general, phylogenetically-robust support for some long-standing hypotheses in avian ecophysiology.""" ;
-    schema1:distribution [ a schema1:DataDownload ;
+    schema1:distribution [ a schema1:Collection,
+                schema1:DataDownload ;
             schema1:contentUrl "http://datadryad.org/api/v2/datasets/doi%253A10.5061%252Fdryad.p79tm37/download" ;
             schema1:encodingFormat "application/zip" ;
-            cdifniaid:partUrl "http://datadryad.org/downloads/file_stream/1462203" ] ;
+            schema1:hasPart [ a schema1:MediaObject ;
+                    schema1:encodingFormat "application/octet-stream" ;
+                    schema1:name "Minias RAW DATARaw data for \"Ecology and evolution of blood oxygen-carrying capacity in birds\"." ] ] ;
+    schema1:hasPart [ a schema1:DataDownload ;
+            schema1:contentUrl "http://datadryad.org/downloads/file_stream/1462203" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://registry.identifiers.org/registry/doi> ;
             schema1:url "https://doi.org/10.5061/dryad.p79tm37" ;
             schema1:value "10.5061/dryad.p79tm37" ] ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
-            schema1:archivedAt "https://zenodo.org/records/6496349" ;
-            schema1:name "Zenodo" ;
-            schema1:url "https://zenodo.org/" ;
-            nde:versionDate "2026-10-02" ],
-        [ a schema1:DataCatalog ;
             schema1:archivedAt "http://datadryad.org/dataset/doi%253A10.5061%252Fdryad.p79tm37" ;
             schema1:name "Dryad Digital Repository (Dryad)" ;
             schema1:url "https://datadryad.org" ;
-            nde:versionDate "2026-10-01" ] ;
+            nde:versionDate "2026-10-01" ],
+        [ a schema1:DataCatalog ;
+            schema1:archivedAt "https://zenodo.org/records/6496349" ;
+            schema1:name "Zenodo" ;
+            schema1:url "https://zenodo.org/" ;
+            nde:versionDate "2026-10-02" ] ;
     schema1:isAccessibleForFree true ;
-    schema1:keywords "Evolution: physiological",
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_3299" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Evolutionary biology" ;
+            schema1:url "http://edamontology.org/topic_3299" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_3500" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Zoology" ;
+            schema1:url "http://edamontology.org/topic_3500" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_0610" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Ecology" ;
+            schema1:url "http://edamontology.org/topic_0610" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        "Evolution: physiological",
         "Physiology: comparative" ;
     schema1:license "https://spdx.org/licenses/CC0-1.0.html" ;
     schema1:name "Ecology and evolution of blood oxygen-carrying capacity in birds" ;
-    schema1:sameAs "http://datadryad.org/dataset/doi%253A10.5061%252Fdryad.p79tm37" ;
     schema1:spatialCoverage [ a schema1:AdministrativeArea,
                 schema1:Place ;
             schema1:name "Global" ] ;
@@ -7275,53 +7415,25 @@ behaviour, but I found no effect of migratoriness on either Hb or Hct. Fluctuati
             schema1:url "https://www.uniprot.org/taxonomy/8782" ;
             nde:isCurated false ;
             nde:originalName "birds" ;
-            cdifniaid:classification "host" ;
-            cdifniaid:commonName "birds" ;
-            cdifniaid:displayName "birds | Aves" ;
-            cdifniaid:fromEXTRACT true ] ;
-    nde:topicCategory [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3299" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Evolutionary biology" ;
-            schema1:url "http://edamontology.org/topic_3299" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3500" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Zoology" ;
-            schema1:url "http://edamontology.org/topic_3500" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_0610" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Ecology" ;
-            schema1:url "http://edamontology.org/topic_0610" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ] ;
-    cdifniaid:unlinkedHasPart [ a schema1:Thing ;
-            schema1:name "Minias RAW DATARaw data for \"Ecology and evolution of blood oxygen-carrying capacity in birds\"." ] .
+            cdifniaid:commonName "birds" ] .
 
 <https://data.niaid.nih.gov/resources?id=dryad_p79tm37#metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
         <https://w3id.org/cdif/discovery/1.1>,
+        <https://w3id.org/cdif/manifest/1.1>,
         <https://w3id.org/cdif/niaid/1.0> ;
     schema1:about <https://data.niaid.nih.gov/resources?id=dryad_p79tm37> ;
     schema1:additionalType dcat:CatalogRecord ;
-    schema1:description "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record dryad_p79tm37, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them." ;
+    schema1:description """CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record dryad_p79tm37, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.
+
+Metadata source from EXTRACT.
+
+Metadata source from GPT.""" ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
             schema1:name "NIAID Data Discovery Portal" ;
             schema1:url "https://data.niaid.nih.gov/" ] ;
     schema1:name "Metadata record for: Ecology and evolution of blood oxygen-carrying capacity in birds" ;
-    schema1:sdDatePublished "2026-10-28" ;
-    schema1:url "https://data.niaid.nih.gov/resources?id=dryad_p79tm37" .
+    schema1:sdDatePublished "2026-10-28" .
 
 
 ```
@@ -7340,6 +7452,7 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
     "prov": "http://www.w3.org/ns/prov#",
     "nde": "https://discovery.biothings.io/ns/nde/",
     "bios": "https://bioschemas.org/",
+    "time": "http://www.w3.org/2006/time#",
     "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
   },
   "@type": [
@@ -7347,7 +7460,9 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=phs003686",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=phs003686",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=phs003686"
+    },
     "@type": [
       "schema:Dataset"
     ],
@@ -7358,9 +7473,6 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=phs003686#metadata",
     "schema:name": "Metadata record for: CO-CREATE-Ex: Community-engaged Optimization of COVID-19 Rapid Evaluation And  TEsting Experiences",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=phs003686"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -7499,7 +7611,6 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
         "Human coronavirus 2019",
         "COVID-19"
       ],
-      "cdifniaid:classification": "infectiousAgent",
       "cdifniaid:commonName": "2019-nCoV",
       "nde:curatedBy": {
         "@type": [
@@ -7509,7 +7620,6 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
         "schema:name": "Data Discovery Engine",
         "schema:url": "https://discovery.biothings.io/"
       },
-      "cdifniaid:displayName": "2019-nCoV | Severe acute respiratory syndrome coronavirus 2",
       "schema:identifier": "2697049",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -7518,17 +7628,33 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
       "schema:url": "https://www.uniprot.org/taxonomy/2697049"
     }
   ],
-  "schema:isBasedOn": {
-    "@type": [
-      "schema:CreativeWork"
-    ],
-    "schema:url": "https://clinicaltrials.gov/study/NCT05894655"
-  },
+  "prov:wasDerivedFrom": [
+    {
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:url": "https://clinicaltrials.gov/study/NCT05894655"
+    }
+  ],
   "schema:keywords": [
     "Diagnostic Testing",
     "Community Outreach Programs",
     "Testing Rate or Uptake",
-    "At-Home or Over-the-Counter (OTC) Self-Testing"
+    "At-Home or Over-the-Counter (OTC) Self-Testing",
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://sharing.nih.gov/accessing-data/accessing-genomic-data/how-to-request-and-access-datasets-from-dbgap"
@@ -7598,7 +7724,6 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
         "Homo spiens",
         "Humo sapiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
       "nde:curatedBy": {
         "@type": [
@@ -7608,7 +7733,6 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -7618,22 +7742,26 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
     }
   ],
   "schema:temporalCoverage": [
-    "2022-11-01/2024-10-31"
-  ],
-  "cdifniaid:temporalIntervals": [
     {
       "@type": [
-        "nde:TemporalInterval"
+        "time:ProperInterval"
       ],
-      "schema:endDate": "2024-10-31",
-      "schema:startDate": "2022-11-01",
-      "nde:temporalType": "study date"
+      "time:hasBeginning": {
+        "@type": [
+          "time:Instant"
+        ],
+        "time:inXSDDate": "2022-11-01"
+      },
+      "time:hasEnd": {
+        "@type": [
+          "time:Instant"
+        ],
+        "time:inXSDDate": "2024-10-31"
+      },
+      "schema:description": "nde:temporalType: study date"
     }
   ],
   "schema:url": "https://radxdatahub.nih.gov/study/271",
-  "schema:sameAs": [
-    "https://radxdatahub.nih.gov/study/271"
-  ],
   "schema:variableMeasured": [
     {
       "@type": [
@@ -7673,6 +7801,7 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
       "prov": "http://www.w3.org/ns/prov#",
       "nde": "https://discovery.biothings.io/ns/nde/",
       "bios": "https://bioschemas.org/",
+      "time": "http://www.w3.org/2006/time#",
       "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
     }
   ],
@@ -7681,7 +7810,9 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=phs003686",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=phs003686",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=phs003686"
+    },
     "@type": [
       "schema:Dataset"
     ],
@@ -7692,9 +7823,6 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=phs003686#metadata",
     "schema:name": "Metadata record for: CO-CREATE-Ex: Community-engaged Optimization of COVID-19 Rapid Evaluation And  TEsting Experiences",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=phs003686"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -7833,7 +7961,6 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
         "Human coronavirus 2019",
         "COVID-19"
       ],
-      "cdifniaid:classification": "infectiousAgent",
       "cdifniaid:commonName": "2019-nCoV",
       "nde:curatedBy": {
         "@type": [
@@ -7843,7 +7970,6 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
         "schema:name": "Data Discovery Engine",
         "schema:url": "https://discovery.biothings.io/"
       },
-      "cdifniaid:displayName": "2019-nCoV | Severe acute respiratory syndrome coronavirus 2",
       "schema:identifier": "2697049",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -7852,17 +7978,33 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
       "schema:url": "https://www.uniprot.org/taxonomy/2697049"
     }
   ],
-  "schema:isBasedOn": {
-    "@type": [
-      "schema:CreativeWork"
-    ],
-    "schema:url": "https://clinicaltrials.gov/study/NCT05894655"
-  },
+  "prov:wasDerivedFrom": [
+    {
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:url": "https://clinicaltrials.gov/study/NCT05894655"
+    }
+  ],
   "schema:keywords": [
     "Diagnostic Testing",
     "Community Outreach Programs",
     "Testing Rate or Uptake",
-    "At-Home or Over-the-Counter (OTC) Self-Testing"
+    "At-Home or Over-the-Counter (OTC) Self-Testing",
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://sharing.nih.gov/accessing-data/accessing-genomic-data/how-to-request-and-access-datasets-from-dbgap"
@@ -7932,7 +8074,6 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
         "Homo spiens",
         "Humo sapiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
       "nde:curatedBy": {
         "@type": [
@@ -7942,7 +8083,6 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -7952,22 +8092,26 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
     }
   ],
   "schema:temporalCoverage": [
-    "2022-11-01/2024-10-31"
-  ],
-  "cdifniaid:temporalIntervals": [
     {
       "@type": [
-        "nde:TemporalInterval"
+        "time:ProperInterval"
       ],
-      "schema:endDate": "2024-10-31",
-      "schema:startDate": "2022-11-01",
-      "nde:temporalType": "study date"
+      "time:hasBeginning": {
+        "@type": [
+          "time:Instant"
+        ],
+        "time:inXSDDate": "2022-11-01"
+      },
+      "time:hasEnd": {
+        "@type": [
+          "time:Instant"
+        ],
+        "time:inXSDDate": "2024-10-31"
+      },
+      "schema:description": "nde:temporalType: study date"
     }
   ],
   "schema:url": "https://radxdatahub.nih.gov/study/271",
-  "schema:sameAs": [
-    "https://radxdatahub.nih.gov/study/271"
-  ],
   "schema:variableMeasured": [
     {
       "@type": [
@@ -7994,8 +8138,10 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix nde: <https://discovery.biothings.io/ns/nde/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix schema1: <http://schema.org/> .
+@prefix time: <http://www.w3.org/2006/time#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://data.niaid.nih.gov/resources?id=phs003686> a schema1:Dataset ;
@@ -8063,12 +8209,14 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
                     schema1:url "https://discovery.biothings.io/" ] ;
             nde:isCurated true ;
             nde:originalName "Severe acute respiratory syndrome coronavirus 2" ;
-            cdifniaid:classification "infectiousAgent" ;
-            cdifniaid:commonName "2019-nCoV" ;
-            cdifniaid:displayName "2019-nCoV | Severe acute respiratory syndrome coronavirus 2" ] ;
-    schema1:isBasedOn [ a schema1:CreativeWork ;
-            schema1:url "https://clinicaltrials.gov/study/NCT05894655" ] ;
-    schema1:keywords "At-Home or Over-the-Counter (OTC) Self-Testing",
+            cdifniaid:commonName "2019-nCoV" ] ;
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "infectiousAgent" ],
+        "At-Home or Over-the-Counter (OTC) Self-Testing",
         "Community Outreach Programs",
         "Diagnostic Testing",
         "Testing Rate or Uptake" ;
@@ -8095,11 +8243,15 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
             nde:isCurated true ;
             nde:originalName "Questionnaire or Survey" ] ;
     schema1:name "CO-CREATE-Ex: Community-engaged Optimization of COVID-19 Rapid Evaluation And  TEsting Experiences" ;
-    schema1:sameAs "https://radxdatahub.nih.gov/study/271" ;
     schema1:sdPublisher [ a schema1:DataCatalog ;
             schema1:name "RADx-UP" ] ;
     schema1:subjectOf <https://data.niaid.nih.gov/resources?id=phs003686#metadata> ;
-    schema1:temporalCoverage "2022-11-01/2024-10-31" ;
+    schema1:temporalCoverage [ a time:ProperInterval ;
+            schema1:description "nde:temporalType: study date" ;
+            time:hasBeginning [ a time:Instant ;
+                    time:inXSDDate "2022-11-01" ] ;
+            time:hasEnd [ a time:Instant ;
+                    time:inXSDDate "2024-10-31" ] ] ;
     schema1:url "https://radxdatahub.nih.gov/study/271" ;
     schema1:variableMeasured [ a schema1:DefinedTerm,
                 schema1:PropertyValue ;
@@ -8107,6 +8259,8 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
         [ a schema1:DefinedTerm,
                 schema1:PropertyValue ;
             schema1:name "Human Data" ] ;
+    prov:wasDerivedFrom [ a schema1:CreativeWork ;
+            schema1:url "https://clinicaltrials.gov/study/NCT05894655" ] ;
     bios:alternateIdentifier "phs003686" ;
     nde:date "2024-09-13" ;
     nde:species [ a schema1:DefinedTerm ;
@@ -8136,13 +8290,7 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
                     schema1:url "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html" ] ;
             nde:isCurated true ;
             nde:originalName "homo sapiens" ;
-            cdifniaid:classification "host" ;
-            cdifniaid:commonName "Human" ;
-            cdifniaid:displayName "Human | Homo sapiens" ] ;
-    cdifniaid:temporalIntervals [ a nde:TemporalInterval ;
-            schema1:endDate "2024-10-31" ;
-            schema1:startDate "2022-11-01" ;
-            nde:temporalType "study date" ] .
+            cdifniaid:commonName "Human" ] .
 
 <https://data.niaid.nih.gov/resources?id=phs003686#metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -8155,8 +8303,7 @@ Record phs003686 from COVID Rapid Acceleration of Diagnostics (RADx) Data Hub, a
             schema1:name "NIAID Data Discovery Portal" ;
             schema1:url "https://data.niaid.nih.gov/" ] ;
     schema1:name "Metadata record for: CO-CREATE-Ex: Community-engaged Optimization of COVID-19 Rapid Evaluation And  TEsting Experiences" ;
-    schema1:sdDatePublished "2026-10-28" ;
-    schema1:url "https://data.niaid.nih.gov/resources?id=phs003686" .
+    schema1:sdDatePublished "2026-10-28" .
 
 
 ```
@@ -8175,6 +8322,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
     "prov": "http://www.w3.org/ns/prov#",
     "nde": "https://discovery.biothings.io/ns/nde/",
     "bios": "https://bioschemas.org/",
+    "time": "http://www.w3.org/2006/time#",
     "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
   },
   "@type": [
@@ -8182,7 +8330,10 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=empiar-10514",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=empiar-10514",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=empiar-10514"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record empiar-10514, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from PMID.",
     "@type": [
       "schema:Dataset"
     ],
@@ -8193,9 +8344,6 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=empiar-10514#metadata",
     "schema:name": "Metadata record for: Cryo electron microscopy of SARS-CoV-2 stabilized spike in prefusion state",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=empiar-10514"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -8207,7 +8355,6 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record empiar-10514, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -8309,7 +8456,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
           "@type": [
             "schema:Person"
           ],
-          "schema:name": "Mart\u00ednez M"
+          "schema:name": "Martínez M"
         },
         {
           "@type": [
@@ -8321,7 +8468,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
           "@type": [
             "schema:Person"
           ],
-          "schema:name": "Ram\u00edrez-Aportela E"
+          "schema:name": "Ramírez-Aportela E"
         },
         {
           "@type": [
@@ -8339,7 +8486,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
           "@type": [
             "schema:Person"
           ],
-          "schema:name": "Del Ca\u00f1o L"
+          "schema:name": "Del Caño L"
         },
         {
           "@type": [
@@ -8515,7 +8662,6 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         }
       ],
       "schema:datePublished": "2020-09-29",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "PMID:33063791",
       "nde:journalName": "IUCrJ",
       "schema:name": "Continuous flexibility analysis of SARS-CoV-2 spike prefusion structures.",
@@ -8550,8 +8696,8 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "National Institute of Allergy & Infectious Diseases",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "National Institute of Allergy & Infectious Diseases",
           "NIAID",
           "Instituto Nacional de Alergias y Enfermedades Infecciosas"
         ],
@@ -8588,8 +8734,8 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "NIGMS",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "NIGMS",
           "U.S. National Institute of General Medical Sciences"
         ],
         "schema:employee": [
@@ -8630,7 +8776,6 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         "severe acute respiratory syndrome coronavirus 2 measurement",
         "sars-cov-2"
       ],
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "C171532",
       "schema:inDefinedTermSet": "NCIT",
       "nde:isCurated": false,
@@ -8677,10 +8822,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         "COVID-19",
         "COVID19"
       ],
-      "cdifniaid:classification": "infectiousAgent",
       "cdifniaid:commonName": "2019-nCoV",
-      "cdifniaid:displayName": "2019-nCoV | Severe acute respiratory syndrome coronavirus 2",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "2697049",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -8689,19 +8831,23 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
     }
   ],
   "schema:isAccessibleForFree": true,
-  "schema:isBasedOn": {
-    "@type": [
-      "schema:CreativeWork"
-    ],
-    "schema:url": "https://ftp.ebi.ac.uk/empiar/world_availability/10514/data/SARS-CoV-2-spike-prefusion/workflow.json",
-    "schema:name": "Workflow"
-  },
+  "prov:wasDerivedFrom": [
+    {
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:url": "https://ftp.ebi.ac.uk/empiar/world_availability/10514/data/SARS-CoV-2-spike-prefusion/workflow.json",
+      "schema:name": "Workflow"
+    }
+  ],
   "nde:isBasisFor": [
     {
       "@type": [
         "schema:Thing"
       ],
-      "schema:identifier": "EMD-11341",
+      "schema:identifier": [
+        "EMD-11341"
+      ],
       "schema:includedInDataCatalog": {
         "@type": [
           "schema:DataCatalog"
@@ -8711,20 +8857,60 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
       }
     }
   ],
-  "nde:isRelatedTo": [
+  "schema:relatedLink": [
     {
       "@type": [
-        "schema:CreativeWork"
+        "schema:LinkRole"
       ],
-      "nde:doi": [
-        "10.6019/EMPIAR-10514"
-      ],
-      "schema:url": "https://doi.org/10.6019/EMPIAR-10514']"
+      "schema:linkRelationship": "related to",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://doi.org/10.6019/EMPIAR-10514']"
+      }
     }
   ],
   "schema:keywords": [
     "EMDB",
-    "micrographs - multiframe"
+    "micrographs - multiframe",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:identifier": "topic_0611",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Electron microscopy",
+      "schema:url": "http://edamontology.org/topic_0611",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:identifier": "topic_1317",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Structural biology",
+      "schema:url": "http://edamontology.org/topic_1317",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:identifier": "topic_3383",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Bioimaging",
+      "schema:url": "http://edamontology.org/topic_3383",
+      "schema:about": "topicCategory"
+    },
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:measurementTechnique": [
     {
@@ -8739,8 +8925,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
   ],
   "schema:name": "Cryo electron microscopy of SARS-CoV-2 stabilized spike in prefusion state",
   "schema:sameAs": [
-    "https://doi.org/10.6019/EMPIAR-10514",
-    "https://www.ebi.ac.uk/empiar/EMPIAR-10514/"
+    "https://doi.org/10.6019/EMPIAR-10514"
   ],
   "schema:sdPublisher": {
     "@type": [
@@ -8749,35 +8934,6 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
     "schema:name": "biostudies-other",
     "schema:url": "https://www.omicsdi.org/dataset/biostudies-other/EMPIAR-10514"
   },
-  "nde:topicCategory": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:identifier": "topic_0611",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Electron microscopy",
-      "schema:url": "http://edamontology.org/topic_0611"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:identifier": "topic_1317",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Structural biology",
-      "schema:url": "http://edamontology.org/topic_1317"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:identifier": "topic_3383",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Bioimaging",
-      "schema:url": "http://edamontology.org/topic_3383"
-    }
-  ],
   "schema:url": "https://www.ebi.ac.uk/empiar/EMPIAR-10514/"
 }
 
@@ -8802,6 +8958,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
       "prov": "http://www.w3.org/ns/prov#",
       "nde": "https://discovery.biothings.io/ns/nde/",
       "bios": "https://bioschemas.org/",
+      "time": "http://www.w3.org/2006/time#",
       "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
     }
   ],
@@ -8810,7 +8967,10 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=empiar-10514",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=empiar-10514",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=empiar-10514"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record empiar-10514, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from PMID.",
     "@type": [
       "schema:Dataset"
     ],
@@ -8821,9 +8981,6 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=empiar-10514#metadata",
     "schema:name": "Metadata record for: Cryo electron microscopy of SARS-CoV-2 stabilized spike in prefusion state",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=empiar-10514"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -8835,7 +8992,6 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record empiar-10514, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -9143,7 +9299,6 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         }
       ],
       "schema:datePublished": "2020-09-29",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "PMID:33063791",
       "nde:journalName": "IUCrJ",
       "schema:name": "Continuous flexibility analysis of SARS-CoV-2 spike prefusion structures.",
@@ -9178,8 +9333,8 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "National Institute of Allergy & Infectious Diseases",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "National Institute of Allergy & Infectious Diseases",
           "NIAID",
           "Instituto Nacional de Alergias y Enfermedades Infecciosas"
         ],
@@ -9216,8 +9371,8 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "NIGMS",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "NIGMS",
           "U.S. National Institute of General Medical Sciences"
         ],
         "schema:employee": [
@@ -9258,7 +9413,6 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         "severe acute respiratory syndrome coronavirus 2 measurement",
         "sars-cov-2"
       ],
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "C171532",
       "schema:inDefinedTermSet": "NCIT",
       "nde:isCurated": false,
@@ -9305,10 +9459,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         "COVID-19",
         "COVID19"
       ],
-      "cdifniaid:classification": "infectiousAgent",
       "cdifniaid:commonName": "2019-nCoV",
-      "cdifniaid:displayName": "2019-nCoV | Severe acute respiratory syndrome coronavirus 2",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "2697049",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -9317,19 +9468,23 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
     }
   ],
   "schema:isAccessibleForFree": true,
-  "schema:isBasedOn": {
-    "@type": [
-      "schema:CreativeWork"
-    ],
-    "schema:url": "https://ftp.ebi.ac.uk/empiar/world_availability/10514/data/SARS-CoV-2-spike-prefusion/workflow.json",
-    "schema:name": "Workflow"
-  },
+  "prov:wasDerivedFrom": [
+    {
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:url": "https://ftp.ebi.ac.uk/empiar/world_availability/10514/data/SARS-CoV-2-spike-prefusion/workflow.json",
+      "schema:name": "Workflow"
+    }
+  ],
   "nde:isBasisFor": [
     {
       "@type": [
         "schema:Thing"
       ],
-      "schema:identifier": "EMD-11341",
+      "schema:identifier": [
+        "EMD-11341"
+      ],
       "schema:includedInDataCatalog": {
         "@type": [
           "schema:DataCatalog"
@@ -9339,20 +9494,60 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
       }
     }
   ],
-  "nde:isRelatedTo": [
+  "schema:relatedLink": [
     {
       "@type": [
-        "schema:CreativeWork"
+        "schema:LinkRole"
       ],
-      "nde:doi": [
-        "10.6019/EMPIAR-10514"
-      ],
-      "schema:url": "https://doi.org/10.6019/EMPIAR-10514']"
+      "schema:linkRelationship": "related to",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://doi.org/10.6019/EMPIAR-10514']"
+      }
     }
   ],
   "schema:keywords": [
     "EMDB",
-    "micrographs - multiframe"
+    "micrographs - multiframe",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:identifier": "topic_0611",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Electron microscopy",
+      "schema:url": "http://edamontology.org/topic_0611",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:identifier": "topic_1317",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Structural biology",
+      "schema:url": "http://edamontology.org/topic_1317",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:identifier": "topic_3383",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Bioimaging",
+      "schema:url": "http://edamontology.org/topic_3383",
+      "schema:about": "topicCategory"
+    },
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:measurementTechnique": [
     {
@@ -9367,8 +9562,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
   ],
   "schema:name": "Cryo electron microscopy of SARS-CoV-2 stabilized spike in prefusion state",
   "schema:sameAs": [
-    "https://doi.org/10.6019/EMPIAR-10514",
-    "https://www.ebi.ac.uk/empiar/EMPIAR-10514/"
+    "https://doi.org/10.6019/EMPIAR-10514"
   ],
   "schema:sdPublisher": {
     "@type": [
@@ -9377,35 +9571,6 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
     "schema:name": "biostudies-other",
     "schema:url": "https://www.omicsdi.org/dataset/biostudies-other/EMPIAR-10514"
   },
-  "nde:topicCategory": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:identifier": "topic_0611",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Electron microscopy",
-      "schema:url": "http://edamontology.org/topic_0611"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:identifier": "topic_1317",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Structural biology",
-      "schema:url": "http://edamontology.org/topic_1317"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:identifier": "topic_3383",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Bioimaging",
-      "schema:url": "http://edamontology.org/topic_3383"
-    }
-  ],
   "schema:url": "https://www.ebi.ac.uk/empiar/EMPIAR-10514/"
 }
 ```
@@ -9417,6 +9582,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix nde: <https://discovery.biothings.io/ns/nde/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -9424,85 +9590,84 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
 <https://data.niaid.nih.gov/resources?id=empiar-10514> a schema1:Dataset ;
     schema1:citation [ a schema1:ScholarlyArticle ;
             schema1:author [ a schema1:Person ;
-                    schema1:name "McLellan JS" ],
-                [ a schema1:Person ;
-                    schema1:name "Foster B" ],
-                [ a schema1:Person ;
-                    schema1:name "Wrapp D" ],
-                [ a schema1:Person ;
-                    schema1:name "Fonseca-Reyna YC" ],
-                [ a schema1:Person ;
-                    schema1:name "Herreros D" ],
-                [ a schema1:Person ;
-                    schema1:name "Chacon P" ],
-                [ a schema1:Person ;
-                    schema1:name "Tagare HD" ],
-                [ a schema1:Person ;
-                    schema1:name "Marabini R" ],
-                [ a schema1:Person ;
-                    schema1:name "Carazo JM" ],
-                [ a schema1:Person ;
-                    schema1:name "Sanchez-Garcia R" ],
-                [ a schema1:Person ;
                     schema1:name "Martinez M" ],
+                [ a schema1:Person ;
+                    schema1:name "Losana P" ],
+                [ a schema1:Person ;
+                    schema1:name "Del Cano L" ],
+                [ a schema1:Person ;
+                    schema1:name "Ramirez-Aportela E" ],
                 [ a schema1:Person ;
                     schema1:name "Vilas JL" ],
                 [ a schema1:Person ;
                     schema1:name "Sorzano COS" ],
                 [ a schema1:Person ;
-                    schema1:name "Ramirez-Aportela E" ],
+                    schema1:name "Tagare HD" ],
+                [ a schema1:Person ;
+                    schema1:name "Fonseca-Reyna YC" ],
+                [ a schema1:Person ;
+                    schema1:name "Sanchez-Garcia R" ],
+                [ a schema1:Person ;
+                    schema1:name "Foster B" ],
+                [ a schema1:Person ;
+                    schema1:name "Chacon P" ],
+                [ a schema1:Person ;
+                    schema1:name "McLellan JS" ],
+                [ a schema1:Person ;
+                    schema1:name "Carazo JM" ],
+                [ a schema1:Person ;
+                    schema1:name "Wrapp D" ],
                 [ a schema1:Person ;
                     schema1:name "Conesa P" ],
                 [ a schema1:Person ;
-                    schema1:name "Losana P" ],
+                    schema1:name "Herreros D" ],
                 [ a schema1:Person ;
                     schema1:name "Melero R" ],
                 [ a schema1:Person ;
-                    schema1:name "Del Cano L" ] ;
+                    schema1:name "Marabini R" ] ;
             schema1:datePublished "2020-09-29" ;
             schema1:identifier "PMID:33063791" ;
             schema1:name "Continuous flexibility analysis of SARS-CoV-2 spike prefusion structures." ;
             schema1:url "https://pubmed.ncbi.nlm.nih.gov/33063791/" ;
             nde:journalName "IUCrJ" ;
-            nde:pmid "33063791" ;
-            cdifniaid:fromPMID true ],
+            nde:pmid "33063791" ],
         [ a schema1:ScholarlyArticle ;
             schema1:author [ a schema1:Person ;
-                    schema1:name "Ramírez-Aportela E" ],
-                [ a schema1:Person ;
-                    schema1:name "Fonseca-Reyna YC" ],
+                    schema1:name "McLellan JS" ],
                 [ a schema1:Person ;
                     schema1:name "Vilas JL" ],
                 [ a schema1:Person ;
-                    schema1:name "Marabini R" ],
-                [ a schema1:Person ;
-                    schema1:name "Tagare HD" ],
-                [ a schema1:Person ;
-                    schema1:name "Conesa P" ],
+                    schema1:name "Del Caño L" ],
                 [ a schema1:Person ;
                     schema1:name "Herreros D" ],
                 [ a schema1:Person ;
-                    schema1:name "McLellan JS" ],
+                    schema1:name "Chacon P" ],
                 [ a schema1:Person ;
-                    schema1:name "Foster B" ],
+                    schema1:name "Losana P" ],
                 [ a schema1:Person ;
-                    schema1:name "Del Caño L" ],
+                    schema1:name "Carazo JM" ],
                 [ a schema1:Person ;
-                    schema1:name "Wrapp D" ],
+                    schema1:name "Tagare HD" ],
+                [ a schema1:Person ;
+                    schema1:name "Ramírez-Aportela E" ],
                 [ a schema1:Person ;
                     schema1:name "Melero R" ],
                 [ a schema1:Person ;
                     schema1:name "Sanchez-Garcia R" ],
                 [ a schema1:Person ;
-                    schema1:name "Carazo JM" ],
+                    schema1:name "Conesa P" ],
                 [ a schema1:Person ;
-                    schema1:name "Sorzano COS" ],
+                    schema1:name "Marabini R" ],
+                [ a schema1:Person ;
+                    schema1:name "Wrapp D" ],
+                [ a schema1:Person ;
+                    schema1:name "Foster B" ],
+                [ a schema1:Person ;
+                    schema1:name "Fonseca-Reyna YC" ],
                 [ a schema1:Person ;
                     schema1:name "Martínez M" ],
                 [ a schema1:Person ;
-                    schema1:name "Losana P" ],
-                [ a schema1:Person ;
-                    schema1:name "Chacon P" ] ;
+                    schema1:name "Sorzano COS" ] ;
             schema1:datePublished "2020" ;
             schema1:issueNumber "Pt 6" ;
             schema1:name "Continuous flexibility analysis of SARS-CoV-2 spike prefusion structures" ;
@@ -9540,15 +9705,15 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:endDate "2022-02-28" ;
             schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "NIGMS" ;
+                    schema1:alternateName "NIGMS",
+                        "U.S. National Institute of General Medical Sciences" ;
                     schema1:employee [ a schema1:Person ;
                             schema1:familyName "SAMMAK" ;
                             schema1:givenName "PAUL" ;
                             schema1:name "PAUL SAMMAK" ] ;
                     schema1:identifier "https://ror.org/04q48ey07" ;
                     schema1:name "National Institute of General Medical Sciences" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "U.S. National Institute of General Medical Sciences" ] ;
+                    schema1:parentOrganization "National Institutes of Health" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:value "1R01GM125769-01" ] ;
             schema1:name "Principal subspace analysis of cryo-EM heterogeneity" ;
@@ -9557,16 +9722,16 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         [ a schema1:MonetaryGrant ;
             schema1:endDate "2017-12-31" ;
             schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "National Institute of Allergy & Infectious Diseases" ;
+                    schema1:alternateName "Instituto Nacional de Alergias y Enfermedades Infecciosas",
+                        "NIAID",
+                        "National Institute of Allergy & Infectious Diseases" ;
                     schema1:employee [ a schema1:Person ;
                             schema1:familyName "PLIMACK" ;
                             schema1:givenName "MARY" ;
                             schema1:name "MARY PLIMACK" ] ;
                     schema1:identifier "https://ror.org/043z4tv69" ;
                     schema1:name "National Institute of Allergy and Infectious Diseases" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "Instituto Nacional de Alergias y Enfermedades Infecciosas",
-                        "NIAID" ] ;
+                    schema1:parentOrganization "National Institutes of Health" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:value "1R01AI127521-01A1" ] ;
             schema1:name "Structure, Function and Antigenicity of Coronavirus Spike Proteins" ;
@@ -9583,8 +9748,7 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
             schema1:inDefinedTermSet "NCIT" ;
             schema1:name "Severe Acute Respiratory Syndrome Coronavirus 2 Measurement" ;
             schema1:url "http://purl.obolibrary.org/obo/NCIT_C171532" ;
-            nde:isCurated false ;
-            cdifniaid:fromPMID true ] ;
+            nde:isCurated false ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID <https://registry.identifiers.org/registry/doi> ;
             schema1:url "https://doi.org/10.6019/EMPIAR-10514" ;
@@ -9617,15 +9781,30 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
             schema1:name "Severe acute respiratory syndrome coronavirus 2" ;
             schema1:url "https://www.uniprot.org/taxonomy/2697049" ;
             nde:isCurated false ;
-            cdifniaid:classification "infectiousAgent" ;
-            cdifniaid:commonName "2019-nCoV" ;
-            cdifniaid:displayName "2019-nCoV | Severe acute respiratory syndrome coronavirus 2" ;
-            cdifniaid:fromPMID true ] ;
+            cdifniaid:commonName "2019-nCoV" ] ;
     schema1:isAccessibleForFree true ;
-    schema1:isBasedOn [ a schema1:CreativeWork ;
-            schema1:name "Workflow" ;
-            schema1:url "https://ftp.ebi.ac.uk/empiar/world_availability/10514/data/SARS-CoV-2-spike-prefusion/workflow.json" ] ;
-    schema1:keywords "EMDB",
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_3383" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Bioimaging" ;
+            schema1:url "http://edamontology.org/topic_3383" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_1317" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Structural biology" ;
+            schema1:url "http://edamontology.org/topic_1317" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "infectiousAgent" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_0611" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Electron microscopy" ;
+            schema1:url "http://edamontology.org/topic_0611" ],
+        "EMDB",
         "micrographs - multiframe" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier "CHMO_0000068" ;
@@ -9633,38 +9812,26 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
             schema1:name "electron microscopy" ;
             schema1:url "http://purl.obolibrary.org/obo/CHMO_0000068" ] ;
     schema1:name "Cryo electron microscopy of SARS-CoV-2 stabilized spike in prefusion state" ;
-    schema1:sameAs "https://doi.org/10.6019/EMPIAR-10514",
-        "https://www.ebi.ac.uk/empiar/EMPIAR-10514/" ;
+    schema1:relatedLink [ a schema1:LinkRole ;
+            schema1:linkRelationship "related to" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:url "https://doi.org/10.6019/EMPIAR-10514']" ] ] ;
+    schema1:sameAs "https://doi.org/10.6019/EMPIAR-10514" ;
     schema1:sdPublisher [ a schema1:Organization ;
             schema1:name "biostudies-other" ;
             schema1:url "https://www.omicsdi.org/dataset/biostudies-other/EMPIAR-10514" ] ;
     schema1:subjectOf <https://data.niaid.nih.gov/resources?id=empiar-10514#metadata> ;
     schema1:url "https://www.ebi.ac.uk/empiar/EMPIAR-10514/" ;
+    prov:wasDerivedFrom [ a schema1:CreativeWork ;
+            schema1:name "Workflow" ;
+            schema1:url "https://ftp.ebi.ac.uk/empiar/world_availability/10514/data/SARS-CoV-2-spike-prefusion/workflow.json" ] ;
     bios:alternateIdentifier "EMPIAR-10514" ;
     nde:date "2022-05-12" ;
     nde:isBasisFor [ a schema1:Thing ;
             schema1:identifier "EMD-11341" ;
             schema1:includedInDataCatalog [ a schema1:DataCatalog ;
                     schema1:name "Electron Microscopy Data Bank (EMDB)" ;
-                    schema1:url "https://www.ebi.ac.uk/emdb" ] ] ;
-    nde:isRelatedTo [ a schema1:CreativeWork ;
-            schema1:url "https://doi.org/10.6019/EMPIAR-10514']" ;
-            nde:doi "10.6019/EMPIAR-10514" ] ;
-    nde:topicCategory [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_1317" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Structural biology" ;
-            schema1:url "http://edamontology.org/topic_1317" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3383" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Bioimaging" ;
-            schema1:url "http://edamontology.org/topic_3383" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_0611" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Electron microscopy" ;
-            schema1:url "http://edamontology.org/topic_0611" ] .
+                    schema1:url "https://www.ebi.ac.uk/emdb" ] ] .
 
 <https://data.niaid.nih.gov/resources?id=empiar-10514#metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -9672,13 +9839,14 @@ Record empiar-10514 from Electron Microscopy Public Image Archive (EMPIAR), as t
         <https://w3id.org/cdif/niaid/1.0> ;
     schema1:about <https://data.niaid.nih.gov/resources?id=empiar-10514> ;
     schema1:additionalType dcat:CatalogRecord ;
-    schema1:description "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record empiar-10514, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them." ;
+    schema1:description """CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record empiar-10514, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.
+
+Metadata source from PMID.""" ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
             schema1:name "NIAID Data Discovery Portal" ;
             schema1:url "https://data.niaid.nih.gov/" ] ;
     schema1:name "Metadata record for: Cryo electron microscopy of SARS-CoV-2 stabilized spike in prefusion state" ;
-    schema1:sdDatePublished "2026-10-28" ;
-    schema1:url "https://data.niaid.nih.gov/resources?id=empiar-10514" .
+    schema1:sdDatePublished "2026-10-28" .
 
 
 ```
@@ -9697,6 +9865,7 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
     "prov": "http://www.w3.org/ns/prov#",
     "nde": "https://discovery.biothings.io/ns/nde/",
     "bios": "https://bioschemas.org/",
+    "time": "http://www.w3.org/2006/time#",
     "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
   },
   "@type": [
@@ -9704,7 +9873,10 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from PMID.",
     "@type": [
       "schema:Dataset"
     ],
@@ -9715,9 +9887,6 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143#metadata",
     "schema:name": "Metadata record for: Single Cell RNA-Sequencing of Human Limb Skeletal Muscle across Development and Myogenic Culture from Pluripotent Stem C",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -9726,7 +9895,6 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -9754,8 +9922,7 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         },
         "schema:familyName": "Xi",
         "schema:givenName": "Haibin",
-        "schema:name": "Haibin Xi",
-        "nde:role": "experimental scientist"
+        "schema:name": "Haibin Xi"
       },
       {
         "@type": [
@@ -9769,8 +9936,7 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         },
         "schema:familyName": "Nejad",
         "schema:givenName": "Parisa",
-        "schema:name": "Parisa Nejad",
-        "nde:role": "data curator"
+        "schema:name": "Parisa Nejad"
       },
       {
         "@type": [
@@ -9784,8 +9950,7 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         },
         "schema:familyName": "Schwartz",
         "schema:givenName": "Rachel",
-        "schema:name": "Rachel Schwartz",
-        "nde:role": "data curator"
+        "schema:name": "Rachel Schwartz"
       }
     ]
   },
@@ -9907,7 +10072,6 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         }
       ],
       "schema:datePublished": "2020-07-02",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "PMID:32619514",
       "nde:journalName": "Cell stem cell",
       "schema:name": "A Human Skeletal Muscle Atlas Identifies the Trajectories of Stem and Progenitor Cells across Development and from Human Pluripotent Stem Cells.",
@@ -9915,7 +10079,7 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
       "schema:url": "https://pubmed.ncbi.nlm.nih.gov/32619514/"
     }
   ],
-  "schema:description": "The developmental trajectory of human skeletal myogenesis and the transition between progenitor and stem cell states are unclear. To address this, we employed single cell RNA-sequencing to profile human skeletal muscle tissues from embryonic, fetal and postnatal stages. In silico, we identified myogenic as well as other cell types and constructed a \u201croadmap\u201d of human skeletal muscle ontogeny across development. In a similar fashion, we also profiled the heterogeneous cell cultures generated from multiple human pluripotent stem cell (hPSC) myogenic differentiation protocols, and mapped hPSC-derived myogenic progenitors to an embryonic-to-fetal transition period. Additionally, we found differentially enriched biological processes and discovered co-regulated gene networks and transcription factors present at distinct myogenic stages. In summary, this work serves as a resource for advancing our knowledge of human myogenesis. It also provides a tool for better characterization and understanding of hPSC-derived myogenic progenitors for translational applications in skeletal muscle based regenerative medicine.",
+  "schema:description": "The developmental trajectory of human skeletal myogenesis and the transition between progenitor and stem cell states are unclear. To address this, we employed single cell RNA-sequencing to profile human skeletal muscle tissues from embryonic, fetal and postnatal stages. In silico, we identified myogenic as well as other cell types and constructed a “roadmap” of human skeletal muscle ontogeny across development. In a similar fashion, we also profiled the heterogeneous cell cultures generated from multiple human pluripotent stem cell (hPSC) myogenic differentiation protocols, and mapped hPSC-derived myogenic progenitors to an embryonic-to-fetal transition period. Additionally, we found differentially enriched biological processes and discovered co-regulated gene networks and transcription factors present at distinct myogenic stages. In summary, this work serves as a resource for advancing our knowledge of human myogenesis. It also provides a tool for better characterization and understanding of hPSC-derived myogenic progenitors for translational applications in skeletal muscle based regenerative medicine.",
   "schema:funding": [
     {
       "@type": [
@@ -9926,9 +10090,9 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "NIAMS",
-        "cdifniaid:alternateNames": [
-          "Instituto Nacional de Artritis y Enfermedades Musculoesquel\u00e9ticas y de la Piel",
+        "schema:alternateName": [
+          "NIAMS",
+          "Instituto Nacional de Artritis y Enfermedades Musculoesqueléticas y de la Piel",
           "NIH/National Institute of Arthritis and Musculoskeletal and Skin Diseases",
           "National Institute of Arthritis & Musculoskeletal & Skin Diseases",
           "The National Institute of Arthritis and Musculoskeletal and Skin Diseases",
@@ -9966,9 +10130,9 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "NIAMS",
-        "cdifniaid:alternateNames": [
-          "Instituto Nacional de Artritis y Enfermedades Musculoesquel\u00e9ticas y de la Piel",
+        "schema:alternateName": [
+          "NIAMS",
+          "Instituto Nacional de Artritis y Enfermedades Musculoesqueléticas y de la Piel",
           "NIH/National Institute of Arthritis and Musculoskeletal and Skin Diseases",
           "National Institute of Arthritis & Musculoskeletal & Skin Diseases",
           "The National Institute of Arthritis and Musculoskeletal and Skin Diseases",
@@ -10040,15 +10204,21 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
     "whole hindlimb",
     "quadriceps femoris",
     "gastrocnemius",
-    "hindlimb muscle"
+    "hindlimb muscle",
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "http://www.opengis.net/def/nil/OGC/0/missing"
   ],
   "schema:name": "Single Cell RNA-Sequencing of Human Limb Skeletal Muscle across Development and Myogenic Culture from Pluripotent Stem Cells",
   "schema:sameAs": [
-    "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147457",
-    "https://data.humancellatlas.org/explore/projects/4037007b-0eff-4e6d-b7bd-8dd8eec80143"
+    "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147457"
   ],
   "nde:species": [
     {
@@ -10073,7 +10243,6 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "Homo spiens",
         "Humo sapiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
       "nde:curatedBy": {
         "@type": [
@@ -10083,7 +10252,6 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -10092,7 +10260,69 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
       "schema:url": "https://www.uniprot.org/taxonomy/9606"
     }
   ],
-  "schema:url": "https://data.humancellatlas.org/explore/projects/4037007b-0eff-4e6d-b7bd-8dd8eec80143"
+  "schema:url": "https://data.humancellatlas.org/explore/projects/4037007b-0eff-4e6d-b7bd-8dd8eec80143",
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "experimental scientist",
+      "schema:contributor": {
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:affiliation": {
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "University of California, Los Angeles, Pyle"
+        },
+        "schema:familyName": "Xi",
+        "schema:givenName": "Haibin",
+        "schema:name": "Haibin Xi"
+      }
+    },
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "data curator",
+      "schema:contributor": {
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:affiliation": {
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "University of California, Santa Cruz, Human Cell Atlas Data Coordination Platform"
+        },
+        "schema:familyName": "Nejad",
+        "schema:givenName": "Parisa",
+        "schema:name": "Parisa Nejad"
+      }
+    },
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "data curator",
+      "schema:contributor": {
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:affiliation": {
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "University of California, Santa Cruz, Human Cell Atlas Data Coordination Platform"
+        },
+        "schema:familyName": "Schwartz",
+        "schema:givenName": "Rachel",
+        "schema:name": "Rachel Schwartz"
+      }
+    }
+  ]
 }
 
 ```
@@ -10116,6 +10346,7 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
       "prov": "http://www.w3.org/ns/prov#",
       "nde": "https://discovery.biothings.io/ns/nde/",
       "bios": "https://bioschemas.org/",
+      "time": "http://www.w3.org/2006/time#",
       "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
     }
   ],
@@ -10124,7 +10355,10 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from PMID.",
     "@type": [
       "schema:Dataset"
     ],
@@ -10135,9 +10369,6 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143#metadata",
     "schema:name": "Metadata record for: Single Cell RNA-Sequencing of Human Limb Skeletal Muscle across Development and Myogenic Culture from Pluripotent Stem C",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -10146,7 +10377,6 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -10174,8 +10404,7 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         },
         "schema:familyName": "Xi",
         "schema:givenName": "Haibin",
-        "schema:name": "Haibin Xi",
-        "nde:role": "experimental scientist"
+        "schema:name": "Haibin Xi"
       },
       {
         "@type": [
@@ -10189,8 +10418,7 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         },
         "schema:familyName": "Nejad",
         "schema:givenName": "Parisa",
-        "schema:name": "Parisa Nejad",
-        "nde:role": "data curator"
+        "schema:name": "Parisa Nejad"
       },
       {
         "@type": [
@@ -10204,8 +10432,7 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         },
         "schema:familyName": "Schwartz",
         "schema:givenName": "Rachel",
-        "schema:name": "Rachel Schwartz",
-        "nde:role": "data curator"
+        "schema:name": "Rachel Schwartz"
       }
     ]
   },
@@ -10327,7 +10554,6 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         }
       ],
       "schema:datePublished": "2020-07-02",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "PMID:32619514",
       "nde:journalName": "Cell stem cell",
       "schema:name": "A Human Skeletal Muscle Atlas Identifies the Trajectories of Stem and Progenitor Cells across Development and from Human Pluripotent Stem Cells.",
@@ -10346,8 +10572,8 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "NIAMS",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "NIAMS",
           "Instituto Nacional de Artritis y Enfermedades Musculoesquel\u00e9ticas y de la Piel",
           "NIH/National Institute of Arthritis and Musculoskeletal and Skin Diseases",
           "National Institute of Arthritis & Musculoskeletal & Skin Diseases",
@@ -10386,8 +10612,8 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "NIAMS",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "NIAMS",
           "Instituto Nacional de Artritis y Enfermedades Musculoesquel\u00e9ticas y de la Piel",
           "NIH/National Institute of Arthritis and Musculoskeletal and Skin Diseases",
           "National Institute of Arthritis & Musculoskeletal & Skin Diseases",
@@ -10460,15 +10686,21 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
     "whole hindlimb",
     "quadriceps femoris",
     "gastrocnemius",
-    "hindlimb muscle"
+    "hindlimb muscle",
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "http://www.opengis.net/def/nil/OGC/0/missing"
   ],
   "schema:name": "Single Cell RNA-Sequencing of Human Limb Skeletal Muscle across Development and Myogenic Culture from Pluripotent Stem Cells",
   "schema:sameAs": [
-    "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147457",
-    "https://data.humancellatlas.org/explore/projects/4037007b-0eff-4e6d-b7bd-8dd8eec80143"
+    "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147457"
   ],
   "nde:species": [
     {
@@ -10493,7 +10725,6 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "Homo spiens",
         "Humo sapiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
       "nde:curatedBy": {
         "@type": [
@@ -10503,7 +10734,6 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "schema:name": "PubTator",
         "schema:url": "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html"
       },
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": true,
@@ -10512,7 +10742,69 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
       "schema:url": "https://www.uniprot.org/taxonomy/9606"
     }
   ],
-  "schema:url": "https://data.humancellatlas.org/explore/projects/4037007b-0eff-4e6d-b7bd-8dd8eec80143"
+  "schema:url": "https://data.humancellatlas.org/explore/projects/4037007b-0eff-4e6d-b7bd-8dd8eec80143",
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "experimental scientist",
+      "schema:contributor": {
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:affiliation": {
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "University of California, Los Angeles, Pyle"
+        },
+        "schema:familyName": "Xi",
+        "schema:givenName": "Haibin",
+        "schema:name": "Haibin Xi"
+      }
+    },
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "data curator",
+      "schema:contributor": {
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:affiliation": {
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "University of California, Santa Cruz, Human Cell Atlas Data Coordination Platform"
+        },
+        "schema:familyName": "Nejad",
+        "schema:givenName": "Parisa",
+        "schema:name": "Parisa Nejad"
+      }
+    },
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "data curator",
+      "schema:contributor": {
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:affiliation": {
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "University of California, Santa Cruz, Human Cell Atlas Data Coordination Platform"
+        },
+        "schema:familyName": "Schwartz",
+        "schema:givenName": "Rachel",
+        "schema:name": "Rachel Schwartz"
+      }
+    }
+  ]
 }
 ```
 
@@ -10533,80 +10825,100 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
             nde:doi "doi: 10.1016/j.stem.2020.06.006" ],
         [ a schema1:ScholarlyArticle ;
             schema1:author [ a schema1:Person ;
-                    schema1:name "Hicks M" ],
-                [ a schema1:Person ;
-                    schema1:name "Marzi J" ],
-                [ a schema1:Person ;
                     schema1:name "Plath K" ],
-                [ a schema1:Person ;
-                    schema1:name "Fujiwara W" ],
-                [ a schema1:Person ;
-                    schema1:name "Sabri S" ],
-                [ a schema1:Person ;
-                    schema1:name "Young CS" ],
-                [ a schema1:Person ;
-                    schema1:name "Spencer M" ],
-                [ a schema1:Person ;
-                    schema1:name "Langerman J" ],
-                [ a schema1:Person ;
-                    schema1:name "Younesi S" ],
-                [ a schema1:Person ;
-                    schema1:name "Liebscher S" ],
-                [ a schema1:Person ;
-                    schema1:name "Schenke-Layland K" ],
-                [ a schema1:Person ;
-                    schema1:name "Chien P" ],
-                [ a schema1:Person ;
-                    schema1:name "Evseenko D" ],
-                [ a schema1:Person ;
-                    schema1:name "Pyle AD" ],
-                [ a schema1:Person ;
-                    schema1:name "Xi H" ],
                 [ a schema1:Person ;
                     schema1:name "Gonzalez K" ],
                 [ a schema1:Person ;
-                    schema1:name "Van Handel B" ] ;
+                    schema1:name "Fujiwara W" ],
+                [ a schema1:Person ;
+                    schema1:name "Hicks M" ],
+                [ a schema1:Person ;
+                    schema1:name "Xi H" ],
+                [ a schema1:Person ;
+                    schema1:name "Younesi S" ],
+                [ a schema1:Person ;
+                    schema1:name "Langerman J" ],
+                [ a schema1:Person ;
+                    schema1:name "Young CS" ],
+                [ a schema1:Person ;
+                    schema1:name "Evseenko D" ],
+                [ a schema1:Person ;
+                    schema1:name "Schenke-Layland K" ],
+                [ a schema1:Person ;
+                    schema1:name "Liebscher S" ],
+                [ a schema1:Person ;
+                    schema1:name "Pyle AD" ],
+                [ a schema1:Person ;
+                    schema1:name "Marzi J" ],
+                [ a schema1:Person ;
+                    schema1:name "Van Handel B" ],
+                [ a schema1:Person ;
+                    schema1:name "Chien P" ],
+                [ a schema1:Person ;
+                    schema1:name "Spencer M" ],
+                [ a schema1:Person ;
+                    schema1:name "Sabri S" ] ;
             schema1:datePublished "2020-07-02" ;
             schema1:identifier "PMID:32619514" ;
             schema1:name "A Human Skeletal Muscle Atlas Identifies the Trajectories of Stem and Progenitor Cells across Development and from Human Pluripotent Stem Cells." ;
             schema1:url "https://pubmed.ncbi.nlm.nih.gov/32619514/" ;
             nde:journalName "Cell stem cell" ;
-            nde:pmid "32619514" ;
-            cdifniaid:fromPMID true ] ;
+            nde:pmid "32619514" ] ;
+    schema1:contributor [ a schema1:Role ;
+            schema1:contributor [ a schema1:Person ;
+                    schema1:affiliation [ a schema1:Organization ;
+                            schema1:name "University of California, Santa Cruz, Human Cell Atlas Data Coordination Platform" ] ;
+                    schema1:familyName "Nejad" ;
+                    schema1:givenName "Parisa" ;
+                    schema1:name "Parisa Nejad" ] ;
+            schema1:roleName "data curator" ],
+        [ a schema1:Role ;
+            schema1:contributor [ a schema1:Person ;
+                    schema1:affiliation [ a schema1:Organization ;
+                            schema1:name "University of California, Santa Cruz, Human Cell Atlas Data Coordination Platform" ] ;
+                    schema1:familyName "Schwartz" ;
+                    schema1:givenName "Rachel" ;
+                    schema1:name "Rachel Schwartz" ] ;
+            schema1:roleName "data curator" ],
+        [ a schema1:Role ;
+            schema1:contributor [ a schema1:Person ;
+                    schema1:affiliation [ a schema1:Organization ;
+                            schema1:name "University of California, Los Angeles, Pyle" ] ;
+                    schema1:familyName "Xi" ;
+                    schema1:givenName "Haibin" ;
+                    schema1:name "Haibin Xi" ] ;
+            schema1:roleName "experimental scientist" ] ;
     schema1:creator ( [ a schema1:Person ;
                 schema1:affiliation [ a schema1:Organization ;
                         schema1:name "University of California, Los Angeles, Pyle" ] ;
                 schema1:familyName "Xi" ;
                 schema1:givenName "Haibin" ;
-                schema1:name "Haibin Xi" ;
-                nde:role "experimental scientist" ] [ a schema1:Person ;
+                schema1:name "Haibin Xi" ] [ a schema1:Person ;
                 schema1:affiliation [ a schema1:Organization ;
                         schema1:name "University of California, Santa Cruz, Human Cell Atlas Data Coordination Platform" ] ;
                 schema1:familyName "Nejad" ;
                 schema1:givenName "Parisa" ;
-                schema1:name "Parisa Nejad" ;
-                nde:role "data curator" ] [ a schema1:Person ;
+                schema1:name "Parisa Nejad" ] [ a schema1:Person ;
                 schema1:affiliation [ a schema1:Organization ;
                         schema1:name "University of California, Santa Cruz, Human Cell Atlas Data Coordination Platform" ] ;
                 schema1:familyName "Schwartz" ;
                 schema1:givenName "Rachel" ;
-                schema1:name "Rachel Schwartz" ;
-                nde:role "data curator" ] ) ;
+                schema1:name "Rachel Schwartz" ] ) ;
     schema1:dateModified "2025-02-14" ;
     schema1:datePublished "2021-04-27" ;
     schema1:description "The developmental trajectory of human skeletal myogenesis and the transition between progenitor and stem cell states are unclear. To address this, we employed single cell RNA-sequencing to profile human skeletal muscle tissues from embryonic, fetal and postnatal stages. In silico, we identified myogenic as well as other cell types and constructed a “roadmap” of human skeletal muscle ontogeny across development. In a similar fashion, we also profiled the heterogeneous cell cultures generated from multiple human pluripotent stem cell (hPSC) myogenic differentiation protocols, and mapped hPSC-derived myogenic progenitors to an embryonic-to-fetal transition period. Additionally, we found differentially enriched biological processes and discovered co-regulated gene networks and transcription factors present at distinct myogenic stages. In summary, this work serves as a resource for advancing our knowledge of human myogenesis. It also provides a tool for better characterization and understanding of hPSC-derived myogenic progenitors for translational applications in skeletal muscle based regenerative medicine." ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:endDate "2021-04-30" ;
             schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "NIAMS" ;
-                    schema1:identifier "https://ror.org/006zn3t30" ;
-                    schema1:name "National Institute of Arthritis and Musculoskeletal and Skin Diseases" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "Instituto Nacional de Artritis y Enfermedades Musculoesqueléticas y de la Piel",
+                    schema1:alternateName "Instituto Nacional de Artritis y Enfermedades Musculoesqueléticas y de la Piel",
+                        "NIAMS",
                         "NIH National Institute of Arthritis and Musculoskeletal and Skin Diseases",
                         "NIH/National Institute of Arthritis and Musculoskeletal and Skin Diseases",
                         "National Institute of Arthritis & Musculoskeletal & Skin Diseases",
-                        "The National Institute of Arthritis and Musculoskeletal and Skin Diseases" ] ;
+                        "The National Institute of Arthritis and Musculoskeletal and Skin Diseases" ;
+                    schema1:identifier "https://ror.org/006zn3t30" ;
+                    schema1:name "National Institute of Arthritis and Musculoskeletal and Skin Diseases" ;
+                    schema1:parentOrganization "National Institutes of Health" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:value "1T32AR065972-01A1" ] ;
             schema1:name "Muscle Cell Biology, Pathophysiology, and Therapeutics" ;
@@ -10622,15 +10934,15 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         [ a schema1:MonetaryGrant ;
             schema1:endDate "2018-08-31" ;
             schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "NIAMS" ;
-                    schema1:identifier "https://ror.org/006zn3t30" ;
-                    schema1:name "National Institute of Arthritis and Musculoskeletal and Skin Diseases" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "Instituto Nacional de Artritis y Enfermedades Musculoesqueléticas y de la Piel",
+                    schema1:alternateName "Instituto Nacional de Artritis y Enfermedades Musculoesqueléticas y de la Piel",
+                        "NIAMS",
                         "NIH National Institute of Arthritis and Musculoskeletal and Skin Diseases",
                         "NIH/National Institute of Arthritis and Musculoskeletal and Skin Diseases",
                         "National Institute of Arthritis & Musculoskeletal & Skin Diseases",
-                        "The National Institute of Arthritis and Musculoskeletal and Skin Diseases" ] ;
+                        "The National Institute of Arthritis and Musculoskeletal and Skin Diseases" ;
+                    schema1:identifier "https://ror.org/006zn3t30" ;
+                    schema1:name "National Institute of Arthritis and Musculoskeletal and Skin Diseases" ;
+                    schema1:parentOrganization "National Institutes of Health" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:value "1R01AR064327-01A1" ] ;
             schema1:name "Reprogramming and Directed Differentiation of Skeletal Muscle Cells from hPSCs." ;
@@ -10663,7 +10975,10 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
             schema1:url "https://data.humancellatlas.org/" ;
             nde:versionDate "2026-10-24" ] ;
     schema1:isAccessibleForFree true ;
-    schema1:keywords "gastrocnemius",
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
+        "gastrocnemius",
         "hindlimb",
         "hindlimb muscle",
         "muscle",
@@ -10672,8 +10987,7 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
         "whole hindlimb" ;
     schema1:license "http://www.opengis.net/def/nil/OGC/0/missing" ;
     schema1:name "Single Cell RNA-Sequencing of Human Limb Skeletal Muscle across Development and Myogenic Culture from Pluripotent Stem Cells" ;
-    schema1:sameAs "https://data.humancellatlas.org/explore/projects/4037007b-0eff-4e6d-b7bd-8dd8eec80143",
-        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147457" ;
+    schema1:sameAs "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147457" ;
     schema1:subjectOf <https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143#metadata> ;
     schema1:url "https://data.humancellatlas.org/explore/projects/4037007b-0eff-4e6d-b7bd-8dd8eec80143" ;
     nde:date "2025-02-14" ;
@@ -10704,22 +11018,21 @@ Record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143 from Human Cell Atlas (HCA), as 
                     schema1:url "https://www.ncbi.nlm.nih.gov/research/pubtator/api.html" ] ;
             nde:isCurated true ;
             nde:originalName "homo sapiens" ;
-            cdifniaid:classification "host" ;
-            cdifniaid:commonName "Human" ;
-            cdifniaid:displayName "Human | Homo sapiens" ] .
+            cdifniaid:commonName "Human" ] .
 
 <https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143#metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
         <https://w3id.org/cdif/niaid/1.0> ;
     schema1:about <https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143> ;
     schema1:additionalType dcat:CatalogRecord ;
-    schema1:description "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them." ;
+    schema1:description """CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.
+
+Metadata source from PMID.""" ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
             schema1:name "NIAID Data Discovery Portal" ;
             schema1:url "https://data.niaid.nih.gov/" ] ;
     schema1:name "Metadata record for: Single Cell RNA-Sequencing of Human Limb Skeletal Muscle across Development and Myogenic Culture from Pluripotent Stem C" ;
-    schema1:sdDatePublished "2026-10-28" ;
-    schema1:url "https://data.niaid.nih.gov/resources?id=hca_4037007b-0eff-4e6d-b7bd-8dd8eec80143" .
+    schema1:sdDatePublished "2026-10-28" .
 
 
 ```
@@ -10733,9 +11046,11 @@ description: 'The properties NIAID Data Discovery Portal records add to a CDIF d
   (composed with cdifCore and cdifDiscovery by the cdifNIAID profile; this module
   does NOT re-embed them). nde: terms are NIAID''s (https://discovery.biothings.io/ns/nde/),
   bios: terms Bioschemas'' (from the bioschemasSample block), and cdifniaid: terms
-  the ones the portal uses that neither vocabulary declares, defined by this block.
-  Every property accepts one value or an array, because framing collapses a one-element
-  array to its value.'
+  the ones the portal uses that neither vocabulary declares. The properties NIAID
+  adds to a DefinedTerm, a MonetaryGrant, a cited work, a Place and a DataCatalog
+  are defined by the niaidDefinedTerm, niaidMonetaryGrant, niaidCreativeWork, niaidPlace
+  and niaidDataCatalog blocks, which require those types. Every property accepts one
+  value or an array, because framing collapses a one-element array to its value.'
 type: object
 required:
 - schema:includedInDataCatalog
@@ -10783,28 +11098,29 @@ properties:
     x-jsonld-id: https://discovery.biothings.io/ns/nde/date
   nde:species:
     description: Species the dataset was collected from or is about.
-    $ref: '#/$defs/annotatedTerms'
+    $ref: '#/$defs/terms'
     x-jsonld-id: https://discovery.biothings.io/ns/nde/species
-  nde:topicCategory:
-    description: Topics of the dataset, from the EDAM topic ontology.
-    $ref: '#/$defs/annotatedTerms'
-    x-jsonld-id: https://discovery.biothings.io/ns/nde/topicCategory
+  schema:keywords:
+    description: NIAID's annotations on keyword terms, such as the dataset's EDAM
+      topic categories.
+    $ref: '#/$defs/termsOrText'
+    x-jsonld-id: http://schema.org/keywords
   schema:infectiousAgent:
     description: Infectious agents the dataset is about.
-    $ref: '#/$defs/annotatedTerms'
+    $ref: '#/$defs/terms'
     x-jsonld-id: http://schema.org/infectiousAgent
   schema:healthCondition:
     description: Health conditions the dataset is about.
-    $ref: '#/$defs/annotatedTerms'
+    $ref: '#/$defs/terms'
     x-jsonld-id: http://schema.org/healthCondition
   schema:measurementTechnique:
     description: NIAID's annotations on the measurement techniques CDIF discovery
       describes.
-    $ref: '#/$defs/annotatedTermsOrText'
+    $ref: '#/$defs/termsOrText'
     x-jsonld-id: http://schema.org/measurementTechnique
   schema:variableMeasured:
     description: NIAID's annotations on the variables CDIF discovery describes.
-    $ref: '#/$defs/annotatedTermsOrText'
+    $ref: '#/$defs/termsOrText'
     x-jsonld-id: http://schema.org/variableMeasured
   nde:nctid:
     description: ClinicalTrials.gov identifier of the study.
@@ -10820,24 +11136,16 @@ properties:
     x-jsonld-id: https://discovery.biothings.io/ns/nde/citedBy
   schema:citation:
     description: NIAID's journal and PubMed details on CDIF's citations.
-    anyOf:
-    - $ref: '#/$defs/citation'
-    - type: array
-      items:
-        $ref: '#/$defs/citation'
+    $ref: '#/$defs/works'
     x-jsonld-id: http://schema.org/citation
   nde:curatedBy:
     description: Who curated the record, and from which version of their catalog.
-    $ref: '#/$defs/curator'
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/niaidProperties/niaidDefinedTerm/schema.yaml#/$defs/curator
     x-jsonld-id: https://discovery.biothings.io/ns/nde/curatedBy
   nde:isBasisFor:
     description: Resources based on this dataset.
     $ref: '#/$defs/relatedResources'
     x-jsonld-id: https://discovery.biothings.io/ns/nde/isBasisFor
-  nde:isRelatedTo:
-    description: Related resources, with the relationship named.
-    $ref: '#/$defs/relatedResources'
-    x-jsonld-id: https://discovery.biothings.io/ns/nde/isRelatedTo
   nde:sample:
     description: The samples used to generate the dataset, or a collection of them.
     anyOf:
@@ -10858,7 +11166,7 @@ properties:
         $ref: '#/$defs/grant'
     x-jsonld-id: http://schema.org/funding
   schema:spatialCoverage:
-    description: NIAID's location details on CDIF's spatial coverage.
+    description: NIAID's administrative type on CDIF's spatial coverage.
     anyOf:
     - $ref: '#/$defs/place'
     - type: array
@@ -10877,24 +11185,6 @@ properties:
     description: Identifiers beyond the one CDIF's schema:identifier holds.
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
     x-jsonld-id: https://bioschemas.org/alternateIdentifier
-  cdifniaid:temporalIntervals:
-    description: The portal's temporal intervals where they hold more than dates,
-      kept whole beside schema:temporalCoverage.
-    anyOf:
-    - $ref: '#/$defs/temporalInterval'
-    - type: array
-      items:
-        $ref: '#/$defs/temporalInterval'
-    x-jsonld-id: https://w3id.org/cdif/niaid/terms/temporalIntervals
-  cdifniaid:unlinkedHasPart:
-    description: Parts of the dataset with no address, which cannot be CDIF manifest
-      parts.
-    anyOf:
-    - $ref: '#/$defs/namedThing'
-    - type: array
-      items:
-        $ref: '#/$defs/namedThing'
-    x-jsonld-id: https://w3id.org/cdif/niaid/terms/unlinkedHasPart
   cdifniaid:assayformat:
     description: The assay format, as the portal gives it.
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
@@ -10907,14 +11197,6 @@ properties:
       items:
         $ref: '#/$defs/pmid'
     x-jsonld-id: https://w3id.org/cdif/niaid/terms/publication
-  schema:distribution:
-    description: NIAID's archive members that come with an address only.
-    anyOf:
-    - $ref: '#/$defs/distribution'
-    - type: array
-      items:
-        $ref: '#/$defs/distribution'
-    x-jsonld-id: http://schema.org/distribution
 $defs:
   types:
     anyOf:
@@ -10922,163 +11204,75 @@ $defs:
     - type: array
       items:
         type: string
+  reference:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
   catalog:
-    type: object
-    properties:
-      schema:name:
-        type: string
-        x-jsonld-id: http://schema.org/name
-      schema:url:
-        type: string
-        x-jsonld-id: http://schema.org/url
-      schema:archivedAt:
-        type: string
-        x-jsonld-id: http://schema.org/archivedAt
-      nde:versionDate:
-        type: string
-        x-jsonld-id: https://discovery.biothings.io/ns/nde/versionDate
     anyOf:
-    - required:
-      - schema:name
-    - required:
-      - schema:url
-    - required:
-      - '@id'
-  annotation:
-    description: 'NIAID''s annotations on a term: whether it was curated, by whom,
-      the text it was matched from, and which method produced it.'
-    type: object
-    properties:
-      nde:isCurated:
-        type: boolean
-        x-jsonld-id: https://discovery.biothings.io/ns/nde/isCurated
-      nde:originalName:
-        type: string
-        x-jsonld-id: https://discovery.biothings.io/ns/nde/originalName
-      nde:curatedBy:
-        $ref: '#/$defs/curator'
-        x-jsonld-id: https://discovery.biothings.io/ns/nde/curatedBy
-      cdifniaid:fromGPT:
-        description: The term was suggested by a GPT language model.
-        type: boolean
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromGPT
-      cdifniaid:fromPMID:
-        description: The term was taken from a PubMed record linked to the dataset.
-        type: boolean
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromPMID
-      cdifniaid:fromEXTRACT:
-        description: The term was found by the EXTRACT text-mining tool.
-        type: boolean
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromEXTRACT
-      cdifniaid:fromNCT:
-        description: The term was taken from the dataset's ClinicalTrials.gov record.
-        type: boolean
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromNCT
-      cdifniaid:classification:
-        description: The role a taxon plays for the dataset, e.g. infectiousAgent
-          or host.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/classification
-      cdifniaid:commonName:
-        description: The common name of a taxon.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/commonName
-      cdifniaid:displayName:
-        description: The name the portal displays for a taxon.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/displayName
-  annotatedTerm:
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/term
-    - $ref: '#/$defs/annotation'
-  annotatedTerms:
+    - $ref: '#/$defs/reference'
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/niaidProperties/niaidDataCatalog/schema.yaml
+  terms:
+    description: NIAID's annotated terms; each must be a schema:DefinedTerm.
     anyOf:
-    - $ref: '#/$defs/annotatedTerm'
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/niaidProperties/niaidDefinedTerm/schema.yaml
     - type: array
       items:
-        $ref: '#/$defs/annotatedTerm'
-  annotatedTermsOrText:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/niaidProperties/niaidDefinedTerm/schema.yaml
+  annotated:
+    description: An object carrying one of NIAID's term annotations, which must then
+      be a NIAID defined term. Other objects are left to CDIF's own rules.
+    type: object
+    if:
+      anyOf:
+      - required:
+        - nde:isCurated
+      - required:
+        - nde:originalName
+      - required:
+        - nde:curatedBy
+      - required:
+        - cdifniaid:commonName
+    then:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/niaidProperties/niaidDefinedTerm/schema.yaml
+  termsOrText:
     anyOf:
     - type: string
-    - $ref: '#/$defs/annotation'
+    - $ref: '#/$defs/annotated'
     - type: array
       items:
         anyOf:
         - type: string
-        - $ref: '#/$defs/annotation'
-  curator:
-    type: object
-    properties:
-      schema:name:
-        type: string
-        x-jsonld-id: http://schema.org/name
-      schema:url:
-        type: string
-        x-jsonld-id: http://schema.org/url
-      schema:dateModified:
-        type: string
-        x-jsonld-id: http://schema.org/dateModified
-      schema:archivedAt:
-        type: string
-        x-jsonld-id: http://schema.org/archivedAt
-      nde:versionDate:
-        type: string
-        x-jsonld-id: https://discovery.biothings.io/ns/nde/versionDate
+        - $ref: '#/$defs/annotated'
   nctid:
     type: string
     pattern: ^NCT\d{8}$
-  work:
-    type: object
-    properties:
-      schema:name:
-        type: string
-        x-jsonld-id: http://schema.org/name
-      schema:url:
-        type: string
-        x-jsonld-id: http://schema.org/url
-      nde:doi:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
-        x-jsonld-id: https://discovery.biothings.io/ns/nde/doi
-      nde:pmid:
-        $ref: '#/$defs/pmid'
-        x-jsonld-id: https://discovery.biothings.io/ns/nde/pmid
   pmid:
     type: string
     pattern: ^\d+$
-  distribution:
-    type: object
-    properties:
-      cdifniaid:partUrl:
-        description: URLs of files in the archive, given with no name or format, so
-          they cannot be CDIF archive parts.
+  work:
+    description: A cited or citing work. One carrying NIAID's PubMed id, DOI or journal
+      names must be a NIAID creative work; a string or any other object is left to
+      CDIF's own rules.
+    anyOf:
+    - type: string
+    - type: object
+      if:
         anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/partUrl
+        - required:
+          - nde:pmid
+        - required:
+          - nde:doi
+        - required:
+          - nde:journalName
+        - required:
+          - nde:journalNameAbbrev
+      then:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/niaidProperties/niaidCreativeWork/schema.yaml
   works:
     anyOf:
     - $ref: '#/$defs/work'
     - type: array
       items:
         $ref: '#/$defs/work'
-  citation:
-    anyOf:
-    - type: string
-    - allOf:
-      - $ref: '#/$defs/work'
-      - type: object
-        properties:
-          nde:journalName:
-            type: string
-            x-jsonld-id: https://discovery.biothings.io/ns/nde/journalName
-          nde:journalNameAbbrev:
-            type: string
-            x-jsonld-id: https://discovery.biothings.io/ns/nde/journalNameAbbrev
-          cdifniaid:fromPMID:
-            type: boolean
-            x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromPMID
   relatedResource:
     type: object
     properties:
@@ -11099,69 +11293,13 @@ $defs:
       items:
         $ref: '#/$defs/relatedResource'
   grant:
-    type: object
-    properties:
-      cdifniaid:fromPMID:
-        type: boolean
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fromPMID
-      cdifniaid:projectNumSplit:
-        $ref: '#/$defs/projectNumber'
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/projectNumSplit
-      schema:funder:
-        type: object
-        properties:
-          cdifniaid:alternateNames:
-            description: An agent's second and later alternate names; schema:alternateName
-              holds the first.
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/texts
-            x-jsonld-id: https://w3id.org/cdif/niaid/terms/alternateNames
-        x-jsonld-id: http://schema.org/funder
-  projectNumber:
-    description: The parts of an NIH project number such as 5R01AI012345-03, which
-      NIH grant identifiers follow.
-    type: object
-    properties:
-      cdifniaid:applTypeCode:
-        description: Application type, e.g. 5 for a non-competing continuation.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/applTypeCode
-      cdifniaid:activityCode:
-        description: Activity code, e.g. R01.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/activityCode
-      cdifniaid:icCode:
-        description: The NIH institute or center, e.g. AI for NIAID.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/icCode
-      cdifniaid:serialNum:
-        description: Serial number of the grant.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/serialNum
-      cdifniaid:supportYear:
-        description: Year of support.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/supportYear
-      cdifniaid:fullSupportYear:
-        description: Year of support with any suffix.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/fullSupportYear
-      cdifniaid:suffixCode:
-        description: Suffix, e.g. S1 for a supplement.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/suffixCode
+    anyOf:
+    - $ref: '#/$defs/reference'
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/niaidProperties/niaidMonetaryGrant/schema.yaml
   place:
-    type: object
-    properties:
-      cdifniaid:country:
-        description: The country the place is in.
-        type: string
-        x-jsonld-id: https://w3id.org/cdif/niaid/terms/country
-      nde:locationType:
-        type: string
-        x-jsonld-id: https://discovery.biothings.io/ns/nde/locationType
-      nde:administrativeType:
-        type: string
-        x-jsonld-id: https://discovery.biothings.io/ns/nde/administrativeType
+    anyOf:
+    - $ref: '#/$defs/reference'
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/niaidProperties/niaidPlace/schema.yaml
   sourceOrganization:
     type: object
     properties:
@@ -11169,36 +11307,6 @@ $defs:
         description: A correction to the portal's record of the project has been approved.
         type: boolean
         x-jsonld-id: https://w3id.org/cdif/niaid/terms/correctionApproved
-  temporalInterval:
-    type: object
-    properties:
-      '@type':
-        $ref: '#/$defs/types'
-      schema:startDate:
-        type: string
-        x-jsonld-id: http://schema.org/startDate
-      schema:endDate:
-        type: string
-        x-jsonld-id: http://schema.org/endDate
-      schema:duration:
-        type: string
-        x-jsonld-id: http://schema.org/duration
-      schema:name:
-        type: string
-        x-jsonld-id: http://schema.org/name
-      nde:temporalType:
-        type: string
-        x-jsonld-id: https://discovery.biothings.io/ns/nde/temporalType
-  namedThing:
-    type: object
-    properties:
-      '@type':
-        $ref: '#/$defs/types'
-      schema:name:
-        type: string
-        x-jsonld-id: http://schema.org/name
-    required:
-    - schema:name
   sample:
     description: A sample; nde:Sample is NIAID's subclass of the Bioschemas sample.
     allOf:
@@ -11208,18 +11316,28 @@ $defs:
         nde:cellType:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/termsOrText
           x-jsonld-id: https://discovery.biothings.io/ns/nde/cellType
+        nde:associatedGenotype:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/termsOrText
+          x-jsonld-id: https://discovery.biothings.io/ns/nde/associatedGenotype
         nde:species:
-          $ref: '#/$defs/annotatedTerms'
+          $ref: '#/$defs/terms'
           x-jsonld-id: https://discovery.biothings.io/ns/nde/species
         schema:aggregateElement:
           $ref: '#/$defs/sample'
           x-jsonld-id: http://schema.org/aggregateElement
   sampleCollection:
-    description: A collection of samples, which NIAID types as an ItemList.
+    description: A collection of samples, typed nde:SampleCollection. The type is
+      required, so that a sample is not taken for a collection.
     type: object
+    required:
+    - '@type'
     properties:
       '@type':
-        $ref: '#/$defs/types'
+        type: array
+        items:
+          type: string
+        contains:
+          const: nde:SampleCollection
       schema:numberOfItems:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/bioschemasSample/schema.yaml#/$defs/quantity
         x-jsonld-id: http://schema.org/numberOfItems
@@ -11267,6 +11385,7 @@ Links to the schema:
     "nde": "https://discovery.biothings.io/ns/nde/",
     "bios": "https://bioschemas.org/",
     "cdifniaid": "https://w3id.org/cdif/niaid/terms/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "@version": 1.1
   }
 }

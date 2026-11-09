@@ -23,6 +23,7 @@ discovery and cdifNIAID.
     "prov": "http://www.w3.org/ns/prov#",
     "nde": "https://discovery.biothings.io/ns/nde/",
     "bios": "https://bioschemas.org/",
+    "time": "http://www.w3.org/2006/time#",
     "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
   },
   "@type": [
@@ -30,7 +31,10 @@ discovery and cdifNIAID.
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=pxd027351",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=pxd027351",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=pxd027351"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from PMID.\n\nMetadata source from GPT.",
     "@type": [
       "schema:Dataset"
     ],
@@ -41,9 +45,6 @@ discovery and cdifNIAID.
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=pxd027351#metadata",
     "schema:name": "Metadata record for: Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High R",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=pxd027351"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -55,7 +56,6 @@ discovery and cdifNIAID.
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -131,7 +131,6 @@ discovery and cdifNIAID.
         }
       ],
       "schema:datePublished": "2021-09-03",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "PMID:34384028",
       "nde:journalName": "Journal of proteome research",
       "schema:name": "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High-Resolution Mass Spectrometry for Metaproteomics of Environmental and Microbiome Samples.",
@@ -164,8 +163,8 @@ discovery and cdifNIAID.
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "NIGMS",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "NIGMS",
           "U.S. National Institute of General Medical Sciences"
         ],
         "schema:identifier": "https://ror.org/04q48ey07",
@@ -245,8 +244,6 @@ discovery and cdifNIAID.
       "schema:alternateName": [
         "uncultured marine plankton"
       ],
-      "cdifniaid:classification": "infectiousAgent",
-      "cdifniaid:displayName": "marine plankton environmental sample",
       "schema:identifier": "632957",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -265,7 +262,72 @@ discovery and cdifNIAID.
     "Lc",
     "2dlc",
     "Comprehensive active modulation",
-    "Ocean"
+    "Ocean",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3370",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Analytical chemistry",
+      "schema:url": "http://edamontology.org/topic_3370",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_0121",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Proteomics",
+      "schema:url": "http://edamontology.org/topic_0121",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3174",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Metagenomics",
+      "schema:url": "http://edamontology.org/topic_3174",
+      "schema:about": "topicCategory"
+    },
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://www.proteomexchange.org/pxcollaborativeagreement_2024.pdf"
@@ -318,8 +380,7 @@ discovery and cdifNIAID.
   ],
   "schema:name": "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High Resolution Mass Spectrometry for Metaproteomics of Environmen-tal and Microbiome Samples",
   "schema:sameAs": [
-    "https://www.ebi.ac.uk/pride/archive/projects/PXD027351",
-    "https://www.omicsdi.org/dataset/pride/PXD027351"
+    "https://www.ebi.ac.uk/pride/archive/projects/PXD027351"
   ],
   "nde:sample": {
     "@type": [
@@ -365,9 +426,7 @@ discovery and cdifNIAID.
         "Humo sapiens",
         "Homo sampiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -376,66 +435,19 @@ discovery and cdifNIAID.
       "schema:url": "https://www.uniprot.org/taxonomy/9606"
     }
   ],
-  "nde:topicCategory": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3370",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Analytical chemistry",
-      "schema:url": "http://edamontology.org/topic_3370"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_0121",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Proteomics",
-      "schema:url": "http://edamontology.org/topic_0121"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3174",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Metagenomics",
-      "schema:url": "http://edamontology.org/topic_3174"
-    }
-  ],
   "schema:url": "https://www.omicsdi.org/dataset/pride/PXD027351",
-  "schema:usageInfo": [
+  "schema:relatedLink": [
     {
       "@type": [
-        "schema:CreativeWork"
+        "schema:LinkRole"
       ],
-      "schema:url": "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf"
+      "schema:linkRelationship": "nde:usageInfo",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf"
+      }
     }
   ],
   "schema:variableMeasured": [
@@ -470,6 +482,7 @@ discovery and cdifNIAID.
       "prov": "http://www.w3.org/ns/prov#",
       "nde": "https://discovery.biothings.io/ns/nde/",
       "bios": "https://bioschemas.org/",
+      "time": "http://www.w3.org/2006/time#",
       "cdifniaid": "https://w3id.org/cdif/niaid/terms/"
     }
   ],
@@ -478,7 +491,10 @@ discovery and cdifNIAID.
   ],
   "@id": "https://data.niaid.nih.gov/resources?id=pxd027351",
   "schema:subjectOf": {
-    "schema:url": "https://data.niaid.nih.gov/resources?id=pxd027351",
+    "schema:about": {
+      "@id": "https://data.niaid.nih.gov/resources?id=pxd027351"
+    },
+    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.\n\nMetadata source from PMID.\n\nMetadata source from GPT.",
     "@type": [
       "schema:Dataset"
     ],
@@ -489,9 +505,6 @@ discovery and cdifNIAID.
     ],
     "@id": "https://data.niaid.nih.gov/resources?id=pxd027351#metadata",
     "schema:name": "Metadata record for: Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High R",
-    "schema:about": {
-      "@id": "https://data.niaid.nih.gov/resources?id=pxd027351"
-    },
     "dcterms:conformsTo": [
       {
         "@id": "https://w3id.org/cdif/core/1.1"
@@ -503,7 +516,6 @@ discovery and cdifNIAID.
         "@id": "https://w3id.org/cdif/niaid/1.0"
       }
     ],
-    "schema:description": "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.",
     "schema:includedInDataCatalog": {
       "@type": [
         "schema:DataCatalog"
@@ -579,7 +591,6 @@ discovery and cdifNIAID.
         }
       ],
       "schema:datePublished": "2021-09-03",
-      "cdifniaid:fromPMID": true,
       "schema:identifier": "PMID:34384028",
       "nde:journalName": "Journal of proteome research",
       "schema:name": "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High-Resolution Mass Spectrometry for Metaproteomics of Environmental and Microbiome Samples.",
@@ -612,8 +623,8 @@ discovery and cdifNIAID.
         "@type": [
           "schema:Organization"
         ],
-        "schema:alternateName": "NIGMS",
-        "cdifniaid:alternateNames": [
+        "schema:alternateName": [
+          "NIGMS",
           "U.S. National Institute of General Medical Sciences"
         ],
         "schema:identifier": "https://ror.org/04q48ey07",
@@ -693,8 +704,6 @@ discovery and cdifNIAID.
       "schema:alternateName": [
         "uncultured marine plankton"
       ],
-      "cdifniaid:classification": "infectiousAgent",
-      "cdifniaid:displayName": "marine plankton environmental sample",
       "schema:identifier": "632957",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -713,7 +722,72 @@ discovery and cdifNIAID.
     "Lc",
     "2dlc",
     "Comprehensive active modulation",
-    "Ocean"
+    "Ocean",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3370",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Analytical chemistry",
+      "schema:url": "http://edamontology.org/topic_3370",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_0121",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Proteomics",
+      "schema:url": "http://edamontology.org/topic_0121",
+      "schema:about": "topicCategory"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "nde:curatedBy": {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "schema:name": "GPT-4o-mini",
+        "schema:url": "https://openai.com/index/chatgpt"
+      },
+      "schema:identifier": "topic_3174",
+      "schema:inDefinedTermSet": "EDAM",
+      "schema:name": "Metagenomics",
+      "schema:url": "http://edamontology.org/topic_3174",
+      "schema:about": "topicCategory"
+    },
+    {
+      "schema:name": "infectiousAgent",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    },
+    {
+      "schema:name": "host",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:about": "NIAID classification"
+    }
   ],
   "schema:license": [
     "https://www.proteomexchange.org/pxcollaborativeagreement_2024.pdf"
@@ -766,8 +840,7 @@ discovery and cdifNIAID.
   ],
   "schema:name": "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High Resolution Mass Spectrometry for Metaproteomics of Environmen-tal and Microbiome Samples",
   "schema:sameAs": [
-    "https://www.ebi.ac.uk/pride/archive/projects/PXD027351",
-    "https://www.omicsdi.org/dataset/pride/PXD027351"
+    "https://www.ebi.ac.uk/pride/archive/projects/PXD027351"
   ],
   "nde:sample": {
     "@type": [
@@ -813,9 +886,7 @@ discovery and cdifNIAID.
         "Humo sapiens",
         "Homo sampiens"
       ],
-      "cdifniaid:classification": "host",
       "cdifniaid:commonName": "Human",
-      "cdifniaid:displayName": "Human | Homo sapiens",
       "schema:identifier": "9606",
       "schema:inDefinedTermSet": "UniProt",
       "nde:isCurated": false,
@@ -824,66 +895,19 @@ discovery and cdifNIAID.
       "schema:url": "https://www.uniprot.org/taxonomy/9606"
     }
   ],
-  "nde:topicCategory": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3370",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Analytical chemistry",
-      "schema:url": "http://edamontology.org/topic_3370"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_0121",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Proteomics",
-      "schema:url": "http://edamontology.org/topic_0121"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "nde:curatedBy": {
-        "@type": [
-          "schema:SoftwareApplication"
-        ],
-        "schema:name": "GPT-4o-mini",
-        "schema:url": "https://openai.com/index/chatgpt"
-      },
-      "cdifniaid:fromGPT": true,
-      "schema:identifier": "topic_3174",
-      "schema:inDefinedTermSet": "EDAM",
-      "schema:name": "Metagenomics",
-      "schema:url": "http://edamontology.org/topic_3174"
-    }
-  ],
   "schema:url": "https://www.omicsdi.org/dataset/pride/PXD027351",
-  "schema:usageInfo": [
+  "schema:relatedLink": [
     {
       "@type": [
-        "schema:CreativeWork"
+        "schema:LinkRole"
       ],
-      "schema:url": "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf"
+      "schema:linkRelationship": "nde:usageInfo",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:url": "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf"
+      }
     }
   ],
   "schema:variableMeasured": [
@@ -919,8 +943,7 @@ discovery and cdifNIAID.
             schema1:name "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High-Resolution Mass Spectrometry for Metaproteomics of Environmental and Microbiome Samples." ;
             schema1:url "https://pubmed.ncbi.nlm.nih.gov/34384028/" ;
             nde:journalName "Journal of proteome research" ;
-            nde:pmid "34384028" ;
-            cdifniaid:fromPMID true ] ;
+            nde:pmid "34384028" ] ;
     schema1:conditionsOfAccess "Open" ;
     schema1:creator ( [ a schema1:Person ;
                 schema1:affiliation [ a schema1:Organization ;
@@ -940,11 +963,11 @@ discovery and cdifNIAID.
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:endDate "2024-04-30" ;
             schema1:funder [ a schema1:Organization ;
-                    schema1:alternateName "NIGMS" ;
+                    schema1:alternateName "NIGMS",
+                        "U.S. National Institute of General Medical Sciences" ;
                     schema1:identifier "https://ror.org/04q48ey07" ;
                     schema1:name "National Institute of General Medical Sciences" ;
-                    schema1:parentOrganization "National Institutes of Health" ;
-                    cdifniaid:alternateNames "U.S. National Institute of General Medical Sciences" ] ;
+                    schema1:parentOrganization "National Institutes of Health" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:value "1R01GM135709-01A1" ] ;
             schema1:name "Response of the Bacterial Metalloproteome to Environmental Conditions" ;
@@ -991,10 +1014,41 @@ discovery and cdifNIAID.
             schema1:name "marine plankton environmental sample" ;
             schema1:url "https://www.uniprot.org/taxonomy/632957" ;
             nde:isCurated false ;
-            nde:originalName "Marine Plankton Environmental Sample" ;
-            cdifniaid:classification "infectiousAgent" ;
-            cdifniaid:displayName "marine plankton environmental sample" ] ;
-    schema1:keywords "",
+            nde:originalName "Marine Plankton Environmental Sample" ] ;
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_3370" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Analytical chemistry" ;
+            schema1:url "http://edamontology.org/topic_3370" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_3174" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Metagenomics" ;
+            schema1:url "http://edamontology.org/topic_3174" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_0121" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Proteomics" ;
+            schema1:url "http://edamontology.org/topic_0121" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "infectiousAgent" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
+        "",
         "2dlc",
         "Automated",
         "Comprehensive active modulation",
@@ -1006,10 +1060,10 @@ discovery and cdifNIAID.
         "Rprp" ;
     schema1:license "https://www.proteomexchange.org/pxcollaborativeagreement_2024.pdf" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "0000534" ;
-            schema1:inDefinedTermSet "MMO" ;
-            schema1:name "mass spectrometry" ;
-            schema1:url "http://purl.obolibrary.org/obo/MMO_0000534" ;
+            schema1:identifier "0000470" ;
+            schema1:inDefinedTermSet "OBI" ;
+            schema1:name "mass spectrometry assay" ;
+            schema1:url "http://purl.obolibrary.org/obo/OBI_0000470" ;
             nde:isCurated true ;
             nde:originalName "Mass Spectrometry" ],
         [ a schema1:DefinedTerm ;
@@ -1020,29 +1074,30 @@ discovery and cdifNIAID.
             nde:isCurated true ;
             nde:originalName "Shotgun proteomics" ],
         [ a schema1:DefinedTerm ;
+            schema1:identifier "0000534" ;
+            schema1:inDefinedTermSet "MMO" ;
+            schema1:name "mass spectrometry" ;
+            schema1:url "http://purl.obolibrary.org/obo/MMO_0000534" ;
+            nde:isCurated true ;
+            nde:originalName "Mass Spectrometry" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier "0000428" ;
             schema1:inDefinedTermSet "PRIDE" ;
             schema1:name "Bottom-up proteomics" ;
             schema1:url "http://purl.obolibrary.org/obo/PRIDE_0000428" ;
             nde:isCurated true ;
-            nde:originalName "Shotgun proteomics" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "0000470" ;
-            schema1:inDefinedTermSet "OBI" ;
-            schema1:name "mass spectrometry assay" ;
-            schema1:url "http://purl.obolibrary.org/obo/OBI_0000470" ;
-            nde:isCurated true ;
-            nde:originalName "Mass Spectrometry" ] ;
+            nde:originalName "Shotgun proteomics" ] ;
     schema1:name "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High Resolution Mass Spectrometry for Metaproteomics of Environmen-tal and Microbiome Samples" ;
-    schema1:sameAs "https://www.ebi.ac.uk/pride/archive/projects/PXD027351",
-        "https://www.omicsdi.org/dataset/pride/PXD027351" ;
+    schema1:relatedLink [ a schema1:LinkRole ;
+            schema1:linkRelationship "nde:usageInfo" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:url "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf" ] ] ;
+    schema1:sameAs "https://www.ebi.ac.uk/pride/archive/projects/PXD027351" ;
     schema1:sdPublisher [ a schema1:Organization ;
             schema1:name "Pride" ;
             schema1:url "https://www.omicsdi.org/dataset/pride/PXD027351" ] ;
     schema1:subjectOf <https://data.niaid.nih.gov/resources?id=pxd027351#metadata> ;
     schema1:url "https://www.omicsdi.org/dataset/pride/PXD027351" ;
-    schema1:usageInfo [ a schema1:CreativeWork ;
-            schema1:url "https://www.proteomexchange.org/docs/reprocessed_guidelines_px.pdf" ] ;
     schema1:variableMeasured [ a schema1:PropertyValue ;
             schema1:name "Proteomics" ] ;
     bios:alternateIdentifier "PXD027351" ;
@@ -1074,36 +1129,7 @@ discovery and cdifNIAID.
             schema1:url "https://www.uniprot.org/taxonomy/9606" ;
             nde:isCurated false ;
             nde:originalName "Homo Sapiens (human)" ;
-            cdifniaid:classification "host" ;
-            cdifniaid:commonName "Human" ;
-            cdifniaid:displayName "Human | Homo sapiens" ] ;
-    nde:topicCategory [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3370" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Analytical chemistry" ;
-            schema1:url "http://edamontology.org/topic_3370" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_0121" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Proteomics" ;
-            schema1:url "http://edamontology.org/topic_0121" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "topic_3174" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Metagenomics" ;
-            schema1:url "http://edamontology.org/topic_3174" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ;
-            cdifniaid:fromGPT true ] .
+            cdifniaid:commonName "Human" ] .
 
 <https://data.niaid.nih.gov/resources?id=pxd027351#metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -1111,13 +1137,16 @@ discovery and cdifNIAID.
         <https://w3id.org/cdif/niaid/1.0> ;
     schema1:about <https://data.niaid.nih.gov/resources?id=pxd027351> ;
     schema1:additionalType dcat:CatalogRecord ;
-    schema1:description "CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them." ;
+    schema1:description """CDIF metadata harvested from the NIAID Data Discovery Portal API (index build 2026-10-28), record pxd027351, and converted by harvest_niaid_to_cdif.py. The portal aggregates this record from the repositories named in schema:includedInDataCatalog; nde: properties, including the portal's term annotations, are as the portal publishes them.
+
+Metadata source from PMID.
+
+Metadata source from GPT.""" ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
             schema1:name "NIAID Data Discovery Portal" ;
             schema1:url "https://data.niaid.nih.gov/" ] ;
     schema1:name "Metadata record for: Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High R" ;
-    schema1:sdDatePublished "2026-10-28" ;
-    schema1:url "https://data.niaid.nih.gov/resources?id=pxd027351" .
+    schema1:sdDatePublished "2026-10-28" .
 
 
 ```

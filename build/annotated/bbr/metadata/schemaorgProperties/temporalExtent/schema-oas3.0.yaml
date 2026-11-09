@@ -5,6 +5,13 @@ description: 'The time interval during which data was collected or observations 
   For documentation of Earth Science, Paleobiology or Paleontology datasets, we are
   interested in the second case-- the time period that data are linked to thematically.
   NOTE-- context must include "time": "http://www.w3.org/2006/time#"}'
+properties:
+  schema:description:
+    type: string
+    description: free text description of the temporal extent. Declared here rather
+      than in one interval form so that any object form below may carry it; the plain
+      ISO 8601 string form cannot.
+    x-jsonld-id: http://schema.org/description
 anyOf:
 - type: object
   description: a w3c time proper interval with bounds that are named time ordinal
@@ -20,10 +27,6 @@ anyOf:
         enum:
         - time:ProperInterval
       minItems: 1
-    schema:description:
-      type: string
-      description: free text description of the temporal interval
-      x-jsonld-id: http://schema.org/description
     time:intervalStartedBy:
       type: string
       format: uri
@@ -70,10 +73,6 @@ anyOf:
         enum:
         - time:ProperInterval
       minItems: 1
-    schema:description:
-      type: string
-      description: free text description of the temporal interval
-      x-jsonld-id: http://schema.org/description
     time:hasBeginning:
       type: object
       properties:
@@ -89,6 +88,8 @@ anyOf:
           x-jsonld-id: http://www.w3.org/2006/time#inTimePosition
           allOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema-oas3.0.yaml#/$defs/timePosition_type
+      required:
+      - time:inTimePosition
       x-jsonld-id: http://www.w3.org/2006/time#hasBeginning
     time:hasEnd:
       type: object
@@ -105,7 +106,40 @@ anyOf:
           x-jsonld-id: http://www.w3.org/2006/time#inTimePosition
           allOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema-oas3.0.yaml#/$defs/timePosition_type
+      required:
+      - time:inTimePosition
       x-jsonld-id: http://www.w3.org/2006/time#hasEnd
+  anyOf:
+  - required:
+    - time:hasBeginning
+  - required:
+    - time:hasEnd
+- type: object
+  description: a w3c time proper interval with calendar date bounds, each a time:Instant
+    giving its date as time:inXSDDate (an xsd:date, YYYY-MM-DD). The object form of
+    a calendar interval, for when the interval needs a description, which the ISO
+    8601 string form below cannot carry.
+  properties:
+    '@type':
+      default:
+      - time:ProperInterval
+      type: array
+      items:
+        type: string
+      contains:
+        enum:
+        - time:ProperInterval
+      minItems: 1
+    time:hasBeginning:
+      x-jsonld-id: http://www.w3.org/2006/time#hasBeginning
+      allOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema-oas3.0.yaml#/$defs/calendarInstant_type
+    time:hasEnd:
+      x-jsonld-id: http://www.w3.org/2006/time#hasEnd
+      allOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema-oas3.0.yaml#/$defs/calendarInstant_type
+  required:
+  - '@type'
   anyOf:
   - required:
     - time:hasBeginning
@@ -115,6 +149,27 @@ anyOf:
   description: Simple ISO8601 encoding of calendar date, dateTime, or time interval
     with calendar date bounds
 $defs:
+  calendarInstant_type:
+    type: object
+    properties:
+      '@type':
+        default:
+        - time:Instant
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - time:Instant
+        minItems: 1
+      time:inXSDDate:
+        type: string
+        description: the date of the instant, as an xsd:date
+        pattern: ^-?\d{4,}-\d{2}-\d{2}(Z|[+-]\d{2}:\d{2})?$
+        x-jsonld-id: http://www.w3.org/2006/time#inXSDDate
+    required:
+    - '@type'
+    - time:inXSDDate
   timePosition_type:
     type: object
     properties:

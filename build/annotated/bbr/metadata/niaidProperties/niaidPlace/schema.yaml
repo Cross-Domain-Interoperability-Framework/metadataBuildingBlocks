@@ -1,0 +1,30 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: NIAID place
+description: A place in a NIAID Data Discovery Portal dataset's spatial coverage.
+  The portal types it AdministrativeArea; the converter adds schema:Place, which CDIF's
+  spatial extent looks for. NIAID adds the kind of administrative area.
+type: object
+properties:
+  '@type':
+    type: array
+    items:
+      type: string
+    contains:
+      const: schema:Place
+    minItems: 1
+  nde:administrativeType:
+    description: The kind of administrative area, e.g. country.
+    type: string
+    x-jsonld-id: https://discovery.biothings.io/ns/nde/administrativeType
+required:
+- '@type'
+x-jsonld-prefixes:
+  schema: http://schema.org/
+  nde: https://discovery.biothings.io/ns/nde/
+  bios: https://bioschemas.org/
+  cdifniaid: https://w3id.org/cdif/niaid/terms/
+x-bblocks-metadata:
+  itemIdentifier: cdif.bbr.metadata.niaidProperties.niaidPlace
+  register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
+  version: '1.0'
+  dateOfLastChange: '2026-11-09'
