@@ -57,6 +57,10 @@ REPOS = [
     # Draft, published as profile-access-draft; the local clone is profile-access.
     ("profile-access", "_sources/profiles/cdifProfile/cdifAccess",
      "cdifAccessStructuredSchema.json", "accessRules.shacl"),
+    # Domain composite: cdifCore plus the NIAID Data Discovery Portal blocks.
+    # Published 2026-11-09 for https://w3id.org/cdif/niaid/1.0.
+    ("profile-niaid", "_sources/profiles/cdifCompositeProfile/cdifNIAID",
+     "cdifNIAIDStructuredSchema.json", "niaidRules.shacl"),
     # Publishable artifacts live under release/, not at the repo root. The first
     # field is joined onto CDIF_ROOT, so naming the subdirectory here is all the
     # path handling needed. Until 2026-09-08 this repo was simply absent, so
