@@ -783,11 +783,8 @@
       }
     },
     "schema:keywords": {
-      "description": "Keywords are an array of strings, an array of schema:DefinedTerms, or some combination of these. If you have information about a controlled vocabulary from which keywords come from, use schema:DefinedTerm to descibe that keyword. This allowed variability makes parsing metadata hard; recommend using DefinedTerm for all keywords if any of them are from a known vocabulary, otherwise an array of strings.",
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/cdifConceptOrTermOrString"
-      }
+      "$ref": "#/$defs/termsOrText",
+      "description": "NIAID's annotations on keyword terms, such as the dataset's EDAM topic categories."
     },
     "schema:creator": {
       "description": "author or orginator of intellectual content of dataset. Uset the JSON-LD @list construct to preserve author order. Use contributor with the Role property to specify other roles related to creation or stewardship of the resource.",
@@ -1572,10 +1569,6 @@
       "$ref": "#/$defs/terms",
       "description": "Species the dataset was collected from or is about."
     },
-    "nde:topicCategory": {
-      "$ref": "#/$defs/terms",
-      "description": "Topics of the dataset, from the EDAM topic ontology."
-    },
     "schema:infectiousAgent": {
       "$ref": "#/$defs/terms",
       "description": "Infectious agents the dataset is about."
@@ -1585,51 +1578,11 @@
       "description": "Health conditions the dataset is about."
     },
     "schema:measurementTechnique": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "$ref": "#/$defs/annotated"
-        },
-        {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/$defs/annotated"
-              }
-            ]
-          }
-        }
-      ],
+      "$ref": "#/$defs/termsOrText",
       "description": "NIAID's annotations on the measurement techniques CDIF discovery describes."
     },
     "schema:variableMeasured": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "$ref": "#/$defs/annotated"
-        },
-        {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/$defs/annotated"
-              }
-            ]
-          }
-        }
-      ],
+      "$ref": "#/$defs/termsOrText",
       "description": "NIAID's annotations on the variables CDIF discovery describes."
     },
     "nde:nctid": {
@@ -1742,21 +1695,20 @@
           "$ref": "#/$defs/sample"
         },
         {
-          "description": "A collection of samples, which NIAID types as an ItemList.",
+          "description": "A collection of samples, typed nde:SampleCollection. The type is required, so that a sample is not taken for a collection.",
           "type": "object",
+          "required": [
+            "@type"
+          ],
           "properties": {
             "@type": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ]
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "nde:SampleCollection"
+              }
             },
             "schema:numberOfItems": {
               "$ref": "#/$defs/quantity"
@@ -1787,21 +1739,20 @@
                 "$ref": "#/$defs/sample"
               },
               {
-                "description": "A collection of samples, which NIAID types as an ItemList.",
+                "description": "A collection of samples, typed nde:SampleCollection. The type is required, so that a sample is not taken for a collection.",
                 "type": "object",
+                "required": [
+                  "@type"
+                ],
                 "properties": {
                   "@type": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      }
-                    ]
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "nde:SampleCollection"
+                    }
                   },
                   "schema:numberOfItems": {
                     "$ref": "#/$defs/quantity"
@@ -2684,6 +2635,85 @@
         }
       ]
     },
+    "termsOrText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "description": "An object carrying one of NIAID's term annotations, which must then be a NIAID defined term. Other objects are left to CDIF's own rules.",
+          "type": "object",
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "nde:isCurated"
+                ]
+              },
+              {
+                "required": [
+                  "nde:originalName"
+                ]
+              },
+              {
+                "required": [
+                  "nde:curatedBy"
+                ]
+              },
+              {
+                "required": [
+                  "cdifniaid:commonName"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "$ref": "#/$defs/NiaidDefinedTerm"
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "An object carrying one of NIAID's term annotations, which must then be a NIAID defined term. Other objects are left to CDIF's own rules.",
+                "type": "object",
+                "if": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "nde:isCurated"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:originalName"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "nde:curatedBy"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "cdifniaid:commonName"
+                      ]
+                    }
+                  ]
+                },
+                "then": {
+                  "$ref": "#/$defs/NiaidDefinedTerm"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
     "sample": {
       "description": "A sample; nde:Sample is NIAID's subclass of the Bioschemas sample.",
       "allOf": [
@@ -2922,6 +2952,9 @@
           "type": "object",
           "properties": {
             "nde:cellType": {
+              "$ref": "#/$defs/BioschemasSample_termsOrText"
+            },
+            "nde:associatedGenotype": {
               "$ref": "#/$defs/BioschemasSample_termsOrText"
             },
             "nde:species": {
@@ -3245,37 +3278,6 @@
           }
         }
       ]
-    },
-    "annotated": {
-      "description": "An object carrying one of NIAID's term annotations, which must then be a NIAID defined term. Other objects are left to CDIF's own rules.",
-      "type": "object",
-      "if": {
-        "anyOf": [
-          {
-            "required": [
-              "nde:isCurated"
-            ]
-          },
-          {
-            "required": [
-              "nde:originalName"
-            ]
-          },
-          {
-            "required": [
-              "nde:curatedBy"
-            ]
-          },
-          {
-            "required": [
-              "cdifniaid:commonName"
-            ]
-          }
-        ]
-      },
-      "then": {
-        "$ref": "#/$defs/NiaidDefinedTerm"
-      }
     },
     "work": {
       "description": "A cited or citing work. One carrying NIAID's PubMed id, DOI or journal names must be a NIAID creative work; a string or any other object is left to CDIF's own rules.",

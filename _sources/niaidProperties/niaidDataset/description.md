@@ -36,7 +36,7 @@ type. `niaidDataset` points its properties at them.
 
 | Block | Type | NIAID properties | Used for |
 |---|---|---|---|
-| [`niaidDefinedTerm`](../niaidDefinedTerm/) | `schema:DefinedTerm` | `nde:isCurated`, `nde:originalName`, `nde:curatedBy`, `cdifniaid:commonName` | `nde:species`, `nde:topicCategory`, `schema:infectiousAgent`, `schema:healthCondition`; `schema:measurementTechnique` and `schema:variableMeasured` items that carry an annotation |
+| [`niaidDefinedTerm`](../niaidDefinedTerm/) | `schema:DefinedTerm` | `nde:isCurated`, `nde:originalName`, `nde:curatedBy`, `cdifniaid:commonName` | `nde:species`, `schema:infectiousAgent`, `schema:healthCondition`; `schema:keywords`, `schema:measurementTechnique` and `schema:variableMeasured` items that carry an annotation |
 | [`niaidMonetaryGrant`](../niaidMonetaryGrant/) | `schema:MonetaryGrant` | `cdifniaid:projectNumSplit` | `schema:funding` |
 | [`niaidCreativeWork`](../niaidCreativeWork/) | `schema:CreativeWork` or `schema:ScholarlyArticle` | `nde:pmid`, `nde:doi`, `nde:journalName`, `nde:journalNameAbbrev` | `schema:citation` and `nde:citedBy` items that carry one of them |
 | [`niaidPlace`](../niaidPlace/) | `schema:Place` | `nde:administrativeType` | `schema:spatialCoverage` |
@@ -47,13 +47,13 @@ type. `niaidDataset` points its properties at them.
 | Property | On | Value |
 |---|---|---|
 | `nde:date` | dataset | The portal's summary date |
-| `nde:species`, `nde:topicCategory` | dataset, sample | NIAID defined terms |
+| `nde:species` | dataset, sample | NIAID defined terms |
 | `nde:nctid` | dataset | ClinicalTrials.gov id, `NCT` and eight digits |
 | `nde:citedBy` | dataset | Works citing the dataset |
 | `nde:curatedBy` | dataset | The repository that curated the record, with `nde:versionDate` |
 | `nde:isBasisFor` | dataset | Related resources, with `nde:relationship` |
 | `nde:sample` | dataset | An `nde:Sample` or `nde:SampleCollection` |
-| `nde:cellType` | sample | Term or text |
+| `nde:cellType`, `nde:associatedGenotype` | sample | Term or text |
 
 ### cdifniaid terms on the dataset
 

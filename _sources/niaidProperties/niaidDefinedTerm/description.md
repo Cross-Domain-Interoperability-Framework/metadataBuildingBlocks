@@ -2,7 +2,7 @@
 
 A schema:DefinedTerm with the annotations the NIAID Data Discovery Portal adds to the terms it attaches to a dataset: whether a curator checked the term, the text it was matched from, who curated it, and a taxon's common name. The annotations occur only on DefinedTerms, so the block requires that type.
 
-Used by [`niaidDataset`](../niaidDataset/) for `nde:species`, `nde:topicCategory`, `schema:infectiousAgent`, `schema:healthCondition`, `schema:measurementTechnique` and `schema:variableMeasured` on a dataset, and `nde:species` on a sample. The
+Used by [`niaidDataset`](../niaidDataset/) for `nde:species`, `schema:infectiousAgent` and `schema:healthCondition` on a dataset, the `schema:keywords`, `schema:measurementTechnique` and `schema:variableMeasured` items that carry an annotation, and `nde:species` on a sample. The
 [`cdifNIAID`](../../profiles/cdifCompositeProfile/cdifNIAID/) profile composes
 `niaidDataset` with `cdifCore`. `converters/NIAID/harvest_niaid_to_cdif.py` produces
 these objects, and gives the type to one the portal left untyped.

@@ -68,9 +68,9 @@
             "description": "Species the dataset was collected from or is about.",
             "$ref": "#/$defs/terms"
         },
-        "nde:topicCategory": {
-            "description": "Topics of the dataset, from the EDAM topic ontology.",
-            "$ref": "#/$defs/terms"
+        "schema:keywords": {
+            "description": "NIAID's annotations on keyword terms, such as the dataset's EDAM topic categories.",
+            "$ref": "#/$defs/termsOrText"
         },
         "schema:infectiousAgent": {
             "description": "Infectious agents the dataset is about.",
@@ -430,6 +430,9 @@
                         "nde:cellType": {
                             "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/termsOrText"
                         },
+                        "nde:associatedGenotype": {
+                            "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/termsOrText"
+                        },
                         "nde:species": {
                             "$ref": "#/$defs/terms"
                         },
@@ -441,11 +444,20 @@
             ]
         },
         "sampleCollection": {
-            "description": "A collection of samples, which NIAID types as an ItemList.",
+            "description": "A collection of samples, typed nde:SampleCollection. The type is required, so that a sample is not taken for a collection.",
             "type": "object",
+            "required": [
+                "@type"
+            ],
             "properties": {
                 "@type": {
-                    "$ref": "#/$defs/types"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "nde:SampleCollection"
+                    }
                 },
                 "schema:numberOfItems": {
                     "$ref": "../../bioschemasProperties/bioschemasSample/schema.yaml#/$defs/quantity"
