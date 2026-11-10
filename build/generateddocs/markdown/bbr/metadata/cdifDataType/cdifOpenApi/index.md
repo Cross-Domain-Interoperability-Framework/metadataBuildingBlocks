@@ -648,12 +648,12 @@ ex:op_searchAnalyses a schema1:SearchAction ;
                             oas:schema [ oas:type "object" ] ] ],
                 [ schema1:description "Tabular geochemical analysis results matching the query." ;
                     oas:code "200" ;
-                    oas:content [ schema1:encodingFormat "text/csv" ;
-                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
-                                    oas:type "string" ] ],
-                        [ schema1:encodingFormat "application/json" ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
-                                    oas:type "object" ] ] ] ] .
+                                    oas:type "object" ] ],
+                        [ schema1:encodingFormat "text/csv" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
+                                    oas:type "string" ] ] ] ] .
 
 ex:op_submitAnalysis a schema1:CreateAction ;
     schema1:description "Submit a new geochemical analysis record. Requires authentication." ;
@@ -1055,7 +1055,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifOpenApi
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-09'
+  dateOfLastChange: '2026-11-10'
 
 ```
 
