@@ -10,3 +10,42 @@ cdifd:NiaidNctidShape a sh:NodeShape ;
     sh:property [ sh:path nde:nctid ; sh:pattern "^NCT[0-9]{8}$" ;
             sh:severity sh:Violation ;
             sh:message "nde:nctid must be a ClinicalTrials.gov id: NCT and eight digits." ] .
+
+# The NIAID Blueprint for Digital Objects (v2, 26 Sep 2025) asks for these elements on
+# every dataset. CDIF does not require them all, so a missing one is a warning: it
+# reports how complete a record is against the Blueprint without failing cdifNIAID.
+# The target is the record's root dataset, the node with the catalog record.
+cdifd:NiaidBlueprintShape a sh:NodeShape ;
+    sh:targetSubjectsOf schema:subjectOf ;
+    sh:property [ sh:path schema:identifier ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element identifier: the Blueprint asks for a globally unique, persistent identifier, by default a resolvable DOI." ] ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element name: the Blueprint asks for a title." ] ;
+    sh:property [ sh:path schema:description ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element description: the Blueprint asks for a description." ] ;
+    sh:property [ sh:path schema:dateCreated ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element dateCreated: the Blueprint asks for the date created (ISO 8601)." ] ;
+    sh:property [ sh:path schema:creator ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element author: the Blueprint asks for authors, by default with ORCIDs." ] ;
+    sh:property [ sh:path schema:funding ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element funder and grant: the Blueprint asks for funding: a schema:MonetaryGrant with the grant number and its funder, by default with a ROR id." ] ;
+    sh:property [ sh:path schema:measurementTechnique ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element measurementTechnique: the Blueprint asks for measurement techniques, by default from NCIT." ] ;
+    sh:property [ sh:path schema:distribution ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element distribution: the Blueprint asks for links to the data files." ] ;
+    sh:property [ sh:path schema:citation ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element citation: the Blueprint asks for citations of related works." ] ;
+    sh:property [ sh:path schema:infectiousAgent ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element infectiousAgent: the Blueprint asks for infectious agents, by default from NCBITaxon." ] ;
+    sh:property [ sh:path nde:species ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element host: the Blueprint asks for host organisms (nde:species), by default from NCBITaxon." ] ;
+    sh:property [ sh:path schema:healthCondition ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element healthCondition: the Blueprint asks for health conditions, by default from MONDO." ] ;
+    sh:property [ sh:path schema:conditionsOfAccess ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element conditionsOfAccess: the Blueprint asks for conditions of access." ] ;
+    sh:property [ sh:path schema:license ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element license: the Blueprint asks for a license, by default an SPDX license." ] ;
+    sh:property [ sh:path schema:spatialCoverage ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element spatialCoverage: the Blueprint asks for spatial coverage, by default ISO 3166 country codes." ] ;
+    sh:property [ sh:path schema:temporalCoverage ; sh:minCount 1 ; sh:severity sh:Warning ;
+            sh:message "NIAID Blueprint element temporalCoverage: the Blueprint asks for temporal coverage (ISO 8601 start/end)." ] .
