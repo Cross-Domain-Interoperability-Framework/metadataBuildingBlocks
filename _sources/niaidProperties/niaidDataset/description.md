@@ -29,6 +29,14 @@ defined here and nowhere else. They sit under `terms/` so that the profile URI
 Everything else is optional but typed. Every property accepts one value or an
 array, because framing collapses a one-element array to its value.
 
+### NIAID Blueprint completeness
+
+The NIAID Blueprint for Digital Objects (v2, 26 September 2025) asks for 17 elements on
+every dataset. `rules.shacl` checks the record's root dataset for each of them with an
+`sh:Warning`, so a record reports what it lacks against the Blueprint without failing
+the profile. The Blueprint's host is `nde:species`, and its funder and grant are
+`schema:funding`.
+
 ### Extensions of other types
 
 NIAID adds properties to five other types, each in a block that requires the
@@ -47,7 +55,7 @@ type. `niaidDataset` points its properties at them.
 | Property | On | Value |
 |---|---|---|
 | `nde:date` | dataset | The portal's summary date |
-| `nde:species` | dataset, sample | NIAID defined terms |
+| `nde:species` | dataset, sample | Host organisms, e.g. Homo sapiens, as NIAID defined terms; the pathogen is in `schema:infectiousAgent` |
 | `nde:nctid` | dataset | ClinicalTrials.gov id, `NCT` and eight digits |
 | `nde:citedBy` | dataset | Works citing the dataset |
 | `nde:curatedBy` | dataset | The repository that curated the record, with `nde:versionDate` |
