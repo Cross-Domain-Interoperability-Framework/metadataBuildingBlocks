@@ -6,6 +6,7 @@ to all domain building block repositories.
 Files synced:
   - resolve_schema.py
   - regenerate_schema_json.py
+  - bb_locate.py (resolve_schema.py imports it to find a building block by name)
 
 Usage:
     python tools/sync_resolve_schema.py          # dry-run (show what would be copied)
@@ -28,6 +29,7 @@ REPO_ROOT = TOOLS_DIR.parent  # metadataBuildingBlocks/
 TOOLS = [
     "resolve_schema.py",
     "regenerate_schema_json.py",
+    "bb_locate.py",
 ]
 
 # Target repos — paths relative to this repo root
