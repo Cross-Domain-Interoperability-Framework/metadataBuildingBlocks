@@ -31,7 +31,7 @@ array, because framing collapses a one-element array to its value.
 
 ### NIAID Blueprint completeness
 
-The NIAID Blueprint for Digital Objects (v2, 26 September 2025) asks for 17 elements on
+The [NIAID Blueprint for Digital Objects](https://doi.org/10.5281/zenodo.17161561) (v2, 26 September 2025) asks for 17 elements on
 every dataset. `rules.shacl` checks the record's root dataset for each of them with an
 `sh:Warning`, so a record reports what it lacks against the Blueprint without failing
 the profile. The Blueprint's host is `nde:species`, and its funder and grant are
