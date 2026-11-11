@@ -11,12 +11,13 @@ Extended provenance activity for CDIF metadata, adding schema.org Action propert
 
 ## CDIF Provenance Activity
 
-Extended provenance activity for CDIF metadata, adding schema.org Action properties (agents, methodology, temporal bounds, action chaining) to the base prov:Activity. Instruments are nested within prov:used items via schema:instrument sub-key.
+Extended provenance activity for CDIF metadata, adding schema.org Action properties (agents, methodology, temporal bounds, action chaining) to the base prov:Activity. What the activity used is recorded with schema:instrument (instruments, software and reagents, each told apart by a Wikidata kind term in schema:additionalType) and schema:object (inputs). An activity must have at least one of schema:instrument, schema:object or schema:actionProcess. The plan it followed is the {@id} form of schema:actionProcess; an inline HowTo records the procedure as performed and links the plan with schema:isBasedOn.
 
 ### Defined properties
 
 - **@type** — must include both schema:Action and prov:Activity
-- **prov:used** — items used by the activity; can include instruments via schema:instrument sub-key
+- **schema:instrument** — instruments, software and reagents used: an {@id} reference, or a description in place whose schema:additionalType carries one of Q3099911 (instrument), Q7397 (software) or Q2356542 (reagent)
+- **prov:used** — not used by this profile; accepted only in the core shape (strings and @id references)
 - **schema:name** — human-readable name for the activity
 - **schema:description** — text description of what this activity did
 - **schema:identifier** — formal identifier for this activity
@@ -58,10 +59,13 @@ the BB allows.
     "prov": "http://www.w3.org/ns/prov#",
     "ex": "https://example.org/"
   },
-  "@type": ["schema:Action", "prov:Activity"],
+  "@type": [
+    "schema:Action",
+    "prov:Activity"
+  ],
   "@id": "ex:activity/sample-prep",
   "schema:name": "Sample preparation",
-  "prov:used": [
+  "schema:object": [
     {
       "@id": "ex:sample-001"
     }
@@ -91,7 +95,7 @@ the BB allows.
   ],
   "@id": "ex:activity/sample-prep",
   "schema:name": "Sample preparation",
-  "prov:used": [
+  "schema:object": [
     {
       "@id": "ex:sample-001"
     }
@@ -108,7 +112,7 @@ the BB allows.
 <https://example.org/activity/sample-prep> a schema1:Action,
         prov:Activity ;
     schema1:name "Sample preparation" ;
-    prov:used ex:sample-001 .
+    schema1:object ex:sample-001 .
 
 
 ```
@@ -117,10 +121,11 @@ the BB allows.
 ### Complete CDIF Provenance Activity
 Soil chemistry analysis activity demonstrating extended cdifProvActivity
 block features: multi-typed activity (schema:Action + prov:Activity),
-agent with ORCID, DefinedTerm instrument with detection limit, prov:used
-array (vocab URI, string, CreativeWork), action chaining via
-schema:object/result, schema:actionProcess HowTo with ordered steps,
-and facility location.
+agent with ORCID, schema:instrument with a Wikidata kind term and a
+NERC device category, inputs in schema:object, action chaining via
+schema:object/result, schema:actionProcess HowTo with ordered steps
+whose schema:isBasedOn names the EPA method it followed, and facility
+location.
 #### json
 ```json
 {
@@ -136,52 +141,6 @@ and facility location.
   ],
   "schema:name": "Soil Chemistry Analysis - Great Basin Transect 2025",
   "schema:description": "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.",
-  "prov:used": [
-    {
-      "schema:instrument": [
-        {
-          "@type": [
-            "schema:Product",
-            "schema:Thing",
-            "schema:DefinedTerm"
-          ],
-          "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
-          "schema:termCode": "ICP-MS",
-          "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
-          "schema:alternateName": [
-            "Thermo Fisher iCAP RQ ICP-MS"
-          ],
-          "schema:category": [
-            {
-              "@type": [
-                "schema:DefinedTerm"
-              ],
-              "schema:name": "Inductively coupled plasma mass spectrometer",
-              "schema:termCode": "LAB21",
-              "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
-            }
-          ],
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                "detectionLimit"
-              ],
-              "schema:name": "Typical Detection Limit",
-              "schema:value": "0.01 mg/kg for trace elements"
-            }
-          ]
-        }
-      ]
-    },
-    "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
-    "Soil core samples collected June 2025, sites GB-001 through GB-045",
-    {
-      "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
-    }
-  ],
   "schema:agent": {
     "@type": [
       "schema:Person"
@@ -205,7 +164,8 @@ and facility location.
     }
   },
   "schema:object": [
-    "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect"
+    "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
+    "Soil core samples collected June 2025, sites GB-001 through GB-045"
   ],
   "schema:result": [
     {
@@ -246,8 +206,56 @@ and facility location.
         "schema:description": "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards.",
         "schema:position": 2
       }
-    ]
-  }
+    ],
+    "schema:isBasedOn": {
+      "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
+    }
+  },
+  "schema:instrument": [
+    {
+      "@type": [
+        "schema:Product",
+        "schema:Thing",
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+      "schema:termCode": "ICP-MS",
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
+      "schema:alternateName": [
+        "Thermo Fisher iCAP RQ ICP-MS"
+      ],
+      "schema:category": [
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Inductively coupled plasma mass spectrometer",
+          "schema:termCode": "LAB21",
+          "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+        }
+      ],
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "detectionLimit"
+          ],
+          "schema:name": "Typical Detection Limit",
+          "schema:value": "0.01 mg/kg for trace elements"
+        }
+      ],
+      "schema:additionalType": [
+        {
+          "@id": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02"
+        },
+        {
+          "@id": "https://www.wikidata.org/entity/Q3099911"
+        }
+      ]
+    }
+  ]
 }
 
 ```
@@ -274,52 +282,6 @@ and facility location.
   ],
   "schema:name": "Soil Chemistry Analysis - Great Basin Transect 2025",
   "schema:description": "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.",
-  "prov:used": [
-    {
-      "schema:instrument": [
-        {
-          "@type": [
-            "schema:Product",
-            "schema:Thing",
-            "schema:DefinedTerm"
-          ],
-          "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
-          "schema:termCode": "ICP-MS",
-          "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
-          "schema:alternateName": [
-            "Thermo Fisher iCAP RQ ICP-MS"
-          ],
-          "schema:category": [
-            {
-              "@type": [
-                "schema:DefinedTerm"
-              ],
-              "schema:name": "Inductively coupled plasma mass spectrometer",
-              "schema:termCode": "LAB21",
-              "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
-            }
-          ],
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                "detectionLimit"
-              ],
-              "schema:name": "Typical Detection Limit",
-              "schema:value": "0.01 mg/kg for trace elements"
-            }
-          ]
-        }
-      ]
-    },
-    "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
-    "Soil core samples collected June 2025, sites GB-001 through GB-045",
-    {
-      "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
-    }
-  ],
   "schema:agent": {
     "@type": [
       "schema:Person"
@@ -343,7 +305,8 @@ and facility location.
     }
   },
   "schema:object": [
-    "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect"
+    "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
+    "Soil core samples collected June 2025, sites GB-001 through GB-045"
   ],
   "schema:result": [
     {
@@ -384,8 +347,56 @@ and facility location.
         "schema:description": "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards.",
         "schema:position": 2
       }
-    ]
-  }
+    ],
+    "schema:isBasedOn": {
+      "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
+    }
+  },
+  "schema:instrument": [
+    {
+      "@type": [
+        "schema:Product",
+        "schema:Thing",
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+      "schema:termCode": "ICP-MS",
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
+      "schema:alternateName": [
+        "Thermo Fisher iCAP RQ ICP-MS"
+      ],
+      "schema:category": [
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Inductively coupled plasma mass spectrometer",
+          "schema:termCode": "LAB21",
+          "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+        }
+      ],
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "detectionLimit"
+          ],
+          "schema:name": "Typical Detection Limit",
+          "schema:value": "0.01 mg/kg for trace elements"
+        }
+      ],
+      "schema:additionalType": [
+        {
+          "@id": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02"
+        },
+        {
+          "@id": "https://www.wikidata.org/entity/Q3099911"
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -394,21 +405,23 @@ and facility location.
 @prefix ex: <https://example.org/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix schema1: <http://schema.org/> .
+@prefix wd: <https://www.wikidata.org/entity/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:activity-soil-chem-analysis a schema1:Action,
         prov:Activity ;
     schema1:actionProcess [ a schema1:HowTo ;
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices." ;
+            schema1:isBasedOn <https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination> ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
-                    schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
                     schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ] ] ;
+                    schema1:position 2 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
+                    schema1:name "Sample preparation and acid digestion" ;
+                    schema1:position 1 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:agent [ a schema1:Person ;
             schema1:contactPoint [ a schema1:ContactPoint ;
@@ -420,32 +433,32 @@ ex:activity-soil-chem-analysis a schema1:Action,
             schema1:name "Dr. Maria Chen" ] ;
     schema1:description "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials." ;
     schema1:endTime "2025-09-30T17:00:00Z" ;
+    schema1:instrument [ a schema1:DefinedTerm,
+                schema1:Product,
+                schema1:Thing ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "Typical Detection Limit" ;
+                    schema1:propertyID "detectionLimit" ;
+                    schema1:value "0.01 mg/kg for trace elements" ] ;
+            schema1:additionalType <https://vocab.nerc.ac.uk/collection/L05/current/LAB02>,
+                wd:Q3099911 ;
+            schema1:alternateName "Thermo Fisher iCAP RQ ICP-MS" ;
+            schema1:category [ a schema1:DefinedTerm ;
+                    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+                    schema1:name "Inductively coupled plasma mass spectrometer" ;
+                    schema1:termCode "LAB21" ] ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
+            schema1:termCode "ICP-MS" ] ;
     schema1:location [ a schema1:Place ;
             schema1:address "University of Nevada, Reno, 1664 N. Virginia Street, Reno, NV 89557" ;
             schema1:name "Nevada Bureau of Mines and Geology Analytical Lab" ;
             schema1:url "https://www.unr.edu/nbmg" ] ;
     schema1:name "Soil Chemistry Analysis - Great Basin Transect 2025" ;
-    schema1:object "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect" ;
+    schema1:object "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
+        "Soil core samples collected June 2025, sites GB-001 through GB-045" ;
     schema1:result ex:dataset-soil-chem-gb-2025 ;
-    schema1:startTime "2025-07-15T08:00:00Z" ;
-    prov:used [ schema1:instrument [ a schema1:DefinedTerm,
-                        schema1:Product,
-                        schema1:Thing ;
-                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Typical Detection Limit" ;
-                            schema1:propertyID "detectionLimit" ;
-                            schema1:value "0.01 mg/kg for trace elements" ] ;
-                    schema1:alternateName "Thermo Fisher iCAP RQ ICP-MS" ;
-                    schema1:category [ a schema1:DefinedTerm ;
-                            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-                            schema1:name "Inductively coupled plasma mass spectrometer" ;
-                            schema1:termCode "LAB21" ] ;
-                    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-                    schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
-                    schema1:termCode "ICP-MS" ] ],
-        <https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination>,
-        "Soil core samples collected June 2025, sites GB-001 through GB-045",
-        "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
+    schema1:startTime "2025-07-15T08:00:00Z" .
 
 
 ```
@@ -455,10 +468,12 @@ ex:activity-soil-chem-analysis a schema1:Action,
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
 title: CDIF Provenance Activity
-description: Extended provenance activity building block for CDIF. Extends the minimal
-  prov:Activity (generatedBy) with schema.org Action properties for comprehensive
-  provenance documentation including agents, instruments, methodology, temporal bounds,
-  action chaining, and more.
+description: Extended provenance activity building block for CDIF -- the schema.org
+  implementation. Extends the minimal prov:Activity (generatedBy) with schema.org
+  Action properties for agents, instruments, inputs and outputs, methodology and plan,
+  temporal bounds, action chaining, and more. What the activity used is recorded with
+  schema:instrument (instruments, software, reagents) and schema:object (inputs),
+  not with prov:used.
 type: object
 allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/generatedBy/schema.yaml
@@ -474,45 +489,51 @@ allOf:
       description: Must include both schema:Action and prov:Activity (prov:Activity
         required by base generatedBy schema)
     prov:used:
-      type: array
-      description: Base generatedBy defines the allowed item shapes (string | {@id}
-        | inline prov:Entity | a role-keyed wrapper naming schema:instrument / bios:computationalTool
-        / bios:reagent). This profile only PINS the schema:instrument wrapper's value
-        to the Instrument description when that key is present; it adds no other restriction,
-        so all base item shapes (including inline prov:Entity inputs such as samples)
-        remain valid. The wrapped value is an ARRAY of Instrument. schema:instrument
-        is 0..* -- one activity commonly uses several instruments in the same role
-        (a laser ablation cell plus the ICP-MS it feeds) -- and this schema implements
-        every 1..* / 0..* property as a JSON array, never as "object or array", so
-        a consumer never has to test the value's type before iterating.
-      items:
-        if:
-          type: object
-          required:
-          - schema:instrument
-        then:
-          properties:
-            schema:instrument:
-              type: array
-              minItems: 1
-              items:
-                $ref: '#/$defs/Instrument'
-              x-jsonld-id: http://schema.org/instrument
+      description: Not used by this profile. A prov:used a record carries is accepted
+        when it passes the core shape in generatedBy (strings and @id references)
+        and is checked by nothing more. Record instruments, software and reagents
+        with schema:instrument, and inputs with schema:object.
       x-jsonld-id: http://www.w3.org/ns/prov#used
+    schema:instrument:
+      type: array
+      minItems: 1
+      description: 'Instruments, software and reagents the activity used. Each item
+        is either an {@id} reference to a thing described elsewhere, or a description
+        in place whose schema:additionalType carries exactly one of three Wikidata
+        terms (as the Wikidata entity IRI https://www.wikidata.org/entity/Q..., or
+        a wd: CURIE bound to it), which says what kind of thing it is and selects
+        the shape it must have: https://www.wikidata.org/entity/Q3099911 (measuring
+        instrument) -> Instrument; https://www.wikidata.org/entity/Q7397 (software)
+        -> Software; https://www.wikidata.org/entity/Q2356542 (chemical reagent, used
+        here for reagents and reference materials) -> Reagent. The kind is read from
+        additionalType, not @type, because a reagent can be a schema:Product just
+        as an instrument is. Always an array: one activity commonly uses several (a
+        laser ablation cell plus the ICP-MS it feeds, the acquisition software, the
+        standards).'
+      items:
+        anyOf:
+        - description: reference to an instrument, software or reagent described elsewhere
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+        - $ref: '#/$defs/UsedResource'
+      x-jsonld-id: http://schema.org/instrument
+  anyOf:
+  - required:
+    - schema:instrument
+  - required:
+    - schema:object
+  - required:
+    - schema:actionProcess
     schema:name:
       type: string
       description: Human-readable name for the activity
-      x-jsonld-id: http://schema.org/name
     schema:description:
       type: string
       description: Text description of what this activity did
-      x-jsonld-id: http://schema.org/description
     schema:identifier:
       description: Formal identifier for this activity
       anyOf:
       - $ref: '#/$defs/Identifier'
       - type: string
-      x-jsonld-id: http://schema.org/identifier
     schema:agent:
       description: Primary responsible agent for this activity (maps to PROV wasAssociatedWith)
       anyOf:
@@ -521,7 +542,6 @@ allOf:
       - $ref: '#/$defs/AgentInRole'
       - description: reference to an agent defined elsewhere
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-      x-jsonld-id: http://schema.org/agent
     schema:participant:
       description: Other participants in this activity
       type: array
@@ -532,7 +552,6 @@ allOf:
         - $ref: '#/$defs/AgentInRole'
         - description: reference to a participant defined elsewhere
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-      x-jsonld-id: http://schema.org/participant
     schema:object:
       description: Input entity (or entities) for this activity. Per schema.org, the
         range of schema:object is schema:Thing. Accepts four shapes (1) a string URI,
@@ -561,7 +580,6 @@ allOf:
           anyOf:
           - type: string
           - type: object
-      x-jsonld-id: http://schema.org/object
     schema:result:
       description: 'Output entity (or entities) produced by this activity. Per schema.org,
         the range is schema:Thing. Accepts: (1) a string URI reference (action chaining
@@ -590,7 +608,6 @@ allOf:
           anyOf:
           - type: string
           - type: object
-      x-jsonld-id: http://schema.org/result
     schema:actionStatus:
       type: string
       description: Status of this activity
@@ -599,15 +616,12 @@ allOf:
       - schema:ActiveActionStatus
       - schema:PotentialActionStatus
       - schema:FailedActionStatus
-      x-jsonld-id: http://schema.org/actionStatus
     schema:startTime:
       type: string
       description: ISO8601 date-time when the activity started (maps to PROV startedAtTime)
-      x-jsonld-id: http://schema.org/startTime
     schema:endTime:
       type: string
       description: ISO8601 date-time when the activity ended (maps to PROV endedAtTime)
-      x-jsonld-id: http://schema.org/endTime
     schema:location:
       description: Where the activity occurred
       anyOf:
@@ -615,25 +629,29 @@ allOf:
       - type: string
       - description: reference to a place defined elsewhere
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-      x-jsonld-id: http://schema.org/location
     schema:actionProcess:
-      description: Methodology or protocol for this activity
+      description: 'The plan the activity followed, or the procedure as it was performed.
+        The {@id} reference form is the link to the plan (a protocol, method or workflow
+        definition described elsewhere; CDIF defines no inline plan object). An inline
+        HowTo is the procedure as performed; when the activity also followed a plan,
+        that HowTo links the plan with schema:isBasedOn. One path finds the plan in
+        both cases: prov:wasGeneratedBy/schema:actionProcess/schema:isBasedOn?'
       anyOf:
       - $ref: '#/$defs/HowTo'
       - type: string
       - description: reference to a methodology defined elsewhere
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-      x-jsonld-id: http://schema.org/actionProcess
     schema:error:
       type: string
       description: Error description for failed activities
-      x-jsonld-id: http://schema.org/error
     schema:additionalProperty:
-      description: Domain-specific extension properties
+      description: Domain-specific extension properties, typically the parameter values
+        this run used. schema.org does not list Action among this property's domains,
+        so validator.schema.org warns on it; that warning is known and accepted, because
+        schema.org has no Action property for parameter values.
       type: array
       items:
         $ref: '#/$defs/AdditionalProperty'
-      x-jsonld-id: http://schema.org/additionalProperty
 $defs:
   Person:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
@@ -649,6 +667,138 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
   AdditionalProperty:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
+  UsedResource:
+    type: object
+    description: An instrument, software or reagent described in place. schema:additionalType
+      must carry exactly one of the three kind terms; the kind then pins the shape.
+      A domain profile adds its own properties (a role, a version, settings).
+    required:
+    - '@type'
+    - schema:additionalType
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        minItems: 1
+      schema:additionalType:
+        type: array
+        minItems: 1
+        x-jsonld-id: http://schema.org/additionalType
+    oneOf:
+    - $ref: '#/$defs/KindInstrument'
+    - $ref: '#/$defs/KindSoftware'
+    - $ref: '#/$defs/KindReagent'
+    allOf:
+    - if:
+        $ref: '#/$defs/KindInstrument'
+      then:
+        $ref: '#/$defs/Instrument'
+    - if:
+        $ref: '#/$defs/KindSoftware'
+      then:
+        $ref: '#/$defs/Software'
+    - if:
+        $ref: '#/$defs/KindReagent'
+      then:
+        $ref: '#/$defs/Reagent'
+  KindInstrument:
+    description: schema:additionalType names the Wikidata measuring-instrument term
+    properties:
+      schema:additionalType:
+        contains:
+          type: object
+          required:
+          - '@id'
+          properties:
+            '@id':
+              enum:
+              - https://www.wikidata.org/entity/Q3099911
+              - wd:Q3099911
+        x-jsonld-id: http://schema.org/additionalType
+    required:
+    - schema:additionalType
+  KindSoftware:
+    description: schema:additionalType names the Wikidata software term
+    properties:
+      schema:additionalType:
+        contains:
+          type: object
+          required:
+          - '@id'
+          properties:
+            '@id':
+              enum:
+              - https://www.wikidata.org/entity/Q7397
+              - wd:Q7397
+        x-jsonld-id: http://schema.org/additionalType
+    required:
+    - schema:additionalType
+  KindReagent:
+    description: schema:additionalType names the Wikidata chemical-reagent term
+    properties:
+      schema:additionalType:
+        contains:
+          type: object
+          required:
+          - '@id'
+          properties:
+            '@id':
+              enum:
+              - https://www.wikidata.org/entity/Q2356542
+              - wd:Q2356542
+        x-jsonld-id: http://schema.org/additionalType
+    required:
+    - schema:additionalType
+  Software:
+    type: object
+    description: Software used by the activity (acquisition, reduction, processing).
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: schema:SoftwareApplication
+      '@id':
+        type: string
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      schema:softwareVersion:
+        type: string
+        x-jsonld-id: http://schema.org/softwareVersion
+      schema:url:
+        type: string
+        format: uri
+        x-jsonld-id: http://schema.org/url
+    required:
+    - '@type'
+    - schema:name
+  Reagent:
+    type: object
+    description: 'A reagent, standard or reference material used by the activity.
+      @type says what the material is: schema:DefinedTerm for a material identified
+      by a registry entry (e.g. a GeoReM reference material), schema:Product for a
+      catalogued specimen or purchased lot, schema:ChemicalSubstance for a bulk chemical.'
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:DefinedTerm
+          - schema:Product
+          - schema:ChemicalSubstance
+      '@id':
+        type: string
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+    required:
+    - '@type'
+    - schema:name
   HowTo:
     type: object
     description: A methodology or protocol described as a HowTo with optional steps
@@ -675,6 +825,12 @@ $defs:
         format: uri
         description: URL to a published methodology or protocol document
         x-jsonld-id: http://schema.org/url
+      schema:isBasedOn:
+        description: The plan this procedure was based on, when the activity both
+          followed a plan and records the procedure as performed. A reference only,
+          for now.
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+        x-jsonld-id: http://schema.org/isBasedOn
       schema:step:
         type: array
         description: Ordered steps in this methodology

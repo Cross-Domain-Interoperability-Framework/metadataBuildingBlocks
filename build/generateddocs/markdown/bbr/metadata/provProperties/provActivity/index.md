@@ -11,7 +11,7 @@ PROV-O native provenance activity for CDIF metadata. Uses W3C PROV-O vocabulary 
 
 ## PROV-O Provenance Activity
 
-PROV-O native provenance activity for CDIF metadata. Extends the minimal [generatedBy](../generatedBy/) with W3C PROV-O vocabulary for comprehensive provenance (used, generated, wasAssociatedWith, wasInformedBy, temporal bounds, location) with schema.org fallbacks for name, description, methodology, and status. Instruments are nested in prov:used via schema:instrument sub-key.
+PROV-O native provenance activity for CDIF metadata. Extends the minimal [generatedBy](../generatedBy/) with W3C PROV-O vocabulary for comprehensive provenance (used, generated, wasAssociatedWith, wasInformedBy, temporal bounds, location) with schema.org fallbacks for name, description, methodology, and status. prov:used items are strings, {@id} references, or inline prov:Entity nodes that carry an @id.
 
 ### Defined properties
 
@@ -71,7 +71,8 @@ Example PROV-O provenance activity with associations, inputs, outputs, and metho
         "schema:CreativeWork"
       ],
       "schema:name": "EPA Method 6200 - XRF Analysis of Soils",
-      "schema:url": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
+      "schema:url": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination",
+      "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
     }
   ],
   "prov:generated": [
@@ -182,7 +183,8 @@ Example PROV-O provenance activity with associations, inputs, outputs, and metho
         "schema:CreativeWork"
       ],
       "schema:name": "EPA Method 6200 - XRF Analysis of Soils",
-      "schema:url": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
+      "schema:url": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination",
+      "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
     }
   ],
   "prov:generated": [
@@ -271,13 +273,13 @@ ex:activity-soil-chem-analysis a prov:Activity ;
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices." ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
-                    schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
                     schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ] ] ;
+                    schema1:position 1 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
+                    schema1:name "ICP-MS measurement and calibration" ;
+                    schema1:position 2 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:description "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials." ;
     schema1:name "Soil Chemistry Analysis - Great Basin Transect 2025" ;
@@ -288,11 +290,8 @@ ex:activity-soil-chem-analysis a prov:Activity ;
     prov:endedAtTime "2025-09-30T17:00:00Z" ;
     prov:generated ex:dataset-soil-chem-gb-2025 ;
     prov:startedAtTime "2025-07-15T08:00:00Z" ;
-    prov:used [ a schema1:CreativeWork,
-                prov:Entity ;
-            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
-            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
-        <http://example.org/inst/TF_RQICP-MS>,
+    prov:used <http://example.org/inst/TF_RQICP-MS>,
+        <https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination>,
         "Soil core samples collected June 2025, sites GB-001 through GB-045",
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" ;
     prov:wasAssociatedWith [ a schema1:Person ;
@@ -303,6 +302,11 @@ ex:activity-soil-chem-analysis a prov:Activity ;
                     schema1:value "0000-0002-8765-4321" ] ;
             schema1:name "Dr. Maria Chen" ] ;
     prov:wasInformedBy ex:activity-sample-collection .
+
+<https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination> a schema1:CreativeWork,
+        prov:Entity ;
+    schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
+    schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" .
 
 <mailto:maria.chen@unr.edu> a schema1:ContactPoint ;
     schema1:email "maria.chen@unr.edu" .
@@ -343,6 +347,32 @@ allOf:
       description: Text description of what this activity did (schema.org fallback
         -- PROV-O has no description property)
       x-jsonld-id: http://schema.org/description
+    prov:used:
+      description: 'Entities the activity used (PROV-O native). Narrows the core shape
+        in generatedBy: each item is a string, an {@id} reference, or an inline entity
+        typed prov:Entity that carries its @id. No role-keyed wrappers.'
+      type: array
+      items:
+        anyOf:
+        - type: string
+        - description: reference to an entity used by this activity
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+        - type: object
+          description: an inline entity used by this activity, identified by @id
+          required:
+          - '@id'
+          - '@type'
+          properties:
+            '@id':
+              type: string
+            '@type':
+              type: array
+              items:
+                type: string
+              minItems: 1
+              contains:
+                const: prov:Entity
+      x-jsonld-id: http://www.w3.org/ns/prov#used
     prov:generated:
       description: Entities produced by this activity (inverse of prov:wasGeneratedBy)
       type: array

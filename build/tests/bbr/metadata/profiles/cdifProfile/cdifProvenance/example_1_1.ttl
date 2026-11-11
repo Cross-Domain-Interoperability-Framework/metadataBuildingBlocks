@@ -3,6 +3,7 @@
 @prefix ex: <https://example.org/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix schema1: <http://schema.org/> .
+@prefix wd: <https://www.wikidata.org/entity/> .
 
 ex:dataset_with_provenance_001 a schema1:Dataset ;
     schema1:dateModified "2025-06-15" ;
@@ -21,17 +22,18 @@ ex:dataset_with_provenance_001 a schema1:Dataset ;
                     schema1:name "Garcia, Maria" ] ;
             schema1:description "Raw seismic traces were processed using standard reflection seismology workflow including deconvolution, stacking, and migration." ;
             schema1:endTime "2025-03-20T00:00:00Z" ;
+            schema1:instrument [ a schema1:Product,
+                        schema1:SoftwareApplication,
+                        schema1:Thing ;
+                    schema1:additionalType wd:Q7397 ;
+                    schema1:category [ a schema1:DefinedTerm ;
+                            schema1:name "Seismic processing software" ;
+                            schema1:termCode "seismic-processing" ] ;
+                    schema1:name "SeisUnix" ;
+                    schema1:url "https://wiki.seismic-unix.org/" ;
+                    schema1:version "44R27" ] ;
             schema1:name "Seismic data processing" ;
-            schema1:startTime "2025-01-10T00:00:00Z" ;
-            prov:used [ schema1:instrument [ a schema1:Product,
-                                schema1:SoftwareApplication,
-                                schema1:Thing ;
-                            schema1:category [ a schema1:DefinedTerm ;
-                                    schema1:name "Seismic processing software" ;
-                                    schema1:termCode "seismic-processing" ] ;
-                            schema1:name "SeisUnix" ;
-                            schema1:url "https://wiki.seismic-unix.org/" ;
-                            schema1:version "44R27" ] ] ] .
+            schema1:startTime "2025-01-10T00:00:00Z" ] .
 
 ex:metadata_provenance_001 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/provenance/1.1> ;

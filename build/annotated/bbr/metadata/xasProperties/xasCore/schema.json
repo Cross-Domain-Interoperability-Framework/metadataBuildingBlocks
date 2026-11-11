@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "XAS Core (required) metadata constraints",
-  "description": "Required XAS constraints layered on cdifCore (composed once by the xasDocument profile; this module does NOT re-embed cdifCore). Enforces @type including schema:Dataset (schema:Product optional), a prov:wasGeneratedBy analysis activity whose prov:used carries the NXsource+NXmonochromator instrument wrapper, an XDI- or NeXus-conformant distribution, and required XAS measurementTechnique DefinedTerms (the PaNET XAS technique and the detection mode). schema:keywords carries no XAS requirement.",
+  "description": "Required XAS constraints layered on cdifCore (composed once by the xasDocument profile; this module does NOT re-embed cdifCore). Enforces @type including schema:Dataset (schema:Product optional), a prov:wasGeneratedBy analysis activity whose schema:instrument carries the NXsource+NXmonochromator instruments, an XDI- or NeXus-conformant distribution, and required XAS measurementTechnique DefinedTerms (the PaNET XAS technique and the detection mode). schema:keywords carries no XAS requirement.",
   "type": "object",
   "required": [
     "prov:wasGeneratedBy",
@@ -64,270 +64,248 @@
           {
             "type": "object",
             "properties": {
-              "prov:used": {
+              "schema:instrument": {
                 "type": "array",
-                "description": "Array of instrument-wrapper entries used by the analysis. Under the peer prov:used model each instrument (source, beamline, monochromator, monitor, ...) is its own top-level wrapper differentiated by schema:instrument.schema:additionalType. An x-ray source (with type and probe properties) and a monochromator (with crystal type, d_spacing, and reflection plane properties) are required here; the NXinstrument-typed beamline and the monochromator d_spacing schema:value are additionally required by xasGeneratedBy.",
+                "description": "Instruments the analysis used, each its own schema:instrument item, told apart by schema:additionalType. An x-ray source (with type and probe properties) and a monochromator (with crystal type, d_spacing, and reflection plane properties) are required here; the NXinstrument-typed beamline and the monochromator d_spacing schema:value are additionally required by xasGeneratedBy.\n",
                 "allOf": [
                   {
-                    "description": "Must contain a peer wrapper whose schema:instrument is classified as xas:source and carries schema:additionalProperty entries for the NXsource type and probe fields (each with a schema:value; the probe entry is also named \"Probe\").",
+                    "description": "Must contain a schema:instrument item classified as xas:source and carries schema:additionalProperty entries for the NXsource type and probe fields (each with a schema:value; the probe entry is also named \"Probe\").",
                     "contains": {
                       "type": "object",
                       "required": [
-                        "schema:instrument"
+                        "schema:additionalType",
+                        "schema:additionalProperty"
                       ],
                       "properties": {
-                        "schema:instrument": {
+                        "schema:additionalType": {
                           "type": "array",
                           "contains": {
                             "type": "object",
+                            "additionalProperties": false,
                             "required": [
-                              "schema:additionalType",
-                              "schema:additionalProperty"
+                              "@id"
                             ],
                             "properties": {
-                              "schema:additionalType": {
-                                "type": "array",
-                                "contains": {
-                                  "type": "object",
-                                  "additionalProperties": false,
-                                  "required": [
-                                    "@id"
-                                  ],
-                                  "properties": {
-                                    "@id": {
-                                      "const": "xas:source"
-                                    }
-                                  }
-                                }
-                              },
-                              "schema:additionalProperty": {
-                                "type": "array",
-                                "minItems": 2,
-                                "items": {
-                                  "$ref": "#/$defs/AdditionalProperty"
-                                },
-                                "allOf": [
-                                  {
+                              "@id": {
+                                "const": "xas:source"
+                              }
+                            }
+                          }
+                        },
+                        "schema:additionalProperty": {
+                          "type": "array",
+                          "minItems": 2,
+                          "items": {
+                            "$ref": "#/$defs/AdditionalProperty"
+                          },
+                          "allOf": [
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "schema:propertyID",
+                                  "schema:value"
+                                ],
+                                "properties": {
+                                  "schema:propertyID": {
+                                    "type": "array",
                                     "contains": {
                                       "type": "object",
+                                      "additionalProperties": false,
                                       "required": [
-                                        "schema:propertyID",
-                                        "schema:value"
+                                        "@id"
                                       ],
                                       "properties": {
-                                        "schema:propertyID": {
-                                          "type": "array",
-                                          "contains": {
-                                            "type": "object",
-                                            "additionalProperties": false,
-                                            "required": [
-                                              "@id"
-                                            ],
-                                            "properties": {
-                                              "@id": {
-                                                "enum": [
-                                                  "nxs:base_classes/NXsource.html#nxsource-type-field",
-                                                  "xas:xraysourcetype"
-                                                ]
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "schema:value": {
-                                          "type": "string"
+                                        "@id": {
+                                          "enum": [
+                                            "nxs:base_classes/NXsource.html#nxsource-type-field",
+                                            "xas:xraysourcetype"
+                                          ]
                                         }
                                       }
                                     }
                                   },
-                                  {
+                                  "schema:value": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "schema:name",
+                                  "schema:propertyID",
+                                  "schema:value"
+                                ],
+                                "properties": {
+                                  "schema:propertyID": {
+                                    "type": "array",
                                     "contains": {
                                       "type": "object",
+                                      "additionalProperties": false,
                                       "required": [
-                                        "schema:name",
-                                        "schema:propertyID",
-                                        "schema:value"
+                                        "@id"
                                       ],
                                       "properties": {
-                                        "schema:propertyID": {
-                                          "type": "array",
-                                          "contains": {
-                                            "type": "object",
-                                            "additionalProperties": false,
-                                            "required": [
-                                              "@id"
-                                            ],
-                                            "properties": {
-                                              "@id": {
-                                                "enum": [
-                                                  "nxs:base_classes/NXsource.html#nxsource-probe-field",
-                                                  "xas:probe"
-                                                ]
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "schema:name": {
-                                          "const": "Probe"
-                                        },
-                                        "schema:value": {
-                                          "type": "string"
+                                        "@id": {
+                                          "enum": [
+                                            "nxs:base_classes/NXsource.html#nxsource-probe-field",
+                                            "xas:probe"
+                                          ]
                                         }
                                       }
                                     }
+                                  },
+                                  "schema:name": {
+                                    "const": "Probe"
+                                  },
+                                  "schema:value": {
+                                    "type": "string"
                                   }
-                                ]
+                                }
                               }
                             }
-                          }
+                          ]
                         }
                       }
                     }
                   },
                   {
-                    "description": "Must contain a peer wrapper whose schema:instrument is classified as xas:xraymonochromator, has a schema:name, and carries schema:additionalProperty entries for xas:monochromatortype, xas:dspacing (with value + unitText), and xas:reflectionplane.",
+                    "description": "Must contain a schema:instrument item classified as xas:xraymonochromator, has a schema:name, and carries schema:additionalProperty entries for xas:monochromatortype, xas:dspacing (with value + unitText), and xas:reflectionplane.",
                     "contains": {
                       "type": "object",
                       "required": [
-                        "schema:instrument"
+                        "schema:additionalType",
+                        "schema:name",
+                        "schema:additionalProperty"
                       ],
                       "properties": {
-                        "schema:instrument": {
+                        "schema:additionalType": {
                           "type": "array",
                           "contains": {
                             "type": "object",
+                            "additionalProperties": false,
                             "required": [
-                              "schema:additionalType",
-                              "schema:name",
-                              "schema:additionalProperty"
+                              "@id"
                             ],
                             "properties": {
-                              "schema:additionalType": {
-                                "type": "array",
-                                "contains": {
-                                  "type": "object",
-                                  "additionalProperties": false,
-                                  "required": [
-                                    "@id"
-                                  ],
-                                  "properties": {
-                                    "@id": {
-                                      "const": "xas:xraymonochromator"
-                                    }
-                                  }
-                                }
-                              },
-                              "schema:name": {
-                                "type": "string"
-                              },
-                              "schema:additionalProperty": {
-                                "description": "Require crystal type, d_spacing (with unitText), and reflection plane properties.",
-                                "type": "array",
-                                "minItems": 3,
-                                "items": {
-                                  "$ref": "#/$defs/AdditionalProperty"
-                                },
-                                "allOf": [
-                                  {
-                                    "contains": {
-                                      "type": "object",
-                                      "required": [
-                                        "schema:propertyID",
-                                        "schema:value"
-                                      ],
-                                      "properties": {
-                                        "schema:propertyID": {
-                                          "type": "array",
-                                          "contains": {
-                                            "type": "object",
-                                            "additionalProperties": false,
-                                            "required": [
-                                              "@id"
-                                            ],
-                                            "properties": {
-                                              "@id": {
-                                                "const": "xas:monochromatortype"
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "schema:value": {
-                                          "type": "string"
-                                        }
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "contains": {
-                                      "type": "object",
-                                      "required": [
-                                        "schema:propertyID",
-                                        "schema:value",
-                                        "schema:unitText"
-                                      ],
-                                      "properties": {
-                                        "schema:propertyID": {
-                                          "type": "array",
-                                          "contains": {
-                                            "type": "object",
-                                            "additionalProperties": false,
-                                            "required": [
-                                              "@id"
-                                            ],
-                                            "properties": {
-                                              "@id": {
-                                                "const": "xas:dspacing"
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "schema:value": {
-                                          "type": "string"
-                                        },
-                                        "schema:unitText": {
-                                          "type": "string"
-                                        }
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "contains": {
-                                      "type": "object",
-                                      "required": [
-                                        "schema:propertyID",
-                                        "schema:value"
-                                      ],
-                                      "properties": {
-                                        "schema:propertyID": {
-                                          "type": "array",
-                                          "contains": {
-                                            "type": "object",
-                                            "additionalProperties": false,
-                                            "required": [
-                                              "@id"
-                                            ],
-                                            "properties": {
-                                              "@id": {
-                                                "const": "xas:reflectionplane"
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "schema:value": {
-                                          "type": "string"
-                                        }
-                                      }
-                                    }
-                                  }
-                                ]
+                              "@id": {
+                                "const": "xas:xraymonochromator"
                               }
                             }
                           }
+                        },
+                        "schema:name": {
+                          "type": "string"
+                        },
+                        "schema:additionalProperty": {
+                          "description": "Require crystal type, d_spacing (with unitText), and reflection plane properties.",
+                          "type": "array",
+                          "minItems": 3,
+                          "items": {
+                            "$ref": "#/$defs/AdditionalProperty"
+                          },
+                          "allOf": [
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "schema:propertyID",
+                                  "schema:value"
+                                ],
+                                "properties": {
+                                  "schema:propertyID": {
+                                    "type": "array",
+                                    "contains": {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "@id"
+                                      ],
+                                      "properties": {
+                                        "@id": {
+                                          "const": "xas:monochromatortype"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "schema:value": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "schema:propertyID",
+                                  "schema:value",
+                                  "schema:unitText"
+                                ],
+                                "properties": {
+                                  "schema:propertyID": {
+                                    "type": "array",
+                                    "contains": {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "@id"
+                                      ],
+                                      "properties": {
+                                        "@id": {
+                                          "const": "xas:dspacing"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "schema:value": {
+                                    "type": "string"
+                                  },
+                                  "schema:unitText": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "schema:propertyID",
+                                  "schema:value"
+                                ],
+                                "properties": {
+                                  "schema:propertyID": {
+                                    "type": "array",
+                                    "contains": {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "@id"
+                                      ],
+                                      "properties": {
+                                        "@id": {
+                                          "const": "xas:reflectionplane"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "schema:value": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          ]
                         }
                       }
                     }
                   }
                 ],
-                "x-jsonld-id": "http://www.w3.org/ns/prov#used"
+                "x-jsonld-id": "http://schema.org/instrument"
               },
               "schema:object": {
                 "$ref": "#/$defs/XasSample",

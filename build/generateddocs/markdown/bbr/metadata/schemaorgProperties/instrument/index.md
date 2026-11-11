@@ -17,7 +17,7 @@ Schema for describing laboratory instruments and instrument systems. Combines in
 
 - **@context** - JSON-LD context (requires schema prefix)
 - **@id** - persistent identifier URI for this instrument record
-- **@type** - must include schema:Product and schema:Thing
+- **@type** - must include schema:Product (schema:Thing is allowed, not required)
 - **schema:additionalType** - domain-specific type classifications (e.g. wd:Q3099911 for scientific instrument)
 - **schema:name** - human-readable name (min 3 characters)
 - **schema:description** - text description of purpose and capabilities
@@ -1061,18 +1061,18 @@ each with their own manufacturer/model/properties), relatedLink
 ex:component-gas-chromatograph a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Carrier gas flow rate" ;
+            schema1:propertyID "carrierGasFlow" ;
+            schema1:unitText "mL/min" ;
+            schema1:value 1.5e+00 ],
+        [ a schema1:PropertyValue ;
             schema1:name "Carrier gas" ;
             schema1:propertyID "carrierGas" ;
             schema1:value "Helium" ],
         [ a schema1:PropertyValue ;
             schema1:name "Column" ;
             schema1:propertyID "columnType" ;
-            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Carrier gas flow rate" ;
-            schema1:propertyID "carrierGasFlow" ;
-            schema1:unitText "mL/min" ;
-            schema1:value 1.5e+00 ] ;
+            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ] ;
     schema1:additionalType wd:Q848143 ;
     schema1:description "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -1084,19 +1084,19 @@ ex:component-gas-chromatograph a schema1:Product,
 ex:component-mass-spectrometer a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Full scan time" ;
-            schema1:propertyID "scanTime" ;
-            schema1:unitText "s" ;
-            schema1:value 1e-01 ],
+            schema1:name "Ion source temperature" ;
+            schema1:propertyID "ionSourceTemperature" ;
+            schema1:unitText "°C" ;
+            schema1:value 300 ],
         [ a schema1:PropertyValue ;
             schema1:name "Detector gain" ;
             schema1:propertyID "detectorGain" ;
             schema1:value 100000 ],
         [ a schema1:PropertyValue ;
-            schema1:name "Ion source temperature" ;
-            schema1:propertyID "ionSourceTemperature" ;
-            schema1:unitText "°C" ;
-            schema1:value 300 ] ;
+            schema1:name "Full scan time" ;
+            schema1:propertyID "scanTime" ;
+            schema1:unitText "s" ;
+            schema1:value 1e-01 ] ;
     schema1:additionalType wd:Q180809 ;
     schema1:description "TSQ triple-quadrupole MS operated in EI mode, positive polarity, with simultaneous full scan (m/z 50-500) and timed SRM/MRM capability targeting 38 organic compounds." ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -1131,9 +1131,9 @@ ex:component-pyrolysis-oven a schema1:Product,
 ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Measured variables" ;
-            schema1:propertyID "MeasuredVariable" ;
-            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
+            schema1:name "Full scan m/z range" ;
+            schema1:propertyID "scanRange" ;
+            schema1:value "50-500" ],
         [ a schema1:PropertyValue ;
             schema1:name "Full scan detection limit" ;
             schema1:propertyID "detectionLimit" ;
@@ -1144,9 +1144,9 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
             schema1:propertyID "ionizationMode" ;
             schema1:value "Electron Ionization (EI), positive polarity" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Full scan m/z range" ;
-            schema1:propertyID "scanRange" ;
-            schema1:value "50-500" ],
+            schema1:name "Measured variables" ;
+            schema1:propertyID "MeasuredVariable" ;
+            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
         [ a schema1:PropertyValue ;
             schema1:name "MRM target compounds" ;
             schema1:propertyID "mrmCapability" ;
@@ -1168,25 +1168,25 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
             schema1:name "Gas Chromatography Mass Spectrometry" ;
             schema1:termCode "GCMS" ] ;
     schema1:contributor [ a schema1:Role ;
+            schema1:contributor <https://orcid.org/0000-0001-8898-3457> ;
+            schema1:roleName "Operator" ],
+        [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0002-4805-7062> ;
             schema1:roleName [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://credit.niso.org/" ;
                     schema1:name "Principal Investigator" ;
-                    schema1:termCode "investigation" ] ],
-        [ a schema1:Role ;
-            schema1:contributor <https://orcid.org/0000-0001-8898-3457> ;
-            schema1:roleName "Operator" ] ;
+                    schema1:termCode "investigation" ] ] ;
     schema1:description "Integrated pyrolysis-gas chromatography-tandem mass spectrometry instrument system used for characterization of complex organic mixtures in bulk solid samples. Combines a flash pyrolysis front-end (up to 1300°C at 10°C/ms) with gas chromatographic separation and triple-quadrupole mass spectrometry with simultaneous full scan and timed SRM/MRM acquisition. Primary application: direct microanalysis of extraterrestrial materials without chemical pretreatment." ;
     schema1:hasPart ex:component-gas-chromatograph,
         ex:component-mass-spectrometer,
         ex:component-pyrolysis-oven ;
     schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "inventoryNumber" ;
+            schema1:value "GSFC-AAL-PYGCMS-001" ],
+        [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001" ;
-            schema1:value "10.xxxx/instrument.pygcms.gsfc.001" ],
-        [ a schema1:PropertyValue ;
-            schema1:propertyID "inventoryNumber" ;
-            schema1:value "GSFC-AAL-PYGCMS-001" ] ;
+            schema1:value "10.xxxx/instrument.pygcms.gsfc.001" ] ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:contactPoint [ a schema1:ContactPoint ;
                     schema1:email "info@thermofisher.com" ;
@@ -1204,21 +1204,21 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
     schema1:name "Pyrolysis-GC-MS/MS System (NASA GSFC Astrobiology Analytical Lab)" ;
     schema1:owner <https://ror.org/0171mag52> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "calibration record" ;
+            schema1:linkRelationship "user guide" ;
             schema1:target [ a schema1:EntryPoint ;
-                    schema1:name "2023 annual calibration report" ;
-                    schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ] ],
+                    schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
+                    schema1:name "TSQ 9000 User Guide" ;
+                    schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ] ],
         [ a schema1:LinkRole ;
             schema1:linkRelationship "publication reporting results from this instrument" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
                     schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ] ],
         [ a schema1:LinkRole ;
-            schema1:linkRelationship "user guide" ;
+            schema1:linkRelationship "calibration record" ;
             schema1:target [ a schema1:EntryPoint ;
-                    schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
-                    schema1:name "TSQ 9000 User Guide" ;
-                    schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ] ] ;
+                    schema1:name "2023 annual calibration report" ;
+                    schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ] ] ;
     schema1:subjectOf ex:metadata-instrument-pygcms-001 ;
     schema1:url "https://science.gsfc.nasa.gov/sed/bio/jason.p.dworkin" ;
     schema1:validFrom "2023-01-15" .
@@ -1872,12 +1872,12 @@ ex:instrument-icpms-lab42 a schema1:Product,
     schema1:hasPart ex:component-autosampler-lab42,
         ex:component-chiller-lab42 ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "inventoryNumber" ;
-            schema1:value "GEOL-LAB42-ICPMS-003" ],
-        [ a schema1:PropertyValue ;
             schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.xxxx/instrument.icpms.lab42" ;
-            schema1:value "10.xxxx/instrument.icpms.lab42" ] ;
+            schema1:value "10.xxxx/instrument.icpms.lab42" ],
+        [ a schema1:PropertyValue ;
+            schema1:propertyID "inventoryNumber" ;
+            schema1:value "GEOL-LAB42-ICPMS-003" ] ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://ror.org> ;
@@ -1958,14 +1958,12 @@ properties:
     type: array
     items:
       type: string
-    minItems: 2
-    description: Must include schema:Product and schema:Thing. May include additional
-      types.
-    allOf:
-    - contains:
-        const: schema:Product
-    - contains:
-        const: schema:Thing
+    minItems: 1
+    description: Must include schema:Product. schema:Thing is allowed but no longer
+      required -- Product is a subclass of Thing, so it adds nothing. May include
+      additional types.
+    contains:
+      const: schema:Product
   schema:additionalType:
     description: Domain-specific type classifications. Should include a scientific
       instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).
@@ -2057,9 +2055,9 @@ properties:
       calibration information, operating parameters, etc.). On a procedure / plan
       instrument (e.g. an instrument named directly on an ada:TAPPDefinition) these
       are schema:PropertyValueSpecification parameter templates (an overridable default);
-      on a prov:used analysis-event instrument they are schema:PropertyValue concrete
-      values. The JSON Schema accepts both; a profile SHACL rule pins which form applies
-      in which context.
+      on an analysis-event instrument (an activity's schema:instrument) they are schema:PropertyValue
+      concrete values. The JSON Schema accepts both; a profile SHACL rule pins which
+      form applies in which context.
     items:
       anyOf:
       - $ref: '#/$defs/AdditionalProperty'
@@ -2145,7 +2143,7 @@ $defs:
     description: 'A parameter specification (an overridable default) declared on a
       procedure / plan instrument, typed schema:PropertyValueSpecification; the default
       sits in schema:defaultValue. Contrast with AdditionalProperty (schema:PropertyValue),
-      the concrete-value form carried by a prov:used analysis-event instrument.
+      the concrete-value form carried by an analysis-event instrument.
 
       Until 2026-10-09 this declared only ''@type'' and schema:name, so the description
       named schema:defaultValue as the point of the shape while the schema did not
@@ -2212,8 +2210,13 @@ $defs:
         items:
           type: string
         minItems: 1
-        contains:
-          const: schema:Thing
+        description: Must include schema:Product (as the parent instrument does) or
+          schema:Thing (accepted for existing components).
+        anyOf:
+        - contains:
+            const: schema:Product
+        - contains:
+            const: schema:Thing
       '@id':
         type: string
       schema:name:

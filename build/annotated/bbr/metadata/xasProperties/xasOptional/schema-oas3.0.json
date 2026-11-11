@@ -1750,7 +1750,7 @@
     }
   },
   "title": "Optional XAS metadata fields",
-  "description": "Genuinely-optional XAS properties layered on cdifCore. Adds no requirement to a record that carries no optional XAS content; a record that does carry schema:variableMeasured must declare conformance to https://w3id.org/cdif/xasOptional/1.1. Documents and permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical parameters carried as schema:additionalProperty entries (on the prov:used NXinstrument entity and the schema:object sample respectively; see description.md for the propertyID vocabularies). Present only when the corresponding measurements exist.",
+  "description": "Genuinely-optional XAS properties layered on cdifCore. Adds no requirement to a record that carries no optional XAS content; a record that does carry schema:variableMeasured must declare conformance to https://w3id.org/cdif/xasOptional/1.1. Documents and permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical parameters carried as schema:additionalProperty entries (on the schema:instrument NXinstrument item and the schema:object sample respectively; see description.md for the propertyID vocabularies). Present only when the corresponding measurements exist.",
   "type": "object",
   "properties": {
     "@context": {
@@ -1879,34 +1879,27 @@
             },
             "x-jsonld-id": "http://schema.org/object"
           },
-          "prov:used": {
+          "schema:instrument": {
             "type": "array",
             "items": {
               "if": {
-                "description": "When this peer prov:used entry's instrument is a beamline (schema:additionalType contains the NXinstrument class), its schema:additionalProperty entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20, excluding Beamline.name which maps to schema:name).",
+                "description": "When a schema:instrument item is a beamline (schema:additionalType contains the NXinstrument class), its schema:additionalProperty entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20, excluding Beamline.name which maps to schema:name).",
+                "type": "object",
                 "properties": {
-                  "schema:instrument": {
+                  "schema:additionalType": {
                     "type": "array",
                     "contains": {
                       "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "@id"
+                      ],
                       "properties": {
-                        "schema:additionalType": {
-                          "type": "array",
-                          "contains": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                              "@id"
-                            ],
-                            "properties": {
-                              "@id": {
-                                "enum": [
-                                  "nxs:base_classes/NXinstrument.html",
-                                  "xas:beamline"
-                                ]
-                              }
-                            }
-                          }
+                        "@id": {
+                          "enum": [
+                            "nxs:base_classes/NXinstrument.html",
+                            "xas:beamline"
+                          ]
                         }
                       }
                     }
@@ -1914,61 +1907,53 @@
                 }
               },
               "then": {
+                "type": "object",
                 "properties": {
-                  "schema:instrument": {
+                  "schema:additionalProperty": {
                     "type": "array",
-                    "contains": {
-                      "type": "object",
-                      "properties": {
-                        "schema:additionalProperty": {
-                          "type": "array",
-                          "items": {
-                            "allOf": [
-                              {
-                                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/$defs/AdditionalProperty"
-                              },
-                              {
-                                "properties": {
-                                  "schema:propertyID": {
-                                    "type": "array",
-                                    "minItems": 1,
-                                    "items": {
-                                      "anyOf": [
-                                        {
-                                          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item"
-                                        },
-                                        {
-                                          "enum": [
-                                            "xas:collimation",
-                                            "xas:detectortype",
-                                            "xas:energyrange",
-                                            "xas:energyresolution",
-                                            "xas:flux",
-                                            "xas:focusing",
-                                            "xas:harmonicrejection",
-                                            "xas:scanmode",
-                                            "xas:spotsize",
-                                            "xas:website"
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    "x-jsonld-id": "http://schema.org/propertyID"
+                    "items": {
+                      "allOf": [
+                        {
+                          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/$defs/AdditionalProperty"
+                        },
+                        {
+                          "properties": {
+                            "schema:propertyID": {
+                              "type": "array",
+                              "minItems": 1,
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item"
+                                  },
+                                  {
+                                    "enum": [
+                                      "xas:collimation",
+                                      "xas:detectortype",
+                                      "xas:energyrange",
+                                      "xas:energyresolution",
+                                      "xas:flux",
+                                      "xas:focusing",
+                                      "xas:harmonicrejection",
+                                      "xas:scanmode",
+                                      "xas:spotsize",
+                                      "xas:website"
+                                    ]
                                   }
-                                }
-                              }
-                            ]
-                          },
-                          "x-jsonld-id": "http://schema.org/additionalProperty"
+                                ]
+                              },
+                              "x-jsonld-id": "http://schema.org/propertyID"
+                            }
+                          }
                         }
-                      }
+                      ]
                     },
-                    "x-jsonld-id": "http://schema.org/instrument"
+                    "x-jsonld-id": "http://schema.org/additionalProperty"
                   }
                 }
               }
             },
-            "x-jsonld-id": "http://www.w3.org/ns/prov#used"
+            "x-jsonld-id": "http://schema.org/instrument"
           }
         }
       },

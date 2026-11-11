@@ -458,7 +458,9 @@ quality measurements.
             "schema:PropertyValue"
           ],
           "schema:propertyID": [
-            {"@id": "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"}
+            {
+              "@id": "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+            }
           ],
           "schema:name": "countRows",
           "schema:value": 461
@@ -468,7 +470,9 @@ quality measurements.
             "schema:PropertyValue"
           ],
           "schema:propertyID": [
-            {"@id": "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"}
+            {
+              "@id": "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+            }
           ],
           "schema:name": "countColumns",
           "schema:value": 3
@@ -666,7 +670,9 @@ quality measurements.
                 "schema:PropertyValue"
               ],
               "schema:propertyID": [
-                {"@id": "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"}
+                {
+                  "@id": "http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity"
+                }
               ],
               "schema:name": "countRows",
               "schema:value": 144
@@ -676,7 +682,9 @@ quality measurements.
                 "schema:PropertyValue"
               ],
               "schema:propertyID": [
-                {"@id": "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"}
+                {
+                  "@id": "http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity"
+                }
               ],
               "schema:name": "countColumns",
               "schema:value": 3
@@ -1040,72 +1048,6 @@ quality measurements.
         "schema:value": "GEOCHEM-GB-2025-001",
         "schema:url": "https://example.org/activities/GEOCHEM-GB-2025-001"
       },
-      "prov:used": [
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Product",
-                "schema:Thing",
-                "schema:DefinedTerm"
-              ],
-              "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
-              "schema:termCode": "ICP-MS",
-              "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
-              "schema:alternateName": [
-                "Thermo Fisher iCAP RQ ICP-MS"
-              ],
-              "schema:category": [
-                {
-                  "@type": [
-                    "schema:DefinedTerm"
-                  ],
-                  "schema:name": "Inductively coupled plasma mass spectrometer",
-                  "schema:termCode": "LAB21",
-                  "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
-                }
-              ],
-              "schema:additionalProperty": [
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    "detectionLimit"
-                  ],
-                  "schema:name": "Typical Detection Limit",
-                  "schema:value": "0.01 mg/kg for trace elements"
-                }
-              ],
-              "schema:hasPart": [
-                {
-                  "@type": [
-                    "schema:Thing"
-                  ],
-                  "schema:name": "Autosampler",
-                  "schema:alternateName": [
-                    "CETAC ASX-560"
-                  ]
-                },
-                {
-                  "@type": [
-                    "schema:Thing"
-                  ],
-                  "schema:name": "Spray chamber",
-                  "schema:alternateName": [
-                    "Peltier-cooled cyclonic"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
-        "Soil core samples collected June 2025, sites GB-001 through GB-045, dried and sieved to <2 mm fraction",
-        {
-          "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
-        }
-      ],
       "schema:agent": {
         "@id": "https://orcid.org/0000-0001-2345-6789"
       },
@@ -1121,7 +1063,8 @@ quality measurements.
         }
       ],
       "schema:object": [
-        "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect"
+        "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
+        "Soil core samples collected June 2025, sites GB-001 through GB-045, dried and sieved to <2 mm fraction"
       ],
       "schema:result": [
         {
@@ -1164,7 +1107,10 @@ quality measurements.
             "schema:url": "https://example.org/protocols/icpms-measurement",
             "schema:position": 2
           }
-        ]
+        ],
+        "schema:isBasedOn": {
+          "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
+        }
       },
       "schema:error": "",
       "schema:additionalProperty": [
@@ -1177,6 +1123,71 @@ quality measurements.
           ],
           "schema:name": "Analysis Batch Identifier",
           "schema:value": "GB-2025-BATCH-03"
+        }
+      ],
+      "schema:instrument": [
+        {
+          "@type": [
+            "schema:Product",
+            "schema:Thing",
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+          "schema:termCode": "ICP-MS",
+          "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
+          "schema:alternateName": [
+            "Thermo Fisher iCAP RQ ICP-MS"
+          ],
+          "schema:category": [
+            {
+              "@type": [
+                "schema:DefinedTerm"
+              ],
+              "schema:name": "Inductively coupled plasma mass spectrometer",
+              "schema:termCode": "LAB21",
+              "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+            }
+          ],
+          "schema:additionalProperty": [
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                "detectionLimit"
+              ],
+              "schema:name": "Typical Detection Limit",
+              "schema:value": "0.01 mg/kg for trace elements"
+            }
+          ],
+          "schema:hasPart": [
+            {
+              "@type": [
+                "schema:Thing"
+              ],
+              "schema:name": "Autosampler",
+              "schema:alternateName": [
+                "CETAC ASX-560"
+              ]
+            },
+            {
+              "@type": [
+                "schema:Thing"
+              ],
+              "schema:name": "Spray chamber",
+              "schema:alternateName": [
+                "Peltier-cooled cyclonic"
+              ]
+            }
+          ],
+          "schema:additionalType": [
+            {
+              "@id": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02"
+            },
+            {
+              "@id": "https://www.wikidata.org/entity/Q3099911"
+            }
+          ]
         }
       ]
     }
@@ -2296,72 +2307,6 @@ quality measurements.
         "schema:value": "GEOCHEM-GB-2025-001",
         "schema:url": "https://example.org/activities/GEOCHEM-GB-2025-001"
       },
-      "prov:used": [
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Product",
-                "schema:Thing",
-                "schema:DefinedTerm"
-              ],
-              "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
-              "schema:termCode": "ICP-MS",
-              "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
-              "schema:alternateName": [
-                "Thermo Fisher iCAP RQ ICP-MS"
-              ],
-              "schema:category": [
-                {
-                  "@type": [
-                    "schema:DefinedTerm"
-                  ],
-                  "schema:name": "Inductively coupled plasma mass spectrometer",
-                  "schema:termCode": "LAB21",
-                  "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
-                }
-              ],
-              "schema:additionalProperty": [
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    "detectionLimit"
-                  ],
-                  "schema:name": "Typical Detection Limit",
-                  "schema:value": "0.01 mg/kg for trace elements"
-                }
-              ],
-              "schema:hasPart": [
-                {
-                  "@type": [
-                    "schema:Thing"
-                  ],
-                  "schema:name": "Autosampler",
-                  "schema:alternateName": [
-                    "CETAC ASX-560"
-                  ]
-                },
-                {
-                  "@type": [
-                    "schema:Thing"
-                  ],
-                  "schema:name": "Spray chamber",
-                  "schema:alternateName": [
-                    "Peltier-cooled cyclonic"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
-        "Soil core samples collected June 2025, sites GB-001 through GB-045, dried and sieved to <2 mm fraction",
-        {
-          "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
-        }
-      ],
       "schema:agent": {
         "@id": "https://orcid.org/0000-0001-2345-6789"
       },
@@ -2377,7 +2322,8 @@ quality measurements.
         }
       ],
       "schema:object": [
-        "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect"
+        "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
+        "Soil core samples collected June 2025, sites GB-001 through GB-045, dried and sieved to <2 mm fraction"
       ],
       "schema:result": [
         {
@@ -2420,7 +2366,10 @@ quality measurements.
             "schema:url": "https://example.org/protocols/icpms-measurement",
             "schema:position": 2
           }
-        ]
+        ],
+        "schema:isBasedOn": {
+          "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
+        }
       },
       "schema:error": "",
       "schema:additionalProperty": [
@@ -2433,6 +2382,71 @@ quality measurements.
           ],
           "schema:name": "Analysis Batch Identifier",
           "schema:value": "GB-2025-BATCH-03"
+        }
+      ],
+      "schema:instrument": [
+        {
+          "@type": [
+            "schema:Product",
+            "schema:Thing",
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+          "schema:termCode": "ICP-MS",
+          "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
+          "schema:alternateName": [
+            "Thermo Fisher iCAP RQ ICP-MS"
+          ],
+          "schema:category": [
+            {
+              "@type": [
+                "schema:DefinedTerm"
+              ],
+              "schema:name": "Inductively coupled plasma mass spectrometer",
+              "schema:termCode": "LAB21",
+              "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+            }
+          ],
+          "schema:additionalProperty": [
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                "detectionLimit"
+              ],
+              "schema:name": "Typical Detection Limit",
+              "schema:value": "0.01 mg/kg for trace elements"
+            }
+          ],
+          "schema:hasPart": [
+            {
+              "@type": [
+                "schema:Thing"
+              ],
+              "schema:name": "Autosampler",
+              "schema:alternateName": [
+                "CETAC ASX-560"
+              ]
+            },
+            {
+              "@type": [
+                "schema:Thing"
+              ],
+              "schema:name": "Spray chamber",
+              "schema:alternateName": [
+                "Peltier-cooled cyclonic"
+              ]
+            }
+          ],
+          "schema:additionalType": [
+            {
+              "@id": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02"
+            },
+            {
+              "@id": "https://www.wikidata.org/entity/Q3099911"
+            }
+          ]
         }
       ]
     }
@@ -2552,6 +2566,7 @@ quality measurements.
 @prefix sf: <http://www.opengis.net/ont/sf#> .
 @prefix spdx: <http://spdx.org/rdf/terms#> .
 @prefix time: <http://www.w3.org/2006/time#> .
+@prefix wd: <https://www.wikidata.org/entity/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <file:///github/workspace/#part-measurements-csv> a cdi:TabularTextDataSet,
@@ -2618,31 +2633,32 @@ quality measurements.
             schema1:unitText "byte" ;
             schema1:value 13743003 ] ;
     cdif:hasPhysicalMapping [ cdi:isRequired true ;
-            cdi:locator "/spectra/intensity" ;
-            cdif:format "decimal" ;
-            cdif:formats_InstanceVariable ex:var-intensity ;
-            cdif:physicalDataType "float32" ],
-        [ cdi:isRequired true ;
             cdi:locator "/spectra/wavelength" ;
             cdif:format "decimal" ;
             cdif:formats_InstanceVariable ex:var-wavelength ;
+            cdif:physicalDataType "float32" ],
+        [ cdi:isRequired true ;
+            cdi:locator "/spectra/intensity" ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable ex:var-intensity ;
             cdif:physicalDataType "float32" ] .
 
 ex:activity-geochem-analysis a schema1:Action,
         prov:Activity ;
     schema1:actionProcess [ a schema1:HowTo ;
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soils." ;
+            schema1:isBasedOn <https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination> ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C for 20 min in a microwave system." ;
-                    schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ;
-                    schema1:url "https://example.org/protocols/digestion-procedure" ],
-                [ a schema1:HowToStep ;
                     schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2711a (Montana II Soil)." ;
                     schema1:name "ICP-MS measurement and calibration" ;
                     schema1:position 2 ;
-                    schema1:url "https://example.org/protocols/icpms-measurement" ] ] ;
+                    schema1:url "https://example.org/protocols/icpms-measurement" ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C for 20 min in a microwave system." ;
+                    schema1:name "Sample preparation and acid digestion" ;
+                    schema1:position 1 ;
+                    schema1:url "https://example.org/protocols/digestion-procedure" ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
             schema1:name "Analysis Batch Identifier" ;
@@ -2656,49 +2672,49 @@ ex:activity-geochem-analysis a schema1:Action,
             schema1:propertyID ex:activities ;
             schema1:url "https://example.org/activities/GEOCHEM-GB-2025-001" ;
             schema1:value "GEOCHEM-GB-2025-001" ] ;
+    schema1:instrument [ a schema1:DefinedTerm,
+                schema1:Product,
+                schema1:Thing ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "Typical Detection Limit" ;
+                    schema1:propertyID "detectionLimit" ;
+                    schema1:value "0.01 mg/kg for trace elements" ] ;
+            schema1:additionalType <https://vocab.nerc.ac.uk/collection/L05/current/LAB02>,
+                wd:Q3099911 ;
+            schema1:alternateName "Thermo Fisher iCAP RQ ICP-MS" ;
+            schema1:category [ a schema1:DefinedTerm ;
+                    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+                    schema1:name "Inductively coupled plasma mass spectrometer" ;
+                    schema1:termCode "LAB21" ] ;
+            schema1:hasPart [ a schema1:Thing ;
+                    schema1:alternateName "Peltier-cooled cyclonic" ;
+                    schema1:name "Spray chamber" ],
+                [ a schema1:Thing ;
+                    schema1:alternateName "CETAC ASX-560" ;
+                    schema1:name "Autosampler" ] ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
+            schema1:termCode "ICP-MS" ] ;
     schema1:location [ a schema1:Place ;
             schema1:address "University of Nevada, Reno, 1664 N. Virginia Street, Reno, NV 89557" ;
             schema1:name "Nevada Bureau of Mines and Geology Analytical Lab" ;
             schema1:url "https://www.unr.edu/nbmg" ] ;
     schema1:name "Soil Geochemistry Analysis - Great Basin Transect 2025" ;
-    schema1:object "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect" ;
+    schema1:object "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
+        "Soil core samples collected June 2025, sites GB-001 through GB-045, dried and sieved to <2 mm fraction" ;
     schema1:participant [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0003-5555-7777> ;
             schema1:roleName "Lab Technician" ] ;
     schema1:result ex:complete-dataset-001 ;
-    schema1:startTime "2025-07-15T08:00:00Z" ;
-    prov:used [ schema1:instrument [ a schema1:DefinedTerm,
-                        schema1:Product,
-                        schema1:Thing ;
-                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Typical Detection Limit" ;
-                            schema1:propertyID "detectionLimit" ;
-                            schema1:value "0.01 mg/kg for trace elements" ] ;
-                    schema1:alternateName "Thermo Fisher iCAP RQ ICP-MS" ;
-                    schema1:category [ a schema1:DefinedTerm ;
-                            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-                            schema1:name "Inductively coupled plasma mass spectrometer" ;
-                            schema1:termCode "LAB21" ] ;
-                    schema1:hasPart [ a schema1:Thing ;
-                            schema1:alternateName "Peltier-cooled cyclonic" ;
-                            schema1:name "Spray chamber" ],
-                        [ a schema1:Thing ;
-                            schema1:alternateName "CETAC ASX-560" ;
-                            schema1:name "Autosampler" ] ;
-                    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-                    schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
-                    schema1:termCode "ICP-MS" ] ],
-        <https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination>,
-        "Soil core samples collected June 2025, sites GB-001 through GB-045, dried and sieved to <2 mm fraction",
-        "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
+    schema1:startTime "2025-07-15T08:00:00Z" .
 
 ex:geochem-detailed-structure a cdi:WideDataStructure ;
     cdi:has_DataStructureComponent [ a cdi:AttributeComponent ;
             cdif:isDefinedBy_Variable ex:var-uncertainty ],
-        [ a cdi:IdentifierComponent ;
-            cdif:isDefinedBy_Variable ex:var-sampleID ],
         [ a cdi:MeasureComponent ;
-            cdif:isDefinedBy_Variable ex:var-concentration ] .
+            cdif:isDefinedBy_Variable ex:var-concentration ],
+        [ a cdi:IdentifierComponent ;
+            cdif:isDefinedBy_Variable ex:var-sampleID ] .
 
 ex:ieda-catalog a schema1:DataCatalog ;
     schema1:name "IEDA Data Catalog" ;
@@ -2752,21 +2768,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:datePublished "2026-02-01" ;
     schema1:description "Comprehensive geochemistry dataset demonstrating the CDIF complete profile with single-file downloads, archive distribution with component files, and WebAPI access. Includes tabular CSV results, NetCDF data cubes, and an OGC API Features endpoint." ;
     schema1:distribution [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
-            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
-            schema1:encodingFormat "application/zip" ;
-            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
-                <file:///github/workspace/#part-metadata-yaml>,
-                <file:///github/workspace/#part-method-pdf>,
-                <file:///github/workspace/#part-results-csv>,
-                <file:///github/workspace/#part-spectra-nc> ;
-            schema1:name "Complete data package" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
-        [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:arrayBase 0 ;
@@ -2813,20 +2814,66 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdif:index 0 ;
                     cdif:physicalDataType "string" ],
                 [ cdi:decimalPositions 4 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-concentration ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 4 ;
                     cdi:isRequired false ;
                     cdi:length 12 ;
                     cdi:nullSequence "-9999" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-uncertainty ;
                     cdif:index 2 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 4 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-concentration ;
-                    cdif:index 1 ;
                     cdif:physicalDataType "float64" ] ],
+        [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry summary results" ;
+            schema1:provider <https://ror.org/02fjgr047> ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
+        [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
+            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
+            schema1:encodingFormat "application/zip" ;
+            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
+                <file:///github/workspace/#part-metadata-yaml>,
+                <file:///github/workspace/#part-method-pdf>,
+                <file:///github/workspace/#part-results-csv>,
+                <file:///github/workspace/#part-spectra-nc> ;
+            schema1:name "Complete data package" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Spectral data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:locator "/spectra/intensity" ;
+                    cdi:scale 1000 ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-intensity ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/spectra/wavelength" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-wavelength ;
+                    cdif:physicalDataType "float32" ] ],
         [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
@@ -2841,13 +2888,13 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             schema1:valueName "limit" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination" ;
-                            schema1:valueName "offset" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination" ;
+                            schema1:valueName "offset" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:delimiter "," ;
@@ -2882,38 +2929,7 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required" ],
-        [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Spectral data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/spectra/intensity" ;
-                    cdi:scale 1000 ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-intensity ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
-                    cdi:locator "/spectra/wavelength" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-wavelength ;
-                    cdif:physicalDataType "float32" ] ],
-        [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry summary results" ;
-            schema1:provider <https://ror.org/02fjgr047> ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ] ;
+            schema1:termsOfService "Open access, no authentication required" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/021nxhr62> ;
             schema1:identifier [ a schema1:PropertyValue ;

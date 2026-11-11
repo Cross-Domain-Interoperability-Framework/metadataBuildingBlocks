@@ -190,142 +190,6 @@ XAS core properties: instrument components, XDI distribution, measurement techni
         "schema:Action",
         "prov:Activity"
       ],
-      "prov:used": [
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Thing",
-                "schema:Product",
-                "prov:Entity"
-              ],
-              "schema:additionalType": [
-                {
-                  "@id": "nxs:base_classes/NXinstrument.html"
-                },
-                {
-                  "@id": "wd:Q3099911"
-                }
-              ],
-              "schema:name": "APS Sector 20-BM beamline instrument",
-              "schema:category": [
-                {
-                  "@type": [
-                    "schema:DefinedTerm"
-                  ],
-                  "schema:name": "X-ray absorption spectroscopy beamline",
-                  "schema:termCode": "XAS-beamline"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Thing",
-                "schema:Product",
-                "prov:Entity"
-              ],
-              "schema:additionalType": [
-                {
-                  "@id": "xas:source"
-                },
-                {
-                  "@id": "wd:Q3099911"
-                }
-              ],
-              "schema:name": "APS bending magnet source",
-              "schema:additionalProperty": [
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    {
-                      "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
-                    }
-                  ],
-                  "schema:name": "x-ray source",
-                  "schema:value": "Synchrotron X-ray Source"
-                },
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    {
-                      "@id": "nxs:base_classes/NXsource.html#nxsource-probe-field"
-                    }
-                  ],
-                  "schema:name": "Probe",
-                  "schema:value": "x-ray"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Thing",
-                "schema:Product",
-                "prov:Entity"
-              ],
-              "schema:additionalType": [
-                {
-                  "@id": "xas:xraymonochromator"
-                },
-                {
-                  "@id": "wd:Q3099911"
-                }
-              ],
-              "schema:name": "Si 111",
-              "schema:additionalProperty": [
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    {
-                      "@id": "xas:dspacing"
-                    }
-                  ],
-                  "schema:name": "d-spacing",
-                  "schema:value": "3.13550",
-                  "schema:unitText": "Angstrom"
-                },
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    {
-                      "@id": "xas:monochromatortype"
-                    }
-                  ],
-                  "schema:name": "crystal type",
-                  "schema:value": "Si(111)"
-                },
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    {
-                      "@id": "xas:reflectionplane"
-                    }
-                  ],
-                  "schema:name": "reflection plane (hkl)",
-                  "schema:value": "1,1,1"
-                }
-              ]
-            }
-          ]
-        }
-      ],
       "schema:object": {
         "@type": [
           "schema:Product",
@@ -370,6 +234,130 @@ XAS core properties: instrument components, XDI distribution, measurement techni
       "schema:additionalType": [
         {
           "@id": "xas:analysisevent"
+        }
+      ],
+      "schema:instrument": [
+        {
+          "@type": [
+            "schema:Thing",
+            "schema:Product",
+            "prov:Entity"
+          ],
+          "schema:additionalType": [
+            {
+              "@id": "nxs:base_classes/NXinstrument.html"
+            },
+            {
+              "@id": "wd:Q3099911"
+            }
+          ],
+          "schema:name": "APS Sector 20-BM beamline instrument",
+          "schema:category": [
+            {
+              "@type": [
+                "schema:DefinedTerm"
+              ],
+              "schema:name": "X-ray absorption spectroscopy beamline",
+              "schema:termCode": "XAS-beamline"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "schema:Thing",
+            "schema:Product",
+            "prov:Entity"
+          ],
+          "schema:additionalType": [
+            {
+              "@id": "xas:source"
+            },
+            {
+              "@id": "wd:Q3099911"
+            }
+          ],
+          "schema:name": "APS bending magnet source",
+          "schema:additionalProperty": [
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                {
+                  "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
+                }
+              ],
+              "schema:name": "x-ray source",
+              "schema:value": "Synchrotron X-ray Source"
+            },
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                {
+                  "@id": "nxs:base_classes/NXsource.html#nxsource-probe-field"
+                }
+              ],
+              "schema:name": "Probe",
+              "schema:value": "x-ray"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "schema:Thing",
+            "schema:Product",
+            "prov:Entity"
+          ],
+          "schema:additionalType": [
+            {
+              "@id": "xas:xraymonochromator"
+            },
+            {
+              "@id": "wd:Q3099911"
+            }
+          ],
+          "schema:name": "Si 111",
+          "schema:additionalProperty": [
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                {
+                  "@id": "xas:dspacing"
+                }
+              ],
+              "schema:name": "d-spacing",
+              "schema:value": "3.13550",
+              "schema:unitText": "Angstrom"
+            },
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                {
+                  "@id": "xas:monochromatortype"
+                }
+              ],
+              "schema:name": "crystal type",
+              "schema:value": "Si(111)"
+            },
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                {
+                  "@id": "xas:reflectionplane"
+                }
+              ],
+              "schema:name": "reflection plane (hkl)",
+              "schema:value": "1,1,1"
+            }
+          ]
         }
       ]
     }
@@ -594,142 +582,6 @@ XAS core properties: instrument components, XDI distribution, measurement techni
         "schema:Action",
         "prov:Activity"
       ],
-      "prov:used": [
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Thing",
-                "schema:Product",
-                "prov:Entity"
-              ],
-              "schema:additionalType": [
-                {
-                  "@id": "nxs:base_classes/NXinstrument.html"
-                },
-                {
-                  "@id": "wd:Q3099911"
-                }
-              ],
-              "schema:name": "APS Sector 20-BM beamline instrument",
-              "schema:category": [
-                {
-                  "@type": [
-                    "schema:DefinedTerm"
-                  ],
-                  "schema:name": "X-ray absorption spectroscopy beamline",
-                  "schema:termCode": "XAS-beamline"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Thing",
-                "schema:Product",
-                "prov:Entity"
-              ],
-              "schema:additionalType": [
-                {
-                  "@id": "xas:source"
-                },
-                {
-                  "@id": "wd:Q3099911"
-                }
-              ],
-              "schema:name": "APS bending magnet source",
-              "schema:additionalProperty": [
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    {
-                      "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
-                    }
-                  ],
-                  "schema:name": "x-ray source",
-                  "schema:value": "Synchrotron X-ray Source"
-                },
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    {
-                      "@id": "nxs:base_classes/NXsource.html#nxsource-probe-field"
-                    }
-                  ],
-                  "schema:name": "Probe",
-                  "schema:value": "x-ray"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Thing",
-                "schema:Product",
-                "prov:Entity"
-              ],
-              "schema:additionalType": [
-                {
-                  "@id": "xas:xraymonochromator"
-                },
-                {
-                  "@id": "wd:Q3099911"
-                }
-              ],
-              "schema:name": "Si 111",
-              "schema:additionalProperty": [
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    {
-                      "@id": "xas:dspacing"
-                    }
-                  ],
-                  "schema:name": "d-spacing",
-                  "schema:value": "3.13550",
-                  "schema:unitText": "Angstrom"
-                },
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    {
-                      "@id": "xas:monochromatortype"
-                    }
-                  ],
-                  "schema:name": "crystal type",
-                  "schema:value": "Si(111)"
-                },
-                {
-                  "@type": [
-                    "schema:PropertyValue"
-                  ],
-                  "schema:propertyID": [
-                    {
-                      "@id": "xas:reflectionplane"
-                    }
-                  ],
-                  "schema:name": "reflection plane (hkl)",
-                  "schema:value": "1,1,1"
-                }
-              ]
-            }
-          ]
-        }
-      ],
       "schema:object": {
         "@type": [
           "schema:Product",
@@ -774,6 +626,130 @@ XAS core properties: instrument components, XDI distribution, measurement techni
       "schema:additionalType": [
         {
           "@id": "xas:analysisevent"
+        }
+      ],
+      "schema:instrument": [
+        {
+          "@type": [
+            "schema:Thing",
+            "schema:Product",
+            "prov:Entity"
+          ],
+          "schema:additionalType": [
+            {
+              "@id": "nxs:base_classes/NXinstrument.html"
+            },
+            {
+              "@id": "wd:Q3099911"
+            }
+          ],
+          "schema:name": "APS Sector 20-BM beamline instrument",
+          "schema:category": [
+            {
+              "@type": [
+                "schema:DefinedTerm"
+              ],
+              "schema:name": "X-ray absorption spectroscopy beamline",
+              "schema:termCode": "XAS-beamline"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "schema:Thing",
+            "schema:Product",
+            "prov:Entity"
+          ],
+          "schema:additionalType": [
+            {
+              "@id": "xas:source"
+            },
+            {
+              "@id": "wd:Q3099911"
+            }
+          ],
+          "schema:name": "APS bending magnet source",
+          "schema:additionalProperty": [
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                {
+                  "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
+                }
+              ],
+              "schema:name": "x-ray source",
+              "schema:value": "Synchrotron X-ray Source"
+            },
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                {
+                  "@id": "nxs:base_classes/NXsource.html#nxsource-probe-field"
+                }
+              ],
+              "schema:name": "Probe",
+              "schema:value": "x-ray"
+            }
+          ]
+        },
+        {
+          "@type": [
+            "schema:Thing",
+            "schema:Product",
+            "prov:Entity"
+          ],
+          "schema:additionalType": [
+            {
+              "@id": "xas:xraymonochromator"
+            },
+            {
+              "@id": "wd:Q3099911"
+            }
+          ],
+          "schema:name": "Si 111",
+          "schema:additionalProperty": [
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                {
+                  "@id": "xas:dspacing"
+                }
+              ],
+              "schema:name": "d-spacing",
+              "schema:value": "3.13550",
+              "schema:unitText": "Angstrom"
+            },
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                {
+                  "@id": "xas:monochromatortype"
+                }
+              ],
+              "schema:name": "crystal type",
+              "schema:value": "Si(111)"
+            },
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                {
+                  "@id": "xas:reflectionplane"
+                }
+              ],
+              "schema:name": "reflection plane (hkl)",
+              "schema:value": "1,1,1"
+            }
+          ]
         }
       ]
     }
@@ -876,90 +852,90 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:url "http://example.com/resource?foo=bar#fragment" ;
             schema1:value "10.12345/xas.2024.001" ] ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:about "element.symbol" ;
-            schema1:identifier "http://sweetontology.net/matrElement/Selenium" ;
-            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
-            schema1:name "Selenium" ;
-            schema1:termCode "Se" ],
-        [ a schema1:DefinedTerm ;
             schema1:about "element.edge" ;
             schema1:identifier "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md#K" ;
             schema1:inDefinedTermSet "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md" ;
             schema1:name "K-edge" ;
-            schema1:termCode "K" ] ;
+            schema1:termCode "K" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "element.symbol" ;
+            schema1:identifier "http://sweetontology.net/matrElement/Selenium" ;
+            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
+            schema1:name "Selenium" ;
+            schema1:termCode "Se" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
             schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
             schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ] ;
+            schema1:termCode "XAS" ] ;
     schema1:name "Se K-edge XANES of Na2SeO4 reference compound" ;
     schema1:subjectOf <urn:uuid:xas-required-catalog-record> ;
     schema1:url "http://example.com/resource?foo=bar#fragment" ;
     prov:wasGeneratedBy [ a schema1:Action,
                 prov:Activity ;
             schema1:additionalType xas:analysisevent ;
+            schema1:instrument [ a schema1:Product,
+                        schema1:Thing,
+                        prov:Entity ;
+                    schema1:additionalProperty [ a schema1:PropertyValue ;
+                            schema1:name "crystal type" ;
+                            schema1:propertyID xas:monochromatortype ;
+                            schema1:value "Si(111)" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "reflection plane (hkl)" ;
+                            schema1:propertyID xas:reflectionplane ;
+                            schema1:value "1,1,1" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "d-spacing" ;
+                            schema1:propertyID xas:dspacing ;
+                            schema1:unitText "Angstrom" ;
+                            schema1:value "3.13550" ] ;
+                    schema1:additionalType xas:xraymonochromator,
+                        wd:Q3099911 ;
+                    schema1:name "Si 111" ],
+                [ a schema1:Product,
+                        schema1:Thing,
+                        prov:Entity ;
+                    schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
+                        wd:Q3099911 ;
+                    schema1:category [ a schema1:DefinedTerm ;
+                            schema1:name "X-ray absorption spectroscopy beamline" ;
+                            schema1:termCode "XAS-beamline" ] ;
+                    schema1:name "APS Sector 20-BM beamline instrument" ],
+                [ a schema1:Product,
+                        schema1:Thing,
+                        prov:Entity ;
+                    schema1:additionalProperty [ a schema1:PropertyValue ;
+                            schema1:name "Probe" ;
+                            schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-probe-field> ;
+                            schema1:value "x-ray" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "x-ray source" ;
+                            schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
+                            schema1:value "Synchrotron X-ray Source" ] ;
+                    schema1:additionalType xas:source,
+                        wd:Q3099911 ;
+                    schema1:name "APS bending magnet source" ] ;
             schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Stoichiometry" ;
-                            schema1:propertyID xas:samplechemicalcomposition ;
-                            schema1:value "Na2SeO4" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "sample preparation method" ;
                             schema1:propertyID xas:samplepreparation ;
-                            schema1:value "powder on tape, 6 layers" ] ;
+                            schema1:value "powder on tape, 6 layers" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Stoichiometry" ;
+                            schema1:propertyID xas:samplechemicalcomposition ;
+                            schema1:value "Na2SeO4" ] ;
                     schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
                         "MaterialSample" ;
                     schema1:description "Sodium selenate reference compound, powder" ;
                     schema1:identifier "igsn:10.6620/se-selenate-001" ;
-                    schema1:name "Na2SeO4" ] ;
-            prov:used [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "crystal type" ;
-                                    schema1:propertyID xas:monochromatortype ;
-                                    schema1:value "Si(111)" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "reflection plane (hkl)" ;
-                                    schema1:propertyID xas:reflectionplane ;
-                                    schema1:value "1,1,1" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "d-spacing" ;
-                                    schema1:propertyID xas:dspacing ;
-                                    schema1:unitText "Angstrom" ;
-                                    schema1:value "3.13550" ] ;
-                            schema1:additionalType xas:xraymonochromator,
-                                wd:Q3099911 ;
-                            schema1:name "Si 111" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "x-ray source" ;
-                                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
-                                    schema1:value "Synchrotron X-ray Source" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "Probe" ;
-                                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-probe-field> ;
-                                    schema1:value "x-ray" ] ;
-                            schema1:additionalType xas:source,
-                                wd:Q3099911 ;
-                            schema1:name "APS bending magnet source" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
-                                wd:Q3099911 ;
-                            schema1:category [ a schema1:DefinedTerm ;
-                                    schema1:name "X-ray absorption spectroscopy beamline" ;
-                                    schema1:termCode "XAS-beamline" ] ;
-                            schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
+                    schema1:name "Na2SeO4" ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
@@ -985,10 +961,10 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: XAS Core (required) metadata constraints
 description: Required XAS constraints layered on cdifCore (composed once by the xasDocument
   profile; this module does NOT re-embed cdifCore). Enforces @type including schema:Dataset
-  (schema:Product optional), a prov:wasGeneratedBy analysis activity whose prov:used
-  carries the NXsource+NXmonochromator instrument wrapper, an XDI- or NeXus-conformant
-  distribution, and required XAS measurementTechnique DefinedTerms (the PaNET XAS
-  technique and the detection mode). schema:keywords carries no XAS requirement.
+  (schema:Product optional), a prov:wasGeneratedBy analysis activity whose schema:instrument
+  carries the NXsource+NXmonochromator instruments, an XDI- or NeXus-conformant distribution,
+  and required XAS measurementTechnique DefinedTerms (the PaNET XAS technique and
+  the detection mode). schema:keywords carries no XAS requirement.
 type: object
 required:
 - prov:wasGeneratedBy
@@ -1040,188 +1016,174 @@ properties:
       - $ref: '#/$defs/XasAnalysisEvent'
       - type: object
         properties:
-          prov:used:
+          schema:instrument:
             type: array
-            description: Array of instrument-wrapper entries used by the analysis.
-              Under the peer prov:used model each instrument (source, beamline, monochromator,
-              monitor, ...) is its own top-level wrapper differentiated by schema:instrument.schema:additionalType.
-              An x-ray source (with type and probe properties) and a monochromator
-              (with crystal type, d_spacing, and reflection plane properties) are
-              required here; the NXinstrument-typed beamline and the monochromator
-              d_spacing schema:value are additionally required by xasGeneratedBy.
+            description: 'Instruments the analysis used, each its own schema:instrument
+              item, told apart by schema:additionalType. An x-ray source (with type
+              and probe properties) and a monochromator (with crystal type, d_spacing,
+              and reflection plane properties) are required here; the NXinstrument-typed
+              beamline and the monochromator d_spacing schema:value are additionally
+              required by xasGeneratedBy.
+
+              '
             allOf:
-            - description: Must contain a peer wrapper whose schema:instrument is
-                classified as xas:source and carries schema:additionalProperty entries
-                for the NXsource type and probe fields (each with a schema:value;
-                the probe entry is also named "Probe").
+            - description: Must contain a schema:instrument item classified as xas:source
+                and carries schema:additionalProperty entries for the NXsource type
+                and probe fields (each with a schema:value; the probe entry is also
+                named "Probe").
               contains:
                 type: object
                 required:
-                - schema:instrument
+                - schema:additionalType
+                - schema:additionalProperty
                 properties:
-                  schema:instrument:
+                  schema:additionalType:
                     type: array
                     contains:
                       type: object
+                      additionalProperties: false
                       required:
-                      - schema:additionalType
-                      - schema:additionalProperty
+                      - '@id'
                       properties:
-                        schema:additionalType:
-                          type: array
-                          contains:
-                            type: object
-                            additionalProperties: false
-                            required:
-                            - '@id'
-                            properties:
-                              '@id':
-                                const: xas:source
-                        schema:additionalProperty:
-                          type: array
-                          minItems: 2
-                          items:
-                            $ref: '#/$defs/AdditionalProperty'
-                          allOf:
-                          - contains:
+                        '@id':
+                          const: xas:source
+                  schema:additionalProperty:
+                    type: array
+                    minItems: 2
+                    items:
+                      $ref: '#/$defs/AdditionalProperty'
+                    allOf:
+                    - contains:
+                        type: object
+                        required:
+                        - schema:propertyID
+                        - schema:value
+                        properties:
+                          schema:propertyID:
+                            type: array
+                            contains:
                               type: object
+                              additionalProperties: false
                               required:
-                              - schema:propertyID
-                              - schema:value
+                              - '@id'
                               properties:
-                                schema:propertyID:
-                                  type: array
-                                  contains:
-                                    type: object
-                                    additionalProperties: false
-                                    required:
-                                    - '@id'
-                                    properties:
-                                      '@id':
-                                        enum:
-                                        - nxs:base_classes/NXsource.html#nxsource-type-field
-                                        - xas:xraysourcetype
-                                schema:value:
-                                  type: string
-                          - contains:
+                                '@id':
+                                  enum:
+                                  - nxs:base_classes/NXsource.html#nxsource-type-field
+                                  - xas:xraysourcetype
+                          schema:value:
+                            type: string
+                    - contains:
+                        type: object
+                        required:
+                        - schema:name
+                        - schema:propertyID
+                        - schema:value
+                        properties:
+                          schema:propertyID:
+                            type: array
+                            contains:
                               type: object
+                              additionalProperties: false
                               required:
-                              - schema:name
-                              - schema:propertyID
-                              - schema:value
+                              - '@id'
                               properties:
-                                schema:propertyID:
-                                  type: array
-                                  contains:
-                                    type: object
-                                    additionalProperties: false
-                                    required:
-                                    - '@id'
-                                    properties:
-                                      '@id':
-                                        enum:
-                                        - nxs:base_classes/NXsource.html#nxsource-probe-field
-                                        - xas:probe
-                                schema:name:
-                                  const: Probe
-                                schema:value:
-                                  type: string
-            - description: Must contain a peer wrapper whose schema:instrument is
-                classified as xas:xraymonochromator, has a schema:name, and carries
-                schema:additionalProperty entries for xas:monochromatortype, xas:dspacing
-                (with value + unitText), and xas:reflectionplane.
+                                '@id':
+                                  enum:
+                                  - nxs:base_classes/NXsource.html#nxsource-probe-field
+                                  - xas:probe
+                          schema:name:
+                            const: Probe
+                          schema:value:
+                            type: string
+            - description: Must contain a schema:instrument item classified as xas:xraymonochromator,
+                has a schema:name, and carries schema:additionalProperty entries for
+                xas:monochromatortype, xas:dspacing (with value + unitText), and xas:reflectionplane.
               contains:
                 type: object
                 required:
-                - schema:instrument
+                - schema:additionalType
+                - schema:name
+                - schema:additionalProperty
                 properties:
-                  schema:instrument:
+                  schema:additionalType:
                     type: array
                     contains:
                       type: object
+                      additionalProperties: false
                       required:
-                      - schema:additionalType
-                      - schema:name
-                      - schema:additionalProperty
+                      - '@id'
                       properties:
-                        schema:additionalType:
-                          type: array
-                          contains:
-                            type: object
-                            additionalProperties: false
-                            required:
-                            - '@id'
-                            properties:
-                              '@id':
-                                const: xas:xraymonochromator
-                        schema:name:
-                          type: string
-                        schema:additionalProperty:
-                          description: Require crystal type, d_spacing (with unitText),
-                            and reflection plane properties.
-                          type: array
-                          minItems: 3
-                          items:
-                            $ref: '#/$defs/AdditionalProperty'
-                          allOf:
-                          - contains:
+                        '@id':
+                          const: xas:xraymonochromator
+                  schema:name:
+                    type: string
+                  schema:additionalProperty:
+                    description: Require crystal type, d_spacing (with unitText),
+                      and reflection plane properties.
+                    type: array
+                    minItems: 3
+                    items:
+                      $ref: '#/$defs/AdditionalProperty'
+                    allOf:
+                    - contains:
+                        type: object
+                        required:
+                        - schema:propertyID
+                        - schema:value
+                        properties:
+                          schema:propertyID:
+                            type: array
+                            contains:
                               type: object
+                              additionalProperties: false
                               required:
-                              - schema:propertyID
-                              - schema:value
+                              - '@id'
                               properties:
-                                schema:propertyID:
-                                  type: array
-                                  contains:
-                                    type: object
-                                    additionalProperties: false
-                                    required:
-                                    - '@id'
-                                    properties:
-                                      '@id':
-                                        const: xas:monochromatortype
-                                schema:value:
-                                  type: string
-                          - contains:
+                                '@id':
+                                  const: xas:monochromatortype
+                          schema:value:
+                            type: string
+                    - contains:
+                        type: object
+                        required:
+                        - schema:propertyID
+                        - schema:value
+                        - schema:unitText
+                        properties:
+                          schema:propertyID:
+                            type: array
+                            contains:
                               type: object
+                              additionalProperties: false
                               required:
-                              - schema:propertyID
-                              - schema:value
-                              - schema:unitText
+                              - '@id'
                               properties:
-                                schema:propertyID:
-                                  type: array
-                                  contains:
-                                    type: object
-                                    additionalProperties: false
-                                    required:
-                                    - '@id'
-                                    properties:
-                                      '@id':
-                                        const: xas:dspacing
-                                schema:value:
-                                  type: string
-                                schema:unitText:
-                                  type: string
-                          - contains:
+                                '@id':
+                                  const: xas:dspacing
+                          schema:value:
+                            type: string
+                          schema:unitText:
+                            type: string
+                    - contains:
+                        type: object
+                        required:
+                        - schema:propertyID
+                        - schema:value
+                        properties:
+                          schema:propertyID:
+                            type: array
+                            contains:
                               type: object
+                              additionalProperties: false
                               required:
-                              - schema:propertyID
-                              - schema:value
+                              - '@id'
                               properties:
-                                schema:propertyID:
-                                  type: array
-                                  contains:
-                                    type: object
-                                    additionalProperties: false
-                                    required:
-                                    - '@id'
-                                    properties:
-                                      '@id':
-                                        const: xas:reflectionplane
-                                schema:value:
-                                  type: string
-            x-jsonld-id: http://www.w3.org/ns/prov#used
+                                '@id':
+                                  const: xas:reflectionplane
+                          schema:value:
+                            type: string
+            x-jsonld-id: http://schema.org/instrument
           schema:object:
             $ref: '#/$defs/XasSample'
             x-jsonld-id: http://schema.org/object

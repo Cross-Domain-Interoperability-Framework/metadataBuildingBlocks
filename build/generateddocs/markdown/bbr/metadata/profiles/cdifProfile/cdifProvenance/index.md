@@ -86,34 +86,35 @@ Example dataset with provenance activity describing how the resource was generat
           "schema:email": "m.garcia@example.org"
         }
       },
-      "prov:used": [
+      "schema:startTime": "2025-01-10T00:00:00Z",
+      "schema:endTime": "2025-03-20T00:00:00Z",
+      "schema:actionStatus": "schema:CompletedActionStatus",
+      "schema:instrument": [
         {
-          "schema:instrument": [
+          "@type": [
+            "schema:Product",
+            "schema:Thing",
+            "schema:SoftwareApplication"
+          ],
+          "schema:name": "SeisUnix",
+          "schema:version": "44R27",
+          "schema:url": "https://wiki.seismic-unix.org/",
+          "schema:category": [
             {
               "@type": [
-                "schema:Product",
-                "schema:Thing",
-                "schema:SoftwareApplication"
+                "schema:DefinedTerm"
               ],
-              "schema:name": "SeisUnix",
-              "schema:version": "44R27",
-              "schema:url": "https://wiki.seismic-unix.org/",
-              "schema:category": [
-                {
-                  "@type": [
-                    "schema:DefinedTerm"
-                  ],
-                  "schema:name": "Seismic processing software",
-                  "schema:termCode": "seismic-processing"
-                }
-              ]
+              "schema:name": "Seismic processing software",
+              "schema:termCode": "seismic-processing"
+            }
+          ],
+          "schema:additionalType": [
+            {
+              "@id": "https://www.wikidata.org/entity/Q7397"
             }
           ]
         }
-      ],
-      "schema:startTime": "2025-01-10T00:00:00Z",
-      "schema:endTime": "2025-03-20T00:00:00Z",
-      "schema:actionStatus": "schema:CompletedActionStatus"
+      ]
     }
   ]
 }
@@ -184,34 +185,35 @@ Example dataset with provenance activity describing how the resource was generat
           "schema:email": "m.garcia@example.org"
         }
       },
-      "prov:used": [
+      "schema:startTime": "2025-01-10T00:00:00Z",
+      "schema:endTime": "2025-03-20T00:00:00Z",
+      "schema:actionStatus": "schema:CompletedActionStatus",
+      "schema:instrument": [
         {
-          "schema:instrument": [
+          "@type": [
+            "schema:Product",
+            "schema:Thing",
+            "schema:SoftwareApplication"
+          ],
+          "schema:name": "SeisUnix",
+          "schema:version": "44R27",
+          "schema:url": "https://wiki.seismic-unix.org/",
+          "schema:category": [
             {
               "@type": [
-                "schema:Product",
-                "schema:Thing",
-                "schema:SoftwareApplication"
+                "schema:DefinedTerm"
               ],
-              "schema:name": "SeisUnix",
-              "schema:version": "44R27",
-              "schema:url": "https://wiki.seismic-unix.org/",
-              "schema:category": [
-                {
-                  "@type": [
-                    "schema:DefinedTerm"
-                  ],
-                  "schema:name": "Seismic processing software",
-                  "schema:termCode": "seismic-processing"
-                }
-              ]
+              "schema:name": "Seismic processing software",
+              "schema:termCode": "seismic-processing"
+            }
+          ],
+          "schema:additionalType": [
+            {
+              "@id": "https://www.wikidata.org/entity/Q7397"
             }
           ]
         }
-      ],
-      "schema:startTime": "2025-01-10T00:00:00Z",
-      "schema:endTime": "2025-03-20T00:00:00Z",
-      "schema:actionStatus": "schema:CompletedActionStatus"
+      ]
     }
   ]
 }
@@ -224,6 +226,7 @@ Example dataset with provenance activity describing how the resource was generat
 @prefix ex: <https://example.org/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix schema1: <http://schema.org/> .
+@prefix wd: <https://www.wikidata.org/entity/> .
 
 ex:dataset_with_provenance_001 a schema1:Dataset ;
     schema1:dateModified "2025-06-15" ;
@@ -242,17 +245,18 @@ ex:dataset_with_provenance_001 a schema1:Dataset ;
                     schema1:name "Garcia, Maria" ] ;
             schema1:description "Raw seismic traces were processed using standard reflection seismology workflow including deconvolution, stacking, and migration." ;
             schema1:endTime "2025-03-20T00:00:00Z" ;
+            schema1:instrument [ a schema1:Product,
+                        schema1:SoftwareApplication,
+                        schema1:Thing ;
+                    schema1:additionalType wd:Q7397 ;
+                    schema1:category [ a schema1:DefinedTerm ;
+                            schema1:name "Seismic processing software" ;
+                            schema1:termCode "seismic-processing" ] ;
+                    schema1:name "SeisUnix" ;
+                    schema1:url "https://wiki.seismic-unix.org/" ;
+                    schema1:version "44R27" ] ;
             schema1:name "Seismic data processing" ;
-            schema1:startTime "2025-01-10T00:00:00Z" ;
-            prov:used [ schema1:instrument [ a schema1:Product,
-                                schema1:SoftwareApplication,
-                                schema1:Thing ;
-                            schema1:category [ a schema1:DefinedTerm ;
-                                    schema1:name "Seismic processing software" ;
-                                    schema1:termCode "seismic-processing" ] ;
-                            schema1:name "SeisUnix" ;
-                            schema1:url "https://wiki.seismic-unix.org/" ;
-                            schema1:version "44R27" ] ] ] .
+            schema1:startTime "2025-01-10T00:00:00Z" ] .
 
 ex:metadata_provenance_001 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/provenance/1.1> ;
@@ -365,7 +369,13 @@ linked via schema:object references for action chaining.
         "schema:name": "Chen, Wei",
         "schema:identifier": "https://orcid.org/0000-0002-5555-6666"
       },
-      "prov:used": [
+      "schema:result": [
+        {
+          "@id": "#PolishedMount-A",
+          "schema:name": "Polished and carbon-coated epoxy mount A"
+        }
+      ],
+      "schema:object": [
         {
           "@id": "#KI81-1-olivine",
           "schema:name": "Olivine separates from drill core KI81-1",
@@ -374,12 +384,6 @@ linked via schema:object references for action chaining.
             "prov:Entity",
             "schema:Thing"
           ]
-        }
-      ],
-      "schema:result": [
-        {
-          "@id": "#PolishedMount-A",
-          "schema:name": "Polished and carbon-coated epoxy mount A"
         }
       ]
     },
@@ -459,37 +463,12 @@ linked via schema:object references for action chaining.
         "schema:name": "Chen, Wei",
         "schema:identifier": "https://orcid.org/0000-0002-5555-6666"
       },
-      "prov:used": [
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Product",
-                "schema:Thing"
-              ],
-              "schema:name": "JEOL JXA-8530F Plus Field Emission Electron Microprobe",
-              "schema:manufacturer": {
-                "@type": [
-                  "schema:Organization"
-                ],
-                "schema:name": "JEOL"
-              },
-              "schema:model": {
-                "@type": [
-                  "schema:ProductModel"
-                ],
-                "schema:name": "JXA-8530F Plus"
-              }
-            }
-          ]
-        },
-        {
-          "@id": "#PolishedMount-A"
-        }
-      ],
       "schema:object": [
         {
           "@id": "#SamplePreparation"
+        },
+        {
+          "@id": "#PolishedMount-A"
         }
       ],
       "schema:result": [
@@ -545,6 +524,32 @@ linked via schema:object references for action chaining.
           ],
           "schema:name": "Number of Analyses",
           "schema:value": 142
+        }
+      ],
+      "schema:instrument": [
+        {
+          "@type": [
+            "schema:Product",
+            "schema:Thing"
+          ],
+          "schema:name": "JEOL JXA-8530F Plus Field Emission Electron Microprobe",
+          "schema:manufacturer": {
+            "@type": [
+              "schema:Organization"
+            ],
+            "schema:name": "JEOL"
+          },
+          "schema:model": {
+            "@type": [
+              "schema:ProductModel"
+            ],
+            "schema:name": "JXA-8530F Plus"
+          },
+          "schema:additionalType": [
+            {
+              "@id": "https://www.wikidata.org/entity/Q3099911"
+            }
+          ]
         }
       ]
     },
@@ -603,22 +608,6 @@ linked via schema:object references for action chaining.
         "schema:name": "Chen, Wei",
         "schema:identifier": "https://orcid.org/0000-0002-5555-6666"
       },
-      "prov:used": [
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Product",
-                "schema:Thing",
-                "schema:SoftwareApplication"
-              ],
-              "schema:name": "Probe for EPMA",
-              "schema:version": "13.0.6",
-              "schema:url": "https://www.probesoftware.com/"
-            }
-          ]
-        }
-      ],
       "schema:object": [
         {
           "@id": "#EPMAAnalysis"
@@ -628,6 +617,23 @@ linked via schema:object references for action chaining.
         {
           "@id": "ex:dataset_epma_olivine_001",
           "schema:name": "Final olivine composition dataset"
+        }
+      ],
+      "schema:instrument": [
+        {
+          "@type": [
+            "schema:Product",
+            "schema:Thing",
+            "schema:SoftwareApplication"
+          ],
+          "schema:name": "Probe for EPMA",
+          "schema:version": "13.0.6",
+          "schema:url": "https://www.probesoftware.com/",
+          "schema:additionalType": [
+            {
+              "@id": "https://www.wikidata.org/entity/Q7397"
+            }
+          ]
         }
       ]
     }
@@ -735,7 +741,13 @@ linked via schema:object references for action chaining.
         "schema:name": "Chen, Wei",
         "schema:identifier": "https://orcid.org/0000-0002-5555-6666"
       },
-      "prov:used": [
+      "schema:result": [
+        {
+          "@id": "#PolishedMount-A",
+          "schema:name": "Polished and carbon-coated epoxy mount A"
+        }
+      ],
+      "schema:object": [
         {
           "@id": "#KI81-1-olivine",
           "schema:name": "Olivine separates from drill core KI81-1",
@@ -744,12 +756,6 @@ linked via schema:object references for action chaining.
             "prov:Entity",
             "schema:Thing"
           ]
-        }
-      ],
-      "schema:result": [
-        {
-          "@id": "#PolishedMount-A",
-          "schema:name": "Polished and carbon-coated epoxy mount A"
         }
       ]
     },
@@ -829,37 +835,12 @@ linked via schema:object references for action chaining.
         "schema:name": "Chen, Wei",
         "schema:identifier": "https://orcid.org/0000-0002-5555-6666"
       },
-      "prov:used": [
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Product",
-                "schema:Thing"
-              ],
-              "schema:name": "JEOL JXA-8530F Plus Field Emission Electron Microprobe",
-              "schema:manufacturer": {
-                "@type": [
-                  "schema:Organization"
-                ],
-                "schema:name": "JEOL"
-              },
-              "schema:model": {
-                "@type": [
-                  "schema:ProductModel"
-                ],
-                "schema:name": "JXA-8530F Plus"
-              }
-            }
-          ]
-        },
-        {
-          "@id": "#PolishedMount-A"
-        }
-      ],
       "schema:object": [
         {
           "@id": "#SamplePreparation"
+        },
+        {
+          "@id": "#PolishedMount-A"
         }
       ],
       "schema:result": [
@@ -915,6 +896,32 @@ linked via schema:object references for action chaining.
           ],
           "schema:name": "Number of Analyses",
           "schema:value": 142
+        }
+      ],
+      "schema:instrument": [
+        {
+          "@type": [
+            "schema:Product",
+            "schema:Thing"
+          ],
+          "schema:name": "JEOL JXA-8530F Plus Field Emission Electron Microprobe",
+          "schema:manufacturer": {
+            "@type": [
+              "schema:Organization"
+            ],
+            "schema:name": "JEOL"
+          },
+          "schema:model": {
+            "@type": [
+              "schema:ProductModel"
+            ],
+            "schema:name": "JXA-8530F Plus"
+          },
+          "schema:additionalType": [
+            {
+              "@id": "https://www.wikidata.org/entity/Q3099911"
+            }
+          ]
         }
       ]
     },
@@ -973,22 +980,6 @@ linked via schema:object references for action chaining.
         "schema:name": "Chen, Wei",
         "schema:identifier": "https://orcid.org/0000-0002-5555-6666"
       },
-      "prov:used": [
-        {
-          "schema:instrument": [
-            {
-              "@type": [
-                "schema:Product",
-                "schema:Thing",
-                "schema:SoftwareApplication"
-              ],
-              "schema:name": "Probe for EPMA",
-              "schema:version": "13.0.6",
-              "schema:url": "https://www.probesoftware.com/"
-            }
-          ]
-        }
-      ],
       "schema:object": [
         {
           "@id": "#EPMAAnalysis"
@@ -998,6 +989,23 @@ linked via schema:object references for action chaining.
         {
           "@id": "ex:dataset_epma_olivine_001",
           "schema:name": "Final olivine composition dataset"
+        }
+      ],
+      "schema:instrument": [
+        {
+          "@type": [
+            "schema:Product",
+            "schema:Thing",
+            "schema:SoftwareApplication"
+          ],
+          "schema:name": "Probe for EPMA",
+          "schema:version": "13.0.6",
+          "schema:url": "https://www.probesoftware.com/",
+          "schema:additionalType": [
+            {
+              "@id": "https://www.wikidata.org/entity/Q7397"
+            }
+          ]
         }
       ]
     }
@@ -1013,6 +1021,7 @@ linked via schema:object references for action chaining.
 @prefix ex: <https://example.org/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix schema1: <http://schema.org/> .
+@prefix wd: <https://www.wikidata.org/entity/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <file:///github/workspace/#DataReduction> a schema1:Action,
@@ -1020,17 +1029,17 @@ linked via schema:object references for action chaining.
     schema1:actionProcess [ a schema1:HowTo ;
             schema1:name "EPMA data reduction protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Calculate cations per 4 oxygen. Reject analyses with Si > 1.02 or total cations outside 2.98–3.02 (expected 3.00 for olivine)." ;
-                    schema1:name "Stoichiometry check" ;
-                    schema1:position 2 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Calculate Fo = 100 * Mg/(Mg+Fe) from atomic proportions. Export accepted analyses with Fo, oxide wt%, detection limits, and analytical totals to CSV." ;
                     schema1:name "Forsterite calculation and export" ;
                     schema1:position 3 ],
                 [ a schema1:HowToStep ;
                     schema1:description "Reject analyses with oxide totals < 98.5% or > 101.0%." ;
                     schema1:name "Total oxide filter" ;
-                    schema1:position 1 ] ] ;
+                    schema1:position 1 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Calculate cations per 4 oxygen. Reject analyses with Si > 1.02 or total cations outside 2.98–3.02 (expected 3.00 for olivine)." ;
+                    schema1:name "Stoichiometry check" ;
+                    schema1:position 2 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:additionalType schema1:CreateAction ;
     schema1:agent [ a schema1:Person ;
@@ -1038,16 +1047,17 @@ linked via schema:object references for action chaining.
             schema1:name "Chen, Wei" ] ;
     schema1:description "Analyses filtered for quality: rejected points with analytical totals outside 98.5–101.0 wt% or with anomalous stoichiometry. Forsterite content (Fo) calculated from Mg/(Mg+Fe) atomic ratio. Final dataset exported as CSV." ;
     schema1:endTime "2024-06-12" ;
+    schema1:instrument [ a schema1:Product,
+                schema1:SoftwareApplication,
+                schema1:Thing ;
+            schema1:additionalType wd:Q7397 ;
+            schema1:name "Probe for EPMA" ;
+            schema1:url "https://www.probesoftware.com/" ;
+            schema1:version "13.0.6" ] ;
     schema1:name "Data reduction and filtering" ;
     schema1:object <file:///github/workspace/#EPMAAnalysis> ;
     schema1:result ex:dataset_epma_olivine_001 ;
-    schema1:startTime "2024-06-12" ;
-    prov:used [ schema1:instrument [ a schema1:Product,
-                        schema1:SoftwareApplication,
-                        schema1:Thing ;
-                    schema1:name "Probe for EPMA" ;
-                    schema1:url "https://www.probesoftware.com/" ;
-                    schema1:version "13.0.6" ] ] .
+    schema1:startTime "2024-06-12" .
 
 <file:///github/workspace/#KI81-1-olivine> a schema1:Thing,
         prov:Entity ;
@@ -1066,6 +1076,10 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
 <https://registry.onegeochemistry.org/methods/jeol-8530f-olivine-v1> a schema1:HowTo ;
     schema1:name "JEOL-8530F WDS olivine major elements v1.0" ;
     schema1:step [ a schema1:HowToStep ;
+            schema1:description "Set accelerating voltage to 15 kV, beam current to 20 nA measured on Faraday cup, focused beam (~1 um). Verify beam current stability within 0.5% over 5 minutes." ;
+            schema1:name "Beam condition setup" ;
+            schema1:position 2 ],
+        [ a schema1:HowToStep ;
             schema1:description "Calibrate WDS spectrometers on primary standards: San Carlos olivine (SiO2, MgO, FeO), chromite NMNH 117075 (Cr2O3), rhodonite (MnO), Kakanui hornblende (CaO, TiO2), jadeite (Na2O, Al2O3), synthetic NiO (NiO). Verify calibration on secondary standard San Carlos olivine NMNH 111312/444." ;
             schema1:name "Instrument calibration" ;
             schema1:position 1 ],
@@ -1078,10 +1092,6 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
             schema1:name "Matrix correction and quantification" ;
             schema1:position 4 ],
         [ a schema1:HowToStep ;
-            schema1:description "Set accelerating voltage to 15 kV, beam current to 20 nA measured on Faraday cup, focused beam (~1 um). Verify beam current stability within 0.5% over 5 minutes." ;
-            schema1:name "Beam condition setup" ;
-            schema1:position 2 ],
-        [ a schema1:HowToStep ;
             schema1:description "Analyze San Carlos olivine NMNH 111312/444 as secondary standard at start, middle, and end of each session. Accept session if all major elements within 1% relative of accepted values. Monitor Faraday cup current every 30 minutes; recalibrate if drift exceeds 1%." ;
             schema1:name "Quality control" ;
             schema1:position 5 ] ;
@@ -1092,22 +1102,22 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
     schema1:actionProcess <https://registry.onegeochemistry.org/methods/jeol-8530f-olivine-v1> ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Beam Current" ;
-            schema1:unitText "nA" ;
-            schema1:value 20 ],
+            schema1:name "Beam Diameter" ;
+            schema1:value "focused (~1 um)" ],
         [ a schema1:PropertyValue ;
             schema1:name "Matrix Correction Model" ;
             schema1:value "ZAF (LINEMU MACs)" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Number of Analyses" ;
+            schema1:value 142 ],
         [ a schema1:PropertyValue ;
             schema1:name "Accelerating Voltage" ;
             schema1:unitText "kV" ;
             schema1:value 15 ],
         [ a schema1:PropertyValue ;
-            schema1:name "Number of Analyses" ;
-            schema1:value 142 ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Beam Diameter" ;
-            schema1:value "focused (~1 um)" ] ;
+            schema1:name "Beam Current" ;
+            schema1:unitText "nA" ;
+            schema1:value 20 ] ;
     schema1:additionalType schema1:CreateAction,
         bios:LabProcess ;
     schema1:agent [ a schema1:Person ;
@@ -1115,20 +1125,21 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
             schema1:name "Chen, Wei" ] ;
     schema1:description "Quantitative WDS electron microprobe analysis of olivine for major and minor elements using a JEOL JXA-8530F field-emission electron microprobe at 15 kV / 20 nA." ;
     schema1:endTime "2024-06-10T17:30:00Z" ;
+    schema1:instrument [ a schema1:Product,
+                schema1:Thing ;
+            schema1:additionalType wd:Q3099911 ;
+            schema1:manufacturer [ a schema1:Organization ;
+                    schema1:name "JEOL" ] ;
+            schema1:model [ a schema1:ProductModel ;
+                    schema1:name "JXA-8530F Plus" ] ;
+            schema1:name "JEOL JXA-8530F Plus Field Emission Electron Microprobe" ] ;
     schema1:location [ a schema1:Place ;
             schema1:name "Electron Microprobe Laboratory, Department of Earth Sciences, Example University" ] ;
     schema1:name "EPMA major element analysis of olivine" ;
-    schema1:object <file:///github/workspace/#SamplePreparation> ;
+    schema1:object <file:///github/workspace/#PolishedMount-A>,
+        <file:///github/workspace/#SamplePreparation> ;
     schema1:result <file:///github/workspace/#OlivineCompositions> ;
-    schema1:startTime "2024-06-10T08:00:00Z" ;
-    prov:used [ schema1:instrument [ a schema1:Product,
-                        schema1:Thing ;
-                    schema1:manufacturer [ a schema1:Organization ;
-                            schema1:name "JEOL" ] ;
-                    schema1:model [ a schema1:ProductModel ;
-                            schema1:name "JXA-8530F Plus" ] ;
-                    schema1:name "JEOL JXA-8530F Plus Field Emission Electron Microprobe" ] ],
-        <file:///github/workspace/#PolishedMount-A> .
+    schema1:startTime "2024-06-10T08:00:00Z" .
 
 <file:///github/workspace/#PolishedMount-A> schema1:name "Polished and carbon-coated epoxy mount A" .
 
@@ -1157,9 +1168,9 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
     schema1:description "Olivine grains from Kilauea Iki lava lake drill core KI81-1 mounted in epoxy, ground, polished, and carbon coated for electron microprobe analysis." ;
     schema1:endTime "2024-06-03" ;
     schema1:name "Sample preparation for EPMA" ;
+    schema1:object <file:///github/workspace/#KI81-1-olivine> ;
     schema1:result <file:///github/workspace/#PolishedMount-A> ;
-    schema1:startTime "2024-06-01" ;
-    prov:used <file:///github/workspace/#KI81-1-olivine> .
+    schema1:startTime "2024-06-01" .
 
 ex:dataset_epma_olivine_001 a schema1:Dataset ;
     schema1:dateModified "2024-08-15" ;

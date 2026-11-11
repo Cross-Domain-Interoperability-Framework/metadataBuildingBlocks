@@ -18,7 +18,7 @@ Extends the [cdifProvActivity](../../cdifProperties/cdifProvActivity/) building 
 - **Activity typing** — requires `@type` of `xas:AnalysisEvent` to distinguish XAS analysis activities from generic provenance.
 - **XAS facility location** — `schema:location` references an [xasFacility](../xasFacility/) describing the synchrotron or laboratory where the analysis was performed.
 - **Sample object** — `schema:object` references an [xasSample](../xasSample/) describing the sample being analyzed (following the Ocean Info Hub recommendation to use `schema:object` rather than `schema:mainEntity`).
-- **XAS-specific instruments** — `prov:used` items accept [xasInstrument](../xasInstrument/) wrappers via `schema:instrument` sub-keys with hierarchical `hasPart` structure for beamline components (source, monochromator, detector).
+- **XAS-specific instruments** — `schema:instrument` items are [xasInstrument](../xasInstrument/) descriptions (or `{@id}` references), with hierarchical `hasPart` structure for beamline components (source, monochromator, detector).
 - **XAS additional properties** — `schema:additionalProperty` supports XAS-specific property IDs: `xas:edge_energy`, `calibration method`, `Instrument configuration`, and `xas:installedOptions`.
 
 ## Examples
@@ -45,261 +45,6 @@ Example XAS GeneratedBy provenance activity
   "schema:identifier": "20241111_DSC_NU_OREX-803224-0_1",
   "schema:startTime": "2008-04-10T21:58:50",
   "schema:endTime": "2008-04-10T22:14:37",
-  "prov:used": [
-    {
-      "schema:instrument": [
-        {
-          "@type": [
-            "schema:Thing",
-            "schema:Product",
-            "prov:Entity"
-          ],
-          "schema:additionalType": [
-            {
-              "@id": "xas:source"
-            },
-            {
-              "@id": "wd:Q3099911"
-            }
-          ],
-          "schema:name": "APS bending magnet source",
-          "schema:identifier": [
-            "https://www.aps.anl.gov/Beamlines/Directory/source/13-BM"
-          ],
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
-                }
-              ],
-              "schema:name": "X-ray source",
-              "schema:value": "Synchrotron X-ray Source"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "nxs:base_classes/NXsource.html#nxsource-probe-field"
-                }
-              ],
-              "schema:name": "Probe",
-              "schema:value": "x-ray"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "schema:instrument": [
-        {
-          "@type": [
-            "schema:Thing",
-            "schema:Product",
-            "prov:Entity"
-          ],
-          "schema:additionalType": [
-            {
-              "@id": "nxs:base_classes/NXinstrument.html"
-            },
-            {
-              "@id": "wd:Q3099911"
-            }
-          ],
-          "schema:name": "13-BM-D",
-          "schema:identifier": [
-            "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D"
-          ],
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:collimation"
-                }
-              ],
-              "schema:name": "beamline collimation",
-              "schema:value": "none"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:focusing"
-                }
-              ],
-              "schema:name": "focusing",
-              "schema:value": "unknown"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:harmonicrejection"
-                }
-              ],
-              "schema:name": "harmonic_rejection",
-              "schema:value": "Rh-coated mirror, detuned"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "schema:instrument": [
-        {
-          "@type": [
-            "schema:Thing",
-            "schema:Product",
-            "prov:Entity"
-          ],
-          "schema:additionalType": [
-            {
-              "@id": "xas:xraymonochromator"
-            },
-            {
-              "@id": "wd:Q3099911"
-            }
-          ],
-          "schema:name": "Si 111",
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:dspacing"
-                }
-              ],
-              "schema:name": "Monochromator d-spacing",
-              "schema:value": "3.13550",
-              "schema:unitText": "Angstrom"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:monochromatorchemicalformula"
-                }
-              ],
-              "schema:name": "Monochromator chemical formula",
-              "schema:value": "Si"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:monochromatortype"
-                }
-              ],
-              "schema:name": "Monochromator crystal type",
-              "schema:value": "crystal type"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:reflectionplane"
-                }
-              ],
-              "schema:name": "Reflecting plane",
-              "schema:value": "1,1,1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "schema:instrument": [
-        {
-          "@type": [
-            "schema:Thing",
-            "schema:Product",
-            "prov:Entity"
-          ],
-          "schema:additionalType": [
-            {
-              "@id": "xas:xraymonitor"
-            },
-            {
-              "@id": "wd:Q3099911"
-            }
-          ],
-          "schema:name": "x-ray intensity monitor",
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:monitormode"
-                }
-              ],
-              "schema:name": "monitor mode",
-              "schema:value": "monitor"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:monitorpreset"
-                }
-              ],
-              "schema:name": "monitor preset",
-              "schema:value": "N.A."
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:detectori0"
-                }
-              ],
-              "schema:name": "detector mode i0",
-              "schema:alternateName": "incident flux measurement method",
-              "schema:value": "10cm  N2"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:detectorit"
-                }
-              ],
-              "schema:name": "detector mode it",
-              "schema:alternateName": "transmitted flux measurement method",
-              "schema:value": "10cm  N2"
-            }
-          ]
-        }
-      ]
-    }
-  ],
   "schema:additionalProperty": [
     {
       "@type": [
@@ -538,6 +283,245 @@ Example XAS GeneratedBy provenance activity
   "schema:additionalType": [
     {
       "@id": "xas:analysisevent"
+    }
+  ],
+  "schema:instrument": [
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product",
+        "prov:Entity"
+      ],
+      "schema:additionalType": [
+        {
+          "@id": "xas:source"
+        },
+        {
+          "@id": "wd:Q3099911"
+        }
+      ],
+      "schema:name": "APS bending magnet source",
+      "schema:identifier": [
+        "https://www.aps.anl.gov/Beamlines/Directory/source/13-BM"
+      ],
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
+            }
+          ],
+          "schema:name": "X-ray source",
+          "schema:value": "Synchrotron X-ray Source"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "nxs:base_classes/NXsource.html#nxsource-probe-field"
+            }
+          ],
+          "schema:name": "Probe",
+          "schema:value": "x-ray"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product",
+        "prov:Entity"
+      ],
+      "schema:additionalType": [
+        {
+          "@id": "nxs:base_classes/NXinstrument.html"
+        },
+        {
+          "@id": "wd:Q3099911"
+        }
+      ],
+      "schema:name": "13-BM-D",
+      "schema:identifier": [
+        "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D"
+      ],
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:collimation"
+            }
+          ],
+          "schema:name": "beamline collimation",
+          "schema:value": "none"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:focusing"
+            }
+          ],
+          "schema:name": "focusing",
+          "schema:value": "unknown"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:harmonicrejection"
+            }
+          ],
+          "schema:name": "harmonic_rejection",
+          "schema:value": "Rh-coated mirror, detuned"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product",
+        "prov:Entity"
+      ],
+      "schema:additionalType": [
+        {
+          "@id": "xas:xraymonochromator"
+        },
+        {
+          "@id": "wd:Q3099911"
+        }
+      ],
+      "schema:name": "Si 111",
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:dspacing"
+            }
+          ],
+          "schema:name": "Monochromator d-spacing",
+          "schema:value": "3.13550",
+          "schema:unitText": "Angstrom"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:monochromatorchemicalformula"
+            }
+          ],
+          "schema:name": "Monochromator chemical formula",
+          "schema:value": "Si"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:monochromatortype"
+            }
+          ],
+          "schema:name": "Monochromator crystal type",
+          "schema:value": "crystal type"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:reflectionplane"
+            }
+          ],
+          "schema:name": "Reflecting plane",
+          "schema:value": "1,1,1"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product",
+        "prov:Entity"
+      ],
+      "schema:additionalType": [
+        {
+          "@id": "xas:xraymonitor"
+        },
+        {
+          "@id": "wd:Q3099911"
+        }
+      ],
+      "schema:name": "x-ray intensity monitor",
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:monitormode"
+            }
+          ],
+          "schema:name": "monitor mode",
+          "schema:value": "monitor"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:monitorpreset"
+            }
+          ],
+          "schema:name": "monitor preset",
+          "schema:value": "N.A."
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:detectori0"
+            }
+          ],
+          "schema:name": "detector mode i0",
+          "schema:alternateName": "incident flux measurement method",
+          "schema:value": "10cm  N2"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:detectorit"
+            }
+          ],
+          "schema:name": "detector mode it",
+          "schema:alternateName": "transmitted flux measurement method",
+          "schema:value": "10cm  N2"
+        }
+      ]
     }
   ]
 }
@@ -570,261 +554,6 @@ Example XAS GeneratedBy provenance activity
   "schema:identifier": "20241111_DSC_NU_OREX-803224-0_1",
   "schema:startTime": "2008-04-10T21:58:50",
   "schema:endTime": "2008-04-10T22:14:37",
-  "prov:used": [
-    {
-      "schema:instrument": [
-        {
-          "@type": [
-            "schema:Thing",
-            "schema:Product",
-            "prov:Entity"
-          ],
-          "schema:additionalType": [
-            {
-              "@id": "xas:source"
-            },
-            {
-              "@id": "wd:Q3099911"
-            }
-          ],
-          "schema:name": "APS bending magnet source",
-          "schema:identifier": [
-            "https://www.aps.anl.gov/Beamlines/Directory/source/13-BM"
-          ],
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
-                }
-              ],
-              "schema:name": "X-ray source",
-              "schema:value": "Synchrotron X-ray Source"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "nxs:base_classes/NXsource.html#nxsource-probe-field"
-                }
-              ],
-              "schema:name": "Probe",
-              "schema:value": "x-ray"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "schema:instrument": [
-        {
-          "@type": [
-            "schema:Thing",
-            "schema:Product",
-            "prov:Entity"
-          ],
-          "schema:additionalType": [
-            {
-              "@id": "nxs:base_classes/NXinstrument.html"
-            },
-            {
-              "@id": "wd:Q3099911"
-            }
-          ],
-          "schema:name": "13-BM-D",
-          "schema:identifier": [
-            "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D"
-          ],
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:collimation"
-                }
-              ],
-              "schema:name": "beamline collimation",
-              "schema:value": "none"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:focusing"
-                }
-              ],
-              "schema:name": "focusing",
-              "schema:value": "unknown"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:harmonicrejection"
-                }
-              ],
-              "schema:name": "harmonic_rejection",
-              "schema:value": "Rh-coated mirror, detuned"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "schema:instrument": [
-        {
-          "@type": [
-            "schema:Thing",
-            "schema:Product",
-            "prov:Entity"
-          ],
-          "schema:additionalType": [
-            {
-              "@id": "xas:xraymonochromator"
-            },
-            {
-              "@id": "wd:Q3099911"
-            }
-          ],
-          "schema:name": "Si 111",
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:dspacing"
-                }
-              ],
-              "schema:name": "Monochromator d-spacing",
-              "schema:value": "3.13550",
-              "schema:unitText": "Angstrom"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:monochromatorchemicalformula"
-                }
-              ],
-              "schema:name": "Monochromator chemical formula",
-              "schema:value": "Si"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:monochromatortype"
-                }
-              ],
-              "schema:name": "Monochromator crystal type",
-              "schema:value": "crystal type"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:reflectionplane"
-                }
-              ],
-              "schema:name": "Reflecting plane",
-              "schema:value": "1,1,1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "schema:instrument": [
-        {
-          "@type": [
-            "schema:Thing",
-            "schema:Product",
-            "prov:Entity"
-          ],
-          "schema:additionalType": [
-            {
-              "@id": "xas:xraymonitor"
-            },
-            {
-              "@id": "wd:Q3099911"
-            }
-          ],
-          "schema:name": "x-ray intensity monitor",
-          "schema:additionalProperty": [
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:monitormode"
-                }
-              ],
-              "schema:name": "monitor mode",
-              "schema:value": "monitor"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:monitorpreset"
-                }
-              ],
-              "schema:name": "monitor preset",
-              "schema:value": "N.A."
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:detectori0"
-                }
-              ],
-              "schema:name": "detector mode i0",
-              "schema:alternateName": "incident flux measurement method",
-              "schema:value": "10cm  N2"
-            },
-            {
-              "@type": [
-                "schema:PropertyValue"
-              ],
-              "schema:propertyID": [
-                {
-                  "@id": "xas:detectorit"
-                }
-              ],
-              "schema:name": "detector mode it",
-              "schema:alternateName": "transmitted flux measurement method",
-              "schema:value": "10cm  N2"
-            }
-          ]
-        }
-      ]
-    }
-  ],
   "schema:additionalProperty": [
     {
       "@type": [
@@ -1064,6 +793,245 @@ Example XAS GeneratedBy provenance activity
     {
       "@id": "xas:analysisevent"
     }
+  ],
+  "schema:instrument": [
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product",
+        "prov:Entity"
+      ],
+      "schema:additionalType": [
+        {
+          "@id": "xas:source"
+        },
+        {
+          "@id": "wd:Q3099911"
+        }
+      ],
+      "schema:name": "APS bending magnet source",
+      "schema:identifier": [
+        "https://www.aps.anl.gov/Beamlines/Directory/source/13-BM"
+      ],
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "nxs:base_classes/NXsource.html#nxsource-type-field"
+            }
+          ],
+          "schema:name": "X-ray source",
+          "schema:value": "Synchrotron X-ray Source"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "nxs:base_classes/NXsource.html#nxsource-probe-field"
+            }
+          ],
+          "schema:name": "Probe",
+          "schema:value": "x-ray"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product",
+        "prov:Entity"
+      ],
+      "schema:additionalType": [
+        {
+          "@id": "nxs:base_classes/NXinstrument.html"
+        },
+        {
+          "@id": "wd:Q3099911"
+        }
+      ],
+      "schema:name": "13-BM-D",
+      "schema:identifier": [
+        "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D"
+      ],
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:collimation"
+            }
+          ],
+          "schema:name": "beamline collimation",
+          "schema:value": "none"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:focusing"
+            }
+          ],
+          "schema:name": "focusing",
+          "schema:value": "unknown"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:harmonicrejection"
+            }
+          ],
+          "schema:name": "harmonic_rejection",
+          "schema:value": "Rh-coated mirror, detuned"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product",
+        "prov:Entity"
+      ],
+      "schema:additionalType": [
+        {
+          "@id": "xas:xraymonochromator"
+        },
+        {
+          "@id": "wd:Q3099911"
+        }
+      ],
+      "schema:name": "Si 111",
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:dspacing"
+            }
+          ],
+          "schema:name": "Monochromator d-spacing",
+          "schema:value": "3.13550",
+          "schema:unitText": "Angstrom"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:monochromatorchemicalformula"
+            }
+          ],
+          "schema:name": "Monochromator chemical formula",
+          "schema:value": "Si"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:monochromatortype"
+            }
+          ],
+          "schema:name": "Monochromator crystal type",
+          "schema:value": "crystal type"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:reflectionplane"
+            }
+          ],
+          "schema:name": "Reflecting plane",
+          "schema:value": "1,1,1"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product",
+        "prov:Entity"
+      ],
+      "schema:additionalType": [
+        {
+          "@id": "xas:xraymonitor"
+        },
+        {
+          "@id": "wd:Q3099911"
+        }
+      ],
+      "schema:name": "x-ray intensity monitor",
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:monitormode"
+            }
+          ],
+          "schema:name": "monitor mode",
+          "schema:value": "monitor"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:monitorpreset"
+            }
+          ],
+          "schema:name": "monitor preset",
+          "schema:value": "N.A."
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:detectori0"
+            }
+          ],
+          "schema:name": "detector mode i0",
+          "schema:alternateName": "incident flux measurement method",
+          "schema:value": "10cm  N2"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            {
+              "@id": "xas:detectorit"
+            }
+          ],
+          "schema:name": "detector mode it",
+          "schema:alternateName": "transmitted flux measurement method",
+          "schema:value": "10cm  N2"
+        }
+      ]
+    }
   ]
 }
 ```
@@ -1079,40 +1047,139 @@ Example XAS GeneratedBy provenance activity
 ex:exampleGeneratedBy_w46j6j a schema1:Action,
         prov:Activity ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Edge energy" ;
-            schema1:propertyID xas:edgeenergy ;
-            schema1:unitText "eV" ;
-            schema1:value "12658.0" ],
+            schema1:name "Instrument configuration" ;
+            schema1:propertyID xas:experimentdocumentation ;
+            schema1:url "http://protocols.io/link/to/calibrationMethod" ;
+            schema1:value "description of instrument configuration" ],
         [ a schema1:PropertyValue ;
             schema1:name "calibration method" ;
             schema1:propertyID xas:calibrationmethod ;
             schema1:url "http://protocols.io/link/to/calibrationMethod" ;
             schema1:value "description of calibration procedure" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Instrument configuration" ;
-            schema1:propertyID xas:experimentdocumentation ;
-            schema1:url "http://protocols.io/link/to/calibrationMethod" ;
-            schema1:value "description of instrument configuration" ],
+            schema1:name "Edge energy" ;
+            schema1:propertyID xas:edgeenergy ;
+            schema1:unitText "eV" ;
+            schema1:value "12658.0" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Installed Options" ;
+            schema1:propertyID xas:installedoptions ;
+            schema1:value "Description of extra equipment installed on the base instrument(?)" ],
         [ a schema1:PropertyValue ;
             schema1:description "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential" ;
             schema1:name "Environment Pressure" ;
             schema1:propertyID xas:pressure ;
             schema1:unitText "KPa" ;
-            schema1:value "3567" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Installed Options" ;
-            schema1:propertyID xas:installedoptions ;
-            schema1:value "Description of extra equipment installed on the base instrument(?)" ] ;
+            schema1:value "3567" ] ;
     schema1:additionalType xas:analysisevent ;
     schema1:endTime "2008-04-10T22:14:37" ;
     schema1:identifier "20241111_DSC_NU_OREX-803224-0_1" ;
+    schema1:instrument [ a schema1:Product,
+                schema1:Thing,
+                prov:Entity ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "focusing" ;
+                    schema1:propertyID xas:focusing ;
+                    schema1:value "unknown" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "beamline collimation" ;
+                    schema1:propertyID xas:collimation ;
+                    schema1:value "none" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "harmonic_rejection" ;
+                    schema1:propertyID xas:harmonicrejection ;
+                    schema1:value "Rh-coated mirror, detuned" ] ;
+            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
+                wd:Q3099911 ;
+            schema1:identifier "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D" ;
+            schema1:name "13-BM-D" ],
+        [ a schema1:Product,
+                schema1:Thing,
+                prov:Entity ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "monitor mode" ;
+                    schema1:propertyID xas:monitormode ;
+                    schema1:value "monitor" ],
+                [ a schema1:PropertyValue ;
+                    schema1:alternateName "incident flux measurement method" ;
+                    schema1:name "detector mode i0" ;
+                    schema1:propertyID xas:detectori0 ;
+                    schema1:value "10cm  N2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "monitor preset" ;
+                    schema1:propertyID xas:monitorpreset ;
+                    schema1:value "N.A." ],
+                [ a schema1:PropertyValue ;
+                    schema1:alternateName "transmitted flux measurement method" ;
+                    schema1:name "detector mode it" ;
+                    schema1:propertyID xas:detectorit ;
+                    schema1:value "10cm  N2" ] ;
+            schema1:additionalType xas:xraymonitor,
+                wd:Q3099911 ;
+            schema1:name "x-ray intensity monitor" ],
+        [ a schema1:Product,
+                schema1:Thing,
+                prov:Entity ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "Monochromator crystal type" ;
+                    schema1:propertyID xas:monochromatortype ;
+                    schema1:value "crystal type" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Reflecting plane" ;
+                    schema1:propertyID xas:reflectionplane ;
+                    schema1:value "1,1,1" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Monochromator d-spacing" ;
+                    schema1:propertyID xas:dspacing ;
+                    schema1:unitText "Angstrom" ;
+                    schema1:value "3.13550" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Monochromator chemical formula" ;
+                    schema1:propertyID xas:monochromatorchemicalformula ;
+                    schema1:value "Si" ] ;
+            schema1:additionalType xas:xraymonochromator,
+                wd:Q3099911 ;
+            schema1:name "Si 111" ],
+        [ a schema1:Product,
+                schema1:Thing,
+                prov:Entity ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "Probe" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-probe-field> ;
+                    schema1:value "x-ray" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "X-ray source" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
+                    schema1:value "Synchrotron X-ray Source" ] ;
+            schema1:additionalType xas:source,
+                wd:Q3099911 ;
+            schema1:identifier "https://www.aps.anl.gov/Beamlines/Directory/source/13-BM" ;
+            schema1:name "APS bending magnet source" ] ;
     schema1:location ex:xasfacility_37yht ;
     schema1:object [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "Unit cell" ;
+                    schema1:propertyID xas:sampleunitcell ;
+                    schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
+                [ a schema1:PropertyValue ;
                     schema1:name "Sample preparation" ;
                     schema1:propertyID xas:samplepreparation ;
                     schema1:value "powder on tape, 6 layers" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Parent sample" ;
+                    schema1:propertyID xas:parentsample ;
+                    schema1:value "igsn:10.3476/342573" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Sample mass" ;
+                    schema1:propertyID xas:samplemass ;
+                    schema1:unitText "mg" ;
+                    schema1:value "10" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Porosity" ;
+                    schema1:propertyID xas:porosity ;
+                    schema1:unitText "percent" ;
+                    schema1:value "27" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "Material state" ;
                     schema1:propertyID xas:samplematerial ;
@@ -1122,117 +1189,23 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                     schema1:propertyID xas:pointgroup ;
                     schema1:value "mm2" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "Parent sample" ;
-                    schema1:propertyID xas:parentsample ;
-                    schema1:value "igsn:10.3476/342573" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "Porosity" ;
-                    schema1:propertyID xas:porosity ;
-                    schema1:unitText "percent" ;
-                    schema1:value "27" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "Sample mass" ;
-                    schema1:propertyID xas:samplemass ;
-                    schema1:unitText "mg" ;
-                    schema1:value "10" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "Stoichiometry" ;
                     schema1:propertyID xas:samplechemicalcomposition ;
-                    schema1:value "Na2SeO4" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "Unit cell" ;
-                    schema1:propertyID xas:sampleunitcell ;
-                    schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ] ;
+                    schema1:value "Na2SeO4" ] ;
             schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
                 "MaterialSample" ;
             schema1:description "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list..." ;
             schema1:identifier "igsn:10.6620/357lkj" ;
             schema1:name "Na2SeO4" ] ;
-    schema1:startTime "2008-04-10T21:58:50" ;
-    prov:used [ schema1:instrument [ a schema1:Product,
-                        schema1:Thing,
-                        prov:Entity ;
-                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "harmonic_rejection" ;
-                            schema1:propertyID xas:harmonicrejection ;
-                            schema1:value "Rh-coated mirror, detuned" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "beamline collimation" ;
-                            schema1:propertyID xas:collimation ;
-                            schema1:value "none" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "focusing" ;
-                            schema1:propertyID xas:focusing ;
-                            schema1:value "unknown" ] ;
-                    schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
-                        wd:Q3099911 ;
-                    schema1:identifier "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D" ;
-                    schema1:name "13-BM-D" ] ],
-        [ schema1:instrument [ a schema1:Product,
-                        schema1:Thing,
-                        prov:Entity ;
-                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "X-ray source" ;
-                            schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
-                            schema1:value "Synchrotron X-ray Source" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Probe" ;
-                            schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-probe-field> ;
-                            schema1:value "x-ray" ] ;
-                    schema1:additionalType xas:source,
-                        wd:Q3099911 ;
-                    schema1:identifier "https://www.aps.anl.gov/Beamlines/Directory/source/13-BM" ;
-                    schema1:name "APS bending magnet source" ] ],
-        [ schema1:instrument [ a schema1:Product,
-                        schema1:Thing,
-                        prov:Entity ;
-                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:alternateName "incident flux measurement method" ;
-                            schema1:name "detector mode i0" ;
-                            schema1:propertyID xas:detectori0 ;
-                            schema1:value "10cm  N2" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:alternateName "transmitted flux measurement method" ;
-                            schema1:name "detector mode it" ;
-                            schema1:propertyID xas:detectorit ;
-                            schema1:value "10cm  N2" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "monitor mode" ;
-                            schema1:propertyID xas:monitormode ;
-                            schema1:value "monitor" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "monitor preset" ;
-                            schema1:propertyID xas:monitorpreset ;
-                            schema1:value "N.A." ] ;
-                    schema1:additionalType xas:xraymonitor,
-                        wd:Q3099911 ;
-                    schema1:name "x-ray intensity monitor" ] ],
-        [ schema1:instrument [ a schema1:Product,
-                        schema1:Thing,
-                        prov:Entity ;
-                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Monochromator crystal type" ;
-                            schema1:propertyID xas:monochromatortype ;
-                            schema1:value "crystal type" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Monochromator chemical formula" ;
-                            schema1:propertyID xas:monochromatorchemicalformula ;
-                            schema1:value "Si" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Monochromator d-spacing" ;
-                            schema1:propertyID xas:dspacing ;
-                            schema1:unitText "Angstrom" ;
-                            schema1:value "3.13550" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Reflecting plane" ;
-                            schema1:propertyID xas:reflectionplane ;
-                            schema1:value "1,1,1" ] ;
-                    schema1:additionalType xas:xraymonochromator,
-                        wd:Q3099911 ;
-                    schema1:name "Si 111" ] ] .
+    schema1:startTime "2008-04-10T21:58:50" .
 
 ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Facility current" ;
+            schema1:propertyID xas:facilitycurrent ;
+            schema1:unitText "Amps" ;
+            schema1:value "120" ],
+        [ a schema1:PropertyValue ;
             schema1:name "X-ray Source" ;
             schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
             schema1:value "APS bending magnet" ],
@@ -1240,12 +1213,7 @@ ex:xasfacility_37yht a schema1:Place ;
             schema1:name "Facility energy" ;
             schema1:propertyID xas:facilityenergy ;
             schema1:unitText "GeV" ;
-            schema1:value "7.00" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Facility current" ;
-            schema1:propertyID xas:facilitycurrent ;
-            schema1:unitText "Amps" ;
-            schema1:value "120" ] ;
+            schema1:value "7.00" ] ;
     schema1:additionalType xas:facility ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .
@@ -1295,35 +1263,57 @@ allOf:
       type: string
       description: Date/time the XAS analysis finished
       x-jsonld-id: http://schema.org/endTime
-    prov:used:
+    schema:instrument:
       type: array
       items:
         anyOf:
-        - type: object
-          required:
-          - schema:instrument
-          properties:
-            schema:instrument:
-              type: array
-              minItems: 1
-              items:
-                $ref: '#/$defs/Instrument'
-              x-jsonld-id: http://schema.org/instrument
-        - type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+        - $ref: '#/$defs/Instrument'
       allOf:
-      - description: Must contain a prov:used entry whose schema:instrument is classified
-          as an NXinstrument (via schema:additionalType) and carries a schema:name
-          (the beamline name).
+      - description: Must contain a schema:instrument item classified as an NXinstrument
+          (via schema:additionalType) and carries a schema:name (the beamline name).
         contains:
           type: object
           properties:
-            schema:instrument:
+            schema:additionalType:
+              type: array
+              contains:
+                type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    enum:
+                    - nxs:base_classes/NXinstrument.html
+                    - xas:beamline
+            schema:name:
+              type: string
+          required:
+          - schema:additionalType
+          - schema:name
+      - description: Must contain a schema:instrument item classified as an xas:xraymonochromator
+          (via schema:additionalType) and has a schema:additionalProperty carrying
+          the xas:dspacing PropertyValue with a schema:value.
+        contains:
+          type: object
+          properties:
+            schema:additionalType:
+              type: array
+              contains:
+                type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    const: xas:xraymonochromator
+            schema:additionalProperty:
               type: array
               contains:
                 type: object
                 properties:
-                  schema:additionalType:
+                  schema:propertyID:
                     type: array
                     contains:
                       type: object
@@ -1332,63 +1322,16 @@ allOf:
                       - '@id'
                       properties:
                         '@id':
-                          enum:
-                          - nxs:base_classes/NXinstrument.html
-                          - xas:beamline
-                  schema:name:
+                          const: xas:dspacing
+                  schema:value:
                     type: string
                 required:
-                - schema:additionalType
-                - schema:name
+                - schema:propertyID
+                - schema:value
           required:
-          - schema:instrument
-      - description: Must contain a prov:used entry whose schema:instrument is classified
-          as an xas:xraymonochromator (via schema:additionalType) and has a schema:additionalProperty
-          carrying the xas:dspacing PropertyValue with a schema:value.
-        contains:
-          type: object
-          properties:
-            schema:instrument:
-              type: array
-              contains:
-                type: object
-                properties:
-                  schema:additionalType:
-                    type: array
-                    contains:
-                      type: object
-                      additionalProperties: false
-                      required:
-                      - '@id'
-                      properties:
-                        '@id':
-                          const: xas:xraymonochromator
-                  schema:additionalProperty:
-                    type: array
-                    contains:
-                      type: object
-                      properties:
-                        schema:propertyID:
-                          type: array
-                          contains:
-                            type: object
-                            additionalProperties: false
-                            required:
-                            - '@id'
-                            properties:
-                              '@id':
-                                const: xas:dspacing
-                        schema:value:
-                          type: string
-                      required:
-                      - schema:propertyID
-                      - schema:value
-                required:
-                - schema:additionalType
-                - schema:additionalProperty
-          required:
-          - schema:instrument
-      x-jsonld-id: http://www.w3.org/ns/prov#used
+          - schema:additionalType
+          - schema:additionalProperty
+      x-jsonld-id: http://schema.org/instrument
     schema:additionalProperty:
       type: array
       description: Additional properties on the XAS analysis activity (base AdditionalProperty
@@ -1417,15 +1360,7 @@ $defs:
   Facility:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema.yaml
   Instrument:
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasInstrument/schema.yaml
-    - type: object
-      description: As a prov:used entity, the instrument's @type includes prov:Entity
-        (the PROV-O range of prov:used) alongside schema:Thing / schema:Product.
-      properties:
-        '@type':
-          contains:
-            const: prov:Entity
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasInstrument/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   nxs: https://manual.nexusformat.org/classes/
