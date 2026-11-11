@@ -88,6 +88,7 @@ RESOLUTION_TOOLS = frozenset({
     "tools/resolve_schema.py",
     "tools/regenerate_schema_json.py",
     "tools/affected_blocks.py",
+    "tools/bb_locate.py",
 })
 
 # requirements.txt is in here because the YAML parser is an input to every
