@@ -516,24 +516,20 @@ allOf:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         - $ref: '#/$defs/UsedResource'
       x-jsonld-id: http://schema.org/instrument
-  anyOf:
-  - required:
-    - schema:instrument
-  - required:
-    - schema:object
-  - required:
-    - schema:actionProcess
     schema:name:
       type: string
       description: Human-readable name for the activity
+      x-jsonld-id: http://schema.org/name
     schema:description:
       type: string
       description: Text description of what this activity did
+      x-jsonld-id: http://schema.org/description
     schema:identifier:
       description: Formal identifier for this activity
       anyOf:
       - $ref: '#/$defs/Identifier'
       - type: string
+      x-jsonld-id: http://schema.org/identifier
     schema:agent:
       description: Primary responsible agent for this activity (maps to PROV wasAssociatedWith)
       anyOf:
@@ -542,6 +538,7 @@ allOf:
       - $ref: '#/$defs/AgentInRole'
       - description: reference to an agent defined elsewhere
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+      x-jsonld-id: http://schema.org/agent
     schema:participant:
       description: Other participants in this activity
       type: array
@@ -552,6 +549,7 @@ allOf:
         - $ref: '#/$defs/AgentInRole'
         - description: reference to a participant defined elsewhere
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+      x-jsonld-id: http://schema.org/participant
     schema:object:
       description: Input entity (or entities) for this activity. Per schema.org, the
         range of schema:object is schema:Thing. Accepts four shapes (1) a string URI,
@@ -580,6 +578,7 @@ allOf:
           anyOf:
           - type: string
           - type: object
+      x-jsonld-id: http://schema.org/object
     schema:result:
       description: 'Output entity (or entities) produced by this activity. Per schema.org,
         the range is schema:Thing. Accepts: (1) a string URI reference (action chaining
@@ -608,6 +607,7 @@ allOf:
           anyOf:
           - type: string
           - type: object
+      x-jsonld-id: http://schema.org/result
     schema:actionStatus:
       type: string
       description: Status of this activity
@@ -616,12 +616,15 @@ allOf:
       - schema:ActiveActionStatus
       - schema:PotentialActionStatus
       - schema:FailedActionStatus
+      x-jsonld-id: http://schema.org/actionStatus
     schema:startTime:
       type: string
       description: ISO8601 date-time when the activity started (maps to PROV startedAtTime)
+      x-jsonld-id: http://schema.org/startTime
     schema:endTime:
       type: string
       description: ISO8601 date-time when the activity ended (maps to PROV endedAtTime)
+      x-jsonld-id: http://schema.org/endTime
     schema:location:
       description: Where the activity occurred
       anyOf:
@@ -629,6 +632,7 @@ allOf:
       - type: string
       - description: reference to a place defined elsewhere
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+      x-jsonld-id: http://schema.org/location
     schema:actionProcess:
       description: 'The plan the activity followed, or the procedure as it was performed.
         The {@id} reference form is the link to the plan (a protocol, method or workflow
@@ -641,9 +645,11 @@ allOf:
       - type: string
       - description: reference to a methodology defined elsewhere
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+      x-jsonld-id: http://schema.org/actionProcess
     schema:error:
       type: string
       description: Error description for failed activities
+      x-jsonld-id: http://schema.org/error
     schema:additionalProperty:
       description: Domain-specific extension properties, typically the parameter values
         this run used. schema.org does not list Action among this property's domains,
@@ -652,6 +658,14 @@ allOf:
       type: array
       items:
         $ref: '#/$defs/AdditionalProperty'
+      x-jsonld-id: http://schema.org/additionalProperty
+  anyOf:
+  - required:
+    - schema:instrument
+  - required:
+    - schema:object
+  - required:
+    - schema:actionProcess
 $defs:
   Person:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml

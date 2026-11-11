@@ -881,7 +881,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             schema1:name "Ocean temperature CSV" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
+            cdif:hasPhysicalMapping [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:decimalPositions 1 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "-999.9" ;
                     cdi:scale 1 ;
@@ -889,6 +893,15 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:index 1 ;
                     cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:isRequired false ;
@@ -899,20 +912,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:format "0.00" ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdif:index 2 ;
-                    cdif:physicalDataType "Numeric" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "Integer" ],
-                [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ] ],
+                    cdif:physicalDataType "Numeric" ] ],
         [ a cdi:PhysicalDataSet,
                 cdi:StructuredDataSet,
                 schema1:DataDownload ;
