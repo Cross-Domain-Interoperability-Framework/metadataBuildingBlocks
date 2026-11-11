@@ -1,11 +1,12 @@
 ## CDIF Provenance Activity
 
-Extended provenance activity for CDIF metadata, adding schema.org Action properties (agents, methodology, temporal bounds, action chaining) to the base prov:Activity. Instruments are nested within prov:used items via schema:instrument sub-key.
+Extended provenance activity for CDIF metadata, adding schema.org Action properties (agents, methodology, temporal bounds, action chaining) to the base prov:Activity. What the activity used is recorded with schema:instrument (instruments, software and reagents, each told apart by a Wikidata kind term in schema:additionalType) and schema:object (inputs). An activity must have at least one of schema:instrument, schema:object or schema:actionProcess. The plan it followed is the {@id} form of schema:actionProcess; an inline HowTo records the procedure as performed and links the plan with schema:isBasedOn.
 
 ### Defined properties
 
 - **@type** — must include both schema:Action and prov:Activity
-- **prov:used** — items used by the activity; can include instruments via schema:instrument sub-key
+- **schema:instrument** — instruments, software and reagents used: an {@id} reference, or a description in place whose schema:additionalType carries one of Q3099911 (instrument), Q7397 (software) or Q2356542 (reagent)
+- **prov:used** — not used by this profile; accepted only in the core shape (strings and @id references)
 - **schema:name** — human-readable name for the activity
 - **schema:description** — text description of what this activity did
 - **schema:identifier** — formal identifier for this activity

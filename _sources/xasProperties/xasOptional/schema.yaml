@@ -7,7 +7,7 @@ description: >-
   conformance to https://w3id.org/cdif/xasOptional/1.1. Documents and
   permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured
   cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical
-  parameters carried as schema:additionalProperty entries (on the prov:used NXinstrument entity
+  parameters carried as schema:additionalProperty entries (on the schema:instrument NXinstrument item
   and the schema:object sample respectively; see description.md for the propertyID vocabularies).
   Present only when the corresponding measurements exist.
 type: object
@@ -105,68 +105,72 @@ properties:
                           - nxs:Field/NXsample/mass
                           - nxs:Field/NXsample/point_group
                           - nxs:Field/NXsample/unit_cell
-        'prov:used':
+        'schema:instrument':
           type: array
           items:
             if:
               description: >-
-                When this peer prov:used entry's instrument is a beamline
-                (schema:additionalType contains the NXinstrument class), its
-                schema:additionalProperty entries SHOULD use the XDI
-                Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20,
-                excluding Beamline.name which maps to schema:name).
+                When a schema:instrument item is a beamline (schema:additionalType contains the NXinstrument class), its schema:additionalProperty entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20, excluding Beamline.name which maps to schema:name).
+              type: object
               properties:
-                'schema:instrument':
+                'schema:additionalType':
                   type: array
                   contains:
                     type: object
+                    additionalProperties: false
+                    required:
+                    - '@id'
                     properties:
-                      'schema:additionalType':
-                        type: array
-                        contains:
-                          type: object
-                          additionalProperties: false
-                          required:
-                          - '@id'
-                          properties:
-                            '@id':
-                              # Transition: the NeXus term is preferred and the retired xas: term is still
-                              # accepted. See CHANGES-from-UKDS.md for the retirement table. Remove the
-                              # xas: alternative once cdifnexmetadata and XAS-CDIF emit the NeXus form.
-                              enum:
-                              - "nxs:base_classes/NXinstrument.html"
-                              - "xas:beamline"
+                      '@id':
+                        # Transition: the NeXus term is preferred and the retired xas: term is still
+                        # accepted. See CHANGES-from-UKDS.md for the retirement table. Remove the
+                        # xas: alternative once cdifnexmetadata and XAS-CDIF emit the NeXus form.
+                        enum:
+                        - "nxs:base_classes/NXinstrument.html"
+                        - "xas:beamline"
             then:
+              type: object
               properties:
-                'schema:instrument':
+                'schema:additionalProperty':
                   type: array
-                  contains:
-                    type: object
-                    properties:
-                      'schema:additionalProperty':
-                        type: array
-                        items:
-                          allOf:
-                          - $ref: '#/$defs/AdditionalProperty'
-                          - properties:
-                              'schema:propertyID':
-                                type: array
-                                minItems: 1
-                                items:
-                                  anyOf:
-                                  - $ref: ../../schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
-                                  - enum:
-                                    # XDI Beamline.* additionalProperty names
-                                    - xas:collimation
-                                    - xas:detectortype
-                                    - xas:energyrange
-                                    - xas:energyresolution
-                                    - xas:flux
-                                    - xas:focusing
-                                    - xas:harmonicrejection
-                                    - xas:scanmode
-                                    - xas:spotsize
-                                    - xas:website
+                  items:
+                    allOf:
+                    - $ref: '#/$defs/AdditionalProperty'
+                    - properties:
+                        'schema:propertyID':
+                          type: array
+                          minItems: 1
+                          items:
+                            anyOf:
+                            - $ref: ../../schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
+                            - enum:
+                              # XDI Beamline.* additionalProperty names
+                              - xas:collimation
+                              - xas:detectortype
+                              - xas:energyrange
+                              - xas:energyresolution
+                              - xas:flux
+                              - xas:focusing
+                              - xas:harmonicrejection
+                              - xas:scanmode
+                              - xas:spotsize
+                              - xas:website
+# There is deliberately no conformance pin here. This module declares no
+# `required` at all -- every property it adds is optional -- so conformance to
+# https://w3id.org/cdif/xasOptional/1.1 is satisfied vacuously by any document,
+# and detect_conformance has no rule that can check such a claim. Requiring the
+# declaration made a record assert something unverifiable and meaningless.
+#
+# The pin that used to be here fired on `required: [schema:variableMeasured]`,
+# which cdifDataDescription requires unconditionally, so the guard never guarded
+# anything and the "recommended" tier was mandatory for every xasDocument. Its
+# SHACL twin, XasOptionalConformsToShape, was broken the other way -- its SPARQL
+# target matched schema:additionalType as the string literal "dcat:CatalogRecord",
+# a form no longer emitted, so the advisory fired on nothing. One twin fired on
+# everything, the other on nothing; both are removed.
+#
+# The module itself stays: it documents and permits the optional XAS fields, and
+# xasGeneratedBy and xasSample reference it.
 # There is deliberately no conformance pin here. This module declares no
 # `required` at all -- every property it adds is optional -- so conformance to
 # https://w3id.org/cdif/xasOptional/1.1 is satisfied vacuously by any document,
