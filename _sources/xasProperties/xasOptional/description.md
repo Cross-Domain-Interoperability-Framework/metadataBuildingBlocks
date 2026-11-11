@@ -17,7 +17,7 @@ XDI data array. Enforced by this schema when present (as `schema:variableMeasure
 ### 2. Beamline-operational parameters (`schema:additionalProperty` on the beamline entity)
 
 Optional `schema:PropertyValue` entries carried on the beamline entity nested inside
-`prov:wasGeneratedBy → prov:used[schema:instrument … nxs:base_classes/NXinstrument.html]`
+`prov:wasGeneratedBy → schema:instrument[… nxs:base_classes/NXinstrument.html]`
 (the retired `xas:beamline` is still accepted). Permitted `schema:propertyID`
 values (open-world — other propertyIDs are also allowed):
 

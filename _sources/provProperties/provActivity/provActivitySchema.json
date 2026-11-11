@@ -29,6 +29,44 @@
                     "type": "string",
                     "description": "Text description of what this activity did (schema.org fallback -- PROV-O has no description property)"
                 },
+                "prov:used": {
+                    "description": "Entities the activity used (PROV-O native). Narrows the core shape in generatedBy: each item is a string, an {@id} reference, or an inline entity typed prov:Entity that carries its @id. No role-keyed wrappers.",
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "description": "reference to an entity used by this activity",
+                                "$ref": "../../cdifDataType/objectReference/objectReferenceSchema.json"
+                            },
+                            {
+                                "type": "object",
+                                "description": "an inline entity used by this activity, identified by @id",
+                                "required": [
+                                    "@id",
+                                    "@type"
+                                ],
+                                "properties": {
+                                    "@id": {
+                                        "type": "string"
+                                    },
+                                    "@type": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "minItems": 1,
+                                        "contains": {
+                                            "const": "prov:Entity"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
                 "prov:generated": {
                     "description": "Entities produced by this activity (inverse of prov:wasGeneratedBy)",
                     "type": "array",

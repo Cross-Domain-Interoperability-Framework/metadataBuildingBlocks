@@ -6,7 +6,7 @@ Schema for describing laboratory instruments and instrument systems. Combines in
 
 - **@context** - JSON-LD context (requires schema prefix)
 - **@id** - persistent identifier URI for this instrument record
-- **@type** - must include schema:Product and schema:Thing
+- **@type** - must include schema:Product (schema:Thing is allowed, not required)
 - **schema:additionalType** - domain-specific type classifications (e.g. wd:Q3099911 for scientific instrument)
 - **schema:name** - human-readable name (min 3 characters)
 - **schema:description** - text description of purpose and capabilities

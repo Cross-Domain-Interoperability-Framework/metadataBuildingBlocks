@@ -38,16 +38,7 @@ cdifd:provActivityShape
 
 	# -- REQUIRED (Violation) --
 
-	sh:property [
-		sh:path prov:used ;
-		sh:or ( [sh:nodeKind sh:IRI]
-			[sh:nodeKind sh:BlankNode]
-			[sh:datatype xsd:string ;
-			  sh:minLength 3 ;] ) ;
-		sh:minCount 1 ;
-		sh:severity sh:Violation ;
-		sh:message "A provActivity must specify at least one resource that was used (prov:used)" ;
-	] ;
+	# prov:used is required of PROV-O activities only: see cdifd:provActivityUsedShape below.
 
 	# -- RECOMMENDED (Warning) --
 
@@ -210,5 +201,42 @@ cdifd:provActivityHowToStepShape
 		sh:datatype xsd:integer ;
 		sh:severity sh:Warning ;
 		sh:message "A HowToStep should specify a schema:position (integer)" ;
+	] ;
+	.
+
+# ------------------------------------------------------------
+# prov:used requirement -- PROV-O activities only. A node that is
+# also a schema:Action is a cdifProvActivity, which records what it
+# used with schema:instrument / schema:object instead.
+# ------------------------------------------------------------
+
+cdifd:provActivityUsedShape
+	a sh:NodeShape ;
+	sh:target [
+	  a sh:SPARQLTarget ;
+	  sh:select """
+	  PREFIX schema: <http://schema.org/>
+	  PREFIX prov: <http://www.w3.org/ns/prov#>
+	  SELECT DISTINCT ?this
+	    WHERE {
+	    ?this a prov:Activity .
+	    FILTER NOT EXISTS { ?this a schema:Action . }
+	    {
+	      FILTER NOT EXISTS { ?s ?p ?this . }
+	    }
+	    UNION
+	    {
+	      ?s prov:wasGeneratedBy ?this .
+	    }
+	  }"""
+	] ;
+	sh:property [
+		sh:path prov:used ;
+		sh:or ( [sh:nodeKind sh:IRI]
+			[sh:datatype xsd:string ;
+			  sh:minLength 3 ;] ) ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A provActivity must specify at least one resource that was used (prov:used): an IRI (@id reference) or a string" ;
 	] ;
 	.

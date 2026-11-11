@@ -64,8 +64,8 @@ and the byte-level layout needed to parse the payload deterministically.
 
 **`xasCore` (required)** — `@type` requires `schema:Dataset`
 (`schema:Product` optional); a required `prov:wasGeneratedBy` with at
-least one analysis activity, whose `prov:used` carries the peer
-instrument wrappers (source, beamline, monochromator) with their
+least one analysis activity, whose `schema:instrument` carries the
+instruments (source, beamline, monochromator) with their
 required `schema:additionalProperty` entries; an XDI- or
 NeXus-conformant `schema:distribution`; required XAS
 `schema:measurementTechnique` DefinedTerms; and the `schema:object`

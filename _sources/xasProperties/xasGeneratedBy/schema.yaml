@@ -37,35 +37,59 @@ allOf:
     'schema:endTime':
       type: string
       description: Date/time the XAS analysis finished
-    'prov:used':
+    'schema:instrument':
       type: array
       items:
         anyOf:
-        - type: object
-          required:
-          - 'schema:instrument'
-          properties:
-            'schema:instrument':
-              type: array
-              minItems: 1
-              items:
-                $ref: '#/$defs/Instrument'
-        - type: string
         - $ref: ../../cdifDataType/objectReference/schema.yaml
+        - $ref: '#/$defs/Instrument'
       allOf:
       - description: >-
-          Must contain a prov:used entry whose schema:instrument is classified
-          as an NXinstrument (via schema:additionalType) and carries a
-          schema:name (the beamline name).
+          Must contain a schema:instrument item classified as an NXinstrument (via schema:additionalType) and carries a schema:name (the beamline name).
         contains:
           type: object
           properties:
-            'schema:instrument':
+            'schema:additionalType':
+              type: array
+              contains:
+                type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    # Transition: the NeXus term is preferred and the retired xas: term is still
+                    # accepted. See CHANGES-from-UKDS.md for the retirement table. Remove the
+                    # xas: alternative once cdifnexmetadata and XAS-CDIF emit the NeXus form.
+                    enum:
+                    - "nxs:base_classes/NXinstrument.html"
+                    - "xas:beamline"
+            'schema:name':
+              type: string
+          required:
+          - 'schema:additionalType'
+          - 'schema:name'
+      - description: >-
+          Must contain a schema:instrument item classified as an xas:xraymonochromator (via schema:additionalType) and has a schema:additionalProperty carrying the xas:dspacing PropertyValue with a schema:value.
+        contains:
+          type: object
+          properties:
+            'schema:additionalType':
+              type: array
+              contains:
+                type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    const: 'xas:xraymonochromator'
+            'schema:additionalProperty':
               type: array
               contains:
                 type: object
                 properties:
-                  'schema:additionalType':
+                  'schema:propertyID':
                     type: array
                     contains:
                       type: object
@@ -74,67 +98,15 @@ allOf:
                       - '@id'
                       properties:
                         '@id':
-                          # Transition: the NeXus term is preferred and the retired xas: term is still
-                          # accepted. See CHANGES-from-UKDS.md for the retirement table. Remove the
-                          # xas: alternative once cdifnexmetadata and XAS-CDIF emit the NeXus form.
-                          enum:
-                          - "nxs:base_classes/NXinstrument.html"
-                          - "xas:beamline"
-                  'schema:name':
+                          const: xas:dspacing
+                  'schema:value':
                     type: string
                 required:
-                - 'schema:additionalType'
-                - 'schema:name'
+                - 'schema:propertyID'
+                - 'schema:value'
           required:
-          - 'schema:instrument'
-      - description: >-
-          Must contain a prov:used entry whose schema:instrument is classified
-          as an xas:xraymonochromator (via schema:additionalType) and
-          has a schema:additionalProperty carrying the
-          xas:dspacing PropertyValue with a schema:value.
-        contains:
-          type: object
-          properties:
-            'schema:instrument':
-              type: array
-              contains:
-                type: object
-                properties:
-                  'schema:additionalType':
-                    type: array
-                    contains:
-                      type: object
-                      additionalProperties: false
-                      required:
-                      - '@id'
-                      properties:
-                        '@id':
-                          const: 'xas:xraymonochromator'
-                  'schema:additionalProperty':
-                    type: array
-                    contains:
-                      type: object
-                      properties:
-                        'schema:propertyID':
-                          type: array
-                          contains:
-                            type: object
-                            additionalProperties: false
-                            required:
-                            - '@id'
-                            properties:
-                              '@id':
-                                const: xas:dspacing
-                        'schema:value':
-                          type: string
-                      required:
-                      - 'schema:propertyID'
-                      - 'schema:value'
-                required:
-                - 'schema:additionalType'
-                - 'schema:additionalProperty'
-          required:
-          - 'schema:instrument'
+          - 'schema:additionalType'
+          - 'schema:additionalProperty'
     'schema:additionalProperty':
       type: array
       description: >-
@@ -161,13 +133,4 @@ $defs:
   Facility:
     $ref: ../xasFacility/schema.yaml
   Instrument:
-    allOf:
-    - $ref: ../xasInstrument/schema.yaml
-    - type: object
-      description: >-
-        As a prov:used entity, the instrument's @type includes prov:Entity
-        (the PROV-O range of prov:used) alongside schema:Thing / schema:Product.
-      properties:
-        '@type':
-          contains:
-            const: prov:Entity
+    $ref: ../xasInstrument/schema.yaml

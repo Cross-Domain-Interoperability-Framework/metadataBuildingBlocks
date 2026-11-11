@@ -1,6 +1,6 @@
 ## PROV-O Provenance Activity
 
-PROV-O native provenance activity for CDIF metadata. Extends the minimal [generatedBy](../generatedBy/) with W3C PROV-O vocabulary for comprehensive provenance (used, generated, wasAssociatedWith, wasInformedBy, temporal bounds, location) with schema.org fallbacks for name, description, methodology, and status. Instruments are nested in prov:used via schema:instrument sub-key.
+PROV-O native provenance activity for CDIF metadata. Extends the minimal [generatedBy](../generatedBy/) with W3C PROV-O vocabulary for comprehensive provenance (used, generated, wasAssociatedWith, wasInformedBy, temporal bounds, location) with schema.org fallbacks for name, description, methodology, and status. prov:used items are strings, {@id} references, or inline prov:Entity nodes that carry an @id.
 
 ### Defined properties
 

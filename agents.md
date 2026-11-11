@@ -222,46 +222,64 @@ The second `$ref` (to `id-reference`) lets a JSON-LD document carry just `{"@id"
 
 ## Conforming an instrument used by an activity
 
-An instrument reached through `prov:used` must carry two markers that are easy
-to omit, because neither is domain-specific and both live in the base BBs:
+In the schema.org implementation (`cdifProvActivity`), what an activity used is
+recorded with `schema:instrument` and `schema:object` directly on the activity
+(see the provenance proposal, profile-provenance
+`docs/PROPOSAL_2026-11-11_activity_used_resources.md`). Each `schema:instrument`
+item is an `{@id}` reference, or a description in place whose
+`schema:additionalType` carries exactly one Wikidata kind term:
 
 ```json
-"schema:instrument": {
-  "@type": ["schema:Thing", "schema:Product", "prov:Entity"],
-  "schema:additionalType": [{"@id": "xas:beamline"}, {"@id": "wd:Q3099911"}]
-}
+"schema:instrument": [
+  {
+    "@type": ["schema:Product"],
+    "schema:name": "Example ICP-MS",
+    "schema:additionalType": [{"@id": "xas:beamline"}, {"@id": "https://www.wikidata.org/entity/Q3099911"}]
+  }
+]
 ```
 
-- **`prov:Entity` in `@type`** — the PROV-O range of `prov:used`.
-- **`{"@id": "wd:Q3099911"}` in `schema:additionalType`** — Wikidata
-  *scientific instrument*, required by `xasInstrument` via `contains`. The
-  domain type (`xas:beamline`, `xas:source`, …) sits alongside it, not
-  instead of it. Declare the prefix `wd: https://www.wikidata.org/entity/`.
+- **Kind term in `schema:additionalType`** — `Q3099911` (measuring instrument),
+  `Q7397` (software) or `Q2356542` (chemical reagent, also used for reference
+  materials). The kind selects the pinned shape (Instrument, Software, Reagent).
+  It is read from `additionalType`, not `@type`, because a reagent can be a
+  `schema:Product` just as an instrument is. Write it as the Wikidata entity
+  IRI, `https://www.wikidata.org/entity/Q…`, or as a `wd:` CURIE bound to
+  `https://www.wikidata.org/entity/`; the `/wiki/` page URL is not accepted.
+- **`@type`** — an instrument must include `schema:Product`; `schema:Thing` is
+  allowed but no longer required. `prov:Entity` is no longer needed: the item is
+  not a `prov:used` value.
+- The domain type (`xas:beamline`, `xas:source`, …) sits alongside the kind
+  term, not instead of it.
 
 `schema:identifier` on an instrument is an **array** slot, as is `cdif:name`.
 
 Diagnosing a miss is awkward: the top-level error is the unhelpful "not valid
-under any of the given schemas" plus a dump of the whole document, and fixing
-only one of the two markers makes the reported error *move* from
-`schema:additionalType` to `@type` rather than disappear. Walk
-`error.context` to the deepest sub-error, and expect to fix both.
+under any of the given schemas" plus a dump of the whole document. Walk
+`error.context` to the deepest sub-error.
 
-## prov:used wrapper model (base accepts, profiles pin)
+## prov:used (core definition)
 
-`provProperties/generatedBy.prov:used` is the base contract for every provenance activity. An item may be: a **string**, an **`{@id}` reference**, an **inline `prov:Entity`** object (`@type` ∋ `prov:Entity`), or a **role-keyed wrapper** naming what was used through one of the recognized relations — `schema:instrument`, `bios:computationalTool`, or `bios:reagent`. The base leaves the wrapped value loose.
+`provProperties/generatedBy` is the CDIF core definition of a
+`prov:wasGeneratedBy` value: `@type` contains `prov:Activity`, and `prov:used` is
+optional, each item a **string** or an object that carries an **`@id`**. The `@id`
+reference is deliberately **open** (not sealed), so an extending profile may
+describe the entity in place as long as it keeps the `@id`; a profile that wants
+only bare references seals it itself. Role-keyed wrappers (an object whose key
+names a role, with no `@id`) are no longer accepted (2026-11, provModelUpdate).
 
-A profile that wants to *pin* a wrapper's shape (e.g. `cdifProvActivity` pinning `schema:instrument` to the Instrument BB) MUST do it with a constraint-only `if/then`:
+The extending profiles only narrow it: `provActivity` (PROV-O) limits items to a
+string, an `{@id}`, or an inline `prov:Entity` with an `@id`; `cdifProvActivity`
+(schema.org) does not use `prov:used` and accepts one only in the core shape. It
+requires `schema:Action` in `@type` and at least one of `schema:instrument`,
+`schema:object` or `schema:actionProcess`. The plan an activity followed is the
+`{@id}` form of `schema:actionProcess`; when the activity also records its
+procedure as an inline HowTo, that HowTo links the plan with `schema:isBasedOn`.
 
-```yaml
-'prov:used':
-  items:
-    if: { type: object, required: ['schema:instrument'] }
-    then:
-      properties:
-        'schema:instrument': { $ref: '#/$defs/Instrument' }
-```
-
-It must **not** re-declare a narrower `anyOf`. Because profiles compose via `allOf`, a re-declared `anyOf` becomes the *intersection* with the base's `anyOf`, silently dropping every base item shape the profile didn't re-list (inline `prov:Entity` inputs such as samples, and the other wrapper keys). The `if/then` adds the pin without removing any base branch. Domain layers (geochem `adaProduct`, `xasGeneratedBy`) extend the same way and must follow the same rule. This reconciliation (2026-08) is why the base carries the wrapper keys but no per-key value schema.
+The pinning rule still holds for any profile that narrows an array of mixed
+item shapes: pin with a constraint-only `if/then`, never a re-declared narrower
+`anyOf`, because profiles compose via `allOf` and an `anyOf` there intersects
+away every base branch it does not re-list.
 
 ## Distribution Composition Pattern
 
