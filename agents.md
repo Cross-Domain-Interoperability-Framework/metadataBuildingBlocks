@@ -234,7 +234,7 @@ item is an `{@id}` reference, or a description in place whose
   {
     "@type": ["schema:Product"],
     "schema:name": "Example ICP-MS",
-    "schema:additionalType": [{"@id": "xas:beamline"}, {"@id": "https://www.wikidata.org/wiki/Q3099911"}]
+    "schema:additionalType": [{"@id": "xas:beamline"}, {"@id": "https://www.wikidata.org/entity/Q3099911"}]
   }
 ]
 ```
@@ -243,9 +243,9 @@ item is an `{@id}` reference, or a description in place whose
   `Q7397` (software) or `Q2356542` (chemical reagent, also used for reference
   materials). The kind selects the pinned shape (Instrument, Software, Reagent).
   It is read from `additionalType`, not `@type`, because a reagent can be a
-  `schema:Product` just as an instrument is. The page URL
-  (`https://www.wikidata.org/wiki/Q…`), the entity IRI
-  (`http://www.wikidata.org/entity/Q…`) and a `wd:` CURIE are all accepted.
+  `schema:Product` just as an instrument is. Write it as the Wikidata entity
+  IRI, `https://www.wikidata.org/entity/Q…`, or as a `wd:` CURIE bound to
+  `https://www.wikidata.org/entity/`; the `/wiki/` page URL is not accepted.
 - **`@type`** — an instrument must include `schema:Product`; `schema:Thing` is
   allowed but no longer required. `prov:Entity` is no longer needed: the item is
   not a `prov:used` value.
