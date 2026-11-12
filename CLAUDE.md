@@ -117,15 +117,17 @@ canonical DDI-CDI transcriptions moved to `archive/ddiProperties/` on 2026-10-05
 `$ref`d by no active schema. Profiles are split in two: `profiles/cdifProfile/` holds the nine
 **modules** (each adds one slice: `cdifCore`, `cdifDiscovery`, `cdifProvenance`,
 `cdifDataDescription`, `cdifDataStructure`, `cdifManifest`, `cdifAccess`, plus the self-contained
-`cdifCodelist` and `cdifConceptScheme`); `profiles/cdifCompositeProfile/` holds the five
+`cdifCodelist` and `cdifConceptScheme`); `profiles/cdifCompositeProfile/` holds the six
 **composites**, thin `allOf`s over modules (`CoreDiscovery`, `DiscoveryDataDescription`,
-`DiscoveryDataDescriptionStructure`, `cdifComplete`, `xasDocument`).
+`DiscoveryDataDescriptionStructure`, `cdifComplete`, `cdifNIAID`, `xasDocument`). It said
+**five** until 2026-11-12, having missed `cdifNIAID`; that stale count is what sent a tool
+hunting for composites that no longer existed, so re-count here when you add one.
 
 **`odrlProperties/` and `cdifAccess` are the newest slice** — ODRL 2.2 access/licence policy, added
 in #54 and given SHACL in #56. The eight blocks are `odrlPolicy`, `odrlOffer`, `odrlRule`,
 `odrlAction`, `odrlAsset`, `odrlParty`, `odrlConstraint`, `odrlTerms`; `cdifAccess` is the module
 that wires them to a Dataset, and it is **the only slice-adding module in no composite** (measured
-2026-10-28 across all five), so there is no `cdifComplete`-style record that exercises it. It ships to `profile-access`, published as
+2026-10-28, re-measured across all six on 2026-11-12 -- no composite `$ref`s it), so there is no `cdifComplete`-style record that exercises it. It ships to `profile-access`, published as
 `profile-access-draft` and the 12th sync target. Four of the eight ODRL blocks and `cdifAccess`
 itself still have no `tests/`.
 
@@ -142,7 +144,8 @@ the release repos' copies), `pr-check.yml`.
 
 **Composition rules** (violating these is the usual cause of a confusing validation error):
 - **Composites** (`profiles/cdifCompositeProfile/`) are pure `allOf` of module `$ref`s, with no
-  inline properties. Measured 2026-09-11: true of all five.
+  inline properties. Measured 2026-09-11 across five, re-measured 2026-11-12 across all six:
+  every one is `{type, allOf}` with 0 inline properties, `cdifNIAID` included.
 - **Modules** (`profiles/cdifProfile/`) are *not* — every one carries inline properties
   (`cdifCore` 27, `cdifDiscovery` 7), and `cdifCodelist` and `cdifConceptScheme` are fully
   self-contained, with no external `$ref` at all. Those two are building blocks that happen to
@@ -226,9 +229,12 @@ their refs are resolved over the network at their build time, not ours.
 - **Commit regenerated artifacts separately** from unrelated changes. When a regeneration sweeps up
   pre-existing drift, split it: revert your source edit, regenerate, commit the catch-up alone, then
   restore and commit your actual change.
-- **The JSON Schema gate is now clean: `validate_examples.py` should report 141 passed, 0 failed.**
+- **The JSON Schema gate is now clean: `validate_examples.py` should report 161 passed, 0 failed, 0 errors.**
   A failure means you broke something — this is no longer a run with expected noise to squint past.
-  The count tracks the corpus, so treat it as "0 failed" rather than a fixed number: it was 152 before 2026-09-05, 150 after, 152 again as of 2026-09-25, 154 by 2026-10-02, 130 once the 24 `ddiProperties` blocks were archived on 2026-10-05, 139 on 2026-10-28 with the ODRL blocks wired, and 141 on 2026-11-06 with the two wide-form `DiscoveryDataDescription` examples. `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it: nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
+  **Watch all three numbers.** An unreadable or unparseable file is an *error*, not a *failure*, so
+  it slips past "0 failed" entirely; that is how two `niaidDataset` examples dropped out of the gate
+  until 2026-11-12 while it reported `159 passed, 0 failed` (see the platform-encoding trap below).
+  The count tracks the corpus, so treat it as "0 failed, 0 errors" rather than a fixed number: it was 152 before 2026-09-05, 150 after, 152 again as of 2026-09-25, 154 by 2026-10-02, 130 once the 24 `ddiProperties` blocks were archived on 2026-10-05, 139 on 2026-10-28 with the ODRL blocks wired, 141 on 2026-11-06 with the two wide-form `DiscoveryDataDescription` examples, and 161 of 161 on 2026-11-12. `cdifDataType/cdifLongData` was retired on 2026-09-05, taking its two examples with it: nothing referenced it and its `cdif:isStructuredBy` was drift for `cdi:isStructuredBy`. The five long-failing `ddicdi*` examples were retired to `archive/` on 2026-09-02 (synthetic
   fixtures never referenced by their own `examples.yaml`, so nothing was validating them into
   conformance), and `ddicdiDataStructure` / `ddicdiRepresentedVariable` got fresh, validating
   replacements.
@@ -658,6 +664,55 @@ their refs are resolved over the network at their build time, not ours.
   `render_advisories` (foot): one list under one summary buried the finding that needs acting on
   among dozens of recommendations -- the minimal `DiscoveryDataDescription` example reports 30
   advisory findings and no violation.
+
+- **A tool nobody runs in CI rots in platform-specific ways, and the gate's own summary line
+  hid it.** `validate_examples.py` read each example with a bare `open()`, so the platform
+  default applied: cp1252 on Windows, which has no mapping for `0x81` or `0x9d`. Two
+  `niaidProperties/niaidDataset` examples carry those bytes, so they raised `UnicodeDecodeError`
+  before validation ran. The tool counts a read failure as an **error**, not a **failure**, so the
+  summary read `159 passed, 0 failed` -- and the convention in this file, treat anything but
+  `0 failed` as yours, gave no signal, because the number it reports was never wrong. Both
+  examples were valid all along: fixed 2026-11-12, now `161 passed, 0 failed, 0 errors`. Nothing
+  changed verdict; two examples came back into the gate. **Read the error count, not just the
+  failure count.** Linux CI defaults to UTF-8, so this could only ever surface locally -- the
+  inverse of the filename-case trap above, and the reason that heuristic cannot be trusted one
+  way: a green CI run does not speak for a contributor's local gate. The same bare read was in
+  `generate_property_tree2.py:400` and `augment_register.py:17`, fixed in the same pass; neither
+  was a present defect, because 0 of 86 `resolvedSchema.json` fail a cp1252 read (a UTF-8 em-dash
+  is `e2 80 94` and cp1252 defines all three bytes, so it mojibakes rather than crashing).
+
+- **`generate_property_tree2.py` runs again as of 2026-11-12, and you should still not regenerate
+  the workbooks.** Two separate things, and conflating them wastes the fix. It had been dead since
+  **2026-05-28, 804 commits**: `3c2f5291b9` rewrote its targets to the `Basic*` directories and
+  changed the workbook basenames to `Basic{Discovery,DataDescription}_properties.xlsx`, names that
+  have **never existed** (`git rev-list --all --objects` finds 0 objects for either), so
+  `existing: True` met `os.path.exists() == False` and it silently created a new workbook beside
+  the real one; then `9ea41db485` renamed the directories and it died outright with
+  `FileNotFoundError`. Targets are now discovered by scanning for `resolvedSchema.json`, and the
+  workbook by globbing `*_properties.xlsx` -- **never** `<dirname>_properties.xlsx`, because the
+  two that exist are `CDIFDiscovery_properties.xlsx` and `CDIFDataDescriptionProfile_properties.xlsx`
+  and a name-derived path misses both and duplicates them. That is the mistake `3c2f5291b9` made;
+  do not reinstate a hardcoded table.
+  **But the walker has drifted from the schema shape, and its output is now worse than what is
+  committed.** Measured 2026-11-12: regenerating `CoreDiscovery` gives **224 rows against the
+  committed 981**, and every composite's fresh output carries 35-50 `unknown` cells (from
+  `options.append(("unknown", item))`) where the committed sheets expand real sub-properties --
+  `schema:identifier`'s CHOICE becomes a bare `unknown` / `string` pair instead of `@type`,
+  `schema:propertyID`, `schema:value`, `schema:url`. So `--profile all` would **degrade all six**.
+  Nothing reads these workbooks -- only the two generators write them and `agents.md` / `README.md`
+  mention them -- so the stale sheets cost nothing while the walker is unfixed. **Fixing the
+  plumbing is not fixing the output**: #86 proved the tool executes, which is not the same claim as
+  the tree being right, and a row count is exactly the kind of green result that reads as success.
+
+- **`add_sheet_to_existing` used to corrupt-then-abort on Windows.** openpyxl holds the source
+  archive open past `wb.close()`, so the `os.remove()` of its temp copy raised `WinError 32`
+  **after** `wb.save()` had already written the destination -- leaving one workbook modified and
+  the run aborted partway down the target list, which looks like a crash and is really a partial
+  write. Fixed 2026-11-12 by loading from an in-memory copy, which needs no temp file and holds no
+  handle. Note what the tool still does: it round-trips the **whole** workbook through openpyxl, so
+  anything openpyxl does not model is lost from every other sheet. Measured harmless here only
+  because neither live workbook carries charts or images; check that again before pointing it at a
+  workbook someone has formatted.
 
 ## Traps — other CDIF repos
 
