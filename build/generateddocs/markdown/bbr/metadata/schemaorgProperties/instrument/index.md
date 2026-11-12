@@ -1061,10 +1061,6 @@ each with their own manufacturer/model/properties), relatedLink
 ex:component-gas-chromatograph a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Carrier gas" ;
-            schema1:propertyID "carrierGas" ;
-            schema1:value "Helium" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Carrier gas flow rate" ;
             schema1:propertyID "carrierGasFlow" ;
             schema1:unitText "mL/min" ;
@@ -1072,7 +1068,11 @@ ex:component-gas-chromatograph a schema1:Product,
         [ a schema1:PropertyValue ;
             schema1:name "Column" ;
             schema1:propertyID "columnType" ;
-            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ] ;
+            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Carrier gas" ;
+            schema1:propertyID "carrierGas" ;
+            schema1:value "Helium" ] ;
     schema1:additionalType wd:Q848143 ;
     schema1:description "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -1084,15 +1084,15 @@ ex:component-gas-chromatograph a schema1:Product,
 ex:component-mass-spectrometer a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Ion source temperature" ;
-            schema1:propertyID "ionSourceTemperature" ;
-            schema1:unitText "°C" ;
-            schema1:value 300 ],
-        [ a schema1:PropertyValue ;
             schema1:name "Full scan time" ;
             schema1:propertyID "scanTime" ;
             schema1:unitText "s" ;
             schema1:value 1e-01 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Ion source temperature" ;
+            schema1:propertyID "ionSourceTemperature" ;
+            schema1:unitText "°C" ;
+            schema1:value 300 ],
         [ a schema1:PropertyValue ;
             schema1:name "Detector gain" ;
             schema1:propertyID "detectorGain" ;
@@ -1131,6 +1131,10 @@ ex:component-pyrolysis-oven a schema1:Product,
 ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Measured variables" ;
+            schema1:propertyID "MeasuredVariable" ;
+            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Ionization mode" ;
             schema1:propertyID "ionizationMode" ;
             schema1:value "Electron Ionization (EI), positive polarity" ],
@@ -1139,18 +1143,14 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
             schema1:propertyID "scanRange" ;
             schema1:value "50-500" ],
         [ a schema1:PropertyValue ;
-            schema1:name "MRM target compounds" ;
-            schema1:propertyID "mrmCapability" ;
-            schema1:value 38 ],
-        [ a schema1:PropertyValue ;
             schema1:name "Full scan detection limit" ;
             schema1:propertyID "detectionLimit" ;
             schema1:unitText "ng" ;
             schema1:value "sub-nanogram" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Measured variables" ;
-            schema1:propertyID "MeasuredVariable" ;
-            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ] ;
+            schema1:name "MRM target compounds" ;
+            schema1:propertyID "mrmCapability" ;
+            schema1:value 38 ] ;
     schema1:additionalType wd:Q3099911,
         wd:Q420427 ;
     schema1:alternateName "GSFC Astrobiology Lab Pyrolysis GC-MS System",
