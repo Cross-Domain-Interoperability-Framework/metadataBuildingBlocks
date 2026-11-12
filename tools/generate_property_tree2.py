@@ -397,7 +397,7 @@ def emit_choice_option(opt, opts_col, depth, rows, visited_types):
 
 def generate_property_tree(resolved_schema_path):
     """Generate the full property tree rows from a resolved schema."""
-    with open(resolved_schema_path) as f:
+    with open(resolved_schema_path, encoding="utf-8") as f:
         schema = json.load(f)
 
     # determine root type
