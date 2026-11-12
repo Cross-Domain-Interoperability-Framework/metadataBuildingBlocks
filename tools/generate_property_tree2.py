@@ -24,12 +24,12 @@ Suffix conventions:
     [...]                   square brackets = array (0..* or 1..*)
 """
 
+import io
 import json
 import os
 import sys
-import shutil
-import tempfile
 import argparse
+from pathlib import Path
 
 import openpyxl
 from openpyxl.styles import Font, Alignment, PatternFill
@@ -457,18 +457,20 @@ def write_worksheet(ws, rows):
 # ── CLI ──────────────────────────────────────────────────────────────────
 
 def add_sheet_to_existing(xlsx_path, sheet_name, rows):
-    """Add a worksheet to an existing xlsx file."""
-    tmp = os.path.join(tempfile.gettempdir(),
-                       f"tmp_{os.path.basename(xlsx_path)}")
-    shutil.copy2(xlsx_path, tmp)
-    wb = openpyxl.load_workbook(tmp)
+    """Add a worksheet to an existing xlsx file, replacing any sheet of that name."""
+    # Read into memory rather than copying to a temp file: openpyxl keeps the source
+    # archive open past wb.close(), so on Windows os.remove() of that copy raised
+    # WinError 32 -- after wb.save() had already written the destination, leaving the
+    # workbook modified and the run aborted partway through the target list.
+    with open(xlsx_path, "rb") as f:
+        buf = io.BytesIO(f.read())
+    wb = openpyxl.load_workbook(buf)
     if sheet_name in wb.sheetnames:
         del wb[sheet_name]
     ws = wb.create_sheet(sheet_name)
     write_worksheet(ws, rows)
     wb.save(xlsx_path)
     wb.close()
-    os.remove(tmp)
     print(f"  Added '{sheet_name}' to {xlsx_path}")
 
 
@@ -483,60 +485,73 @@ def create_new_workbook(xlsx_path, sheet_name, rows):
     print(f"  Created {xlsx_path} with sheet '{sheet_name}'")
 
 
+def discover_targets(composites_dir, selected="all"):
+    """Composite profiles to generate for, derived from the tree rather than hardcoded.
+
+    Every directory under cdifCompositeProfile that holds a resolvedSchema.json is a
+    target. The workbook is found by globbing *_properties.xlsx in that directory --
+    never by assuming <dirname>_properties.xlsx, because the two that exist are named
+    CDIFDiscovery_properties.xlsx and CDIFDataDescriptionProfile_properties.xlsx. A
+    name-derived path would miss them and create a duplicate alongside, leaving the
+    real propertyTree_2 sheet stale. That is how this tool broke in 3c2f5291b9.
+    """
+    composites_dir = Path(composites_dir)
+    if not composites_dir.is_dir():
+        raise SystemExit(f"no composite profile directory at {composites_dir}")
+
+    targets, skipped = [], []
+    for d in sorted(p for p in composites_dir.iterdir() if p.is_dir()):
+        if selected not in ("all", d.name):
+            continue
+        if not (d / "resolvedSchema.json").exists():
+            skipped.append(d.name)
+            continue
+        books = sorted(d.glob("*_properties.xlsx"))
+        if len(books) > 1:
+            raise SystemExit(
+                f"{d.name}: {len(books)} candidate workbooks "
+                f"({', '.join(b.name for b in books)}) -- name one explicitly")
+        targets.append({
+            "name": d.name,
+            "resolved": d / "resolvedSchema.json",
+            "xlsx": books[0] if books else d / f"{d.name}_properties.xlsx",
+            "existing": bool(books),
+        })
+
+    for name in skipped:
+        print(f"  skipping {name}: no resolvedSchema.json")
+    return targets
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Generate propertyTree_2 worksheets from resolved schemas")
-    parser.add_argument("--profile", choices=["codelist", "discovery",
-                                               "datadescription", "all"],
-                        default="all")
+    # Deliberately no choices=: the valid values are the composite directory names,
+    # and a hardcoded list is what went stale across two reorgs.
+    parser.add_argument("--profile", default="all",
+                        help="composite profile directory name, or 'all' (default)")
     args = parser.parse_args()
 
-    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    composites_dir = os.path.join(base, "_sources", "profiles", "cdifCompositeProfile")
-    archive_dir = os.path.join(base, "_sources", "profiles", "archive")
+    base = Path(__file__).resolve().parent.parent
+    composites_dir = base / "_sources" / "profiles" / "cdifCompositeProfile"
 
-    targets = []
-    if args.profile in ("codelist", "all"):
-        targets.append({
-            "name": "CDIFCodelistProfile",
-            "resolved": os.path.join(archive_dir,
-                                     "CDIFCodelistProfile", "resolvedSchema.json"),
-            "xlsx": os.path.join(archive_dir,
-                                 "CDIFCodelistProfile",
-                                 "CDIFCodelistProfile_properties.xlsx"),
-            "existing": False,
-        })
-    if args.profile in ("discovery", "all"):
-        targets.append({
-            "name": "BasicDiscovery",
-            "resolved": os.path.join(composites_dir,
-                                     "BasicDiscovery", "resolvedSchema.json"),
-            "xlsx": os.path.join(composites_dir,
-                                 "BasicDiscovery",
-                                 "BasicDiscovery_properties.xlsx"),
-            "existing": True,
-        })
-    if args.profile in ("datadescription", "all"):
-        targets.append({
-            "name": "BasicDataDescription",
-            "resolved": os.path.join(composites_dir,
-                                     "BasicDataDescription",
-                                     "resolvedSchema.json"),
-            "xlsx": os.path.join(composites_dir,
-                                 "BasicDataDescription",
-                                 "BasicDataDescription_properties.xlsx"),
-            "existing": True,
-        })
+    targets = discover_targets(composites_dir, args.profile)
+    if not targets:
+        available = sorted(p.name for p in composites_dir.iterdir()
+                           if (p / "resolvedSchema.json").exists())
+        raise SystemExit(
+            f"no composite profile matched --profile {args.profile!r}; "
+            f"available: {', '.join(available)}")
 
     for t in targets:
         print(f"Generating propertyTree_2 for {t['name']}...")
         rows = generate_property_tree(t["resolved"])
         print(f"  {len(rows)} rows generated")
 
-        if t["existing"] and os.path.exists(t["xlsx"]):
-            add_sheet_to_existing(t["xlsx"], "propertyTree_2", rows)
+        if t["existing"]:
+            add_sheet_to_existing(str(t["xlsx"]), "propertyTree_2", rows)
         else:
-            create_new_workbook(t["xlsx"], "propertyTree_2", rows)
+            create_new_workbook(str(t["xlsx"]), "propertyTree_2", rows)
 
 
 if __name__ == "__main__":
