@@ -80,6 +80,125 @@ def is_lang_tagged_pattern(any_of):
     return has_string and has_lang
 
 
+# Internal $defs of the schema currently being walked, for deref().
+_DEFS = {}
+
+
+def deref(schema, _seen=None):
+    """Resolve an internal #/$defs/<name> $ref, preserving sibling keywords.
+
+    resolve_schema.py resolves EXTERNAL refs into $defs but leaves the internal ones
+    in place -- recursive types are left as cycles by design -- so a composite's
+    resolvedSchema.json is full of {"$ref": "#/$defs/Identifier"}. Every function here
+    keys on "type", which such a node does not carry, so before this existed they all
+    classified as "unknown" (inside an anyOf) or fell through to the bare-name fallback.
+    Measured 2026-11-12: 50 unknown cells in CoreDiscovery alone, and schema:identifier
+    printing as an unexpanded CHOICE of unknown/string.
+
+    A $ref chain is followed to its end. A cycle, or a name not in $defs, yields the
+    sibling keywords alone: a cyclic type cannot be expanded into a finite tree, and
+    the caller's own visited_types guard is what stops the recursive ones.
+    """
+    if not isinstance(schema, dict):
+        return schema
+    seen = set() if _seen is None else _seen
+    while True:
+        ref = schema.get("$ref")
+        if not isinstance(ref, str) or not ref.startswith("#/$defs/"):
+            return schema
+        name = ref[len("#/$defs/"):]
+        target = _DEFS.get(name)
+        if name in seen or not isinstance(target, dict):
+            return {k: v for k, v in schema.items() if k != "$ref"}
+        seen.add(name)
+        # Siblings win: a $ref's own description is more specific than the target's.
+        schema = {**target, **{k: v for k, v in schema.items() if k != "$ref"}}
+
+
+def merge_allof(schema, _depth=0):
+    """Shallow-merge an allOf into one schema for display.
+
+    allOf means every member applies, so the useful rendering for a property tree is
+    the union of what the members contribute. The members here are a mix: object
+    schemas carrying properties, pure constraint refinements carrying none
+    (required / contains / if-then), and sometimes one member carrying the union that
+    actually defines the value -- cdifComplete's schema:distribution is
+    allOf[anyOf[...], required, required]. Measured 2026-11-12: 18 such properties
+    across the six composites, schema:distribution, schema:variableMeasured,
+    prov:wasGeneratedBy, dcterms:conformsTo and schema:measurementTechnique among
+    them, every one printing as a bare name with no type and no children because
+    emit_property had no allOf case and fell through to its fallback.
+
+    This is a DISPLAY merge, not validation semantics: the first member to supply a
+    keyword wins, and no attempt is made to intersect two unions. resolve_schema.py
+    owns real allOf composition.
+    """
+    members = schema.get("allOf")
+    if not members or _depth >= MAX_DEPTH:
+        return schema
+
+    merged = {k: v for k, v in schema.items() if k != "allOf"}
+    props = dict(merged.get("properties", {}))
+    required = list(merged.get("required", []))
+
+    for member in members:
+        member = deref(member)
+        if "allOf" in member:
+            member = merge_allof(member, _depth + 1)
+        props.update(member.get("properties", {}))
+        required.extend(r for r in member.get("required", [])
+                        if r not in required)
+        for key in ("type", "contains", "anyOf", "oneOf", "enum", "const",
+                    "format", "items"):
+            if key not in merged and key in member:
+                merged[key] = member[key]
+
+    if props:
+        merged["properties"] = props
+        merged.setdefault("type", "object")
+    if required:
+        merged["required"] = required
+    return merged
+
+
+def resolve_node(schema):
+    """deref an internal $ref, then flatten an allOf -- the two shapes the walker
+    cannot read directly. Applied wherever a schema node is about to be classified."""
+    return merge_allof(deref(schema))
+
+
+def expand_union(any_of, _depth=0):
+    """Deref each member and splice nested anyOf/oneOf unions into one flat list.
+
+    anyOf[anyOf[A, B], C] is the same set of permitted values as anyOf[A, B, C], and
+    the shared $defs here nest exactly that way: cdifConceptOrTermOrString wraps
+    cdifConceptOrTerm's own union, so once deref() resolved it the member arrived as
+    {anyOf, title, description} with no "type" -- which classify_anyof had no case for,
+    leaving 31 of the original 50 unknown cells in CoreDiscovery after derefing alone.
+
+    Members are deduplicated: flattening can surface the same branch twice (a string
+    arm present in both the inner and outer union), which would otherwise print as two
+    identical option rows. Depth is bounded in case a union ever nests cyclically.
+    """
+    out = []
+    for item in any_of:
+        item = resolve_node(item)
+        nested = item.get("anyOf", item.get("oneOf"))
+        if (nested and item.get("type") is None and "enum" not in item
+                and _depth < MAX_DEPTH):
+            out.extend(expand_union(nested, _depth + 1))
+        else:
+            out.append(item)
+
+    seen, unique = set(), []
+    for item in out:
+        key = json.dumps(item, sort_keys=True, default=str)
+        if key not in seen:
+            seen.add(key)
+            unique.append(item)
+    return unique
+
+
 def classify_anyof(any_of):
     """Return a list of (kind, schema[, type_contains]) tuples."""
     options = []
@@ -139,6 +258,10 @@ def emit_property(prop_name, prop_schema, depth, rows, visited_types):
     if prop_col >= MAX_COLS:
         return
 
+    # Resolve before anything reads "type": a property may itself be a bare $ref
+    # or an allOf composition.
+    prop_schema = resolve_node(prop_schema)
+
     is_array = prop_schema.get("type") == "array"
 
     # ── @context ──
@@ -169,7 +292,7 @@ def emit_property(prop_name, prop_schema, depth, rows, visited_types):
         return
 
     # ── effective schema (unwrap array) ──
-    effective = prop_schema.get("items", {}) if is_array else prop_schema
+    effective = resolve_node(prop_schema.get("items", {})) if is_array else prop_schema
 
     # ── type as array (e.g. ["string", "number"]) → CHOICE ──
     ptype = effective.get("type")
@@ -178,14 +301,20 @@ def emit_property(prop_name, prop_schema, depth, rows, visited_types):
         row = make_row()
         row[prop_col] = f"{prop_name} -- {bracket}"
         rows.append(row)
-        for t in ptype:
-            r = make_row()
-            r[opts_col] = t
-            rows.append(r)
+        # opts_col can be one past the last column when prop_col is the last one;
+        # every other emitter guards this, and only deeper expansion made it
+        # reachable here (IndexError at depth 6, 2026-11-12).
+        if opts_col < MAX_COLS:
+            for t in ptype:
+                r = make_row()
+                r[opts_col] = t
+                rows.append(r)
         return
 
     # ── anyOf / oneOf ──
     any_of = effective.get("anyOf", effective.get("oneOf"))
+    if any_of:
+        any_of = expand_union(any_of)
     # If anyOf items are only constraint refinements (e.g. different 'required'
     # sets) and the schema already has a concrete 'type', skip the anyOf and
     # treat as the base type.
@@ -399,6 +528,9 @@ def generate_property_tree(resolved_schema_path):
     """Generate the full property tree rows from a resolved schema."""
     with open(resolved_schema_path, encoding="utf-8") as f:
         schema = json.load(f)
+
+    global _DEFS
+    _DEFS = schema.get("$defs", {}) or {}
 
     # determine root type
     tc = get_type_contains(schema)
