@@ -14,7 +14,7 @@ ID_PREFIX = "cdif.bbr.metadata."
 
 
 def main():
-    with open(REGISTER) as f:
+    with open(REGISTER, encoding="utf-8") as f:
         register = json.load(f)
 
     base_url = register.get("baseURL", "").rstrip("/")

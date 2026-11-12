@@ -116,7 +116,7 @@ def resolve_for_validation(schema_path: Path) -> dict:
 
 def validate_example(example_path: Path, schema: dict):
     """Validate a JSON example against a resolved schema. Returns list of error strings."""
-    with open(example_path) as f:
+    with open(example_path, encoding="utf-8") as f:
         instance = json.load(f)
 
     validator = Draft202012Validator(schema)
