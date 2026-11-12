@@ -1,0 +1,68 @@
+{
+  "@context": [
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifProvActivity/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "prov": "http://www.w3.org/ns/prov#",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:activity-soil-chem-analysis",
+  "@type": [
+    "schema:Action",
+    "prov:Activity"
+  ],
+  "schema:name": "Soil Chemistry Analysis - Great Basin Transect 2025",
+  "schema:description": "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.",
+  "schema:agent": {
+    "@type": [
+      "schema:Person"
+    ],
+    "schema:name": "Dr. Maria Chen"
+  },
+  "schema:object": "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
+  "schema:result": {
+    "@id": "ex:dataset-soil-chem-gb-2025"
+  },
+  "schema:actionStatus": "schema:CompletedActionStatus",
+  "schema:actionProcess": {
+    "@type": [
+      "schema:HowTo"
+    ],
+    "schema:name": "EPA 6200 / ICP-MS Soil Geochemistry Protocol",
+    "schema:description": "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices.",
+    "schema:step": [
+      {
+        "@type": [
+          "schema:HowToStep"
+        ],
+        "@id": "#acid-digestion",
+        "schema:name": "Sample preparation and acid digestion",
+        "schema:description": "A step that carries action properties -- an agent, an input and a result -- but declares only schema:HowToStep in @type. A step describing itself as an action must say so, so @type has to contain schema:Action as well.",
+        "schema:position": 1,
+        "schema:agent": {
+          "@type": [
+            "schema:Person"
+          ],
+          "schema:name": "Dr. Maria Chen"
+        },
+        "schema:object": [
+          {
+            "@id": "ex:sample-split-001"
+          }
+        ],
+        "schema:result": {
+          "@id": "#digested-solution"
+        }
+      },
+      {
+        "@type": [
+          "schema:HowToStep"
+        ],
+        "schema:name": "ICP-MS measurement and calibration",
+        "schema:description": "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards.",
+        "schema:position": 2
+      }
+    ]
+  }
+}

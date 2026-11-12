@@ -415,13 +415,13 @@ ex:activity-soil-chem-analysis a schema1:Action,
             schema1:isBasedOn <https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination> ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
-                    schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
                     schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ] ] ;
+                    schema1:position 1 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
+                    schema1:name "ICP-MS measurement and calibration" ;
+                    schema1:position 2 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:agent [ a schema1:Person ;
             schema1:contactPoint [ a schema1:ContactPoint ;
@@ -557,27 +557,7 @@ allOf:
         array whose items take any of those shapes (used when an activity has multiple
         inputs, e.g. samples analyzed). Supports action chaining where the value references
         the result of a prior activity.
-      anyOf:
-      - type: string
-      - description: reference to an input entity
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-      - type: object
-        description: Inline schema:Thing object describing the input entity.
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            minItems: 1
-        required:
-        - '@type'
-      - type: array
-        description: Multiple input entities (e.g. samples analyzed). Each item may
-          be a string URI, an @id reference, or an inline schema:Thing.
-        items:
-          anyOf:
-          - type: string
-          - type: object
+      $ref: '#/$defs/ThingValue'
       x-jsonld-id: http://schema.org/object
     schema:result:
       description: 'Output entity (or entities) produced by this activity. Per schema.org,
@@ -586,27 +566,7 @@ allOf:
         a single {"@id": "<uri>"} object reference; (3) an inline schema:Thing (object
         with @type); or (4) an array of any of these forms (e.g. multiple datasets
         produced by this activity). Profiles may restrict the array item shape further.'
-      anyOf:
-      - type: string
-      - description: reference to an output entity
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
-      - type: object
-        description: Inline schema:Thing object describing the output entity.
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            minItems: 1
-        required:
-        - '@type'
-      - type: array
-        description: Multiple output entities. Each item may be a string URI, an @id
-          reference, or an inline schema:Thing.
-        items:
-          anyOf:
-          - type: string
-          - type: object
+      $ref: '#/$defs/ThingValue'
       x-jsonld-id: http://schema.org/result
     schema:actionStatus:
       type: string
@@ -858,9 +818,45 @@ $defs:
       - schema:name
     - required:
       - schema:url
+  ThingValue:
+    description: 'A value in a slot whose schema.org range is schema:Thing. Accepts
+      four shapes: (1) a string URI; (2) an {@id} reference to a thing described elsewhere;
+      (3) an inline schema:Thing (an object with @type); or (4) an array whose items
+      take any of those shapes. Shared by the activity''s and a step''s schema:object
+      and schema:result, so an input or output is written the same way at both levels.'
+    anyOf:
+    - type: string
+    - description: reference to an entity described elsewhere
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+    - type: object
+      description: Inline schema:Thing object describing the entity.
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          minItems: 1
+      required:
+      - '@type'
+    - type: array
+      description: Multiple entities. Each item may be a string URI, an @id reference,
+        or an inline schema:Thing.
+      items:
+        anyOf:
+        - type: string
+        - type: object
   HowToStep:
     type: object
-    description: A single step in a HowTo methodology
+    description: A single step in a HowTo methodology. A step typed schema:HowToStep
+      alone carries only its text, position and documentation link. Typed schema:HowToStep
+      AND schema:Action, it also carries what the step used, acted on and produced,
+      who performed it, the parameter values it used, and a nested sub-procedure --
+      the activity's own properties, so a step and the activity it belongs to are
+      described the same way. Declaring schema:Action is required once any of those
+      properties is present. A process is therefore free to be a set of HowTo objects,
+      or one HowTo whose steps are actions with sub-procedures of their own; which
+      parts are direct HowTo objects and which are steps is the protocol author's
+      decision.
     properties:
       '@type':
         type: array
@@ -869,6 +865,13 @@ $defs:
         contains:
           const: schema:HowToStep
         minItems: 1
+        description: Must include schema:HowToStep. Include schema:Action as well
+          to describe the step as an action; that is required when the step carries
+          any action property.
+      '@id':
+        type: string
+        description: Identifier for this step, so that a later step can name it as
+          its schema:object, or name what it produced.
       schema:name:
         type: string
         description: Name of this step
@@ -886,9 +889,81 @@ $defs:
         type: integer
         description: Ordinal position of this step
         x-jsonld-id: http://schema.org/position
+      schema:additionalType:
+        type: array
+        items:
+          type: string
+        description: Further classification of this step (e.g. bios:LabProcess for
+          a wet-lab step, schema:CreateAction for a step that produces something).
+        x-jsonld-id: http://schema.org/additionalType
+      schema:agent:
+        description: Agent responsible for carrying out this step
+        anyOf:
+        - $ref: '#/$defs/Person'
+        - $ref: '#/$defs/Organization'
+        - $ref: '#/$defs/AgentInRole'
+        - description: reference to an agent defined elsewhere
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+        x-jsonld-id: http://schema.org/agent
+      schema:instrument:
+        type: array
+        minItems: 1
+        description: Instruments, software and reagents this step used, in the same
+          form as the activity's schema:instrument -- either an {@id} reference, or
+          a description in place whose schema:additionalType carries exactly one of
+          the three Wikidata kind terms that selects its shape.
+        items:
+          anyOf:
+          - description: reference to an instrument, software or reagent described
+              elsewhere
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
+          - $ref: '#/$defs/UsedResource'
+        x-jsonld-id: http://schema.org/instrument
+      schema:object:
+        description: Input entity (or entities) for this step. Supports chaining,
+          where the value references what a prior step produced.
+        $ref: '#/$defs/ThingValue'
+        x-jsonld-id: http://schema.org/object
+      schema:result:
+        description: Output entity (or entities) this step produced, which a later
+          step may name as its schema:object.
+        $ref: '#/$defs/ThingValue'
+        x-jsonld-id: http://schema.org/result
+      schema:additionalProperty:
+        description: The parameter values this step used (e.g. beam conditions for
+          an acquisition step, correction settings for a processing step).
+        type: array
+        items:
+          $ref: '#/$defs/AdditionalProperty'
+        x-jsonld-id: http://schema.org/additionalProperty
+      schema:actionProcess:
+        description: Sub-procedure for this step, a nested schema:HowTo with its own
+          ordered steps. Use it for a step whose internal procedure has several phases.
+        $ref: '#/$defs/HowTo'
+        x-jsonld-id: http://schema.org/actionProcess
     required:
     - '@type'
     - schema:name
+    allOf:
+    - if:
+        anyOf:
+        - required:
+          - schema:agent
+        - required:
+          - schema:instrument
+        - required:
+          - schema:object
+        - required:
+          - schema:result
+        - required:
+          - schema:additionalProperty
+        - required:
+          - schema:actionProcess
+      then:
+        properties:
+          '@type':
+            contains:
+              const: schema:Action
 x-jsonld-prefixes:
   schema: http://schema.org/
   prov: http://www.w3.org/ns/prov#
