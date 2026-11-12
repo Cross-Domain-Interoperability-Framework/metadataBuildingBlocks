@@ -1525,16 +1525,32 @@ Generates `propertyTree_2` worksheets from resolved JSON Schemas. Walks the full
 
 **Usage:**
 ```bash
-# Generate for all profiles (Codelist, Discovery, DataDescription)
+# Every composite profile under _sources/profiles/cdifCompositeProfile/
 python tools/generate_property_tree2.py --profile all
 
-# Generate for a single profile
-python tools/generate_property_tree2.py --profile discovery
-python tools/generate_property_tree2.py --profile codelist
-python tools/generate_property_tree2.py --profile datadescription
+# One composite, named by its directory
+python tools/generate_property_tree2.py --profile CoreDiscovery
+python tools/generate_property_tree2.py --profile cdifComplete
 ```
 
-For existing workbooks, adds `propertyTree_2` as a new sheet (preserving all existing sheets). For new workbooks (e.g., CDIFCodelistProfile), creates a new `.xlsx` file.
+`--profile` takes a **composite profile directory name**, or `all`. The targets are
+discovered by scanning for `resolvedSchema.json`, not hardcoded: as of 2026-11-12 that is
+`CoreDiscovery`, `DiscoveryDataDescription`, `DiscoveryDataDescriptionStructure`,
+`cdifComplete`, `cdifNIAID` and `xasDocument`. An unrecognised name lists what is
+available. The old `codelist` / `discovery` / `datadescription` aliases are gone — they
+named directories (`BasicDiscovery`, `BasicDataDescription`,
+`profiles/archive/CDIFCodelistProfile`) that two reorgs renamed away, which left the tool
+exiting `FileNotFoundError` from 2026-05-28 until 2026-11-12. There is no codelist target:
+`cdifCodelist` is a module, not a composite.
+
+The workbook is located by globbing `*_properties.xlsx` in the composite's directory
+rather than assuming `<dirname>_properties.xlsx`, because the two that exist are named
+`CDIFDiscovery_properties.xlsx` and `CDIFDataDescriptionProfile_properties.xlsx`. For an
+existing workbook, `propertyTree_2` is replaced and every other sheet preserved; where
+none exists, one is created as `<dirname>_properties.xlsx`.
+
+**This writes committed `.xlsx` files.** Regenerating all six touches two tracked
+workbooks and creates four, so commit those artifacts separately from any code change.
 
 **Requirements:** `openpyxl`, `pyyaml`
 

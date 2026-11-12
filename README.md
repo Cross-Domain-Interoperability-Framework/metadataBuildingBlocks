@@ -216,8 +216,12 @@ Generates `propertyTree_2` worksheets from resolved JSON Schemas showing complet
 
 ```bash
 python tools/generate_property_tree2.py --profile all
-python tools/generate_property_tree2.py --profile discovery
+python tools/generate_property_tree2.py --profile CoreDiscovery
 ```
+
+`--profile` is a composite profile directory name, or `all`; targets are discovered by
+scanning `_sources/profiles/cdifCompositeProfile/` for `resolvedSchema.json`. Note this
+writes committed `.xlsx` workbooks — commit those separately from code changes.
 
 **Requirements:** Python 3.6+ with `openpyxl`, `pyyaml`
 
