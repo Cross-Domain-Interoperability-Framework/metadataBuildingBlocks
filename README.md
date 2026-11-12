@@ -223,6 +223,12 @@ python tools/generate_property_tree2.py --profile CoreDiscovery
 scanning `_sources/profiles/cdifCompositeProfile/` for `resolvedSchema.json`. Note this
 writes committed `.xlsx` workbooks — commit those separately from code changes.
 
+**Do not regenerate the two live workbooks yet.** The tool runs again as of 2026-11-12, but its
+walker has drifted from the resolved schema shape and now emits fewer, less specific rows than the
+committed sheets (`CoreDiscovery`: 224 rows regenerated against 981 committed, with `unknown` in
+place of expanded sub-properties). Nothing reads these workbooks, so the stale sheets are harmless
+until the walker is fixed. See `agents.md` for the measurements.
+
 **Requirements:** Python 3.6+ with `openpyxl`, `pyyaml`
 
 ## Examples

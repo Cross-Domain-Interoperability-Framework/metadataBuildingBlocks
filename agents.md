@@ -1193,6 +1193,13 @@ python tools/validate_examples.py --filter spatialExtent
 
 **CLI options:** `--verbose`/`-v` (show pass/fail for each example), `--filter`/`-f` (only validate paths containing this string).
 
+**Read the error count, not just the failure count.** The summary is
+`N passed, N failed, N errors` — a file that cannot be read or parsed is an **error**, not a
+**failure**, and is therefore invisible to the "anything but 0 failed is yours" convention. Two
+`niaidDataset` examples sat in that blind spot until 2026-11-12, dropping out of the gate entirely
+while it reported `159 passed, 0 failed`; they were valid, and the read was at fault. Current
+expected output is `161 passed, 0 failed, 0 errors`.
+
 **Requirements:** `pyyaml`, `jsonschema`
 
 ## validate_shacl.py
@@ -1551,6 +1558,16 @@ none exists, one is created as `<dirname>_properties.xlsx`.
 
 **This writes committed `.xlsx` files.** Regenerating all six touches two tracked
 workbooks and creates four, so commit those artifacts separately from any code change.
+
+**Do not regenerate the two live workbooks yet — the current output is worse than what is
+committed.** The tool runs again as of 2026-11-12, but the walker has drifted from the resolved
+schema shape. Measured that day: `CoreDiscovery` regenerates to **224 rows against the committed
+981**, and every composite's fresh output carries 35–50 `unknown` cells where the committed sheets
+expand real sub-properties — `schema:identifier`'s CHOICE collapses to a bare `unknown` / `string`
+pair instead of `@type`, `schema:propertyID`, `schema:value`, `schema:url`. Nothing reads these
+workbooks (only the two generators write them; only this file and `README.md` mention them), so
+the stale sheets cost nothing while that is unfixed. Fixing the target discovery fixed the
+plumbing, not the tree.
 
 **Requirements:** `openpyxl`, `pyyaml`
 
