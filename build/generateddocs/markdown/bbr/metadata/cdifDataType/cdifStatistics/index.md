@@ -376,28 +376,28 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
 
 <https://example.org/stats/temperature-mean> a cdi:Statistics ;
     cdi:hasWeight ex:var-sample-weight ;
-    cdi:statistic [ cdi:computationBase "ValidOnly" ;
-            cdi:content 1.243e+01 ;
-            cdi:isWeighted true ;
-            cdi:typeOfNumericValue "double" ],
-        [ cdi:computationBase "Total" ;
+    cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 1.21e+01 ;
             cdi:isWeighted false ;
+            cdi:typeOfNumericValue "double" ],
+        [ cdi:computationBase "ValidOnly" ;
+            cdi:content 1.243e+01 ;
+            cdi:isWeighted true ;
             cdi:typeOfNumericValue "double" ] ;
     cdif:appliesTo ex:var-temperature ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/surface> ;
+            cdi:for <https://example.org/category/deep> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.581e+01 ;
+                    cdi:content 1.007e+01 ;
                     cdi:isWeighted true ] ;
             cdif:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
                     schema1:name "Mean" ;
                     schema1:termCode "mean" ] ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/deep> ;
+            cdi:for <https://example.org/category/surface> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.007e+01 ;
+                    cdi:content 1.581e+01 ;
                     cdi:isWeighted true ] ;
             cdif:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
@@ -845,7 +845,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifStatistics
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-11'
+  dateOfLastChange: '2026-11-12'
 
 ```
 
