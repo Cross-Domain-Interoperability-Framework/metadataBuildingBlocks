@@ -852,11 +852,11 @@ each cell in the cube.
             cdi:indexes <https://example.org/var/productCategory> ;
             cdi:value 3 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/country> ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/quarter> ;
-            cdi:value 2 ] .
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/country> ;
+            cdi:value 1 ] .
 
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
     cdif:hasIntendedDataType "xsd:string" ;
@@ -1903,7 +1903,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-12'
+  dateOfLastChange: '2026-11-13'
 
 ```
 

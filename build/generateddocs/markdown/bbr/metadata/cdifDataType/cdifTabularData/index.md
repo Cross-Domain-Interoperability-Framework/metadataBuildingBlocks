@@ -179,13 +179,13 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
             schema1:name "countColumns" ;
             schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
             schema1:value 5 ] ;
-    cdif:hasPhysicalMapping [ cdif:format "float64" ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ],
+        [ cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ] .
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```
@@ -427,14 +427,7 @@ and three physical-mapping entries.
             schema1:name "countColumns" ;
             schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
             schema1:value 3 ] ;
-    cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
-            cdi:length 12 ;
-            cdi:scale 1 ;
-            cdif:format "#,##0.00" ;
-            cdif:formats_InstanceVariable ex:var-temperature ;
-            cdif:index 2 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdi:nullSequence "NA" ;
+    cdif:hasPhysicalMapping [ cdi:nullSequence "NA" ;
             cdif:format "YYYY-MM-DD" ;
             cdif:formats_InstanceVariable ex:var-date ;
             cdif:index 1 ;
@@ -443,7 +436,14 @@ and three physical-mapping entries.
             cdi:length 16 ;
             cdif:formats_InstanceVariable ex:var-station-id ;
             cdif:index 0 ;
-            cdif:physicalDataType "String" ] .
+            cdif:physicalDataType "String" ],
+        [ cdi:decimalPositions 2 ;
+            cdi:length 12 ;
+            cdi:scale 1 ;
+            cdif:format "#,##0.00" ;
+            cdif:formats_InstanceVariable ex:var-temperature ;
+            cdif:index 2 ;
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```
@@ -616,7 +616,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifTabularData
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-12'
+  dateOfLastChange: '2026-11-13'
 
 ```
 

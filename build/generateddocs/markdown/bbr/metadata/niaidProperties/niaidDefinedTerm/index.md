@@ -342,7 +342,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.niaidProperties.niaidDefinedTerm
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-11-12'
+  dateOfLastChange: '2026-11-13'
 
 ```
 

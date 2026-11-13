@@ -622,14 +622,14 @@ xas:487y54 a schema1:Product,
     schema1:hasPart [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "monitor mode" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXmonitor/mode> ;
-                    schema1:value "monitor" ],
-                [ a schema1:PropertyValue ;
                     schema1:alternateName "transmitted flux measurement method" ;
                     schema1:name "detector mode it" ;
                     schema1:propertyID xas:detectorit ;
                     schema1:value "10cm  N2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "monitor mode" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXmonitor/mode> ;
+                    schema1:value "monitor" ],
                 [ a schema1:PropertyValue ;
                     schema1:alternateName "incident flux measurement method" ;
                     schema1:name "detector mode i0" ;
@@ -644,13 +644,13 @@ xas:487y54 a schema1:Product,
         [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "Probe" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXsource/probe> ;
-                    schema1:value "x-ray" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "X-ray source" ;
                     schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXsource/type> ;
-                    schema1:value "Synchrotron X-ray Source" ] ;
+                    schema1:value "Synchrotron X-ray Source" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Probe" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXsource/probe> ;
+                    schema1:value "x-ray" ] ;
             schema1:additionalType wd:Q3099911,
                 "nxs:BaseClass/NXsource" ;
             schema1:identifier "should have a registry with URIs" ;
@@ -658,6 +658,10 @@ xas:487y54 a schema1:Product,
         [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "crystal type" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXcrystal/type> ;
+                    schema1:value "channel-cut" ],
+                [ a schema1:PropertyValue ;
                     schema1:name "reflection plane (hkl)" ;
                     schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXcrystal/reflection> ;
                     schema1:value "1,1,1" ],
@@ -666,10 +670,6 @@ xas:487y54 a schema1:Product,
                     schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXcrystal/d_spacing> ;
                     schema1:unitText "Angstrom" ;
                     schema1:value "3.13550" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "crystal type" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXcrystal/type> ;
-                    schema1:value "channel-cut" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "chemical formula" ;
                     schema1:propertyID <https://manual.nexusformat.org/classes/Field/NXcrystal/chemical_formula> ;
@@ -680,17 +680,17 @@ xas:487y54 a schema1:Product,
         [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "collimation technique" ;
-                    schema1:propertyID xas:collimation ;
-                    schema1:value "none" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "focusing" ;
                     schema1:propertyID xas:focusing ;
                     schema1:value "???" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "harmonic_rejection" ;
                     schema1:propertyID xas:harmonicrejection ;
-                    schema1:value "Rh-coated mirror, detuned" ] ;
+                    schema1:value "Rh-coated mirror, detuned" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "collimation technique" ;
+                    schema1:propertyID xas:collimation ;
+                    schema1:value "none" ] ;
             schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
                 wd:Q3099911 ;
             schema1:identifier "should have a registry with URIs" ;
@@ -744,7 +744,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.xasProperties.xasInstrument
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-11-12'
+  dateOfLastChange: '2026-11-13'
 
 ```
 
