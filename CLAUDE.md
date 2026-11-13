@@ -732,6 +732,43 @@ their refs are resolved over the network at their build time, not ours.
   because neither live workbook carries charts or images; check that again before pointing it at a
   workbook someone has formatted.
 
+- **A profile can declare properties outside `properties`, and a walker that reads only that
+  keyword loses them without a trace.** `cdifDataStructure/schema.yaml` declares
+  `properties: ['@context']` and nothing else -- every structure term it defines lives under its
+  root `if`/`then`/`else` or in `$defs`. `deep_merge` hoists a module's root `properties` into the
+  composite's root `properties` and appends the module's own `if`/`then`/`else` as a member of the
+  composite's root `allOf`, so in a composite the whole slice arrives inside `allOf`.
+  `generate_property_tree` read `schema["properties"]` only, so it saw none of it. Measured
+  2026-11-13: 8 properties and 9 `$defs` (`DimensionComponent`, `MeasureComponent`, `ForeignKey`,
+  `IsStructuredByProperty`, ...) reachable only via `allOf` in `DiscoveryDataDescriptionStructure`,
+  the same 9 in `cdifComplete` and `xasDocument`, and 0 in `CoreDiscovery` and `cdifNIAID` -- which
+  is exactly the three that compose `cdifDataStructure`. The tell was two trees being
+  **byte-identical**: `DiscoveryDataDescriptionStructure` and `DiscoveryDataDescription` agreed to
+  the byte because their `properties` really are identical and the only difference between the two
+  schemas is one `allOf` member. Fixed by `collect_root_properties`.
+  Three things that fix needed, each invisible until the one before it was in place:
+  **a depth budget of its own** (`APPLICATOR_DEPTH`, 12) -- the dataset-level properties sit five
+  applicators down (`allOf` -> member -> `then` -> `allOf` -> `anyOf`), so reusing `MAX_DEPTH` 6
+  ran out one level short and collected nothing while looking like a working change;
+  **`resolve_node` on the base before merging** -- root `schema:distribution` is
+  `{type, items: {allOf}}`, and the union that defines a distribution only surfaces once that is
+  flattened; and **distributing a refinement into every arm of that union**, because
+  `emit_property` reads `anyOf`/`oneOf` in preference to `properties`, so a refinement merged only
+  into `properties` renders nowhere. `cdi:isStructuredBy` is not a new property at all -- it is a
+  refinement of a `schema:distribution` that `cdifCore` already put at the root -- so the obvious
+  half of the fix (union the new names) surfaces the dataset-level structure and still publishes a
+  tree with no `cdi:isStructuredBy` in it, looking finished.
+  **The regression gate that matters is the three composites that should NOT change.**
+  `CoreDiscovery`, `DiscoveryDataDescription` and `cdifNIAID` are byte-identical before and after;
+  the other three gain the slice. `unknown` cells stay 0 everywhere.
+  **Note the size this exposes, and do not read it as the fix misbehaving.** The three grow to
+  ~50k rows (`DiscoveryDataDescriptionStructure` 3980 -> 50223, 1.8 MB) at **98% repeated rows,
+  794 distinct** -- 36224 of those rows are one property, `schema:distribution`, whose two union
+  arms each re-expand the `cdi:isStructuredBy` subtree. The tool re-expands shared shapes at every
+  use site by design (the committed sheets are already 78-88% repeated), and this is that
+  multiplied. The slice is genuinely there; whether a 50k-row sheet is the right artifact is a
+  separate question from whether the walker can see the schema.
+
 ## Traps — other CDIF repos
 
 These cost real time too, but none of them is actionable from this working directory. They are the

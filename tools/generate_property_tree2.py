@@ -37,6 +37,13 @@ from openpyxl.styles import Font, Alignment, PatternFill
 MAX_DEPTH = 6
 MAX_COLS = 2 + 2 * MAX_DEPTH  # object col + depth levels * 2
 
+# Bounds the structural recursion over if / then / else and branch unions when
+# collecting what a root allOf contributes. Separate from MAX_DEPTH, which bounds
+# the rendered tree: cdifDataStructure buries its dataset-level properties five
+# applicators down (allOf -> member -> then -> allOf -> anyOf), so a budget of 6
+# ran out one level short of them and collected nothing.
+APPLICATOR_DEPTH = 12
+
 
 # ── helpers ──────────────────────────────────────────────────────────────
 
@@ -165,6 +172,108 @@ def resolve_node(schema):
     """deref an internal $ref, then flatten an allOf -- the two shapes the walker
     cannot read directly. Applied wherever a schema node is about to be classified."""
     return merge_allof(deref(schema))
+
+
+def merge_refinement(base, extra, _depth=0):
+    """Union a conditional's refinement of a property into the property, for display.
+
+    A root allOf member may refine a property that already exists at the root rather
+    than introduce a new one, and then the refinement is the only place the inner
+    properties appear. cdifDataStructure's else-branch is exactly that: root
+    schema:distribution is {type, items:{allOf}} from cdifCore, while the branch adds
+    {items:{properties:{cdi:isStructuredBy, schema:hasPart, schema:potentialAction}}}.
+    Taking either side alone loses those three.
+
+    Recurses through `properties` and `items`, which are the shapes measured here, and
+    takes a keyword from the refinement only where the base does not state it. Like
+    merge_allof this is a DISPLAY union, not validation semantics -- it does not
+    intersect two unions, and an if/then/else's branches are mutually exclusive in the
+    schema while the tree shows what the profile can constrain, so both contribute.
+    """
+    if not isinstance(base, dict):
+        return extra if isinstance(extra, dict) else base
+    if not isinstance(extra, dict) or _depth >= APPLICATOR_DEPTH:
+        return base
+
+    # The base may hide its shape behind a $ref or an allOf -- root
+    # schema:distribution's items is {allOf: [...]}, and the union that defines a
+    # distribution only surfaces once that is flattened.
+    base = resolve_node(base)
+    merged = dict(base)
+    if isinstance(extra.get("properties"), dict):
+        props = dict(merged.get("properties", {}))
+        for name, sub in extra["properties"].items():
+            props[name] = (merge_refinement(props[name], sub, _depth + 1)
+                           if name in props else sub)
+        merged["properties"] = props
+        merged.setdefault("type", "object")
+    if "items" in extra:
+        merged["items"] = merge_refinement(merged.get("items", {}), extra["items"],
+                                           _depth + 1)
+    # emit_property reads anyOf/oneOf in preference to properties, so a refinement
+    # merged only into `properties` renders nowhere. In schema terms the refinement
+    # applies whichever arm matches, so it goes into every arm.
+    sub = extra.get("properties")
+    if isinstance(sub, dict):
+        for key in ("anyOf", "oneOf"):
+            if isinstance(merged.get(key), list):
+                merged[key] = [merge_refinement(arm, {"properties": sub}, _depth + 1)
+                               for arm in merged[key]]
+    for key in ("type", "contains", "anyOf", "oneOf", "allOf", "enum", "const",
+                "format"):
+        if key not in merged and key in extra:
+            merged[key] = extra[key]
+    return merged
+
+
+def branch_properties(node, _depth=0):
+    """Yield every `properties` dict inside a root allOf member.
+
+    A member reached through if / then / else or a branch union carries its properties
+    a level or more down, so a walk of the members' own top-level `properties` finds
+    nothing in them. That is why the whole data-structure slice was invisible: 8 of
+    DiscoveryDataDescriptionStructure's properties and 9 of its $defs
+    (DimensionComponent, MeasureComponent, ForeignKey, ...) are reachable only this
+    way, and the same 9 in cdifComplete and xasDocument. Measured 2026-11-13.
+
+    `if` is included: it constrains the record as much as its branches do, and in
+    practice it names properties the root already has (@type), so it adds nothing
+    where the selector is a type token.
+    """
+    if _depth >= APPLICATOR_DEPTH:
+        return
+    if isinstance(node, list):
+        for item in node:
+            for found in branch_properties(item, _depth + 1):
+                yield found
+        return
+    if not isinstance(node, dict):
+        return
+    node = deref(node)
+    if isinstance(node.get("properties"), dict):
+        yield node["properties"]
+    for key in ("allOf", "anyOf", "oneOf", "if", "then", "else"):
+        if key in node:
+            for found in branch_properties(node[key], _depth + 1):
+                yield found
+
+
+def collect_root_properties(schema):
+    """The root properties a composite actually constrains: `properties` plus what its
+    root allOf contributes.
+
+    resolve_schema.py's deep_merge hoists each module's root `properties` into the
+    composite's root `properties` and appends the module's own if/then/else as a member
+    of the composite's root allOf. cdifDataStructure declares `properties: [@context]`
+    and nothing else -- every structure term it defines lives under if/then/else or in
+    $defs -- so a walk of `properties` alone sees none of it.
+    """
+    props = dict(schema.get("properties", {}))
+    for found in branch_properties(schema.get("allOf", [])):
+        for name, sub in found.items():
+            props[name] = (merge_refinement(props[name], sub)
+                           if name in props else sub)
+    return props
 
 
 def expand_union(any_of, _depth=0):
@@ -553,8 +662,8 @@ def generate_property_tree(resolved_schema_path):
     root_row[0] = root_label
     rows.append(root_row)
 
-    # walk all properties
-    props = schema.get("properties", {})
+    # walk all properties, root allOf included
+    props = collect_root_properties(schema)
     for pname, pschema in props.items():
         emit_property(pname, pschema, 0, rows, set())
 
