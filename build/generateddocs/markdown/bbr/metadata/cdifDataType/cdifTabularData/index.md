@@ -420,14 +420,19 @@ and three physical-mapping entries.
     cdi:treatConsecutiveDelimitersAsOne false ;
     cdi:trim "Both" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "countColumns" ;
-            schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
-            schema1:value 3 ],
-        [ a schema1:PropertyValue ;
             schema1:name "countRows" ;
             schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity> ;
-            schema1:value 1500 ] ;
-    cdif:hasPhysicalMapping [ cdi:nullSequence "NA" ;
+            schema1:value 1500 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "countColumns" ;
+            schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
+            schema1:value 3 ] ;
+    cdif:hasPhysicalMapping [ cdi:isRequired true ;
+            cdi:length 16 ;
+            cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ],
+        [ cdi:nullSequence "NA" ;
             cdif:format "YYYY-MM-DD" ;
             cdif:formats_InstanceVariable ex:var-date ;
             cdif:index 1 ;
@@ -438,12 +443,7 @@ and three physical-mapping entries.
             cdif:format "#,##0.00" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 2 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdi:isRequired true ;
-            cdi:length 16 ;
-            cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ] .
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```
