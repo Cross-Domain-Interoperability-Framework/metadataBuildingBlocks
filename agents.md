@@ -1559,15 +1559,24 @@ none exists, one is created as `<dirname>_properties.xlsx`.
 **This writes committed `.xlsx` files.** Regenerating all six touches two tracked
 workbooks and creates four, so commit those artifacts separately from any code change.
 
-**Do not regenerate the two live workbooks yet — the current output is worse than what is
-committed.** The tool runs again as of 2026-11-12, but the walker has drifted from the resolved
-schema shape. Measured that day: `CoreDiscovery` regenerates to **224 rows against the committed
-981**, and every composite's fresh output carries 35–50 `unknown` cells where the committed sheets
-expand real sub-properties — `schema:identifier`'s CHOICE collapses to a bare `unknown` / `string`
-pair instead of `@type`, `schema:propertyID`, `schema:value`, `schema:url`. Nothing reads these
-workbooks (only the two generators write them; only this file and `README.md` mention them), so
-the stale sheets cost nothing while that is unfixed. Fixing the target discovery fixed the
-plumbing, not the tree.
+**Resolution.** The walker resolves three shapes that it used to abandon, all added 2026-11-12:
+
+| Helper | Shape | Why it is needed |
+|---|---|---|
+| `deref()` | `{"$ref": "#/$defs/X"}` | `resolve_schema.py` resolves external refs into `$defs` and leaves internal ones, so a composite's resolved schema is full of them. No `type`, so they classified as `unknown`. |
+| `expand_union()` | `anyOf` nested inside `anyOf` | the shared `$defs` nest — `cdifConceptOrTermOrString` wraps `cdifConceptOrTerm`'s union. Members are deduplicated, since flattening surfaces the same arm twice. |
+| `merge_allof()` | a bare `allOf` | 18 properties across the six composites are an `allOf` of object members plus constraint-only members. **Display merge only** — first keyword wins, unions are never intersected; `resolve_schema.py` owns real composition. |
+
+All six composites now generate with **0 `unknown` cells**. `schema:identifier` matches the
+committed expansion exactly; the one delta is `schema:propertyID` rendering as a CHOICE, which is
+a real schema change since May rather than a regression.
+
+**The row counts are much larger now (2081–5244 against the committed 981) and that is expected.**
+Judge the output by its duplication profile, not its total: the *committed* sheets are already
+**78% identical rows** (981 rows, 213 distinct), because the tool re-expands shared shapes at every
+use site down to `MAX_DEPTH`. Fresh output is 87–88% — the same character, larger because the
+schema grew over 804 commits and the walker now reaches shapes it previously gave up on. Lower
+`MAX_DEPTH` if a smaller sheet is wanted; that is a presentation choice, not a correctness one.
 
 **Requirements:** `openpyxl`, `pyyaml`
 

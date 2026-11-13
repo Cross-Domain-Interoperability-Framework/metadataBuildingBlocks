@@ -223,11 +223,11 @@ python tools/generate_property_tree2.py --profile CoreDiscovery
 scanning `_sources/profiles/cdifCompositeProfile/` for `resolvedSchema.json`. Note this
 writes committed `.xlsx` workbooks — commit those separately from code changes.
 
-**Do not regenerate the two live workbooks yet.** The tool runs again as of 2026-11-12, but its
-walker has drifted from the resolved schema shape and now emits fewer, less specific rows than the
-committed sheets (`CoreDiscovery`: 224 rows regenerated against 981 committed, with `unknown` in
-place of expanded sub-properties). Nothing reads these workbooks, so the stale sheets are harmless
-until the walker is fixed. See `agents.md` for the measurements.
+The walker resolves internal `$ref`s, nested `anyOf` unions and bare `allOf` compositions as of
+2026-11-12, so all six composites generate with no `unknown` cells. Expect substantially more rows
+than the committed sheets (2081–5244 against 981): the tool re-expands shared shapes at every use
+site, which the committed sheets already did — they are 78% identical rows. See `agents.md` for the
+measurements and for what the merge deliberately does not do.
 
 **Requirements:** Python 3.6+ with `openpyxl`, `pyyaml`
 

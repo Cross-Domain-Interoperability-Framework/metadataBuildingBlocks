@@ -693,16 +693,34 @@ their refs are resolved over the network at their build time, not ours.
   two that exist are `CDIFDiscovery_properties.xlsx` and `CDIFDataDescriptionProfile_properties.xlsx`
   and a name-derived path misses both and duplicates them. That is the mistake `3c2f5291b9` made;
   do not reinstate a hardcoded table.
-  **But the walker has drifted from the schema shape, and its output is now worse than what is
-  committed.** Measured 2026-11-12: regenerating `CoreDiscovery` gives **224 rows against the
-  committed 981**, and every composite's fresh output carries 35-50 `unknown` cells (from
-  `options.append(("unknown", item))`) where the committed sheets expand real sub-properties --
-  `schema:identifier`'s CHOICE becomes a bare `unknown` / `string` pair instead of `@type`,
-  `schema:propertyID`, `schema:value`, `schema:url`. So `--profile all` would **degrade all six**.
-  Nothing reads these workbooks -- only the two generators write them and `agents.md` / `README.md`
-  mention them -- so the stale sheets cost nothing while the walker is unfixed. **Fixing the
-  plumbing is not fixing the output**: #86 proved the tool executes, which is not the same claim as
-  the tree being right, and a row count is exactly the kind of green result that reads as success.
+  **Fixing the plumbing was not fixing the output, and that gap lasted one PR.** #86 made the tool
+  execute; its tree was still wrong, because the walker read only `type` and resolved nothing.
+  `resolve_schema.py` resolves EXTERNAL refs into `$defs` and leaves the internal ones, so a
+  composite's `resolvedSchema.json` is full of `{"$ref": "#/$defs/Identifier"}` -- no `type`, so
+  every one classified as `unknown` inside an `anyOf` or fell through to the bare-name fallback.
+  Measured that day: `CoreDiscovery` regenerated to **224 rows against the committed 981** with 50
+  `unknown` cells, `schema:identifier` printing as `unknown` / `string` instead of expanding to
+  `@type`, `schema:propertyID`, `schema:value`, `schema:url`. **A row count is exactly the kind of
+  green result that reads as success**, and it was reported as verification.
+  Fixed 2026-11-12 in three layers, each exposed by removing the one before it: `deref()` for
+  internal `$ref`s (50 unknown -> 31, 224 rows -> 927); `expand_union()` to splice a nested
+  `anyOf` -- the shared `$defs` nest, `cdifConceptOrTermOrString` wrapping `cdifConceptOrTerm`'s
+  own union -- which took it to 0 unknown, deduplicating members because flattening surfaces the
+  same arm twice; and `merge_allof()`, a **display-only** shallow merge, because 18 properties
+  across the six composites (`schema:distribution`, `schema:variableMeasured`,
+  `prov:wasGeneratedBy`, `dcterms:conformsTo`, `schema:measurementTechnique`) are a bare `allOf`
+  of object members plus constraint-only members, sometimes with the real union inside one member.
+  Deeper expansion then made a **latent `IndexError` reachable** at `r[opts_col] = t` in the
+  type-as-list branch -- the one write of `opts_col` that no guard covered, unreachable until the
+  tree got deep enough. `resolve_schema.py` still owns real `allOf` composition; this merge takes
+  the first member to supply a keyword and never intersects two unions.
+  **Do not read the new row counts as bloat.** 2081-5244 per composite against the committed 981,
+  and the honest check is the duplication profile, not the total: the **committed** sheets are
+  already **78% identical rows** (981 rows, 213 distinct), because the tool re-expands shared
+  shapes at every use site down to `MAX_DEPTH`. Fresh output is 87-88%, the same character, larger
+  because the schema grew over 804 commits and the walker now reaches shapes it used to abandon.
+  `schema:identifier` now matches the committed expansion exactly, the one delta being
+  `schema:propertyID` as a CHOICE -- a real schema change since May, not a regression.
 
 - **`add_sheet_to_existing` used to corrupt-then-abort on Windows.** openpyxl holds the source
   archive open past `wb.close()`, so the `os.remove()` of its temp copy raised `WinError 32`
