@@ -27,6 +27,12 @@
 > the glossary now records it as `skos:narrower` of `xas:facility`. Note also that
 > `xas:facilityenergy` and `xas:facilitycurrent` only share a prefix with `xas:facility` and
 > were never in scope.
+>
+> Section 6c's instrument model was replaced by metadataBuildingBlocks PR #83 (2026-11-12) and
+> released as `xasCore/1.2` (2026-11-14): instruments now sit in `schema:instrument` on the activity
+> itself, and the per-instrument `prov:used` wrappers are gone. The release copy of
+> `cdif_dds_framed.jsonld` in XAS-CDIF was migrated to that shape; section 6 below still
+> describes the 1.0 adaptation.
 
 Log of substantive changes applied to `cdif_dds_framed.jsonld` when adapting
 the UKDS reference file at
