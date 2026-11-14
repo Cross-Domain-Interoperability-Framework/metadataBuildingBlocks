@@ -1,0 +1,79 @@
+# Run the example suite: every example*.json in _sources against its own
+# schema, then the SHACL shapes that apply to its block.
+#
+# Until now nothing ran this. pr-check.yml delegates to OGC's reusable
+# bblocks-postprocess workflow, which validates the register's artifacts --
+# a different question from whether the examples still satisfy the rules
+# written for them. So an example edit that broke a shape, or a shape edit
+# that broke an example, reached main with every check green.
+#
+# The suite reads the committed resolvedSchema.json snapshots, so a run here
+# is offline and deterministic; it only reaches the network for a block with
+# no snapshot, which the summary names explicitly. --live re-resolves on
+# purpose and is deliberately not used here: CI should fail when this repo
+# breaks, not when a repo it points at moved this morning.
+name: Check examples validate
+
+on:
+  # Push matters as much as pull_request, for the same reason
+  # check-schema-drift.yml takes it: an example can land on main directly,
+  # and a broken example is a property of the tree, not of one diff.
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - '_sources/**'
+      - 'vendor/**'
+      - 'tools/validate_examples.py'
+      - '.github/workflows/check-examples.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-examples-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-examples:
+    name: Validate examples
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # rdflib and pyshacl are what make the SHACL half of the suite run at
+      # all. They are optional to the tool on purpose -- a contributor
+      # without them still gets the JSON Schema pass -- which is exactly why
+      # the next step has to check.
+      - name: Install dependencies
+        run: pip install pyyaml jsonschema rdflib pyshacl
+
+      - name: Validate every example
+        run: |
+          set -euo pipefail
+          python tools/validate_examples.py 2>&1 | tee suite.log
+
+      # The suite degrades quietly by design: with rdflib/pyshacl absent it
+      # prints a note, skips the shapes, and still exits 0 on a clean JSON
+      # Schema pass. That is right for a laptop and wrong for a gate -- a
+      # green check would then mean half the suite ran. Assert the SHACL
+      # pass actually happened.
+      - name: Fail if the SHACL pass did not run
+        run: |
+          set -euo pipefail
+          if grep -q 'SHACL pass skipped' suite.log; then
+            echo "::error::rdflib/pyshacl missing, so no shapes were applied -- the JSON Schema pass alone is not this gate."
+            exit 1
+          fi
+          if ! grep -q '^SHACL: ' suite.log; then
+            echo "::error::no SHACL summary line in the suite output; the pass did not reach its report."
+            exit 1
+          fi
