@@ -998,15 +998,15 @@ discovery and cdifNIAID.
             schema1:url "https://doi.org/10.6019/PXD027351" ;
             schema1:value "10.6019/PXD027351" ] ;
     schema1:includedInDataCatalog [ a schema1:DataCatalog ;
-            schema1:archivedAt "https://www.omicsdi.org/dataset/pride/PXD027351" ;
-            schema1:name "Omics Discovery Index (OmicsDI)" ;
-            schema1:url "https://www.omicsdi.org/" ;
-            nde:versionDate "2026-10-23" ],
-        [ a schema1:DataCatalog ;
             schema1:archivedAt "http://www.ebi.ac.uk/pride/archive/projects/PXD027351" ;
             schema1:name "ProteomeXchange" ;
             schema1:url "https://www.proteomexchange.org/" ;
-            nde:versionDate "2026-10-01" ] ;
+            nde:versionDate "2026-10-01" ],
+        [ a schema1:DataCatalog ;
+            schema1:archivedAt "https://www.omicsdi.org/dataset/pride/PXD027351" ;
+            schema1:name "Omics Discovery Index (OmicsDI)" ;
+            schema1:url "https://www.omicsdi.org/" ;
+            nde:versionDate "2026-10-23" ] ;
     schema1:infectiousAgent [ a schema1:DefinedTerm ;
             schema1:alternateName "uncultured marine plankton" ;
             schema1:identifier "632957" ;
@@ -1028,9 +1028,6 @@ discovery and cdifNIAID.
                     schema1:name "GPT-4o-mini" ;
                     schema1:url "https://openai.com/index/chatgpt" ] ],
         [ a schema1:DefinedTerm ;
-            schema1:about "NIAID classification" ;
-            schema1:name "host" ],
-        [ a schema1:DefinedTerm ;
             schema1:about "topicCategory" ;
             schema1:identifier "topic_3370" ;
             schema1:inDefinedTermSet "EDAM" ;
@@ -1048,6 +1045,9 @@ discovery and cdifNIAID.
             nde:curatedBy [ a schema1:SoftwareApplication ;
                     schema1:name "GPT-4o-mini" ;
                     schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
         "",
         "2dlc",
         "Automated",
@@ -1067,19 +1067,19 @@ discovery and cdifNIAID.
             nde:isCurated true ;
             nde:originalName "Shotgun proteomics" ],
         [ a schema1:DefinedTerm ;
-            schema1:identifier "0000534" ;
-            schema1:inDefinedTermSet "MMO" ;
-            schema1:name "mass spectrometry" ;
-            schema1:url "http://purl.obolibrary.org/obo/MMO_0000534" ;
-            nde:isCurated true ;
-            nde:originalName "Mass Spectrometry" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "0000428" ;
             schema1:inDefinedTermSet "PRIDE" ;
             schema1:name "Bottom-up proteomics" ;
             schema1:url "http://purl.obolibrary.org/obo/PRIDE_0000428" ;
             nde:isCurated true ;
             nde:originalName "Shotgun proteomics" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "0000534" ;
+            schema1:inDefinedTermSet "MMO" ;
+            schema1:name "mass spectrometry" ;
+            schema1:url "http://purl.obolibrary.org/obo/MMO_0000534" ;
+            nde:isCurated true ;
+            nde:originalName "Mass Spectrometry" ],
         [ a schema1:DefinedTerm ;
             schema1:identifier "0000470" ;
             schema1:inDefinedTermSet "OBI" ;
@@ -1179,7 +1179,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifCompositeProfile.cdifNIAID
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-11-13'
+  dateOfLastChange: '2026-11-14'
 
 ```
 

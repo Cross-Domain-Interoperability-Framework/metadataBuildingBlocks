@@ -129,7 +129,9 @@ DefinedTerm), name, value, unitCode (DefinedTerm), and unitText.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/Q01/current/",
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/Q01/current/"
+        },
         "schema:value": "Q0100002",
         "schema:url": "https://vocab.nerc.ac.uk/collection/Q01/current/Q0100002/"
       },
@@ -180,7 +182,9 @@ DefinedTerm), name, value, unitCode (DefinedTerm), and unitText.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/Q01/current/",
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/Q01/current/"
+        },
         "schema:value": "Q0100002",
         "schema:url": "https://vocab.nerc.ac.uk/collection/Q01/current/Q0100002/"
       },
@@ -209,7 +213,7 @@ ex:additionalPropertyComplete_001 a schema1:PropertyValue ;
     schema1:name "Sample preparation method" ;
     schema1:propertyID [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://vocab.nerc.ac.uk/collection/Q01/current/" ;
+                    schema1:propertyID <https://vocab.nerc.ac.uk/collection/Q01/current/> ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/Q01/current/Q0100002/" ;
                     schema1:value "Q0100002" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/Q01/current/" ;
@@ -285,7 +289,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.schemaorgProperties.additionalProperty
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-13'
+  dateOfLastChange: '2026-11-14'
 
 ```
 

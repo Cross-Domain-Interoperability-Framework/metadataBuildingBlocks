@@ -376,39 +376,39 @@ converters/NIAID/niaidExamples/empiar-10514.json, converted by harvest_niaid_to_
     schema1:author [ a schema1:Person ;
             schema1:name "Martínez M" ],
         [ a schema1:Person ;
-            schema1:name "Sorzano COS" ],
+            schema1:name "Melero R" ],
         [ a schema1:Person ;
-            schema1:name "Sanchez-Garcia R" ],
-        [ a schema1:Person ;
-            schema1:name "Wrapp D" ],
-        [ a schema1:Person ;
-            schema1:name "Vilas JL" ],
+            schema1:name "Ramírez-Aportela E" ],
         [ a schema1:Person ;
             schema1:name "Foster B" ],
         [ a schema1:Person ;
             schema1:name "Herreros D" ],
         [ a schema1:Person ;
+            schema1:name "McLellan JS" ],
+        [ a schema1:Person ;
             schema1:name "Tagare HD" ],
+        [ a schema1:Person ;
+            schema1:name "Sorzano COS" ],
         [ a schema1:Person ;
             schema1:name "Losana P" ],
         [ a schema1:Person ;
-            schema1:name "Conesa P" ],
-        [ a schema1:Person ;
             schema1:name "Chacon P" ],
         [ a schema1:Person ;
-            schema1:name "Melero R" ],
+            schema1:name "Sanchez-Garcia R" ],
         [ a schema1:Person ;
-            schema1:name "McLellan JS" ],
-        [ a schema1:Person ;
-            schema1:name "Del Caño L" ],
+            schema1:name "Vilas JL" ],
         [ a schema1:Person ;
             schema1:name "Carazo JM" ],
         [ a schema1:Person ;
+            schema1:name "Del Caño L" ],
+        [ a schema1:Person ;
             schema1:name "Marabini R" ],
         [ a schema1:Person ;
-            schema1:name "Ramírez-Aportela E" ],
+            schema1:name "Fonseca-Reyna YC" ],
         [ a schema1:Person ;
-            schema1:name "Fonseca-Reyna YC" ] ;
+            schema1:name "Conesa P" ],
+        [ a schema1:Person ;
+            schema1:name "Wrapp D" ] ;
     schema1:datePublished "2020" ;
     schema1:issueNumber "Pt 6" ;
     schema1:name "Continuous flexibility analysis of SARS-CoV-2 spike prefusion structures" ;
@@ -477,7 +477,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.niaidProperties.niaidCreativeWork
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-11-13'
+  dateOfLastChange: '2026-11-14'
 
 ```
 
