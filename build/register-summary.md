@@ -480,7 +480,7 @@ Defines the prov:wasGeneratedBy property for CDIF metadata records. Wraps the cd
 
 **Type:** schema
 
-Extends cdifProvActivity with XAS-specific provenance: triple-typed activity (schema:Action + xas:analysisevent + prov:Activity), XAS facility location, sample object, XAS instrument wrappers via prov:used, and XAS additional properties (edge_energy, calibration method, instrument configuration, installedOptions). Defines properties: @type, schema:startTime, schema:endTime, prov:used, schema:additionalProperty, schema:location, schema:object. Uses building blocks: cdifProvActivity (cdifDataType), identifier (schemaorgProperties), xasSample (xasProperties), additionalProperty (schemaorgProperties), xasFacility (xasProperties), xasInstrument (xasProperties).
+Extends cdifProvActivity with XAS-specific provenance: triple-typed activity (schema:Action + xas:analysisevent + prov:Activity), XAS facility location, sample object, XAS instruments via schema:instrument, and XAS additional properties (edge_energy, calibration method, instrument configuration, installedOptions). Defines properties: @type, schema:startTime, schema:endTime, schema:instrument, schema:additionalProperty, schema:location, schema:object. Uses building blocks: cdifProvActivity (cdifDataType), identifier (schemaorgProperties), xasSample (xasProperties), additionalProperty (schemaorgProperties), xasFacility (xasProperties), xasInstrument (xasProperties).
 
 ### `cdif.bbr.metadata.profiles.cdifCompositeProfile.cdifNIAID` — CDIF NIAID profile
 
@@ -504,7 +504,7 @@ Profile module for machine-actionable access and usage conditions expressed as O
 
 **Type:** schema
 
-Required XAS metadata constraints layered on cdifCore (composed once by the xasDocument profile). Requires schema:Dataset in @type (schema:Product optional -- no root-level property depends on it), a required prov:wasGeneratedBy containing at least one analysis activity whose prov:used carries the instrument wrapper (NXsource + NXmonochromator sub-components with required type/probe/d_spacing/reflection), an XDI- or NeXus-conformant schema:distribution, required XAS measurementTechnique DefinedTerms, and the schema:object material sample. Defines properties: @type, schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:variableMeasured. Uses building blocks: cdifProvActivity (cdifDataType), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties).
+Required XAS metadata constraints layered on cdifCore (composed once by the xasDocument profile). Requires schema:Dataset in @type (schema:Product optional -- no root-level property depends on it), a required prov:wasGeneratedBy containing at least one analysis activity whose schema:instrument carries the instruments (NXsource and NXmonochromator with required type/probe/d_spacing/reflection), an XDI- or NeXus-conformant schema:distribution, required XAS measurementTechnique DefinedTerms, and the schema:object material sample. Defines properties: @type, schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:variableMeasured. Uses building blocks: cdifProvActivity (cdifDataType), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties).
 
 ### `cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescriptionStructure` — CDIF Data Structure profile
 
@@ -522,5 +522,5 @@ Profile combining CDIF discovery metadata with extended provenance (cdifProvActi
 
 **Type:** schema
 
-Document-level CDIF profile for X-ray Absorption Spectroscopy datasets: composes cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure with xasCore (mandatory) + xasOptional (recommended). Conformance URI https://w3id.org/cdif/xasDocument/1.1.
+Document-level CDIF profile for X-ray Absorption Spectroscopy datasets: composes cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure with xasCore (mandatory) + xasOptional (recommended). Conformance URI https://w3id.org/cdif/xasDocument/1.2.
 
