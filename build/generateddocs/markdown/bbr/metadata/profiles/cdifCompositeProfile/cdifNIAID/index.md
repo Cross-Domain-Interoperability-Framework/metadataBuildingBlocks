@@ -1017,22 +1017,22 @@ discovery and cdifNIAID.
             nde:originalName "Marine Plankton Environmental Sample" ] ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:about "NIAID classification" ;
-            schema1:name "infectiousAgent" ],
-        [ a schema1:DefinedTerm ;
-            schema1:about "topicCategory" ;
-            schema1:identifier "topic_0121" ;
-            schema1:inDefinedTermSet "EDAM" ;
-            schema1:name "Proteomics" ;
-            schema1:url "http://edamontology.org/topic_0121" ;
-            nde:curatedBy [ a schema1:SoftwareApplication ;
-                    schema1:name "GPT-4o-mini" ;
-                    schema1:url "https://openai.com/index/chatgpt" ] ],
+            schema1:name "host" ],
         [ a schema1:DefinedTerm ;
             schema1:about "topicCategory" ;
             schema1:identifier "topic_3370" ;
             schema1:inDefinedTermSet "EDAM" ;
             schema1:name "Analytical chemistry" ;
             schema1:url "http://edamontology.org/topic_3370" ;
+            nde:curatedBy [ a schema1:SoftwareApplication ;
+                    schema1:name "GPT-4o-mini" ;
+                    schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "topicCategory" ;
+            schema1:identifier "topic_0121" ;
+            schema1:inDefinedTermSet "EDAM" ;
+            schema1:name "Proteomics" ;
+            schema1:url "http://edamontology.org/topic_0121" ;
             nde:curatedBy [ a schema1:SoftwareApplication ;
                     schema1:name "GPT-4o-mini" ;
                     schema1:url "https://openai.com/index/chatgpt" ] ],
@@ -1047,7 +1047,7 @@ discovery and cdifNIAID.
                     schema1:url "https://openai.com/index/chatgpt" ] ],
         [ a schema1:DefinedTerm ;
             schema1:about "NIAID classification" ;
-            schema1:name "host" ],
+            schema1:name "infectiousAgent" ],
         "",
         "2dlc",
         "Automated",
@@ -1060,13 +1060,6 @@ discovery and cdifNIAID.
         "Rprp" ;
     schema1:license "https://www.proteomexchange.org/pxcollaborativeagreement_2024.pdf" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "0003229" ;
-            schema1:inDefinedTermSet "OBI" ;
-            schema1:name "plasma proteomics assay" ;
-            schema1:url "http://purl.obolibrary.org/obo/OBI_0003229" ;
-            nde:isCurated true ;
-            nde:originalName "Shotgun proteomics" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "0000428" ;
             schema1:inDefinedTermSet "PRIDE" ;
             schema1:name "Bottom-up proteomics" ;
@@ -1074,17 +1067,24 @@ discovery and cdifNIAID.
             nde:isCurated true ;
             nde:originalName "Shotgun proteomics" ],
         [ a schema1:DefinedTerm ;
-            schema1:identifier "0000534" ;
-            schema1:inDefinedTermSet "MMO" ;
-            schema1:name "mass spectrometry" ;
-            schema1:url "http://purl.obolibrary.org/obo/MMO_0000534" ;
-            nde:isCurated true ;
-            nde:originalName "Mass Spectrometry" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "0000470" ;
             schema1:inDefinedTermSet "OBI" ;
             schema1:name "mass spectrometry assay" ;
             schema1:url "http://purl.obolibrary.org/obo/OBI_0000470" ;
+            nde:isCurated true ;
+            nde:originalName "Mass Spectrometry" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "0003229" ;
+            schema1:inDefinedTermSet "OBI" ;
+            schema1:name "plasma proteomics assay" ;
+            schema1:url "http://purl.obolibrary.org/obo/OBI_0003229" ;
+            nde:isCurated true ;
+            nde:originalName "Shotgun proteomics" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "0000534" ;
+            schema1:inDefinedTermSet "MMO" ;
+            schema1:name "mass spectrometry" ;
+            schema1:url "http://purl.obolibrary.org/obo/MMO_0000534" ;
             nde:isCurated true ;
             nde:originalName "Mass Spectrometry" ] ;
     schema1:name "Online Nanoflow Two-Dimension Comprehensive Active Modulation Reversed Phase-Reversed Phase Liquid Chromatography High Resolution Mass Spectrometry for Metaproteomics of Environmen-tal and Microbiome Samples" ;
