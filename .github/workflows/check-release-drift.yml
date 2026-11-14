@@ -161,6 +161,22 @@ jobs:
           ref: 'main'
           path: cdif/profile-access
 
+      - name: Checkout profile-niaid
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ github.repository_owner }}/profile-niaid
+          # Pinned to main for the same reason as profile-provenance above and
+          # profile-access: no formal release, so main is the leading edge.
+          #
+          # This step did not exist until 2026-11-14. profile-niaid entered
+          # sync_release_repos.py's table for the 2026-11-09 publication of
+          # w3id.org/cdif/niaid/1.0, and a repo in that table with no checkout
+          # step here is reported as "MISSING: repo not checked out" and exits
+          # 1 -- the same gap the XAS-CDIF step below was added to close, and
+          # the reason this check could not go green on the ref fix alone.
+          ref: 'main'
+          path: cdif/profile-niaid
+
       - name: Checkout XAS-CDIF
         uses: actions/checkout@v5
         # A failed checkout aborts the job before the comparison runs, which is
