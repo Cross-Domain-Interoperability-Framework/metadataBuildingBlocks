@@ -179,13 +179,13 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
             schema1:name "countRows" ;
             schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity> ;
             schema1:value 1500 ] ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ],
-        [ cdif:format "float64" ;
+    cdif:hasPhysicalMapping [ cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ] .
+            cdif:physicalDataType "Numeric" ],
+        [ cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ] .
 
 
 ```
@@ -427,16 +427,16 @@ and three physical-mapping entries.
             schema1:name "countRows" ;
             schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity> ;
             schema1:value 1500 ] ;
-    cdif:hasPhysicalMapping [ cdi:nullSequence "NA" ;
-            cdif:format "YYYY-MM-DD" ;
-            cdif:formats_InstanceVariable ex:var-date ;
-            cdif:index 1 ;
-            cdif:physicalDataType "Date" ],
-        [ cdi:isRequired true ;
+    cdif:hasPhysicalMapping [ cdi:isRequired true ;
             cdi:length 16 ;
             cdif:formats_InstanceVariable ex:var-station-id ;
             cdif:index 0 ;
             cdif:physicalDataType "String" ],
+        [ cdi:nullSequence "NA" ;
+            cdif:format "YYYY-MM-DD" ;
+            cdif:formats_InstanceVariable ex:var-date ;
+            cdif:index 1 ;
+            cdif:physicalDataType "Date" ],
         [ cdi:decimalPositions 2 ;
             cdi:length 12 ;
             cdi:scale 1 ;

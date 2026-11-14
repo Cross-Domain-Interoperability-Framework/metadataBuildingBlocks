@@ -1386,6 +1386,15 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:distribution [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "kpZDvhyVo",
                 "sMUGwSqxWzJOYEb",
                 "tNdpXaJgDeWbFkNM" ;
@@ -1394,28 +1403,19 @@ ex:YOPx123 a schema1:Dataset ;
                 ex:sr68lgy ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
+                    spdx:checksumValue "h" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "lieopgXuumP" ] ;
             schema1:name "fhhbzh" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1451,16 +1451,16 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:publisher ex:exampleOrg_fW ;
     schema1:publishingPrinciples <https://example.org/policies/data-retention> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "BOoRREnpDEUrdNaV" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "FNoslhw" ;
-                    schema1:name "atsDYJxuhHpivqLmw" ;
-                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:encodingFormat "gompgHAN" ;
                     schema1:name "oAuxEutsTEiB" ;
+                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "BOoRREnpDEUrdNaV" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "FNoslhw" ;
+                    schema1:name "atsDYJxuhHpivqLmw" ;
                     schema1:url "http://example.com/resource?foo=bar#fragment" ] ] ;
     schema1:sameAs "https://example.org/alt-id/YOPx123",
         "urn:idorg:test:p45689" ;
@@ -1669,10 +1669,10 @@ Simplest valid CDIF Discovery metadata with only required properties.
   "@type": [
     "schema:Dataset"
   ],
-  "schema:name": "Arctic Sea Ice Extent Monthly Averages",
+  "schema:name": "Sea water chemistry",
   "schema:identifier": "https://doi.org/10.5281/zenodo.1234567",
   "schema:dateModified": "2025-06-15",
-  "schema:url": "https://example.org/dataset/arctic-sea-ice-extent",
+  "schema:url": "https://example.org/dataset/sea-water-chemistry",
   "schema:license": [
     {
       "@id": "https://creativecommons.org/licenses/by/4.0/"
@@ -1684,7 +1684,7 @@ Simplest valid CDIF Discovery metadata with only required properties.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:name": "sea ice extent"
+      "schema:name": "sampleID"
     },
     {
       "@type": [
@@ -1699,6 +1699,13 @@ Simplest valid CDIF Discovery metadata with only required properties.
       ],
       "@id": "ex:varOxygen",
       "schema:name": "dissolved_oxygen"
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": ["schema:DataDownload"],
+      "schema:name": "Sea water data",
+      "schema:contentUrl": "https://example.org/data/ctd-2015-leg15-4.csv"
     }
   ],
   "schema:subjectOf": {
@@ -1747,10 +1754,10 @@ Simplest valid CDIF Discovery metadata with only required properties.
   "@type": [
     "schema:Dataset"
   ],
-  "schema:name": "Arctic Sea Ice Extent Monthly Averages",
+  "schema:name": "Sea water chemistry",
   "schema:identifier": "https://doi.org/10.5281/zenodo.1234567",
   "schema:dateModified": "2025-06-15",
-  "schema:url": "https://example.org/dataset/arctic-sea-ice-extent",
+  "schema:url": "https://example.org/dataset/sea-water-chemistry",
   "schema:license": [
     {
       "@id": "https://creativecommons.org/licenses/by/4.0/"
@@ -1762,7 +1769,7 @@ Simplest valid CDIF Discovery metadata with only required properties.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:name": "sea ice extent"
+      "schema:name": "sampleID"
     },
     {
       "@type": [
@@ -1777,6 +1784,15 @@ Simplest valid CDIF Discovery metadata with only required properties.
       ],
       "@id": "ex:varOxygen",
       "schema:name": "dissolved_oxygen"
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:name": "Sea water data",
+      "schema:contentUrl": "https://example.org/data/ctd-2015-leg15-4.csv"
     }
   ],
   "schema:subjectOf": {
@@ -1813,11 +1829,14 @@ Simplest valid CDIF Discovery metadata with only required properties.
 
 <https://example.org/dataset/minimal-discovery-001> a schema1:Dataset ;
     schema1:dateModified "2025-06-15" ;
+    schema1:distribution [ a schema1:DataDownload ;
+            schema1:contentUrl "https://example.org/data/ctd-2015-leg15-4.csv" ;
+            schema1:name "Sea water data" ] ;
     schema1:identifier "https://doi.org/10.5281/zenodo.1234567" ;
     schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
-    schema1:name "Arctic Sea Ice Extent Monthly Averages" ;
+    schema1:name "Sea water chemistry" ;
     schema1:subjectOf <https://example.org/metadata/minimal-discovery-001> ;
-    schema1:url "https://example.org/dataset/arctic-sea-ice-extent" ;
+    schema1:url "https://example.org/dataset/sea-water-chemistry" ;
     schema1:variableMeasured ex:varOxygen,
         ex:varSalinity,
         ex:yeujpk .
@@ -1835,7 +1854,7 @@ ex:varSalinity a schema1:PropertyValue ;
     schema1:name "sea_water_practical_salinity" .
 
 ex:yeujpk a schema1:PropertyValue ;
-    schema1:name "sea ice extent" .
+    schema1:name "sampleID" .
 
 
 ```
@@ -3153,15 +3172,15 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:identifier ex:datasetDOI42 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
-            schema1:name "North Atlantic Deep Water" ;
-            schema1:termCode "P02:DOXY" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
             schema1:name "Sea water temperature" ;
             schema1:termCode "TEMPPR01" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:name "North Atlantic Deep Water" ;
+            schema1:termCode "P02:DOXY" ],
         "Labrador Sea",
         "deep water formation" ;
     schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
@@ -3176,12 +3195,6 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:publisher <https://ror.org/007hqnf44> ;
     schema1:publishingPrinciples <https://example.org/policies/dfo-open-data> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "service" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "application/x-netcdf" ;
-                    schema1:name "OPeNDAP access" ;
-                    schema1:url "https://example.org/opendap/nadw-ctd" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "documentation" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:contentType "text/html" ;
@@ -3190,10 +3203,21 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:httpMethod "GET" ;
                     schema1:name "NADW Cruise Reports" ;
                     schema1:url "https://example.org/docs/nadw-cruise-reports" ;
-                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ] ;
+                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "service" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "application/x-netcdf" ;
+                    schema1:name "OPeNDAP access" ;
+                    schema1:url "https://example.org/opendap/nadw-ctd" ] ] ;
     schema1:sameAs <https://n2t.net/ark:/99999/fk4nadw2024>,
         "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:spatialCoverage [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoCoordinates ;
+                    schema1:latitude 5.655e+01 ;
+                    schema1:longitude -5.258e+01 ] ;
+            schema1:name "AR7W Transect Station 12" ],
+        [ a schema1:Place ;
             schema1:additionalType "ocean basin" ;
             schema1:alternateName "Labrador Sea",
                 "Mer du Labrador" ;
@@ -3207,12 +3231,7 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:termCode "mrgid:4287" ] ;
             geosparql:hasGeometry [ a sf:Polygon ;
                     geosparql:asWKT "POLYGON((-60 53, -45 53, -45 65, -60 65, -60 53))"^^<['geosparql:wktLiteral']> ;
-                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ],
-        [ a schema1:Place ;
-            schema1:geo [ a schema1:GeoCoordinates ;
-                    schema1:latitude 5.655e+01 ;
-                    schema1:longitude -5.258e+01 ] ;
-            schema1:name "AR7W Transect Station 12" ] ;
+                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ] ;
     schema1:subjectOf ex:metadataRecord42 ;
     schema1:temporalCoverage [ a time:ProperInterval ;
             schema1:description "Observation period spanning 10 winter convection seasons" ;
