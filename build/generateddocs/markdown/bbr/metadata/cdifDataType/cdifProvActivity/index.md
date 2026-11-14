@@ -415,13 +415,13 @@ ex:activity-soil-chem-analysis a schema1:Action,
             schema1:isBasedOn <https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination> ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
-                    schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
                     schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ] ] ;
+                    schema1:position 1 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
+                    schema1:name "ICP-MS measurement and calibration" ;
+                    schema1:position 2 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:agent [ a schema1:Person ;
             schema1:contactPoint [ a schema1:ContactPoint ;
@@ -937,9 +937,15 @@ $defs:
           $ref: '#/$defs/AdditionalProperty'
         x-jsonld-id: http://schema.org/additionalProperty
       schema:actionProcess:
-        description: Sub-procedure for this step, a nested schema:HowTo with its own
-          ordered steps. Use it for a step whose internal procedure has several phases.
-        $ref: '#/$defs/HowTo'
+        description: 'Sub-procedure for this step, a nested schema:HowTo with its
+          own ordered steps. Use it for a step whose internal procedure has several
+          phases. An {@id} reference names a HowTo described elsewhere in the document
+          or outside it: a sub-procedure several steps share, or one a framed document
+          cuts to its @id where the procedures refer to each other.'
+        anyOf:
+        - $ref: '#/$defs/HowTo'
+        - description: reference to a sub-procedure defined elsewhere
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://schema.org/actionProcess
     required:
     - '@type'

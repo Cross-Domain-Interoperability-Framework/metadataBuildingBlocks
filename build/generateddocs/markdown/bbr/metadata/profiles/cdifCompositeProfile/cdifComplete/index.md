@@ -2589,17 +2589,17 @@ quality measurements.
     schema1:size [ a schema1:QuantitativeValue ;
             schema1:unitText "byte" ;
             schema1:value 6249 ] ;
-    cdif:hasPhysicalMapping [ cdi:isRequired false ;
+    cdif:hasPhysicalMapping [ cdi:isRequired true ;
+            cdif:format "string" ;
+            cdif:formats_InstanceVariable ex:var-sampleID ;
+            cdif:index 0 ;
+            cdif:physicalDataType "string" ],
+        [ cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
             cdif:formats_InstanceVariable ex:var-uncertainty ;
             cdif:index 2 ;
             cdif:physicalDataType "float64" ],
-        [ cdi:isRequired true ;
-            cdif:format "string" ;
-            cdif:formats_InstanceVariable ex:var-sampleID ;
-            cdif:index 0 ;
-            cdif:physicalDataType "string" ],
         [ cdi:isRequired true ;
             cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
@@ -2650,15 +2650,15 @@ ex:activity-geochem-analysis a schema1:Action,
             schema1:isBasedOn <https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination> ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2711a (Montana II Soil)." ;
-                    schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ;
-                    schema1:url "https://example.org/protocols/icpms-measurement" ],
-                [ a schema1:HowToStep ;
                     schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C for 20 min in a microwave system." ;
                     schema1:name "Sample preparation and acid digestion" ;
                     schema1:position 1 ;
-                    schema1:url "https://example.org/protocols/digestion-procedure" ] ] ;
+                    schema1:url "https://example.org/protocols/digestion-procedure" ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2711a (Montana II Soil)." ;
+                    schema1:name "ICP-MS measurement and calibration" ;
+                    schema1:position 2 ;
+                    schema1:url "https://example.org/protocols/icpms-measurement" ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
             schema1:name "Analysis Batch Identifier" ;
@@ -2687,11 +2687,11 @@ ex:activity-geochem-analysis a schema1:Action,
                     schema1:name "Inductively coupled plasma mass spectrometer" ;
                     schema1:termCode "LAB21" ] ;
             schema1:hasPart [ a schema1:Thing ;
-                    schema1:alternateName "CETAC ASX-560" ;
-                    schema1:name "Autosampler" ],
-                [ a schema1:Thing ;
                     schema1:alternateName "Peltier-cooled cyclonic" ;
-                    schema1:name "Spray chamber" ] ;
+                    schema1:name "Spray chamber" ],
+                [ a schema1:Thing ;
+                    schema1:alternateName "CETAC ASX-560" ;
+                    schema1:name "Autosampler" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
             schema1:termCode "ICP-MS" ] ;
@@ -2792,13 +2792,13 @@ ex:complete-dataset-001 a schema1:Dataset ;
             cdi:trim "Both" ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "countRows" ;
-                    schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity> ;
-                    schema1:value 461 ],
-                [ a schema1:PropertyValue ;
                     schema1:name "countColumns" ;
                     schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
-                    schema1:value 3 ] ;
+                    schema1:value 3 ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "countRows" ;
+                    schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity> ;
+                    schema1:value 461 ] ;
             schema1:contentUrl "https://example.org/data/geochem-detailed.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "Detailed geochemistry analysis results" ;
@@ -2859,6 +2859,10 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:object [ a schema1:DataFeed ;
                             schema1:description "Geochemistry observations collection" ] ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of features to return" ;
+                            schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
@@ -2866,10 +2870,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination" ;
                             schema1:valueName "offset" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of features to return" ;
-                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:delimiter "," ;
@@ -2945,19 +2945,19 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID <https://vocabularyserver.com/keyword> ;
-                    schema1:url "https://vocabularyserver.com/keyword/spectral-001" ;
-                    schema1:value "spectral-001" ] ;
-            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
-            schema1:name "spectral analysis" ;
-            schema1:termCode "SPECTRAL" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID <https://vocabularyserver.com/keyword> ;
                     schema1:url "https://vocabularyserver.com/keyword/geochem-001" ;
                     schema1:value "geochem-001" ] ;
             schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
             schema1:name "geochemistry" ;
-            schema1:termCode "GEOCHEM" ] ;
+            schema1:termCode "GEOCHEM" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID <https://vocabularyserver.com/keyword> ;
+                    schema1:url "https://vocabularyserver.com/keyword/spectral-001" ;
+                    schema1:value "spectral-001" ] ;
+            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
+            schema1:name "spectral analysis" ;
+            schema1:termCode "SPECTRAL" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
