@@ -24,6 +24,7 @@ Suffix conventions:
     [...]                   square brackets = array (0..* or 1..*)
 """
 
+import hashlib
 import io
 import json
 import os
@@ -358,6 +359,68 @@ def string_suffix(schema):
 
 # ── main tree walker ─────────────────────────────────────────────────────
 
+class ExpandedShapes(object):
+    """The object shapes already expanded in the current root property's block.
+
+    Accumulates instead of branching. The old guard was a frozen set of @type tokens
+    threaded down (`visited_types | {tc}`), so it was path-local: it stopped a cycle but
+    let every shared shape be re-expanded at every sibling position. Measured 2026-11-14
+    on DiscoveryDataDescriptionStructure: 50223 rows of which 793 distinct, 76% of them
+    in the three deepest columns, `object reference` 3392 times and the skos:Concept type
+    row 1304 times.
+
+    **The key is the shape, not the type token, and that distinction is load-bearing.**
+    A union may have several arms pinning ONE @type and carrying DIFFERENT properties --
+    `schema:temporalCoverage` has three arms, all `time:ProperInterval`, one with
+    `time:intervalStartedBy`/`intervalFinishedBy` and another with `time:hasBeginning`
+    and its whole `time:inTimePosition` subtree. Keyed on the token, arms 2 and 3 were
+    elided and pointed at arm 1, which does not contain their content: the pointer was
+    false and 7 labels per composite (the entire `time:` family, `schema:line`) vanished
+    from the sheet. Keyed on the properties, each distinct shape expands once.
+
+    Sharing is per root property, not per sheet: across the whole sheet the first
+    property walked would absorb every shared shape and the rest would be stubs, which
+    makes the output depend on property order for no gain (measured: 1170 rows but only
+    396 distinct, against 652).
+    """
+
+    def __init__(self):
+        self._seen = set()
+
+    @staticmethod
+    def key(type_token, schema):
+        """(type token, digest of the properties that would be emitted below it)."""
+        props = schema.get("properties", {})
+        blob = json.dumps(props, sort_keys=True, default=str)
+        return (type_token, hashlib.sha1(blob.encode("utf-8")).hexdigest())
+
+    def __contains__(self, key):
+        return key in self._seen
+
+    def add(self, key):
+        self._seen.add(key)
+
+
+def elision_row(type_name, col):
+    """A row saying a subtree is expanded elsewhere rather than here.
+
+    Without it an elision is indistinguishable from an absence -- which is the defect
+    this whole register entry is about, one layer down: sharing the guard drops 141 of
+    the 793 distinct rows, and they are mostly the data-structure detail at its second
+    site (reached through schema:distribution -> cdi:isStructuredBy), 18 of them paths
+    that appear exactly once. The pointer names the type, and because sharing is per
+    root property the expansion it points at is always in the same block.
+
+    Returns None when the tree has no room for a child column, where the tree is
+    truncated by depth anyway.
+    """
+    if col >= MAX_COLS:
+        return None
+    row = make_row()
+    row[col] = f"(see {type_name} above)"
+    return row
+
+
 def emit_property(prop_name, prop_schema, depth, rows, visited_types):
     """Emit row(s) for one property."""
     if depth > MAX_DEPTH:
@@ -542,17 +605,25 @@ def emit_object_property(prop_name, schema, is_array, depth, rows, visited_types
         row[opts_col] = f"@type -- [string](contains {tc})"
     rows.append(row)
 
-    # recursion guard
-    if tc and tc in visited_types:
+    # Expand each shape once, and say where it is not expanded again.
+    key = ExpandedShapes.key(tc, schema)
+    if tc and key in visited_types:
+        pointer = elision_row(tc, prop_col + 2)
+        if pointer is not None:
+            rows.append(pointer)
         return
-    new_visited = visited_types | ({tc} if tc else set())
 
-    # emit child properties
+    # A shape is claimed only where it is really expanded: a site with no room left
+    # would otherwise claim it and emit nothing, sending a later site that did have
+    # room to a pointer with nothing behind it. The add stays before the recursion,
+    # which is what stops a cycle.
     if depth + 1 <= MAX_DEPTH:
         child_props = {k: v for k, v in schema.get("properties", {}).items()
                        if k != "@type"}
+        if child_props:
+            visited_types.add(key)
         for cname, cschema in child_props.items():
-            emit_property(cname, cschema, depth + 1, rows, new_visited)
+            emit_property(cname, cschema, depth + 1, rows, visited_types)
 
 
 def emit_choice_option(opt, opts_col, depth, rows, visited_types):
@@ -597,15 +668,20 @@ def emit_choice_option(opt, opts_col, depth, rows, visited_types):
         row[opts_col] = f"@type -- [string](contains {tc})"
         rows.append(row)
 
-        if tc in visited_types:
+        key = ExpandedShapes.key(tc, item)
+        if key in visited_types:
+            pointer = elision_row(tc, opts_col + 1)
+            if pointer is not None:
+                rows.append(pointer)
             return
-        new_visited = visited_types | {tc}
 
         if depth + 1 <= MAX_DEPTH:
             child_props = {k: v for k, v in item.get("properties", {}).items()
                            if k != "@type"}
+            if child_props:
+                visited_types.add(key)
             for cname, cschema in child_props.items():
-                emit_property(cname, cschema, depth + 1, rows, new_visited)
+                emit_property(cname, cschema, depth + 1, rows, visited_types)
 
     elif kind == "object":
         # untyped object — show its properties
@@ -665,7 +741,7 @@ def generate_property_tree(resolved_schema_path):
     # walk all properties, root allOf included
     props = collect_root_properties(schema)
     for pname, pschema in props.items():
-        emit_property(pname, pschema, 0, rows, set())
+        emit_property(pname, pschema, 0, rows, ExpandedShapes())
 
     return rows
 

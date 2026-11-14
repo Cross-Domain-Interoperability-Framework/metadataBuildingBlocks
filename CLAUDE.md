@@ -761,13 +761,45 @@ their refs are resolved over the network at their build time, not ours.
   **The regression gate that matters is the three composites that should NOT change.**
   `CoreDiscovery`, `DiscoveryDataDescription` and `cdifNIAID` are byte-identical before and after;
   the other three gain the slice. `unknown` cells stay 0 everywhere.
-  **Note the size this exposes, and do not read it as the fix misbehaving.** The three grow to
-  ~50k rows (`DiscoveryDataDescriptionStructure` 3980 -> 50223, 1.8 MB) at **98% repeated rows,
-  794 distinct** -- 36224 of those rows are one property, `schema:distribution`, whose two union
-  arms each re-expand the `cdi:isStructuredBy` subtree. The tool re-expands shared shapes at every
-  use site by design (the committed sheets are already 78-88% repeated), and this is that
-  multiplied. The slice is genuinely there; whether a 50k-row sheet is the right artifact is a
-  separate question from whether the walker can see the schema.
+  **The size that fix exposed was not the slice, and the first explanation of it was wrong.**
+  The three grew to ~50k rows (`DiscoveryDataDescriptionStructure` 3980 -> 50223, 1.8 MB) at
+  98% repeated rows, 794 distinct. #90's own description blamed `schema:distribution`, "whose two
+  union arms each re-expand the `cdi:isStructuredBy` subtree". Measured properly on 2026-11-14:
+  `cdi:isStructuredBy` appears **6 times in the whole sheet**, `cdif:has_PrimaryKey` 25. 76% of
+  the rows are in the three deepest columns (10795 / 9321 / 17869 at cols 11-13) and the repeats
+  are generic leaves -- `object reference` 3392 times, `string` 1816, the `skos:Concept` type row
+  1304. The deeper tree did not add breadth; it reached a depth at which shared-shape re-expansion
+  dominates. **Attribute a row count to a property before naming a cause in a commit message.**
+
+- **The recursion guard was path-local, and making it accumulate is only safe if it keys on the
+  SHAPE.** Settled 2026-11-14. `visited_types` was a frozen set of `@type` tokens threaded down
+  (`visited_types | {tc}`), so it stopped a cycle but let every shared shape be re-expanded at
+  every sibling position. Sharing one accumulating set per root property is what collapses the
+  sheet: `DiscoveryDataDescriptionStructure` 50223 -> 4016 rows, 1.8 MB -> 0.16 MB, and the two
+  composites that never had the slice shrink too (`CoreDiscovery` 2081 -> 1271). Depth truncation
+  is strictly dominated -- `MAX_DEPTH` 4 gives 12372 rows AND fewer distinct rows (566) than
+  sharing does (725), so do not reach for it. Sharing across the whole sheet instead of per root
+  property is worse than it looks: 1170 rows but only 396 distinct, and the first property walked
+  absorbs every shared shape, so the output depends on property order.
+  **Two traps in doing it, the second of which read as a success.** Silently returning at the
+  guard makes an elision indistinguishable from an absence, which is the same defect as the entry
+  above one layer down, so an elision now emits `(see <type> above)` -- `elision_row`. And keying
+  that guard on the `@type` token **lost 7-11 labels per composite while every check passed**:
+  `schema:temporalCoverage` is a union of three arms that all pin `time:ProperInterval` and carry
+  different properties, one with `time:intervalStartedBy`/`intervalFinishedBy` and another with
+  `time:hasBeginning` and its whole `time:inTimePosition` subtree, so arms 2 and 3 were elided and
+  pointed at arm 1, which does not contain their content. The pointer was false and the entire
+  `time:` family, plus `schema:line`, `schema:value` and an xas `enum`, left the sheet. A
+  same-token-different-shape union is not exotic here. `ExpandedShapes.key` is therefore
+  `(type token, sha1 of the properties that would be emitted below it)`.
+  **The check that catches this is label-level, not count-level.** "Pointers all resolve to a type
+  expanded in the same block" passed throughout the broken version, because arm 1 *was* expanded;
+  what fails is asking whether any label present before is now absent from the sheet entirely
+  (0 of 6 composites, against 7-11 each before). Distinct (column, label) pairs still fall --
+  794 -> 725 on that composite -- because a label may now be printed at fewer depths; no label
+  disappears. Pointers always resolve upward (a shape is recorded only once expanded, so the
+  expansion precedes every pointer to it), and a shape is claimed only where children are really
+  emitted, so a depth-truncated site cannot claim one and leave a later site pointing at nothing.
 
 ## Traps — other CDIF repos
 
