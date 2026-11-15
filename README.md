@@ -11,6 +11,14 @@ This repository contains the **shared core building blocks** (schema.org propert
 
 Domain-specific repos reference core building blocks in this repository via absolute URLs (`https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/...`).
 
+Those pages are served from `main`, so **they are the cutting edge and may have diverged from the
+current release tags** in the `profile-*` and `doc-*` release repositories, which hold the published
+CDIF profiles and implementation guides. The `updates` branch of each release repository should be
+current with the cutting edge here, while its `main` branch carries the most recent release; some
+profiles have no `updates` branch because they have not been released yet. To reference this
+repository at release parity instead, use the tag the release was emitted from — `profiles-v1.1` for
+the 1.1 profile family.
+
 For more info see [the OGC Documentation](https://ogcincubator.github.io/bblocks-docs/).
 
 ## Schema Pipeline
