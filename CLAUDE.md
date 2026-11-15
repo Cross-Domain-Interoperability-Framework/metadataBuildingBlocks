@@ -202,6 +202,26 @@ their refs are resolved over the network at their build time, not ours.
   Forms schemas"), so `origin/main` moves on its own. Always `git fetch` and rebase before a
   follow-up push.
 
+  **Two merges inside ~3 minutes make the postprocessor go red without anything being wrong, and
+  the red reads as a validation failure.** Measured 2026-11-14. #93 merged at 15:00:18Z and its
+  run started 15:00:21; #95 merged at 15:02:38, 2m17s in; at 15:03:03 the run's auto-commit push
+  was rejected `! refs/heads/main:refs/heads/main [rejected] (non-fast-forward)`. **Read the step
+  list before the diff:** `OGC BB postprocess` -- the authoritative JSON Schema + uplift + SHACL
+  pass -- was `success`, and only `Add & Commit` failed, with every publish step after it skipped.
+  The `concurrency` group on `process-bblocks.yml` cannot prevent this: it serializes that workflow
+  against itself, and the racer is a *merge*, not another run. **It self-heals** -- the second
+  merge's own run regenerates `build/` from the newer tree (here `4bf679ebf7`, and `b7244228df` is
+  an ancestor of it), so nothing needs re-running; 2 failures in 25 runs, one of them this.
+  Nothing is implemented against it, and the options are not equal: the cheapest is to wait for
+  the postprocessor to go green before merging the next PR. The step itself belongs to
+  `opengeospatial/bblocks-postprocess/.github/workflows/validate-and-process.yml@master`, so a
+  retry cannot be added here without replacing that call -- the fix belongs upstream, as
+  `git pull --rebase` plus a retry around its push. The structural option is to stop pushing
+  `build/` to `main` at all (upstream supports `deploy.mode` `artifact` or `branch`), which is the
+  same move `skip-pages: true` already made against the Pages double-deploy race -- but it
+  relocates `build/`, which the release sync, the viewer deploy and anything reading `build/` from
+  `main` depend on, so it is not a casual change.
+
 - **A generated bundle is emitted from your WORKING TREE, so a stale branch publishes a stale
   version pin — and the dry run blames the release repo.** Measured 2026-10-28, at the cost of a
   pushed regression. Local `main` was at `54b7deaa58` (2026-10-27 00:06) and had not been fetched;
