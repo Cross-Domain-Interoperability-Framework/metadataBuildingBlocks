@@ -309,10 +309,10 @@ mapping.
             cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
-            cdif:value "temp_c" ],
         [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
-            cdif:value "heart_rate" ] .
+            cdif:value "heart_rate" ],
+        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
+            cdif:value "temp_c" ] .
 
 
 ```
@@ -412,7 +412,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-14'
+  dateOfLastChange: '2026-11-15'
 
 ```
 
