@@ -33,10 +33,10 @@ A conforming XAS metadata record declares all six URIs in its
 `schema:subjectOf / dcterms:conformsTo`:
 
 ```
-https://w3id.org/cdif/core/1.1
-https://w3id.org/cdif/discovery/1.1
-https://w3id.org/cdif/data_description/1.1
-https://w3id.org/cdif/data_structure/1.1
+https://w3id.org/cdif/core/2.0
+https://w3id.org/cdif/discovery/2.0
+https://w3id.org/cdif/data_description/2.0
+https://w3id.org/cdif/data_structure/2.0
 https://w3id.org/cdif/xasCore/1.2
 ```
 
