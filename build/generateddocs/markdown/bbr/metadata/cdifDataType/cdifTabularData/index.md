@@ -179,13 +179,13 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
             schema1:name "countRows" ;
             schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity> ;
             schema1:value 1500 ] ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ],
-        [ cdif:format "float64" ;
+    cdif:hasPhysicalMapping [ cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ] .
+            cdif:physicalDataType "Numeric" ],
+        [ cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ] .
 
 
 ```
@@ -616,7 +616,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifTabularData
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-15'
+  dateOfLastChange: '2026-11-16'
 
 ```
 
