@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.schemaorgProperties.agentInRole - Person or Organization in Role
-Generated 2026-11-17T23:35:24.824233+00:00
+Generated 2026-11-17T23:39:41.383125+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
@@ -25,7 +25,13 @@ Failed validating 'required' in schema:
                     'contributor, but that is addressed in this blog post '
                     '(http://blog.schema.org/2014/06/introducing-role.html). '
                     'see '
-                    'https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people',
+                    'https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people. '
+                    'The Role holds the agent under the property it sits '
+                    "under, as schema.org's Role pattern and "
+                    'validator.schema.org require -- schema:contributor '
+                    'inside a contributor Role, schema:agent inside an '
+                    "activity's agent Role, schema:participant inside a "
+                    'participant Role. At least one is required.',
      'type': 'object',
      'properties': {'@type': {'default': ['schema:Role'],
                               'type': 'array',
@@ -34,20 +40,26 @@ Failed validating 'required' in schema:
                               'minItems': 1},
                     'schema:roleName': {'$ref': '#/$defs/cdifConceptOrTermOrString',
                                         'x-jsonld-id': 'http://schema.org/roleName'},
-                    'schema:contributor': {'anyOf': [{'description': 'IRI '
-                                                                     'reference '
-                                                                     'to a '
-                                                                     'Person '
-                                                                     'or '
-                                                                     'Organization '
-                                                                     'defined '
-                                                                     'elsewhere',
-                                                      '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'},
-                                                     {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml'},
-                                                     {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml'}],
-                                           'x-jsonld-id': 'http://schema.org/contributor'}},
-     'required': ['@type', 'schema:roleName', 'schema:contributor'],
-     '$defs': {'cdifConceptOrTermOrString': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml'}},
+                    'schema:contributor': {'$ref': '#/$defs/RoleFiller',
+                                           'x-jsonld-id': 'http://schema.org/contributor'},
+                    'schema:agent': {'$ref': '#/$defs/RoleFiller',
+                                     'x-jsonld-id': 'http://schema.org/agent'},
+                    'schema:participant': {'$ref': '#/$defs/RoleFiller',
+                                           'x-jsonld-id': 'http://schema.org/participant'}},
+     'required': ['@type', 'schema:roleName'],
+     'anyOf': [{'required': ['schema:contributor']},
+               {'required': ['schema:agent']},
+               {'required': ['schema:participant']}],
+     '$defs': {'RoleFiller': {'description': 'The Person or Organization '
+                                             'in this role.',
+                              'anyOf': [{'description': 'IRI reference to '
+                                                        'a Person or '
+                                                        'Organization '
+                                                        'defined elsewhere',
+                                         '$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml'},
+                                        {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml'},
+                                        {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml'}]},
+               'cdifConceptOrTermOrString': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml'}},
      'x-jsonld-prefixes': {'schema': 'http://schema.org/'},
      'x-bblocks-metadata': {'itemIdentifier': 'cdif.bbr.metadata.schemaorgProperties.agentInRole',
                             'register': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json',
@@ -91,85 +103,94 @@ Validation result for _sources/schemaorgProperties/agentInRole/rules.shacl: 1 vi
 ** Validation error **
 Violation (sh:MinCountConstraintComponent):
   Source shape: cdifd:roleNameProperty
-  Focus node: _:N8bd4c272e76d463a8e69a70c5bcae9b5
+  Focus node: _:N847bb27693f84fc591a1e34643537056
   Result path: schema1:roleName
   Message: a Role must provide a roleName, ideally the value is a term from a controlled vocabulary or an IRI for a role concept. For terms from a vocabulary, recommend using schema:DefinedTerm
 Focus nodes for _sources/schemaorgProperties/agentInRole/rules.shacl:
- - Shape cdifd:roleNameProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n4269a33ca9454cf7ad68ba80601063e3b18: *none*
- - Shape cdifd:roleNameProperty/sh:or/rdf:first: *none*
- - Shape _:n4269a33ca9454cf7ad68ba80601063e3b20: *none*
- - Shape _:n4269a33ca9454cf7ad68ba80601063e3b3: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb17: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFRoleShape/sh:or/rdf:first: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb35: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb11: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb40: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb12: *none*
+ - Shape cdifd:roleNameProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb38: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb3: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb4: *none*
+ - Shape cdifd:roleNameProperty/sh:or/rdf:first: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb37: *none*
+ - Shape cdifd:CDIFRoleShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb5: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb20: *none*
  - Shape cdifd:CDIFDefinedTermShape: *none*
- - Shape cdifd:CDIFRoleShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n4269a33ca9454cf7ad68ba80601063e3b16: *none*
- - Shape _:n4269a33ca9454cf7ad68ba80601063e3b17: *none*
- - Shape cdifd:CDIFRoleShape: _:N8bd4c272e76d463a8e69a70c5bcae9b5
- - Shape _:n4269a33ca9454cf7ad68ba80601063e3b15: *none*
- - Shape _:n4269a33ca9454cf7ad68ba80601063e3b4: *none*
- - Shape _:n4269a33ca9454cf7ad68ba80601063e3b14: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb21: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb36: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb34: *none*
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb19: *none*
+ - Shape cdifd:CDIFRoleShape: _:N847bb27693f84fc591a1e34643537056
+ - Shape _:n53780b63a05e4de29c10844256ee41aeb13: *none*
 
 Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl: no results
 Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
- - Shape _:n1c9e8bfc0bc04256b1a8b9f35ccc6a3cb19: *none*
- - Shape _:n1c9e8bfc0bc04256b1a8b9f35ccc6a3cb6: *none*
- - Shape _:n1c9e8bfc0bc04256b1a8b9f35ccc6a3cb7: *none*
- - Shape _:n1c9e8bfc0bc04256b1a8b9f35ccc6a3cb5: *none*
- - Shape _:n1c9e8bfc0bc04256b1a8b9f35ccc6a3cb26: *none*
- - Shape cdifd:CDIFDefinedTermShape: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:n1c9e8bfc0bc04256b1a8b9f35ccc6a3cb8: *none*
- - Shape _:n1c9e8bfc0bc04256b1a8b9f35ccc6a3cb10: *none*
- - Shape _:n1c9e8bfc0bc04256b1a8b9f35ccc6a3cb4: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:nc9adc1442e5e4fbc93b32b8791f4c720b7: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:nc9adc1442e5e4fbc93b32b8791f4c720b10: *none*
+ - Shape _:nc9adc1442e5e4fbc93b32b8791f4c720b4: *none*
+ - Shape _:nc9adc1442e5e4fbc93b32b8791f4c720b5: *none*
+ - Shape _:nc9adc1442e5e4fbc93b32b8791f4c720b19: *none*
+ - Shape _:nc9adc1442e5e4fbc93b32b8791f4c720b26: *none*
+ - Shape _:nc9adc1442e5e4fbc93b32b8791f4c720b6: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc9adc1442e5e4fbc93b32b8791f4c720b8: *none*
 
 Validation result for _sources/schemaorgProperties/identifier/rules.shacl: no results
 Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
- - Shape _:n110b1434fde0408a82c1e1cb13cf63e4b22: *none*
- - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
- - Shape _:n110b1434fde0408a82c1e1cb13cf63e4b11: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
  - Shape cdifd:CDIFIdentifierShape: *none*
- - Shape _:n110b1434fde0408a82c1e1cb13cf63e4b25: *none*
- - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n110b1434fde0408a82c1e1cb13cf63e4b23: *none*
- - Shape _:n110b1434fde0408a82c1e1cb13cf63e4b10: *none*
- - Shape _:n110b1434fde0408a82c1e1cb13cf63e4b20: *none*
- - Shape _:n110b1434fde0408a82c1e1cb13cf63e4b21: *none*
+ - Shape _:n4c2e8378213c4e76a34399f950e8d774b21: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n4c2e8378213c4e76a34399f950e8d774b25: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:n4c2e8378213c4e76a34399f950e8d774b11: *none*
+ - Shape _:n4c2e8378213c4e76a34399f950e8d774b10: *none*
+ - Shape _:n4c2e8378213c4e76a34399f950e8d774b22: *none*
+ - Shape _:n4c2e8378213c4e76a34399f950e8d774b20: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n4c2e8378213c4e76a34399f950e8d774b23: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
 
 Validation result for _sources/skosProperties/skosConcept/rules.shacl: no results
 Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
- - Shape skosv:ConceptShape: *none*
  - Shape skosv:prefLabelUniqueLangShape: *none*
+ - Shape skosv:ConceptShape: *none*
  - Shape skosv:conceptBroaderNotSelfShape: *none*
 
 Validation result for _sources/schemaorgProperties/organization/rules.shacl: no results
 Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:
- - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
  - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:nc0b3a11ca97140cc831759d0fd72e969b3: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
  - Shape cdifd:CDIFOrganizationShape: ex:PersonComplete_PI/schema1:affiliation
+ - Shape _:ne360aebf6f4f4ca9927f5866abe6d2e7b3: *none*
 
 Validation result for _sources/schemaorgProperties/person/rules.shacl: no results
 Focus nodes for _sources/schemaorgProperties/person/rules.shacl:
- - Shape cdifd:CDIFPersonShape: ex:PersonComplete_PI
- - Shape cdifd:CDIFContactPointShape/sh:or/rdf:first: *none*
- - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:maintainerOrProviderContactPointShape: *none*
- - Shape cdifd:CDIFContactPointShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
- - Shape _:n7e76f052a93f47e5a08a0e1d73184f0bb21: *none*
- - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
- - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFContactPointShape: ex:PersonComplete_PI/schema1:contactPoint
  - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape: *none*
+ - Shape cdifd:CDIFPersonShape: ex:PersonComplete_PI
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape: ex:PersonComplete_PI/schema1:contactPoint
+ - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape/sh:or/rdf:first: *none*
+ - Shape _:nd0b7eb352a3045c48ba67af1dee7e91db21: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape/sh:or/rdf:rest/rdf:first: *none*
 
 === End SHACL ===
 
