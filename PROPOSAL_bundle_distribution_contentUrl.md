@@ -52,7 +52,7 @@ change here.
 ## 2. The consumer
 
 Astromat Data Archive (ADA), 7,446 published records, each declaring
-`https://w3id.org/cdif/manifest/1.1` in `schema:subjectOf` → `dcterms:conformsTo`.
+`https://w3id.org/cdif/manifest/2.0` in `schema:subjectOf` → `dcterms:conformsTo`.
 
 A record's data is a zip bundle, typed `["schema:DataDownload", "schema:Collection"]`, which
 enumerates its component files in `schema:hasPart` — the manifest bundle pattern. It carries no
