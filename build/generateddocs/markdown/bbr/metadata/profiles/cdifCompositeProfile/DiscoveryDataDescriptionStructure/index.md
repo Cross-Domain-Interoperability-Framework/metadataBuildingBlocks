@@ -38,9 +38,9 @@ The bare-`cdi:PhysicalDataSet` case is the "structure reuse" pattern: a dataset 
 
 This profile composes [cdifCore](../../../cdifProperties/cdifCore/) and [cdifDataDescription](../../../cdifProperties/cdifDataDescription/), so a conforming record must carry `dcterms:conformsTo` URIs for all three:
 
-- `https://w3id.org/cdif/core/1.1`
-- `https://w3id.org/cdif/data_description/1.1`
-- `https://w3id.org/cdif/data_structure/1.1`
+- `https://w3id.org/cdif/core/2.0`
+- `https://w3id.org/cdif/data_description/2.0`
+- `https://w3id.org/cdif/data_structure/2.0`
 
 ## When to use which profile
 
@@ -177,16 +177,16 @@ elsewhere. The conformsTo array carries the three required URIs
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/data_description/1.1"
+        "@id": "https://w3id.org/cdif/data_description/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/data_structure/1.1"
+        "@id": "https://w3id.org/cdif/data_structure/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
+        "@id": "https://w3id.org/cdif/discovery/2.0"
       }
     ]
   }
@@ -320,16 +320,16 @@ elsewhere. The conformsTo array carries the three required URIs
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/data_description/1.1"
+        "@id": "https://w3id.org/cdif/data_description/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/data_structure/1.1"
+        "@id": "https://w3id.org/cdif/data_structure/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
+        "@id": "https://w3id.org/cdif/discovery/2.0"
       }
     ]
   }
@@ -360,10 +360,10 @@ elsewhere. The conformsTo array carries the three required URIs
         <https://example.org/var/systolicBP> .
 
 <https://example.org/dataset/vitalsWide/metadata> a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
-        <https://w3id.org/cdif/data_description/1.1>,
-        <https://w3id.org/cdif/data_structure/1.1>,
-        <https://w3id.org/cdif/discovery/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/2.0>,
+        <https://w3id.org/cdif/data_description/2.0>,
+        <https://w3id.org/cdif/data_structure/2.0>,
+        <https://w3id.org/cdif/discovery/2.0> ;
     schema1:about <https://example.org/dataset/vitalsWide> ;
     schema1:additionalType dcat:CatalogRecord .
 
@@ -1156,16 +1156,16 @@ optional Attribute) and its own cdif:Key.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/data_description/1.1"
+        "@id": "https://w3id.org/cdif/data_description/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/data_structure/1.1"
+        "@id": "https://w3id.org/cdif/data_structure/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
+        "@id": "https://w3id.org/cdif/discovery/2.0"
       }
     ]
   }
@@ -1926,16 +1926,16 @@ optional Attribute) and its own cdif:Key.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/data_description/1.1"
+        "@id": "https://w3id.org/cdif/data_description/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/data_structure/1.1"
+        "@id": "https://w3id.org/cdif/data_structure/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
+        "@id": "https://w3id.org/cdif/discovery/2.0"
       }
     ]
   }
@@ -1973,37 +1973,7 @@ optional Attribute) and its own cdif:Key.
     schema1:dateModified "2025-09-15" ;
     schema1:datePublished "2025-10-01" ;
     schema1:description "Time-series of vital sign measurements (heart rate, systolic BP, diastolic BP, temperature) in long format: one row per observation with a descriptor column naming the measure and a reference column holding the value." ;
-    schema1:distribution [ a cdi:PhysicalDataSet,
-                cdi:TabularTextDataSet,
-                schema1:DataDownload ;
-            cdi:characterSet "UTF-8" ;
-            cdi:delimiter "," ;
-            cdi:hasHeader true ;
-            cdi:headerRowCount 1 ;
-            cdi:isDelimited true ;
-            cdi:isStructuredBy <https://example.org/struct/vitalsLong> ;
-            schema1:contentUrl "https://example.org/downloads/vitals-long.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "vitals-long.csv" ;
-            cdif:fileSize 2.4e+00 ;
-            cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "string" ],
-                [ cdif:format "ISO8601" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "dateTime" ],
-                [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
-                [ cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "decimal" ] ],
-        [ a schema1:WebAPI ;
+    schema1:distribution [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
                     schema1:name "OpenAPI specification for vitals service" ;
@@ -2038,22 +2008,22 @@ optional Attribute) and its own cdif:Key.
                             schema1:name "Vitals API response (long format)" ;
                             cdif:fileSize 5e-01 ;
                             cdif:fileSizeUofM "MB" ;
-                            cdif:hasPhysicalMapping [ cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
-                                    cdif:index 2 ;
-                                    cdif:physicalDataType "decimal" ],
+                            cdif:hasPhysicalMapping [ cdif:format "string" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
+                                    cdif:index 1 ;
+                                    cdif:physicalDataType "string" ],
                                 [ cdif:format "ISO8601" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
                                     cdif:index 3 ;
                                     cdif:physicalDataType "dateTime" ],
                                 [ cdif:format "string" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
-                                    cdif:index 1 ;
-                                    cdif:physicalDataType "string" ],
-                                [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
                                     cdif:index 0 ;
-                                    cdif:physicalDataType "string" ] ] ;
+                                    cdif:physicalDataType "string" ],
+                                [ cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
+                                    cdif:index 2 ;
+                                    cdif:physicalDataType "decimal" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "text/csv" ;
                             schema1:description "OGC API Features endpoint returning vitals observations as long-format CSV." ;
@@ -2063,7 +2033,37 @@ optional Attribute) and its own cdif:Key.
                     schema1:identifier "https://www.ogc.org/standard/ogcapi-features/" ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required." ] ;
+            schema1:termsOfService "Open access, no authentication required." ],
+        [ a cdi:PhysicalDataSet,
+                cdi:TabularTextDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            cdi:delimiter "," ;
+            cdi:hasHeader true ;
+            cdi:headerRowCount 1 ;
+            cdi:isDelimited true ;
+            cdi:isStructuredBy <https://example.org/struct/vitalsLong> ;
+            schema1:contentUrl "https://example.org/downloads/vitals-long.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "vitals-long.csv" ;
+            cdif:fileSize 2.4e+00 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "decimal" ],
+                [ cdif:format "ISO8601" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "dateTime" ],
+                [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "string" ] ] ;
     schema1:funding <https://example.org/grant/nih-R01-XXXX> ;
     schema1:identifier "https://doi.org/10.1234/vitals-long-2025" ;
     schema1:inLanguage "en" ;
@@ -2120,10 +2120,10 @@ optional Attribute) and its own cdif:Key.
                     schema1:termCode "count" ] ] .
 
 <https://example.org/dataset/vitalsLong/metadata> a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
-        <https://w3id.org/cdif/data_description/1.1>,
-        <https://w3id.org/cdif/data_structure/1.1>,
-        <https://w3id.org/cdif/discovery/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/2.0>,
+        <https://w3id.org/cdif/data_description/2.0>,
+        <https://w3id.org/cdif/data_structure/2.0>,
+        <https://w3id.org/cdif/discovery/2.0> ;
     schema1:about <https://example.org/dataset/vitalsLong> ;
     schema1:additionalType dcat:CatalogRecord .
 
@@ -2132,11 +2132,11 @@ optional Attribute) and its own cdif:Key.
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ] .
+            cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ] .
 
 <https://example.org/grant/nih-R01-XXXX> a schema1:MonetaryGrant ;
     schema1:funder <https://ror.org/01cwqze88> ;
@@ -2166,11 +2166,11 @@ optional Attribute) and its own cdif:Key.
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ] .
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/observedAt> ;
+            cdi:value 3 ] .
 
 <https://example.org/struct/vitalsLong/rv/diastolicBP> a cdi:RepresentedVariable ;
     cdi:simpleUnitOfMeasure "mmHg" ;
@@ -2307,7 +2307,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescriptionStructure
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-16'
+  dateOfLastChange: '2026-11-17'
 
 ```
 

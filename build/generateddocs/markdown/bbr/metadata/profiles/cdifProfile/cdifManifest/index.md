@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.profiles.cdifProfile.cdifManifest` *v0.1*
 
-Profile module for packages: the resources that make up a dataset and where to retrieve each of them. Declares schema:hasPart in the two places a package needs it -- on the schema:Dataset, for parts that are independently accessible at their own addresses (resourcePartArray / resourcePartItem), and on a schema:distribution item, for component files inside a bundle that have no address of their own (archivePartArray / archivePartItem). Note that schema:hasPart carries a different meaning on schema:instrument (sub-components of an instrument system) and on a bioschemas ComputationalWorkflow; the object it sits on is what disambiguates them. Both part shapes here carry schema:about, so a part that describes another -- a codebook, a data dictionary, a metadata sidecar -- can say which one. Requires that the metadata record declare conformance to https://w3id.org/cdif/manifest/1.1, and requires schema:hasPart on any distribution positively typed with schema:Collection in @type (alongside schema:DataDownload). (Merged from the previous cdifArchive building block, which only published the archive $defs.)
+Profile module for packages: the resources that make up a dataset and where to retrieve each of them. Declares schema:hasPart in the two places a package needs it -- on the schema:Dataset, for parts that are independently accessible at their own addresses (resourcePartArray / resourcePartItem), and on a schema:distribution item, for component files inside a bundle that have no address of their own (archivePartArray / archivePartItem). Note that schema:hasPart carries a different meaning on schema:instrument (sub-components of an instrument system) and on a bioschemas ComputationalWorkflow; the object it sits on is what disambiguates them. Both part shapes here carry schema:about, so a part that describes another -- a codebook, a data dictionary, a metadata sidecar -- can say which one. Requires that the metadata record declare conformance to https://w3id.org/cdif/manifest/2.0, and requires schema:hasPart on any distribution positively typed with schema:Collection in @type (alongside schema:DataDownload). (Merged from the previous cdifArchive building block, which only published the archive $defs.)
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -35,7 +35,7 @@ cdifArchive at the smallest valid shape.
   "schema:name": "Minimal archived dataset",
   "schema:subjectOf": {
     "dcterms:conformsTo": [
-      { "@id": "https://w3id.org/cdif/manifest/1.1" }
+      { "@id": "https://w3id.org/cdif/manifest/2.0" }
     ]
   },
   "schema:distribution": [
@@ -81,7 +81,7 @@ cdifArchive at the smallest valid shape.
   "schema:subjectOf": {
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/manifest/1.1"
+        "@id": "https://w3id.org/cdif/manifest/2.0"
       }
     ]
   },
@@ -126,7 +126,7 @@ cdifArchive at the smallest valid shape.
             schema1:hasPart <file:///github/workspace/#part-1> ;
             schema1:name "Bundle" ] ;
     schema1:name "Minimal archived dataset" ;
-    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/manifest/1.1> ] .
+    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/manifest/2.0> ] .
 
 <file:///github/workspace/#part-1> a schema1:MediaObject ;
     schema1:encodingFormat "text/csv" ;
@@ -175,7 +175,7 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/manifest/1.1"
+        "@id": "https://w3id.org/cdif/manifest/2.0"
       }
     ]
   },
@@ -192,7 +192,7 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "https://w3id.org/cdif/manifest/1.1"
+          "@id": "https://w3id.org/cdif/manifest/2.0"
         }
       ],
       "schema:hasPart": [
@@ -289,7 +289,7 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/manifest/1.1"
+        "@id": "https://w3id.org/cdif/manifest/2.0"
       }
     ]
   },
@@ -306,7 +306,7 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "https://w3id.org/cdif/manifest/1.1"
+          "@id": "https://w3id.org/cdif/manifest/2.0"
         }
       ],
       "schema:hasPart": [
@@ -376,7 +376,7 @@ ex:dataset_archive_001 a schema1:Dataset ;
     schema1:dateModified "2025-08-01" ;
     schema1:distribution [ a schema1:Collection,
                 schema1:DataDownload ;
-            dcterms:conformsTo <https://w3id.org/cdif/manifest/1.1> ;
+            dcterms:conformsTo <https://w3id.org/cdif/manifest/2.0> ;
             schema1:contentUrl "https://example.org/downloads/geochem-results-2025.zip" ;
             schema1:encodingFormat "application/zip" ;
             schema1:hasPart <file:///github/workspace/#data-csv>,
@@ -389,7 +389,7 @@ ex:dataset_archive_001 a schema1:Dataset ;
     schema1:url "https://example.org/datasets/geochem-archive-2025" .
 
 ex:metadata_archive_001 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/manifest/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/manifest/2.0> ;
     schema1:about ex:dataset_archive_001 ;
     schema1:additionalType dcat:CatalogRecord .
 
@@ -414,7 +414,7 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: CDIF Manifest
 description: "Profile module for packages: the resources that make up a dataset and
   where to retrieve each of them. Marks the catalog record as conformant to the CDIF
-  manifest spec (https://w3id.org/cdif/manifest/1.1) and declares schema:hasPart in
+  manifest spec (https://w3id.org/cdif/manifest/2.0) and declares schema:hasPart in
   the two places a package needs it \u2014 on the Dataset, for parts that are independently
   accessible at their own addresses, and on a schema:distribution item, for component
   files inside an archive (ZIP, etc.) that have no address of their own. Both part
@@ -440,7 +440,7 @@ properties:
           additionalProperties: false
           properties:
             '@id':
-              const: https://w3id.org/cdif/manifest/1.1
+              const: https://w3id.org/cdif/manifest/2.0
   schema:hasPart:
     $ref: '#/$defs/resourcePartArray'
     description: Component resources of a package whose parts are independently accessible,
@@ -674,7 +674,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifProfile.cdifManifest
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-16'
+  dateOfLastChange: '2026-11-17'
 
 ```
 

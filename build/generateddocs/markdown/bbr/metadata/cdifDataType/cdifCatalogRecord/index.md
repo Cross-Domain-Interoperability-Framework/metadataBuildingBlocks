@@ -42,7 +42,7 @@ dcterms:conformsTo (pointing at the CDIF core specification).
   },
   "dcterms:conformsTo": [
     {
-      "@id": "https://w3id.org/cdif/core/1.1"
+      "@id": "https://w3id.org/cdif/core/2.0"
     }
   ]
 }
@@ -80,7 +80,7 @@ dcterms:conformsTo (pointing at the CDIF core specification).
   },
   "dcterms:conformsTo": [
     {
-      "@id": "https://w3id.org/cdif/core/1.1"
+      "@id": "https://w3id.org/cdif/core/2.0"
     }
   ]
 }
@@ -93,7 +93,7 @@ dcterms:conformsTo (pointing at the CDIF core specification).
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/metadata-record/0001> a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/2.0> ;
     schema1:about <https://example.org/dataset/0001> ;
     schema1:additionalType dcat:CatalogRecord .
 
@@ -128,7 +128,7 @@ and full metadata-about-metadata structure.
   },
   "dcterms:conformsTo": [
     {
-      "@id": "https://w3id.org/cdif/core/1.1"
+      "@id": "https://w3id.org/cdif/core/2.0"
     }
   ],
   "schema:maintainer": {
@@ -234,7 +234,7 @@ and full metadata-about-metadata structure.
   },
   "dcterms:conformsTo": [
     {
-      "@id": "https://w3id.org/cdif/core/1.1"
+      "@id": "https://w3id.org/cdif/core/2.0"
     }
   ],
   "schema:maintainer": {
@@ -315,7 +315,7 @@ and full metadata-about-metadata structure.
 @prefix schema1: <http://schema.org/> .
 
 ex:URIforMetadata3575 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/2.0> ;
     schema1:about ex:URIforNode2246 ;
     schema1:additionalType dcat:CatalogRecord ;
     schema1:includedInDataCatalog <https://ror.org/04sfkyrt24> ;
@@ -472,7 +472,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifCatalogRecord
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.2'
-  dateOfLastChange: '2026-11-16'
+  dateOfLastChange: '2026-11-17'
 
 ```
 

@@ -84,7 +84,7 @@ Example CDIF discovery instance with mandatory properties only.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       }
     ],
     "schema:maintainer": {
@@ -173,7 +173,7 @@ Example CDIF discovery instance with mandatory properties only.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       }
     ],
     "schema:maintainer": {
@@ -222,7 +222,7 @@ Example CDIF discovery instance with mandatory properties only.
 @prefix schema1: <http://schema.org/> .
 
 ex:URIforMetadata3575 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/2.0> ;
     schema1:about ex:baseDiscovery23578 ;
     schema1:additionalType dcat:CatalogRecord ;
     schema1:includedInDataCatalog <https://ror.org/04sfkyrt24> ;
@@ -300,7 +300,7 @@ Simplest valid CDIF core instance with only required properties.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       }
     ]
   }
@@ -354,7 +354,7 @@ Simplest valid CDIF core instance with only required properties.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       }
     ]
   }
@@ -369,7 +369,7 @@ Simplest valid CDIF core instance with only required properties.
 @prefix schema1: <http://schema.org/> .
 
 ex:URIforMetadata3575 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/2.0> ;
     schema1:about ex:coreMin23578 ;
     schema1:additionalType dcat:CatalogRecord .
 
@@ -737,7 +737,7 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       }
     ],
     "schema:maintainer": {
@@ -1135,7 +1135,7 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       }
     ],
     "schema:maintainer": {
@@ -1228,15 +1228,15 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:identifier ex:datasetIdentifier001 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-            schema1:name "Sea water temperature" ;
-            schema1:termCode "TEMPPR01" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/L06/current/46/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L06/current/" ;
             schema1:name "Argo" ;
             schema1:termCode "L06:46" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+            schema1:name "Sea water temperature" ;
+            schema1:termCode "TEMPPR01" ],
         "ocean temperature" ;
     schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
     schema1:name "Global Ocean Temperature Profiles 2010-2024" ;
@@ -1285,7 +1285,7 @@ ex:marchandOrcid a schema1:PropertyValue ;
     schema1:value "0000-0001-2345-6789" .
 
 ex:metadataRecord99001 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/2.0> ;
     schema1:about ex:completeCoreDataset99001 ;
     schema1:additionalType dcat:CatalogRecord ;
     schema1:includedInDataCatalog <https://example.org/catalog/ocean-data> ;
@@ -1632,7 +1632,7 @@ allOf:
             additionalProperties: false
             properties:
               '@id':
-                const: https://w3id.org/cdif/core/1.1
+                const: https://w3id.org/cdif/core/2.0
       x-jsonld-id: http://schema.org/subjectOf
 - required:
   - '@id'
@@ -1711,7 +1711,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifProfile.cdifCore
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-16'
+  dateOfLastChange: '2026-11-17'
 
 ```
 

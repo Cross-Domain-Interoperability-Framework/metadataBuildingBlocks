@@ -178,7 +178,7 @@ properties:
           additionalProperties: false
           properties:
             '@id':
-              const: https://w3id.org/cdif/codelist/1.1
+              const: https://w3id.org/cdif/codelist/2.0
         minItems: 1
         x-jsonld-id: http://purl.org/dc/terms/conformsTo
       '@id':
@@ -289,7 +289,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-16'
+  dateOfLastChange: '2026-11-17'
 
 ```
 

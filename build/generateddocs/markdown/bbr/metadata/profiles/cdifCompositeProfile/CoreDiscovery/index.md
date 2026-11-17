@@ -26,7 +26,7 @@ Profile for the schema.org implementation of the [Cross Domain Interoperability 
 
 ### Conformance
 
-Metadata conforming to this profile declares conformance to both `https://w3id.org/cdif/core/1.1` and `https://w3id.org/cdif/discovery/1.1` via `dcterms:conformsTo` in the `schema:subjectOf` catalog record.
+Metadata conforming to this profile declares conformance to both `https://w3id.org/cdif/core/2.0` and `https://w3id.org/cdif/discovery/2.0` via `dcterms:conformsTo` in the `schema:subjectOf` catalog record.
 
 ### SHACL validation
 
@@ -644,10 +644,10 @@ In **Markdown** format.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
+        "@id": "https://w3id.org/cdif/discovery/2.0"
       }
     ],
     "schema:maintainer": {
@@ -1290,10 +1290,10 @@ In **Markdown** format.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
+        "@id": "https://w3id.org/cdif/discovery/2.0"
       }
     ],
     "schema:maintainer": {
@@ -1405,6 +1405,12 @@ ex:YOPx123 a schema1:Dataset ;
                     spdx:algorithm "j" ;
                     spdx:checksumValue "h" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ],
+        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
@@ -1415,33 +1421,27 @@ ex:YOPx123 a schema1:Dataset ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ],
-        [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ] ;
+            schema1:name "ekckpBtI" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID <https://resource.org/identifier> ;
-                    schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
-                    schema1:value "tdUMYBItIwdJe" ] ;
-            schema1:inDefinedTermSet "sqH" ;
-            schema1:name "TiMuawt" ;
-            schema1:termCode "RUUxHY" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID ex:rIPXjaCPQX ;
                     schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
                     schema1:value "PVSajGtBPsLzeCTLv" ] ;
             schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
             schema1:name "MiSqvcp" ;
-            schema1:termCode "bzOl" ] ;
+            schema1:termCode "bzOl" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID <https://resource.org/identifier> ;
+                    schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
+                    schema1:value "tdUMYBItIwdJe" ] ;
+            schema1:inDefinedTermSet "sqH" ;
+            schema1:name "TiMuawt" ;
+            schema1:termCode "RUUxHY" ] ;
     schema1:license "Kmp",
         "dXhuFoqL" ;
     schema1:name "Test dataset" ;
@@ -1451,16 +1451,16 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:publisher ex:exampleOrg_fW ;
     schema1:publishingPrinciples <https://example.org/policies/data-retention> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "gompgHAN" ;
-                    schema1:name "oAuxEutsTEiB" ;
-                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "BOoRREnpDEUrdNaV" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:encodingFormat "FNoslhw" ;
                     schema1:name "atsDYJxuhHpivqLmw" ;
+                    schema1:url "http://example.com/resource?foo=bar#fragment" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "gompgHAN" ;
+                    schema1:name "oAuxEutsTEiB" ;
                     schema1:url "http://example.com/resource?foo=bar#fragment" ] ] ;
     schema1:sameAs "https://example.org/alt-id/YOPx123",
         "urn:idorg:test:p45689" ;
@@ -1500,8 +1500,8 @@ ex:ABYcNWHKYhTiLLNEzJx a schema1:Person ;
     schema1:name "Walker, Longin" .
 
 ex:BAaR a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
-        <https://w3id.org/cdif/discovery/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/2.0>,
+        <https://w3id.org/cdif/discovery/2.0> ;
     schema1:about ex:YOPx ;
     schema1:additionalType dcat:CatalogRecord ;
     schema1:includedInDataCatalog ex:lIZkH ;
@@ -1723,10 +1723,10 @@ Simplest valid CDIF Discovery metadata with only required properties.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
+        "@id": "https://w3id.org/cdif/discovery/2.0"
       }
     ]
   }
@@ -1810,10 +1810,10 @@ Simplest valid CDIF Discovery metadata with only required properties.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
+        "@id": "https://w3id.org/cdif/discovery/2.0"
       }
     ]
   }
@@ -1842,8 +1842,8 @@ Simplest valid CDIF Discovery metadata with only required properties.
         ex:yeujpk .
 
 <https://example.org/metadata/minimal-discovery-001> a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
-        <https://w3id.org/cdif/discovery/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/2.0>,
+        <https://w3id.org/cdif/discovery/2.0> ;
     schema1:about <https://example.org/dataset/minimal-discovery-001> ;
     schema1:additionalType dcat:CatalogRecord .
 
@@ -2435,10 +2435,10 @@ complete CatalogRecord metadata.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
+        "@id": "https://w3id.org/cdif/discovery/2.0"
       }
     ],
     "schema:dateModified": "2025-03-12",
@@ -3060,10 +3060,10 @@ complete CatalogRecord metadata.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.1"
+        "@id": "https://w3id.org/cdif/core/2.0"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
+        "@id": "https://w3id.org/cdif/discovery/2.0"
       }
     ],
     "schema:dateModified": "2025-03-12",
@@ -3148,11 +3148,6 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:datePublished "2024-09-01" ;
     schema1:description "Hydrographic observations from repeat transects across the Labrador Sea measuring temperature, salinity, and dissolved oxygen profiles to 4000m depth. Data collected from annual winter cruises documenting deep water formation processes." ;
     schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
-            schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "CSV profiles export" ],
-        [ a schema1:DataDownload ;
             dcterms:conformsTo <https://cfconventions.org/> ;
             schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.nc" ;
             schema1:description "CF-compliant NetCDF4 with all CTD profiles" ;
@@ -3161,7 +3156,12 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
             schema1:provider <https://ror.org/007hqnf44> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "checksumAlgorithm_sha256" ;
-                    spdx:checksumValue "b3e4f5a6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4" ] ] ;
+                    spdx:checksumValue "b3e4f5a6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
+            schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "CSV profiles export" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:description "Long-term monitoring of physical and biological oceanographic conditions in the NW Atlantic" ;
             schema1:funder [ a schema1:Organization ;
@@ -3172,15 +3172,15 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:identifier ex:datasetDOI42 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-            schema1:name "Sea water temperature" ;
-            schema1:termCode "TEMPPR01" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
             schema1:name "North Atlantic Deep Water" ;
             schema1:termCode "P02:DOXY" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+            schema1:name "Sea water temperature" ;
+            schema1:termCode "TEMPPR01" ],
         "Labrador Sea",
         "deep water formation" ;
     schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
@@ -3195,12 +3195,6 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:publisher <https://ror.org/007hqnf44> ;
     schema1:publishingPrinciples <https://example.org/policies/dfo-open-data> ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "service" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "application/x-netcdf" ;
-                    schema1:name "OPeNDAP access" ;
-                    schema1:url "https://example.org/opendap/nadw-ctd" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "documentation" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:contentType "text/html" ;
@@ -3209,7 +3203,13 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:httpMethod "GET" ;
                     schema1:name "NADW Cruise Reports" ;
                     schema1:url "https://example.org/docs/nadw-cruise-reports" ;
-                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ] ;
+                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "service" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "application/x-netcdf" ;
+                    schema1:name "OPeNDAP access" ;
+                    schema1:url "https://example.org/opendap/nadw-ctd" ] ] ;
     schema1:sameAs <https://n2t.net/ark:/99999/fk4nadw2024>,
         "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:spatialCoverage [ a schema1:Place ;
@@ -3250,19 +3250,19 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
         ex:varTemperature ;
     schema1:version "2.1" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf "Completeness" ;
-            dqv:value [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
-                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
-                    schema1:name "Complete" ;
-                    schema1:termCode "COMPLETE" ] ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf [ a schema1:DefinedTerm ;
                     schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
                     schema1:name "Temperature sensor accuracy" ;
                     schema1:termCode "TEMPACCR" ] ;
-            dqv:value "±0.001°C (ITS-90)" ] ;
+            dqv:value "±0.001°C (ITS-90)" ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf "Completeness" ;
+            dqv:value [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
+                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
+                    schema1:name "Complete" ;
+                    schema1:termCode "COMPLETE" ] ] ;
     prov:wasDerivedFrom ex:rawCTDCasts ;
     prov:wasGeneratedBy [ a prov:Activity ;
             prov:used ex:ar7wCruiseProgram,
@@ -3288,8 +3288,8 @@ ex:lozierOrcid a schema1:PropertyValue ;
     schema1:value "0000-0002-7777-8888" .
 
 ex:metadataRecord42 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
-        <https://w3id.org/cdif/discovery/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/2.0>,
+        <https://w3id.org/cdif/discovery/2.0> ;
     schema1:about ex:completeDiscoveryDataset42 ;
     schema1:additionalType dcat:CatalogRecord ;
     schema1:dateModified "2025-03-12" ;
@@ -3403,7 +3403,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifCompositeProfile.CoreDiscovery
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-16'
+  dateOfLastChange: '2026-11-17'
 
 ```
 
