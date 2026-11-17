@@ -97,12 +97,24 @@ allOf:
       $ref: '#/$defs/ThingValue'
     'schema:actionStatus':
       type: string
-      description: Status of this activity
+      description: >-
+        Status of this activity.
+        Written as the CDIF CURIE (schema:CompletedActionStatus) or the full schema.org
+        IRI (http:// or https://schema.org/CompletedActionStatus); the schema.org
+        validator rejects the CURIE and accepts the full IRI.
       enum:
       - schema:CompletedActionStatus
       - schema:ActiveActionStatus
       - schema:PotentialActionStatus
       - schema:FailedActionStatus
+      - http://schema.org/CompletedActionStatus
+      - http://schema.org/ActiveActionStatus
+      - http://schema.org/PotentialActionStatus
+      - http://schema.org/FailedActionStatus
+      - https://schema.org/CompletedActionStatus
+      - https://schema.org/ActiveActionStatus
+      - https://schema.org/PotentialActionStatus
+      - https://schema.org/FailedActionStatus
     'schema:startTime':
       type: string
       description: ISO8601 date-time when the activity started (maps to PROV startedAtTime)
