@@ -34,7 +34,7 @@ def main():
             bblock["resolvedSchema"] = url
             count += 1
 
-    with open(REGISTER, "w") as f:
+    with open(REGISTER, "w", encoding="utf-8") as f:
         json.dump(register, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
