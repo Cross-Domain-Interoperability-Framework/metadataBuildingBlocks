@@ -21,249 +21,51 @@ anyOf:
 # something narrower -- the RepresentedVariable that an InstanceVariable instantiates --
 # and that link is reference-only, with a conditional rule suppressing duplicated
 # represented-variable-level properties. The two are now distinguishable by name.
+#
+# ---------------------------------------------------------------------------
+# GENERALIZATION, expressed as allOf.
+#
+# $defs/DataStructureComponent is the UML superclass and holds ONLY the members
+# the model puts on it: identifier, semantic, and the isDefinedBy association to
+# a RepresentedVariable (connector 429 in the EA model, DataStructureComponent
+# [0..*] -> RepresentedVariable [0..1]). Every component composes it with allOf
+# and adds its own members, so a property common to all components is stated
+# once. Before 2026-11-18 the base was a seventh sibling that restated those
+# members, and each component repeated whichever subset it happened to need --
+# which is why cdif:identifier and cdif:semantic were on four components and
+# missing from IdentifierComponent and DimensionComponent for no modelled reason.
+#
+# Two things the base deliberately does NOT do:
+#
+#   * It pins no @type. Each component pins its own token, and a `contains`
+#     pin on the base would additionally demand cdi:DataStructureComponent on
+#     every component node.
+#   * It is NOT a member of the root anyOf. A base listed beside its own
+#     specializations is satisfied by any node they accept, so a `required` on
+#     a specialization is met through the base branch instead and the
+#     constraint silently stops firing. Measured in this repo on 2026-09-26:
+#     a cdif:LocatorMapping carrying no cdi:locator validated against the
+#     profile for exactly this reason (see cdifPhysicalMapping/schema.yaml).
+#     Consumers that want the family reference the six components; nothing
+#     references the base.
+#
+# NOT implemented from the model: specialization: SpecializationRole [0..1].
+# SpecializationRole is a DataType (EA element 259) specialized by TimeRole and
+# GeoRole, with no attributes of its own, and CDIF has never given it a value
+# shape. Adding the property would mean inventing one.
+# ---------------------------------------------------------------------------
 '$defs':
   cdifConceptOrTermOrString:
     $ref: ../cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: ../cdifConceptOrTerm/schema.yaml
-  IdentifierComponent:
-    type: object
-    description: >-
-      Role given to a represented variable in the context of a long or wide data structure
-      to identify the units associated to data points, and in dimensional and key value data
-      structures to provide identifying fields for the instance values.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:IdentifierComponent'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this IdentifierComponent node
-      'cdif:isDefinedBy_Variable':
-        description: >-
-          The variable this component is a role of -- a RepresentedVariable or an
-          InstanceVariable, inline or by @id reference. See the note above $defs.
-        anyOf:
-        - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
-        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
-        - '$ref': '../objectReference/schema.yaml'
-    required:
-    - '@type'
-    - 'cdif:isDefinedBy_Variable'
-  MeasureComponent:
-    type: object
-    description: >-
-      Role given to a represented variable in the context of a data structure to hold the
-      observed/derived values.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:MeasureComponent'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this MeasureComponent node
-      'cdif:name':
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
-          minItems: 1
-        description: >-
-          Human understandable name (linguistic signifier, word, phrase, or mnemonic). May
-          follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.
-      'cdif:identifier':
-        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdif:isDefinedBy_Variable':
-        description: >-
-          The variable this component is a role of -- a RepresentedVariable or an
-          InstanceVariable, inline or by @id reference. See the note above $defs.
-        anyOf:
-        - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
-        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
-        - '$ref': '../objectReference/schema.yaml'
-      'cdif:semantic':
-        type: array
-        items:
-          $ref: '#/$defs/cdifConceptOrTermOrString'
-        minItems: 1
-        description: >-
-          Qualifies the purpose or use expressed as a paired external controlled vocabulary.
-    required:
-    - '@type'
-  AttributeComponent:
-    type: object
-    description: >-
-      Role given to a represented variable in the context of a data structure to qualify observations
-      or provide other types of supplementary information.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:AttributeComponent'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this AttributeComponent node
-      'cdif:qualifies':
-        type: array
-        items:
-          anyOf:
-          - '$ref': '#/$defs/DataStructureComponent'
-          - '$ref': '../objectReference/schema.yaml'
-        minItems: 1
-      'cdif:identifier':
-        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdif:isDefinedBy_Variable':
-        description: >-
-          The variable this component is a role of -- a RepresentedVariable or an
-          InstanceVariable, inline or by @id reference. See the note above $defs.
-        anyOf:
-        - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
-        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
-        - '$ref': '../objectReference/schema.yaml'
-      'cdif:semantic':
-        type: array
-        items:
-          $ref: '#/$defs/cdifConceptOrTermOrString'
-        minItems: 1
-        description: >-
-          Qualifies the purpose or use expressed as a paired external controlled vocabulary.
-    required:
-    - '@type'
-  DimensionComponent:
-    type: object
-    description: >-
-      Role given to a represented variable in the context of a dimensional data structure
-      to identify the universes associated with data points. The variable acts as a field
-      in the compound identifier (the key structure) to disambiguate the cells in the multi-dimensional
-      "cube".  AG: references to the variables which are the components of a compound identifier, in which each variable is a single field - an axis - in a coordinate system addressing a location in a matrix. These variables are often categorical, but also commonly include time. Unlike other Components, they may be ordered using instances of cdi:ComponentPosition.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:DimensionComponent'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this DimensionComponent node
-      'cdif:isDefinedBy_Variable':
-        description: >-
-          The variable this component is a role of -- a RepresentedVariable or an
-          InstanceVariable, inline or by @id reference. See the note above $defs.
-        anyOf:
-        - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
-        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
-        - '$ref': '../objectReference/schema.yaml'
-
-    required:
-    - '@type'
-    - 'cdif:isDefinedBy_Variable'
-  VariableValueComponent:
-    type: object
-    description: >-
-      Role given to a represented variable in the context of a data structure to record values
-      of multiple variables.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:VariableValueComponent'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this VariableValueComponent node
-      'cdif:identifier':
-        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdif:isDefinedBy_Variable':
-        description: >-
-          The variable this component is a role of -- a RepresentedVariable or an
-          InstanceVariable, inline or by @id reference. See the note above $defs.
-        anyOf:
-        - '$ref': ../../cdifDataType/cdifRepresentedVariable/schema.yaml
-        - '$ref': ../../cdifDataType/cdifInstanceVariable/schema.yaml
-        - '$ref': '../objectReference/schema.yaml'
-      'cdif:semantic':
-        type: array
-        items:
-          $ref: '#/$defs/cdifConceptOrTermOrString'
-        minItems: 1
-        description: >-
-          Qualifies the purpose or use expressed as a paired external controlled vocabulary.
-    required:
-    - '@type'
-  VariableDescriptorComponent:
-    type: object
-    description: >-
-      Role given to a represented variable in the context of a data structure to provide codes
-      for variable identification.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:VariableDescriptorComponent'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this VariableDescriptorComponent node
-      'cdif:isDefinedBy_DescriptorVariable':
-        description: >-
-          Variable that provides codes for variable identification in the context of
-          a data structure. Descriptor Variables hold values which reference the
-          logical variables in the data set, indicating which one the associated
-          value in the corresponding Reference Variable is a measure/value for.
-          Descriptor Variables are presentational variables found only in Long Data
-          Sets.
-        '$ref': ../../cdifDataType/cdifDescriptorVariable/schema.yaml
-      'cdi:refersTo':
-        '$ref': '../objectReference/schema.yaml'
-      'cdif:identifier':
-        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdif:semantic':
-        type: array
-        items:
-          $ref: '#/$defs/cdifConceptOrTermOrString'
-        minItems: 1
-        description: >-
-          Qualifies the purpose or use expressed as a paired external controlled vocabulary.
-    required:
-    - '@type'
-    - 'cdif:isDefinedBy_DescriptorVariable'
   DataStructureComponent:
     type: object
-    description: Role given to a represented variable in the context of a data structure.
+    description: >-
+      Members common to every data structure component. Composed into each component
+      below with allOf; not a component type in its own right, and not a branch of
+      this schema's root anyOf.
     properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:DataStructureComponent'
-        minItems: 1
       '@id':
         type: string
         description: Identifier for this DataStructureComponent node
@@ -286,5 +88,204 @@ anyOf:
         minItems: 1
         description: >-
           Qualifies the purpose or use expressed as a paired external controlled vocabulary.
-    required:
-    - '@type'
+  IdentifierComponent:
+    description: >-
+      Role given to a represented variable in the context of a long or wide data structure
+      to identify the units associated to data points, and in dimensional and key value data
+      structures to provide identifying fields for the instance values.
+    allOf:
+    - '$ref': '#/$defs/DataStructureComponent'
+    - type: object
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          contains:
+            const: 'cdi:IdentifierComponent'
+          minItems: 1
+      required:
+      - '@type'
+      - 'cdif:isDefinedBy_Variable'
+  MeasureComponent:
+    description: >-
+      Role given to a represented variable in the context of a data structure to hold the
+      observed/derived values.
+    allOf:
+    - '$ref': '#/$defs/DataStructureComponent'
+    - type: object
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          contains:
+            const: 'cdi:MeasureComponent'
+          minItems: 1
+        'cdif:name':
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+            minItems: 1
+          description: >-
+            Human understandable name (linguistic signifier, word, phrase, or mnemonic). May
+            follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.
+      required:
+      - '@type'
+  AttributeComponent:
+    description: >-
+      Role given to a represented variable in the context of a data structure to qualify observations
+      or provide other types of supplementary information.
+    allOf:
+    - '$ref': '#/$defs/DataStructureComponent'
+    - type: object
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          contains:
+            const: 'cdi:AttributeComponent'
+          minItems: 1
+        # qualifies (EA connector 369) targets DataStructureComponent [0..*], but an
+        # AttributeComponent qualifying another AttributeComponent is not a case the
+        # model is describing: the target is the component whose observations are being
+        # qualified. The five non-Attribute components are therefore listed explicitly
+        # rather than referencing the base, which would admit anything including an
+        # AttributeComponent.
+        #
+        # The objectReference branch is the hole this cannot close -- a bare {@id} says
+        # nothing about what it points at, so an @id naming an AttributeComponent still
+        # validates HERE, and nothing in JSON Schema can change that. It is caught one
+        # layer out: cdifd:cdifQualifiesTargetShape in rules.shacl targets the objects
+        # of cdif:qualifies and fails any that resolves to a cdi:AttributeComponent.
+        # That works whenever the reference is live -- i.e. the graph describes the
+        # node. A reference to a node the graph does not describe is reported by
+        # neither layer, which is the one genuinely open case.
+        'cdif:qualifies':
+          type: array
+          description: >-
+            The data structure components whose observations this attribute qualifies.
+            Any component except another AttributeComponent, inline or by @id reference.
+          items:
+            anyOf:
+            - '$ref': '#/$defs/IdentifierComponent'
+            - '$ref': '#/$defs/MeasureComponent'
+            - '$ref': '#/$defs/DimensionComponent'
+            - '$ref': '#/$defs/VariableValueComponent'
+            - '$ref': '#/$defs/VariableDescriptorComponent'
+            - '$ref': '../objectReference/schema.yaml'
+          minItems: 1
+      required:
+      - '@type'
+  DimensionComponent:
+    description: >-
+      Role given to a represented variable in the context of a dimensional data structure
+      to identify the universes associated with data points. The variable acts as a field
+      in the compound identifier (the key structure) to disambiguate the cells in the multi-dimensional
+      "cube".  AG: references to the variables which are the components of a compound identifier, in which each variable is a single field - an axis - in a coordinate system addressing a location in a matrix. These variables are often categorical, but also commonly include time. Unlike other Components, they may be ordered using instances of cdi:ComponentPosition.
+    allOf:
+    - '$ref': '#/$defs/DataStructureComponent'
+    - type: object
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          contains:
+            const: 'cdi:DimensionComponent'
+          minItems: 1
+        'cdif:categoricalAdditivity':
+          type: boolean
+          default: false
+          description: >-
+            Indicates whether categories at a specific level can be combined to provide the
+            value for their shared parent category. Value is True if categories can be added
+            together (collapsed) to create higher-level categories. An example would be age
+            categories: five-year age categories can be collapsed into 10-year age categories.
+      required:
+      - '@type'
+      - 'cdif:isDefinedBy_Variable'
+  VariableValueComponent:
+    description: >-
+      Role given to a represented variable in the context of a data structure to record values
+      of multiple variables.
+    allOf:
+    - '$ref': '#/$defs/DataStructureComponent'
+    - type: object
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          contains:
+            const: 'cdi:VariableValueComponent'
+          minItems: 1
+      required:
+      - '@type'
+  VariableDescriptorComponent:
+    description: >-
+      Role given to a represented variable in the context of a data structure to provide codes
+      for variable identification.
+    allOf:
+    - '$ref': '#/$defs/DataStructureComponent'
+    - type: object
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          contains:
+            const: 'cdi:VariableDescriptorComponent'
+          minItems: 1
+        'cdif:isDefinedBy_DescriptorVariable':
+          description: >-
+            Variable that provides codes for variable identification in the context of
+            a data structure. Descriptor Variables hold values which reference the
+            logical variables in the data set, indicating which one the associated
+            value in the corresponding Reference Variable is a measure/value for.
+            Descriptor Variables are presentational variables found only in Long Data
+            Sets. EA models this as its own association (connector 345) rather than a
+            formal redefinition of the inherited isDefinedBy (connector 429), but CDIF
+            treats it as a redefinition: the variable a VariableDescriptorComponent is
+            a role of IS its DescriptorVariable, so the inherited property is disallowed
+            below rather than left available.
+          '$ref': ../../cdifDataType/cdifDescriptorVariable/schema.yaml
+        # Disallowed, not merely unused -- and it has to be said explicitly, because
+        # allOf is additive. The base contributes cdif:isDefinedBy_Variable to every
+        # component, so without this line a VariableDescriptorComponent could carry
+        # its required DescriptorVariable AND a second isDefinedBy naming any other
+        # variable: two different answers to "what variable is this a role of", with
+        # nothing choosing between them.
+        #
+        # Spelled {not: {}} rather than the obvious `false`. Both reject the property
+        # whatever its value; only one of them says WHICH property. Measured here
+        # 2026-11-18, forbidding "b" on {"a": 1, "b": 2}:
+        #
+        #   properties: {b: false}     -> path '(root)'  schema_path 'properties'
+        #                                 "False schema does not allow 2"
+        #   properties: {b: {not: {}}} -> path 'b'       schema_path 'properties/b/not'
+        #   not: {required: [b]}       -> path '(root)'  schema_path 'not'
+        #
+        # A boolean false subschema is reported against the PARENT instance and its
+        # schema_path stops at `properties`, so the property name survives in neither.
+        # That costs twice here: this schema's root is a union, so any failure arrives
+        # as an anyOf whose message restates the whole instance, and test_fail_cases.py
+        # discounts that message and judges a case on the error PATH. Under `false`
+        # the path was empty, and tests/isDefinedBy_Variable-fail.json was correctly
+        # reported as asserting nothing about the constraint its name claims.
+        'cdif:isDefinedBy_Variable':
+          not: {}
+        # The model gives refersTo 1..1 at both ends (EA connector 344, to
+        # VariableValueComponent). CDIF deliberately relaxes it to optional: a data
+        # structure normally contains exactly one VariableValueComponent, so the target
+        # is unambiguous when omitted. rules.shacl records that decision and enforces
+        # what JSON Schema cannot -- that the reference resolves to a
+        # cdi:VariableValueComponent.
+        'cdi:refersTo':
+          '$ref': '../objectReference/schema.yaml'
+      required:
+      - '@type'
+      - 'cdif:isDefinedBy_DescriptorVariable'

@@ -75,3 +75,40 @@ cdifd:cdifDimensionComponentShape
         sh:message "A cdi:DimensionComponent must carry cdif:isDefinedBy_Variable (the RepresentedVariable or InstanceVariable it is a role of)." ;
     ] ;
     .
+
+# ------------------------------------------------------------
+# cdif:qualifies must not point at another AttributeComponent.
+#
+# An AttributeComponent qualifies the component whose observations it
+# supplements, so another AttributeComponent is not a case the model is
+# describing. The JSON Schema says this by listing the five non-Attribute
+# components as the inline targets of cdif:qualifies (schema.yaml,
+# $defs/AttributeComponent), which closes the inline case completely.
+#
+# It cannot close the reference case. An objectReference is a sealed {@id}
+# and carries nothing but the identifier, so a reference naming an
+# AttributeComponent satisfies that branch and validates. Deciding what an
+# @id points at needs the assembled graph, which is this file's job -- the
+# same split as cdi:refersTo above, where JSON Schema types the reference
+# and SHACL checks what it resolves to.
+#
+# The target selects the OBJECTS of cdif:qualifies -- the components being
+# qualified -- so it establishes context without reading rdf:type, the
+# property under test. A target selected by the constraint's own property
+# cannot fail; cdifd:xasAnalysisLocationClassified exists because of that.
+#
+# A bare reference to a node the graph does not describe passes on purpose:
+# sh:not [sh:class ...] cannot show an untyped node is an AttributeComponent,
+# and failing a dangling reference is a different claim that would need its
+# own message. This rule reports only what it can actually demonstrate.
+# ------------------------------------------------------------
+
+cdifd:cdifQualifiesTargetShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf cdif:qualifies ;
+    sh:severity sh:Violation ;
+    sh:not [
+        sh:class cdi:AttributeComponent ;
+    ] ;
+    sh:message "cdif:qualifies must not point at another cdi:AttributeComponent: its target is the component whose observations are being qualified. The JSON Schema enforces this for an inline target; this shape covers a target given as an {@id} reference." ;
+    .
