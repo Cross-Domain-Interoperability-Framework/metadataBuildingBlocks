@@ -14,7 +14,7 @@ The last three branches are inherited from [`cdifConceptOrTerm`](../cdifConceptO
 `$ref` this building block from any property that used to be declared as either:
 
 - `anyOf: [type: string, $ref: ../cdifConceptOrTerm/schema.yaml]` (the ~20 sites across `cdifCore`, `cdifDiscovery`, `cdifInstanceVariable`, `cdifRepresentedVariable`, `cdifDataStructureComponent`, `cdifStatistics`, `cdifReference`, `cdifOpenApi`), or
-- `anyOf: [type: string, $ref: .../schemaorgProperties/definedTerm/schema.yaml]` (the 2 sites in `schemaorgProperties/agentInRole` `schema:roleName` and `schemaorgProperties/organization` `schema:additionalType` items).
+- `anyOf: [type: string, $ref: .../schemaorgProperties/definedTerm/schema.yaml]` (the 2 sites in `schemaorgProperties/agentInRole` `schema:roleName` and `schemaorgProperties/organization` `schema:additionalType` items). Note that `cdifReference` in that list was absorbed into `schemaorgProperties/labeledLink` on 2026-09-23 and now lives under `archive/`.
 
 Consolidating to this single shared shape simplifies the JSON Schema surface, standardizes the accepted value set (`schemaorgProperties`-only sites gain the concept-ref and inline-cdifConcept alternatives), and gives an XMI→JSON generator a single named union type to recognize.
 

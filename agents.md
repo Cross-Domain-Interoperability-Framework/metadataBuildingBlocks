@@ -137,6 +137,7 @@ metadataBuildingBlocks/
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
 │   ├── audit_cdif_vocabulary.py     # Inventories every cdif: term for ontology authoring (see below)
 │   ├── audit_building_blocks.py     # Comprehensive BB repo audit (pluggable to any repo)
+│   ├── audit_bb_descriptions.py     # description.md prose vs the current schema
 │   ├── audit_shacl_coverage.py      # Compares schema.yaml properties vs rules.shacl shapes
 │   ├── audit_cdi_property_types.py  # Audits cdi:* properties in cdifProperties vs canonical DDI-CDI XMI
 │   ├── audit_ddi_xmi_consistency.py # Audits ddiProperties BBs vs a DDI-CDI EA XMI export (missing/renamed classes, attr/assoc drift; --dump-class)
@@ -1440,6 +1441,43 @@ A malformed record is reported in the page rather than killing the server: non-J
 the parse error, a non-object gives 400, a render failure gives 500 with the exception, and a body
 over 32 MB gives 413. Each successful render logs one line with the count of declared and
 unrecognised conformance URIs.
+
+## audit_bb_descriptions.py
+
+Checks each block's `description.md` against the schema it describes. Nothing did this before
+2026-11-18, which is how `cdifValueDomain`'s Notes section came to say "this BB does not yet
+expose a description pointer; add `cdif:isDescribedBy` if/when needed" while the schema had
+carried `cdi:isDescribedBy` for a month, with the property absent from its table as well.
+
+```bash
+python tools/audit_bb_descriptions.py --self-test       # run FIRST: proves each check fires
+python tools/audit_bb_descriptions.py                   # 7 checks, table to stdout
+python tools/audit_bb_descriptions.py -o findings.json  # each finding carries an empty "fix"
+python tools/audit_bb_descriptions.py -b cdifValueDomain -c dead-link
+python tools/audit_bb_descriptions.py --include-omissions   # advisory, see below
+```
+
+Checks: `unknown-in-block` / `unknown-in-repo` (a backticked `prefix:name` the block, or the
+repo, does not declare), `table-phantom`, `dead-link` (**case-sensitive** — a mis-cased link
+resolves on Windows and 404s on Pages), `archived-target`, `stale-absence`, and
+`table-omission`.
+
+**`table-omission` is off by default and that is deliberate.** A property table here is usually
+SELECTIVE rather than exhaustive — `niaidDataset`'s documents the portal's additions,
+`niaidCreativeWork`'s the four `nde:` terms — so treating one as a complete enumeration reported
+23 non-defects on the first run. No reliable signal separates "this table is the block's shape"
+from "these are the extras", so the caller opts in.
+
+**`unknown-in-block` is a triage aid, not a defect list.** A description legitimately names
+properties defined in sibling blocks — `cdifTextMapping` explaining `cdif:hasPhysicalMapping`,
+`niaidDefinedTerm` listing the properties whose items carry an annotation. Expect a majority of
+these to be correct cross-references. `unknown-in-repo` and `dead-link` are the high-signal ones.
+
+As with `audit_ig_consistency.py`: **a finding means the prose and the schema disagree, not which
+one is wrong.** Three of the first batch were fixed on the *schema* side's behalf by flagging
+rather than editing — `skosConcept` describes `skos:altLabel`, `skos:hiddenLabel` and
+`skos:example`, which `skosConceptScheme` defines and it does not, and deleting those lines would
+have hidden a likely schema gap.
 
 ## audit_building_blocks.py
 

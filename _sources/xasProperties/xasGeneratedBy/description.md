@@ -1,6 +1,6 @@
 ## XAS Analysis Event Activity
 
-Extends the [cdifProvActivity](../../cdifProperties/cdifProvActivity/) building block with X-ray Absorption Spectroscopy (XAS)-specific provenance activity typing and properties.
+Extends the [cdifProvActivity](../../cdifDataType/cdifProvActivity/) building block with X-ray Absorption Spectroscopy (XAS)-specific provenance activity typing and properties.
 
 ### Key features
 

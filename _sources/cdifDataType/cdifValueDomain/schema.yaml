@@ -183,6 +183,35 @@ oneOf:
           valid values.
     required:
     - '@type'
+    # W3C tabular-metadata 5.11.2, from which these four bound properties and their
+    # descriptions are lifted, treats an inclusive and an exclusive bound on the SAME
+    # side as an error: the pair states one limit twice and nothing checks the two
+    # agree. Written as if/not/then rather than "not: required[a, b]" so a failure
+    # reports the offending second property; a bare "not" restates the whole
+    # instance and names neither, which is the same unreadable shape an anyOf failure
+    # has (see cdifEnumerationDomain's note on the same choice).
+    #
+    # Only the same-side pair is constrained here. minimum > maximum is deliberately
+    # NOT checked: these are typed string, following tabular-metadata, so any
+    # comparison is lexical and would reject "9" against "10". The cross-property
+    # checks that need the assembled graph live in rules.shacl, because both
+    # cdi:isDescribedBy and cdif:takesValuesFrom accept a sealed {@id} reference and
+    # JSON Schema cannot follow one.
+    allOf:
+    - if:
+        required:
+        - 'cdi:maximumValueInclusive'
+      then:
+        not:
+          required:
+          - 'cdi:maximumValueExclusive'
+    - if:
+        required:
+        - 'cdi:minimumValueInclusive'
+      then:
+        not:
+          required:
+          - 'cdi:minimumValueExclusive'
   xsdDataType:
     type: string
     enum:

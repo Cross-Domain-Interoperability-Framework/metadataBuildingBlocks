@@ -24,3 +24,96 @@
   snippets:
     - language: json
       ref: exampleCdifValueDomainComplete.json
+- title: Continuous domain with a full value description
+  content: |-
+    A cdif:SubstantiveValueDomain for air temperature. Satisfies the root choice through
+    cdif:recommendedDataType alone — no codelist is cited — and carries an inline
+    cdi:isDescribedBy whose cdi:ValueAndConceptDescription states the classification level,
+    a prose description, an LDML number pattern, a logical expression, inclusive bounds and
+    a regular expression.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://w3id.org/cdif/
+    xsd: http://www.w3.org/2001/XMLSchema#
+  snippets:
+    - language: json
+      ref: exampleCdifValueDomainContinuousDescribed.json
+- title: Substantive domain by reference
+  content: |-
+    A cdif:SubstantiveValueDomain whose cdif:takesValuesFrom and cdi:isDescribedBy are both
+    @id references to nodes declared elsewhere in the graph, exercising the sealed
+    objectReference branch of each property. The root choice is satisfied by
+    cdif:takesValuesFrom, with no cdif:recommendedDataType present.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://w3id.org/cdif/
+  snippets:
+    - language: json
+      ref: exampleCdifValueDomainSubstantiveByReference.json
+- title: Ordinal domain enumerated in prose
+  content: |-
+    A cdif:SubstantiveValueDomain for a five-point Likert scale. The inline
+    cdif:EnumerationDomain cites no cdif:references, so it must carry schema:description —
+    the conditional branch of that block's if/then rule — and also shows cdif:purpose and a
+    cdif:identifier in schema:PropertyValue form.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://w3id.org/cdif/
+    xsd: http://www.w3.org/2001/XMLSchema#
+  snippets:
+    - language: json
+      ref: exampleCdifValueDomainOrdinal.json
+- title: Interval domain with exclusive bounds
+  content: |-
+    A cdif:SubstantiveValueDomain for a four-digit collection year, bounded by
+    cdi:minimumValueExclusive and cdi:maximumValueExclusive and formatted by an LDML date
+    pattern. The inclusive bounds appear in the continuous-domain example instead; stating
+    both pairs on one domain would be contradictory.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://w3id.org/cdif/
+    xsd: http://www.w3.org/2001/XMLSchema#
+  snippets:
+    - language: json
+      ref: exampleCdifValueDomainIntervalExclusive.json
+- title: Ratio domain
+  content: |-
+    A cdif:SubstantiveValueDomain for a specimen count, classified Ratio with a single
+    inclusive lower bound of zero.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://w3id.org/cdif/
+    xsd: http://www.w3.org/2001/XMLSchema#
+  snippets:
+    - language: json
+      ref: exampleCdifValueDomainRatio.json
+- title: Sentinel domain with coded missing values
+  content: |-
+    A cdif:SentinelValueDomain — the other branch of this block's root oneOf — for negative
+    integer codes marking non-substantive responses. Carries every property the branch
+    defines: cdif:displayLabel, cdif:recommendedDataType, an inline cdif:EnumerationDomain
+    that does cite cdif:references, and an inline cdi:ValueAndConceptDescription.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://w3id.org/cdif/
+    xsd: http://www.w3.org/2001/XMLSchema#
+  snippets:
+    - language: json
+      ref: exampleCdifValueDomainSentinelCodes.json
+- title: Minimal sentinel domain
+  content: |-
+    The smallest valid cdif:SentinelValueDomain: @type plus cdif:recommendedDataType. The
+    mirror of the minimal substantive example, and the case that proves the root oneOf
+    selects on the type token alone.
+  prefixes:
+    cdif: https://w3id.org/cdif/
+    xsd: http://www.w3.org/2001/XMLSchema#
+  snippets:
+    - language: json
+      ref: exampleCdifValueDomainSentinelMinimal.json

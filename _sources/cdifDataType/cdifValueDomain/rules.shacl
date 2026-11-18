@@ -65,3 +65,146 @@ cdifd:cdifSentinelValueDomainShape
 		sh:message "A cdif:SentinelValueDomain should carry a cdif:displayLabel (human-readable label)" ;
 	] ;
 	.
+
+# ------------------------------------------------------------
+# Coherence between how a domain SPECIFIES its values and how it DESCRIBES
+# them. cdif:takesValuesFrom specifies the value set extensionally, by naming
+# an enumeration; cdi:isDescribedBy describes it intensionally. In DDI-CDI
+# those are the two alternative ways to pin a domain, and neither the canonical
+# transcription (archive/ddiProperties/ddicdiValueDomain, required: ['@type']
+# only) nor this profile forbids stating both.
+#
+# Forbidding the pair outright would be wrong. An enumerated domain still needs
+# cdi:classificationLevel -- a five-point Likert scale is enumerated AND
+# ordinal, and cdif:takesValuesFrom names the members while saying nothing
+# about whether their order is meaningful. So the line drawn here is between
+# the VACD properties that ANNOTATE a value set (classificationLevel,
+# description) and those that DEFINE one (the four bounds,
+# cdif:logicalExpression). Only the second group conflicts.
+#
+# These live in SHACL rather than the JSON Schema because both
+# cdi:isDescribedBy and cdif:takesValuesFrom accept a sealed {@id} reference.
+# JSON Schema sees one document, so a rule written there would police the
+# inline spelling and pass the referenced one -- and a rule that reports
+# nothing is indistinguishable from a rule that passes. SHACL sees the
+# assembled graph, where a reference and an inline node are the same node.
+# ------------------------------------------------------------
+
+# A continuous domain has uncountably many values, so it cannot be enumerated.
+# That is a contradiction rather than a redundancy, hence Violation.
+#
+# Ratio and Interval are deliberately NOT included. Both are weaker claims: a
+# specimen count is ratio-scaled and a small codelist of counts is defensible,
+# and a codelist of calendar years is interval-scaled. Only Continuous is
+# unambiguous. They are left to the advisory below, which fires on the bounds
+# rather than on the classification.
+#
+# The target establishes context -- the node is a value domain -- without
+# reading either property under test, so it cannot be satisfied by selection.
+# That is the discipline cdifd:xasAnalysisLocationClassified exists to enforce.
+cdifd:cdifValueDomainContinuousNotEnumerableShape
+	a sh:NodeShape ;
+	sh:targetClass cdif:SubstantiveValueDomain ;
+	sh:targetClass cdif:SentinelValueDomain ;
+	sh:severity sh:Violation ;
+	sh:sparql [
+		a sh:SPARQLConstraint ;
+		sh:prefixes (
+			[ sh:prefix "cdi" ; sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ]
+			[ sh:prefix "cdif" ; sh:namespace "https://w3id.org/cdif/" ]
+		) ;
+		sh:select """
+			PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
+			PREFIX cdif: <https://w3id.org/cdif/>
+			SELECT DISTINCT $this (cdif:takesValuesFrom AS ?path) (?level AS ?value)
+			WHERE {
+				$this cdif:takesValuesFrom ?enum .
+				$this cdi:isDescribedBy ?vacd .
+				?vacd cdi:classificationLevel ?level .
+				FILTER (STR(?level) = "Continuous")
+			}""" ;
+		sh:message "A value domain classified Continuous cannot also take its values from an enumeration: a continuous scale has uncountably many values. Either drop cdif:takesValuesFrom, or classify the domain Nominal or Ordinal." ;
+	]
+	.
+
+# Advisory, not a violation: a record stating the value set twice is not
+# invalid, and whether a given bound annotates an enumeration or redefines it
+# is a judgement SHACL cannot make. Same character as the profile-conformance
+# advisories -- Warning because the rule cannot decide the question it asks.
+#
+# cdif:regularExpression and cdif:formatPattern are excluded on purpose. They
+# constrain the FORM of a value, not which values exist, so they stay useful
+# beside an enumeration as a syntactic check a consumer can apply without
+# dereferencing the codelist.
+cdifd:cdifValueDomainEnumerationRedundancyShape
+	a sh:NodeShape ;
+	sh:targetClass cdif:SubstantiveValueDomain ;
+	sh:targetClass cdif:SentinelValueDomain ;
+	sh:severity sh:Warning ;
+	sh:sparql [
+		a sh:SPARQLConstraint ;
+		sh:prefixes (
+			[ sh:prefix "cdi" ; sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ]
+			[ sh:prefix "cdif" ; sh:namespace "https://w3id.org/cdif/" ]
+		) ;
+		sh:select """
+			PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
+			PREFIX cdif: <https://w3id.org/cdif/>
+			SELECT DISTINCT $this (?p AS ?path) (?v AS ?value)
+			WHERE {
+				$this cdif:takesValuesFrom ?enum .
+				$this cdi:isDescribedBy ?vacd .
+				?vacd ?p ?v .
+				FILTER (?p IN (
+					cdif:logicalExpression,
+					cdi:minimumValueInclusive, cdi:minimumValueExclusive,
+					cdi:maximumValueInclusive, cdi:maximumValueExclusive
+				))
+			}""" ;
+		sh:message "This value domain names an enumeration in cdif:takesValuesFrom and also defines its values by a bound or a logical expression. The codelist and the description then state the value set twice, with nothing checking that the two agree; prefer the codelist, and keep cdi:isDescribedBy for cdi:classificationLevel and cdi:description." ;
+	]
+	.
+
+# ------------------------------------------------------------
+# cdi:ValueAndConceptDescription -- internal coherence.
+#
+# The JSON Schema states the same constraint for an inline description; this
+# repeats it for one supplied as an {@id} reference, which JSON Schema cannot
+# reach. Two sh:sparql nodes rather than one, so each carries its own
+# sh:message: one message above two constraints can only describe one of them,
+# and it describes the wrong one for every record that trips the other.
+# ------------------------------------------------------------
+
+cdifd:cdifValueAndConceptDescriptionBoundsShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:ValueAndConceptDescription ;
+	sh:severity sh:Violation ;
+	sh:sparql [
+		a sh:SPARQLConstraint ;
+		sh:prefixes (
+			[ sh:prefix "cdi" ; sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ]
+		) ;
+		sh:select """
+			PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
+			SELECT DISTINCT $this (cdi:maximumValueInclusive AS ?path) (?inc AS ?value)
+			WHERE {
+				$this cdi:maximumValueInclusive ?inc .
+				$this cdi:maximumValueExclusive ?exc .
+			}""" ;
+		sh:message "cdi:maximumValueInclusive and cdi:maximumValueExclusive both state the upper limit, and nothing checks that the two agree. W3C tabular-metadata 5.11.2, the source of these properties, treats specifying both as an error: keep one." ;
+	] ;
+	sh:sparql [
+		a sh:SPARQLConstraint ;
+		sh:prefixes (
+			[ sh:prefix "cdi" ; sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ]
+		) ;
+		sh:select """
+			PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
+			SELECT DISTINCT $this (cdi:minimumValueInclusive AS ?path) (?inc AS ?value)
+			WHERE {
+				$this cdi:minimumValueInclusive ?inc .
+				$this cdi:minimumValueExclusive ?exc .
+			}""" ;
+		sh:message "cdi:minimumValueInclusive and cdi:minimumValueExclusive both state the lower limit, and nothing checks that the two agree. W3C tabular-metadata 5.11.2, the source of these properties, treats specifying both as an error: keep one." ;
+	]
+	.

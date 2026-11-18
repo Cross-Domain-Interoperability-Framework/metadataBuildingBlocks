@@ -2,7 +2,9 @@
 
 JSON Schema for validating a [SKOS Concept](https://www.w3.org/TR/skos-reference/#concepts) in native JSON-LD form.
 
-A concept must have `@type` including `skos:Concept` and a `skos:prefLabel`. An `@id` or `skos:notation` is required for identification.
+A concept must have `@type` including `skos:Concept`, plus `skos:prefLabel`, `skos:definition` and `skos:inScheme`. The last two are a deliberate tightening over the retired `cdifConcept` shape, which required neither — `cdifDataType/cdifConceptOrTerm` was repointed at this block on 2026-09-11 and inherited the stricter requirement.
+
+`@id` is optional, as is `skos:notation`; neither is required for identification, though a concept with no `@id` can only be referenced from within the document that inlines it.
 
 ### Labels
 - `skos:prefLabel` — preferred label (one per language)

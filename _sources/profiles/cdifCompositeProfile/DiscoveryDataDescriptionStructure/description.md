@@ -1,16 +1,16 @@
 # CDIF Data Structure profile
 
-The **CDIF Data Structure profile** extends the [Data Description profile](../CDIFDataDescriptionProfile/) with full DDI-CDI structural complexity. Use this profile when the catalog record must commit to *how* the data is organized — which variables play which role, what the keys are, what value domains constrain measurements — not just *which* variables are measured.
+The **CDIF Data Structure profile** extends the [Data Description profile](../DiscoveryDataDescription/) with full DDI-CDI structural complexity. Use this profile when the catalog record must commit to *how* the data is organized — which variables play which role, what the keys are, what value domains constrain measurements — not just *which* variables are measured.
 
 ## What it adds beyond Data Description
 
-- **Component subclasses.** [cdifDataStructureComponent](../../../cdifProperties/cdifDataStructureComponent/) defines `cdi:IdentifierComponent`, `cdi:MeasureComponent`, `cdi:AttributeComponent`, `cdi:DimensionComponent`, `cdi:VariableValueComponent`, and `cdi:VariableDescriptorComponent` as Node classes — the structural counterparts to the role values carried directly on InstanceVariables in the Data Description profile.
-- **Polymorphic DataStructure root.** [cdifDataStructure](../../../cdifProperties/cdifDataStructure/) carries `cdi:DataStructure`, `cdi:DimensionalDataStructure`, `cdi:LongDataStructure`, and `cdi:WideDataStructure`, plus shared structural types (`cdi:DimensionGroup`, `cdi:ForeignKey`, `cdi:ForeignKeyComponent`, `cdif:Key`, `cdi:PrimaryKeyComponent`).
-- **Represented variables and value domains.** [cdifRepresentedVariable](../../../cdifProperties/cdifRepresentedVariable/) and [cdifValueDomain](../../../cdifProperties/cdifValueDomain/) provide the conceptual variable definitions and substantive/sentinel value domains referenced from components.
-- **Descriptor variable.** [cdifDescriptorVariable](../../../cdifProperties/cdifDescriptorVariable/) defines the `cdi:DescriptorVariable` + `cdi:DescriptorValueDomain` pattern that maps descriptor-column codes to the RepresentedVariables they name (long-format datasets).
+- **Component subclasses.** [cdifDataStructureComponent](../../../cdifDataType/cdifDataStructureComponent/) defines `cdi:IdentifierComponent`, `cdi:MeasureComponent`, `cdi:AttributeComponent`, `cdi:DimensionComponent`, `cdi:VariableValueComponent`, and `cdi:VariableDescriptorComponent` as Node classes — the structural counterparts to the role values carried directly on InstanceVariables in the Data Description profile.
+- **Polymorphic DataStructure root.** [cdifDataStructure](../../cdifProfile/cdifDataStructure/) carries `cdi:DataStructure`, `cdi:DimensionalDataStructure`, `cdi:LongDataStructure`, and `cdi:WideDataStructure`, plus shared structural types (`cdi:DimensionGroup`, `cdif:ForeignKey`, `cdi:ForeignKeyComponent`, `cdif:Key`). A primary key is a `cdif:Key` node referenced from `cdif:has_PrimaryKey`; the separate `cdif:PrimaryKey` class was retired.
+- **Represented variables and value domains.** [cdifRepresentedVariable](../../../cdifDataType/cdifRepresentedVariable/) and [cdifValueDomain](../../../cdifDataType/cdifValueDomain/) provide the conceptual variable definitions and substantive/sentinel value domains referenced from components.
+- **Descriptor variable.** [cdifDescriptorVariable](../../../cdifDataType/cdifDescriptorVariable/) defines the `cdi:DescriptorVariable` + `cdi:DescriptorValueDomain` pattern that maps descriptor-column codes to the RepresentedVariables they name (long-format datasets).
 - **Distribution is structured.** Every `schema:distribution` item must carry `cdi:isStructuredBy` pointing at a Data Structure node (Data Description allows it but does not require it).
 - **InstanceVariable role / qualifies redundancy forbidden.** `cdif:role` and `cdif:qualifies` on items in `schema:variableMeasured` are not allowed at this profile level — the component class type on `cdi:isStructuredBy` already encodes the role, and `AttributeComponent.cdif:qualifies` encodes the qualifies relation.
-- **Summary statistics.** `cdif:statistics` (inherited from Data Description via [cdifStatistics](../../../cdifProperties/cdifStatistics/)) carries one or more `cdi:Statistics` bundles or a `cdi:StatisticsCollection` describing computed summary values for the dataset's variables.
+- **Summary statistics.** `cdif:statistics` (inherited from Data Description via [cdifStatistics](../../../cdifDataType/cdifStatistics/)) carries one or more `cdi:Statistics` bundles or a `cdi:StatisticsCollection` describing computed summary values for the dataset's variables.
 
 ## Distribution typing rules
 
@@ -25,7 +25,7 @@ The bare-`cdi:PhysicalDataSet` case is the "structure reuse" pattern: a dataset 
 
 ## Conformance
 
-This profile composes [cdifCore](../../../cdifProperties/cdifCore/) and [cdifDataDescription](../../../cdifProperties/cdifDataDescription/), so a conforming record must carry `dcterms:conformsTo` URIs for all three:
+This profile composes [cdifCore](../../cdifProfile/cdifCore/) and [cdifDataDescription](../../cdifProfile/cdifDataDescription/), so a conforming record must carry `dcterms:conformsTo` URIs for all three:
 
 - `https://w3id.org/cdif/core/2.0`
 - `https://w3id.org/cdif/data_description/2.0`
@@ -35,8 +35,8 @@ This profile composes [cdifCore](../../../cdifProperties/cdifCore/) and [cdifDat
 
 | Want to publish... | Use profile |
 |---|---|
-| Catalog record with `schema:variableMeasured` and roles, no structure commitment | [Data Description](../CDIFDataDescriptionProfile/) |
-| Wide table with simple measures | [Data Description](../CDIFDataDescriptionProfile/) |
+| Catalog record with `schema:variableMeasured` and roles, no structure commitment | [Data Description](../DiscoveryDataDescription/) |
+| Wide table with simple measures | [Data Description](../DiscoveryDataDescription/) |
 | Long-format data (descriptor + reference columns) | **CDIF Data Structure** |
 | Dimensional / cube data | **CDIF Data Structure** |
 | Anything where consumers need keys + components + value domains | **CDIF Data Structure** |

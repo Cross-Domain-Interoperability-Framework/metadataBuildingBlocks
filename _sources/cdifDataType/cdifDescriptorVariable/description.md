@@ -31,7 +31,7 @@ This is the controlled-vocabulary descriptor pattern: strings in the descriptor 
 
 ## Use in DataStructure
 
-A `cdi:VariableDescriptorComponent` (in [cdifDataStructureComponent](../cdifDataStructureComponent/)) holds a `cdi:isDefinedBy` pointer to a `cdifDescriptorVariable` instance, plus a `cdi:refersTo` pointer to the `cdi:VariableValueComponent` whose value-column contents the descriptor identifies.
+A `cdi:VariableDescriptorComponent` (in [cdifDataStructureComponent](../cdifDataStructureComponent/)) holds a `cdif:isDefinedBy_DescriptorVariable` pointer to a `cdifDescriptorVariable` instance, plus a `cdi:refersTo` pointer to the `cdi:VariableValueComponent` whose value-column contents the descriptor identifies.
 
 ## Dependencies
 

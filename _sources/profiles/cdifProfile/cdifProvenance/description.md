@@ -8,4 +8,4 @@ Defines the `prov:wasGeneratedBy` property for CDIF metadata records. This build
 
 ### Dependencies
 
-- [cdifProvActivity](../cdifProvActivity/) - extended provenance activity with schema.org Action properties
+- [cdifProvActivity](../../../cdifDataType/cdifProvActivity/) - extended provenance activity with schema.org Action properties
