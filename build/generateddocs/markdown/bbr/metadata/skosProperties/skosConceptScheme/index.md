@@ -33,7 +33,7 @@ Concepts within `skos:hasTopConcept` (and recursively in `skos:narrower`) must h
 
 ### Collections
 
-The schema also defines `skos:Collection` (unordered groupings with `skos:member`) and `skos:OrderedCollection` (ordered groupings with `skos:memberList` using the JSON-LD `@list` construct).
+SKOS also defines `skos:Collection` (unordered groupings with `skos:member`) and `skos:OrderedCollection` (ordered groupings with `skos:memberList` using the JSON-LD `@list` construct). **This building block implements neither** — no collection class or membership property appears in its `schema.yaml`. They are implemented separately, in [skosCollection](../skosCollection/); use that block when you need to group concepts without asserting a hierarchy.
 
 ### Language-tagged values
 
@@ -1520,7 +1520,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.skosProperties.skosConceptScheme
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-17'
+  dateOfLastChange: '2026-11-19'
 
 ```
 

@@ -1,0 +1,18 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+
+<https://example.org/vd/air-temperature-degc> a cdif:SubstantiveValueDomain ;
+    cdi:isDescribedBy <https://example.org/vacd/air-temperature-degc> ;
+    cdif:displayLabel "Air temperature (degrees Celsius)" ;
+    cdif:recommendedDataType "xsd:decimal",
+        "xsd:double" .
+
+<https://example.org/vacd/air-temperature-degc> a cdi:ValueAndConceptDescription ;
+    cdi:classificationLevel "Continuous" ;
+    cdi:description "Near-surface air temperature in degrees Celsius, reported to two decimal places, bounded by the range of values observed in the terrestrial record." ;
+    cdi:maximumValueInclusive "60.0" ;
+    cdi:minimumValueInclusive "-90.0" ;
+    cdif:formatPattern "#,##0.0#" ;
+    cdif:logicalExpression "(all reals x such that -90.0 <= x <= 60.0)" ;
+    cdif:regularExpression "^-?\\d{1,2}(\\.\\d{1,2})?$" .
+

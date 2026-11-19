@@ -13,7 +13,9 @@ JSON Schema for validating a SKOS Concept in native JSON-LD form. Validates skos
 
 JSON Schema for validating a [SKOS Concept](https://www.w3.org/TR/skos-reference/#concepts) in native JSON-LD form.
 
-A concept must have `@type` including `skos:Concept` and a `skos:prefLabel`. An `@id` or `skos:notation` is required for identification.
+A concept must have `@type` including `skos:Concept`, plus `skos:prefLabel`, `skos:definition` and `skos:inScheme`. The last two are a deliberate tightening over the retired `cdifConcept` shape, which required neither — `cdifDataType/cdifConceptOrTerm` was repointed at this block on 2026-09-11 and inherited the stricter requirement.
+
+`@id` is optional, as is `skos:notation`; neither is required for identification, though a concept with no `@id` can only be referenced from within the document that inlines it.
 
 ### Labels
 - `skos:prefLabel` — preferred label (one per language)
@@ -51,7 +53,16 @@ narrower concepts, associative relations, and cross-scheme mappings.
   "@id": "mat:earthmaterial",
   "@type": ["skos:Concept"],
   "skos:prefLabel": {"@value": "Natural Solid Material", "@language": "en"},
+  "skos:altLabel": [
+    {"@value": "Earth material", "@language": "en"},
+    {"@value": "Natürliches Festmaterial", "@language": "de"}
+  ],
+  "skos:hiddenLabel": {"@value": "natural solid", "@language": "en"},
+  "skos:notation": "earthmaterial",
   "skos:definition": {"@value": "A naturally occurring solid material that is not anthropogenic, biogenic, or ice.", "@language": "en"},
+  "skos:example": {"@value": "A granite hand sample collected from an outcrop.", "@language": "en"},
+  "skos:related": [{"@id": "mat:anthropogenicmaterial"}],
+  "skos:broadMatch": [{"@id": "http://purl.obolibrary.org/obo/ENVO_00010483"}],
   "skos:inScheme": {"@id": "mat:materialsvocabulary"},
   "skos:broader": [{"@id": "mat:material"}],
   "skos:closeMatch": [
@@ -168,10 +179,39 @@ narrower concepts, associative relations, and cross-scheme mappings.
     "@value": "Natural Solid Material",
     "@language": "en"
   },
+  "skos:altLabel": [
+    {
+      "@value": "Earth material",
+      "@language": "en"
+    },
+    {
+      "@value": "Nat\u00fcrliches Festmaterial",
+      "@language": "de"
+    }
+  ],
+  "skos:hiddenLabel": {
+    "@value": "natural solid",
+    "@language": "en"
+  },
+  "skos:notation": "earthmaterial",
   "skos:definition": {
     "@value": "A naturally occurring solid material that is not anthropogenic, biogenic, or ice.",
     "@language": "en"
   },
+  "skos:example": {
+    "@value": "A granite hand sample collected from an outcrop.",
+    "@language": "en"
+  },
+  "skos:related": [
+    {
+      "@id": "mat:anthropogenicmaterial"
+    }
+  ],
+  "skos:broadMatch": [
+    {
+      "@id": "http://purl.obolibrary.org/obo/ENVO_00010483"
+    }
+  ],
   "skos:inScheme": {
     "@id": "mat:materialsvocabulary"
   },
@@ -481,17 +521,24 @@ mat:rockorsediment a skos:Concept ;
     skos:scopeNote "Distinct from 'Mixed soil, sediment or rock' that represents samples known to have components of all these materials."@en .
 
 mat:earthmaterial a skos:Concept ;
+    skos:altLabel "Natürliches Festmaterial"@de,
+        "Earth material"@en ;
+    skos:broadMatch <http://purl.obolibrary.org/obo/ENVO_00010483> ;
     skos:broader mat:material ;
     skos:closeMatch <http://resource.geosciml.org/classifier/cgi/lithology/compound_material>,
         <https://w3id.org/gso/geology/Solid_Geologic_Material> ;
     skos:definition "A naturally occurring solid material that is not anthropogenic, biogenic, or ice."@en ;
+    skos:example "A granite hand sample collected from an outcrop."@en ;
+    skos:hiddenLabel "natural solid"@en ;
     skos:inScheme mat:materialsvocabulary ;
     skos:narrower mat:mineral,
         mat:mixedsoilsedimentrock,
         mat:particulate,
         mat:rockorsediment,
         mat:soil ;
-    skos:prefLabel "Natural Solid Material"@en .
+    skos:notation "earthmaterial" ;
+    skos:prefLabel "Natural Solid Material"@en ;
+    skos:related mat:anthropogenicmaterial .
 
 
 ```
@@ -555,6 +602,29 @@ $defs:
           items:
             $ref: '#/$defs/LanguageTaggedValue'
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
+      skos:altLabel:
+        description: Alternative lexical labels (acronyms, abbreviations, spelling
+          variants).
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/LanguageTaggedValue'
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: '#/$defs/LanguageTaggedValue'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#altLabel
+      skos:hiddenLabel:
+        description: Labels accessible to free-text search but not displayed.
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/LanguageTaggedValue'
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: '#/$defs/LanguageTaggedValue'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#hiddenLabel
       skos:notation:
         description: Classification code for this concept within a scheme (a single
           notation string, consistent with CdifCodelistConcept).
@@ -626,6 +696,17 @@ $defs:
             - type: string
             - $ref: '#/$defs/LanguageTaggedValue'
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#editorialNote
+      skos:example:
+        description: Example of the use of this concept.
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/LanguageTaggedValue'
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: '#/$defs/LanguageTaggedValue'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#example
       skos:inScheme:
         description: Concept scheme(s) this concept belongs to.
         anyOf:
@@ -660,6 +741,60 @@ $defs:
           - $ref: '#/$defs/ConceptRef'
           - $ref: '#/$defs/Concept'
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrower
+      skos:related:
+        description: Associative (non-hierarchical) relations. Items are inline concept
+          objects or @id references. Shaped like skos:broader/skos:narrower for consistency
+          within this block. SKOS integrity condition S27 makes skos:related disjoint
+          with the transitive closure of skos:broader; that is a graph-level constraint
+          no JSON Schema can express, and rules.shacl does not yet assert it (it asserts
+          only the reflexive skos:broader case).
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/ConceptRef'
+          - $ref: '#/$defs/Concept'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#related
+      skos:exactMatch:
+        description: Concepts in other schemes with equivalent meaning, by @id.
+        anyOf:
+        - $ref: '#/$defs/ConceptRef'
+        - type: array
+          items:
+            $ref: '#/$defs/ConceptRef'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#exactMatch
+      skos:closeMatch:
+        description: Concepts in other schemes with sufficiently similar meaning to
+          be interchangeable in some applications, by @id.
+        anyOf:
+        - $ref: '#/$defs/ConceptRef'
+        - type: array
+          items:
+            $ref: '#/$defs/ConceptRef'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#closeMatch
+      skos:broadMatch:
+        description: Broader concepts in other schemes, by @id.
+        anyOf:
+        - $ref: '#/$defs/ConceptRef'
+        - type: array
+          items:
+            $ref: '#/$defs/ConceptRef'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#broadMatch
+      skos:narrowMatch:
+        description: Narrower concepts in other schemes, by @id.
+        anyOf:
+        - $ref: '#/$defs/ConceptRef'
+        - type: array
+          items:
+            $ref: '#/$defs/ConceptRef'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrowMatch
+      skos:relatedMatch:
+        description: Associatively related concepts in other schemes, by @id.
+        anyOf:
+        - $ref: '#/$defs/ConceptRef'
+        - type: array
+          items:
+            $ref: '#/$defs/ConceptRef'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#relatedMatch
     required:
     - '@type'
     - skos:prefLabel
@@ -688,7 +823,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.skosProperties.skosConcept
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-17'
+  dateOfLastChange: '2026-11-19'
 
 ```
 

@@ -42,7 +42,7 @@ This is the controlled-vocabulary descriptor pattern: strings in the descriptor 
 
 ## Use in DataStructure
 
-A `cdi:VariableDescriptorComponent` (in [cdifDataStructureComponent](../cdifDataStructureComponent/)) holds a `cdi:isDefinedBy` pointer to a `cdifDescriptorVariable` instance, plus a `cdi:refersTo` pointer to the `cdi:VariableValueComponent` whose value-column contents the descriptor identifies.
+A `cdi:VariableDescriptorComponent` (in [cdifDataStructureComponent](../cdifDataStructureComponent/)) holds a `cdif:isDefinedBy_DescriptorVariable` pointer to a `cdifDescriptorVariable` instance, plus a `cdi:refersTo` pointer to the `cdi:VariableValueComponent` whose value-column contents the descriptor identifies.
 
 ## Dependencies
 
@@ -305,14 +305,14 @@ mapping.
     cdif:name "systolic_blood_pressure" .
 
 <https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
-            cdif:value "diastolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
             cdif:value "heart_rate" ],
         [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
             cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
-            cdif:value "temp_c" ] .
+            cdif:value "temp_c" ],
+        [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
+            cdif:value "diastolic_bp" ] .
 
 
 ```
@@ -412,7 +412,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-17'
+  dateOfLastChange: '2026-11-19'
 
 ```
 

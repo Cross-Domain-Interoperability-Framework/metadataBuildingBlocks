@@ -11,7 +11,7 @@ Additional constraints for CDIF data description level. Adds cdif:physicalDataTy
 
 Additional constraints for CDIF data description level metadata. Adds the `cdif:physicalDataType` requirement on variableMeasured items (PropertyValue-type variables must specify their physical data type at this level). Adds distribution-level properties: `cdif:hasPhysicalMapping` (per-field physical mappings linking measured variables to their physical representation, via the `cdifPhysicalMapping` building block) and the file-characterization properties `cdi:characterSet`, `cdif:fileSize`, and `cdif:fileSizeUofM`.
 
-`cdi:isStructuredBy` is **not** part of the data description level — pointing a distribution at a full Data Structure node is a Data Structure profile concern. The data description level describes variables (`schema:variableMeasured` with `cdi:role`), the primary key (`cdif:hasPrimaryKey` on the dataset), summary statistics (`cdif:statistics`), and per-field physical mappings (`cdif:hasPhysicalMapping` on distributions).
+`cdi:isStructuredBy` is **not** part of the data description level — pointing a distribution at a full Data Structure node is a Data Structure profile concern. The data description level describes variables (`schema:variableMeasured` with `cdif:role`), the primary key (`cdif:hasPrimaryKey` on the dataset), summary statistics (`cdif:statistics`), and per-field physical mappings (`cdif:hasPhysicalMapping` on distributions).
 
 ## Examples
 
@@ -881,7 +881,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             schema1:name "Ocean temperature CSV" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
+            cdif:hasPhysicalMapping [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ],
+                [ cdi:decimalPositions 1 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "-999.9" ;
                     cdi:scale 1 ;
@@ -889,18 +893,14 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:index 1 ;
                     cdif:physicalDataType "Numeric" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "Integer" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ],
                 [ cdi:isRequired true ;
                     cdi:length 20 ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
                     cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
                     cdif:physicalDataType "String" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
@@ -1245,7 +1245,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-17'
+  dateOfLastChange: '2026-11-19'
 
 ```
 

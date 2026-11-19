@@ -2,9 +2,111 @@
   "title": "Validation report for cdif.bbr.metadata.skosProperties.skosConcept - SKOS Concept",
   "bblockName": "SKOS Concept",
   "bblockId": "cdif.bbr.metadata.skosProperties.skosConcept",
-  "generated": "2026-11-17T23:39:30.218293+00:00",
+  "generated": "2026-11-19T16:49:24.288422+00:00",
   "result": true,
   "items": [
+    {
+      "source": {
+        "type": "TEST_RESOURCE",
+        "requireFail": true,
+        "filename": "_sources/skosProperties/skosConcept/tests/altLabel-fail.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/tests/altLabel-fail.json",
+        "language": "json"
+      },
+      "result": true,
+      "hasWarnings": false,
+      "sections": [
+        {
+          "name": "GENERAL",
+          "title": "General",
+          "entries": [
+            {
+              "op": "require-fail",
+              "isError": false,
+              "message": "Test was expected to fail and it did."
+            }
+          ]
+        },
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using altLabel-fail.json from test resources"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "altLabel-fail.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD altLabel-fail.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "altLabel-fail.ttl",
+              "size": 13,
+              "isError": false,
+              "message": "Output Turtle altLabel-fail.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": false,
+              "exception": "ValidationError",
+              "errorMessage": "123 is not valid under any of the given schemas",
+              "isError": true,
+              "message": "ValidationError: 123 is not valid under any of the given schemas\n\nFailed validating 'anyOf' in schema['allOf'][0]['properties']['skos:altLabel']:\n    {'description': 'Alternative lexical labels (acronyms, abbreviations, '\n                    'spelling variants).',\n     'anyOf': [{'type': 'string'},\n               {'$ref': '#/$defs/LanguageTaggedValue'},\n               {'type': 'array',\n                'items': {'anyOf': [{'type': 'string'},\n                                    {'$ref': '#/$defs/LanguageTaggedValue'}]}}],\n     'x-jsonld-id': 'http://www.w3.org/2004/02/skos/core#altLabel'}\n\nOn instance['skos:altLabel']:\n    123"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/skosProperties/skosConcept/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/skosProperties/skosConcept/rules.shacl: no results"
+            },
+            {
+              "shaclFile": "_sources/skosProperties/skosConcept/rules.shacl",
+              "focusNodes": {
+                "skosv:ConceptShape": {
+                  "nodes": [
+                    "mat:earthmaterial"
+                  ]
+                },
+                "skosv:conceptBroaderNotSelfShape": {
+                  "nodes": [
+                    "mat:earthmaterial"
+                  ]
+                },
+                "skosv:prefLabelUniqueLangShape": {
+                  "nodes": [
+                    "mat:earthmaterial"
+                  ]
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:ConceptShape: mat:earthmaterial\n - Shape skosv:conceptBroaderNotSelfShape: mat:earthmaterial\n - Shape skosv:prefLabelUniqueLangShape: mat:earthmaterial\n"
+            }
+          ]
+        }
+      ]
+    },
     {
       "source": {
         "type": "TEST_RESOURCE",
@@ -84,45 +186,45 @@
             {
               "shaclFile": "_sources/skosProperties/skosConcept/rules.shacl",
               "focusNodes": {
-                "skosv:prefLabelUniqueLangShape": {
-                  "nodes": [
-                    "mat:particulate",
-                    "mat:rockorsediment",
-                    "mat:sediment",
-                    "mat:earthmaterial",
-                    "mat:soil",
-                    "mat:rock",
-                    "mat:mineral",
-                    "mat:mixedsoilsedimentrock"
-                  ]
-                },
                 "skosv:ConceptShape": {
                   "nodes": [
-                    "mat:particulate",
                     "mat:rockorsediment",
                     "mat:sediment",
+                    "mat:rock",
                     "mat:earthmaterial",
                     "mat:soil",
-                    "mat:rock",
+                    "mat:particulate",
                     "mat:mineral",
                     "mat:mixedsoilsedimentrock"
                   ]
                 },
                 "skosv:conceptBroaderNotSelfShape": {
                   "nodes": [
-                    "mat:particulate",
                     "mat:rockorsediment",
                     "mat:sediment",
+                    "mat:rock",
                     "mat:earthmaterial",
                     "mat:soil",
+                    "mat:particulate",
+                    "mat:mineral",
+                    "mat:mixedsoilsedimentrock"
+                  ]
+                },
+                "skosv:prefLabelUniqueLangShape": {
+                  "nodes": [
+                    "mat:rockorsediment",
+                    "mat:sediment",
                     "mat:rock",
+                    "mat:earthmaterial",
+                    "mat:soil",
+                    "mat:particulate",
                     "mat:mineral",
                     "mat:mixedsoilsedimentrock"
                   ]
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:prefLabelUniqueLangShape: mat:particulate,mat:rockorsediment,mat:sediment,mat:earthmaterial,mat:soil,mat:rock,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:ConceptShape: mat:particulate,mat:rockorsediment,mat:sediment,mat:earthmaterial,mat:soil,mat:rock,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:conceptBroaderNotSelfShape: mat:particulate,mat:rockorsediment,mat:sediment,mat:earthmaterial,mat:soil,mat:rock,mat:mineral,mat:mixedsoilsedimentrock\n"
+              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:ConceptShape: mat:rockorsediment,mat:sediment,mat:rock,mat:earthmaterial,mat:soil,mat:particulate,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:conceptBroaderNotSelfShape: mat:rockorsediment,mat:sediment,mat:rock,mat:earthmaterial,mat:soil,mat:particulate,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:prefLabelUniqueLangShape: mat:rockorsediment,mat:sediment,mat:rock,mat:earthmaterial,mat:soil,mat:particulate,mat:mineral,mat:mixedsoilsedimentrock\n"
             }
           ]
         }
@@ -207,45 +309,45 @@
             {
               "shaclFile": "_sources/skosProperties/skosConcept/rules.shacl",
               "focusNodes": {
-                "skosv:prefLabelUniqueLangShape": {
-                  "nodes": [
-                    "mat:particulate",
-                    "mat:rockorsediment",
-                    "mat:sediment",
-                    "mat:earthmaterial",
-                    "mat:soil",
-                    "mat:rock",
-                    "mat:mineral",
-                    "mat:mixedsoilsedimentrock"
-                  ]
-                },
                 "skosv:ConceptShape": {
                   "nodes": [
-                    "mat:particulate",
                     "mat:rockorsediment",
                     "mat:sediment",
+                    "mat:rock",
                     "mat:earthmaterial",
                     "mat:soil",
-                    "mat:rock",
+                    "mat:particulate",
                     "mat:mineral",
                     "mat:mixedsoilsedimentrock"
                   ]
                 },
                 "skosv:conceptBroaderNotSelfShape": {
                   "nodes": [
-                    "mat:particulate",
                     "mat:rockorsediment",
                     "mat:sediment",
+                    "mat:rock",
                     "mat:earthmaterial",
                     "mat:soil",
+                    "mat:particulate",
+                    "mat:mineral",
+                    "mat:mixedsoilsedimentrock"
+                  ]
+                },
+                "skosv:prefLabelUniqueLangShape": {
+                  "nodes": [
+                    "mat:rockorsediment",
+                    "mat:sediment",
                     "mat:rock",
+                    "mat:earthmaterial",
+                    "mat:soil",
+                    "mat:particulate",
                     "mat:mineral",
                     "mat:mixedsoilsedimentrock"
                   ]
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:prefLabelUniqueLangShape: mat:particulate,mat:rockorsediment,mat:sediment,mat:earthmaterial,mat:soil,mat:rock,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:ConceptShape: mat:particulate,mat:rockorsediment,mat:sediment,mat:earthmaterial,mat:soil,mat:rock,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:conceptBroaderNotSelfShape: mat:particulate,mat:rockorsediment,mat:sediment,mat:earthmaterial,mat:soil,mat:rock,mat:mineral,mat:mixedsoilsedimentrock\n"
+              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:ConceptShape: mat:rockorsediment,mat:sediment,mat:rock,mat:earthmaterial,mat:soil,mat:particulate,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:conceptBroaderNotSelfShape: mat:rockorsediment,mat:sediment,mat:rock,mat:earthmaterial,mat:soil,mat:particulate,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:prefLabelUniqueLangShape: mat:rockorsediment,mat:sediment,mat:rock,mat:earthmaterial,mat:soil,mat:particulate,mat:mineral,mat:mixedsoilsedimentrock\n"
             }
           ]
         }
@@ -287,7 +389,7 @@
               "op": "ttl-create",
               "empty": false,
               "filename": "example_1_1.ttl",
-              "size": 64,
+              "size": 71,
               "isError": false,
               "message": "Output Turtle example_1_1.ttl created"
             }
@@ -319,45 +421,45 @@
             {
               "shaclFile": "_sources/skosProperties/skosConcept/rules.shacl",
               "focusNodes": {
-                "skosv:prefLabelUniqueLangShape": {
-                  "nodes": [
-                    "mat:particulate",
-                    "mat:rockorsediment",
-                    "mat:sediment",
-                    "mat:earthmaterial",
-                    "mat:soil",
-                    "mat:rock",
-                    "mat:mineral",
-                    "mat:mixedsoilsedimentrock"
-                  ]
-                },
                 "skosv:ConceptShape": {
                   "nodes": [
-                    "mat:particulate",
                     "mat:rockorsediment",
                     "mat:sediment",
+                    "mat:rock",
                     "mat:earthmaterial",
                     "mat:soil",
-                    "mat:rock",
+                    "mat:particulate",
                     "mat:mineral",
                     "mat:mixedsoilsedimentrock"
                   ]
                 },
                 "skosv:conceptBroaderNotSelfShape": {
                   "nodes": [
-                    "mat:particulate",
                     "mat:rockorsediment",
                     "mat:sediment",
+                    "mat:rock",
                     "mat:earthmaterial",
                     "mat:soil",
+                    "mat:particulate",
+                    "mat:mineral",
+                    "mat:mixedsoilsedimentrock"
+                  ]
+                },
+                "skosv:prefLabelUniqueLangShape": {
+                  "nodes": [
+                    "mat:rockorsediment",
+                    "mat:sediment",
                     "mat:rock",
+                    "mat:earthmaterial",
+                    "mat:soil",
+                    "mat:particulate",
                     "mat:mineral",
                     "mat:mixedsoilsedimentrock"
                   ]
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:prefLabelUniqueLangShape: mat:particulate,mat:rockorsediment,mat:sediment,mat:earthmaterial,mat:soil,mat:rock,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:ConceptShape: mat:particulate,mat:rockorsediment,mat:sediment,mat:earthmaterial,mat:soil,mat:rock,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:conceptBroaderNotSelfShape: mat:particulate,mat:rockorsediment,mat:sediment,mat:earthmaterial,mat:soil,mat:rock,mat:mineral,mat:mixedsoilsedimentrock\n"
+              "message": "Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:\n - Shape skosv:ConceptShape: mat:rockorsediment,mat:sediment,mat:rock,mat:earthmaterial,mat:soil,mat:particulate,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:conceptBroaderNotSelfShape: mat:rockorsediment,mat:sediment,mat:rock,mat:earthmaterial,mat:soil,mat:particulate,mat:mineral,mat:mixedsoilsedimentrock\n - Shape skosv:prefLabelUniqueLangShape: mat:rockorsediment,mat:sediment,mat:rock,mat:earthmaterial,mat:soil,mat:particulate,mat:mineral,mat:mixedsoilsedimentrock\n"
             }
           ]
         }
@@ -367,8 +469,8 @@
   "globalErrors": {},
   "hasWarnings": false,
   "counts": {
-    "total": 3,
-    "passed": 3,
+    "total": 4,
+    "passed": 4,
     "failed": 0
   }
 }

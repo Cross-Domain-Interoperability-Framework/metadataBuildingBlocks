@@ -195,6 +195,21 @@ $defs:
         x-jsonld-id: https://w3id.org/cdif/regularExpression
     required:
     - '@type'
+    allOf:
+    - if:
+        required:
+        - cdi:maximumValueInclusive
+      then:
+        not:
+          required:
+          - cdi:maximumValueExclusive
+    - if:
+        required:
+        - cdi:minimumValueInclusive
+      then:
+        not:
+          required:
+          - cdi:minimumValueExclusive
   xsdDataType:
     type: string
     enum:
@@ -243,4 +258,4 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifValueDomain
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-17'
+  dateOfLastChange: '2026-11-19'

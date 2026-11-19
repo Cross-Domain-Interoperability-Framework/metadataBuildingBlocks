@@ -1,0 +1,20 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+@prefix schema1: <http://schema.org/> .
+
+<https://example.org/vd/missing-value-codes> a cdif:SentinelValueDomain ;
+    cdi:isDescribedBy <https://example.org/vacd/missing-value-codes> ;
+    cdif:displayLabel "Missing and below-detection codes" ;
+    cdif:recommendedDataType "xsd:int" ;
+    cdif:takesValuesFrom <https://example.org/enum-domain/missing-value-codes> .
+
+<https://example.org/enum-domain/missing-value-codes> a cdif:EnumerationDomain ;
+    schema1:name "Survey missing-value codes" ;
+    cdif:purpose "Distinguish the reasons a substantive value is absent so that analysis can treat them differently." ;
+    cdif:references <https://example.org/codelist/missing-value-codes> .
+
+<https://example.org/vacd/missing-value-codes> a cdi:ValueAndConceptDescription ;
+    cdi:classificationLevel "Nominal" ;
+    cdi:description "Negative integer codes reserved for non-substantive responses: -97 below detection limit, -98 refused, -99 not applicable. These values are never measurements and must be excluded before any arithmetic." ;
+    cdif:regularExpression "^-9[789]$" .
+
