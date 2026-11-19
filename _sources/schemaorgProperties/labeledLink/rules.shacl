@@ -14,6 +14,18 @@
 # not only http(s): a citation or source is often a download location, such as the
 # 1000 Genomes data collections on ftp://, NCBI GEO on ftp:// or a cloud bucket on
 # s3:// or gs://. derivedFrom's CreativeWork branch uses the same pattern.
+#
+# A Warning, not a Violation, as of 2026-11-19. The target is the CLASS, so the
+# rule reaches every schema:CreativeWork in the graph, not only the slots that
+# $ref this block (schema:license, conditionsOfAccess, publishingPrinciples,
+# documentation, termsOfService, spdx:license, cdif:externalDefinition,
+# prov:wasDerivedFrom). An intermediate provenance result typed CreativeWork with
+# no web location -- a code assignment, a theme -- was a Violation though nothing
+# about it is wrong (profile-provenance-draft, SCENARIO_qualitative.md). The same
+# over-reach as action/rules.shacl's type-selected target (CLAUDE.md). In those
+# slots the JSON Schema still REQUIRES schema:url of a CreativeWork (schema.yaml's
+# if/then), so a labeled link without one still fails there; the SHACL is now
+# advisory everywhere else.
 cdifd:CDIFLabeledLinkShape
     a sh:NodeShape ;
     sh:targetClass schema:CreativeWork ;
@@ -23,8 +35,9 @@ cdifd:CDIFLabeledLinkShape
         sh:datatype xsd:string ;
         # sh:pattern "^[a-zA-Z][a-zA-Z0-9+.-]*:[^\\s]*$";
         sh:pattern "^(https?|ftps?|sftp|s3|gs)://[^\\s]+$" ;
-        sh:message "schema:url must be an http(s), ftp(s), sftp, s3 or gs URL. Whether it resolves is not tested."
-        ] 
+        sh:severity sh:Warning ;
+        sh:message "A schema:CreativeWork should have a schema:url, an http(s), ftp(s), sftp, s3 or gs URL. Whether it resolves is not tested."
+        ]
         .
 
 # ============================================================
@@ -55,9 +68,10 @@ cdifd:CDIFLabeledLinkShape
 # declares both co-types.
 #
 # The url requirement is unchanged for anything that IS a CreativeWork:
-# CDIFLabeledLinkShape above targets schema:CreativeWork and requires it there, so
-# CDIF's own relation examples -- which declare both types -- still need one. What
-# changed is only that being a dcat:Relationship no longer implies it.
+# CDIFLabeledLinkShape above targets schema:CreativeWork and asks for it there (a
+# Warning since 2026-11-19; the JSON Schema still requires it in the slots that use
+# this block), so CDIF's own relation examples -- which declare both types -- still
+# need one. What changed is only that being a dcat:Relationship no longer implies it.
 #
 # This finishes 412782113, which removed the unsatisfiable dcat:Relationship
 # co-type mandate from the schema and claimed "Schema and SHACL now agree". They
@@ -68,7 +82,7 @@ cdifd:CDIFLabeledLinkShape
 cdifd:CDIFRelationShape
     a sh:NodeShape ;
     sh:targetClass dcat:Relationship ;
-    sh:message "On a dcat:Relationship, dcterms:relation names the related resource and dcat:hadRole (a skos:Concept) classifies the relation. A Relationship that also declares schema:CreativeWork is a labeled link as well, and CDIFLabeledLinkShape requires its schema:url." ;
+    sh:message "On a dcat:Relationship, dcterms:relation names the related resource and dcat:hadRole (a skos:Concept) classifies the relation. A Relationship that also declares schema:CreativeWork is a labeled link as well, and CDIFLabeledLinkShape asks for its schema:url." ;
 
     sh:property [
         a sh:PropertyShape ;
