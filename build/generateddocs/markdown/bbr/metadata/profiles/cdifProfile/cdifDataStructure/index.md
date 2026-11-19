@@ -851,14 +851,14 @@ each cell in the cube.
 
 <https://example.org/struct/salesCube/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/productCategory> ;
-            cdi:value 3 ],
+            cdi:indexes <https://example.org/var/country> ;
+            cdi:value 1 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/quarter> ;
             cdi:value 2 ],
         [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/country> ;
-            cdi:value 1 ] .
+            cdi:indexes <https://example.org/var/productCategory> ;
+            cdi:value 3 ] .
 
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
     cdif:hasIntendedDataType "xsd:string" ;
