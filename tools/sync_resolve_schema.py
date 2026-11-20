@@ -35,6 +35,11 @@ TOOLS = [
     # the one that writes resolvedSchema.json: an example could pass there and
     # be invalid against the published block.
     "validate_examples.py",
+    # validate_examples.py imports this at module level, so a target that
+    # received that tool without this one would fail at import. The import is
+    # module-level on purpose: a lazy import with a glob fallback would restore
+    # the blind spot it exists to close, silently.
+    "bb_examples.py",
 ]
 
 # Target repos — paths relative to this repo root

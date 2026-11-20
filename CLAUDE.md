@@ -285,18 +285,37 @@ their refs are resolved over the network at their build time, not ours.
   Warnings that vanished on fixing the prefix, with the triple count unchanged at
   509.
 
-  **Both tools now read `examples.yaml`, and the glob is only a fallback.**
-  `validate_examples.py` has merged the two sources for a while;
-  `validate_shacl.py` gained `gather_examples` on 2026-11-20, having still
-  reported "across 2 examples" for that three-example block until then. Closing
-  it surfaced a **second** instance nobody had recorded,
-  `xasInstrument/alt_exampleXasInstrument.json` -- which unlike the first was
-  clean, 0 violations either way, so the gap had cost nothing there. Measured
-  statically across all 86 blocks: 2 gained an example, **0 lost one**, 84
-  unchanged. `examples.yaml` is the authoritative list and the glob survives only
-  for the 12 blocks that have none; **a new tool that discovers examples by
-  globbing `example*.json` reintroduces this silently**, which is how it went
-  unnoticed twice.
+  **All three tools now share one discovery helper, `tools/bb_examples.py`, and
+  the glob is only a fallback.** `examples.yaml` refs union the glob, which
+  survives for the 12 of 86 blocks that have no `examples.yaml`. It had been
+  three copies -- `find_example_schema_pairs` here, `gather_examples` in
+  `validate_shacl.py`, three inline globs in `audit_building_blocks.py` -- and
+  two had already drifted: `validate_examples.py` read `examples.yaml` and saw
+  all 168 examples, the other two globbed and missed two. Closing it surfaced a
+  **second** instance nobody had recorded,
+  `xasInstrument/alt_exampleXasInstrument.json`, which unlike the first was
+  clean: 0 violations and 0 schema errors either way, so the gap had cost
+  nothing there.
+
+  **`bb_examples.py` is in `sync_resolve_schema.py`'s TOOLS**, because
+  `validate_examples.py` imports it at module level and that tool is synced to
+  the three domain repos -- a target receiving one without the other fails at
+  import. The import is module-level deliberately: a lazy import falling back to
+  the glob would restore the blind spot silently, which is the whole defect.
+
+  Measured rather than assumed, and the useful numbers are the ones that did
+  **not** move. Across all 86 blocks the new discovery against the old glob
+  gives 2 blocks gaining an example, **0 losing one**, 84 unchanged; the
+  `(example, schema)` pair set here is identical at 168 either side; and a full
+  audit run changes exactly 2 blocks, each by one `info` line for the
+  newly-visible example, with **total issues unchanged at 3**. The audit's
+  coverage check saw 8 of 19 property paths for `xasInstrument` and 138 of 143
+  for `xasDocument`, but reported no false "not exercised" -- its matcher is a
+  permissive `leaf in ep` substring test, so that site was masked by a second
+  weakness rather than being correct. Tighten that matcher and the gap would
+  have surfaced as spurious findings. **A new tool that discovers examples by
+  globbing `example*.json` reintroduces all of this silently**, which is how it
+  went unnoticed twice.
 - **SHACL severity is not uniform, and the JSON Schema twin of a rule may be stricter.**
   "A record must declare conformance to <profile>" is `sh:Warning` — SHACL cannot tell
   whether a record meets a profile, so it does not fail one for not saying it does. The

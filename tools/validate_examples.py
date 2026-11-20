@@ -28,6 +28,8 @@ import io
 import json
 import sys
 import yaml
+
+from bb_examples import gather_examples
 from pathlib import Path
 
 # tools/resolve_schema.py -- the same resolver that writes resolvedSchema.json,
@@ -66,43 +68,19 @@ REMOTE_LOCK = REPO_ROOT / "vendor" / "remote-lock.json"
 def find_example_schema_pairs():
     """Find all (example.json, schema.yaml) pairs in the sources tree.
 
-    Two sources are merged and de-duplicated:
-      1. every ``example*.json`` sitting beside a ``schema.yaml`` (the fast
-         default), and
-      2. every ``*.json`` registered as a snippet ``ref`` in an
-         ``examples.yaml`` — this catches examples whose filename does not
-         match the ``example*`` glob (e.g. ``CDIF-XAS-Full.json``), validated
-         against the ``schema.yaml`` of the block that registers them.
+    Discovery per block is ``bb_examples.gather_examples`` -- ``examples.yaml``
+    refs union the ``example*.json`` glob -- shared with validate_shacl.py and
+    audit_building_blocks.py since 2026-11-20. It lived here as a local merge of
+    the two sources, which is why this tool saw all 168 examples while the other
+    two still globbed and missed two of them.
 
-    Negative-test fixtures (referenced from ``tests.yaml``, not
-    ``examples.yaml``) are intentionally not picked up.
+    Negative-test fixtures (in ``tests/``, registered in ``tests.yaml``) are
+    intentionally not picked up.
     """
     pairs = {}  # (example_path, schema_path) -> None; dict preserves order + dedupes
-
-    def add(example_path: Path, schema_path: Path):
-        if example_path.exists() and schema_path.exists():
+    for schema_path in sorted(SOURCES_DIR.rglob("schema.yaml")):
+        for example_path in gather_examples(schema_path.parent):
             pairs.setdefault((example_path.resolve(), schema_path.resolve()), None)
-
-    # 1. example*.json glob
-    for example_path in sorted(SOURCES_DIR.rglob("example*.json")):
-        add(example_path, example_path.parent / "schema.yaml")
-
-    # 2. examples.yaml snippet refs
-    for examples_yaml in sorted(SOURCES_DIR.rglob("examples.yaml")):
-        try:
-            entries = yaml.safe_load(examples_yaml.read_text(encoding="utf-8")) or []
-        except Exception:
-            continue
-        if not isinstance(entries, list):
-            continue
-        schema_path = examples_yaml.parent / "schema.yaml"
-        for entry in entries:
-            if not isinstance(entry, dict):
-                continue
-            for snippet in entry.get("snippets", []) or []:
-                ref = snippet.get("ref") if isinstance(snippet, dict) else None
-                if isinstance(ref, str) and ref.endswith(".json"):
-                    add(examples_yaml.parent / ref, schema_path)
 
     return sorted(pairs.keys())
 

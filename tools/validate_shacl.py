@@ -31,6 +31,8 @@ from pathlib import Path
 
 import yaml
 
+from bb_examples import gather_examples
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SOURCES = REPO_ROOT / "_sources"
 
@@ -118,49 +120,6 @@ def gather_conformance_file(target_dir) -> list:
     if cf.exists() and "sh:NodeShape" in cf.read_text(encoding="utf-8"):
         return [cf]
     return []
-
-
-def gather_examples(target_dir) -> list:
-    """The target block's examples: examples.yaml refs UNION the example*.json glob.
-
-    examples.yaml is what the OGC postprocessor publishes and validates, so it
-    is the authoritative list. The glob stays as a fallback for the blocks that
-    have no examples.yaml yet (12 of 86 on 2026-11-20).
-
-    Globbing alone silently skips any example whose filename does not start with
-    "example". Two are registered in their block's examples.yaml and so were
-    validated by CI and by neither local tool:
-    xasDocument/CDIF-XAS-Full.json and xasInstrument/alt_exampleXasInstrument.json.
-    That is how CDIF-XAS-Full.json came to bind cdif: to https://cdif.org/profiles/
-    -- against w3id.org everywhere else -- unnoticed, and why this tool reported
-    "across 2 examples" for a block with three. validate_examples.py already
-    merges the two sources; this is the same merge for SHACL.
-    """
-    found = {}  # resolved path -> original Path; dedupes across both sources
-
-    def add(path):
-        if path.exists() and path.suffix == ".json":
-            found.setdefault(path.resolve(), path)
-
-    examples_yaml = target_dir / "examples.yaml"
-    if examples_yaml.exists():
-        try:
-            entries = yaml.safe_load(examples_yaml.read_text(encoding="utf-8")) or []
-        except Exception:
-            entries = []
-        if isinstance(entries, list):
-            for entry in entries:
-                if not isinstance(entry, dict):
-                    continue
-                for snippet in entry.get("snippets", []) or []:
-                    ref = snippet.get("ref") if isinstance(snippet, dict) else None
-                    if isinstance(ref, str) and ref.endswith(".json"):
-                        add(target_dir / ref)
-
-    for path in target_dir.glob("example*.json"):
-        add(path)
-
-    return sorted(found.values())
 
 
 def _normalize_literal_newlines(graph):

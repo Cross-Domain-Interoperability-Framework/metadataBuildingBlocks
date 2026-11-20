@@ -37,6 +37,8 @@ import copy
 from pathlib import Path
 from collections import defaultdict
 
+from bb_examples import gather_examples
+
 try:
     import yaml
 except ImportError:
@@ -134,14 +136,19 @@ def check_files(bb_dir, name, is_type_library=False):
         if not (bb_dir / f).exists():
             info.append(f"Missing optional file: {f}")
 
-    # Check for examples (skipped for type-library BBs that have no root class)
-    examples = list(bb_dir.glob("example*.json"))
+    # Check for examples (skipped for type-library BBs that have no root class).
+    # Discovery is bb_examples.gather_examples -- examples.yaml refs union the
+    # example*.json glob -- shared with validate_examples.py and
+    # validate_shacl.py. Globbing alone reported "no standalone example*.json"
+    # for a block whose examples were all registered under other names.
+    examples = gather_examples(bb_dir)
     if is_type_library:
         info.append("Type library (isTypeLibrary=true): example checks skipped")
     elif not examples:
-        # Check examples.yaml for inline examples
         if (bb_dir / "examples.yaml").exists():
-            info.append("Has examples.yaml but no standalone example*.json files")
+            # examples.yaml is present but yields no file that exists: empty,
+            # malformed, or every snippet ref dangling. 0 blocks on 2026-11-20.
+            info.append("Has examples.yaml but it registers no example file that exists")
         else:
             issues.append("No example files found (example*.json or examples.yaml)")
     else:
@@ -327,7 +334,7 @@ def check_example_validation(bb_dir, name, is_type_library=False):
     if not schema_path.exists():
         return issues, info
 
-    examples = sorted(bb_dir.glob("example*.json"))
+    examples = gather_examples(bb_dir)
     if not examples:
         return issues, info
 
@@ -593,7 +600,7 @@ def check_example_coverage(bb_dir, name, is_type_library=False):
 
     # Collect all properties used across all examples
     all_example_props = set()
-    examples = sorted(bb_dir.glob("example*.json"))
+    examples = gather_examples(bb_dir)
     for ex_path in examples:
         try:
             data = load_json(ex_path)
