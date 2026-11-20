@@ -274,20 +274,29 @@ their refs are resolved over the network at their build time, not ours.
   ```
 
   **The inverse is worse, and the one-liner above cannot see it: a file that IS
-  referenced but is not named `example*.json`.** Both local tools find examples
-  by globbing `example*.json` -- `validate_examples.py` and
-  `validate_shacl.py` alike -- while the postprocessor publishes and validates
-  whatever `examples.yaml` names. So `xasDocument/CDIF-XAS-Full.json`, listed
-  at line 22 of its own `examples.yaml`, was validated by CI and by neither
-  tool here. Measured 2026-11-07: it bound `cdif` to
-  `https://cdif.org/profiles/` while all 95 other declarations in the repo use
-  `https://w3id.org/cdif/`, so its 31 `cdif:` predicates expanded to IRIs
-  nothing else uses, and the shapes requiring the properties it did carry
-  reported them missing -- 2 Violations and 6 Warnings that vanished on fixing
-  the prefix, with the triple count unchanged at 509. `validate_shacl.py
-  xasDocument` still reports "across 2 examples" for a block with three. Either
-  rename such a file or widen the globs; until then, trust `examples.yaml` over
-  either tool's file list.
+  referenced but is not named `example*.json`.** Both local tools used to find
+  examples by globbing `example*.json`, while the postprocessor publishes and
+  validates whatever `examples.yaml` names -- so such a file was validated by CI
+  and by neither tool here. `xasDocument/CDIF-XAS-Full.json` is what that cost.
+  Measured 2026-11-07: it bound `cdif` to `https://cdif.org/profiles/` while all
+  95 other declarations in the repo use `https://w3id.org/cdif/`, so its 31
+  `cdif:` predicates expanded to IRIs nothing else uses, and the shapes requiring
+  the properties it did carry reported them missing -- 2 Violations and 6
+  Warnings that vanished on fixing the prefix, with the triple count unchanged at
+  509.
+
+  **Both tools now read `examples.yaml`, and the glob is only a fallback.**
+  `validate_examples.py` has merged the two sources for a while;
+  `validate_shacl.py` gained `gather_examples` on 2026-11-20, having still
+  reported "across 2 examples" for that three-example block until then. Closing
+  it surfaced a **second** instance nobody had recorded,
+  `xasInstrument/alt_exampleXasInstrument.json` -- which unlike the first was
+  clean, 0 violations either way, so the gap had cost nothing there. Measured
+  statically across all 86 blocks: 2 gained an example, **0 lost one**, 84
+  unchanged. `examples.yaml` is the authoritative list and the glob survives only
+  for the 12 blocks that have none; **a new tool that discovers examples by
+  globbing `example*.json` reintroduces this silently**, which is how it went
+  unnoticed twice.
 - **SHACL severity is not uniform, and the JSON Schema twin of a rule may be stricter.**
   "A record must declare conformance to <profile>" is `sh:Warning` — SHACL cannot tell
   whether a record meets a profile, so it does not fail one for not saying it does. The
