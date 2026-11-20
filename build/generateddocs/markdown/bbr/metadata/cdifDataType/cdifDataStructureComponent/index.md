@@ -7,6 +7,96 @@ Role given to a represented variable in the context of a long or wide data struc
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
+## Examples
+
+### Measure component defined by a represented variable
+A cdi:MeasureComponent — the role a variable takes in a data structure to hold the
+observed or derived values. Its cdif:isDefinedBy_Variable carries an inline
+cdi:RepresentedVariable, exercising the first branch of that property's anyOf; the
+alternatives are an inline cdi:InstanceVariable or an @id reference. MeasureComponent
+requires only @type, so every property shown beneath it is optional. This block's root
+anyOf offers six component types and this example covers one of them.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "https://example.org/"
+  },
+  "@type": [
+    "cdi:MeasureComponent"
+  ],
+  "@id": "ex:struct/vitalsWide/comp/systolicBP",
+  "cdif:isDefinedBy_Variable": {
+    "@type": [
+      "cdi:RepresentedVariable"
+    ],
+    "@id": "ex:struct/vitalsWide/rv/systolicBP",
+    "cdif:name": [
+      "systolic_bp"
+    ],
+    "cdi:simpleUnitOfMeasure": "mmHg",
+    "cdif:hasIntendedDataType": "xsd:integer"
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:MeasureComponent"
+  ],
+  "@id": "ex:struct/vitalsWide/comp/systolicBP",
+  "cdif:isDefinedBy_Variable": {
+    "@type": [
+      "cdi:RepresentedVariable"
+    ],
+    "@id": "ex:struct/vitalsWide/rv/systolicBP",
+    "cdif:name": [
+      "systolic_bp"
+    ],
+    "cdi:simpleUnitOfMeasure": "mmHg",
+    "cdif:hasIntendedDataType": "xsd:integer"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
+
+<https://example.org/struct/vitalsWide/comp/systolicBP> a cdi:MeasureComponent ;
+    cdif:isDefinedBy_Variable <https://example.org/struct/vitalsWide/rv/systolicBP> .
+
+<https://example.org/struct/vitalsWide/rv/systolicBP> a cdi:RepresentedVariable ;
+    cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:hasIntendedDataType "xsd:integer" ;
+    cdif:name "systolic_bp" .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -225,7 +315,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-19'
+  dateOfLastChange: '2026-11-20'
 
 ```
 
