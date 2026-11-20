@@ -1016,9 +1016,6 @@ discovery and cdifNIAID.
             nde:isCurated false ;
             nde:originalName "Marine Plankton Environmental Sample" ] ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:about "NIAID classification" ;
-            schema1:name "host" ],
-        [ a schema1:DefinedTerm ;
             schema1:about "topicCategory" ;
             schema1:identifier "topic_3174" ;
             schema1:inDefinedTermSet "EDAM" ;
@@ -1048,6 +1045,9 @@ discovery and cdifNIAID.
             nde:curatedBy [ a schema1:SoftwareApplication ;
                     schema1:name "GPT-4o-mini" ;
                     schema1:url "https://openai.com/index/chatgpt" ] ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "NIAID classification" ;
+            schema1:name "host" ],
         "",
         "2dlc",
         "Automated",
@@ -1067,19 +1067,19 @@ discovery and cdifNIAID.
             nde:isCurated true ;
             nde:originalName "Shotgun proteomics" ],
         [ a schema1:DefinedTerm ;
-            schema1:identifier "0000470" ;
-            schema1:inDefinedTermSet "OBI" ;
-            schema1:name "mass spectrometry assay" ;
-            schema1:url "http://purl.obolibrary.org/obo/OBI_0000470" ;
-            nde:isCurated true ;
-            nde:originalName "Mass Spectrometry" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "0003229" ;
             schema1:inDefinedTermSet "OBI" ;
             schema1:name "plasma proteomics assay" ;
             schema1:url "http://purl.obolibrary.org/obo/OBI_0003229" ;
             nde:isCurated true ;
             nde:originalName "Shotgun proteomics" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "0000470" ;
+            schema1:inDefinedTermSet "OBI" ;
+            schema1:name "mass spectrometry assay" ;
+            schema1:url "http://purl.obolibrary.org/obo/OBI_0000470" ;
+            nde:isCurated true ;
+            nde:originalName "Mass Spectrometry" ],
         [ a schema1:DefinedTerm ;
             schema1:identifier "0000534" ;
             schema1:inDefinedTermSet "MMO" ;
