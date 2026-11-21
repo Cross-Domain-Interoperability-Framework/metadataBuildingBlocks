@@ -139,20 +139,58 @@ def resolve_for_validation(schema_path: Path) -> dict:
         return _require_resolved(resolved, schema_path)
 
 
+# Memo for load_schema, keyed on (schema path, live). Ported from
+# geochemBuildingBlocks on 2026-11-21, where it was the one thing that copy had
+# and this one did not -- so a blind sync of this tool would have deleted it.
+#
+# The cheap half: a corpus validates more examples than it has schemas (168 over
+# 86 distinct here), so the snapshot branch re-parses the same
+# resolvedSchema.json about twice on average. Pointless rather than expensive.
+#
+# The half it exists for is --live. resolve_file() re-expands every external
+# file from scratch, twice per $def, with no memo of its own, so cost grows
+# combinatorially with the reference graph's breadth. In geochem -- 601 example
+# calls over 86 schemas, a far wider graph -- the uncached --live path stopped
+# finishing at all: three runs killed after 3, 8 and 9 hours pegged at 100% CPU.
+#
+# Sharing one dict across validators is safe because nothing mutates a loaded
+# schema: the single `schema.pop` happens below before the memo is written, and
+# validate_example only reads it (Draft202012Validator, then iter_errors).
+# Checked at both call sites on 2026-11-21. A caller that starts mutating a
+# returned schema has to copy it, or it will poison every later example sharing
+# that schema -- and the symptom would be a verdict that depends on validation
+# ORDER, which no gate here would catch.
+#
+# A raised UnresolvedRefs is deliberately not memoized: the retry costs time but
+# keeps each example reporting its own error, as it did before.
+_SCHEMA_CACHE: dict = {}
+
+
 def load_schema(schema_path: Path, live: bool):
     """Return (schema, source) for validation.
 
     source is "snapshot" when the committed resolvedSchema.json was used and
     "resolved" when the schema was re-resolved over the network -- either
     because --live was passed or because the block has no snapshot yet.
+
+    Memoized on (path, live); see _SCHEMA_CACHE above for why that is safe.
     """
+    key = (str(schema_path.resolve()), live)
+    if key in _SCHEMA_CACHE:
+        return _SCHEMA_CACHE[key]
+
+    result = None
     if not live:
         snapshot = schema_path.parent / "resolvedSchema.json"
         if snapshot.exists():
             schema = json.loads(snapshot.read_text(encoding="utf-8"))
             schema.pop("$schema", None)
-            return schema, "snapshot"
-    return resolve_for_validation(schema_path), "resolved"
+            result = (schema, "snapshot")
+    if result is None:
+        result = (resolve_for_validation(schema_path), "resolved")
+
+    _SCHEMA_CACHE[key] = result
+    return result
 
 
 SEVERITIES = ("Violation", "Warning", "Info")
@@ -374,6 +412,29 @@ def validate_example(example_path: Path, schema: dict):
 
 
 def main():
+    # Ported from geochemBuildingBlocks 2026-11-21, the second thing that copy
+    # had and this one did not. This is the OUTPUT half of the cp1252 trap whose
+    # input half is already recorded in CLAUDE.md: reading an example with a
+    # bare open() used to raise UnicodeDecodeError, and printing a diagnostic
+    # that quotes one raises UnicodeEncodeError on a Windows cp1252 stdout.
+    # Fixing the read side left the write side live.
+    #
+    # Reachable here, not hypothetical. The same two niaidDataset examples carry
+    # characters cp1252 cannot encode -- exampleDryadP79tm37.json has 'L' with
+    # stroke (U+0141) in an author name, exampleVdjPrjna272713.json a tilde
+    # operator (U+223C) -- so if either ever failed, the error message quoting
+    # its content would crash the gate instead of reporting a failure, and a
+    # traceback reads as a broken tool rather than as a bad example. Demonstrated
+    # by accident on 2026-11-21: a one-line probe printing those characters
+    # raised exactly this.
+    #
+    # errors="replace" rather than "strict": a diagnostic that cannot render one
+    # character should still print, and losing a glyph beats losing the report.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, OSError):
+        pass
+
     parser = argparse.ArgumentParser(description="Validate all example JSON files against their schemas.")
     parser.add_argument("--verbose", "-v", action="store_true", help="Show pass/fail for each example")
     parser.add_argument("--filter", "-f", type=str, default="", help="Only validate paths containing this string")

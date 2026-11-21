@@ -566,6 +566,43 @@ their refs are resolved over the network at their build time, not ours.
   If that day comes, the lock file is the thing that keeps the build reproducible, and it has to be
   committed and checked, not just present.
 
+- **"The blind-copy sync is safe in both directions" is true of `resolve_schema.py` and was FALSE
+  of `validate_examples.py` -- so diff for content unique to the TARGET before syncing a tool
+  downstream.** Settled 2026-11-21. `sync_resolve_schema.py`'s dry run reported `DIFF
+  geochemBuildingBlocks`, and our copy genuinely was newer and larger on every axis that showed
+  up in a line count: 426 lines geochem lacked against 58 it had, with the whole SHACL layer,
+  `UnresolvedRefs`, `load_schema` and the vendored shapes among them. `--apply` would still have
+  **deleted two features geochem had and we did not**, and neither would have failed anything --
+  one is a performance property and the other needs a failing example to surface.
+  `_RESOLVED_CACHE`, a memo on the resolved schema keyed `(path, prefer_resolved)`. Its own
+  docstring records why: `resolve_file()` re-expands every external file from scratch, twice per
+  `$def`, with no memo, so `--live` cost grows combinatorially with the graph's breadth, and three
+  geochem runs were killed after 3, 8 and 9 hours at 100% CPU. **The saving does not transfer, and
+  that is the point** -- ported here it takes `--live` from ~10 s to ~5 s (168 examples, 82
+  distinct schemas, 51% of calls), while in geochem it is 658 examples over 202 schemas, **456
+  redundant resolves, 69%**, and the difference between finishing and not. Do not read a modest
+  local number as the feature being marginal; it is the same mistake as carrying the 5 s
+  `--all` figure into a domain repo.
+  Ported onto `load_schema` rather than `resolve_for_validation`, because this repo's copy split
+  geochem's one function in two and `load_schema` owns both branches -- so the memo also covers
+  the snapshot `json.loads`, which is the common path. Sharing one dict is safe only because
+  nothing mutates a loaded schema (the single `schema.pop` precedes the memo write, and
+  `validate_example` only reads it); a caller that starts mutating one must copy, and the symptom
+  would be a verdict that depends on validation ORDER, which no gate here would catch.
+  `sys.stdout.reconfigure(encoding="utf-8", errors="replace")` in `main()`. This is the **output
+  half of the cp1252 trap** recorded above, whose input half -- the bare `open()` --
+  was fixed on 2026-11-12 while this side stayed live. The same two `niaidDataset` examples are
+  the reachable case: `exampleDryadP79tm37.json` carries `U+0141` in an author name and
+  `exampleVdjPrjna272713.json` a `U+223C` tilde operator, so if either ever failed, the message
+  quoting its content would raise `UnicodeEncodeError` and the gate would die with a traceback --
+  which reads as a broken tool, not a bad example. Demonstrated by accident while measuring it:
+  a one-line probe printing those characters raised exactly this.
+  **The procedure that catches this is symbol-level, not line-level.** Compare the two files'
+  top-level `def`/assignment sets with `ast`, port what only the target has, then re-diff --
+  because the second feature was invisible until the first was ported and the residue got small
+  enough to read. Fixing one and declaring done is the live risk: the cache was the one named in
+  the review, and the stdout guard was found only on the re-check.
+
 - **`generate_shacl_shapes.py` output depends on your checkout's line endings, and the symptom
   points at the wrong culprit.** The tool is **not in this repo's `tools/`** — it is
   `CDIF/validation/ShaclValidation/generate_shacl_shapes.py` (note: not `validation/tools/`, where
