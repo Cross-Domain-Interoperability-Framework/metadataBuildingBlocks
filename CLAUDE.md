@@ -886,6 +886,48 @@ their refs are resolved over the network at their build time, not ours.
   expansion precedes every pointer to it), and a shape is claimed only where children are really
   emitted, so a depth-truncated site cannot claim one and leave a later site pointing at nothing.
 
+- **The JSON Forms schema was 60 MB because every `$ref` is inlined, and the premise that it had
+  to be was wrong.** Settled 2026-11-23. `inline_refs_and_merge_allof` resolves every `$ref`, which
+  gives one copy per **use site**, so a shared shape is re-emitted everywhere it appears. In
+  `xasDocument` that was 15599 subtrees over 2 KB of which only 214 were distinct — **98.6%
+  repeated**, one shape appearing **1554 times** — and the entire 18.4 MB of compact JSON sat under
+  a single property: `schema:distribution`, whose `items` carry `cdi:isStructuredBy` at three
+  positions at 6.01 MB each. Not recursion (every recursive property nests at most **one** level)
+  and not breadth (34 root properties, fewer than `CoreDiscovery`'s). The differentiator is simply
+  that `CoreDiscovery` does not compose `cdifDataStructure` and is 128 KB, 470× smaller.
+  `hoist_shared_subtrees` now puts each repeated shape in `$defs` once: **60.3 MB → 0.267 MB**.
+  **"JSON Forms needs a self-contained schema" is false**, and that claim is what made this look
+  structural rather than fixable: the converter already kept recursive `$defs` as named `$refs`
+  because inlining them cannot terminate, and the shipped schema carried **2804 internal `$ref`
+  occurrences** (`#/$defs/Concept` 2048 times) before any of this. The renderers resolve them.
+  **The check that this is lossless is re-expansion, not a size number** — expand the hoisted refs
+  and compare to the pre-hoist tree; identical for both profiles. A size win plus a green gate
+  proves nothing here, because `validate_examples.py` never reads the form schema.
+
+- **A uischema scope that does not resolve from the schema root is almost certainly fine — do not
+  "fix" it.** 36 of them do not: 12 of 12 in `CoreDiscovery` and 24 of 24 in `xasDocument`, and
+  **every one sits inside an `options.detail`, none outside one.** A detail renderer resolves its
+  inner scopes against the ARRAY ITEM, so `#/properties/schema:affiliation/properties/schema:name`
+  inside the creator array's detail means `creator/items/properties/schema:affiliation/...`, which
+  exists. Deleting them would remove working controls (the affiliation and role fields, the bounding
+  box, `schema:contentUrl` / `schema:encodingFormat` / `dcterms:conformsTo` on the distribution
+  detail). **That re-basing is also the subtle half of the hoisting above.** Protecting the literal
+  scope path is not enough: it leaves the `items` beneath it unprotected, and the first version
+  hoisted `xasDocument`'s `schema:contributor` `items` into a `$ref` — 1 of 23 detail-bearing
+  arrays, the one position where a detail renderer would have had to resolve one. The root-only
+  scope check reported **0 newly broken** throughout, and was right about what it measured.
+
+- **`convert_for_jsonforms.py` had no regenerate-twice gate, and emitted `$defs` in set order.**
+  `_recursive_def_names` returns a `set`, and iterating it directly ordered `$defs` by set-iteration
+  order, which varies between processes under hash randomization. Two runs on identical input
+  differed by **4146 lines**, and `generate-jsonforms.yml` committed that churn into a 60 MB
+  artifact on every push. One `sorted()`. It presented as *drift* — regenerating with the unmodified
+  tool against an unchanged tree moved 3175 lines, which reads exactly like the pre-existing drift
+  CLAUDE.md tells you to split into its own commit; the tell is that insertions equalled deletions.
+  **Run the generator twice and compare before concluding a diff means anything.** `geochem` has a
+  required `Regenerate twice and compare` check; `check-schema-drift.yml` here covers
+  `resolve_schema.py` and `regenerate_schema_json.py` only, not this tool.
+
 ## Traps — other CDIF repos
 
 These cost real time too, but none of them is actionable from this working directory. They are the

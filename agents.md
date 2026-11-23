@@ -1063,22 +1063,42 @@ The UML/XMI → building-block schema generator now lives in the cdif-umlmodel r
 
 ## convert_for_jsonforms.py
 
-Reads `resolvedSchema.json` (from `_sources/profiles/cdifProfiles/{name}/`) and converts to JSON Forms-compatible Draft 7:
+Reads a composite profile's `resolvedSchema.json` (from
+`_sources/profiles/cdifCompositeProfile/{name}/`, located by `_find_resolved_schema`) and converts
+it to JSON Forms-compatible Draft 7:
 - Converts `$schema` from Draft 2020-12 to Draft 7
 - Simplifies `anyOf` patterns for form rendering (single-item anyOf unwrapped, duplicate removal)
-- Converts `contains` → `enum`, `const` → `default`
+- Converts `contains` → `enum` and `const` → `default`, including a `contains` written as
+  `{anyOf: [{const: A}, {const: B}]}`, and gives a list-valued `@type` a `default` so a layout with
+  no control for it can still produce a conforming record
 - Merges technique profile constraints into distribution `oneOf` branches
 - Preserves `oneOf` in distribution (3 branches: single file, archive, WebAPI)
 - Merges file-type `anyOf` (from `files/schema.yaml`) into flat hasPart item properties
 - Removes `not` constraints and relaxes `minItems`
+- **Last**, hoists repeated subtrees into `$defs` (`hoist_shared_subtrees`). Every earlier pass
+  assumes a fully inlined tree, so this must not run before them.
+
+**The output is NOT ref-free**, despite what this section said until 2026-11-23. Recursive `$defs`
+were always kept as named `$refs` — inlining them cannot terminate — and shared shapes are now kept
+too. A node that a uischema control resolves through is never hoisted, and that protection re-bases
+through each `options.detail`, because a detail renderer resolves its inner scopes against the array
+item rather than the schema root. See the CLAUDE.md trap for the measurements.
 
 **Usage:**
 ```bash
-python tools/convert_for_jsonforms.py CDIFDiscoveryProfile -v
+python tools/convert_for_jsonforms.py --profile CoreDiscovery -v
 python tools/convert_for_jsonforms.py --all -v
 ```
 
-**Output:** `build/jsonforms/profiles/cdifProfiles/{name}/schema.json`
+`--profile` or `--all` is required; there is no positional form. `ALL_PROFILES` is
+`["CoreDiscovery", "xasDocument"]` — the only two with a hand-written layout under
+`_sources/jsonforms/profiles/cdifProfiles/`.
+
+**Output:** `build/jsonforms/profiles/{name}/schema.json`, plus `uischema.json` and `defaults.json`
+copied verbatim. The `cdifProfiles/` segment appears only for a profile whose name begins with
+`CDIF` (`_PROFILE_SUBDIR`), which neither live profile does. Output for profiles the converter no
+longer generates was removed on 2026-11-23: `BasicDiscovery`, `XASdata`, 36 `adaProfiles/` and four
+`cdifProfiles/CDIF*`, all frozen at whatever the converter emitted in May–July 2026.
 
 ## augment_register.py
 
