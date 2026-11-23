@@ -932,6 +932,41 @@ their refs are resolved over the network at their build time, not ours.
   required `Regenerate twice and compare` check; `check-schema-drift.yml` here covers
   `resolve_schema.py` and `regenerate_schema_json.py` only, not this tool.
 
+- **A `Building blocks postprocessing` commit rewrites ~190k lines per push and about 97% of it
+  is reordering. Do not read one as a change.** Measured 2026-11-23. The last 12 such commits moved
+  **2,278,436 lines** over eight days, and the shape is always the same: 500-1100 files,
+  insertions within a hundred of deletions. It is self-generated, not source-driven --
+  between `71bbb3eb9` and `da6572b266`, **0 files under `_sources` changed** (the only commits
+  between them touched `build/jsonforms`, `tools/` and docs) and the postprocessor still rewrote
+  962: 337 `.json`, 294 `.txt`, 163 `.yaml`, 86 `.md`, 79 `.ttl`.
+  **Semantically the output is equivalent apart from build provenance**, and establishing that takes
+  three passes, because the obvious test fails for an uninteresting reason. `build/bblocks.ttl` has
+  the same 8198 triples either side but is **not** `rdflib.compare.isomorphic`: 98 triples differ,
+  which are the per-block `modified` dates and `hasVersion git:<sha>`. Drop those predicates and it
+  is *still* not isomorphic -- 7 triples remain, a `prov:Activity` for the build run carrying
+  `startedAtTime`, `endedAtTime` and `used`, whose subject is hashed per run, so the differing
+  subjects are URIs that isomorphism cannot reconcile. Only after excluding those is the rest
+  identical: **6784 triples in common, 7 either side**. So of 4328 changed lines in that file, about
+  98 triples' worth are real and the remainder is blank-node serialization order -- the same values
+  under `schema1:additionalProperty` emitted in a different sequence, which also propagates into the
+  86 generated `index.md` files that embed Turtle and into `build/tests/report.json` (55k lines) and
+  `report.html` (33k).
+  Across the whole commit only **5816 of 196714 changed lines (3.0%)** match a stamp pattern.
+  **The fix is not available here.** The ordering comes from rdflib's Turtle serializer inside
+  `opengeospatial/bblocks-postprocess`, which this repo calls as
+  `validate-and-process.yml@master` -- the same position as the `Add & Commit` race recorded above,
+  and the same conclusion: it belongs upstream. The structural option is the one already named for
+  that race, stopping the push of `build/` to `main` (`deploy.mode` `artifact` or `branch`), and
+  this is a much larger argument for it than the race was -- but it still relocates `build/`, which
+  the release sync and the viewer deploy read from `main`.
+  **Two things this makes harder, both of which have already bitten.** A real change to
+  `build/tests/` is unreadable inside 190k lines of noise, which is the condition under which
+  `convert_for_jsonforms.py`'s own nondeterminism survived for months. And `build/register.json`
+  oscillates by exactly **±86 lines** on every push -- the postprocessor regenerates it without the
+  `resolvedSchema` URLs and `augment_register.py` re-injects 86 of them -- which is by design and
+  documented in `agents.md`, but it means a net `-86` on every postprocessing commit is normal and
+  not a sign of anything.
+
 ## Traps — other CDIF repos
 
 These cost real time too, but none of them is actionable from this working directory. They are the
