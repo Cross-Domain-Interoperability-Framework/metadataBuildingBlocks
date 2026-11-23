@@ -222,7 +222,10 @@
                   "enum": [
                     "spdx:Checksum"
                   ]
-                }
+                },
+                "default": [
+                  "spdx:Checksum"
+                ]
               }
             },
             "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
@@ -266,7 +269,10 @@
                   "enum": [
                     "schema:QuantitativeValue"
                   ]
-                }
+                },
+                "default": [
+                  "schema:QuantitativeValue"
+                ]
               },
               "schema:value": {
                 "type": "number",
@@ -289,7 +295,10 @@
                   "enum": [
                     "schema:QuantitativeValue"
                   ]
-                }
+                },
+                "default": [
+                  "schema:QuantitativeValue"
+                ]
               },
               "schema:value": {
                 "type": "number",
@@ -448,7 +457,10 @@
                         "enum": [
                           "schema:DataDownload"
                         ]
-                      }
+                      },
+                      "default": [
+                        "schema:DataDownload"
+                      ]
                     },
                     "schema:name": {
                       "type": "string",
@@ -780,7 +792,7 @@
             "description": "identifier for a particular grant",
             "type": "object",
             "properties": {
-              "$ref": "#/$defs/Shared_b780f8f4"
+              "$ref": "#/$defs/Shared_12347cff"
             },
             "required": [
               "@type"
@@ -848,7 +860,10 @@
                 "prov:Activity"
               ]
             },
-            "description": "Must include prov:Activity. Stated as \"contains\" rather than a single value so an extending profile can add types (cdifProvActivity adds schema:Action)."
+            "description": "Must include prov:Activity. Stated as \"contains\" rather than a single value so an extending profile can add types (cdifProvActivity adds schema:Action).",
+            "default": [
+              "prov:Activity"
+            ]
           },
           "prov:used": {
             "type": "array",
@@ -902,7 +917,7 @@
             "additionalProperties": false
           },
           {
-            "$ref": "#/$defs/Shared_ad58227f"
+            "$ref": "#/$defs/Shared_35a9b93f"
           }
         ]
       }
@@ -918,7 +933,10 @@
             "enum": [
               "schema:Dataset"
             ]
-          }
+          },
+          "default": [
+            "schema:Dataset"
+          ]
         },
         "schema:additionalType": {
           "type": "array",
@@ -1004,7 +1022,7 @@
               "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier",
               "type": "object",
               "properties": {
-                "$ref": "#/$defs/Shared_b780f8f4"
+                "$ref": "#/$defs/Shared_12347cff"
               },
               "required": [
                 "@type"
@@ -1025,7 +1043,7 @@
       "description": "The technique, technology, or methodology used for measurement or determination of the dataset values.",
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_c5c6fcdb"
+        "$ref": "#/$defs/Shared_4a4659b2"
       }
     },
     "schema:variableMeasured": {
@@ -1039,8 +1057,15 @@
             "description": "Must include schema:PropertyValue - a measured VALUE - or schema:PropertyValueSpecification - a SPECIFICATION of one, stating the permitted range, default or unit rather than an observed result. Protocol and method descriptions declare the latter, and pinning the array to PropertyValue alone left them no valid spelling. Additional type URIs may be included.",
             "type": "array",
             "items": {
-              "type": "string"
-            }
+              "type": "string",
+              "enum": [
+                "schema:PropertyValue",
+                "schema:PropertyValueSpecification"
+              ]
+            },
+            "default": [
+              "schema:PropertyValue"
+            ]
           },
           "@id": {
             "type": "string"
@@ -1123,7 +1148,7 @@
                 "description": "link to a web page useful for interpreting the variable"
               },
               {
-                "$ref": "#/$defs/Shared_ad58227f"
+                "$ref": "#/$defs/Shared_35a9b93f"
               }
             ]
           }
@@ -1187,7 +1212,10 @@
               "enum": [
                 "dqv:QualityMeasurement"
               ]
-            }
+            },
+            "default": [
+              "dqv:QualityMeasurement"
+            ]
           },
           "dqv:isMeasurementOf": {
             "description": "specify the quality measure that is reported, by name, with an ID ref, or as a Defined Term",
@@ -1211,7 +1239,7 @@
                 "additionalProperties": false
               },
               {
-                "$ref": "#/$defs/Shared_f001d72b"
+                "$ref": "#/$defs/Shared_875093c9"
               }
             ]
           },
@@ -1225,7 +1253,7 @@
                 "type": "number"
               },
               {
-                "$ref": "#/$defs/Shared_f001d72b"
+                "$ref": "#/$defs/Shared_875093c9"
               }
             ]
           }
@@ -1282,7 +1310,10 @@
             "enum": [
               "skos:Concept"
             ]
-          }
+          },
+          "default": [
+            "skos:Concept"
+          ]
         },
         "skos:prefLabel": {
           "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
@@ -1749,7 +1780,7 @@
       ],
       "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
     },
-    "Shared_b780f8f4": {
+    "Shared_12347cff": {
       "@type": {
         "type": "array",
         "items": {
@@ -1757,7 +1788,10 @@
           "enum": [
             "schema:PropertyValue"
           ]
-        }
+        },
+        "default": [
+          "schema:PropertyValue"
+        ]
       },
       "schema:propertyID": {
         "$ref": "#/$defs/Shared_122938fb"
@@ -1786,7 +1820,7 @@
         {}
       ]
     },
-    "Shared_5ba99e9d": {
+    "Shared_65709721": {
       "description": "A dcat:Role -- DCAT's declared range for dcat:hadRole. Defined inline rather than as its own building block because nothing else in the register needs it yet; dcat:hadRole's domain is owl:unionOf [prov:Attribution, dcat:Relationship], so promote it to a block if a qualified attribution ever needs the same shape.\ndcat:Role rdfs:subClassOf skos:Concept, so the skos:prefLabel / skos:inScheme furniture of a concept is permitted alongside; it is not required here because DCAT states no cardinality constraints on the class -- dcat.ttl declares no rdfs:subClassOf and no owl:Restriction on dcat:Relationship, and the \"mandatory\" wording in the DCAT-3 document is prose in the spec tables rather than an axiom in the vocabulary.",
       "type": "object",
       "properties": {
@@ -1801,7 +1835,10 @@
             "enum": [
               "dcat:Role"
             ]
-          }
+          },
+          "default": [
+            "dcat:Role"
+          ]
         }
       },
       "required": [
@@ -1831,7 +1868,7 @@
         }
       ]
     },
-    "Shared_95d5a83f": {
+    "Shared_7c3698b4": {
       "@type": {
         "type": "array",
         "items": {
@@ -1839,7 +1876,10 @@
           "enum": [
             "schema:DefinedTerm"
           ]
-        }
+        },
+        "default": [
+          "schema:DefinedTerm"
+        ]
       },
       "schema:name": {
         "type": "string",
@@ -1857,17 +1897,17 @@
         "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
       }
     },
-    "Shared_f001d72b": {
+    "Shared_875093c9": {
       "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_95d5a83f"
+        "$ref": "#/$defs/Shared_7c3698b4"
       },
       "required": [
         "@type"
       ]
     },
-    "Shared_a5bc3109": {
+    "Shared_1f5f529e": {
       "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
       "anyOf": [
         {
@@ -1886,14 +1926,14 @@
           "additionalProperties": false
         },
         {
-          "$ref": "#/$defs/Shared_f001d72b"
+          "$ref": "#/$defs/Shared_875093c9"
         },
         {
           "$ref": "#/$defs/Concept"
         }
       ]
     },
-    "Shared_c5c6fcdb": {
+    "Shared_4a4659b2": {
       "title": "CDIF Concept-or-Term-or-String",
       "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
       "anyOf": [
@@ -1901,18 +1941,18 @@
           "type": "string"
         },
         {
-          "$ref": "#/$defs/Shared_a5bc3109"
+          "$ref": "#/$defs/Shared_1f5f529e"
         }
       ]
     },
-    "Shared_9cee0af7": {
+    "Shared_e7e49478": {
       "description": "Role of the related resource. Present only on a link that expresses a relationship; a plain labeled link such as a license omits it.\nDCAT's declared range is dcat:Role (dcat.ttl: rdfs:range dcat:Role, and dcat:Role rdfs:subClassOf skos:Concept), so the DCAT-native form is a node typed dcat:Role. That form was NOT accepted here before 2026-10-01: this property was cdifConceptOrTermOrString alone, which matches a bare string, a sealed @id reference, a schema:DefinedTerm or a skos:Concept -- none of which a dcat:Role-typed node satisfies, because JSON Schema does no subclass reasoning.\ndcat:Role is added as a branch rather than replacing the others, so the DCAT-native form becomes valid without invalidating anything already written. Note this leaves CDIF LOOSER than DCAT, deliberately: DCAT's range is dcat:Role alone, and CDIF also accepts a plain skos:Concept, a DefinedTerm, an @id reference and a string. That is the same both-forms stance taken on dcterms:relation, and it is a choice rather than an oversight -- do not read the extra branches as something not yet tightened.",
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_5ba99e9d"
+          "$ref": "#/$defs/Shared_65709721"
         },
         {
-          "$ref": "#/$defs/Shared_c5c6fcdb"
+          "$ref": "#/$defs/Shared_4a4659b2"
         }
       ]
     },
@@ -1940,7 +1980,7 @@
         }
       ]
     },
-    "Shared_f2bceb07": {
+    "Shared_480ac293": {
       "@type": {
         "$ref": "#/$defs/Shared_6c636ddd"
       },
@@ -1955,17 +1995,17 @@
         "format": "uri"
       },
       "dcat:hadRole": {
-        "$ref": "#/$defs/Shared_9cee0af7"
+        "$ref": "#/$defs/Shared_e7e49478"
       },
       "dcterms:relation": {
         "$ref": "#/$defs/Shared_f6ec46db"
       }
     },
-    "Shared_ad58227f": {
+    "Shared_35a9b93f": {
       "description": "Schema for a labeled link, a profile of schema.org/CreativeWork: a resolvable URL with an optional name and description. Optionally carries the DCAT relation surface (dcat:hadRole, dcterms:relation) for a link that expresses a typed relationship rather than a plain reference.\nThose two properties were a separate block, cdifDataType/cdifReference, which was an allOf of this schema plus exactly those two optional properties and nothing else -- its dcat:Relationship co-type mandate had already been removed because it made every labeled link unsatisfiable and broke every schema:license example that followed schema.org's own advice. Since both are optional, folding them in here changes no document's validity while removing a block and five levels of $defs/Reference indirection. cdifReference was retired 2026-09-23.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_f2bceb07"
+        "$ref": "#/$defs/Shared_480ac293"
       },
       "required": [
         "@type"

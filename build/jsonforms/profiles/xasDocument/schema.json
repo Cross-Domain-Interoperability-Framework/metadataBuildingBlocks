@@ -205,7 +205,10 @@
                             "cdif:LocatorMapping"
                           ]
                         },
-                        "description": "Must include a physical-mapping family type. A plain physical mapping uses cdif:PhysicalMapping; the cdifTextMapping / cdifLocatorMapping specializations narrow this to cdif:TextMapping / cdif:LocatorMapping respectively (they compose this schema via allOf, so the base accepts any of the family rather than requiring the cdif:PhysicalMapping token)."
+                        "description": "Must include a physical-mapping family type. A plain physical mapping uses cdif:PhysicalMapping; the cdifTextMapping / cdifLocatorMapping specializations narrow this to cdif:TextMapping / cdif:LocatorMapping respectively (they compose this schema via allOf, so the base accepts any of the family rather than requiring the cdif:PhysicalMapping token).",
+                        "default": [
+                          "cdif:PhysicalMapping"
+                        ]
                       },
                       "cdif:index": {
                         "type": "integer",
@@ -217,7 +220,7 @@
                         "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
                       },
                       "cdif:physicalDataType": {
-                        "$ref": "#/$defs/Shared_9aafe684"
+                        "$ref": "#/$defs/Shared_2941f384"
                       },
                       "cdi:numberPattern": {
                         "type": "string",
@@ -289,7 +292,10 @@
                             "cdif:TextMapping"
                           ]
                         },
-                        "description": "A cdifTextMapping instance must be typed cdif:TextMapping (not the base cdif:PhysicalMapping). It composes cdifPhysicalMapping via allOf for its properties; the base @type accepts the physical-mapping family."
+                        "description": "A cdifTextMapping instance must be typed cdif:TextMapping (not the base cdif:PhysicalMapping). It composes cdifPhysicalMapping via allOf for its properties; the base @type accepts the physical-mapping family.",
+                        "default": [
+                          "cdif:TextMapping"
+                        ]
                       },
                       "cdif:index": {
                         "type": "integer",
@@ -301,7 +307,7 @@
                         "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
                       },
                       "cdif:physicalDataType": {
-                        "$ref": "#/$defs/Shared_9aafe684"
+                        "$ref": "#/$defs/Shared_2941f384"
                       },
                       "cdi:numberPattern": {
                         "type": "string",
@@ -393,7 +399,10 @@
                             "cdif:LocatorMapping"
                           ]
                         },
-                        "description": "A cdifLocatorMapping instance must be typed cdif:LocatorMapping (not cdif:PhysicalMapping)."
+                        "description": "A cdifLocatorMapping instance must be typed cdif:LocatorMapping (not cdif:PhysicalMapping).",
+                        "default": [
+                          "cdif:LocatorMapping"
+                        ]
                       },
                       "cdif:index": {
                         "type": "integer",
@@ -405,7 +414,7 @@
                         "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
                       },
                       "cdif:physicalDataType": {
-                        "$ref": "#/$defs/Shared_9aafe684"
+                        "$ref": "#/$defs/Shared_2941f384"
                       },
                       "cdi:numberPattern": {
                         "type": "string",
@@ -520,7 +529,10 @@
               "enum": [
                 "schema:DataDownload"
               ]
-            }
+            },
+            "default": [
+              "schema:DataDownload"
+            ]
           },
           "schema:name": {
             "type": "string"
@@ -563,7 +575,10 @@
                   "enum": [
                     "schema:QuantitativeValue"
                   ]
-                }
+                },
+                "default": [
+                  "schema:QuantitativeValue"
+                ]
               },
               "schema:value": {
                 "type": "number",
@@ -586,7 +601,10 @@
                   "enum": [
                     "schema:QuantitativeValue"
                   ]
-                }
+                },
+                "default": [
+                  "schema:QuantitativeValue"
+                ]
               },
               "schema:value": {
                 "type": "number",
@@ -609,7 +627,10 @@
                   "enum": [
                     "spdx:Checksum"
                   ]
-                }
+                },
+                "default": [
+                  "spdx:Checksum"
+                ]
               },
               "spdx:algorithm": {
                 "type": "string"
@@ -819,7 +840,7 @@
             "description": "identifier for a particular grant",
             "type": "object",
             "properties": {
-              "$ref": "#/$defs/Shared_b780f8f4"
+              "$ref": "#/$defs/Shared_12347cff"
             },
             "required": [
               "@type"
@@ -881,7 +902,10 @@
                 "schema:Action"
               ]
             },
-            "description": "Must include both schema:Action and prov:Activity (prov:Activity required by base generatedBy schema)"
+            "description": "Must include both schema:Action and prov:Activity (prov:Activity required by base generatedBy schema)",
+            "default": [
+              "schema:Action"
+            ]
           },
           "prov:used": {
             "type": "array",
@@ -928,7 +952,7 @@
                   "additionalProperties": false
                 },
                 {
-                  "$ref": "#/$defs/Shared_01c4aca5"
+                  "$ref": "#/$defs/Shared_6fe9be40"
                 }
               ],
               "if": {
@@ -954,14 +978,17 @@
                             "enum": [
                               "schema:PropertyValue"
                             ]
-                          }
+                          },
+                          "default": [
+                            "schema:PropertyValue"
+                          ]
                         },
                         "schema:propertyID": {
                           "type": "array",
                           "items": {
                             "anyOf": [
                               {
-                                "$ref": "#/$defs/Shared_a20ff6ab"
+                                "$ref": "#/$defs/Shared_99dcafe8"
                               },
                               {
                                 "enum": [
@@ -1001,7 +1028,7 @@
                           ]
                         },
                         "schema:unitCode": {
-                          "$ref": "#/$defs/Shared_63dd6579"
+                          "$ref": "#/$defs/Shared_28aa4a11"
                         },
                         "schema:unitText": {
                           "type": "string"
@@ -1036,13 +1063,13 @@
             "description": "Primary responsible agent for this activity (maps to PROV wasAssociatedWith)",
             "anyOf": [
               {
-                "$ref": "#/$defs/Shared_c83b5b1c"
+                "$ref": "#/$defs/Shared_fbd7f94b"
               },
               {
                 "$ref": "#/$defs/Shared_7710723f"
               },
               {
-                "$ref": "#/$defs/Shared_1156105a"
+                "$ref": "#/$defs/Shared_5c53e91f"
               },
               {
                 "title": "Object Reference",
@@ -1067,13 +1094,13 @@
             "items": {
               "anyOf": [
                 {
-                  "$ref": "#/$defs/Shared_c83b5b1c"
+                  "$ref": "#/$defs/Shared_fbd7f94b"
                 },
                 {
                   "$ref": "#/$defs/Shared_7710723f"
                 },
                 {
-                  "$ref": "#/$defs/Shared_1156105a"
+                  "$ref": "#/$defs/Shared_5c53e91f"
                 },
                 {
                   "title": "Object Reference",
@@ -1156,14 +1183,17 @@
                         "enum": [
                           "schema:PropertyValue"
                         ]
-                      }
+                      },
+                      "default": [
+                        "schema:PropertyValue"
+                      ]
                     },
                     "schema:propertyID": {
                       "type": "array",
                       "items": {
                         "anyOf": [
                           {
-                            "$ref": "#/$defs/Shared_a20ff6ab"
+                            "$ref": "#/$defs/Shared_99dcafe8"
                           },
                           {
                             "enum": [
@@ -1217,7 +1247,7 @@
                       ]
                     },
                     "schema:unitCode": {
-                      "$ref": "#/$defs/Shared_63dd6579"
+                      "$ref": "#/$defs/Shared_28aa4a11"
                     },
                     "schema:unitText": {
                       "type": "string"
@@ -1346,7 +1376,7 @@
                         "type": "string"
                       },
                       {
-                        "$ref": "#/$defs/Shared_f001d72b"
+                        "$ref": "#/$defs/Shared_875093c9"
                       }
                     ]
                   },
@@ -1358,7 +1388,7 @@
                     "description": "Alternate or abbreviated name(s) for this place.",
                     "type": "array",
                     "items": {
-                      "$ref": "#/$defs/Shared_63dd6579"
+                      "$ref": "#/$defs/Shared_28aa4a11"
                     }
                   },
                   "schema:geo": {
@@ -1396,7 +1426,10 @@
                               "enum": [
                                 "geosparql:wktLiteral"
                               ]
-                            }
+                            },
+                            "default": [
+                              "geosparql:wktLiteral"
+                            ]
                           },
                           "@value": {
                             "type": "string",
@@ -1513,14 +1546,17 @@
                     "enum": [
                       "schema:PropertyValue"
                     ]
-                  }
+                  },
+                  "default": [
+                    "schema:PropertyValue"
+                  ]
                 },
                 "schema:propertyID": {
                   "type": "array",
                   "items": {
                     "anyOf": [
                       {
-                        "$ref": "#/$defs/Shared_a20ff6ab"
+                        "$ref": "#/$defs/Shared_99dcafe8"
                       },
                       {
                         "enum": [
@@ -1554,7 +1590,7 @@
                   ]
                 },
                 "schema:unitCode": {
-                  "$ref": "#/$defs/Shared_63dd6579"
+                  "$ref": "#/$defs/Shared_28aa4a11"
                 },
                 "schema:unitText": {
                   "type": "string"
@@ -1617,7 +1653,7 @@
             "additionalProperties": false
           },
           {
-            "$ref": "#/$defs/Shared_ad58227f"
+            "$ref": "#/$defs/Shared_35a9b93f"
           }
         ]
       }
@@ -1633,7 +1669,10 @@
             "enum": [
               "schema:Dataset"
             ]
-          }
+          },
+          "default": [
+            "schema:Dataset"
+          ]
         },
         "schema:additionalType": {
           "type": "array",
@@ -1736,7 +1775,7 @@
               "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier",
               "type": "object",
               "properties": {
-                "$ref": "#/$defs/Shared_b780f8f4"
+                "$ref": "#/$defs/Shared_12347cff"
               },
               "required": [
                 "@type"
@@ -1775,11 +1814,11 @@
             "type": "string"
           },
           {
-            "$ref": "#/$defs/Shared_a5bc3109"
+            "$ref": "#/$defs/Shared_1f5f529e"
           }
         ],
         "properties": {
-          "$ref": "#/$defs/Shared_95d5a83f"
+          "$ref": "#/$defs/Shared_7c3698b4"
         },
         "required": [
           "@type"
@@ -1793,11 +1832,7 @@
       "items": {
         "properties": {
           "@type": {
-            "description": "Must include schema:PropertyValue - a measured VALUE - or schema:PropertyValueSpecification - a SPECIFICATION of one, stating the permitted range, default or unit rather than an observed result. Protocol and method descriptions declare the latter, and pinning the array to PropertyValue alone left them no valid spelling. Additional type URIs may be included.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "$ref": "#/$defs/Shared_004078dc"
           },
           "@id": {
             "type": "string",
@@ -1874,19 +1909,19 @@
             "description": "maximum numeric value in the dataset"
           },
           "schema:url": {
-            "$ref": "#/$defs/Shared_ebc7f231"
+            "$ref": "#/$defs/Shared_d825a510"
           },
           "cdi:takesSentinelValuesFrom": {
             "type": "array",
             "items": {
-              "$ref": "#/$defs/Shared_5deb3818"
+              "$ref": "#/$defs/Shared_5b508dde"
             },
             "description": "Sentinel (missing / not-applicable) value domain(s) for this variable (RepresentedVariable.takesSentinelValuesFrom)."
           },
           "cdi:takesSubstantiveValuesFrom": {
             "anyOf": [
               {
-                "$ref": "#/$defs/Shared_d46147f0"
+                "$ref": "#/$defs/Shared_3c7beee7"
               },
               {
                 "title": "Object Reference",
@@ -1970,7 +2005,10 @@
               "enum": [
                 "dqv:QualityMeasurement"
               ]
-            }
+            },
+            "default": [
+              "dqv:QualityMeasurement"
+            ]
           },
           "dqv:isMeasurementOf": {
             "description": "specify the quality measure that is reported, by name, with an ID ref, or as a Defined Term",
@@ -1994,7 +2032,7 @@
                 "additionalProperties": false
               },
               {
-                "$ref": "#/$defs/Shared_f001d72b"
+                "$ref": "#/$defs/Shared_875093c9"
               }
             ]
           },
@@ -2008,7 +2046,7 @@
                 "type": "number"
               },
               {
-                "$ref": "#/$defs/Shared_f001d72b"
+                "$ref": "#/$defs/Shared_875093c9"
               }
             ]
           }
@@ -2026,7 +2064,7 @@
           "description": "Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance. Each variable's position in the key is recorded with an explicit cdi:ComponentPosition wrapper carrying cdi:indexes (the variable) and cdi:value (the integer position), matching the canonical DDI-CDI PrimaryKey structure in ddicdiDataStructure.",
           "type": "object",
           "properties": {
-            "$ref": "#/$defs/Shared_b493f945"
+            "$ref": "#/$defs/Shared_625b86d9"
           },
           "required": [
             "@type",
@@ -2108,7 +2146,10 @@
             "enum": [
               "cdi:CategoryStatistics"
             ]
-          }
+          },
+          "default": [
+            "cdi:CategoryStatistics"
+          ]
         },
         "cdi:for": {
           "description": "The Category this CategoryStatistics is for (inline Category node or an @id-reference).",
@@ -2128,7 +2169,10 @@
                     "enum": [
                       "cdi:Category"
                     ]
-                  }
+                  },
+                  "default": [
+                    "cdi:Category"
+                  ]
                 },
                 "cdif:name": {
                   "anyOf": [
@@ -2186,7 +2230,7 @@
               "type": "string"
             },
             {
-              "$ref": "#/$defs/Shared_a5bc3109"
+              "$ref": "#/$defs/Shared_1f5f529e"
             }
           ]
         },
@@ -2307,17 +2351,10 @@
       "type": "object",
       "properties": {
         "@type": {
-          "type": "array",
-          "description": "Must include schema:PropertyValue - a measured VALUE - or schema:PropertyValueSpecification - a SPECIFICATION of one, stating the permitted range, default or unit rather than an observed result. Protocol and method descriptions declare the latter, and pinning the array to PropertyValue alone left them no valid spelling. Additional type URIs may be included.",
-          "items": {
-            "type": "string",
-            "enum": [
-              "cdi:InstanceVariable"
-            ]
-          }
+          "$ref": "#/$defs/Shared_004078dc"
         },
         "cdif:physicalDataType": {
-          "$ref": "#/$defs/Shared_9aafe684"
+          "$ref": "#/$defs/Shared_2941f384"
         },
         "cdif:role": {
           "type": "string",
@@ -2337,7 +2374,7 @@
         "cdif:uses": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/Shared_c5c6fcdb"
+            "$ref": "#/$defs/Shared_4a4659b2"
           },
           "description": "Essentially the same as schema:propertyID. References the concept(s) this variable measures or represents -- and nothing else. A RepresentedVariable is NOT a legal value: that link is cdif:isDefinedBy_RepresentedVariable, which is reference-only and carries the no-duplication rule. The RepresentedVariable branch was removed 2026-09-25. It never widened what could be *written*, because cdifConceptOrTerm's first branch is already a sealed {@id} reference, so it only ever admitted an inline RepresentedVariable node -- which framing produced and nothing authored. Keeping it cost the property its single value type, made it a partial exception to the CDIF convention of disambiguating polymorphic DDI-CDI role names by target, and left it not type-compatible with canonical cdi:uses, which is valued by a Concept. The RepresentedVariable branch is not new behaviour: it is what the rest of CDIF already documents and enforces. description.md calls cdif:uses \"concepts (or, under the Data Structure profile, the RepresentedVariable)\"; agents.md describes the InstanceVariable as \"a pointer (via cdif:uses) into a richer RepresentedVariable\"; the six NoDuplicate*Shape rules in cdifDataStructure traverse cdif:uses to reach that RepresentedVariable; and RepresentedVariableMustBeInstantiatedShape requires the link to exist. Only this schema said Concepts-only, and it was the outlier -- documents conforming to those rules could not be expressed here. A bare {@id} always matched via cdifConceptOrTerm; the branch is needed for the embedded form, because framing inlines a node whose @id is defined in the same document. cdif:isDefinedBy_RepresentedVariable remains the way to say that this InstanceVariable DEFERS its represented-variable-level properties to that RepresentedVariable; it is reference-only and carries the exclusivity rule. The cost is that cdif:uses no longer has a single value type, so it is a partial exception to the CDIF convention of disambiguating polymorphic DDI-CDI role names by target, and no longer strictly type-compatible with canonical cdi:uses, which is valued by a Concept."
         },
@@ -2359,7 +2396,7 @@
         "cdif:function": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/Shared_c5c6fcdb"
+            "$ref": "#/$defs/Shared_4a4659b2"
           },
           "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function)."
         },
@@ -2371,7 +2408,7 @@
               "type": "string"
             },
             {
-              "$ref": "#/$defs/Shared_a5bc3109"
+              "$ref": "#/$defs/Shared_1f5f529e"
             }
           ]
         },
@@ -2440,7 +2477,7 @@
               "additionalProperties": false
             },
             {
-              "$ref": "#/$defs/Shared_f001d72b"
+              "$ref": "#/$defs/Shared_875093c9"
             },
             {
               "$ref": "#/$defs/Concept"
@@ -2501,7 +2538,7 @@
               "additionalProperties": false
             },
             {
-              "$ref": "#/$defs/Shared_f001d72b"
+              "$ref": "#/$defs/Shared_875093c9"
             }
           ],
           "description": "Text description or URI specifying how values for the variable were obtained."
@@ -2509,7 +2546,7 @@
         "schema:propertyID": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/Shared_a20ff6ab"
+            "$ref": "#/$defs/Shared_99dcafe8"
           },
           "description": "identifier or name for the property concept"
         },
@@ -2538,7 +2575,7 @@
               "additionalProperties": false
             },
             {
-              "$ref": "#/$defs/Shared_f001d72b"
+              "$ref": "#/$defs/Shared_875093c9"
             }
           ],
           "description": "URI or code identifying the unit of measure"
@@ -2552,7 +2589,7 @@
           "description": "maximum numeric value in the dataset"
         },
         "schema:url": {
-          "$ref": "#/$defs/Shared_ebc7f231"
+          "$ref": "#/$defs/Shared_d825a510"
         }
       },
       "required": [
@@ -2624,7 +2661,10 @@
             "enum": [
               "skos:Concept"
             ]
-          }
+          },
+          "default": [
+            "skos:Concept"
+          ]
         },
         "skos:prefLabel": {
           "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
@@ -3079,7 +3119,10 @@
             "enum": [
               "schema:HowTo"
             ]
-          }
+          },
+          "default": [
+            "schema:HowTo"
+          ]
         },
         "@id": {
           "type": "string"
@@ -3148,7 +3191,10 @@
               "schema:HowToStep"
             ]
           },
-          "description": "Must include schema:HowToStep. Include schema:Action as well to describe the step as an action; that is required when the step carries any action property."
+          "description": "Must include schema:HowToStep. Include schema:Action as well to describe the step as an action; that is required when the step carries any action property.",
+          "default": [
+            "schema:HowToStep"
+          ]
         },
         "@id": {
           "type": "string",
@@ -3182,13 +3228,13 @@
           "description": "Agent responsible for carrying out this step",
           "anyOf": [
             {
-              "$ref": "#/$defs/Shared_c83b5b1c"
+              "$ref": "#/$defs/Shared_fbd7f94b"
             },
             {
               "$ref": "#/$defs/Shared_7710723f"
             },
             {
-              "$ref": "#/$defs/Shared_1156105a"
+              "$ref": "#/$defs/Shared_5c53e91f"
             },
             {
               "title": "Object Reference",
@@ -3228,7 +3274,7 @@
                 "additionalProperties": false
               },
               {
-                "$ref": "#/$defs/Shared_01c4aca5"
+                "$ref": "#/$defs/Shared_6fe9be40"
               }
             ]
           }
@@ -3341,7 +3387,7 @@
           "description": "The parameter values this step used (e.g. beam conditions for an acquisition step, correction settings for a processing step).",
           "type": "array",
           "items": {
-            "$ref": "#/$defs/Shared_ba9bef11"
+            "$ref": "#/$defs/Shared_fd635d5c"
           }
         },
         "schema:actionProcess": {
@@ -3428,7 +3474,10 @@
             "enum": [
               "cdi:Statistics"
             ]
-          }
+          },
+          "default": [
+            "cdi:Statistics"
+          ]
         },
         "cdif:typeOfStatistic": {
           "title": "CDIF Concept-or-Term-or-String",
@@ -3438,7 +3487,7 @@
               "type": "string"
             },
             {
-              "$ref": "#/$defs/Shared_a5bc3109"
+              "$ref": "#/$defs/Shared_1f5f529e"
             }
           ]
         },
@@ -3508,7 +3557,10 @@
             "enum": [
               "cdi:StatisticsCollection"
             ]
-          }
+          },
+          "default": [
+            "cdi:StatisticsCollection"
+          ]
         },
         "cdi:hasWeight": {
           "$ref": "#/$defs/Shared_eadd8ead"
@@ -3575,7 +3627,7 @@
         }
       ]
     },
-    "Shared_95d5a83f": {
+    "Shared_7c3698b4": {
       "@type": {
         "type": "array",
         "items": {
@@ -3583,7 +3635,10 @@
           "enum": [
             "schema:DefinedTerm"
           ]
-        }
+        },
+        "default": [
+          "schema:DefinedTerm"
+        ]
       },
       "schema:name": {
         "type": "string",
@@ -3601,17 +3656,17 @@
         "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
       }
     },
-    "Shared_f001d72b": {
+    "Shared_875093c9": {
       "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_95d5a83f"
+        "$ref": "#/$defs/Shared_7c3698b4"
       },
       "required": [
         "@type"
       ]
     },
-    "Shared_a5bc3109": {
+    "Shared_1f5f529e": {
       "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
       "anyOf": [
         {
@@ -3630,14 +3685,14 @@
           "additionalProperties": false
         },
         {
-          "$ref": "#/$defs/Shared_f001d72b"
+          "$ref": "#/$defs/Shared_875093c9"
         },
         {
           "$ref": "#/$defs/Concept"
         }
       ]
     },
-    "Shared_9aafe684": {
+    "Shared_2941f384": {
       "title": "CDIF Concept-or-Term-or-String",
       "description": "identifier or name for the data type concept.",
       "anyOf": [
@@ -3645,7 +3700,7 @@
           "type": "string"
         },
         {
-          "$ref": "#/$defs/Shared_a5bc3109"
+          "$ref": "#/$defs/Shared_1f5f529e"
         }
       ]
     },
@@ -3770,7 +3825,7 @@
       ],
       "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
     },
-    "Shared_b780f8f4": {
+    "Shared_12347cff": {
       "@type": {
         "type": "array",
         "items": {
@@ -3778,7 +3833,10 @@
           "enum": [
             "schema:PropertyValue"
           ]
-        }
+        },
+        "default": [
+          "schema:PropertyValue"
+        ]
       },
       "schema:propertyID": {
         "$ref": "#/$defs/Shared_122938fb"
@@ -3822,31 +3880,31 @@
         "$ref": "#/$defs/Shared_2567d203"
       }
     },
-    "Shared_3a64d0d4": {
+    "Shared_4fe3bb73": {
       "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_b780f8f4"
+        "$ref": "#/$defs/Shared_12347cff"
       },
       "required": [
         "@type"
       ]
     },
-    "Shared_4f896022": {
+    "Shared_ceddc634": {
       "anyOf": [
         {
           "type": "string"
         },
         {
-          "$ref": "#/$defs/Shared_3a64d0d4"
+          "$ref": "#/$defs/Shared_4fe3bb73"
         }
       ]
     },
-    "Shared_422d11bb": {
+    "Shared_4a06c64e": {
       "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_4f896022"
+        "$ref": "#/$defs/Shared_ceddc634"
       }
     },
     "Shared_db786c4a": {
@@ -3939,7 +3997,7 @@
         "@type"
       ]
     },
-    "Shared_d4314608": {
+    "Shared_52cf3a82": {
       "type": "object",
       "description": "Product model information for this instrument.",
       "properties": {
@@ -3950,7 +4008,10 @@
             "enum": [
               "schema:ProductModel"
             ]
-          }
+          },
+          "default": [
+            "schema:ProductModel"
+          ]
         },
         "schema:name": {
           "type": "string",
@@ -3966,11 +4027,11 @@
         "schema:name"
       ]
     },
-    "Shared_f427c794": {
+    "Shared_6c18fb06": {
       "description": "Instrument type classification(s) from a controlled vocabulary.",
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_f001d72b"
+        "$ref": "#/$defs/Shared_875093c9"
       }
     },
     "Shared_84379053": {
@@ -3990,7 +4051,7 @@
         "$ref": "#/$defs/Shared_1fb24a12"
       }
     },
-    "Shared_a20ff6ab": {
+    "Shared_99dcafe8": {
       "anyOf": [
         {
           "type": "string"
@@ -4011,28 +4072,28 @@
           "additionalProperties": false
         },
         {
-          "$ref": "#/$defs/Shared_f001d72b"
+          "$ref": "#/$defs/Shared_875093c9"
         }
       ]
     },
-    "Shared_0ac3d7ba": {
+    "Shared_f56f0572": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_a20ff6ab"
+        "$ref": "#/$defs/Shared_99dcafe8"
       },
       "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
     },
-    "Shared_63dd6579": {
+    "Shared_28aa4a11": {
       "anyOf": [
         {
           "type": "string"
         },
         {
-          "$ref": "#/$defs/Shared_f001d72b"
+          "$ref": "#/$defs/Shared_875093c9"
         }
       ]
     },
-    "Shared_9b4a6083": {
+    "Shared_78d12c64": {
       "@type": {
         "type": "array",
         "items": {
@@ -4040,10 +4101,13 @@
           "enum": [
             "schema:PropertyValue"
           ]
-        }
+        },
+        "default": [
+          "schema:PropertyValue"
+        ]
       },
       "schema:propertyID": {
-        "$ref": "#/$defs/Shared_0ac3d7ba"
+        "$ref": "#/$defs/Shared_f56f0572"
       },
       "schema:name": {
         "type": "string"
@@ -4065,18 +4129,18 @@
         ]
       },
       "schema:unitCode": {
-        "$ref": "#/$defs/Shared_63dd6579"
+        "$ref": "#/$defs/Shared_28aa4a11"
       },
       "schema:unitText": {
         "type": "string"
       }
     },
-    "Shared_ba9bef11": {
+    "Shared_fd635d5c": {
       "type": "object",
       "title": "additionalProperty PropertyValue",
       "description": "PropertyValue values required to define a soft-typed property with a value. ",
       "properties": {
-        "$ref": "#/$defs/Shared_9b4a6083"
+        "$ref": "#/$defs/Shared_78d12c64"
       },
       "required": [
         "schema:name",
@@ -4086,7 +4150,7 @@
     "Shared_f7f4de8f": {
       "description": "A value fixed by the procedure, where the parameter is NOT overridable. Both keys are declared because both occur: measured across the geochemBuildingBlocks corpus on 2026-10-09, of 369 PropertyValueSpecification entries under schema:instrument, 203 carry schema:defaultValue and 166 carry schema:value. A specification that pins a value rather than defaulting one is still a specification."
     },
-    "Shared_b5117efa": {
+    "Shared_d7ebb06c": {
       "@type": {
         "type": "array",
         "items": {
@@ -4094,7 +4158,10 @@
           "enum": [
             "schema:PropertyValueSpecification"
           ]
-        }
+        },
+        "default": [
+          "schema:PropertyValueSpecification"
+        ]
       },
       "schema:name": {
         "description": "Human-readable label for the parameter.",
@@ -4119,39 +4186,39 @@
         "type": "string"
       }
     },
-    "Shared_82fd70d1": {
+    "Shared_e6e19547": {
       "type": "object",
       "title": "additionalProperty PropertyValueSpecification",
       "description": "A parameter specification (an overridable default) declared on a procedure / plan instrument, typed schema:PropertyValueSpecification; the default sits in schema:defaultValue. Contrast with AdditionalProperty (schema:PropertyValue), the concrete-value form carried by an analysis-event instrument.\nUntil 2026-10-09 this declared only '@type' and schema:name, so the description named schema:defaultValue as the point of the shape while the schema did not declare it. The object is open, so nothing failed -- 203 entries in geochemBuildingBlocks carried a default that no schema described, and a placement path ending in schema:defaultValue could not be told from a misspelling.\nA domain profile adds its own keys here (geochemBuildingBlocks carries ada:dataType and ada:fieldScope on every one of these entries). Those stay out of this block: it is a generic schema.org shape with several consumers, and only the schema.org properties are its to declare.",
       "properties": {
-        "$ref": "#/$defs/Shared_b5117efa"
+        "$ref": "#/$defs/Shared_d7ebb06c"
       },
       "required": [
         "@type",
         "schema:name"
       ]
     },
-    "Shared_899d3593": {
+    "Shared_6fda8e4d": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_ba9bef11"
+          "$ref": "#/$defs/Shared_fd635d5c"
         },
         {
-          "$ref": "#/$defs/Shared_82fd70d1"
+          "$ref": "#/$defs/Shared_e6e19547"
         }
       ]
     },
-    "Shared_a891f72f": {
+    "Shared_ffefdbfa": {
       "type": "array",
       "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.). On a procedure / plan instrument (e.g. an instrument named directly on an ada:TAPPDefinition) these are schema:PropertyValueSpecification parameter templates (an overridable default); on an analysis-event instrument (an activity's schema:instrument) they are schema:PropertyValue concrete values. The JSON Schema accepts both; a profile SHACL rule pins which form applies in which context.",
       "items": {
-        "$ref": "#/$defs/Shared_899d3593"
+        "$ref": "#/$defs/Shared_6fda8e4d"
       }
     },
-    "Shared_0e977a92": {
+    "Shared_738a10ef": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_899d3593"
+        "$ref": "#/$defs/Shared_6fda8e4d"
       }
     },
     "Shared_7710723f": {
@@ -4188,15 +4255,18 @@
         "schema:ProductModel"
       ]
     },
-    "Shared_8d8dd39c": {
+    "Shared_be10f893": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/Shared_6db800cc"
-      }
+      },
+      "default": [
+        "schema:ProductModel"
+      ]
     },
-    "Shared_f1a89bd6": {
+    "Shared_2e6a192d": {
       "@type": {
-        "$ref": "#/$defs/Shared_8d8dd39c"
+        "$ref": "#/$defs/Shared_be10f893"
       },
       "schema:name": {
         "type": "string"
@@ -4206,16 +4276,16 @@
         "description": "Identifier"
       }
     },
-    "Shared_12f92003": {
+    "Shared_43c1bdcd": {
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_f1a89bd6"
+        "$ref": "#/$defs/Shared_2e6a192d"
       },
       "required": [
         "@type"
       ]
     },
-    "Shared_ea23a198": {
+    "Shared_2ce27f60": {
       "@type": {
         "type": "array",
         "items": {
@@ -4256,30 +4326,30 @@
         }
       },
       "schema:additionalProperty": {
-        "$ref": "#/$defs/Shared_0e977a92"
+        "$ref": "#/$defs/Shared_738a10ef"
       },
       "schema:manufacturer": {
         "$ref": "#/$defs/Shared_7710723f"
       },
       "schema:model": {
-        "$ref": "#/$defs/Shared_12f92003"
+        "$ref": "#/$defs/Shared_43c1bdcd"
       }
     },
-    "Shared_b1b6e145": {
+    "Shared_16e2e47f": {
       "type": "object",
       "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
       "properties": {
-        "$ref": "#/$defs/Shared_ea23a198"
+        "$ref": "#/$defs/Shared_2ce27f60"
       },
       "required": [
         "@type",
         "schema:name"
       ]
     },
-    "Shared_36f59927": {
+    "Shared_afcaad10": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_b1b6e145"
+          "$ref": "#/$defs/Shared_16e2e47f"
         },
         {
           "title": "Object Reference",
@@ -4298,11 +4368,11 @@
         }
       ]
     },
-    "Shared_4a24fdeb": {
+    "Shared_59391cbf": {
       "type": "array",
       "description": "Sub-components of this instrument system. Each item is either an inline instrument description or an @id reference.",
       "items": {
-        "$ref": "#/$defs/Shared_36f59927"
+        "$ref": "#/$defs/Shared_afcaad10"
       }
     },
     "Shared_caa393d2": {
@@ -4362,7 +4432,7 @@
         "@type"
       ]
     },
-    "Shared_2d3892e1": {
+    "Shared_2e8df929": {
       "@context": {
         "type": "object",
         "description": "JSON-LD context declaring namespace prefixes.",
@@ -4392,7 +4462,10 @@
             "schema:Product"
           ]
         },
-        "description": "Must include schema:Product. schema:Thing is allowed but no longer required -- Product is a subclass of Thing, so it adds nothing. May include additional types."
+        "description": "Must include schema:Product. schema:Thing is allowed but no longer required -- Product is a subclass of Thing, so it adds nothing. May include additional types.",
+        "default": [
+          "schema:Product"
+        ]
       },
       "schema:additionalType": {
         "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
@@ -4415,7 +4488,7 @@
         "$ref": "#/$defs/Shared_ad446641"
       },
       "schema:identifier": {
-        "$ref": "#/$defs/Shared_422d11bb"
+        "$ref": "#/$defs/Shared_4a06c64e"
       },
       "schema:url": {
         "type": "string",
@@ -4426,10 +4499,10 @@
         "$ref": "#/$defs/Shared_a7c4169a"
       },
       "schema:model": {
-        "$ref": "#/$defs/Shared_d4314608"
+        "$ref": "#/$defs/Shared_52cf3a82"
       },
       "schema:category": {
-        "$ref": "#/$defs/Shared_f427c794"
+        "$ref": "#/$defs/Shared_6c18fb06"
       },
       "schema:owner": {
         "$ref": "#/$defs/Shared_84379053"
@@ -4438,7 +4511,7 @@
         "$ref": "#/$defs/Shared_4d80dc06"
       },
       "schema:additionalProperty": {
-        "$ref": "#/$defs/Shared_a891f72f"
+        "$ref": "#/$defs/Shared_ffefdbfa"
       },
       "schema:validFrom": {
         "type": "string",
@@ -4449,7 +4522,7 @@
         "description": "Date the instrument was decommissioned (ISO 8601). Absent if still operational."
       },
       "schema:hasPart": {
-        "$ref": "#/$defs/Shared_4a24fdeb"
+        "$ref": "#/$defs/Shared_59391cbf"
       },
       "schema:relatedLink": {
         "$ref": "#/$defs/Shared_caa393d2"
@@ -4458,19 +4531,19 @@
         "$ref": "#/$defs/Shared_8be2bf2d"
       }
     },
-    "Shared_c6111f99": {
+    "Shared_8722432a": {
       "title": "Instrument Description",
       "description": "Schema for describing laboratory instruments and instrument systems. Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components via schema:hasPart, and domain-specific typing. Instruments may be standalone devices or complex systems with sub-components.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_2d3892e1"
+        "$ref": "#/$defs/Shared_2e8df929"
       },
       "required": [
         "@type",
         "schema:name"
       ]
     },
-    "Shared_01c4aca5": {
+    "Shared_6fe9be40": {
       "type": "object",
       "description": "An instrument, software or reagent described in place. schema:additionalType must carry exactly one of the three kind terms; the kind then pins the shape. A domain profile adds its own properties (a role, a version, settings).",
       "required": [
@@ -4527,7 +4600,7 @@
         ]
       },
       "then": {
-        "$ref": "#/$defs/Shared_c6111f99"
+        "$ref": "#/$defs/Shared_8722432a"
       }
     },
     "Shared_e0aeaf43": {
@@ -4580,7 +4653,7 @@
         }
       ]
     },
-    "Shared_04bdafa5": {
+    "Shared_b0253cfb": {
       "@id": {
         "type": "string"
       },
@@ -4591,7 +4664,10 @@
           "enum": [
             "schema:Person"
           ]
-        }
+        },
+        "default": [
+          "schema:Person"
+        ]
       },
       "schema:name": {
         "type": "string",
@@ -4634,17 +4710,17 @@
         }
       }
     },
-    "Shared_c83b5b1c": {
+    "Shared_fbd7f94b": {
       "description": "schema for cdif profile of schema.org/Person",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_04bdafa5"
+        "$ref": "#/$defs/Shared_b0253cfb"
       },
       "required": [
         "@type"
       ]
     },
-    "Shared_c5c6fcdb": {
+    "Shared_4a4659b2": {
       "title": "CDIF Concept-or-Term-or-String",
       "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
       "anyOf": [
@@ -4652,11 +4728,11 @@
           "type": "string"
         },
         {
-          "$ref": "#/$defs/Shared_a5bc3109"
+          "$ref": "#/$defs/Shared_1f5f529e"
         }
       ]
     },
-    "Shared_79dcf237": {
+    "Shared_88bb3c5f": {
       "description": "The Person or Organization in this role.",
       "anyOf": [
         {
@@ -4675,14 +4751,14 @@
           "additionalProperties": false
         },
         {
-          "$ref": "#/$defs/Shared_c83b5b1c"
+          "$ref": "#/$defs/Shared_fbd7f94b"
         },
         {
           "$ref": "#/$defs/Shared_7710723f"
         }
       ]
     },
-    "Shared_76d63c9b": {
+    "Shared_b08be110": {
       "@type": {
         "default": [
           "schema:Role"
@@ -4696,23 +4772,23 @@
         }
       },
       "schema:roleName": {
-        "$ref": "#/$defs/Shared_c5c6fcdb"
+        "$ref": "#/$defs/Shared_4a4659b2"
       },
       "schema:contributor": {
-        "$ref": "#/$defs/Shared_79dcf237"
+        "$ref": "#/$defs/Shared_88bb3c5f"
       },
       "schema:agent": {
-        "$ref": "#/$defs/Shared_79dcf237"
+        "$ref": "#/$defs/Shared_88bb3c5f"
       },
       "schema:participant": {
-        "$ref": "#/$defs/Shared_79dcf237"
+        "$ref": "#/$defs/Shared_88bb3c5f"
       }
     },
-    "Shared_1156105a": {
+    "Shared_5c53e91f": {
       "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people. The Role holds the agent under the property it sits under, as schema.org's Role pattern and validator.schema.org require -- schema:contributor inside a contributor Role, schema:agent inside an activity's agent Role, schema:participant inside a participant Role. At least one is required.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_76d63c9b"
+        "$ref": "#/$defs/Shared_b08be110"
       },
       "required": [
         "@type",
@@ -4750,7 +4826,7 @@
         {}
       ]
     },
-    "Shared_5ba99e9d": {
+    "Shared_65709721": {
       "description": "A dcat:Role -- DCAT's declared range for dcat:hadRole. Defined inline rather than as its own building block because nothing else in the register needs it yet; dcat:hadRole's domain is owl:unionOf [prov:Attribution, dcat:Relationship], so promote it to a block if a qualified attribution ever needs the same shape.\ndcat:Role rdfs:subClassOf skos:Concept, so the skos:prefLabel / skos:inScheme furniture of a concept is permitted alongside; it is not required here because DCAT states no cardinality constraints on the class -- dcat.ttl declares no rdfs:subClassOf and no owl:Restriction on dcat:Relationship, and the \"mandatory\" wording in the DCAT-3 document is prose in the spec tables rather than an axiom in the vocabulary.",
       "type": "object",
       "properties": {
@@ -4765,21 +4841,24 @@
             "enum": [
               "dcat:Role"
             ]
-          }
+          },
+          "default": [
+            "dcat:Role"
+          ]
         }
       },
       "required": [
         "@type"
       ]
     },
-    "Shared_9cee0af7": {
+    "Shared_e7e49478": {
       "description": "Role of the related resource. Present only on a link that expresses a relationship; a plain labeled link such as a license omits it.\nDCAT's declared range is dcat:Role (dcat.ttl: rdfs:range dcat:Role, and dcat:Role rdfs:subClassOf skos:Concept), so the DCAT-native form is a node typed dcat:Role. That form was NOT accepted here before 2026-10-01: this property was cdifConceptOrTermOrString alone, which matches a bare string, a sealed @id reference, a schema:DefinedTerm or a skos:Concept -- none of which a dcat:Role-typed node satisfies, because JSON Schema does no subclass reasoning.\ndcat:Role is added as a branch rather than replacing the others, so the DCAT-native form becomes valid without invalidating anything already written. Note this leaves CDIF LOOSER than DCAT, deliberately: DCAT's range is dcat:Role alone, and CDIF also accepts a plain skos:Concept, a DefinedTerm, an @id reference and a string. That is the same both-forms stance taken on dcterms:relation, and it is a choice rather than an oversight -- do not read the extra branches as something not yet tightened.",
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_5ba99e9d"
+          "$ref": "#/$defs/Shared_65709721"
         },
         {
-          "$ref": "#/$defs/Shared_c5c6fcdb"
+          "$ref": "#/$defs/Shared_4a4659b2"
         }
       ]
     },
@@ -4807,7 +4886,7 @@
         }
       ]
     },
-    "Shared_f2bceb07": {
+    "Shared_480ac293": {
       "@type": {
         "$ref": "#/$defs/Shared_6c636ddd"
       },
@@ -4822,17 +4901,17 @@
         "format": "uri"
       },
       "dcat:hadRole": {
-        "$ref": "#/$defs/Shared_9cee0af7"
+        "$ref": "#/$defs/Shared_e7e49478"
       },
       "dcterms:relation": {
         "$ref": "#/$defs/Shared_f6ec46db"
       }
     },
-    "Shared_ad58227f": {
+    "Shared_35a9b93f": {
       "description": "Schema for a labeled link, a profile of schema.org/CreativeWork: a resolvable URL with an optional name and description. Optionally carries the DCAT relation surface (dcat:hadRole, dcterms:relation) for a link that expresses a typed relationship rather than a plain reference.\nThose two properties were a separate block, cdifDataType/cdifReference, which was an allOf of this schema plus exactly those two optional properties and nothing else -- its dcat:Relationship co-type mandate had already been removed because it made every labeled link unsatisfiable and broke every schema:license example that followed schema.org's own advice. Since both are optional, folding them in here changes no document's validity while removing a block and five levels of $defs/Reference indirection. cdifReference was retired 2026-09-23.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_f2bceb07"
+        "$ref": "#/$defs/Shared_480ac293"
       },
       "required": [
         "@type"
@@ -4851,7 +4930,21 @@
         ]
       }
     },
-    "Shared_ebc7f231": {
+    "Shared_004078dc": {
+      "description": "Must include schema:PropertyValue - a measured VALUE - or schema:PropertyValueSpecification - a SPECIFICATION of one, stating the permitted range, default or unit rather than an observed result. Protocol and method descriptions declare the latter, and pinning the array to PropertyValue alone left them no valid spelling. Additional type URIs may be included.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "schema:PropertyValue",
+          "schema:PropertyValueSpecification"
+        ]
+      },
+      "default": [
+        "schema:PropertyValue"
+      ]
+    },
+    "Shared_d825a510": {
       "anyOf": [
         {
           "type": "string",
@@ -4859,15 +4952,15 @@
           "description": "link to a web page useful for interpreting the variable"
         },
         {
-          "$ref": "#/$defs/Shared_ad58227f"
+          "$ref": "#/$defs/Shared_35a9b93f"
         }
       ]
     },
-    "Shared_f468567a": {
+    "Shared_fb79a0fc": {
       "description": "Identifier for this enumerated (categorical) domain.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_b780f8f4"
+        "$ref": "#/$defs/Shared_12347cff"
       },
       "required": [
         "@type"
@@ -4877,7 +4970,7 @@
       "description": "Preferred lexical label for the concept scheme. Required. A single\nstring, a single language-tagged value, or an array of language-tagged\nvalues.\n\n**Uniqueness rule.** Each language should appear at most once in the\nset of prefLabel values. Two prefLabel values with duplicate `@language`\ntags are non-conformant. Consumers may reject or arbitrarily pick one.\n\n**Multilinguality.** For codelists intended for multilingual use,\nsupply an array of language-tagged values — one per supported locale.\nWhen a bare string is supplied (no `@language` tag), consumers treat\nit as untagged and MAY infer the language from the enclosing document's\n`@context` or from `schema:inLanguage` on the codelist itself.\n\n**Relationship to skos:altLabel.** Alternate labels (acronyms,\nspelling variants, obsolete names) go on `skos:altLabel`, NOT on\n`prefLabel`. A concept scheme has exactly one preferred label per\nlanguage.\n",
       "type": "string"
     },
-    "Shared_c7982eb5": {
+    "Shared_ddfcd08f": {
       "@type": {
         "type": "array",
         "items": {
@@ -4885,7 +4978,10 @@
           "enum": [
             "schema:Dataset"
           ]
-        }
+        },
+        "default": [
+          "schema:Dataset"
+        ]
       },
       "schema:additionalType": {
         "type": "array",
@@ -4932,11 +5028,11 @@
         "additionalProperties": false
       }
     },
-    "Shared_a4ef0f34": {
+    "Shared_2bef25ee": {
       "description": "Catalog record describing this codelist as CDIF-conformant metadata. Must declare conformance to the cdifCodelist profile via dcterms:conformsTo and be typed as schema:Dataset with schema:additionalType including dcat:CatalogRecord.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_c7982eb5"
+        "$ref": "#/$defs/Shared_ddfcd08f"
       },
       "required": [
         "@type",
@@ -4944,7 +5040,7 @@
         "dcterms:conformsTo"
       ]
     },
-    "Shared_3711c174": {
+    "Shared_3be271ff": {
       "@context": {
         "description": "JSON-LD context (an object) declaring the skos namespace prefix and any additional prefixes used in concept URIs.",
         "type": "object",
@@ -4969,7 +5065,10 @@
           "enum": [
             "skos:ConceptScheme"
           ]
-        }
+        },
+        "default": [
+          "skos:ConceptScheme"
+        ]
       },
       "schema:identifier": {
         "type": "string",
@@ -5033,15 +5132,15 @@
         }
       },
       "schema:subjectOf": {
-        "$ref": "#/$defs/Shared_a4ef0f34"
+        "$ref": "#/$defs/Shared_2bef25ee"
       }
     },
-    "Shared_ed4915b3": {
+    "Shared_1f8df277": {
       "type": "object",
       "title": "CDIF Codelist",
       "description": "A controlled-vocabulary codelist implemented as a skos:ConceptScheme constrained for CDIF use. The scheme must have a resolvable @id and identify its top concepts via skos:hasTopConcept; each concept (CdifCodelistConcept) must have a resolvable @id, skos:inScheme, skos:prefLabel, and skos:notation. Hierarchical concepts must declare both skos:narrower (for JSON tree traversal) and skos:broader (for upward navigation) where hierarchy exists. CDIF metadata properties (schema:identifier, schema:dateModified, schema:license or schema:conditionsOfAccess) take precedence over the equivalent dcterms properties from the base skos:ConceptScheme.",
       "properties": {
-        "$ref": "#/$defs/Shared_3711c174"
+        "$ref": "#/$defs/Shared_3be271ff"
       },
       "anyOf": [
         {
@@ -5063,11 +5162,11 @@
         "skos:hasTopConcept"
       ]
     },
-    "Shared_20001cf6": {
+    "Shared_65e3aed6": {
       "description": "CDIF codelist (skos:ConceptScheme) whose concepts define the allowed values of this enumeration domain.",
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_ed4915b3"
+          "$ref": "#/$defs/Shared_1f8df277"
         },
         {
           "title": "Object Reference",
@@ -5086,7 +5185,7 @@
         }
       ]
     },
-    "Shared_22ab602e": {
+    "Shared_21afd2b7": {
       "@type": {
         "type": "array",
         "items": {
@@ -5094,21 +5193,24 @@
           "enum": [
             "cdif:EnumerationDomain"
           ]
-        }
+        },
+        "default": [
+          "cdif:EnumerationDomain"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this EnumerationDomain node"
       },
       "cdif:identifier": {
-        "$ref": "#/$defs/Shared_f468567a"
+        "$ref": "#/$defs/Shared_fb79a0fc"
       },
       "schema:name": {
         "type": "string",
         "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic)."
       },
       "cdif:references": {
-        "$ref": "#/$defs/Shared_20001cf6"
+        "$ref": "#/$defs/Shared_65e3aed6"
       },
       "cdif:purpose": {
         "type": "string",
@@ -5119,12 +5221,12 @@
         "description": "Prose statement of the values this domain admits. Required when cdif:references is absent, so that a domain naming no codelist still says what it enumerates."
       }
     },
-    "Shared_630aeabb": {
+    "Shared_2c50d053": {
       "title": "CDIF Enumeration Domain",
       "description": "A base class acting as an extension point to allow a codification vocabulary to be documented as enumerated value domain.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_22ab602e"
+        "$ref": "#/$defs/Shared_21afd2b7"
       },
       "required": [
         "@type"
@@ -5136,10 +5238,10 @@
         ]
       }
     },
-    "Shared_2f227ca5": {
+    "Shared_cefca213": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_630aeabb"
+          "$ref": "#/$defs/Shared_2c50d053"
         },
         {
           "title": "Object Reference",
@@ -5225,7 +5327,7 @@
       "type": "string",
       "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
     },
-    "Shared_3a2a608e": {
+    "Shared_bf423900": {
       "@type": {
         "type": "array",
         "items": {
@@ -5233,7 +5335,10 @@
           "enum": [
             "cdi:ValueAndConceptDescription"
           ]
-        }
+        },
+        "default": [
+          "cdi:ValueAndConceptDescription"
+        ]
       },
       "@id": {
         "type": "string",
@@ -5278,11 +5383,11 @@
         "description": "A regular expression where strings matching the expression belong to the set of valid values."
       }
     },
-    "Shared_f82b107b": {
+    "Shared_b8711083": {
       "type": "object",
       "description": "Formal description of a set of values.",
       "properties": {
-        "$ref": "#/$defs/Shared_3a2a608e"
+        "$ref": "#/$defs/Shared_bf423900"
       },
       "required": [
         "@type"
@@ -5294,11 +5399,11 @@
       },
       "then": {}
     },
-    "Shared_ea09293c": {
+    "Shared_ec6c3e37": {
       "description": "A ValueAndConceptDescription giving the formal description (ranges, patterns, classification level, expressions) of the values this domain admits.",
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_f82b107b"
+          "$ref": "#/$defs/Shared_b8711083"
         },
         {
           "title": "Object Reference",
@@ -5317,7 +5422,7 @@
         }
       ]
     },
-    "Shared_f399d9c7": {
+    "Shared_4c3bc6fc": {
       "@type": {
         "type": "array",
         "items": {
@@ -5325,14 +5430,17 @@
           "enum": [
             "cdif:SentinelValueDomain"
           ]
-        }
+        },
+        "default": [
+          "cdif:SentinelValueDomain"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this SentinelValueDomain node"
       },
       "cdif:takesValuesFrom": {
-        "$ref": "#/$defs/Shared_2f227ca5"
+        "$ref": "#/$defs/Shared_cefca213"
       },
       "cdif:displayLabel": {
         "type": "string",
@@ -5342,14 +5450,14 @@
         "$ref": "#/$defs/Shared_3b81aaad"
       },
       "cdi:isDescribedBy": {
-        "$ref": "#/$defs/Shared_ea09293c"
+        "$ref": "#/$defs/Shared_ec6c3e37"
       }
     },
-    "Shared_cc6fe002": {
+    "Shared_cbd49468": {
       "type": "object",
       "description": "Specification of possible sentinel values used by a variable. Sentinel values are special values used to indicate various invalid conditions for a variable, e.g. below detection, missing value.",
       "properties": {
-        "$ref": "#/$defs/Shared_f399d9c7"
+        "$ref": "#/$defs/Shared_4c3bc6fc"
       },
       "required": [
         "@type"
@@ -5367,10 +5475,10 @@
         }
       ]
     },
-    "Shared_5deb3818": {
+    "Shared_5b508dde": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_cc6fe002"
+          "$ref": "#/$defs/Shared_cbd49468"
         },
         {
           "title": "Object Reference",
@@ -5389,7 +5497,7 @@
         }
       ]
     },
-    "Shared_5820c768": {
+    "Shared_00539b92": {
       "@type": {
         "type": "array",
         "items": {
@@ -5397,14 +5505,17 @@
           "enum": [
             "cdif:SubstantiveValueDomain"
           ]
-        }
+        },
+        "default": [
+          "cdif:SubstantiveValueDomain"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this SubstantiveValueDomain node"
       },
       "cdif:takesValuesFrom": {
-        "$ref": "#/$defs/Shared_2f227ca5"
+        "$ref": "#/$defs/Shared_cefca213"
       },
       "cdif:displayLabel": {
         "type": "string",
@@ -5414,14 +5525,14 @@
         "$ref": "#/$defs/Shared_3b81aaad"
       },
       "cdi:isDescribedBy": {
-        "$ref": "#/$defs/Shared_ea09293c"
+        "$ref": "#/$defs/Shared_ec6c3e37"
       }
     },
-    "Shared_d46147f0": {
+    "Shared_3c7beee7": {
       "type": "object",
       "description": "Value domain for a substantive conceptual domain. Typically a description and/or enumeration of allowed values of interest.",
       "properties": {
-        "$ref": "#/$defs/Shared_5820c768"
+        "$ref": "#/$defs/Shared_00539b92"
       },
       "required": [
         "@type"
@@ -5460,7 +5571,7 @@
       "default": 1,
       "description": "1-based position of this variable in the ordered key. Pinned to a minimum of 1 because a key that might be 0- or 1-based has ambiguous ordering, which defeats the purpose of recording a position at all -- and because both structure-level key definitions already rejected 0, so the latitude this description used to advertise was never honoured anywhere."
     },
-    "Shared_9b40c754": {
+    "Shared_72273557": {
       "@type": {
         "type": "array",
         "items": {
@@ -5468,7 +5579,10 @@
           "enum": [
             "cdi:ComponentPosition"
           ]
-        }
+        },
+        "default": [
+          "cdi:ComponentPosition"
+        ]
       },
       "@id": {
         "type": "string",
@@ -5481,11 +5595,11 @@
         "$ref": "#/$defs/Shared_77564a40"
       }
     },
-    "Shared_d0cca4d5": {
+    "Shared_a5ddede2": {
       "type": "object",
       "description": "ComponentPosition wrapper indexing one variable's position in the key.",
       "properties": {
-        "$ref": "#/$defs/Shared_9b40c754"
+        "$ref": "#/$defs/Shared_72273557"
       },
       "required": [
         "@type",
@@ -5493,14 +5607,14 @@
         "cdi:value"
       ]
     },
-    "Shared_07b86470": {
+    "Shared_46b7b593": {
       "type": "array",
       "description": "Ordered list of cdi:ComponentPosition wrappers. Each wrapper carries cdi:indexes (an @id-reference to a cdi:InstanceVariable declared elsewhere in the dataset) and cdi:value (the 1-based integer position in the key).",
       "items": {
-        "$ref": "#/$defs/Shared_d0cca4d5"
+        "$ref": "#/$defs/Shared_a5ddede2"
       }
     },
-    "Shared_b493f945": {
+    "Shared_625b86d9": {
       "@type": {
         "type": "array",
         "items": {
@@ -5508,14 +5622,17 @@
           "enum": [
             "cdif:Key"
           ]
-        }
+        },
+        "default": [
+          "cdif:Key"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this Key node."
       },
       "cdif:isComposedOf": {
-        "$ref": "#/$defs/Shared_07b86470"
+        "$ref": "#/$defs/Shared_46b7b593"
       }
     },
     "Shared_87d479b9": {
@@ -5670,7 +5787,7 @@
       ],
       "additionalProperties": false
     },
-    "Shared_56ae510a": {
+    "Shared_d947aa32": {
       "@type": {
         "type": "array",
         "items": {
@@ -5678,7 +5795,10 @@
           "enum": [
             "cdi:ComponentPosition"
           ]
-        }
+        },
+        "default": [
+          "cdi:ComponentPosition"
+        ]
       },
       "@id": {
         "type": "string",
@@ -5694,11 +5814,11 @@
         "description": "1-based position of this variable in the ordered key."
       }
     },
-    "Shared_46039a21": {
+    "Shared_52d60fb6": {
       "type": "object",
       "description": "cdi:ComponentPosition wrapper indexing one variable's position in the key.",
       "properties": {
-        "$ref": "#/$defs/Shared_56ae510a"
+        "$ref": "#/$defs/Shared_d947aa32"
       },
       "required": [
         "@type",
@@ -5706,14 +5826,14 @@
         "cdi:value"
       ]
     },
-    "Shared_34173043": {
+    "Shared_74292e08": {
       "type": "array",
       "description": "Ordered list of cdi:ComponentPosition wrappers, one per key component, matching the sibling cdif:Key. The position sits on the wrapper rather than on the variable, and that is load-bearing: an earlier form required cdif:position on the item itself, which made the objectReference branch unsatisfiable, because objectReference is sealed with additionalProperties false. A key could then only be written by inlining whole variables, duplicating what schema:variableMeasured already holds.",
       "items": {
-        "$ref": "#/$defs/Shared_46039a21"
+        "$ref": "#/$defs/Shared_52d60fb6"
       }
     },
-    "Shared_516c0c7a": {
+    "Shared_fd2f211e": {
       "@type": {
         "type": "array",
         "items": {
@@ -5721,14 +5841,17 @@
           "enum": [
             "cdif:ForeignKey"
           ]
-        }
+        },
+        "default": [
+          "cdif:ForeignKey"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this ForeignKey node"
       },
       "cdif:isComposedOf": {
-        "$ref": "#/$defs/Shared_34173043"
+        "$ref": "#/$defs/Shared_74292e08"
       },
       "cdif:references_PrimaryKey": {
         "title": "Object Reference",
@@ -5746,11 +5869,11 @@
         "additionalProperties": false
       }
     },
-    "Shared_5e0303a0": {
+    "Shared_e5b0a5c5": {
       "type": "object",
       "description": "A set of variables whose values reference a primary key elsewhere. cdif:, not cdi:, throughout: this is a CDIF simplification, not the DDI-CDI shape. DDI-CDI composes a foreign key from cdi:ForeignKeyComponent nodes, each with cdi:correspondsTo and cdi:references; this form composes the variables directly, each carrying cdif:position. The prefix is what makes that divergence visible, and it matches the sibling cdif:Key. Until 2026-09-05 the definition required 'cdif:isComposedOf' while declaring 'cdi:isComposedOf', so it could only be satisfied by an undeclared and therefore unconstrained property.",
       "properties": {
-        "$ref": "#/$defs/Shared_516c0c7a"
+        "$ref": "#/$defs/Shared_fd2f211e"
       },
       "required": [
         "@type",
@@ -5758,10 +5881,10 @@
         "cdif:references_PrimaryKey"
       ]
     },
-    "Shared_74ec992a": {
+    "Shared_e2a116c6": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_5e0303a0"
+          "$ref": "#/$defs/Shared_e5b0a5c5"
         },
         {
           "title": "Object Reference",
@@ -5780,24 +5903,24 @@
         }
       ]
     },
-    "Shared_31d76a7b": {
+    "Shared_a51ba04e": {
       "description": "Variables whose values identify records in a different dataset.",
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_74ec992a"
+        "$ref": "#/$defs/Shared_e2a116c6"
       }
     },
-    "Shared_4de9dc18": {
+    "Shared_5a76843a": {
       "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_b780f8f4"
+        "$ref": "#/$defs/Shared_12347cff"
       },
       "required": [
         "@type"
       ]
     },
-    "Shared_fbf331fc": {
+    "Shared_6dcdabad": {
       "title": "CDIF Concept-or-Term-or-String",
       "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary.",
       "anyOf": [
@@ -5805,11 +5928,11 @@
           "type": "string"
         },
         {
-          "$ref": "#/$defs/Shared_a5bc3109"
+          "$ref": "#/$defs/Shared_1f5f529e"
         }
       ]
     },
-    "Shared_9e0f8883": {
+    "Shared_f17e1292": {
       "title": "CDIF Concept-or-Term-or-String",
       "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary.",
       "anyOf": [
@@ -5817,21 +5940,21 @@
           "type": "string"
         },
         {
-          "$ref": "#/$defs/Shared_a5bc3109"
+          "$ref": "#/$defs/Shared_1f5f529e"
         }
       ]
     },
-    "Shared_4f32c62a": {
+    "Shared_98fc2945": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_5deb3818"
+        "$ref": "#/$defs/Shared_5b508dde"
       },
       "description": "Sentinel (missing / not-applicable) value domain(s) for this RepresentedVariable (RepresentedVariable.takesSentinelValuesFrom)."
     },
-    "Shared_93ddffc9": {
+    "Shared_cbf8edd3": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_d46147f0"
+          "$ref": "#/$defs/Shared_3c7beee7"
         },
         {
           "title": "Object Reference",
@@ -5851,11 +5974,11 @@
       ],
       "description": "The substantive value domain for this RepresentedVariable - the set of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom)."
     },
-    "Shared_5f77bc06": {
+    "Shared_fab49abc": {
       "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_f2bceb07"
+        "$ref": "#/$defs/Shared_480ac293"
       },
       "required": [
         "@type"
@@ -5908,7 +6031,7 @@
         "$ref": "#/$defs/Shared_b34eeb52"
       }
     },
-    "Shared_78a8d76f": {
+    "Shared_7ee50dd9": {
       "@type": {
         "type": "array",
         "items": {
@@ -5916,7 +6039,10 @@
           "enum": [
             "cdi:UnitType"
           ]
-        }
+        },
+        "default": [
+          "cdi:UnitType"
+        ]
       },
       "@id": {
         "type": "string",
@@ -5938,10 +6064,10 @@
         "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
       },
       "cdif:externalDefinition": {
-        "$ref": "#/$defs/Shared_5f77bc06"
+        "$ref": "#/$defs/Shared_fab49abc"
       },
       "cdif:identifier": {
-        "$ref": "#/$defs/Shared_4de9dc18"
+        "$ref": "#/$defs/Shared_5a76843a"
       },
       "cdif:name": {
         "anyOf": [
@@ -5961,20 +6087,20 @@
         "$ref": "#/$defs/Shared_d8d0bff9"
       }
     },
-    "Shared_765c6a0c": {
+    "Shared_f13d39f8": {
       "type": "object",
       "description": "Unit type is a type or class of objects of interest (units).",
       "properties": {
-        "$ref": "#/$defs/Shared_78a8d76f"
+        "$ref": "#/$defs/Shared_7ee50dd9"
       },
       "required": [
         "@type"
       ]
     },
-    "Shared_af526f3e": {
+    "Shared_c5089033": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_765c6a0c"
+          "$ref": "#/$defs/Shared_f13d39f8"
         },
         {
           "title": "Object Reference",
@@ -5993,7 +6119,7 @@
         }
       ]
     },
-    "Shared_31209634": {
+    "Shared_236f0bfb": {
       "title": "CDIF Concept-or-Term-or-String",
       "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete.",
       "anyOf": [
@@ -6001,11 +6127,11 @@
           "type": "string"
         },
         {
-          "$ref": "#/$defs/Shared_a5bc3109"
+          "$ref": "#/$defs/Shared_1f5f529e"
         }
       ]
     },
-    "Shared_b0e9e27c": {
+    "Shared_d9b5242c": {
       "@type": {
         "type": "array",
         "items": {
@@ -6013,23 +6139,26 @@
           "enum": [
             "cdi:RepresentedVariable"
           ]
-        }
+        },
+        "default": [
+          "cdi:RepresentedVariable"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this RepresentedVariable node"
       },
       "cdif:describedUnitOfMeasure": {
-        "$ref": "#/$defs/Shared_fbf331fc"
+        "$ref": "#/$defs/Shared_6dcdabad"
       },
       "cdif:hasIntendedDataType": {
-        "$ref": "#/$defs/Shared_9e0f8883"
+        "$ref": "#/$defs/Shared_f17e1292"
       },
       "cdi:takesSentinelValuesFrom": {
-        "$ref": "#/$defs/Shared_4f32c62a"
+        "$ref": "#/$defs/Shared_98fc2945"
       },
       "cdi:takesSubstantiveValuesFrom": {
-        "$ref": "#/$defs/Shared_93ddffc9"
+        "$ref": "#/$defs/Shared_cbf8edd3"
       },
       "cdi:simpleUnitOfMeasure": {
         "$ref": "#/$defs/Shared_4abc71b6"
@@ -6039,10 +6168,10 @@
         "description": "A short natural language account of the characteristics of the object."
       },
       "cdi:measures": {
-        "$ref": "#/$defs/Shared_af526f3e"
+        "$ref": "#/$defs/Shared_c5089033"
       },
       "cdif:unitOfMeasureKind": {
-        "$ref": "#/$defs/Shared_31209634"
+        "$ref": "#/$defs/Shared_236f0bfb"
       },
       "cdif:definition": {
         "type": "string",
@@ -6056,10 +6185,10 @@
         "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
       },
       "cdif:externalDefinition": {
-        "$ref": "#/$defs/Shared_5f77bc06"
+        "$ref": "#/$defs/Shared_fab49abc"
       },
       "cdif:identifier": {
-        "$ref": "#/$defs/Shared_4de9dc18"
+        "$ref": "#/$defs/Shared_5a76843a"
       },
       "cdif:name": {
         "anyOf": [
@@ -6079,22 +6208,22 @@
         "$ref": "#/$defs/Shared_d8d0bff9"
       }
     },
-    "Shared_c90ee4f0": {
+    "Shared_813ef722": {
       "title": "DDI-CDI Represented Variable",
       "description": "Conceptual variable with a substantive value domain specified.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_b0e9e27c"
+        "$ref": "#/$defs/Shared_d9b5242c"
       },
       "required": [
         "@type"
       ]
     },
-    "Shared_67c3ba51": {
+    "Shared_e36a8e62": {
       "description": "The variable this component is a role of -- a RepresentedVariable or an InstanceVariable, inline or by @id reference. See the note above $defs.",
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_c90ee4f0"
+          "$ref": "#/$defs/Shared_813ef722"
         },
         {
           "$ref": "#/$defs/CdifInstanceVariable"
@@ -6116,26 +6245,26 @@
         }
       ]
     },
-    "Shared_57a6c52b": {
+    "Shared_7e9a3f14": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_c5c6fcdb"
+        "$ref": "#/$defs/Shared_4a4659b2"
       },
       "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
     },
-    "Shared_33090944": {
+    "Shared_2bcca51f": {
       "@id": {
         "type": "string",
         "description": "Identifier for this DataStructureComponent node"
       },
       "cdif:identifier": {
-        "$ref": "#/$defs/Shared_4de9dc18"
+        "$ref": "#/$defs/Shared_5a76843a"
       },
       "cdif:isDefinedBy_Variable": {
-        "$ref": "#/$defs/Shared_67c3ba51"
+        "$ref": "#/$defs/Shared_e36a8e62"
       },
       "cdif:semantic": {
-        "$ref": "#/$defs/Shared_57a6c52b"
+        "$ref": "#/$defs/Shared_7e9a3f14"
       },
       "@type": {
         "type": "array",
@@ -6144,13 +6273,16 @@
           "enum": [
             "cdi:IdentifierComponent"
           ]
-        }
+        },
+        "default": [
+          "cdi:IdentifierComponent"
+        ]
       }
     },
-    "Shared_6123e739": {
+    "Shared_0c1095fb": {
       "description": "Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.",
       "properties": {
-        "$ref": "#/$defs/Shared_33090944"
+        "$ref": "#/$defs/Shared_2bcca51f"
       },
       "type": "object",
       "required": [
@@ -6158,19 +6290,19 @@
         "cdif:isDefinedBy_Variable"
       ]
     },
-    "Shared_a31dc16d": {
+    "Shared_dda1be14": {
       "@id": {
         "type": "string",
         "description": "Identifier for this DataStructureComponent node"
       },
       "cdif:identifier": {
-        "$ref": "#/$defs/Shared_4de9dc18"
+        "$ref": "#/$defs/Shared_5a76843a"
       },
       "cdif:isDefinedBy_Variable": {
-        "$ref": "#/$defs/Shared_67c3ba51"
+        "$ref": "#/$defs/Shared_e36a8e62"
       },
       "cdif:semantic": {
-        "$ref": "#/$defs/Shared_57a6c52b"
+        "$ref": "#/$defs/Shared_7e9a3f14"
       },
       "@type": {
         "type": "array",
@@ -6179,7 +6311,10 @@
           "enum": [
             "cdi:MeasureComponent"
           ]
-        }
+        },
+        "default": [
+          "cdi:MeasureComponent"
+        ]
       },
       "cdif:name": {
         "anyOf": [
@@ -6196,10 +6331,10 @@
         "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
       }
     },
-    "Shared_82b5c814": {
+    "Shared_d1898d0e": {
       "description": "Role given to a represented variable in the context of a data structure to hold the observed/derived values.",
       "properties": {
-        "$ref": "#/$defs/Shared_a31dc16d"
+        "$ref": "#/$defs/Shared_dda1be14"
       },
       "type": "object",
       "required": [
@@ -6211,19 +6346,19 @@
       "default": false,
       "description": "Indicates whether categories at a specific level can be combined to provide the value for their shared parent category. Value is True if categories can be added together (collapsed) to create higher-level categories. An example would be age categories: five-year age categories can be collapsed into 10-year age categories."
     },
-    "Shared_e8e8276b": {
+    "Shared_d8306f9c": {
       "@id": {
         "type": "string",
         "description": "Identifier for this DataStructureComponent node"
       },
       "cdif:identifier": {
-        "$ref": "#/$defs/Shared_4de9dc18"
+        "$ref": "#/$defs/Shared_5a76843a"
       },
       "cdif:isDefinedBy_Variable": {
-        "$ref": "#/$defs/Shared_67c3ba51"
+        "$ref": "#/$defs/Shared_e36a8e62"
       },
       "cdif:semantic": {
-        "$ref": "#/$defs/Shared_57a6c52b"
+        "$ref": "#/$defs/Shared_7e9a3f14"
       },
       "@type": {
         "type": "array",
@@ -6232,16 +6367,19 @@
           "enum": [
             "cdi:DimensionComponent"
           ]
-        }
+        },
+        "default": [
+          "cdi:DimensionComponent"
+        ]
       },
       "cdif:categoricalAdditivity": {
         "$ref": "#/$defs/Shared_008d4524"
       }
     },
-    "Shared_3fbb0739": {
+    "Shared_7b340835": {
       "description": "Role given to a represented variable in the context of a dimensional data structure to identify the universes associated with data points. The variable acts as a field in the compound identifier (the key structure) to disambiguate the cells in the multi-dimensional \"cube\".  AG: references to the variables which are the components of a compound identifier, in which each variable is a single field - an axis - in a coordinate system addressing a location in a matrix. These variables are often categorical, but also commonly include time. Unlike other Components, they may be ordered using instances of cdi:ComponentPosition.",
       "properties": {
-        "$ref": "#/$defs/Shared_e8e8276b"
+        "$ref": "#/$defs/Shared_d8306f9c"
       },
       "type": "object",
       "required": [
@@ -6249,19 +6387,19 @@
         "cdif:isDefinedBy_Variable"
       ]
     },
-    "Shared_6cd3864e": {
+    "Shared_e82ddf74": {
       "@id": {
         "type": "string",
         "description": "Identifier for this DataStructureComponent node"
       },
       "cdif:identifier": {
-        "$ref": "#/$defs/Shared_4de9dc18"
+        "$ref": "#/$defs/Shared_5a76843a"
       },
       "cdif:isDefinedBy_Variable": {
-        "$ref": "#/$defs/Shared_67c3ba51"
+        "$ref": "#/$defs/Shared_e36a8e62"
       },
       "cdif:semantic": {
-        "$ref": "#/$defs/Shared_57a6c52b"
+        "$ref": "#/$defs/Shared_7e9a3f14"
       },
       "@type": {
         "type": "array",
@@ -6270,13 +6408,16 @@
           "enum": [
             "cdi:VariableValueComponent"
           ]
-        }
+        },
+        "default": [
+          "cdi:VariableValueComponent"
+        ]
       }
     },
-    "Shared_9f138fb9": {
+    "Shared_5ac5b3f9": {
       "description": "Role given to a represented variable in the context of a data structure to record values of multiple variables.",
       "properties": {
-        "$ref": "#/$defs/Shared_6cd3864e"
+        "$ref": "#/$defs/Shared_e82ddf74"
       },
       "type": "object",
       "required": [
@@ -6298,43 +6439,43 @@
       ],
       "additionalProperties": false
     },
-    "Shared_854dc19f": {
+    "Shared_f5e6e42c": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_c90ee4f0"
+          "$ref": "#/$defs/Shared_813ef722"
         },
         {
           "$ref": "#/$defs/Shared_d565d2bc"
         }
       ]
     },
-    "Shared_b08b6d19": {
+    "Shared_5d6dd001": {
       "cdif:value": {
         "type": "string",
         "description": "The code value as it appears in the descriptor column."
       },
       "cdif:isDefinedBy": {
-        "$ref": "#/$defs/Shared_854dc19f"
+        "$ref": "#/$defs/Shared_f5e6e42c"
       }
     },
-    "Shared_024d475c": {
+    "Shared_3b396c0e": {
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_b08b6d19"
+        "$ref": "#/$defs/Shared_5d6dd001"
       },
       "required": [
         "cdif:value",
         "cdif:isDefinedBy"
       ]
     },
-    "Shared_b8ae9f61": {
+    "Shared_f01a7eee": {
       "type": "array",
       "description": "Ordered list of descriptor entries. Each entry has a cdif:value (the code as it appears in the descriptor column) and a cdif:isDefinedBy pointer to the RepresentedVariable that the code names.",
       "items": {
-        "$ref": "#/$defs/Shared_024d475c"
+        "$ref": "#/$defs/Shared_3b396c0e"
       }
     },
-    "Shared_386b5d39": {
+    "Shared_d7e44311": {
       "@type": {
         "type": "array",
         "items": {
@@ -6342,28 +6483,31 @@
           "enum": [
             "cdi:DescriptorValueDomain"
           ]
-        }
+        },
+        "default": [
+          "cdi:DescriptorValueDomain"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this DescriptorValueDomain node"
       },
       "cdif:takesValuesFrom": {
-        "$ref": "#/$defs/Shared_b8ae9f61"
+        "$ref": "#/$defs/Shared_f01a7eee"
       }
     },
-    "Shared_6ccb9629": {
+    "Shared_59e53b95": {
       "type": "object",
       "description": "A cdi:DescriptorValueDomain enumerating the codes that can appear in the descriptor column, each paired (via cdif:isDefinedBy) with the RepresentedVariable that the code names.",
       "properties": {
-        "$ref": "#/$defs/Shared_386b5d39"
+        "$ref": "#/$defs/Shared_d7e44311"
       },
       "required": [
         "@type",
         "cdif:takesValuesFrom"
       ]
     },
-    "Shared_1d5e6e5e": {
+    "Shared_cbf5f415": {
       "@type": {
         "type": "array",
         "items": {
@@ -6371,14 +6515,17 @@
           "enum": [
             "cdi:DescriptorVariable"
           ]
-        }
+        },
+        "default": [
+          "cdi:DescriptorVariable"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this DescriptorVariable node"
       },
       "cdif:hasValuesFrom": {
-        "$ref": "#/$defs/Shared_6ccb9629"
+        "$ref": "#/$defs/Shared_59e53b95"
       },
       "cdif:name": {
         "anyOf": [
@@ -6395,12 +6542,12 @@
         "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
       }
     },
-    "Shared_ff5bc929": {
+    "Shared_85739918": {
       "title": "DDI-CDI Descriptor Variable",
       "type": "object",
       "description": "Variable that provides codes for variable identification in the context of a data structure. Descriptor Variables hold values which reference the logical variables in the data set, indicating which one the associated value in the corresponding Reference Variable is a measure/value for. Descriptor Variables are presentational variables found only in Long Data Sets. EA models this as its own association (connector 345) rather than a formal redefinition of the inherited isDefinedBy (connector 429), but CDIF treats it as a redefinition: the variable a VariableDescriptorComponent is a role of IS its DescriptorVariable, so the inherited property is disallowed below rather than left available.",
       "properties": {
-        "$ref": "#/$defs/Shared_1d5e6e5e"
+        "$ref": "#/$defs/Shared_cbf5f415"
       },
       "required": [
         "@type",
@@ -6408,19 +6555,19 @@
         "cdif:name"
       ]
     },
-    "Shared_11806f01": {
+    "Shared_aab88957": {
       "@id": {
         "type": "string",
         "description": "Identifier for this DataStructureComponent node"
       },
       "cdif:identifier": {
-        "$ref": "#/$defs/Shared_4de9dc18"
+        "$ref": "#/$defs/Shared_5a76843a"
       },
       "cdif:isDefinedBy_Variable": {
-        "$ref": "#/$defs/Shared_67c3ba51"
+        "$ref": "#/$defs/Shared_e36a8e62"
       },
       "cdif:semantic": {
-        "$ref": "#/$defs/Shared_57a6c52b"
+        "$ref": "#/$defs/Shared_7e9a3f14"
       },
       "@type": {
         "type": "array",
@@ -6429,10 +6576,13 @@
           "enum": [
             "cdi:VariableDescriptorComponent"
           ]
-        }
+        },
+        "default": [
+          "cdi:VariableDescriptorComponent"
+        ]
       },
       "cdif:isDefinedBy_DescriptorVariable": {
-        "$ref": "#/$defs/Shared_ff5bc929"
+        "$ref": "#/$defs/Shared_85739918"
       },
       "cdi:refersTo": {
         "title": "Object Reference",
@@ -6450,10 +6600,10 @@
         "additionalProperties": false
       }
     },
-    "Shared_2b263ff2": {
+    "Shared_8a9738ed": {
       "description": "Role given to a represented variable in the context of a data structure to provide codes for variable identification.",
       "properties": {
-        "$ref": "#/$defs/Shared_11806f01"
+        "$ref": "#/$defs/Shared_aab88957"
       },
       "type": "object",
       "required": [
@@ -6461,22 +6611,22 @@
         "cdif:isDefinedBy_DescriptorVariable"
       ]
     },
-    "Shared_33905752": {
+    "Shared_8ba0f797": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_6123e739"
+          "$ref": "#/$defs/Shared_0c1095fb"
         },
         {
-          "$ref": "#/$defs/Shared_82b5c814"
+          "$ref": "#/$defs/Shared_d1898d0e"
         },
         {
-          "$ref": "#/$defs/Shared_3fbb0739"
+          "$ref": "#/$defs/Shared_7b340835"
         },
         {
-          "$ref": "#/$defs/Shared_9f138fb9"
+          "$ref": "#/$defs/Shared_5ac5b3f9"
         },
         {
-          "$ref": "#/$defs/Shared_2b263ff2"
+          "$ref": "#/$defs/Shared_8a9738ed"
         },
         {
           "title": "Object Reference",
@@ -6495,26 +6645,26 @@
         }
       ]
     },
-    "Shared_78fd01e6": {
+    "Shared_7ec28389": {
       "type": "array",
       "description": "The data structure components whose observations this attribute qualifies. Any component except another AttributeComponent, inline or by @id reference.",
       "items": {
-        "$ref": "#/$defs/Shared_33905752"
+        "$ref": "#/$defs/Shared_8ba0f797"
       }
     },
-    "Shared_16b4d70e": {
+    "Shared_e5345b4d": {
       "@id": {
         "type": "string",
         "description": "Identifier for this DataStructureComponent node"
       },
       "cdif:identifier": {
-        "$ref": "#/$defs/Shared_4de9dc18"
+        "$ref": "#/$defs/Shared_5a76843a"
       },
       "cdif:isDefinedBy_Variable": {
-        "$ref": "#/$defs/Shared_67c3ba51"
+        "$ref": "#/$defs/Shared_e36a8e62"
       },
       "cdif:semantic": {
-        "$ref": "#/$defs/Shared_57a6c52b"
+        "$ref": "#/$defs/Shared_7e9a3f14"
       },
       "@type": {
         "type": "array",
@@ -6523,50 +6673,53 @@
           "enum": [
             "cdi:AttributeComponent"
           ]
-        }
+        },
+        "default": [
+          "cdi:AttributeComponent"
+        ]
       },
       "cdif:qualifies": {
-        "$ref": "#/$defs/Shared_78fd01e6"
+        "$ref": "#/$defs/Shared_7ec28389"
       }
     },
-    "Shared_9706645a": {
+    "Shared_c87c5c12": {
       "description": "Role given to a represented variable in the context of a data structure to qualify observations or provide other types of supplementary information.",
       "properties": {
-        "$ref": "#/$defs/Shared_16b4d70e"
+        "$ref": "#/$defs/Shared_e5345b4d"
       },
       "type": "object",
       "required": [
         "@type"
       ]
     },
-    "Shared_7a8dcadb": {
+    "Shared_dda0ec06": {
       "title": "DDI-CDI Data Structure Component",
       "description": "Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.",
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_6123e739"
+          "$ref": "#/$defs/Shared_0c1095fb"
         },
         {
-          "$ref": "#/$defs/Shared_82b5c814"
+          "$ref": "#/$defs/Shared_d1898d0e"
         },
         {
-          "$ref": "#/$defs/Shared_9706645a"
+          "$ref": "#/$defs/Shared_c87c5c12"
         },
         {
-          "$ref": "#/$defs/Shared_3fbb0739"
+          "$ref": "#/$defs/Shared_7b340835"
         },
         {
-          "$ref": "#/$defs/Shared_9f138fb9"
+          "$ref": "#/$defs/Shared_5ac5b3f9"
         },
         {
-          "$ref": "#/$defs/Shared_2b263ff2"
+          "$ref": "#/$defs/Shared_8a9738ed"
         }
       ]
     },
-    "Shared_ecc4c243": {
+    "Shared_f5e9d099": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_7a8dcadb"
+          "$ref": "#/$defs/Shared_dda0ec06"
         },
         {
           "title": "Object Reference",
@@ -6585,25 +6738,25 @@
         }
       ]
     },
-    "Shared_620bc206": {
+    "Shared_e2ae6339": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_ecc4c243"
+        "$ref": "#/$defs/Shared_f5e9d099"
       }
     },
-    "Shared_bd8bf1cb": {
+    "Shared_8b026563": {
       "title": "CDIF Key",
       "description": "Variables in the structure that uniquely identify a record.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_b493f945"
+        "$ref": "#/$defs/Shared_625b86d9"
       },
       "required": [
         "@type",
         "cdif:isComposedOf"
       ]
     },
-    "Shared_2290baaa": {
+    "Shared_03c2405c": {
       "@type": {
         "type": "array",
         "items": {
@@ -6611,27 +6764,30 @@
           "enum": [
             "cdi:DataStructure"
           ]
-        }
+        },
+        "default": [
+          "cdi:DataStructure"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this DataStructure node"
       },
       "cdif:has_ForeignKey": {
-        "$ref": "#/$defs/Shared_31d76a7b"
+        "$ref": "#/$defs/Shared_a51ba04e"
       },
       "cdi:has_DataStructureComponent": {
-        "$ref": "#/$defs/Shared_620bc206"
+        "$ref": "#/$defs/Shared_e2ae6339"
       },
       "cdif:has_PrimaryKey": {
-        "$ref": "#/$defs/Shared_bd8bf1cb"
+        "$ref": "#/$defs/Shared_8b026563"
       }
     },
-    "Shared_29ffcd43": {
+    "Shared_3ddecdba": {
       "type": "object",
       "description": "Data organization based on reusable data structure components.",
       "properties": {
-        "$ref": "#/$defs/Shared_2290baaa"
+        "$ref": "#/$defs/Shared_03c2405c"
       },
       "required": [
         "@type"
@@ -6654,19 +6810,19 @@
         }
       ]
     },
-    "Shared_f85f8957": {
+    "Shared_fdaa1b3e": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_6123e739"
+          "$ref": "#/$defs/Shared_0c1095fb"
         },
         {
-          "$ref": "#/$defs/Shared_82b5c814"
+          "$ref": "#/$defs/Shared_d1898d0e"
         },
         {
-          "$ref": "#/$defs/Shared_9706645a"
+          "$ref": "#/$defs/Shared_c87c5c12"
         },
         {
-          "$ref": "#/$defs/Shared_3fbb0739"
+          "$ref": "#/$defs/Shared_7b340835"
         },
         {
           "title": "Object Reference",
@@ -6685,13 +6841,13 @@
         }
       ]
     },
-    "Shared_f70ed49d": {
+    "Shared_a02d3f66": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_f85f8957"
+        "$ref": "#/$defs/Shared_fdaa1b3e"
       }
     },
-    "Shared_9da197ed": {
+    "Shared_8dfa9b28": {
       "@type": {
         "type": "array",
         "items": {
@@ -6699,46 +6855,49 @@
           "enum": [
             "cdi:DimensionalDataStructure"
           ]
-        }
+        },
+        "default": [
+          "cdi:DimensionalDataStructure"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this DimensionalDataStructure node"
       },
       "cdi:has_DataStructureComponent": {
-        "$ref": "#/$defs/Shared_f70ed49d"
+        "$ref": "#/$defs/Shared_a02d3f66"
       },
       "cdif:has_PrimaryKey": {
-        "$ref": "#/$defs/Shared_bd8bf1cb"
+        "$ref": "#/$defs/Shared_8b026563"
       },
       "cdif:has_ForeignKey": {
-        "$ref": "#/$defs/Shared_31d76a7b"
+        "$ref": "#/$defs/Shared_a51ba04e"
       }
     },
-    "Shared_a0933976": {
+    "Shared_3e5dc456": {
       "type": "object",
       "description": "Structure of a dimensional data set (organized collection of multidimensional data). It is described by dimension, measure and attribute components.",
       "properties": {
-        "$ref": "#/$defs/Shared_9da197ed"
+        "$ref": "#/$defs/Shared_8dfa9b28"
       },
       "required": [
         "@type",
         "cdi:has_DataStructureComponent"
       ]
     },
-    "Shared_6f896399": {
+    "Shared_31919f90": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_6123e739"
+          "$ref": "#/$defs/Shared_0c1095fb"
         },
         {
-          "$ref": "#/$defs/Shared_2b263ff2"
+          "$ref": "#/$defs/Shared_8a9738ed"
         },
         {
-          "$ref": "#/$defs/Shared_9f138fb9"
+          "$ref": "#/$defs/Shared_5ac5b3f9"
         },
         {
-          "$ref": "#/$defs/Shared_9706645a"
+          "$ref": "#/$defs/Shared_c87c5c12"
         },
         {
           "title": "Object Reference",
@@ -6757,16 +6916,16 @@
         }
       ]
     },
-    "Shared_b1cbd30f": {
+    "Shared_070da46b": {
       "type": "array",
       "description": "A LongDataStructure must include exactly one IdentifierComponent, exactly one VariableDescriptorComponent, exactly one VariableValueComponent, plus zero or more AttributeComponents.",
       "items": {
-        "$ref": "#/$defs/Shared_6f896399"
+        "$ref": "#/$defs/Shared_31919f90"
       },
       "minContains": 1,
       "maxContains": 1
     },
-    "Shared_9810b715": {
+    "Shared_721331f5": {
       "@type": {
         "type": "array",
         "items": {
@@ -6774,40 +6933,43 @@
           "enum": [
             "cdi:LongDataStructure"
           ]
-        }
+        },
+        "default": [
+          "cdi:LongDataStructure"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this LongDataStructure node"
       },
       "cdi:has_DataStructureComponent": {
-        "$ref": "#/$defs/Shared_b1cbd30f"
+        "$ref": "#/$defs/Shared_070da46b"
       },
       "cdif:has_PrimaryKey": {
-        "$ref": "#/$defs/Shared_bd8bf1cb"
+        "$ref": "#/$defs/Shared_8b026563"
       }
     },
-    "Shared_3c359a45": {
+    "Shared_0cdae1bc": {
       "type": "object",
       "description": "Structure of a long dataset (organized collection of long data). It is described by identifier, measure, attribute, variable descriptor and variable value components.",
       "properties": {
-        "$ref": "#/$defs/Shared_9810b715"
+        "$ref": "#/$defs/Shared_721331f5"
       },
       "required": [
         "@type",
         "cdi:has_DataStructureComponent"
       ]
     },
-    "Shared_75a1975b": {
+    "Shared_9bf50de9": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_6123e739"
+          "$ref": "#/$defs/Shared_0c1095fb"
         },
         {
-          "$ref": "#/$defs/Shared_82b5c814"
+          "$ref": "#/$defs/Shared_d1898d0e"
         },
         {
-          "$ref": "#/$defs/Shared_9706645a"
+          "$ref": "#/$defs/Shared_c87c5c12"
         },
         {
           "title": "Object Reference",
@@ -6826,13 +6988,13 @@
         }
       ]
     },
-    "Shared_674fb22b": {
+    "Shared_d0110b65": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_75a1975b"
+        "$ref": "#/$defs/Shared_9bf50de9"
       }
     },
-    "Shared_4eb4ff71": {
+    "Shared_a84bf475": {
       "@type": {
         "type": "array",
         "items": {
@@ -6840,47 +7002,50 @@
           "enum": [
             "cdi:WideDataStructure"
           ]
-        }
+        },
+        "default": [
+          "cdi:WideDataStructure"
+        ]
       },
       "@id": {
         "type": "string",
         "description": "Identifier for this WideDataStructure node"
       },
       "cdi:has_DataStructureComponent": {
-        "$ref": "#/$defs/Shared_674fb22b"
+        "$ref": "#/$defs/Shared_d0110b65"
       },
       "cdif:has_PrimaryKey": {
-        "$ref": "#/$defs/Shared_bd8bf1cb"
+        "$ref": "#/$defs/Shared_8b026563"
       },
       "cdif:has_ForeignKey": {
-        "$ref": "#/$defs/Shared_31d76a7b"
+        "$ref": "#/$defs/Shared_a51ba04e"
       }
     },
-    "Shared_4d407dac": {
+    "Shared_6f68f7ea": {
       "type": "object",
       "description": "Structure of a wide dataset (organized collection of wide data). It is described by identifier, measure and attribute components.",
       "properties": {
-        "$ref": "#/$defs/Shared_4eb4ff71"
+        "$ref": "#/$defs/Shared_a84bf475"
       },
       "required": [
         "@type",
         "cdi:has_DataStructureComponent"
       ]
     },
-    "Shared_1f41784e": {
+    "Shared_5b1b9414": {
       "description": "Reusable data-structure description for this distribution. One of the four DataStructure variants (DataStructure, Dimensional, Long, Wide) as an inline definition, or an @id reference to one declared elsewhere in the document or published at a resolvable URI. (A profile may further require the inline form via SHACL.)",
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_29ffcd43"
+          "$ref": "#/$defs/Shared_3ddecdba"
         },
         {
-          "$ref": "#/$defs/Shared_a0933976"
+          "$ref": "#/$defs/Shared_3e5dc456"
         },
         {
-          "$ref": "#/$defs/Shared_3c359a45"
+          "$ref": "#/$defs/Shared_0cdae1bc"
         },
         {
-          "$ref": "#/$defs/Shared_4d407dac"
+          "$ref": "#/$defs/Shared_6f68f7ea"
         },
         {
           "title": "Object Reference",
@@ -6899,31 +7064,31 @@
         }
       ]
     },
-    "Shared_1a8da14a": {
+    "Shared_c2579f17": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_1f41784e"
+        "$ref": "#/$defs/Shared_5b1b9414"
       }
     },
-    "Shared_2e73b8e8": {
+    "Shared_884b553e": {
       "anyOf": [
         {
-          "$ref": "#/$defs/Shared_1f41784e"
+          "$ref": "#/$defs/Shared_5b1b9414"
         },
         {
-          "$ref": "#/$defs/Shared_1a8da14a"
+          "$ref": "#/$defs/Shared_c2579f17"
         }
       ]
     },
-    "Shared_65dcb523": {
+    "Shared_eb0e69f7": {
       "cdi:isStructuredBy": {
-        "$ref": "#/$defs/Shared_2e73b8e8"
+        "$ref": "#/$defs/Shared_884b553e"
       }
     },
-    "Shared_725a99c5": {
+    "Shared_b4b42b26": {
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_65dcb523"
+        "$ref": "#/$defs/Shared_eb0e69f7"
       }
     }
   },
@@ -6987,12 +7152,12 @@
           "type": "object",
           "properties": {
             "cdi:isStructuredBy": {
-              "$ref": "#/$defs/Shared_2e73b8e8"
+              "$ref": "#/$defs/Shared_884b553e"
             },
             "schema:hasPart": {
               "type": "array",
               "items": {
-                "$ref": "#/$defs/Shared_725a99c5"
+                "$ref": "#/$defs/Shared_b4b42b26"
               }
             },
             "schema:potentialAction": {
@@ -7001,7 +7166,7 @@
                 "type": "object",
                 "properties": {
                   "schema:result": {
-                    "$ref": "#/$defs/Shared_725a99c5"
+                    "$ref": "#/$defs/Shared_b4b42b26"
                   }
                 }
               }

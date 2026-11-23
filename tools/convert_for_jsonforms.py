@@ -369,6 +369,18 @@ def simplify_contains_to_enum(schema: Any) -> Any:
                 enum_vals = [contains["const"]]
             elif "enum" in contains:
                 enum_vals = contains["enum"]
+            elif "anyOf" in contains and isinstance(contains["anyOf"], list):
+                # contains: {anyOf: [{const: A}, {const: B}]} -- a choice of markers.
+                # contains is popped unconditionally above, so without this branch the
+                # constraint left the form schema entirely rather than becoming an enum
+                # (schema:variableMeasured, which offers PropertyValue or
+                # PropertyValueSpecification).
+                branch_consts = [
+                    b["const"]
+                    for b in contains["anyOf"]
+                    if isinstance(b, dict) and "const" in b
+                ]
+                enum_vals = branch_consts or None
             else:
                 enum_vals = None
 
@@ -377,6 +389,13 @@ def simplify_contains_to_enum(schema: Any) -> Any:
                     result["items"] = {"type": "string"}
                 if isinstance(result["items"], dict):
                     result["items"]["enum"] = enum_vals
+                # The hand-written layout has no control for a type marker, so a person
+                # filling the form cannot supply one: pre-populate it. ONE member
+                # satisfies a contains, so the default is the first value only -- unlike
+                # the allOf branch below, where each contains must be met and so every
+                # collected value is defaulted.
+                if "default" not in result:
+                    result["default"] = [enum_vals[0]]
 
         # Handle allOf with contains patterns (e.g., @type requiring multiple values)
         if "allOf" in result and result.get("type") == "array":
