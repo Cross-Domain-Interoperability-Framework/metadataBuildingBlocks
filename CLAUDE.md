@@ -131,11 +131,15 @@ that wires them to a Dataset, and it is **the only slice-adding module in no com
 `profile-access-draft` and the 12th sync target. Four of the eight ODRL blocks and `cdifAccess`
 itself still have no `tests/`.
 
-**Six workflows, and three of them write to the repo.** `check-schema-drift.yml` (the regeneration
-gate, below), `process-bblocks.yml` (the OGC postprocessor; auto-commits `build/` as "Building
-blocks postprocessing"), `generate-jsonforms.yml` (auto-commits as "Generate JSON Forms schemas"),
-`deploy-viewer.yml` (publishes the record viewer), `check-release-drift.yml` (this repo's blocks vs
-the release repos' copies), `pr-check.yml`.
+**Eight workflows, and three of them write to the repo.** `check-schema-drift.yml` (the
+regeneration gate, below), `process-bblocks.yml` (the OGC postprocessor; auto-commits `build/` as
+"Building blocks postprocessing"), `generate-jsonforms.yml` (auto-commits as "Generate JSON Forms
+schemas"), `deploy-viewer.yml` (publishes the record viewer), `check-release-drift.yml` (this
+repo's blocks vs the release repos' copies), `check-examples.yml`,
+`check-jsonforms-reproducible.yml` (regenerates the form schemas three times under different
+`PYTHONHASHSEED` values and compares; added 2026-11-23), `pr-check.yml`. This said **six** and
+listed six until that date, having omitted `check-examples.yml` — so count the directory rather
+than trusting the sentence.
 
 **The record viewer is a deployed Flask app living in this repo**, not a side script:
 `tools/cdif_viewer_app.py` plus `tools/cdif_record_to_html.py`, `requirements-viewer.txt`,

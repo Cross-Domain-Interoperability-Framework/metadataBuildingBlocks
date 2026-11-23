@@ -1,0 +1,114 @@
+# Fail when convert_for_jsonforms.py does not produce the same bytes twice.
+#
+# This is the failure that produced 9b02b22447. _recursive_def_names returns a
+# set, and the kept $defs were emitted by iterating it, so their order varied
+# between processes under hash randomization. Two runs on identical input
+# differed by 4146 lines, and generate-jsonforms.yml committed that churn into a
+# 60 MB artifact on every push for months. Nothing noticed, because the artifact
+# is far too large for anyone to read its diff and no check compared a run to
+# another run.
+#
+# It also cost real time once found, by impersonating something else: it
+# presented as DRIFT. Regenerating with the unmodified tool against an unchanged
+# tree moved 3175 lines, which reads exactly like the stale-artifact case that
+# check-schema-drift.yml exists for, and the documented response to that is to
+# split a catch-up commit. The tell was that insertions equalled deletions.
+#
+# Note what this check does NOT do: it never compares output to the committed
+# artifact. build/jsonforms is generated and committed by generate-jsonforms.yml
+# after a push, so a contributor is not expected to regenerate it, and a
+# currency gate here would fail every pull request that edits a schema. The
+# property being defended is reproducibility, which is a property of the tool
+# rather than of the tree -- which is also why this runs on a pull request that
+# touches nothing but the converter.
+name: Check JSON Forms output is reproducible
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - 'tools/convert_for_jsonforms.py'
+      - '_sources/profiles/cdifCompositeProfile/**/resolvedSchema.json'
+      - '_sources/jsonforms/**'
+      - '.github/workflows/check-jsonforms-reproducible.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jsonforms-reproducible-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regenerate-twice:
+    name: Regenerate twice and compare
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      # Three runs, each a separate process with an EXPLICIT and different
+      # PYTHONHASHSEED.
+      #
+      # Separate processes because that is the only place this can vary: a
+      # str's hash is fixed for the life of a process, so regenerating twice
+      # inside one would agree even with the defect present.
+      #
+      # Explicit differing seeds rather than the runner's own randomization
+      # because the collection at issue holds only 8 names, and two randomly
+      # seeded runs can order 8 items identically by luck -- that is a silently
+      # passing check, the exact failure mode this file is here to end. Pinning
+      # one seed for all three runs would do the same thing more thoroughly, so
+      # do not "stabilise" this by setting PYTHONHASHSEED once.
+      - name: Regenerate three times under different hash seeds
+        run: |
+          set -euo pipefail
+          for seed in 0 1 2; do
+            echo "::group::run with PYTHONHASHSEED=$seed"
+            PYTHONHASHSEED=$seed python tools/convert_for_jsonforms.py --all
+            cp -r build/jsonforms "$RUNNER_TEMP/run-$seed"
+            echo "::endgroup::"
+          done
+
+      - name: Compare the runs
+        run: |
+          set -euo pipefail
+          status=0
+          for seed in 1 2; do
+            if ! diff -r "$RUNNER_TEMP/run-0" "$RUNNER_TEMP/run-$seed" \
+                 > "$RUNNER_TEMP/delta-$seed" 2>&1; then
+              status=1
+              echo "::error::Converter output depends on PYTHONHASHSEED (0 vs $seed)."
+              echo "Files that differ:"
+              diff -rq "$RUNNER_TEMP/run-0" "$RUNNER_TEMP/run-$seed" | sed 's/^/  /' || true
+              echo
+              echo "Changed lines: $(grep -c '^[<>]' "$RUNNER_TEMP/delta-$seed" || true)"
+              echo
+              # Truncated, unlike check-schema-drift.yml's diff. A reviewer there
+              # has to judge whether drift is real; here the verdict is already
+              # known -- the output is not reproducible -- and the useful part is
+              # which file and roughly how much, not 60 MB of reordering.
+              echo "===== first 80 lines ====="
+              head -80 "$RUNNER_TEMP/delta-$seed"
+            fi
+          done
+          if [ "$status" -ne 0 ]; then
+            echo
+            echo "An unordered collection is reaching the output. Sort it where it"
+            echo "is emitted, not where it is built: _recursive_def_names returns a"
+            echo "set by design, and inline_refs_and_merge_allof sorts it when"
+            echo "writing \$defs."
+            exit 1
+          fi
+          echo "Three runs under hash seeds 0, 1 and 2 produced identical output."
