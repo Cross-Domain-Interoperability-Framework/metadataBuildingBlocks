@@ -846,6 +846,12 @@ referencing the code-list concept).
             cdi:content 26882 ;
             cdi:typeOfNumericValue "decimal" ] ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 3739 ;
+                    cdi:typeOfNumericValue "decimal" ] ;
+            cdif:typeOfStatistic "frequency" ],
+        [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/mics/mwi2019/codelist/HH14-missing/sysmiss> ;
             cdi:statistic [ cdi:computationBase "MissingOnly" ;
                     cdi:content 1463 ;
@@ -855,12 +861,6 @@ referencing the code-list concept).
             cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/1> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 108 ;
-                    cdi:typeOfNumericValue "decimal" ] ;
-            cdif:typeOfStatistic "frequency" ],
-        [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/mics/mwi2019/codelist/HH14-language/3> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 3739 ;
                     cdi:typeOfNumericValue "decimal" ] ;
             cdif:typeOfStatistic "frequency" ],
         [ a cdi:CategoryStatistics ;
@@ -1491,7 +1491,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.cdifDataType.cdifInstanceVariable
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.2'
-  dateOfLastChange: '2026-11-21'
+  dateOfLastChange: '2026-11-23'
 
 ```
 
