@@ -1403,26 +1403,50 @@ def uischema_protected_paths(uischema: Any) -> set:
     reason. Nodes strictly BELOW a scope are fair game: the converter already
     ships $refs there (xasDocument referenced #/$defs/Concept 2048 times before
     this pass existed) and the form renders them.
+
+    An options.detail re-bases its children: a detail renderer resolves its inner
+    scopes against the ARRAY ITEM, so `#/properties/schema:affiliation` inside
+    the creator array's detail means creator/items/properties/schema:affiliation.
+    Those paths are protected too, items included. Protecting only the outer
+    scope left schema:contributor's items hoisted into a $ref, which is the one
+    position where a detail renderer would have had to resolve one.
     """
     protected = {()}
-    scopes = []
 
-    def collect(node: Any) -> None:
+    def add(path: tuple) -> None:
+        for i in range(len(path) + 1):
+            protected.add(path[:i])
+
+    def walk(node: Any, bases: tuple) -> None:
         if isinstance(node, dict):
             scope = node.get("scope")
+            fulls = bases
             if isinstance(scope, str):
-                scopes.append(scope)
-            for value in node.values():
-                collect(value)
+                segments = tuple(s for s in scope.lstrip("#").split("/") if s)
+                fulls = tuple(base + segments for base in bases)
+                for full in fulls:
+                    add(full)
+            options = node.get("options")
+            detail = options.get("detail") if isinstance(options, dict) else None
+            if detail is not None:
+                # An object detail resolves against the node itself, an array
+                # detail against its items; protect both rather than guess.
+                child_bases = tuple(f + ("items",) for f in fulls) + fulls
+                for child in child_bases:
+                    add(child)
+                walk(detail, child_bases)
+            for key, value in node.items():
+                if key != "options":
+                    walk(value, bases)
+            if isinstance(options, dict):
+                for key, value in options.items():
+                    if key != "detail":
+                        walk(value, bases)
         elif isinstance(node, list):
             for value in node:
-                collect(value)
+                walk(value, bases)
 
-    collect(uischema)
-    for scope in scopes:
-        segments = [s for s in scope.lstrip("#").split("/") if s]
-        for i in range(len(segments) + 1):
-            protected.add(tuple(segments[:i]))
+    walk(uischema, ((),))
     return protected
 
 

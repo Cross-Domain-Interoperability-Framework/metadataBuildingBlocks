@@ -769,7 +769,35 @@
       "description": "other parties who played a role in production of dataset",
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Shared_1fb24a12"
+        "type": "object",
+        "properties": {
+          "@type": {
+            "type": "string",
+            "default": "schema:Person"
+          },
+          "schema:name": {
+            "type": "string"
+          },
+          "schema:identifier": {
+            "type": "string",
+            "description": "ORCID or other identifier"
+          },
+          "schema:affiliation": {
+            "type": "object",
+            "properties": {
+              "schema:name": {
+                "type": "string"
+              }
+            }
+          },
+          "schema:roleName": {
+            "type": "string",
+            "description": "Role of the contributor"
+          }
+        },
+        "required": [
+          "schema:name"
+        ]
       }
     },
     "schema:publisher": {
@@ -840,7 +868,50 @@
             "description": "identifier for a particular grant",
             "type": "object",
             "properties": {
-              "$ref": "#/$defs/Shared_12347cff"
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "schema:PropertyValue"
+                  ]
+                },
+                "default": [
+                  "schema:PropertyValue"
+                ]
+              },
+              "schema:propertyID": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "title": "Object Reference",
+                    "description": "A reference to a node defined elsewhere, by its @id.",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "resolvable @id of the referenced node"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ],
+                    "additionalProperties": false
+                  }
+                ],
+                "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
+              },
+              "schema:value": {
+                "type": "string",
+                "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+              },
+              "schema:url": {
+                "type": "string",
+                "format": "uri",
+                "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+              }
             },
             "required": [
               "@type"
@@ -1818,7 +1889,53 @@
           }
         ],
         "properties": {
-          "$ref": "#/$defs/Shared_7c3698b4"
+          "@type": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "schema:DefinedTerm"
+              ]
+            },
+            "default": [
+              "schema:DefinedTerm"
+            ]
+          },
+          "schema:name": {
+            "type": "string",
+            "description": "text label for the term that is useful to human user"
+          },
+          "schema:identifier": {
+            "type": "string",
+            "description": "Identifier"
+          },
+          "schema:inDefinedTermSet": {
+            "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "title": "Object Reference",
+                "description": "A reference to a node defined elsewhere, by its @id.",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "resolvable @id of the referenced node"
+                  }
+                },
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "schema:termCode": {
+            "type": "string",
+            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+          }
         },
         "required": [
           "@type"
@@ -3768,39 +3885,34 @@
         "schema:linkRelationship"
       ]
     },
-    "Shared_176f7fbb": {
-      "@type": {
-        "type": "string",
-        "default": "schema:Person"
-      },
-      "schema:name": {
-        "type": "string"
-      },
-      "schema:identifier": {
-        "type": "string",
-        "description": "ORCID or other identifier"
-      },
-      "schema:affiliation": {
-        "type": "object",
-        "properties": {
-          "schema:name": {
-            "type": "string"
-          }
+    "Shared_2567d203": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "title": "Object Reference",
+          "description": "A reference to a node defined elsewhere, by its @id.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "resolvable @id of the referenced node"
+            }
+          },
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false
         }
-      },
-      "schema:roleName": {
-        "type": "string",
-        "description": "Role of the contributor"
-      }
-    },
-    "Shared_1fb24a12": {
-      "type": "object",
-      "properties": {
-        "$ref": "#/$defs/Shared_176f7fbb"
-      },
-      "required": [
-        "schema:name"
       ]
+    },
+    "Shared_ad446641": {
+      "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Shared_2567d203"
+      }
     },
     "Shared_122938fb": {
       "anyOf": [
@@ -3849,35 +3961,6 @@
         "type": "string",
         "format": "uri",
         "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-      }
-    },
-    "Shared_2567d203": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "title": "Object Reference",
-          "description": "A reference to a node defined elsewhere, by its @id.",
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "resolvable @id of the referenced node"
-            }
-          },
-          "required": [
-            "@id"
-          ],
-          "additionalProperties": false
-        }
-      ]
-    },
-    "Shared_ad446641": {
-      "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/Shared_2567d203"
       }
     },
     "Shared_4fe3bb73": {
@@ -4042,6 +4125,40 @@
       "description": "Organization that owns this instrument.",
       "required": [
         "@type"
+      ]
+    },
+    "Shared_176f7fbb": {
+      "@type": {
+        "type": "string",
+        "default": "schema:Person"
+      },
+      "schema:name": {
+        "type": "string"
+      },
+      "schema:identifier": {
+        "type": "string",
+        "description": "ORCID or other identifier"
+      },
+      "schema:affiliation": {
+        "type": "object",
+        "properties": {
+          "schema:name": {
+            "type": "string"
+          }
+        }
+      },
+      "schema:roleName": {
+        "type": "string",
+        "description": "Role of the contributor"
+      }
+    },
+    "Shared_1fb24a12": {
+      "type": "object",
+      "properties": {
+        "$ref": "#/$defs/Shared_176f7fbb"
+      },
+      "required": [
+        "schema:name"
       ]
     },
     "Shared_4d80dc06": {

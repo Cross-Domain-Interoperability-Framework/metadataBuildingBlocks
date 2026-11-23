@@ -792,7 +792,50 @@
             "description": "identifier for a particular grant",
             "type": "object",
             "properties": {
-              "$ref": "#/$defs/Shared_12347cff"
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "schema:PropertyValue"
+                  ]
+                },
+                "default": [
+                  "schema:PropertyValue"
+                ]
+              },
+              "schema:propertyID": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "title": "Object Reference",
+                    "description": "A reference to a node defined elsewhere, by its @id.",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "resolvable @id of the referenced node"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ],
+                    "additionalProperties": false
+                  }
+                ],
+                "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
+              },
+              "schema:value": {
+                "type": "string",
+                "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+              },
+              "schema:url": {
+                "type": "string",
+                "format": "uri",
+                "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+              }
             },
             "required": [
               "@type"
@@ -1757,55 +1800,6 @@
         "skos:inScheme"
       ]
     },
-    "Shared_122938fb": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "title": "Object Reference",
-          "description": "A reference to a node defined elsewhere, by its @id.",
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "resolvable @id of the referenced node"
-            }
-          },
-          "required": [
-            "@id"
-          ],
-          "additionalProperties": false
-        }
-      ],
-      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
-    },
-    "Shared_12347cff": {
-      "@type": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "enum": [
-            "schema:PropertyValue"
-          ]
-        },
-        "default": [
-          "schema:PropertyValue"
-        ]
-      },
-      "schema:propertyID": {
-        "$ref": "#/$defs/Shared_122938fb"
-      },
-      "schema:value": {
-        "type": "string",
-        "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-      },
-      "schema:url": {
-        "type": "string",
-        "format": "uri",
-        "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-      }
-    },
     "Shared_6c636ddd": {
       "description": "Either construct, or both. A labeled link is a schema:CreativeWork at a URL; a dcat:Relationship is DCAT's association class for a typed relation to another resource. A node may declare both -- CDIF's own relation examples do -- but NEITHER IS REQUIRED TO ACCOMPANY THE OTHER.\nThat is the whole point of the anyOf. Until 2026-09-08 this block's Relation half required contains: dcat:Relationship while the labeled-link half required contains: schema:CreativeWork, and under allOf both applied to every instance, so an ordinary labeled link was unsatisfiable. Of profile-core's licenses the 29 plain strings and 1 @id-reference passed while the 10 that followed schema.org's own recommendation -- \"use schema:CreativeWork to provide a label (name) for the license\" -- failed. 412782113 fixed that by deleting the dcat:Relationship mandate outright, which left the JSON Schema with no notion of dcat:Relationship at all while rules.shacl went on targeting it as a class. A pure DCAT relation then met a SHACL requirement with no schema counterpart. This anyOf restores the type to the schema WITHOUT restoring the conjunction.",
       "default": [
@@ -2022,6 +2016,55 @@
         "required": [
           "schema:url"
         ]
+      }
+    },
+    "Shared_122938fb": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "title": "Object Reference",
+          "description": "A reference to a node defined elsewhere, by its @id.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "resolvable @id of the referenced node"
+            }
+          },
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
+    },
+    "Shared_12347cff": {
+      "@type": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "schema:PropertyValue"
+          ]
+        },
+        "default": [
+          "schema:PropertyValue"
+        ]
+      },
+      "schema:propertyID": {
+        "$ref": "#/$defs/Shared_122938fb"
+      },
+      "schema:value": {
+        "type": "string",
+        "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+      },
+      "schema:url": {
+        "type": "string",
+        "format": "uri",
+        "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
       }
     },
     "Shared_d543d439": {
