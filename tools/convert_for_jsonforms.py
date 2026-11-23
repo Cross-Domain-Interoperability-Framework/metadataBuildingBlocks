@@ -25,6 +25,7 @@ Usage:
 
 import argparse
 import copy
+import hashlib
 import json
 import re
 import shutil
@@ -194,8 +195,12 @@ def inline_refs_and_merge_allof(schema: dict) -> dict:
     # Keep only the recursive $defs (the rest were inlined). Resolve each kept
     # def so its non-recursive refs inline while its recursive refs stay $refs.
     if recursive:
+        # sorted(): `recursive` is a set, so iterating it directly ordered $defs by
+        # set-iteration order, which varies between processes under hash
+        # randomization. Two runs on identical input differed by ~4000 lines, and
+        # the CI job committed that churn into a 60 MB artifact on every push.
         resolved["$defs"] = {
-            name: _resolve(copy.deepcopy(defs[name])) for name in recursive
+            name: _resolve(copy.deepcopy(defs[name])) for name in sorted(recursive)
         }
     else:
         resolved.pop("$defs", None)
@@ -1355,6 +1360,118 @@ def convert_additional_type_to_oneof(schema: Any) -> Any:
 
 
 # ---------------------------------------------------------------------------
+# Shared-subtree hoisting
+# ---------------------------------------------------------------------------
+
+# A subtree must be at least this many bytes to be worth a $ref.
+HOIST_MIN_BYTES = 300
+
+
+def _shape_key(node: Any) -> str:
+    """Content hash of a subtree, independent of key order."""
+    return hashlib.sha1(
+        json.dumps(node, sort_keys=True, ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
+
+
+def uischema_protected_paths(uischema: Any) -> set:
+    """Key paths a layout control resolves through, as tuples, with ancestors.
+
+    A control's "scope" is a JSON pointer into the schema. Replacing any node on
+    such a path with a $ref would make that control resolve through a reference,
+    which JSON Forms does not handle reliably at every position -- the existing
+    top-level @type enum strip in convert_profile_schema is there for the same
+    reason. Nodes strictly BELOW a scope are fair game: the converter already
+    ships $refs there (xasDocument referenced #/$defs/Concept 2048 times before
+    this pass existed) and the form renders them.
+    """
+    protected = {()}
+    scopes = []
+
+    def collect(node: Any) -> None:
+        if isinstance(node, dict):
+            scope = node.get("scope")
+            if isinstance(scope, str):
+                scopes.append(scope)
+            for value in node.values():
+                collect(value)
+        elif isinstance(node, list):
+            for value in node:
+                collect(value)
+
+    collect(uischema)
+    for scope in scopes:
+        segments = [s for s in scope.lstrip("#").split("/") if s]
+        for i in range(len(segments) + 1):
+            protected.add(tuple(segments[:i]))
+    return protected
+
+
+def hoist_shared_subtrees(schema: dict, protected: set = frozenset({()})) -> dict:
+    """Replace repeated subtrees with $refs into $defs.
+
+    Inlining every $ref gives one shape per USE SITE, so a shared definition is
+    re-emitted everywhere it appears. In xasDocument that put the same subtree in
+    the output up to 1554 times and 98.6% of subtrees over 2KB were duplicates,
+    for 18.4MB of compact JSON (60MB on disk, indented). Hoisting each repeated
+    shape into $defs once takes that to about 0.2MB with no change in meaning.
+    """
+    seen: dict = {}
+
+    def tally(node: Any) -> None:
+        if isinstance(node, dict):
+            key = _shape_key(node)
+            entry = seen.get(key)
+            if entry is None:
+                seen[key] = [1, len(json.dumps(node, ensure_ascii=False))]
+            else:
+                entry[0] += 1
+            for value in node.values():
+                tally(value)
+        elif isinstance(node, list):
+            for value in node:
+                tally(value)
+
+    tally(schema)
+
+    # Names derive from the content hash, not from traversal order, so an
+    # unrelated edit elsewhere cannot renumber every definition.
+    names = {
+        key: f"Shared_{key[:8]}"
+        for key, (count, size) in sorted(seen.items())
+        if count > 1 and size >= HOIST_MIN_BYTES
+    }
+    if not names:
+        return schema
+
+    hoisted: dict = {}
+
+    def rewrite(node: Any, path: tuple, in_def: bool) -> Any:
+        if isinstance(node, dict):
+            key = _shape_key(node)
+            name = names.get(key)
+            if name is not None and (in_def or path not in protected):
+                if name not in hoisted:
+                    # Expand the definition once. Inside it nothing is on a
+                    # layout scope, so nested shapes may hoist freely.
+                    hoisted[name] = {
+                        k: rewrite(v, (), True) for k, v in node.items()
+                    }
+                return {"$ref": f"#/$defs/{name}"}
+            return {k: rewrite(v, path + (k,), in_def) for k, v in node.items()}
+        if isinstance(node, list):
+            # Scopes never address a branch of anyOf/oneOf/allOf by index, so the
+            # path does not advance here; that only over-protects, never under-.
+            return [rewrite(v, path, in_def) for v in node]
+        return node
+
+    result = {k: rewrite(v, (k,), False) for k, v in schema.items()}
+    existing = result.get("$defs")
+    result["$defs"] = {**(existing if isinstance(existing, dict) else {}), **hoisted}
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Main conversion pipeline
 # ---------------------------------------------------------------------------
 
@@ -1366,7 +1483,9 @@ def convert_profile_schema(
     Convert a single profile's resolvedSchema.json to JSON Forms Draft 7.
 
     Input:  _sources/profiles/{profile}/resolvedSchema.json
-    Output: Fully simplified schema with no $ref, no $defs, Draft 7 compatible.
+    Output: Simplified Draft 7 schema. $refs into $defs remain for recursive
+            types, which cannot be inlined, and for shapes repeated often enough
+            to be worth hoisting (see hoist_shared_subtrees).
     """
     schema_path = _find_resolved_schema(profile_name)
 
@@ -1404,6 +1523,16 @@ def convert_profile_schema(
         at_type = schema["properties"]["@type"]
         if "items" in at_type and isinstance(at_type["items"], dict):
             at_type["items"].pop("enum", None)
+
+    # Last: the passes above all assume a fully inlined tree, so sharing must not
+    # be reintroduced until they have run.
+    uischema_path = _find_sources_dir(profile_name) / "uischema.json"
+    protected = (
+        uischema_protected_paths(load_json(uischema_path))
+        if uischema_path.exists()
+        else frozenset({()})
+    )
+    schema = hoist_shared_subtrees(schema, protected)
 
     return schema
 
