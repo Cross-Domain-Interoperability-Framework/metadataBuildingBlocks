@@ -696,6 +696,22 @@ their refs are resolved over the network at their build time, not ours.
   Now `cdifd:agentInRoleDefinedTermShape` and `cdifd:spatialExtentDefinedTermShape`, with
   `definedTerm` keeping the canonical name; the merged graph gives 3 shapes at 1 or-list each and
   per-file verdicts are unchanged across four cases.
+  **`cdifd:nameProperty` is the same defect again and is NOT fixed (2026-11-24).** THREE files
+  declare it -- `cdifCore`, `schemaorgProperties/organization`, `schemaorgProperties/person` --
+  identical but for the message ("for the dataset", "for the Organization", "for the person"), each
+  with `sh:minLength 3` on `schema:name`. Measured in the emitted `cdifCore` bundle, which does
+  `$ref` both person and organization and carries `cdifd:CDIFOrganizationShape` and
+  `cdifd:CDIFPersonShape`, so both files load: `cdifd:nameProperty` comes out with **ONE**
+  `sh:message` and one `sh:minLength`, the dataset one. The other two are silently dropped. So a
+  Person with a two-character name is told *"a name for the dataset must be provided"*, and
+  **editing organization's or person's copy changes nothing** while cdifCore's is the survivor --
+  the fix has to de-collide the URIs first, the way `CDIFDefinedTermShape` was. Note de-colliding
+  alone makes things worse: it brings person's floor of 3 to life, and `Li`, `Ng` and `Wu` are
+  surnames. The length floor on `schema:name` at 3 recurs in about ten more shapes
+  (`definedTermSet`, `instrument`, `monetaryGrant`, `provActivity`, `statisticalVariable`,
+  `xasFacility`, `xasInstrument`, `xasSample`, ...). `cdifd:name3Property` and
+  `cdifd:name2Property` are NOT in that set: both are `sh:Warning` and ask *"is this name
+  useful?"*, which is advisory by design -- leave them.
   **Consolidating onto `definedTerm`'s copy was the obvious fix and would have lost coverage** --
   its SPARQL VALUES list does not include `schema:roleName`, where `agentInRole`'s DefinedTerms
   sit, nor `schema:alternateName`, where `spatialExtent`'s do. Widening that list to cover every
