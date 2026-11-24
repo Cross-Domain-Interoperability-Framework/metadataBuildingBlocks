@@ -1,0 +1,8 @@
+{
+  "$schema": "https://w3id.org/cdif/schema/conformance-declaration/0.2",
+  "conformsTo": "https://w3id.org/cdif/access/2.0",
+  "title": "CDIF Access profile",
+  "description": "Marked by an ODRL policy: odrl:hasPolicy on a schema:distribution item, or a schema:conditionsOfAccess item on the dataset that is itself described in the record as an odrl:Offer. The schema also accepts a bare {@id} in schema:conditionsOfAccess that points at a policy published elsewhere; that cannot be told from a reference to any other terms page, so it is NOT counted and such a record is not detected. The address is marked OPEN (not minted) in schema.yaml. DRAFT; not reviewed.",
+  "presence": "PREFIX odrl: <http://www.w3.org/ns/odrl/2/>\nASK {\n  { ?d schema:distribution ?dd . ?dd odrl:hasPolicy ?p }\n  UNION\n  { ?d a schema:Dataset ; schema:conditionsOfAccess ?p . ?p a odrl:Offer }\n}",
+  "validityShapes": null
+}

@@ -478,10 +478,19 @@ supports (`detect_conformance`: presence ASK + per-class content SHACL), in
   "profile X: PASSED" for an over-claimed X describes a profile the record was never
   going to satisfy.
 - **Under-declaring** is advisory.
-- Only the six profiles `detect_conformance` can emit are compared (core, discovery,
-  data_description, data_structure, provenance, manifest). A record declaring
-  `codelist/1.1` or `complexCitation/0.1` is reported as *not checked*, never as an
-  over-claim — no rule exists that could produce those.
+- **Which profiles get compared depends on the rule source, and the two sources differ.**
+  The in-code `CONFORMANCE_CLASSES` registry holds **seven** classes — core, discovery,
+  data_description, data_structure, provenance, manifest, plus `niaid/1.0` — and that is
+  the default. A record declaring something no rule can produce, `complexCitation/0.1`
+  say, is reported as *not checked* rather than as an over-claim. With `--from-source`
+  (`CDIF_CONFORMANCE_FROM_SOURCE=1`) the rules come instead from this repo's **11**
+  `conformance.json` sidecars, which add `access/2.0`, `codelist/2.0`,
+  `conceptscheme/2.0` and `xasCore/1.2` — so a codelist record *is* compared in that
+  mode and was not before. The sidecars are the superset: those four have no in-code
+  equivalent, and they are the whole difference between the two sources (measured
+  2026-11-24). `load_bb_conformance` globs the sidecars from a working tree, so an
+  uncommitted sidecar changes what one checkout detects and nothing else — which is why
+  they are tracked.
 - Both halves are read from the **source** document, never the framed one. Framing
   drops evidence below `schema:distribution`, so detecting from a framed result
   under-reports and manufactures over-claims for correct records.
