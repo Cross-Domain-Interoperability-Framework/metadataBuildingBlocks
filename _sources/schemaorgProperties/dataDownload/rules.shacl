@@ -8,9 +8,28 @@
 @base <https://www.ogc.org/rules/template/> .
 
 
+# A schema:DataDownload must say where to get it -- EXCEPT an action result.
+# An action result (the object of schema:result on a schema:Action) is typed
+# schema:DataDownload but describes the response a web service generates per
+# request, which has no fixed URL; the actionResult block's own schema states
+# this, and requiring a contentUrl of it would fail every WebAPI distribution
+# that documents its response format -- the webAPI examples here among them.
+# So the target is every DataDownload that is NOT an action result, selected
+# the same way action/rules.shacl separates an operation from a workflow step:
+# by context, without reading the property under test. The url pattern and
+# datatype still apply wherever a contentUrl is present.
 cdifd:CDIFDataDownloadShape
     a sh:NodeShape ;
-    sh:targetClass schema:DataDownload ;
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            PREFIX schema: <http://schema.org/>
+            SELECT ?this WHERE {
+                ?this a schema:DataDownload .
+                FILTER NOT EXISTS { ?action schema:result ?this }
+            }
+        """ ;
+    ] ;
 	sh:property [
     	sh:path schema:contentUrl;
     	sh:minCount 1 ;
