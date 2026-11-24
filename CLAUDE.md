@@ -597,6 +597,31 @@ their refs are resolved over the network at their build time, not ours.
   does not. Not deduplicated, because removing either copy risks the rule going silent for a
   consumer that refs only one of the two blocks -- the move wants its own change, done the way
   `cdifd:tabularTextDataSetMappingsShape` was moved.
+  **A third instance of the same class, found from geochem on 2026-11-24 and fixed the same day:**
+  `cdifd:termLabelProperty` carried `sh:minLength 3` on a DefinedTerm's `schema:name`, so `He`,
+  `O2`, `Ka`, `Kb`, `La`, `Lb` and `No` were rejected -- 18 such labels in gBB's
+  `_sources/registry/vocab/`, **every one the canonical form**. `Ka` IS the name of the K-alpha
+  line; padding it to clear a length check falsifies the vocabulary, and element symbols would hit
+  it the moment a target species is emitted as a DefinedTerm. Lowered to 1 (not dropped -- 1 still
+  rejects `""`, as with `cdif:physicalDataType`), in all three copies, with the message corrected
+  since it recited the number. **This repo's corpus is structurally incapable of catching it:
+  0 of 258 DefinedTerm nodes in mBB examples have a name under three characters**, so the
+  `schema:Action` lesson repeats -- the domain repos are where it surfaces.
+  The message half bit too, exactly as this trap predicts. The floor sits inside a NODE-level
+  `sh:or`, so a failure reports the node shape's own generic *"A Term must have a name (label) or
+  an identifier. It should have both!."* with an empty `sh:resultPath` and `sh:value` equal to the
+  focus node -- sending the reader hunting for an unnamed term that does not exist. That message
+  cannot be split the way `physicalDataType` was: the `sh:or` is what makes "name OR identifier"
+  work, so fixing it means restructuring the NodeShape and was left alone.
+  **The three copies share one shape URI and are NOT the same shape**, which is worth knowing
+  before anyone edits them again. `agentInRole` and `spatialExtent` use
+  `sh:targetClass schema:DefinedTerm` with a 2-branch `sh:or`; `definedTerm` uses a scoped
+  `sh:SPARQLTarget` (DefinedTerms in named predicate positions) with a 3-branch `sh:or` that adds
+  `schema:termCode`. Measured: a standalone `{name "No"}` node is a Violation under the first two
+  and is **not selected at all** by the third -- so `definedTerm`'s copy was never enforcing this
+  on a root node, and a green result there meant nothing. A bundle pulling in two of the files
+  merges both targets AND both or-lists onto one shape URI, which makes the constraint *stricter*
+  rather than looser. Not tested, not fixed.
 
 - **A rule can ask for the wrong property and look like a data problem for as long as nobody
   counts.** `schemaorgProperties/instrument` required `schema:category` for an instrument's
