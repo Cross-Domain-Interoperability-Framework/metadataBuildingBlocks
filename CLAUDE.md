@@ -696,18 +696,44 @@ their refs are resolved over the network at their build time, not ours.
   Now `cdifd:agentInRoleDefinedTermShape` and `cdifd:spatialExtentDefinedTermShape`, with
   `definedTerm` keeping the canonical name; the merged graph gives 3 shapes at 1 or-list each and
   per-file verdicts are unchanged across four cases.
-  **`cdifd:nameProperty` is the same defect again and is NOT fixed (2026-11-24).** THREE files
-  declare it -- `cdifCore`, `schemaorgProperties/organization`, `schemaorgProperties/person` --
-  identical but for the message ("for the dataset", "for the Organization", "for the person"), each
-  with `sh:minLength 3` on `schema:name`. Measured in the emitted `cdifCore` bundle, which does
-  `$ref` both person and organization and carries `cdifd:CDIFOrganizationShape` and
-  `cdifd:CDIFPersonShape`, so both files load: `cdifd:nameProperty` comes out with **ONE**
-  `sh:message` and one `sh:minLength`, the dataset one. The other two are silently dropped. So a
-  Person with a two-character name is told *"a name for the dataset must be provided"*, and
-  **editing organization's or person's copy changes nothing** while cdifCore's is the survivor --
-  the fix has to de-collide the URIs first, the way `CDIFDefinedTermShape` was. Note de-colliding
-  alone makes things worse: it brings person's floor of 3 to life, and `Li`, `Ng` and `Wu` are
-  surnames. The length floor on `schema:name` at 3 recurs in about ten more shapes
+  **`cdifd:nameProperty` was the same defect again, in THREE files, and is fixed (2026-11-24).**
+  `cdifCore`, `schemaorgProperties/organization` and `schemaorgProperties/person` all declared that
+  URI, identical but for the message ("for the dataset", "for the Organization", "for the person"),
+  each with `sh:minLength 3` on `schema:name`. Now `cdifd:nameProperty` (cdifCore, the canonical
+  keeper), `cdifd:organizationNameProperty` and `cdifd:personNameProperty`, all three floors at 1 --
+  matching the house style already in `roleNameProperty`, `grantNameProperty` and
+  `additionalPropertyNameProperty`.
+  **The merge was repo-wide, not a cdifCore curiosity: 26 of 76 bundles collapsed two or three
+  definitions into one** -- 7 at three (`cdifCore`, `cdifComplete`, `CoreDiscovery`,
+  `DiscoveryDataDescription`, `DiscoveryDataDescriptionStructure`, `cdifNIAID`, `xasDocument`) and
+  19 at two, among them `agentInRole`, `monetaryGrant`, `dataDownload` and `person` itself, which
+  reach organization and person but not cdifCore -- so in those the survivor was arbitrary between
+  the two. The emitted `cdifCore` bundle went **927 -> 939 triples** on the fix, +12 with nothing
+  added to the sources: exactly two property shapes' worth of definition that had been discarded.
+  **The reason this survived is that `validate_examples.py` parses each `rules.shacl` into its OWN
+  graph.** A cross-file URI collision is structurally invisible to the local gate and visible only
+  in an emitted bundle -- which is what a consumer actually gets. 168 passed / 0 failed / 0 errors
+  and 0 violations / 187 warnings / 200 info either side of this change, so the gate said nothing
+  while a third of the register was collapsing shapes.
+  **What a short name reported before the fix was NOT the dataset message** -- an earlier note here
+  said a Person with a two-character name was told *"a name for the dataset must be provided"*, and
+  that was wrong. cdifCore's use is a direct `sh:property` on the Dataset shape, but organization's
+  and person's sit inside an `sh:or` branch, and SHACL reports the NODE-level message for an `sh:or`
+  failure. So `Li` got *"A person must have a name or an identifier provided"* and `BP` got
+  *"Organization must have an @id IRI, a name or an identifier that is a string"* -- both denying
+  the existence of a name that was right there, the same message defect as `termLabelProperty` and
+  fixed the same way, by making the message name the non-empty requirement rather than by splitting
+  it. Measured with a case harness against the emitted bundle: `Li`, `BP` and `ab` flip from
+  Violation to clean; empty `""` and absent stay Violation in all three. **De-colliding alone would
+  have made things worse** -- it brings person's floor of 3 to life with its own message, and `Li`,
+  `Ng` and `Wu` are surnames -- so the de-collision and the floors had to land together.
+  Nothing downstream constrained it: every `name-fail.json` asserts `schema:name = 42`, a type
+  failure rather than a length one, so `test_fail_cases.py --strict` holds at 133 of 133, and no
+  `geochemBuildingBlocks` baseline keys on any of the three messages. Seven release bundles still
+  carry the old text (`profile-core`, `profile-access`, `profile-niaid`, `profile-provenance`,
+  `doc-corediscovery`, `doc-discoverydatadescription`, `doc-discoverydatadescriptionstructure`) --
+  check their logs for a re-emit rather than trusting this sentence.
+  The length floor on `schema:name` at 3 still recurs in about ten more shapes
   (`definedTermSet`, `instrument`, `monetaryGrant`, `provActivity`, `statisticalVariable`,
   `xasFacility`, `xasInstrument`, `xasSample`, ...). `cdifd:name3Property` and
   `cdifd:name2Property` are NOT in that set: both are `sh:Warning` and ask *"is this name

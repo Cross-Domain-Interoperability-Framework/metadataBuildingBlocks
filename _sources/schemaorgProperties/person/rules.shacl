@@ -19,12 +19,12 @@ cdifd:CDIFPersonShape
 			sh:message "a person should have an identifier that is a URI; use of ORCID is strongly encouraged" ; 
 			];
 		]
-		[sh:property cdifd:nameProperty ;]
+		[sh:property cdifd:personNameProperty ;]
 	);
 	
 	sh:property cdifd:contactPointProperty ;
 	sh:property cdifd:affiliationProperty ;
-	sh:message "A person must have a name or an identifier provided; affiliation to an organization is recommended." 
+	sh:message "A person must have a non-empty schema:name or an identifier; a name that is present but empty does not satisfy this. Affiliation to an organization is recommended." 
 	.
 
 cdifd:CDIFContactPointShape
@@ -102,13 +102,13 @@ cdifd:affiliationProperty
     sh:message "Optional: an affiliation must have object schema:Organization" 
     .
 
-cdifd:nameProperty
+cdifd:personNameProperty
 # names must be a literal, .
     a sh:PropertyShape ;
     sh:path schema:name;
 	sh:minCount 1 ;
     sh:datatype xsd:string ;
-	sh:minLength 3 ;
+	sh:minLength 1 ;
 	# sh:severity sh:Warning ;
-    sh:message "a name for the person must be provided, and have a length of at least 3 characters." 
+    sh:message "a name for the person must be provided, and must not be empty." 
     .
