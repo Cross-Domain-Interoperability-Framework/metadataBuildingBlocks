@@ -608,20 +608,32 @@ their refs are resolved over the network at their build time, not ours.
   0 of 258 DefinedTerm nodes in mBB examples have a name under three characters**, so the
   `schema:Action` lesson repeats -- the domain repos are where it surfaces.
   The message half bit too, exactly as this trap predicts. The floor sits inside a NODE-level
-  `sh:or`, so a failure reports the node shape's own generic *"A Term must have a name (label) or
-  an identifier. It should have both!."* with an empty `sh:resultPath` and `sh:value` equal to the
-  focus node -- sending the reader hunting for an unnamed term that does not exist. That message
-  cannot be split the way `physicalDataType` was: the `sh:or` is what makes "name OR identifier"
-  work, so fixing it means restructuring the NodeShape and was left alone.
-  **The three copies share one shape URI and are NOT the same shape**, which is worth knowing
-  before anyone edits them again. `agentInRole` and `spatialExtent` use
-  `sh:targetClass schema:DefinedTerm` with a 2-branch `sh:or`; `definedTerm` uses a scoped
-  `sh:SPARQLTarget` (DefinedTerms in named predicate positions) with a 3-branch `sh:or` that adds
-  `schema:termCode`. Measured: a standalone `{name "No"}` node is a Violation under the first two
-  and is **not selected at all** by the third -- so `definedTerm`'s copy was never enforcing this
-  on a root node, and a green result there meant nothing. A bundle pulling in two of the files
-  merges both targets AND both or-lists onto one shape URI, which makes the constraint *stricter*
-  rather than looser. Not tested, not fixed.
+  `sh:or`, so a failure reports the node shape's own message with an empty `sh:resultPath` and
+  `sh:value` equal to the focus node. It used to read *"A Term must have a name (label) or an
+  identifier. It should have both!."*, which sent the reader hunting for an unnamed term that did
+  not exist. **The message cannot be split the way `physicalDataType` was** -- the `sh:or` is what
+  makes "name OR identifier" work, and SHACL reports the node-level message for an `sh:or` failure
+  whatever the branches say -- so the fix was to make it TRUE instead: it now names the non-empty
+  requirement, so a reader whose term has a present-but-empty name is pointed at the right thing.
+  Restructuring the NodeShape to report a precise path is still open, and still the only way to
+  get `sh:resultPath` populated.
+  **The three copies no longer share a URI** (fixed 2026-11-24, same pass). They had all been
+  `cdifd:CDIFDefinedTermShape` while being three different shapes: `agentInRole` and
+  `spatialExtent` with `sh:targetClass schema:DefinedTerm` and a 2-branch `sh:or`, `definedTerm`
+  with a scoped `sh:SPARQLTarget` (DefinedTerms under `schema:linkRelationship`,
+  `measurementTechnique`, `keywords`, `name`) and a 3-branch `sh:or` adding `schema:termCode`.
+  Measured in a merged graph of the three: **one URI carrying 3 `sh:or` lists and 3 targets**, so a
+  bundle pulling in two files enforced the CONJUNCTION -- stricter than any file intended, silently.
+  Now `cdifd:agentInRoleDefinedTermShape` and `cdifd:spatialExtentDefinedTermShape`, with
+  `definedTerm` keeping the canonical name; the merged graph gives 3 shapes at 1 or-list each and
+  per-file verdicts are unchanged across four cases.
+  **Consolidating onto `definedTerm`'s copy was the obvious fix and would have lost coverage** --
+  its SPARQL VALUES list does not include `schema:roleName`, where `agentInRole`'s DefinedTerms
+  sit, nor `schema:alternateName`, where `spatialExtent`'s do. Widening that list to cover every
+  consumer is the same unmaintainable move as a type-list target, so both files keep their own
+  `sh:targetClass`. `cdifd:termLabelProperty` is still shared by all three and that is fine: the
+  three definitions are byte-identical, so merging them is a no-op -- it is a shared URI with
+  *differing* definitions that is the defect, not a shared URI as such.
 
 - **A rule can ask for the wrong property and look like a data problem for as long as nobody
   counts.** `schemaorgProperties/instrument` required `schema:category` for an instrument's
