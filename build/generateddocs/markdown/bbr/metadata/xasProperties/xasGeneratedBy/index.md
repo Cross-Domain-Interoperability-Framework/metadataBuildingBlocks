@@ -1047,10 +1047,14 @@ Example XAS GeneratedBy provenance activity
 ex:exampleGeneratedBy_w46j6j a schema1:Action,
         prov:Activity ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "calibration method" ;
-            schema1:propertyID xas:calibrationmethod ;
-            schema1:url "http://protocols.io/link/to/calibrationMethod" ;
-            schema1:value "description of calibration procedure" ],
+            schema1:name "Edge energy" ;
+            schema1:propertyID xas:edgeenergy ;
+            schema1:unitText "eV" ;
+            schema1:value "12658.0" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Installed Options" ;
+            schema1:propertyID xas:installedoptions ;
+            schema1:value "Description of extra equipment installed on the base instrument(?)" ],
         [ a schema1:PropertyValue ;
             schema1:description "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential" ;
             schema1:name "Environment Pressure" ;
@@ -1058,14 +1062,10 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
             schema1:unitText "KPa" ;
             schema1:value "3567" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Installed Options" ;
-            schema1:propertyID xas:installedoptions ;
-            schema1:value "Description of extra equipment installed on the base instrument(?)" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Edge energy" ;
-            schema1:propertyID xas:edgeenergy ;
-            schema1:unitText "eV" ;
-            schema1:value "12658.0" ],
+            schema1:name "calibration method" ;
+            schema1:propertyID xas:calibrationmethod ;
+            schema1:url "http://protocols.io/link/to/calibrationMethod" ;
+            schema1:value "description of calibration procedure" ],
         [ a schema1:PropertyValue ;
             schema1:name "Instrument configuration" ;
             schema1:propertyID xas:experimentdocumentation ;
@@ -1101,21 +1101,17 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                 schema1:Thing,
                 prov:Entity ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "harmonic_rejection" ;
-                    schema1:propertyID xas:harmonicrejection ;
-                    schema1:value "Rh-coated mirror, detuned" ],
+                    schema1:name "X-ray source" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
+                    schema1:value "Synchrotron X-ray Source" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "beamline collimation" ;
-                    schema1:propertyID xas:collimation ;
-                    schema1:value "none" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "focusing" ;
-                    schema1:propertyID xas:focusing ;
-                    schema1:value "unknown" ] ;
-            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
+                    schema1:name "Probe" ;
+                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-probe-field> ;
+                    schema1:value "x-ray" ] ;
+            schema1:additionalType xas:source,
                 wd:Q3099911 ;
-            schema1:identifier "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D" ;
-            schema1:name "13-BM-D" ],
+            schema1:identifier "https://www.aps.anl.gov/Beamlines/Directory/source/13-BM" ;
+            schema1:name "APS bending magnet source" ],
         [ a schema1:Product,
                 schema1:Thing,
                 prov:Entity ;
@@ -1144,24 +1140,33 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                 schema1:Thing,
                 prov:Entity ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "Probe" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-probe-field> ;
-                    schema1:value "x-ray" ],
+                    schema1:name "focusing" ;
+                    schema1:propertyID xas:focusing ;
+                    schema1:value "unknown" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "X-ray source" ;
-                    schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
-                    schema1:value "Synchrotron X-ray Source" ] ;
-            schema1:additionalType xas:source,
+                    schema1:name "beamline collimation" ;
+                    schema1:propertyID xas:collimation ;
+                    schema1:value "none" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "harmonic_rejection" ;
+                    schema1:propertyID xas:harmonicrejection ;
+                    schema1:value "Rh-coated mirror, detuned" ] ;
+            schema1:additionalType <https://manual.nexusformat.org/classes/base_classes/NXinstrument.html>,
                 wd:Q3099911 ;
-            schema1:identifier "https://www.aps.anl.gov/Beamlines/Directory/source/13-BM" ;
-            schema1:name "APS bending magnet source" ] ;
+            schema1:identifier "https://www.aps.anl.gov/Beamlines/Directory/13-BM-D" ;
+            schema1:name "13-BM-D" ] ;
     schema1:location ex:xasfacility_37yht ;
     schema1:object [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "Stoichiometry" ;
-                    schema1:propertyID xas:samplechemicalcomposition ;
-                    schema1:value "Na2SeO4" ],
+                    schema1:name "Material state" ;
+                    schema1:propertyID xas:samplematerial ;
+                    schema1:value "solid metal foil" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Sample mass" ;
+                    schema1:propertyID xas:samplemass ;
+                    schema1:unitText "mg" ;
+                    schema1:value "10" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "Sample preparation" ;
                     schema1:propertyID xas:samplepreparation ;
@@ -1172,26 +1177,21 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                     schema1:unitText "percent" ;
                     schema1:value "27" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "Sample mass" ;
-                    schema1:propertyID xas:samplemass ;
-                    schema1:unitText "mg" ;
-                    schema1:value "10" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "Unit cell" ;
                     schema1:propertyID xas:sampleunitcell ;
                     schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "Point group" ;
-                    schema1:propertyID xas:pointgroup ;
-                    schema1:value "mm2" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "Parent sample" ;
                     schema1:propertyID xas:parentsample ;
                     schema1:value "igsn:10.3476/342573" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "Material state" ;
-                    schema1:propertyID xas:samplematerial ;
-                    schema1:value "solid metal foil" ] ;
+                    schema1:name "Point group" ;
+                    schema1:propertyID xas:pointgroup ;
+                    schema1:value "mm2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Stoichiometry" ;
+                    schema1:propertyID xas:samplechemicalcomposition ;
+                    schema1:value "Na2SeO4" ] ;
             schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
                 "MaterialSample" ;
             schema1:description "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list..." ;
@@ -1201,11 +1201,6 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
 
 ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Facility energy" ;
-            schema1:propertyID xas:facilityenergy ;
-            schema1:unitText "GeV" ;
-            schema1:value "7.00" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Facility current" ;
             schema1:propertyID xas:facilitycurrent ;
             schema1:unitText "Amps" ;
@@ -1213,7 +1208,12 @@ ex:xasfacility_37yht a schema1:Place ;
         [ a schema1:PropertyValue ;
             schema1:name "X-ray Source" ;
             schema1:propertyID <https://manual.nexusformat.org/classes/base_classes/NXsource.html#nxsource-type-field> ;
-            schema1:value "APS bending magnet" ] ;
+            schema1:value "APS bending magnet" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Facility energy" ;
+            schema1:propertyID xas:facilityenergy ;
+            schema1:unitText "GeV" ;
+            schema1:value "7.00" ] ;
     schema1:additionalType xas:facility ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .
@@ -1371,7 +1371,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.xasProperties.xasGeneratedBy
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '1.0'
-  dateOfLastChange: '2026-11-23'
+  dateOfLastChange: '2026-11-24'
 
 ```
 
