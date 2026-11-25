@@ -128,8 +128,8 @@ in #54 and given SHACL in #56. The eight blocks are `odrlPolicy`, `odrlOffer`, `
 `odrlAction`, `odrlAsset`, `odrlParty`, `odrlConstraint`, `odrlTerms`; `cdifAccess` is the module
 that wires them to a Dataset, and it is **the only slice-adding module in no composite** (measured
 2026-10-28, re-measured across all six on 2026-11-12 -- no composite `$ref`s it), so there is no `cdifComplete`-style record that exercises it. It ships to `profile-access`, published as
-`profile-access-draft` and the 12th sync target. Four of the eight ODRL blocks and `cdifAccess`
-itself still have no `tests/`.
+`profile-access-draft`, one of the 14 sync targets (count `REPOS`, not this sentence). Four of the
+eight ODRL blocks and `cdifAccess` itself still have no `tests/`.
 
 **Eight workflows, and three of them write to the repo.** `check-schema-drift.yml` (the
 regeneration gate, below), `process-bblocks.yml` (the OGC postprocessor; auto-commits `build/` as
@@ -954,8 +954,14 @@ their refs are resolved over the network at their build time, not ours.
   was a present defect, because 0 of 86 `resolvedSchema.json` fail a cp1252 read (a UTF-8 em-dash
   is `e2 80 94` and cp1252 defines all three bytes, so it mojibakes rather than crashing).
 
-- **`generate_property_tree2.py` runs again as of 2026-11-12, and you should still not regenerate
-  the workbooks.** Two separate things, and conflating them wastes the fix. It had been dead since
+- **`generate_property_tree2.py` regenerated every workbook on 2026-11-25, and the caution this
+  entry used to open with ("you should still not regenerate the workbooks") is spent.** It was
+  about row-count explosion and the openpyxl round-trip, neither of which turned out to be a veto:
+  the duplication profile is the honest check and it stayed in band, and the round-trip left all
+  **60** hand-curated sheets across the five existing workbooks byte-equal in content. What the
+  pass cost was five generator changes, below, and what it bought is a workbook for all **15**
+  blocks plus one in each of the **14** release targets. Two separate things follow, and conflating
+  them wastes the fix. It had been dead since
   **2026-05-28, 804 commits**: `3c2f5291b9` rewrote its targets to the `Basic*` directories and
   changed the workbook basenames to `Basic{Discovery,DataDescription}_properties.xlsx`, names that
   have **never existed** (`git rev-list --all --objects` finds 0 objects for either), so
@@ -963,9 +969,21 @@ their refs are resolved over the network at their build time, not ours.
   the real one; then `9ea41db485` renamed the directories and it died outright with
   `FileNotFoundError`. Targets are now discovered by scanning for `resolvedSchema.json`, and the
   workbook by globbing `*_properties.xlsx` -- **never** `<dirname>_properties.xlsx`, because the
-  two that exist are `CDIFDiscovery_properties.xlsx` and `CDIFDataDescriptionProfile_properties.xlsx`
-  and a name-derived path misses both and duplicates them. That is the mistake `3c2f5291b9` made;
-  do not reinstate a hardcoded table.
+  names in the tree do not follow that pattern: `CDIFDiscovery_properties.xlsx` and
+  `CDIFDataDescriptionProfile_properties.xlsx` under `cdifCompositeProfile`, and a name-derived
+  path misses both and duplicates them. That is the mistake `3c2f5291b9` made; do not reinstate a
+  hardcoded table. **"the two that exist" was this sentence's own wording until 2026-11-25 and was
+  wrong as a repo-wide count** -- it was true of `cdifCompositeProfile`, which is the only place
+  the tool looked. There were **5**: the other three, under `cdifProfile`, were `cdifCore`,
+  `cdifDataDescription` and `cdifProvenance`, and they had no target entry at all -- `cdifCore`'s
+  `propertyTree_2` was still 12 columns wide, from a `MAX_DEPTH` of 5, and the other two had no
+  such sheet. There are **15 now**, one per block, because `discover_targets` walks both profile
+  families and the 2026-11-25 pass created the ten that were missing. **Both of those numbers are
+  the kind this file keeps getting wrong, so count the directory rather than reading either.** The
+  glob still spares the hand-maintained siblings that no tool generates
+  (`cdifCorePropertiesBrief.xlsx`, `CDIFDiscovery_schema_summary.xlsx`,
+  `CDIFDataDescription_schema_summary.xlsx`), and **it must keep sparing them**: it raises rather
+  than guess if a directory ever holds two matches.
   **Fixing the plumbing was not fixing the output, and that gap lasted one PR.** #86 made the tool
   execute; its tree was still wrong, because the walker read only `type` and resolved nothing.
   `resolve_schema.py` resolves EXTERNAL refs into `$defs` and leaves the internal ones, so a
@@ -1001,9 +1019,82 @@ their refs are resolved over the network at their build time, not ours.
   the run aborted partway down the target list, which looks like a crash and is really a partial
   write. Fixed 2026-11-12 by loading from an in-memory copy, which needs no temp file and holds no
   handle. Note what the tool still does: it round-trips the **whole** workbook through openpyxl, so
-  anything openpyxl does not model is lost from every other sheet. Measured harmless here only
-  because neither live workbook carries charts or images; check that again before pointing it at a
-  workbook someone has formatted.
+  anything openpyxl does not model is lost from every other sheet. **"Measured harmless because
+  neither live workbook carries charts or images" was measured on the two composite workbooks --
+  the only ones the tool then targeted -- and it does not hold.** Settled 2026-11-25:
+  `cdifProfile/cdifCore/cdifCore_properties.xlsx` carries two hand-written TextBox legends
+  (`xl/drawings/drawing1.xml`, `drawing2.xml`) explaining the suffix conventions, one on
+  `propertyTree` and one on `propertyTree_2`.
+  **The failure is not a clean drop, which is why it would not have been noticed.** Measured on
+  openpyxl 3.2.0b1: a plain load/save preserves both drawings, but the tool's own
+  delete-then-recreate of a sheet **deletes that sheet's drawing outright** (and the recreated
+  sheet moves to the end of the sheet order), while the drawing on an **untouched** sheet survives
+  as a file with **only its first text run** -- `'[..]'` in place of
+  `'[..] -- value is an array (JSON list)object -- value is an object, properties not expanded
+  here.'` A truncated legend reads as an intact one.
+  Cell content is unaffected, and that is the distinction to hold onto: 60 of 60 hand-curated
+  sheets came through with identical rows and identical label sets. It is the **non-cell** content
+  that goes. So the legend now ships as cells on the `notes` sheet, where regeneration cannot
+  truncate it. Before pointing this tool at a workbook someone has formatted, check
+  `xl/drawings/`, `xl/media/` and `xl/charts/` in the zip -- `openpyxl.load_workbook` will not tell
+  you, and a diff of cell values will not either.
+  **The `notes` sheet churns by design, so a regeneration diff is not evidence of a schema
+  change.** Checked 2026-11-25 with `PYTHONHASHSEED` 1 against 999: `propertyTree_2` is
+  **byte-stable** (309 rows, identical hash -- no set-ordering nondeterminism of the kind
+  `convert_for_jsonforms.py` had), and of the 33 `notes` rows the **only** one that moves between
+  two runs at the same commit is `Generated (UTC)`. Across runs at *different* commits
+  `Repository HEAD at generation` and `Generator commit` move too. So re-running the tool always
+  produces a diff in all 15 workbooks even when no schema changed; the committed artifacts stay
+  honest because they record the HEAD that was current when they were generated, and nothing under
+  `_sources` changed afterwards. **Do not regenerate to "check for drift"** -- that is what
+  re-reading the `notes` sheet is for. Nothing in CI covers this tool, so the stability above is
+  measured, not enforced.
+
+- **A walker written against COMPOSITES is wrong for MODULES, and the thin output reads as a
+  small block rather than a broken walker.** Settled 2026-11-25, generating a spreadsheet for every
+  block instead of the two composites that had one. `collect_root_properties` walked root
+  `properties` plus root `allOf`, which is sufficient for a composite **only** because
+  `deep_merge` always lands a module's slice in the root `allOf` -- a property of the resolver, not
+  of JSON Schema. A standalone module carries its own applicators at the root: `cdifDataStructure`
+  has root `if`/`then`/`else` and **no `allOf` at all**, so the whole module rendered as **3 rows
+  and 5 labels**, and `cdifAccess` has a root `anyOf`. It now walks every root applicator
+  (`ROOT_APPLICATORS`): cdifDataStructure **3 -> 2034 rows, 5 -> 188 labels**, with the other eight
+  modules and all six composites unchanged in the properties they collect.
+  Separately, `resolve_node` now treats a node with `properties` and no `type` as an object --
+  `merge_allof` and `merge_refinement` already `setdefault` that for the nodes they build, so a
+  node reaching neither kept no type and `emit_property`, which dispatches on `type == "object"`,
+  dropped it to the bare-name fallback with its children unexpanded. `cdifAccess` is the measured
+  case: a **refinement** module, so `schema:subjectOf` is `{properties: {...}}` with no type.
+  **6 -> 148 rows.**
+  **Both of those feed release repos** (`profile-datastructure`, `profile-access`), so a 3-row and
+  a 6-row spreadsheet would have shipped as published artifacts describing nothing.
+
+- **Two constraints were invisible to the tree, and only a label-level diff against a
+  HAND-EDITED sheet found them.** Same pass. `cdifCore`'s `propertyTree_2` was hand-maintained
+  (212 rows at 12 columns, predating `MAX_DEPTH` 6), and 23 of its 82 labels had no counterpart in
+  the regenerated sheet. Twenty-one were the source's own typos (`schem:httpMethod`,
+  `schemaWebAPI`, `string(date0`, `--[ CHOICE]`), formatting variants, renderings the generator
+  makes more precise, or claims the schema does not make -- `@type (contains schema:Action)` and
+  `(contains schema:DataFeed)` are `contains` consts **nowhere** in cdifCore, and
+  `schema:dateModified -- string(date)` over-claimed a format the schema does not declare
+  (`sdDatePublished` does carry `format: date`, and renders correctly). **The remaining two were
+  real, and both were repo-wide:**
+  - `contains_pin` now reads the **sealed-reference** shape as well as a direct const. The catalog
+    record's `schema:additionalType` pins `dcat:CatalogRecord` through
+    `contains.properties.@id.const`, which nothing read -- so a load-bearing constraint
+    (`ConformanceValidate.extract_conforms_to` **skips a node that lacks it**) appeared nowhere.
+    It is applied from a wrapper, `emit_property` -> `emit_property_rows`, because a `contains`
+    applies whatever the value's type is and the body returns from a dozen places.
+  - `type_option_label` now names the other permitted `@type` tokens. **A typed object's `@type`
+    is never emitted as a property row** -- the pin goes in the parent row's options column and
+    `@type` is then excluded from the children -- so an `enum` there had nowhere to appear.
+    `Organization` pins `schema:Organization` and permits nine subtypes besides
+    (`schema:FundingAgency`, `schema:Consortium`, ...), which the hand sheet recorded and the
+    generated one silently dropped.
+  The lesson is the diff, not the two fixes: **a label-level comparison against older, even
+  sloppier, output is what surfaced them**, and a row count would not have. Check each unmatched
+  label against the schema before writing any of them off as stale -- most were, and two were the
+  tool's.
 
 - **A profile can declare properties outside `properties`, and a walker that reads only that
   keyword loses them without a trace.** `cdifDataStructure/schema.yaml` declares
@@ -1176,10 +1267,26 @@ repos, `w3id.org`, `cdifbook`, `cdifnexmetadata` or the `cdif-umlmodel` mirror.
   **merge is the release**: Pages republishes at merge time, before the tag exists. Local clones
   are on `updates`, and `tools/sync_release_repos.py --apply` writes into whichever branch is
   checked out — check first. The old `reviewRevision202606` branches are now `archive202609`.
-  There are **12 sync targets** as of 2026-10-28, and two are exceptions: `profile-provenance` is
-  still in review, untagged, still on the old branch with Pages sourced from it; `profile-access` is
-  a draft, published under the repo name `profile-access-draft` while the local clone is
-  `profile-access`, so the name is load-bearing and `sync_release_repos.py` says so in a comment.
+  There are **14 sync targets** as of 2026-11-25 -- count `REPOS` in `sync_release_repos.py`
+  rather than trusting a number here, which has been stale twice. They are 13 `profile-*` / `doc-*`
+  clones **plus `XAS-CDIF/release`**, which is easy to miss because it is not named like the others,
+  lives in a subdirectory, and sits in a different GitHub org (`CDIF-4-XAS/XAS-CDIF`, not
+  `Cross-Domain-Interoperability-Framework`). Its `origin` also carries **two pushurls** -- the
+  `smrgeoinfo` fork and upstream -- so one `git push origin updates` lands in both, by design.
+  Three are exceptions, and the first two have `updates` on neither clone nor origin:
+  - **`profile-access`** is a draft, published as `profile-access-draft` while the local clone is
+    `profile-access`, so the name is load-bearing and `sync_release_repos.py` says so in a comment.
+  - **`profile-provenance` is ALSO published under a `-draft` name** --
+    `profile-provenance-draft` -- which this entry recorded for access alone until 2026-11-25.
+    It is still in review and untagged, but **the old review branch is gone from origin**: a
+    `ls-remote --heads` on 2026-11-25 showed `main` and nothing else, so the sentence that said it
+    is "still on the old branch" no longer describes anything. Pages publishes from its `main`,
+    which makes a push there release-affecting even though the repo is unreleased.
+  - **`profile-niaid`** had `main` checked out while `origin/updates` existed; work belongs on
+    `updates` like the rest.
+  A clone's local `main` is routinely stale here -- six of the thirteen were 0-ahead / 2-behind
+  `origin/main` on 2026-11-25, which a fetch makes newly visible and which is **not** drift. Check
+  `rev-list --count` both ways, and `merge-base --is-ancestor`, before concluding anything diverged.
 
 - **A versioned conformance URI points at Pages only while that version is current.** Pages
   serves `main`, and `main` is always the newest release — so when a newer minor version ships,
@@ -1305,7 +1412,12 @@ repos, `w3id.org`, `cdifbook`, `cdifnexmetadata` or the `cdif-umlmodel` mirror.
   `.github/workflows/`, but its source is `validation/tools/templates/check-frameandvalidate.yml`
   -- under `tools/`, not a top-level `templates/` -- and `sync_frameandvalidate.py --with-ci`
   redeploys it. **Editing the deployed copies without the template gets silently reverted
-  by the next `--with-ci`** (there were eleven when this was measured; `profile-access` makes 12). Found during the 2026-10-02 `actions/checkout` v4 -> v5 sweep: a
+  by the next `--with-ci`** (**11** carry it, counted 2026-11-25 -- and the prediction this
+  parenthesis used to make, that "`profile-access` makes 12", never came true: access does **not**
+  have the workflow, nor do `profile-niaid` or `XAS-CDIF`. **The CI-template set and the sync-target
+  set are different sizes** -- 11 against 14 -- so neither count substitutes for the other, and
+  both are worth re-counting rather than reading off this file).
+  Found during the 2026-10-02 `actions/checkout` v4 -> v5 sweep: a
   first survey globbed `templates/` and missed it entirely. After any such edit, check the copies
   are still byte-identical to the template (`diff` each; they were, 11 of 11). Two other things
   that sweep is worth remembering for: `validation/node_modules/` has its own vendored workflows

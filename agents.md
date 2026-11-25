@@ -1599,32 +1599,57 @@ Generates `propertyTree_2` worksheets from resolved JSON Schemas. Walks the full
 
 **Usage:**
 ```bash
-# Every composite profile under _sources/profiles/cdifCompositeProfile/
+# Every profile block under _sources/profiles/ (both families), 15 as of 2026-11-25
 python tools/generate_property_tree2.py --profile all
 
-# One composite, named by its directory
+# One block, named by its directory — module or composite
 python tools/generate_property_tree2.py --profile CoreDiscovery
-python tools/generate_property_tree2.py --profile cdifComplete
+python tools/generate_property_tree2.py --profile cdifCore
+
+# A schema outside the tree, into a named workbook (release repos)
+python tools/generate_property_tree2.py \
+    --schema ../profile-core/cdifCoreStructuredSchema.json \
+    --xlsx   ../profile-core/cdifCoreStructuredSchema_properties.xlsx
 ```
 
-`--profile` takes a **composite profile directory name**, or `all`. The targets are
-discovered by scanning for `resolvedSchema.json`, not hardcoded: as of 2026-11-12 that is
-`CoreDiscovery`, `DiscoveryDataDescription`, `DiscoveryDataDescriptionStructure`,
-`cdifComplete`, `cdifNIAID` and `xasDocument`. An unrecognised name lists what is
-available. The old `codelist` / `discovery` / `datadescription` aliases are gone — they
-named directories (`BasicDiscovery`, `BasicDataDescription`,
+`--profile` takes a **profile block directory name**, or `all`. The targets are discovered
+by scanning for `resolvedSchema.json` under *both* `cdifProfile/` and
+`cdifCompositeProfile/`, not hardcoded: as of 2026-11-25 that is the 9 modules and the 6
+composites. Until 2026-11-25 only `cdifCompositeProfile/` was walked, which left the three
+module workbooks that already existed (`cdifCore`, `cdifDataDescription`,
+`cdifProvenance`) outside the target list. An unrecognised name lists what is available.
+The old `codelist` / `discovery` / `datadescription` aliases are gone — they named
+directories (`BasicDiscovery`, `BasicDataDescription`,
 `profiles/archive/CDIFCodelistProfile`) that two reorgs renamed away, which left the tool
-exiting `FileNotFoundError` from 2026-05-28 until 2026-11-12. There is no codelist target:
-`cdifCodelist` is a module, not a composite.
+exiting `FileNotFoundError` from 2026-05-28 until 2026-11-12.
 
-The workbook is located by globbing `*_properties.xlsx` in the composite's directory
-rather than assuming `<dirname>_properties.xlsx`, because the two that exist are named
-`CDIFDiscovery_properties.xlsx` and `CDIFDataDescriptionProfile_properties.xlsx`. For an
-existing workbook, `propertyTree_2` is replaced and every other sheet preserved; where
-none exists, one is created as `<dirname>_properties.xlsx`.
+`--schema` / `--xlsx` must be given together and bypass the tree walk entirely. This is how
+the **release repos** get their spreadsheets: a release repo's `*StructuredSchema.json` is a
+copy of a block's `resolvedSchema.json` taken at release time and **may lag mBB** — 11 to 26
+differing lines across the 14 targets on 2026-11-25 — so generating from mBB's current schema
+would describe properties that repo does not publish.
 
-**This writes committed `.xlsx` files.** Regenerating all six touches two tracked
-workbooks and creates four, so commit those artifacts separately from any code change.
+The workbook is located by globbing `*_properties.xlsx` in the block's directory rather than
+assuming `<dirname>_properties.xlsx`, because the names in the tree do not follow that
+pattern (`CDIFDiscovery_properties.xlsx`, `CDIFDataDescriptionProfile_properties.xlsx`). Two
+matches in one directory is an error rather than a guess. The glob deliberately **excludes**
+the hand-maintained workbooks that no tool generates — `cdifCorePropertiesBrief.xlsx`,
+`CDIFDiscovery_schema_summary.xlsx`, `CDIFDataDescription_schema_summary.xlsx`. For an
+existing workbook, `propertyTree_2` is replaced and every other sheet preserved; where none
+exists, one is created as `<dirname>_properties.xlsx`.
+
+Every run also writes a **`notes` sheet**: the source schema, the commit that last changed it
+*in the repository holding it*, that repo's HEAD, the generator commit, the row count and the
+suffix legend. For a release repo the recorded commit is the **release** commit, not mBB's —
+citing mBB's HEAD there would be false provenance for a file mBB did not emit.
+
+**This writes committed `.xlsx` files**, so commit those artifacts separately from any code
+change. Note what the write does *not* preserve: the whole workbook is round-tripped through
+openpyxl, so content openpyxl does not model is lost from every sheet. Cell values survive
+(measured: 60 of 60 hand-curated sheets identical), but **floating shapes do not** — a
+drawing on the replaced sheet is deleted, and one on an untouched sheet survives with only
+its first text run. Check `xl/drawings/`, `xl/media/` and `xl/charts/` in the zip before
+pointing this at a workbook someone has formatted.
 
 **Resolution.** The walker resolves three shapes that it used to abandon, all added 2026-11-12:
 
@@ -1633,6 +1658,10 @@ workbooks and creates four, so commit those artifacts separately from any code c
 | `deref()` | `{"$ref": "#/$defs/X"}` | `resolve_schema.py` resolves external refs into `$defs` and leaves internal ones, so a composite's resolved schema is full of them. No `type`, so they classified as `unknown`. |
 | `expand_union()` | `anyOf` nested inside `anyOf` | the shared `$defs` nest — `cdifConceptOrTermOrString` wraps `cdifConceptOrTerm`'s union. Members are deduplicated, since flattening surfaces the same arm twice. |
 | `merge_allof()` | a bare `allOf` | 18 properties across the six composites are an `allOf` of object members plus constraint-only members. **Display merge only** — first keyword wins, unions are never intersected; `resolve_schema.py` owns real composition. |
+| `resolve_node()` | `properties` with no `type` | added 2026-11-25. `merge_allof` and `merge_refinement` already default such a node to an object; one reaching neither kept no type, and `emit_property` dispatches on `type == "object"`, so it fell to the bare-name fallback with children unexpanded. `cdifAccess` is a refinement module built this way: **6 → 148 rows**. |
+| `collect_root_properties()` | root `if`/`then`/`else`/`anyOf`/`oneOf` | added 2026-11-25. Walking root `allOf` alone is sufficient for a **composite** only because `deep_merge` always lands a module's slice there. `cdifDataStructure` has root `if`/`then`/`else` and no `allOf`: **3 → 2034 rows**. |
+| `contains_pin()` | `contains.properties.@id.const` | added 2026-11-25. The sealed-reference pin — the catalog record's `schema:additionalType` requires `dcat:CatalogRecord` this way, and only `contains.const` was read, so the pin appeared nowhere. |
+| `type_option_label()` | an `enum` on a typed object's `@type` | added 2026-11-25. A typed object's `@type` is never a property row (the pin goes in the parent's options column and `@type` is dropped from the children), so an enum there had nowhere to appear. `Organization` permits nine subtypes besides the pinned one. |
 
 All six composites now generate with **0 `unknown` cells**. `schema:identifier` matches the
 committed expansion exactly; the one delta is `schema:propertyID` rendering as a CHOICE, which is
