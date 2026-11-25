@@ -2589,7 +2589,13 @@ quality measurements.
     schema1:size [ a schema1:QuantitativeValue ;
             schema1:unitText "byte" ;
             schema1:value 6249 ] ;
-    cdif:hasPhysicalMapping [ cdi:isRequired false ;
+    cdif:hasPhysicalMapping [ cdi:isRequired true ;
+            cdi:nullSequence "NA" ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable ex:var-concentration ;
+            cdif:index 1 ;
+            cdif:physicalDataType "float64" ],
+        [ cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
             cdif:formats_InstanceVariable ex:var-uncertainty ;
@@ -2599,13 +2605,7 @@ quality measurements.
             cdif:format "string" ;
             cdif:formats_InstanceVariable ex:var-sampleID ;
             cdif:index 0 ;
-            cdif:physicalDataType "string" ],
-        [ cdi:isRequired true ;
-            cdi:nullSequence "NA" ;
-            cdif:format "decimal" ;
-            cdif:formats_InstanceVariable ex:var-concentration ;
-            cdif:index 1 ;
-            cdif:physicalDataType "float64" ] .
+            cdif:physicalDataType "string" ] .
 
 <file:///github/workspace/#part-metadata-yaml> a schema1:MediaObject ;
     schema1:about <file:///github/workspace/#part-results-csv> ;
@@ -2711,10 +2711,10 @@ ex:activity-geochem-analysis a schema1:Action,
 ex:geochem-detailed-structure a cdi:WideDataStructure ;
     cdi:has_DataStructureComponent [ a cdi:MeasureComponent ;
             cdif:isDefinedBy_Variable ex:var-concentration ],
-        [ a cdi:IdentifierComponent ;
-            cdif:isDefinedBy_Variable ex:var-sampleID ],
         [ a cdi:AttributeComponent ;
-            cdif:isDefinedBy_Variable ex:var-uncertainty ] .
+            cdif:isDefinedBy_Variable ex:var-uncertainty ],
+        [ a cdi:IdentifierComponent ;
+            cdif:isDefinedBy_Variable ex:var-sampleID ] .
 
 ex:ieda-catalog a schema1:DataCatalog ;
     schema1:name "IEDA Data Catalog" ;
@@ -2767,7 +2767,22 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:dateModified "2026-02-15" ;
     schema1:datePublished "2026-02-01" ;
     schema1:description "Comprehensive geochemistry dataset demonstrating the CDIF complete profile with single-file downloads, archive distribution with component files, and WebAPI access. Includes tabular CSV results, NetCDF data cubes, and an OGC API Features endpoint." ;
-    schema1:distribution [ a schema1:WebAPI ;
+    schema1:distribution [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
+            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
+            schema1:encodingFormat "application/zip" ;
+            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
+                <file:///github/workspace/#part-metadata-yaml>,
+                <file:///github/workspace/#part-method-pdf>,
+                <file:///github/workspace/#part-results-csv>,
+                <file:///github/workspace/#part-spectra-nc> ;
+            schema1:name "Complete data package" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
+        [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
                     schema1:name "OpenAPI specification for geochemistry data service" ;
@@ -2781,13 +2796,13 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of features to return" ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of features to return" ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:delimiter "," ;
@@ -2823,16 +2838,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
             schema1:termsOfService "Open access, no authentication required" ],
-        [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry summary results" ;
-            schema1:provider <https://ror.org/02fjgr047> ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
         [ a cdi:PhysicalDataSet,
                 cdi:StructuredDataSet,
                 schema1:DataDownload ;
@@ -2893,19 +2898,19 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     spdx:algorithm "SHA256" ;
                     spdx:checksumValue "b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3" ] ;
             cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-concentration ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 4 ;
                     cdi:isRequired false ;
                     cdi:length 12 ;
                     cdi:nullSequence "-9999" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-uncertainty ;
                     cdif:index 2 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 4 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-concentration ;
+                    cdif:index 1 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:defaultValue "UNKNOWN" ;
                     cdi:isRequired true ;
@@ -2918,18 +2923,13 @@ ex:complete-dataset-001 a schema1:Dataset ;
         [ a cdi:PhysicalDataSet,
                 schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
-            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
-            schema1:encodingFormat "application/zip" ;
-            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
-                <file:///github/workspace/#part-metadata-yaml>,
-                <file:///github/workspace/#part-method-pdf>,
-                <file:///github/workspace/#part-results-csv>,
-                <file:///github/workspace/#part-spectra-nc> ;
-            schema1:name "Complete data package" ;
+            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry summary results" ;
+            schema1:provider <https://ror.org/02fjgr047> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ] ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/021nxhr62> ;
             schema1:identifier [ a schema1:PropertyValue ;
