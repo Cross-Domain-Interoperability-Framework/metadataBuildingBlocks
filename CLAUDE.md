@@ -744,16 +744,48 @@ their refs are resolved over the network at their build time, not ours.
   absent cases stay flagged on **both** sides, which is the check that no rule went silent.
   `cdifd:name3Property` and `cdifd:name2Property` remain the deliberate exceptions: both
   `sh:Warning`, both asking *"is this name useful?"*, advisory by design -- leave them.
-  **Six `sh:minLength 3` sites survive and they are a DIFFERENT defect, not leftovers.** Each is
-  the string branch of a value union -- `sh:or ( [sh:nodeKind sh:IRI] [sh:datatype xsd:string ;
-  sh:minLength 3] ... )` -- on `cdif:physicalDataType` (`cdifDataDescription`), `prov:used`
-  (`provActivity`, `generatedBy`), `oa:hasBody` (`qualityAnnotation`), `dqv:isMeasurementOf`
-  (`qualityMeasure`) and `schema:serviceType` (`webAPI`). That is exactly the shape of the
-  `cdif:physicalDataType` floor recorded above, and **one of the six IS `cdif:physicalDataType`**:
-  the 2026-11-06 fix went into `cdifInstanceVariable` and missed the second declaration of the same
-  constraint in `cdifDataDescription`, which still says 3. A fix here has to decide a floor per
-  property rather than sweeping, so it was left out of the name pass; `schema:serviceType` is the
-  one to think hardest about, since `WMS` and `WFS` are exactly three.
+  **The six union-branch floors are fixed too (2026-11-24), and five of the six were
+  PROPHYLACTIC -- that is the part to remember.** Each was the string branch of a value union --
+  `sh:or ( [sh:nodeKind sh:IRI] [sh:datatype xsd:string ; sh:minLength 3] ... )` -- on
+  `cdif:physicalDataType` (`cdifDataDescription`), `prov:used` (`provActivity`, `generatedBy`),
+  `oa:hasBody` (`qualityAnnotation`), `dqv:isMeasurementOf` (`qualityMeasure`) and
+  `schema:serviceType` (`webAPI`), all now at 1. Unlike the name floors, which were rejecting 18
+  canonical labels in gBB, **these rejected nothing anywhere**: measured across both corpora, the
+  shortest value is `cdif:physicalDataType` 4 / 6 (mBB / gBB), `prov:used` 16 / none,
+  `oa:hasBody` 6 / none, `dqv:isMeasurementOf` 12 / 13, `schema:serviceType` 7 / none, and 0 of
+  the 5 properties carries a value under 3 characters in either repo. So this pass changed no
+  verdict, and nothing downstream constrained it either -- no `*-fail.json` asserts a short value
+  for any of the five (shortest is `Date` at 4, which cleared a floor of 3 anyway).
+  **Only `cdif:physicalDataType` had an independent reason**, and it is the one worth the entry:
+  the 2026-11-06 fix went into `cdifInstanceVariable` and missed the second declaration of the
+  same constraint in `cdifDataDescription`, so one constraint on one property, both shapes
+  targeting `cdi:InstanceVariable`, was live at 1 in one file and 3 in the other. Of the rest,
+  `dqv:isMeasurementOf` is the only one with a plausible short canonical value (`pH`, `Eh`), and
+  `schema:serviceType` -- the one this file said to think hardest about -- turns out to be the
+  weakest case *for* 3: `WMS`, `WFS`, `WCS`, `CSW`, `SOS` and `API` all clear it, so it had never
+  rejected a real value, and what it did have was the **one-character margin** that is exactly the
+  condition which made the gBB `Ka` case bite.
+  **A harness that builds a node the shape cannot select reports clean on BOTH sides and reads as
+  a passing rule.** The first run of this one printed 0 before / 0 after for all three
+  `cdifDataDescription` cases, which looks like "the floor was never doing anything"; the cause was
+  the TEST, which typed its node with a guessed `cdi:` IRI -- `cdi:` is
+  `http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/`, not a `w3id.org` namespace. **The
+  `absent` case is what catches it:** where the property shape carries `sh:minCount 1`, absent MUST
+  be flagged, so a clean `absent` means the target never matched and every other verdict in that
+  row is void. Verified 18 of 18 after the fix: 6 of 6 short values flip Violation/Warning ->
+  clean, and all 11 empty-and-absent cases that should stay flagged stay flagged on **both** sides.
+  The `before` side is built in RDF rather than by any git operation -- walk the owning named
+  shape's `sh:property` to the matching `sh:path`, down the `sh:or` list to the `xsd:string`
+  member, and set `sh:minLength` back to 3 -- which matters because `cdifDataDescription`'s bundle
+  carries a SECOND `cdif:physicalDataType` property shape, from `cdifInstanceVariable`, that must
+  stay at 1; a textual substitution over the bundle would have moved both.
+  Two things deliberately left. `generatedBy`'s `prov:used` has **no `sh:minCount`**, so an absent
+  value is clean on both sides -- that shape is advisory about the value's KIND and says nothing
+  about presence, which may or may not be intended. And `cdifDataDescription`'s shape still carries
+  `sh:minCount 1` and the `sh:or` under ONE message that mentions only presence ("should specify
+  cdif:physicalDataType"), so a present-but-empty value is still reported as a missing property --
+  the defect this file says to treat on sight, already split in the `cdifInstanceVariable` sibling
+  and not split here.
   **A sweep for shared shape URIs found four more differing-definition collisions besides
   `cdifd:nameProperty`** (2026-11-24): of 211 named `cdifd:` shapes, 8 are declared in more than one
   `rules.shacl`, and 4 of those 8 differ between files -- `cdifd:CDIFCatalogRecordShape`
