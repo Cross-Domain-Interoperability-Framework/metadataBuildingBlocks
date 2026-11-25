@@ -1643,6 +1643,14 @@ Every run also writes a **`notes` sheet**: the source schema, the commit that la
 suffix legend. For a release repo the recorded commit is the **release** commit, not mBB's —
 citing mBB's HEAD there would be false provenance for a file mBB did not emit.
 
+It also **flags every sheet the run did not write**, since those carry no provenance of their own
+and nothing regenerates them: a sheet named exactly `propertyTree` as stale output of the retired
+v1 generator (`archive/add_property_tree.py`), and any other as hand-maintained with its schema
+vintage unrecorded. The section is omitted where there is nothing to flag, which is why the 14
+release workbooks — two generated sheets and nothing else — are unaffected by it. 60 sheets are
+flagged across the five mBB workbooks that have any (2026-11-25); the flag is a statement that
+the sheet is unverified, **not** a claim that it is wrong.
+
 **This writes committed `.xlsx` files**, so commit those artifacts separately from any code
 change. Note what the write does *not* preserve: the whole workbook is round-tripped through
 openpyxl, so content openpyxl does not model is lost from every sheet. Cell values survive

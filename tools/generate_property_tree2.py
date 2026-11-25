@@ -925,6 +925,29 @@ LEGEND = [
 ]
 
 
+V1_SHEET = "propertyTree"
+
+# Sheets this tool does not write carry no record of which schema vintage they
+# describe, and nothing regenerates them -- so they can disagree with the generated
+# sheet without anything saying so. Two kinds, and the distinction is worth keeping:
+# a sheet named exactly `propertyTree` is leftover output of the v1 generator, dead
+# since 2026-05-28 and archived on 2026-11-25 as archive/add_property_tree.py; every
+# other sheet was written by hand. Both are flagged, neither is touched.
+STALE_NOTE = {
+    V1_SHEET: "stale GENERATED output of the retired v1 tool "
+              "(archive/add_property_tree.py, dead since 2026-05-28) -- "
+              "superseded by the generated sheet above",
+}
+HAND_NOTE = ("hand-maintained; not regenerated, schema vintage unrecorded -- "
+             "may disagree with the generated sheet above")
+
+
+def other_sheet_rows(wb, sheet_name):
+    """(sheet, flag) for every sheet in wb this tool neither writes nor checks."""
+    return [(s, STALE_NOTE.get(s, HAND_NOTE))
+            for s in wb.sheetnames if s not in (sheet_name, NOTES_SHEET)]
+
+
 def git_out(repo, *args):
     """Stdout of one git command in repo, or None if git cannot answer."""
     try:
@@ -1033,6 +1056,29 @@ def write_notes_sheet(wb, schema_path, generator_repo, row_count, sheet_name):
             value="A row's depth is its column pair: col 1/2 = depth 0, "
                   "col 3/4 = depth 1, and so on.")
     ws.cell(row=r, column=1).alignment = Alignment(wrap_text=True, vertical="top")
+
+    others = other_sheet_rows(wb, sheet_name)
+    if others:
+        r += 2
+        ws.cell(row=r, column=1,
+                value="Other sheets in this workbook -- NOT generated").font = Font(
+                    bold=True, size=12)
+        r += 1
+        ws.cell(row=r, column=1,
+                value="Only the two sheets named above were written by this run. "
+                      "The sheets below predate it, carry no provenance of their "
+                      "own, and are not checked against the source schema.")
+        ws.cell(row=r, column=1).alignment = Alignment(wrap_text=True, vertical="top")
+        r += 2
+        ws.cell(row=r, column=1, value="sheet").font = bold
+        ws.cell(row=r, column=2, value="status").font = bold
+        r += 1
+        for sheet, flag in others:
+            ws.cell(row=r, column=1, value=sheet)
+            ws.cell(row=r, column=2, value=flag)
+            ws.cell(row=r, column=2).alignment = Alignment(wrap_text=True,
+                                                           vertical="top")
+            r += 1
 
     ws.column_dimensions["A"].width = 32
     ws.column_dimensions["B"].width = 92

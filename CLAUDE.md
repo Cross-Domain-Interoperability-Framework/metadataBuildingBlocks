@@ -1047,8 +1047,11 @@ their refs are resolved over the network at their build time, not ours.
   **The `notes` sheet churns by design, so a regeneration diff is not evidence of a schema
   change.** Checked 2026-11-25 with `PYTHONHASHSEED` 1 against 999: `propertyTree_2` is
   **byte-stable** (309 rows, identical hash -- no set-ordering nondeterminism of the kind
-  `convert_for_jsonforms.py` had), and of the 33 `notes` rows the **only** one that moves between
-  two runs at the same commit is `Generated (UTC)`. Across runs at *different* commits
+  `convert_for_jsonforms.py` had), and of the `notes` rows the **only** one that moves between
+  two runs at the same commit is `Generated (UTC)`. (33 rows in the ten mBB workbooks that hold
+  only generated sheets and in all 14 release ones; 46-55 in the five that also carry
+  hand-made sheets, which the notes sheet lists and flags as unverified -- so a row count
+  differing between workbooks is that section, not drift.) Across runs at *different* commits
   `Repository HEAD at generation` and `Generator commit` move too. So re-running the tool always
   produces a diff in all 15 workbooks even when no schema changed; the committed artifacts stay
   honest because they record the HEAD that was current when they were generated, and nothing under
