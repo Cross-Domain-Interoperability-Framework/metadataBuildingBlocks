@@ -498,7 +498,7 @@ Data organization based on reusable data structure components.
 
 **Type:** schema
 
-Profile module for machine-actionable access and usage conditions expressed as ODRL Offer policies. Requires that the metadata record declare conformance to https://w3id.org/cdif/access/2.0 and carry at least one policy: inline or by {@id} reference as odrl:hasPolicy on a schema:distribution item, or as an {@id} reference in schema:conditionsOfAccess on the Dataset (only a reference there, because cdifCore's item shapes do not admit an inline Offer). Draft: the conformance URI and the cdifa1 action vocabulary are not yet minted. Uses building blocks: odrlOffer (odrlProperties), objectReference (cdifDataType).
+Profile module for machine-actionable access and usage conditions expressed as ODRL Offer policies. Requires that the metadata record declare conformance to https://w3id.org/cdif/access/1.0 and carry at least one policy: inline or by {@id} reference as odrl:hasPolicy on a schema:distribution item, or as an {@id} reference in schema:conditionsOfAccess on the Dataset (only a reference there, because cdifCore's item shapes do not admit an inline Offer). Draft: the cdifa1 action vocabulary is not yet minted. Uses building blocks: odrlOffer (odrlProperties), objectReference (cdifDataType).
 
 ### `cdif.bbr.metadata.xasProperties.xasCore` — XAS Core metadata properties
 

@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.profiles.cdifProfile.cdifAccess` *v0.1*
 
-Profile module for machine-actionable access and usage conditions expressed as ODRL Offer policies. Requires that the metadata record declare conformance to https://w3id.org/cdif/access/2.0 and carry at least one policy: inline or by {@id} reference as odrl:hasPolicy on a schema:distribution item, or as an {@id} reference in schema:conditionsOfAccess on the Dataset (only a reference there, because cdifCore's item shapes do not admit an inline Offer). Draft: the conformance URI and the cdifa1 action vocabulary are not yet minted. Uses building blocks: odrlOffer (odrlProperties), objectReference (cdifDataType).
+Profile module for machine-actionable access and usage conditions expressed as ODRL Offer policies. Requires that the metadata record declare conformance to https://w3id.org/cdif/access/1.0 and carry at least one policy: inline or by {@id} reference as odrl:hasPolicy on a schema:distribution item, or as an {@id} reference in schema:conditionsOfAccess on the Dataset (only a reference there, because cdifCore's item shapes do not admit an inline Offer). Draft: the cdifa1 action vocabulary is not yet minted. Uses building blocks: odrlOffer (odrlProperties), objectReference (cdifDataType).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -11,7 +11,7 @@ Profile module for machine-actionable access and usage conditions expressed as O
 
 ## CDIF Access
 
-Profile module for machine-actionable access and usage conditions, expressed as [ODRL Offer](../../../odrlProperties/odrlOffer/) policies. A conforming record declares `https://w3id.org/cdif/access/2.0` and carries at least one policy:
+Profile module for machine-actionable access and usage conditions, expressed as [ODRL Offer](../../../odrlProperties/odrlOffer/) policies. A conforming record declares `https://w3id.org/cdif/access/1.0` and carries at least one policy:
 
 - as `odrl:hasPolicy` on a `schema:distribution` item, inline or by `{@id}` reference (preferred: distributions of one dataset can differ in their conditions), or
 - as an `{@id}` reference in `schema:conditionsOfAccess` on the Dataset. Only a reference fits there, because cdifCore's item shapes for that property do not admit an inline Offer.
@@ -57,7 +57,7 @@ values only.
   "schema:subjectOf": {
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/access/2.0"
+        "@id": "https://w3id.org/cdif/access/1.0"
       }
     ]
   },
@@ -194,7 +194,7 @@ values only.
   "schema:subjectOf": {
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/access/2.0"
+        "@id": "https://w3id.org/cdif/access/1.0"
       }
     ]
   },
@@ -310,7 +310,7 @@ values only.
         "Users located in the UK may download the data after assenting to the End User Licence." ;
     schema1:distribution <https://example.org/dataset/3936/distribution/csv> ;
     schema1:name "Example restricted-access survey dataset" ;
-    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/access/2.0> ] .
+    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/access/1.0> ] .
 
 <https://example.org/odrloffer/13adb49c-f641-4ac7-aa90-18651cc211ce> a odrl:Offer ;
     odrl:assigner ex:repository ;
@@ -374,8 +374,10 @@ properties:
   schema:subjectOf:
     properties:
       dcterms:conformsTo:
-        description: 'OPEN: https://w3id.org/cdif/access/2.0 is not minted. 1.1 follows
-          the other CDIF modules; a new profile might start at 1.0 instead.'
+        description: A conforming record declares https://w3id.org/cdif/access/1.0.
+          This profile starts at 1.0 rather than 2.0 like the other CDIF modules,
+          because it is new at this release rather than a revision of an already published
+          one.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
@@ -387,7 +389,7 @@ properties:
           additionalProperties: false
           properties:
             '@id':
-              const: https://w3id.org/cdif/access/2.0
+              const: https://w3id.org/cdif/access/1.0
   schema:conditionsOfAccess:
     description: Item shape comes from cdifCore. In a CDIF Access record, an {@id}
       item here should be the uid of an ODRL Offer; JSON Schema cannot tell that reference

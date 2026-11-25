@@ -2576,13 +2576,13 @@ quality measurements.
     cdi:headerRowCount 1 ;
     cdi:isDelimited true ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "countColumns" ;
-            schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
-            schema1:value 3 ],
-        [ a schema1:PropertyValue ;
             schema1:name "countRows" ;
             schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#caseQuantity> ;
-            schema1:value 144 ] ;
+            schema1:value 144 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "countColumns" ;
+            schema1:propertyID <http://rdf-vocabulary.ddialliance.org/discovery#variableQuantity> ;
+            schema1:value 3 ] ;
     schema1:description "Measurement data with column structure described via CSVW and physical mappings." ;
     schema1:encodingFormat "text/csv" ;
     schema1:name "geochem-measurements.csv" ;
@@ -2590,11 +2590,10 @@ quality measurements.
             schema1:unitText "byte" ;
             schema1:value 6249 ] ;
     cdif:hasPhysicalMapping [ cdi:isRequired true ;
-            cdi:nullSequence "NA" ;
-            cdif:format "decimal" ;
-            cdif:formats_InstanceVariable ex:var-concentration ;
-            cdif:index 1 ;
-            cdif:physicalDataType "float64" ],
+            cdif:format "string" ;
+            cdif:formats_InstanceVariable ex:var-sampleID ;
+            cdif:index 0 ;
+            cdif:physicalDataType "string" ],
         [ cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
@@ -2602,10 +2601,11 @@ quality measurements.
             cdif:index 2 ;
             cdif:physicalDataType "float64" ],
         [ cdi:isRequired true ;
-            cdif:format "string" ;
-            cdif:formats_InstanceVariable ex:var-sampleID ;
-            cdif:index 0 ;
-            cdif:physicalDataType "string" ] .
+            cdi:nullSequence "NA" ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable ex:var-concentration ;
+            cdif:index 1 ;
+            cdif:physicalDataType "float64" ] .
 
 <file:///github/workspace/#part-metadata-yaml> a schema1:MediaObject ;
     schema1:about <file:///github/workspace/#part-results-csv> ;
@@ -2687,11 +2687,11 @@ ex:activity-geochem-analysis a schema1:Action,
                     schema1:name "Inductively coupled plasma mass spectrometer" ;
                     schema1:termCode "LAB21" ] ;
             schema1:hasPart [ a schema1:Thing ;
-                    schema1:alternateName "CETAC ASX-560" ;
-                    schema1:name "Autosampler" ],
-                [ a schema1:Thing ;
                     schema1:alternateName "Peltier-cooled cyclonic" ;
-                    schema1:name "Spray chamber" ] ;
+                    schema1:name "Spray chamber" ],
+                [ a schema1:Thing ;
+                    schema1:alternateName "CETAC ASX-560" ;
+                    schema1:name "Autosampler" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
             schema1:termCode "ICP-MS" ] ;
@@ -2813,15 +2813,15 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             schema1:contentUrl "https://example.org/api/v1/collections/geochem/items?f=csv" ;
                             schema1:encodingFormat "text/csv" ;
                             schema1:name "Geochemistry query results" ;
-                            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                                    cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable ex:var-concentration ;
-                                    cdif:index 0 ;
-                                    cdif:physicalDataType "float64" ],
-                                [ cdi:isRequired false ;
+                            cdif:hasPhysicalMapping [ cdi:isRequired false ;
                                     cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable ex:var-uncertainty ;
                                     cdif:index 1 ;
+                                    cdif:physicalDataType "float64" ],
+                                [ cdi:isRequired true ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:var-concentration ;
+                                    cdif:index 0 ;
                                     cdif:physicalDataType "float64" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "application/geo+json",
@@ -2838,27 +2838,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
             schema1:termsOfService "Open access, no authentication required" ],
-        [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Spectral data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/spectra/wavelength" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-wavelength ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
-                    cdi:locator "/spectra/intensity" ;
-                    cdi:scale 1000 ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-intensity ;
-                    cdif:physicalDataType "float32" ] ],
         [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
@@ -2905,13 +2884,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-uncertainty ;
                     cdif:index 2 ;
                     cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 4 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-concentration ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "float64" ],
                 [ cdi:defaultValue "UNKNOWN" ;
                     cdi:isRequired true ;
                     cdi:maximumLength 40 ;
@@ -2919,7 +2891,14 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-sampleID ;
                     cdif:index 0 ;
-                    cdif:physicalDataType "string" ] ],
+                    cdif:physicalDataType "string" ],
+                [ cdi:decimalPositions 4 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-concentration ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "float64" ] ],
         [ a cdi:PhysicalDataSet,
                 schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
@@ -2929,7 +2908,28 @@ ex:complete-dataset-001 a schema1:Dataset ;
             schema1:provider <https://ror.org/02fjgr047> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ] ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Spectral data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:locator "/spectra/wavelength" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-wavelength ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/spectra/intensity" ;
+                    cdi:scale 1000 ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-intensity ;
+                    cdif:physicalDataType "float32" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/021nxhr62> ;
             schema1:identifier [ a schema1:PropertyValue ;
