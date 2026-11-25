@@ -24,12 +24,14 @@ Suffix conventions:
     [...]                   square brackets = array (0..* or 1..*)
 """
 
+import argparse
+import datetime
 import hashlib
 import io
 import json
 import os
+import subprocess
 import sys
-import argparse
 from pathlib import Path
 
 import openpyxl
@@ -51,8 +53,75 @@ APPLICATOR_DEPTH = 12
 def get_type_contains(schema):
     """Return the @type contains value, if any."""
     tp = schema.get("properties", {}).get("@type", {})
-    c = tp.get("contains", {})
-    return c.get("const")
+    return contains_pin(tp)
+
+
+def contains_pin(schema):
+    """The token a `contains` pins on this property, or None.
+
+    Two shapes carry one. A type token pins the value directly
+    (`contains: {const: "schema:Organization"}`). A sealed reference pins it through
+    the object's @id (`contains: {required: [@id], properties: {@id: {const: ...}}}`),
+    which is how the catalog record's `schema:additionalType` requires
+    dcat:CatalogRecord -- a load-bearing constraint, since
+    ConformanceValidate.extract_conforms_to skips a node that lacks it. Only the
+    first shape was read, so the second rendered as a bare [CHOICE] with the pin
+    nowhere in the sheet.
+    """
+    if not isinstance(schema, dict):
+        return None
+    c = schema.get("contains")
+    if not isinstance(c, dict):
+        return None
+    if "const" in c:
+        return c["const"]
+    inner = c.get("properties", {})
+    if isinstance(inner, dict):
+        at_id = inner.get("@id")
+        if isinstance(at_id, dict) and "const" in at_id:
+            return at_id["const"]
+    return None
+
+
+def type_option_label(schema, tc):
+    """The options-column label for a typed object's @type.
+
+    A typed object's @type is not emitted as a property row at all: the pin is
+    written into the parent row's options column and @type is then excluded from the
+    children, so anything else the @type schema says had nowhere to appear. Where it
+    also carries an enum, the other permitted tokens are named here -- Organization
+    pins schema:Organization and permits nine subtypes besides.
+    """
+    label = f"@type -- [string](contains {tc})"
+    vals = enum_values(schema.get("properties", {}).get("@type", {})) or []
+    others = [v for v in vals if v != tc]
+    if others:
+        label += " -- permitted also: " + ", ".join(f'"{v}"' for v in others)
+    return label
+
+
+def enum_values(schema):
+    """The permitted value list for an array property, looking through items/anyOf.
+
+    A `contains` pin says one token must be present; an enum on the items says which
+    tokens are permitted at all. Organization's @type carries both -- it pins
+    schema:Organization and permits nine subtypes besides (schema:FundingAgency,
+    schema:Consortium, ...). Printing the pin alone dropped that list.
+    """
+    if not isinstance(schema, dict):
+        return None
+    if isinstance(schema.get("enum"), list):
+        return schema["enum"]
+    items = schema.get("items")
+    if not isinstance(items, dict):
+        return None
+    if isinstance(items.get("enum"), list):
+        return items["enum"]
+    for key in ("anyOf", "oneOf"):
+        for arm in items.get(key, []) or []:
+            if isinstance(arm, dict) and isinstance(arm.get("enum"), list):
+                return arm["enum"]
+    return None
 
 
 def is_id_only_object(schema):
@@ -171,8 +240,24 @@ def merge_allof(schema, _depth=0):
 
 def resolve_node(schema):
     """deref an internal $ref, then flatten an allOf -- the two shapes the walker
-    cannot read directly. Applied wherever a schema node is about to be classified."""
-    return merge_allof(deref(schema))
+    cannot read directly. Applied wherever a schema node is about to be classified.
+
+    A node carrying `properties` and no `type` is an object. merge_allof and
+    merge_refinement already setdefault it for the nodes they build; a node that
+    reaches here through neither keeps no type at all, and emit_property dispatches
+    on `type == "object"`, so it fell through to the bare-name fallback with its
+    children unexpanded. cdifAccess is the measured case: it is a refinement module,
+    so schema:subjectOf is {properties: {...}} and schema:distribution's items
+    likewise, with no type on either -- 6 rows and 8 labels for the whole module
+    before this. Not a new classification, just the same default applied one level
+    out.
+    """
+    node = merge_allof(deref(schema))
+    if (isinstance(node, dict) and node.get("type") is None
+            and isinstance(node.get("properties"), dict)):
+        node = dict(node)
+        node["type"] = "object"
+    return node
 
 
 def merge_refinement(base, extra, _depth=0):
@@ -259,21 +344,37 @@ def branch_properties(node, _depth=0):
                 yield found
 
 
+ROOT_APPLICATORS = ("allOf", "anyOf", "oneOf", "if", "then", "else")
+
+
 def collect_root_properties(schema):
-    """The root properties a composite actually constrains: `properties` plus what its
-    root allOf contributes.
+    """The root properties a schema actually constrains: `properties` plus what its
+    root applicators contribute.
 
     resolve_schema.py's deep_merge hoists each module's root `properties` into the
     composite's root `properties` and appends the module's own if/then/else as a member
     of the composite's root allOf. cdifDataStructure declares `properties: [@context]`
     and nothing else -- every structure term it defines lives under if/then/else or in
     $defs -- so a walk of `properties` alone sees none of it.
+
+    Every root applicator is walked, not `allOf` alone. `allOf` is where deep_merge
+    always lands a module's slice, so it is sufficient for a COMPOSITE and was all
+    this looked at. A standalone module carries its own applicators at the root
+    instead: cdifDataStructure has root if/then/else and no allOf at all, which gave
+    3 rows and 5 labels for the whole module, and cdifAccess has a root anyOf. Both
+    are release-repo sources (profile-datastructure, profile-access), so the thin
+    output would have shipped as a spreadsheet describing nothing. Measured
+    2026-11-25: cdifDataStructure 3 -> 2034 rows and 5 -> 188 labels, the other eight
+    modules and all six composites unchanged in the properties they collect.
     """
     props = dict(schema.get("properties", {}))
-    for found in branch_properties(schema.get("allOf", [])):
-        for name, sub in found.items():
-            props[name] = (merge_refinement(props[name], sub)
-                           if name in props else sub)
+    for key in ROOT_APPLICATORS:
+        if key not in schema:
+            continue
+        for found in branch_properties(schema[key]):
+            for name, sub in found.items():
+                props[name] = (merge_refinement(props[name], sub)
+                               if name in props else sub)
     return props
 
 
@@ -422,6 +523,29 @@ def elision_row(type_name, col):
 
 
 def emit_property(prop_name, prop_schema, depth, rows, visited_types):
+    """Emit row(s) for one property, annotating any `contains` pin it carries.
+
+    The pin is appended to the property's own row rather than handled inside each
+    type branch: emit_property_rows returns from a dozen places, and a `contains`
+    applies whatever the value's type turns out to be. The @type branch writes its
+    own pin, hence the guard against stating one twice.
+    """
+    start = len(rows)
+    emit_property_rows(prop_name, prop_schema, depth, rows, visited_types)
+    if prop_name in ("@type", "@id", "@context") or len(rows) <= start:
+        return
+    pin = contains_pin(resolve_node(prop_schema))
+    if not pin:
+        return
+    prop_col = 1 + 2 * depth
+    if prop_col >= MAX_COLS:
+        return
+    cell = rows[start][prop_col]
+    if cell and "(contains" not in str(cell):
+        rows[start][prop_col] = f"{cell} (contains {pin})"
+
+
+def emit_property_rows(prop_name, prop_schema, depth, rows, visited_types):
     """Emit row(s) for one property."""
     if depth > MAX_DEPTH:
         return
@@ -452,14 +576,17 @@ def emit_property(prop_name, prop_schema, depth, rows, visited_types):
 
     # ── @type ──
     if prop_name == "@type":
-        contains = None
-        c = prop_schema.get("contains", {})
-        contains = c.get("const")
+        contains = contains_pin(prop_schema)
         row = make_row()
         if contains:
             row[prop_col] = f"@type -- [string](contains {contains})"
         else:
             row[prop_col] = "@type -- [string]"
+        # The pin names the one required token; an enum on the items names every
+        # permitted one. Organization carries both.
+        vals = enum_values(prop_schema)
+        if vals and (not contains or len(vals) > 1):
+            row[opts_col] = "permitted: " + ", ".join(f'"{v}"' for v in vals)
         rows.append(row)
         return
 
@@ -602,7 +729,7 @@ def emit_object_property(prop_name, schema, is_array, depth, rows, visited_types
     row = make_row()
     row[prop_col] = f"{prop_name} -- {sfx}"
     if tc and opts_col < MAX_COLS:
-        row[opts_col] = f"@type -- [string](contains {tc})"
+        row[opts_col] = type_option_label(schema, tc)
     rows.append(row)
 
     # Expand each shape once, and say where it is not expanded again.
@@ -665,7 +792,7 @@ def emit_choice_option(opt, opts_col, depth, rows, visited_types):
     elif kind == "typed_object":
         tc = opt[2]
         row = make_row()
-        row[opts_col] = f"@type -- [string](contains {tc})"
+        row[opts_col] = type_option_label(item, tc)
         rows.append(row)
 
         key = ExpandedShapes.key(tc, item)
@@ -773,7 +900,146 @@ def write_worksheet(ws, rows):
 
 # ── CLI ──────────────────────────────────────────────────────────────────
 
-def add_sheet_to_existing(xlsx_path, sheet_name, rows):
+# ── provenance ───────────────────────────────────────────────────────────
+
+NOTES_SHEET = "notes"
+
+# The suffix conventions, restated in the workbook itself. Until 2026-11-25 these
+# lived only in this module's docstring and, for cdifCore_properties.xlsx, in two
+# floating Excel TextBoxes -- which openpyxl does not round-trip: the one on a sheet
+# this tool replaces is deleted outright, and the one on an untouched sheet survives
+# with only its first text run ("[..]"), a silent truncation of a hand-written legend.
+# Carrying the legend as cells is what makes the workbook survive regeneration.
+LEGEND = [
+    ("[..]", "value is an array (JSON list)"),
+    ("object", "value is an object; its properties are expanded to the right"),
+    ("object reference", "JSON-LD reference, {@id: URI}"),
+    ("string", "literal string"),
+    ("string(uri)", "string with URI format"),
+    ("string(date)", "string with date format"),
+    ("boolean / number", "literal boolean / number"),
+    ("CHOICE", "anyOf across mixed types; the options follow in the options column"),
+    ("enum", "closed value list; the permitted values follow"),
+    ("const(...)", "a single pinned value"),
+    ("(see <type> above)", "shape already expanded earlier in this sheet; not repeated"),
+]
+
+
+def git_out(repo, *args):
+    """Stdout of one git command in repo, or None if git cannot answer."""
+    try:
+        out = subprocess.run(["git", "-C", str(repo), *args],
+                             capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    val = out.stdout.strip()
+    return val if out.returncode == 0 and val else None
+
+
+def git_show(repo, fmt, *extra):
+    """One `git log -1` field for repo, or None if git cannot answer."""
+    return git_out(repo, "log", "-1", f"--format={fmt}", *extra)
+
+
+def schema_provenance(schema_path, generator_repo):
+    """Rows for the notes sheet: which schema, from which commit, by which tool.
+
+    The commit recorded is the last one to touch the schema FILE, in the repository
+    that holds it -- not the generating repo's HEAD. For a release repo that is the
+    point: its *StructuredSchema.json is a copy taken at release time and may lag
+    mBB, so the spreadsheet must cite the release commit it actually describes, and
+    citing mBB's HEAD there would be a false provenance for a file mBB did not emit.
+    Both the file's commit and the holding repo's HEAD are recorded, because a clean
+    worktree means the tree matches the branch, not that the branch matches origin.
+    """
+    schema_path = Path(schema_path).resolve()
+    repo = schema_path.parent
+    while repo != repo.parent and not (repo / ".git").exists():
+        repo = repo.parent
+    has_git = (repo / ".git").exists()
+
+    rel = schema_path.name
+    if has_git:
+        try:
+            rel = str(schema_path.relative_to(repo)).replace("\\", "/")
+        except ValueError:
+            pass
+
+    rows = [
+        ("Source schema", rel),
+        ("Source repository", repo.name if has_git else "(not a git repository)"),
+    ]
+    if has_git:
+        remote = git_out(repo, "remote", "get-url", "origin")
+        if remote:
+            rows.append(("Source remote", remote))
+        branch = git_out(repo, "rev-parse", "--abbrev-ref", "HEAD")
+        if branch:
+            rows.append(("Branch checked out", branch))
+        rows += [
+            ("Schema last changed in commit",
+             git_show(repo, "%H", "--", str(schema_path)) or "(not committed)"),
+            ("  commit date",
+             git_show(repo, "%cI", "--", str(schema_path)) or "—"),
+            ("  commit subject",
+             git_show(repo, "%s", "--", str(schema_path)) or "—"),
+            ("Repository HEAD at generation", git_show(repo, "%H") or "—"),
+            ("  HEAD date", git_show(repo, "%cI") or "—"),
+        ]
+
+    gen_repo = Path(generator_repo)
+    rows += [
+        ("Generator", "tools/generate_property_tree2.py"),
+        ("Generator repository", gen_repo.name),
+        ("Generator commit", git_show(gen_repo, "%H") or "—"),
+        ("Generated (UTC)",
+         datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")),
+    ]
+    return rows
+
+
+def write_notes_sheet(wb, schema_path, generator_repo, row_count, sheet_name):
+    """Create (replacing) the notes sheet carrying provenance and the legend."""
+    if NOTES_SHEET in wb.sheetnames:
+        del wb[NOTES_SHEET]
+    ws = wb.create_sheet(NOTES_SHEET)
+    bold = Font(bold=True)
+
+    ws.cell(row=1, column=1, value="Property tree provenance").font = Font(bold=True,
+                                                                           size=12)
+    r = 3
+    for label, value in schema_provenance(schema_path, generator_repo):
+        ws.cell(row=r, column=1, value=label).font = bold
+        ws.cell(row=r, column=2, value=value)
+        r += 1
+    ws.cell(row=r, column=1, value="Generated sheet").font = bold
+    ws.cell(row=r, column=2, value=sheet_name)
+    r += 1
+    ws.cell(row=r, column=1, value="Rows (incl. header)").font = bold
+    ws.cell(row=r, column=2, value=row_count)
+    r += 2
+
+    ws.cell(row=r, column=1, value="Legend").font = Font(bold=True, size=12)
+    r += 1
+    ws.cell(row=r, column=1, value="suffix").font = bold
+    ws.cell(row=r, column=2, value="meaning").font = bold
+    r += 1
+    for suffix, meaning in LEGEND:
+        ws.cell(row=r, column=1, value=suffix)
+        ws.cell(row=r, column=2, value=meaning)
+        r += 1
+    r += 1
+    ws.cell(row=r, column=1,
+            value="A row's depth is its column pair: col 1/2 = depth 0, "
+                  "col 3/4 = depth 1, and so on.")
+    ws.cell(row=r, column=1).alignment = Alignment(wrap_text=True, vertical="top")
+
+    ws.column_dimensions["A"].width = 32
+    ws.column_dimensions["B"].width = 92
+    return ws
+
+
+def add_sheet_to_existing(xlsx_path, sheet_name, rows, schema_path, generator_repo):
     """Add a worksheet to an existing xlsx file, replacing any sheet of that name."""
     # Read into memory rather than copying to a temp file: openpyxl keeps the source
     # archive open past wb.close(), so on Windows os.remove() of that copy raised
@@ -786,54 +1052,72 @@ def add_sheet_to_existing(xlsx_path, sheet_name, rows):
         del wb[sheet_name]
     ws = wb.create_sheet(sheet_name)
     write_worksheet(ws, rows)
+    write_notes_sheet(wb, schema_path, generator_repo, len(rows), sheet_name)
     wb.save(xlsx_path)
     wb.close()
-    print(f"  Added '{sheet_name}' to {xlsx_path}")
+    print(f"  Added '{sheet_name}' + '{NOTES_SHEET}' to {xlsx_path}")
 
 
-def create_new_workbook(xlsx_path, sheet_name, rows):
-    """Create a new xlsx file with one worksheet."""
+def create_new_workbook(xlsx_path, sheet_name, rows, schema_path, generator_repo):
+    """Create a new xlsx file with the tree sheet and its notes sheet."""
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = sheet_name
     write_worksheet(ws, rows)
+    write_notes_sheet(wb, schema_path, generator_repo, len(rows), sheet_name)
+    Path(xlsx_path).parent.mkdir(parents=True, exist_ok=True)
     wb.save(xlsx_path)
     wb.close()
-    print(f"  Created {xlsx_path} with sheet '{sheet_name}'")
+    print(f"  Created {xlsx_path} with sheets '{sheet_name}', '{NOTES_SHEET}'")
 
 
-def discover_targets(composites_dir, selected="all"):
-    """Composite profiles to generate for, derived from the tree rather than hardcoded.
+def discover_targets(profiles_root, selected="all"):
+    """Profile blocks to generate for, derived from the tree rather than hardcoded.
 
-    Every directory under cdifCompositeProfile that holds a resolvedSchema.json is a
-    target. The workbook is found by globbing *_properties.xlsx in that directory --
-    never by assuming <dirname>_properties.xlsx, because the two that exist are named
-    CDIFDiscovery_properties.xlsx and CDIFDataDescriptionProfile_properties.xlsx. A
+    Every directory under the given profiles root that holds a resolvedSchema.json is
+    a target. The workbook is found by globbing *_properties.xlsx in that directory --
+    never by assuming <dirname>_properties.xlsx, because the names in the tree do not
+    follow that pattern: CDIFDiscovery_properties.xlsx and
+    CDIFDataDescriptionProfile_properties.xlsx under cdifCompositeProfile. A
     name-derived path would miss them and create a duplicate alongside, leaving the
     real propertyTree_2 sheet stale. That is how this tool broke in 3c2f5291b9.
+
+    Both profile families are walked. Only cdifCompositeProfile was, which left the
+    three module workbooks that already existed (cdifCore, cdifDataDescription,
+    cdifProvenance) outside the target list -- cdifCore's propertyTree_2 was still
+    12 columns wide, from a MAX_DEPTH of 5, and the other two had no such sheet at
+    all. Counted 2026-11-25: 5 *_properties.xlsx in the tree, not the 2 this
+    docstring used to claim, because 3 of them live under cdifProfile.
+
+    The sibling non-matching workbooks are left alone by the glob and must stay that
+    way: cdifCorePropertiesBrief.xlsx, CDIFDiscovery_schema_summary.xlsx and
+    CDIFDataDescription_schema_summary.xlsx are hand-maintained and no tool here
+    generates them.
     """
-    composites_dir = Path(composites_dir)
-    if not composites_dir.is_dir():
-        raise SystemExit(f"no composite profile directory at {composites_dir}")
+    profiles_root = Path(profiles_root)
+    if not profiles_root.is_dir():
+        raise SystemExit(f"no profiles directory at {profiles_root}")
 
     targets, skipped = [], []
-    for d in sorted(p for p in composites_dir.iterdir() if p.is_dir()):
-        if selected not in ("all", d.name):
-            continue
-        if not (d / "resolvedSchema.json").exists():
-            skipped.append(d.name)
-            continue
-        books = sorted(d.glob("*_properties.xlsx"))
-        if len(books) > 1:
-            raise SystemExit(
-                f"{d.name}: {len(books)} candidate workbooks "
-                f"({', '.join(b.name for b in books)}) -- name one explicitly")
-        targets.append({
-            "name": d.name,
-            "resolved": d / "resolvedSchema.json",
-            "xlsx": books[0] if books else d / f"{d.name}_properties.xlsx",
-            "existing": bool(books),
-        })
+    families = sorted(p for p in profiles_root.iterdir() if p.is_dir())
+    for family in families:
+        for d in sorted(p for p in family.iterdir() if p.is_dir()):
+            if selected not in ("all", d.name):
+                continue
+            if not (d / "resolvedSchema.json").exists():
+                skipped.append(f"{family.name}/{d.name}")
+                continue
+            books = sorted(d.glob("*_properties.xlsx"))
+            if len(books) > 1:
+                raise SystemExit(
+                    f"{d.name}: {len(books)} candidate workbooks "
+                    f"({', '.join(b.name for b in books)}) -- name one explicitly")
+            targets.append({
+                "name": f"{family.name}/{d.name}",
+                "resolved": d / "resolvedSchema.json",
+                "xlsx": books[0] if books else d / f"{d.name}_properties.xlsx",
+                "existing": bool(books),
+            })
 
     for name in skipped:
         print(f"  skipping {name}: no resolvedSchema.json")
@@ -843,21 +1127,47 @@ def discover_targets(composites_dir, selected="all"):
 def main():
     parser = argparse.ArgumentParser(
         description="Generate propertyTree_2 worksheets from resolved schemas")
-    # Deliberately no choices=: the valid values are the composite directory names,
+    # Deliberately no choices=: the valid values are the block directory names,
     # and a hardcoded list is what went stale across two reorgs.
     parser.add_argument("--profile", default="all",
-                        help="composite profile directory name, or 'all' (default)")
+                        help="profile block directory name, or 'all' (default)")
+    # Release-repo mode. A release repo's *StructuredSchema.json is a copy of a
+    # block's resolvedSchema.json taken at release time and may lag mBB, so its
+    # spreadsheet has to be generated from that file rather than from mBB's current
+    # one -- otherwise it describes something the repo does not publish.
+    parser.add_argument("--schema",
+                        help="generate from this schema file instead of walking the "
+                             "profiles tree (use with --xlsx)")
+    parser.add_argument("--xlsx",
+                        help="workbook to write when --schema is given")
     args = parser.parse_args()
 
     base = Path(__file__).resolve().parent.parent
-    composites_dir = base / "_sources" / "profiles" / "cdifCompositeProfile"
 
-    targets = discover_targets(composites_dir, args.profile)
+    if args.schema or args.xlsx:
+        if not (args.schema and args.xlsx):
+            raise SystemExit("--schema and --xlsx must be given together")
+        schema = Path(args.schema)
+        if not schema.is_file():
+            raise SystemExit(f"no schema file at {schema}")
+        xlsx = Path(args.xlsx)
+        print(f"Generating propertyTree_2 from {schema}...")
+        rows = generate_property_tree(schema)
+        print(f"  {len(rows)} rows generated")
+        if xlsx.exists():
+            add_sheet_to_existing(str(xlsx), "propertyTree_2", rows, schema, base)
+        else:
+            create_new_workbook(str(xlsx), "propertyTree_2", rows, schema, base)
+        return
+
+    profiles_root = base / "_sources" / "profiles"
+    targets = discover_targets(profiles_root, args.profile)
     if not targets:
-        available = sorted(p.name for p in composites_dir.iterdir()
-                           if (p / "resolvedSchema.json").exists())
+        available = sorted(
+            p.name for fam in profiles_root.iterdir() if fam.is_dir()
+            for p in fam.iterdir() if (p / "resolvedSchema.json").exists())
         raise SystemExit(
-            f"no composite profile matched --profile {args.profile!r}; "
+            f"no profile block matched --profile {args.profile!r}; "
             f"available: {', '.join(available)}")
 
     for t in targets:
@@ -866,9 +1176,11 @@ def main():
         print(f"  {len(rows)} rows generated")
 
         if t["existing"]:
-            add_sheet_to_existing(str(t["xlsx"]), "propertyTree_2", rows)
+            add_sheet_to_existing(str(t["xlsx"]), "propertyTree_2", rows,
+                                  t["resolved"], base)
         else:
-            create_new_workbook(str(t["xlsx"]), "propertyTree_2", rows)
+            create_new_workbook(str(t["xlsx"]), "propertyTree_2", rows,
+                                t["resolved"], base)
 
 
 if __name__ == "__main__":
