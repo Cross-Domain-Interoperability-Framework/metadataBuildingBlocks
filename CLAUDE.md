@@ -787,21 +787,62 @@ their refs are resolved over the network at their build time, not ours.
   the defect this file says to treat on sight, already split in the `cdifInstanceVariable` sibling
   and not split here.
   **A sweep for shared shape URIs found four more differing-definition collisions besides
-  `cdifd:nameProperty`** (2026-11-24): of 211 named `cdifd:` shapes, 8 are declared in more than one
-  `rules.shacl`, and 4 of those 8 differ between files -- `cdifd:CDIFCatalogRecordShape`
+  `cdifd:nameProperty`** (2026-11-24): 8 named `cdifd:` shapes are declared in more than one
+  `rules.shacl`, and 4 of those 8 differed between files -- `cdifd:CDIFCatalogRecordShape`
   (`cdifCatalogRecord` vs `cdifCore`), `cdifd:CDIFDataDownloadShape` (`dataDownload` vs `xasCore`),
   `cdifd:cdifDataStructure_inlineStructureShape` (`cdifDataStructure` vs
-  `DiscoveryDataDescriptionStructure`) and **`cdifd:metadataProfileProperty`, in SIX files with
-  FOUR distinct definitions** (`cdifCatalogRecord` and `cdifCore` agree; `CoreDiscovery`,
-  `DiscoveryDataDescription`, `DiscoveryDataDescriptionStructure` and `cdifComplete` each differ).
-  None is fixed. The last one is the one to be careful with: a per-composite profile pin that
-  merges into a conjunction would demand every profile URI at once, so work out whether the
-  variation is intentional before renaming anything, and remember CLAUDE.md already records that
-  `cdifCore`'s copy cannot simply move because a NodeShape in the same file references it. The
-  other 4 of the 8 are byte-identical and therefore harmless -- `cdifd:termLabelProperty` across
-  three files, plus `catalogRecordTypeProperty`, `metadataConformsToPresent` and
-  `metadataSubjectProperty`. A shared URI as such is not the defect; a shared URI with DIFFERING
-  definitions is.
+  `DiscoveryDataDescriptionStructure`) and `cdifd:metadataProfileProperty`, in SIX files with FOUR
+  distinct definitions. **The last is fixed; the first three are not.** The other 4 of the 8 are
+  byte-identical and therefore harmless -- `cdifd:termLabelProperty` across three files, plus
+  `catalogRecordTypeProperty`, `metadataConformsToPresent` and `metadataSubjectProperty`. A shared
+  URI as such is not the defect; a shared URI with DIFFERING definitions is.
+
+  **`cdifd:metadataProfileProperty` was fixed by DELETING four declarations, not renaming them,
+  because the four were redundant** (2026-11-24). `cdifCore` and `cdifCatalogRecord` declare the
+  generic pin (core only, byte-identical); `CoreDiscovery`, `DiscoveryDataDescription`,
+  `DiscoveryDataDescriptionStructure` and `cdifComplete` each redeclared the same URI with the whole
+  set of profiles they compose, under comments saying *"Overrides the generic cdifCore
+  metadataProfileProperty"*. **SHACL has no override.** The published bundle is a naive union, so
+  the `sh:hasValue` entries merge into a conjunction, and `validate_shacl.py`'s `merge_shapes_dedup`
+  instead picks ONE definition by precedence; neither is an override, and the comments described a
+  mechanism that does not exist.
+  It did not matter, because **every URI those four pinned is already pinned by the composed
+  module's own `cdifd:CDIF<Profile>ConformsToShape`**, which lives in that module's `rules.shacl`
+  and so travels with the `$ref` graph -- `discovery/2.0` from `cdifDiscovery`,
+  `data_description/2.0` from `cdifDataDescription`, and so on, all at `sh:Warning`, plus `core/2.0`
+  from the generic shape. **The proof was already in the tree:** `DiscoveryDataDescription`'s
+  redeclaration had NEVER loaded, because `gather_rule_files` gates on the literal string
+  `"sh:NodeShape"` and that file held a `sh:PropertyShape` and nothing else -- yet its bundle still
+  demanded the full correct set. A dead rule that cost nothing, which is the one variety this
+  register had not recorded.
+  **That gate is still there and is now correct everywhere by accident:** after this change no
+  `rules.shacl` has property shapes without a node shape (`xasOptional` has neither), so skipping is
+  right in every current case. It stays a trap for the next PropertyShape-only file.
+  Measured with a 16-case harness -- four composites, omitting each required profile URI in turn
+  plus a case declaring all of them, run against emitted bundles before and after. **Flagged 15 of
+  15 on BOTH sides**, which is the check that nothing went silent, and `omit nothing` clean on both.
+  What improved: the finding now **names the omitted URI in 15 of 15 cases, against 12 of 15
+  before**, and total findings fall **24 -> 15** -- the 9 removed ones were duplicates whose
+  messages named the WRONG VERSION, `DiscoveryDataDescriptionStructure`'s reciting `core/1.0` ...
+  `data_structure/1.0` and `cdifComplete`'s `/1.1`, while both pinned `/2.0`. A record missing
+  `data_structure/2.0` was told to declare `data_structure/1.0`.
+  Deleting `CoreDiscovery`'s copy made one diagnostic WORSE before it was fixed: that message named
+  `core/2.0` and the generic one did not, so a missing core went from named to unnamed. The generic
+  message now names the URI -- **edited in both byte-identical copies**, since changing one would
+  have recreated a differing-definition collision one line after removing one.
+  **`conformance.shacl` is not an option for this, though CLAUDE.md says that is where a
+  profile-conformance advisory belongs:** it appears **0 times in `build/register.json`**, so the
+  postprocessor never publishes it and the `cdifCodelist` / `cdifConceptScheme` / `cdifAccess`
+  advisories are enforced by `validate_shacl.py` alone. Moving a pin there deletes it from the
+  authoritative bundle.
+  The check that this cut nothing else is label-level, not count-level: **197 distinct shape names
+  across `_sources/**/rules.shacl` before and after, 0 gone and 0 new**, the only delta being that
+  URI's file set going 6 -> 2. Gates unchanged at 168/0/0 and 133 of 133.
+  Two gaps this surfaced and did not touch: **`cdifNIAID` demands only `core/2.0`** -- no
+  `niaid/1.0` and no `discovery/2.0`, though its example declares all three -- and `xasDocument`
+  gets its whole set (`core`, `discovery`, `data_description`, `data_structure`, `xasCore/1.2`)
+  purely by composition, which is the mechanism working as intended and worth copying rather than
+  re-pinning.
   **Consolidating onto `definedTerm`'s copy was the obvious fix and would have lost coverage** --
   its SPARQL VALUES list does not include `schema:roleName`, where `agentInRole`'s DefinedTerms
   sit, nor `schema:alternateName`, where `spatialExtent`'s do. Widening that list to cover every
