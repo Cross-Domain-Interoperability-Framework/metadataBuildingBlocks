@@ -733,11 +733,43 @@ their refs are resolved over the network at their build time, not ours.
   carry the old text (`profile-core`, `profile-access`, `profile-niaid`, `profile-provenance`,
   `doc-corediscovery`, `doc-discoverydatadescription`, `doc-discoverydatadescriptionstructure`) --
   check their logs for a re-emit rather than trusting this sentence.
-  The length floor on `schema:name` at 3 still recurs in about ten more shapes
-  (`definedTermSet`, `instrument`, `monetaryGrant`, `provActivity`, `statisticalVariable`,
-  `xasFacility`, `xasInstrument`, `xasSample`, ...). `cdifd:name3Property` and
-  `cdifd:name2Property` are NOT in that set: both are `sh:Warning` and ask *"is this name
-  useful?"*, which is advisory by design -- leave them.
+  **Every `sh:minLength 3` on `schema:name` is gone as of 2026-11-24 -- eight more sites, all at
+  1.** `definedTermSet`, `instrument`, `cdifd:grantNameProperty` (monetaryGrant),
+  `statisticalVariable`, `xasFacility`, `xasInstrument`, `xasSample` and `provActivity` (the last
+  at `sh:Warning`, the other seven at Violation). Each already carried `sh:minCount 1`, so 1 still
+  rejects `""`; every message that recited the number was corrected, `definedTermSet`'s excepted
+  because it never named one. Verified with a 24-case harness built by substituting
+  `sh:minLength 1 -> 3` back into each EMITTED bundle, so both sides come from one emit and no git
+  operation is involved: 8 of 8 short names (`Ka`) flip Violation -> clean, and all 16 empty and
+  absent cases stay flagged on **both** sides, which is the check that no rule went silent.
+  `cdifd:name3Property` and `cdifd:name2Property` remain the deliberate exceptions: both
+  `sh:Warning`, both asking *"is this name useful?"*, advisory by design -- leave them.
+  **Six `sh:minLength 3` sites survive and they are a DIFFERENT defect, not leftovers.** Each is
+  the string branch of a value union -- `sh:or ( [sh:nodeKind sh:IRI] [sh:datatype xsd:string ;
+  sh:minLength 3] ... )` -- on `cdif:physicalDataType` (`cdifDataDescription`), `prov:used`
+  (`provActivity`, `generatedBy`), `oa:hasBody` (`qualityAnnotation`), `dqv:isMeasurementOf`
+  (`qualityMeasure`) and `schema:serviceType` (`webAPI`). That is exactly the shape of the
+  `cdif:physicalDataType` floor recorded above, and **one of the six IS `cdif:physicalDataType`**:
+  the 2026-11-06 fix went into `cdifInstanceVariable` and missed the second declaration of the same
+  constraint in `cdifDataDescription`, which still says 3. A fix here has to decide a floor per
+  property rather than sweeping, so it was left out of the name pass; `schema:serviceType` is the
+  one to think hardest about, since `WMS` and `WFS` are exactly three.
+  **A sweep for shared shape URIs found four more differing-definition collisions besides
+  `cdifd:nameProperty`** (2026-11-24): of 211 named `cdifd:` shapes, 8 are declared in more than one
+  `rules.shacl`, and 4 of those 8 differ between files -- `cdifd:CDIFCatalogRecordShape`
+  (`cdifCatalogRecord` vs `cdifCore`), `cdifd:CDIFDataDownloadShape` (`dataDownload` vs `xasCore`),
+  `cdifd:cdifDataStructure_inlineStructureShape` (`cdifDataStructure` vs
+  `DiscoveryDataDescriptionStructure`) and **`cdifd:metadataProfileProperty`, in SIX files with
+  FOUR distinct definitions** (`cdifCatalogRecord` and `cdifCore` agree; `CoreDiscovery`,
+  `DiscoveryDataDescription`, `DiscoveryDataDescriptionStructure` and `cdifComplete` each differ).
+  None is fixed. The last one is the one to be careful with: a per-composite profile pin that
+  merges into a conjunction would demand every profile URI at once, so work out whether the
+  variation is intentional before renaming anything, and remember CLAUDE.md already records that
+  `cdifCore`'s copy cannot simply move because a NodeShape in the same file references it. The
+  other 4 of the 8 are byte-identical and therefore harmless -- `cdifd:termLabelProperty` across
+  three files, plus `catalogRecordTypeProperty`, `metadataConformsToPresent` and
+  `metadataSubjectProperty`. A shared URI as such is not the defect; a shared URI with DIFFERING
+  definitions is.
   **Consolidating onto `definedTerm`'s copy was the obvious fix and would have lost coverage** --
   its SPARQL VALUES list does not include `schema:roleName`, where `agentInRole`'s DefinedTerms
   sit, nor `schema:alternateName`, where `spatialExtent`'s do. Widening that list to cover every
