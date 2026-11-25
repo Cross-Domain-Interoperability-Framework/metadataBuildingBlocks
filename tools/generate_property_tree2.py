@@ -1089,10 +1089,12 @@ def discover_targets(profiles_root, selected="all"):
     all. Counted 2026-11-25: 5 *_properties.xlsx in the tree, not the 2 this
     docstring used to claim, because 3 of them live under cdifProfile.
 
-    The sibling non-matching workbooks are left alone by the glob and must stay that
-    way: cdifCorePropertiesBrief.xlsx, CDIFDiscovery_schema_summary.xlsx and
-    CDIFDataDescription_schema_summary.xlsx are hand-maintained and no tool here
-    generates them.
+    A workbook whose name does not end _properties.xlsx is left alone by the glob and
+    must stay that way. The three that used to sit beside these --
+    cdifCorePropertiesBrief.xlsx and the two *_schema_summary.xlsx -- were moved to
+    archive/profiles/ on 2026-11-25: hand-maintained, generated and read by nothing,
+    and carrying no record of the schema vintage they described. The glob is why they
+    could go stale invisibly, and why moving them changed nothing here.
     """
     profiles_root = Path(profiles_root)
     if not profiles_root.is_dir():

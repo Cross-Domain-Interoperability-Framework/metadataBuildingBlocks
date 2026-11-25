@@ -143,8 +143,7 @@ metadataBuildingBlocks/
 │   ├── audit_ddi_xmi_consistency.py # Audits ddiProperties BBs vs a DDI-CDI EA XMI export (missing/renamed classes, attr/assoc drift; --dump-class)
 │   ├── audit_cdif_vs_ddi.py         # Audits cdi:* property value-types in cdifProperties vs ddiProperties BB definitions
 │   ├── generate_custom_report.py    # Custom validation report with SHACL severity breakdown
-│   ├── add_property_tree.py         # Adds propertyTree worksheets to Excel workbooks
-│   ├── generate_property_tree2.py   # Generates propertyTree_2 worksheets from resolved schemas
+│   ├── generate_property_tree2.py   # Generates propertyTree_2 + notes worksheets from resolved schemas
 │   ├── generate_pv_comparison.py    # Generates Word doc comparing PropertyValue implementations across BBs
 │   ├── sync_resolve_schema.py       # Syncs shared tool scripts to domain BB repos
 │   └── cors_server.py               # CORS dev server for local testing
@@ -1632,9 +1631,10 @@ would describe properties that repo does not publish.
 The workbook is located by globbing `*_properties.xlsx` in the block's directory rather than
 assuming `<dirname>_properties.xlsx`, because the names in the tree do not follow that
 pattern (`CDIFDiscovery_properties.xlsx`, `CDIFDataDescriptionProfile_properties.xlsx`). Two
-matches in one directory is an error rather than a guess. The glob deliberately **excludes**
-the hand-maintained workbooks that no tool generates — `cdifCorePropertiesBrief.xlsx`,
-`CDIFDiscovery_schema_summary.xlsx`, `CDIFDataDescription_schema_summary.xlsx`. For an
+matches in one directory is an error rather than a guess. The glob also excludes any
+hand-maintained workbook whose name does not end `_properties.xlsx`; the three that did sit beside
+these (`cdifCorePropertiesBrief.xlsx` and the two `*_schema_summary.xlsx`) were moved to
+`archive/profiles/` on 2026-11-25, since no tool generated or read them. For an
 existing workbook, `propertyTree_2` is replaced and every other sheet preserved; where none
 exists, one is created as `<dirname>_properties.xlsx`.
 

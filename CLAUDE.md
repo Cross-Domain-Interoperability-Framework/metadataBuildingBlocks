@@ -980,10 +980,16 @@ their refs are resolved over the network at their build time, not ours.
   such sheet. There are **15 now**, one per block, because `discover_targets` walks both profile
   families and the 2026-11-25 pass created the ten that were missing. **Both of those numbers are
   the kind this file keeps getting wrong, so count the directory rather than reading either.** The
-  glob still spares the hand-maintained siblings that no tool generates
-  (`cdifCorePropertiesBrief.xlsx`, `CDIFDiscovery_schema_summary.xlsx`,
-  `CDIFDataDescription_schema_summary.xlsx`), and **it must keep sparing them**: it raises rather
-  than guess if a directory ever holds two matches.
+  glob raises rather than guess if a directory ever holds two matches, and it spares any
+  hand-maintained sibling whose name does not end `_properties.xlsx`. The three that used to be
+  such siblings -- `cdifCorePropertiesBrief.xlsx` and the two `*_schema_summary.xlsx` -- were
+  **moved to `archive/profiles/` on 2026-11-25**, byte-identical, because no tool generated or read
+  them and they carried no record of which schema vintage they described, while sitting in the same
+  directories as the regenerated files. The glob is why they could go stale invisibly and why
+  moving them changed no behaviour: `--profile all` still finds 15 targets.
+  **The hand-made per-type sheets INSIDE the five workbooks were left alone**, deliberately. Moving
+  a worksheet is not a `git mv`; it needs an openpyxl rewrite, which is exactly what truncates the
+  non-cell content described below.
   **Fixing the plumbing was not fixing the output, and that gap lasted one PR.** #86 made the tool
   execute; its tree was still wrong, because the walker read only `type` and resolved nothing.
   `resolve_schema.py` resolves EXTERNAL refs into `$defs` and leaves the internal ones, so a

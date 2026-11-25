@@ -210,3 +210,55 @@ What the move costs, recorded rather than discovered later:
 Verified after the move: `audit_cdif_vs_ddi.py --self-test` 9/9, and the full run still collects
 **297** canonical `cdi:` properties and returns the identical verdict
 (`MATCH: 54  SOFT: 6  STRUCTURAL: 0  CDIF-ONLY: 1`).
+
+## add_property_tree.py
+
+Archived 2026-11-25. The v1 property-tree generator, superseded by
+`tools/generate_property_tree2.py`. It wrote a sheet named `propertyTree`; the survivor writes
+`propertyTree_2` and a `notes` sheet beside it.
+
+**It had been dead since 2026-05-28.** Its targets are a hardcoded table naming
+`profiles/cdifCompositeProfile/BasicDiscovery/BasicDiscovery_properties.xlsx` and
+`BasicDataDescription/BasicDataDescription_properties.xlsx` -- directories that `9ea41db485`
+renamed away. That is the same reorg that killed `generate_property_tree2.py`, which was repaired
+on 2026-11-12 by discovering targets from the tree instead; this one was never repaired, and
+nothing noticed because nothing ran it.
+
+Three `propertyTree` sheets it produced are still live, in
+`cdifCore_properties.xlsx`, `cdifDataDescription_properties.xlsx` and
+`CDIFDataDescriptionProfile_properties.xlsx`. **They are stale generated output, not
+hand-maintained content** -- a distinction worth keeping, because the per-type sheets in those same
+workbooks (`Identifier`, `Person`, `DataDownload`, ...) genuinely are hand-made and no tool in this
+repo generates them. The `propertyTree` sheets were deliberately left in place when this tool was
+archived: regenerating them is not possible without reviving the tool, and deleting them would
+discard the only record of what it emitted.
+
+Do not revive it to refresh those three sheets. `generate_property_tree2.py` covers every block in
+both profile families, resolves shapes v1 never did (`deref`, `expand_union`, `merge_allof`,
+root applicators, the sealed-reference `contains` pin), and records its own provenance.
+
+## profiles/cdifProfile/cdifCore/cdifCorePropertiesBrief.xlsx, profiles/cdifCompositeProfile/CoreDiscovery/CDIFDiscovery_schema_summary.xlsx, profiles/cdifCompositeProfile/DiscoveryDataDescription/CDIFDataDescription_schema_summary.xlsx
+
+Archived 2026-11-25, moved byte-identical (pure `git mv`, no openpyxl round-trip -- see the
+caution in `CLAUDE.md` about what that round-trip does to floating shapes).
+
+Three hand-maintained workbooks that **no tool in this repo generates or reads**, sitting beside
+the generated `*_properties.xlsx` and describing the same schemas at an unknown and unrecorded
+vintage. `cdifCorePropertiesBrief.xlsx` is a 5-sheet abridgement of `cdifCore_properties.xlsx`
+(`cdifMandatory`, `identifier`, `labeledLink`, `dataDownload`, `cdifCatalogRecord`); the two
+`*_schema_summary.xlsx` each hold a `Types` and a `Properties` sheet.
+
+They were moved out because the 2026-11-25 pass gave every block a generated workbook carrying a
+`notes` sheet that states which commit its schema came from. These three state nothing of the kind,
+so a reader had no way to tell whether they were current -- and they sat in the same directories as
+the regenerated files, where they read as peers of them.
+
+`generate_property_tree2.py` never touched them: it globs `*_properties.xlsx`, which matches none
+of these three names. That is why they could go stale invisibly, and it is also why moving them
+changes no tool's behaviour -- verified by re-running `--profile all` after the move, which still
+finds 15 targets and writes the same 15 workbooks.
+
+Nothing in `_sources/` is affected. The hand-made per-type sheets **inside** the five
+`*_properties.xlsx` workbooks were deliberately left where they are: they cannot be moved without
+an openpyxl rewrite of workbooks that are otherwise generated artifacts, and that rewrite is what
+truncates the kind of content a `git mv` preserves.
