@@ -2016,13 +2016,13 @@ optional Attribute) and its own cdif:Key.
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of observations to return (default 100)." ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format token (csv only for this example)." ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of observations to return (default 100)." ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a cdi:PhysicalDataSet,
                                 cdi:TabularTextDataSet,
@@ -2038,11 +2038,7 @@ optional Attribute) and its own cdif:Key.
                             schema1:name "Vitals API response (long format)" ;
                             cdif:fileSize 5e-01 ;
                             cdif:fileSizeUofM "MB" ;
-                            cdif:hasPhysicalMapping [ cdif:format "string" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                                    cdif:index 0 ;
-                                    cdif:physicalDataType "string" ],
-                                [ cdif:format "decimal" ;
+                            cdif:hasPhysicalMapping [ cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                                     cdif:index 2 ;
                                     cdif:physicalDataType "decimal" ],
@@ -2053,6 +2049,10 @@ optional Attribute) and its own cdif:Key.
                                 [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                                     cdif:index 1 ;
+                                    cdif:physicalDataType "string" ],
+                                [ cdif:format "string" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                                    cdif:index 0 ;
                                     cdif:physicalDataType "string" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "text/csv" ;
@@ -2129,14 +2129,14 @@ optional Attribute) and its own cdif:Key.
 
 <https://example.org/dataset/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/patientId> ;
             cdi:value 1 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
-            cdi:value 3 ],
-        [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/measureName> ;
-            cdi:value 2 ] .
+            cdi:value 3 ] .
 
 <https://example.org/grant/nih-R01-XXXX> a schema1:MonetaryGrant ;
     schema1:funder <https://ror.org/01cwqze88> ;
@@ -2163,11 +2163,11 @@ optional Attribute) and its own cdif:Key.
 
 <https://example.org/struct/vitalsLong/pk> a cdif:Key ;
     cdif:isComposedOf [ a cdi:ComponentPosition ;
-            cdi:indexes <https://example.org/var/patientId> ;
-            cdi:value 1 ],
-        [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/observedAt> ;
             cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ],
         [ a cdi:ComponentPosition ;
             cdi:indexes <https://example.org/var/measureName> ;
             cdi:value 2 ] .
@@ -2193,12 +2193,12 @@ optional Attribute) and its own cdif:Key.
     cdif:name "body_temperature_celsius" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ],
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
             cdif:value "temp_c" ] .
 
