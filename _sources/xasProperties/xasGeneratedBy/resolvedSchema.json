@@ -2813,7 +2813,7 @@
     },
     "InstrumentComponent": {
       "type": "object",
-      "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
+      "description": "A sub-component of an instrument system (for example a sensor, or a sensing element within a sensor). Uses the same structure as the parent instrument and may itself carry schema:hasPart, so component hierarchies nest to any depth (instrument > sensor > sensing element ...).",
       "properties": {
         "@type": {
           "type": "array",
@@ -2921,6 +2921,20 @@
           "required": [
             "@type"
           ]
+        },
+        "schema:hasPart": {
+          "type": "array",
+          "description": "Nested sub-components, for example the sensing elements within a sensor. Each item is an InstrumentComponent or an @id reference, so component hierarchies nest to any depth (instrument > sensor > sensing element ...).",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/InstrumentComponent"
+              },
+              {
+                "$ref": "#/$defs/ObjectReference"
+              }
+            ]
+          }
         }
       },
       "required": [
