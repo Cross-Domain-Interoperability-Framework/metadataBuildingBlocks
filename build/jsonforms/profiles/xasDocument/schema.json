@@ -1023,7 +1023,7 @@
                   "additionalProperties": false
                 },
                 {
-                  "$ref": "#/$defs/Shared_3a5face5"
+                  "$ref": "#/$defs/Shared_39370470"
                 }
               ],
               "if": {
@@ -3394,7 +3394,7 @@
                 "additionalProperties": false
               },
               {
-                "$ref": "#/$defs/Shared_3a5face5"
+                "$ref": "#/$defs/Shared_39370470"
               }
             ]
           }
@@ -3577,6 +3577,136 @@
           "@type": {}
         }
       }
+    },
+    "InstrumentComponent": {
+      "type": "object",
+      "description": "A sub-component of an instrument system (for example a sensor, or a sensing element within a sensor). Uses the same structure as the parent instrument and may itself carry schema:hasPart, so component hierarchies nest to any depth (instrument > sensor > sensing element ...).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Must include schema:Product (as the parent instrument does) or schema:Thing (accepted for existing components).",
+          "anyOf": [
+            {},
+            {}
+          ]
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:alternateName": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "schema:identifier": {
+          "type": "string",
+          "description": "Identifier"
+        },
+        "schema:additionalType": {
+          "description": "Component type classification.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Additional type URI or label"
+          }
+        },
+        "schema:additionalProperty": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Shared_e3caab86"
+          }
+        },
+        "schema:manufacturer": {
+          "$ref": "#/$defs/Shared_7710723f"
+        },
+        "schema:model": {
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "title": "Object Reference",
+                    "description": "A reference to a node defined elsewhere, by its @id.",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "resolvable @id of the referenced node"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ],
+                    "additionalProperties": false
+                  }
+                ],
+                "enum": [
+                  "schema:ProductModel"
+                ]
+              },
+              "default": [
+                "schema:ProductModel"
+              ]
+            },
+            "schema:name": {
+              "type": "string"
+            },
+            "schema:identifier": {
+              "type": "string",
+              "description": "Identifier"
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        "schema:hasPart": {
+          "type": "array",
+          "description": "Nested sub-components, for example the sensing elements within a sensor. Each item is an InstrumentComponent or an @id reference, so component hierarchies nest to any depth (instrument > sensor > sensing element ...).",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/InstrumentComponent"
+              },
+              {
+                "title": "Object Reference",
+                "description": "A reference to a node defined elsewhere, by its @id.",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "resolvable @id of the referenced node"
+                  }
+                },
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type",
+        "schema:name"
+      ]
     },
     "Statistics": {
       "title": "Statistics",
@@ -4361,141 +4491,10 @@
         "$ref": "#/$defs/Shared_e3caab86"
       }
     },
-    "Shared_dd6c19d2": {
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/Shared_e3caab86"
-      }
-    },
-    "Shared_7710723f": {
-      "type": "object",
-      "properties": {
-        "$ref": "#/$defs/Shared_37401c45"
-      },
-      "required": [
-        "@type"
-      ]
-    },
-    "Shared_6db800cc": {
+    "Shared_80a73bc6": {
       "anyOf": [
         {
-          "type": "string"
-        },
-        {
-          "title": "Object Reference",
-          "description": "A reference to a node defined elsewhere, by its @id.",
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "resolvable @id of the referenced node"
-            }
-          },
-          "required": [
-            "@id"
-          ],
-          "additionalProperties": false
-        }
-      ],
-      "enum": [
-        "schema:ProductModel"
-      ]
-    },
-    "Shared_be10f893": {
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/Shared_6db800cc"
-      },
-      "default": [
-        "schema:ProductModel"
-      ]
-    },
-    "Shared_2e6a192d": {
-      "@type": {
-        "$ref": "#/$defs/Shared_be10f893"
-      },
-      "schema:name": {
-        "type": "string"
-      },
-      "schema:identifier": {
-        "type": "string",
-        "description": "Identifier"
-      }
-    },
-    "Shared_43c1bdcd": {
-      "type": "object",
-      "properties": {
-        "$ref": "#/$defs/Shared_2e6a192d"
-      },
-      "required": [
-        "@type"
-      ]
-    },
-    "Shared_e1abfecc": {
-      "@type": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "description": "Must include schema:Product (as the parent instrument does) or schema:Thing (accepted for existing components).",
-        "anyOf": [
-          {},
-          {}
-        ]
-      },
-      "@id": {
-        "type": "string"
-      },
-      "schema:name": {
-        "type": "string",
-        "minLength": 3
-      },
-      "schema:description": {
-        "type": "string"
-      },
-      "schema:alternateName": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        }
-      },
-      "schema:identifier": {
-        "type": "string",
-        "description": "Identifier"
-      },
-      "schema:additionalType": {
-        "description": "Component type classification.",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "description": "Additional type URI or label"
-        }
-      },
-      "schema:additionalProperty": {
-        "$ref": "#/$defs/Shared_dd6c19d2"
-      },
-      "schema:manufacturer": {
-        "$ref": "#/$defs/Shared_7710723f"
-      },
-      "schema:model": {
-        "$ref": "#/$defs/Shared_43c1bdcd"
-      }
-    },
-    "Shared_6411ca04": {
-      "type": "object",
-      "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
-      "properties": {
-        "$ref": "#/$defs/Shared_e1abfecc"
-      },
-      "required": [
-        "@type",
-        "schema:name"
-      ]
-    },
-    "Shared_dad915c9": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/Shared_6411ca04"
+          "$ref": "#/$defs/InstrumentComponent"
         },
         {
           "title": "Object Reference",
@@ -4514,11 +4513,11 @@
         }
       ]
     },
-    "Shared_64aacccf": {
+    "Shared_79a7fcfa": {
       "type": "array",
       "description": "Sub-components of this instrument system. Each item is either an inline instrument description or an @id reference.",
       "items": {
-        "$ref": "#/$defs/Shared_dad915c9"
+        "$ref": "#/$defs/Shared_80a73bc6"
       }
     },
     "Shared_caa393d2": {
@@ -4578,7 +4577,7 @@
         "@type"
       ]
     },
-    "Shared_b9b6cdf7": {
+    "Shared_47dee733": {
       "@context": {
         "type": "object",
         "description": "JSON-LD context declaring namespace prefixes.",
@@ -4668,7 +4667,7 @@
         "description": "Date the instrument was decommissioned (ISO 8601). Absent if still operational."
       },
       "schema:hasPart": {
-        "$ref": "#/$defs/Shared_64aacccf"
+        "$ref": "#/$defs/Shared_79a7fcfa"
       },
       "schema:relatedLink": {
         "$ref": "#/$defs/Shared_caa393d2"
@@ -4677,19 +4676,19 @@
         "$ref": "#/$defs/Shared_8be2bf2d"
       }
     },
-    "Shared_160478e9": {
+    "Shared_66b13c95": {
       "title": "Instrument Description",
       "description": "Schema for describing laboratory instruments and instrument systems. Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components via schema:hasPart, and domain-specific typing. Instruments may be standalone devices or complex systems with sub-components.",
       "type": "object",
       "properties": {
-        "$ref": "#/$defs/Shared_b9b6cdf7"
+        "$ref": "#/$defs/Shared_47dee733"
       },
       "required": [
         "@type",
         "schema:name"
       ]
     },
-    "Shared_3a5face5": {
+    "Shared_39370470": {
       "type": "object",
       "description": "An instrument, software or reagent described in place. schema:additionalType must carry exactly one of the three kind terms; the kind then pins the shape. A domain profile adds its own properties (a role, a version, settings).",
       "required": [
@@ -4746,7 +4745,7 @@
         ]
       },
       "then": {
-        "$ref": "#/$defs/Shared_160478e9"
+        "$ref": "#/$defs/Shared_66b13c95"
       }
     },
     "Shared_e0aeaf43": {
@@ -4861,6 +4860,15 @@
       "type": "object",
       "properties": {
         "$ref": "#/$defs/Shared_b0253cfb"
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Shared_7710723f": {
+      "type": "object",
+      "properties": {
+        "$ref": "#/$defs/Shared_37401c45"
       },
       "required": [
         "@type"
