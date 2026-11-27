@@ -2,7 +2,7 @@
   "title": "Validation report for cdif.bbr.metadata.schemaorgProperties.temporalExtent - Temporal Extent properites",
   "bblockName": "Temporal Extent properites",
   "bblockId": "cdif.bbr.metadata.schemaorgProperties.temporalExtent",
-  "generated": "2026-11-26T14:52:09.630174+00:00",
+  "generated": "2026-11-27T18:01:25.593556+00:00",
   "result": true,
   "items": [
     {
@@ -77,51 +77,90 @@
             {
               "op": "shacl-report",
               "shaclFile": "_sources/schemaorgProperties/temporalExtent/rules.shacl",
-              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "graph": "@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix schema1: <http://schema.org/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix time: <http://www.w3.org/2006/time#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode [ a time:ProperInterval ;\n                    schema1:description \"nde:temporalType: collection\" ;\n                    time:hasBeginning [ a time:Instant ;\n                            time:inXSDDate \"15 July 2008\" ] ;\n                    time:hasEnd [ a time:Instant ;\n                            time:inXSDDate \"2011-07-15\" ] ] ;\n            sh:resultMessage \"A time interval beginning must be typed time:Instant and give either a time:inTimePosition that is a time:TimePosition, or a time:inXSDDate (YYYY-MM-DD)\" ;\n            sh:resultPath time:hasBeginning ;\n            sh:resultSeverity sh:Violation ;\n            sh:sourceConstraintComponent sh:OrConstraintComponent ;\n            sh:sourceShape [ sh:message \"A time interval beginning must be typed time:Instant and give either a time:inTimePosition that is a time:TimePosition, or a time:inXSDDate (YYYY-MM-DD)\" ;\n                    sh:or ( cdifd:numericInstantShape cdifd:calendarInstantShape ) ;\n                    sh:path time:hasBeginning ] ;\n            sh:value [ a time:Instant ;\n                    time:inXSDDate \"15 July 2008\" ] ] .\n\n",
               "isError": false,
-              "message": "Validation result for _sources/schemaorgProperties/temporalExtent/rules.shacl: no results"
+              "message": "Validation result for _sources/schemaorgProperties/temporalExtent/rules.shacl: 1 violation"
+            },
+            {
+              "op": "shacl-result",
+              "resultSeverity": "http://www.w3.org/ns/shacl#Violation",
+              "focusNode": "N051e2afd89874c13b08ffde7f50bfc3d",
+              "resultPath": "time:hasBeginning",
+              "sourceConstraintComponent": "http://www.w3.org/ns/shacl#OrConstraintComponent",
+              "sourceShape": null,
+              "sourceShapeDescription": "cdifd:timeIntervalNode/sh:property (path time:hasBeginning)",
+              "value": "_:N2fe00496e02e4765b9ec389a1ed636de",
+              "resultMessage": "A time interval beginning must be typed time:Instant and give either a time:inTimePosition that is a time:TimePosition, or a time:inXSDDate (YYYY-MM-DD)",
+              "shaclFile": "_sources/schemaorgProperties/temporalExtent/rules.shacl",
+              "isError": true,
+              "severity": "error",
+              "message": "Violation (sh:OrConstraintComponent):\n  Source shape: cdifd:timeIntervalNode/sh:property (path time:hasBeginning)\n  Focus node: _:N051e2afd89874c13b08ffde7f50bfc3d\n  Result path: time:hasBeginning\n  Value: _:N2fe00496e02e4765b9ec389a1ed636de\n  Message: A time interval beginning must be typed time:Instant and give either a time:inTimePosition that is a time:TimePosition, or a time:inXSDDate (YYYY-MM-DD)"
             },
             {
               "shaclFile": "_sources/schemaorgProperties/temporalExtent/rules.shacl",
               "focusNodes": {
-                "cdifd:timePositionNode": {
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b17": {
                   "nodes": []
                 },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb17": {
+                "cdifd:timeIntervalNode": {
+                  "nodes": [
+                    "_:N051e2afd89874c13b08ffde7f50bfc3d"
+                  ]
+                },
+                "cdifd:timeInstantNode": {
+                  "nodes": [
+                    "_:N2fe00496e02e4765b9ec389a1ed636de",
+                    "_:N54e563876f1c4a228c8b00d473a4fbc8"
+                  ]
+                },
+                "cdifd:timePositionNode/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:temporalExtentProperty/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb5": {
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b3": {
+                  "nodes": []
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b4": {
+                  "nodes": []
+                },
+                "cdifd:numericInstantShape": {
+                  "nodes": []
+                },
+                "cdifd:timePositionNode": {
+                  "nodes": []
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b19": {
+                  "nodes": []
+                },
+                "cdifd:timeIntervalNode/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b37": {
+                  "nodes": []
+                },
+                "cdifd:timeIntervalNode/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:calendarInstantShape": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageObjectProperty/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageNode": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageObjectProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
-                },
-                "cdifd:timeInstantNode": {
-                  "nodes": [
-                    "_:Na7fe7d8caba449319a9d08a315caf0f1",
-                    "_:N7c8d9da123d046308824666ad6cf5255"
-                  ]
-                },
-                "cdifd:timeIntervalNode": {
-                  "nodes": [
-                    "_:N396dbfbc16494ee39f743e3e49f0748d"
-                  ]
-                },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb3": {
-                  "nodes": []
-                },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb4": {
-                  "nodes": []
-                },
-                "cdifd:timePositionNode/sh:property/sh:or/rdf:first": {
-                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/temporalExtent/rules.shacl:\n - Shape cdifd:timePositionNode: *none*\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb17: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:first: *none*\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb5: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:timeInstantNode: _:Na7fe7d8caba449319a9d08a315caf0f1,_:N7c8d9da123d046308824666ad6cf5255\n - Shape cdifd:timeIntervalNode: _:N396dbfbc16494ee39f743e3e49f0748d\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb3: *none*\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb4: *none*\n - Shape cdifd:timePositionNode/sh:property/sh:or/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/temporalExtent/rules.shacl:\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b17: *none*\n - Shape cdifd:timeIntervalNode: _:N051e2afd89874c13b08ffde7f50bfc3d\n - Shape cdifd:timeInstantNode: _:N2fe00496e02e4765b9ec389a1ed636de,_:N54e563876f1c4a228c8b00d473a4fbc8\n - Shape cdifd:timePositionNode/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b3: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b4: *none*\n - Shape cdifd:numericInstantShape: *none*\n - Shape cdifd:timePositionNode: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b19: *none*\n - Shape cdifd:timeIntervalNode/sh:or/rdf:first: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b37: *none*\n - Shape cdifd:timeIntervalNode/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:calendarInstantShape: *none*\n - Shape cdifd:temporalCoverageObjectProperty/sh:or/rdf:first: *none*\n - Shape cdifd:temporalCoverageNode: *none*\n - Shape cdifd:temporalCoverageObjectProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n"
             }
           ]
         }
@@ -195,47 +234,71 @@
             {
               "shaclFile": "_sources/schemaorgProperties/temporalExtent/rules.shacl",
               "focusNodes": {
-                "cdifd:timePositionNode": {
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b17": {
+                  "nodes": []
+                },
+                "cdifd:timeIntervalNode": {
                   "nodes": [
-                    "_:Nac36b093f7fe4b0b8683c4ed569b5db9",
-                    "_:N516cf5c13baa4f7e890aed318d9381cb"
+                    "_:Nc69b75d6783d47eb9100099ac705ceed"
                   ]
                 },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb17": {
+                "cdifd:timeInstantNode": {
+                  "nodes": [
+                    "_:Na60001ebf4bb4f2f8b372701a1407a62",
+                    "_:N32ccefc82ec047139d6f16e1d154d079"
+                  ]
+                },
+                "cdifd:timePositionNode/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:temporalExtentProperty/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb5": {
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b3": {
+                  "nodes": []
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b4": {
+                  "nodes": []
+                },
+                "cdifd:numericInstantShape": {
+                  "nodes": []
+                },
+                "cdifd:timePositionNode": {
+                  "nodes": [
+                    "_:Ncc4635ff916a4e70936b0aa9aab05807",
+                    "_:N17afbf83724f4b6da9c99148aba3a91a"
+                  ]
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b19": {
+                  "nodes": []
+                },
+                "cdifd:timeIntervalNode/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b37": {
+                  "nodes": []
+                },
+                "cdifd:timeIntervalNode/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:calendarInstantShape": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageObjectProperty/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageNode": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageObjectProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
-                },
-                "cdifd:timeInstantNode": {
-                  "nodes": [
-                    "_:Nbd4828b3cc6041848347bc4bb4adcbae",
-                    "_:N898897e7cd8e4060a0fd87b0f9a2c413"
-                  ]
-                },
-                "cdifd:timeIntervalNode": {
-                  "nodes": [
-                    "_:Na8de6e3269674afe9d8774b1739624d7"
-                  ]
-                },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb3": {
-                  "nodes": []
-                },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb4": {
-                  "nodes": []
-                },
-                "cdifd:timePositionNode/sh:property/sh:or/rdf:first": {
-                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/temporalExtent/rules.shacl:\n - Shape cdifd:timePositionNode: _:Nac36b093f7fe4b0b8683c4ed569b5db9,_:N516cf5c13baa4f7e890aed318d9381cb\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb17: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:first: *none*\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb5: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:timeInstantNode: _:Nbd4828b3cc6041848347bc4bb4adcbae,_:N898897e7cd8e4060a0fd87b0f9a2c413\n - Shape cdifd:timeIntervalNode: _:Na8de6e3269674afe9d8774b1739624d7\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb3: *none*\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb4: *none*\n - Shape cdifd:timePositionNode/sh:property/sh:or/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/temporalExtent/rules.shacl:\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b17: *none*\n - Shape cdifd:timeIntervalNode: _:Nc69b75d6783d47eb9100099ac705ceed\n - Shape cdifd:timeInstantNode: _:Na60001ebf4bb4f2f8b372701a1407a62,_:N32ccefc82ec047139d6f16e1d154d079\n - Shape cdifd:timePositionNode/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b3: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b4: *none*\n - Shape cdifd:numericInstantShape: *none*\n - Shape cdifd:timePositionNode: _:Ncc4635ff916a4e70936b0aa9aab05807,_:N17afbf83724f4b6da9c99148aba3a91a\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b19: *none*\n - Shape cdifd:timeIntervalNode/sh:or/rdf:first: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b37: *none*\n - Shape cdifd:timeIntervalNode/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:calendarInstantShape: *none*\n - Shape cdifd:temporalCoverageObjectProperty/sh:or/rdf:first: *none*\n - Shape cdifd:temporalCoverageNode: *none*\n - Shape cdifd:temporalCoverageObjectProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n"
             }
           ]
         }
@@ -309,47 +372,71 @@
             {
               "shaclFile": "_sources/schemaorgProperties/temporalExtent/rules.shacl",
               "focusNodes": {
-                "cdifd:timePositionNode": {
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b17": {
+                  "nodes": []
+                },
+                "cdifd:timeIntervalNode": {
                   "nodes": [
-                    "_:Nd9dff4aa266040ef8e61c502824e134d",
-                    "_:N25173c3cc8894c179b2505e3bab5837f"
+                    "_:Nbb816e2f4b59439d9069e59c7c77f960"
                   ]
                 },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb17": {
+                "cdifd:timeInstantNode": {
+                  "nodes": [
+                    "_:N4df9834d171241819790f8689abd28d8",
+                    "_:N63b0fcdb094541dab420189cbcc8a03f"
+                  ]
+                },
+                "cdifd:timePositionNode/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:temporalExtentProperty/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb5": {
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b3": {
+                  "nodes": []
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b4": {
+                  "nodes": []
+                },
+                "cdifd:numericInstantShape": {
+                  "nodes": []
+                },
+                "cdifd:timePositionNode": {
+                  "nodes": [
+                    "_:N807b0805782f4b1f9377442f30936943",
+                    "_:Nc3221f956e0b4ee1b834a6e109b774bf"
+                  ]
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b19": {
+                  "nodes": []
+                },
+                "cdifd:timeIntervalNode/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b37": {
+                  "nodes": []
+                },
+                "cdifd:timeIntervalNode/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:calendarInstantShape": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageObjectProperty/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageNode": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageObjectProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
-                },
-                "cdifd:timeInstantNode": {
-                  "nodes": [
-                    "_:N5837c55c6d7547d4b96283885bcc8c72",
-                    "_:N901266c425884ab297d5a5fe50c87a9a"
-                  ]
-                },
-                "cdifd:timeIntervalNode": {
-                  "nodes": [
-                    "_:N82591b8c781b4989866e180d1c808c34"
-                  ]
-                },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb3": {
-                  "nodes": []
-                },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb4": {
-                  "nodes": []
-                },
-                "cdifd:timePositionNode/sh:property/sh:or/rdf:first": {
-                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/temporalExtent/rules.shacl:\n - Shape cdifd:timePositionNode: _:Nd9dff4aa266040ef8e61c502824e134d,_:N25173c3cc8894c179b2505e3bab5837f\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb17: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:first: *none*\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb5: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:timeInstantNode: _:N5837c55c6d7547d4b96283885bcc8c72,_:N901266c425884ab297d5a5fe50c87a9a\n - Shape cdifd:timeIntervalNode: _:N82591b8c781b4989866e180d1c808c34\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb3: *none*\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb4: *none*\n - Shape cdifd:timePositionNode/sh:property/sh:or/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/temporalExtent/rules.shacl:\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b17: *none*\n - Shape cdifd:timeIntervalNode: _:Nbb816e2f4b59439d9069e59c7c77f960\n - Shape cdifd:timeInstantNode: _:N4df9834d171241819790f8689abd28d8,_:N63b0fcdb094541dab420189cbcc8a03f\n - Shape cdifd:timePositionNode/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b3: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b4: *none*\n - Shape cdifd:numericInstantShape: *none*\n - Shape cdifd:timePositionNode: _:N807b0805782f4b1f9377442f30936943,_:Nc3221f956e0b4ee1b834a6e109b774bf\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b19: *none*\n - Shape cdifd:timeIntervalNode/sh:or/rdf:first: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b37: *none*\n - Shape cdifd:timeIntervalNode/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:calendarInstantShape: *none*\n - Shape cdifd:temporalCoverageObjectProperty/sh:or/rdf:first: *none*\n - Shape cdifd:temporalCoverageNode: *none*\n - Shape cdifd:temporalCoverageObjectProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n"
             }
           ]
         }
@@ -423,44 +510,68 @@
             {
               "shaclFile": "_sources/schemaorgProperties/temporalExtent/rules.shacl",
               "focusNodes": {
-                "cdifd:timePositionNode": {
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b17": {
                   "nodes": []
                 },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb17": {
+                "cdifd:timeIntervalNode": {
+                  "nodes": [
+                    "_:N9ec1345b65644dc2b426d043f9a6bc58"
+                  ]
+                },
+                "cdifd:timeInstantNode": {
+                  "nodes": [
+                    "_:N5107429cfd6f4823a779d24357a46eb8",
+                    "_:Nddd807b3ab7b4150b254a0ac16cd2e5f"
+                  ]
+                },
+                "cdifd:timePositionNode/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:temporalExtentProperty/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb5": {
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b3": {
+                  "nodes": []
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b4": {
+                  "nodes": []
+                },
+                "cdifd:numericInstantShape": {
+                  "nodes": []
+                },
+                "cdifd:timePositionNode": {
+                  "nodes": []
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b19": {
+                  "nodes": []
+                },
+                "cdifd:timeIntervalNode/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b37": {
+                  "nodes": []
+                },
+                "cdifd:timeIntervalNode/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:calendarInstantShape": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageObjectProperty/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageNode": {
+                  "nodes": []
+                },
+                "cdifd:temporalCoverageObjectProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
-                },
-                "cdifd:timeInstantNode": {
-                  "nodes": [
-                    "_:N1285667a09f445969dad250f92d96276",
-                    "_:Ne77099f4135d4e629dd4f06f617a7a78"
-                  ]
-                },
-                "cdifd:timeIntervalNode": {
-                  "nodes": [
-                    "_:N6ed81687cf6d42b08419913447223bc8"
-                  ]
-                },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb3": {
-                  "nodes": []
-                },
-                "_:na1123ea80ec44e64b50f466954dc6b9bb4": {
-                  "nodes": []
-                },
-                "cdifd:timePositionNode/sh:property/sh:or/rdf:first": {
-                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/temporalExtent/rules.shacl:\n - Shape cdifd:timePositionNode: *none*\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb17: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:first: *none*\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb5: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:timeInstantNode: _:N1285667a09f445969dad250f92d96276,_:Ne77099f4135d4e629dd4f06f617a7a78\n - Shape cdifd:timeIntervalNode: _:N6ed81687cf6d42b08419913447223bc8\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb3: *none*\n - Shape _:na1123ea80ec44e64b50f466954dc6b9bb4: *none*\n - Shape cdifd:timePositionNode/sh:property/sh:or/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/temporalExtent/rules.shacl:\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b17: *none*\n - Shape cdifd:timeIntervalNode: _:N9ec1345b65644dc2b426d043f9a6bc58\n - Shape cdifd:timeInstantNode: _:N5107429cfd6f4823a779d24357a46eb8,_:Nddd807b3ab7b4150b254a0ac16cd2e5f\n - Shape cdifd:timePositionNode/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:first: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b3: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b4: *none*\n - Shape cdifd:numericInstantShape: *none*\n - Shape cdifd:timePositionNode: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b19: *none*\n - Shape cdifd:timeIntervalNode/sh:or/rdf:first: *none*\n - Shape _:n509eb2f6e9ba4b059b8a8bcfbd8c75b8b37: *none*\n - Shape cdifd:timeIntervalNode/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:calendarInstantShape: *none*\n - Shape cdifd:temporalCoverageObjectProperty/sh:or/rdf:first: *none*\n - Shape cdifd:temporalCoverageNode: *none*\n - Shape cdifd:temporalCoverageObjectProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first: *none*\n"
             }
           ]
         }

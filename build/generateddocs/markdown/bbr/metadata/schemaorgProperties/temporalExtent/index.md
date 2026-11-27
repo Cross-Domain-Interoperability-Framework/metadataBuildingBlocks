@@ -354,6 +354,14 @@ anyOf:
       description: 'identifier for a named time ordinal era that is younger bound
         of time interval, e.g. ''isc:LowerDevonian'' '
       x-jsonld-id: http://www.w3.org/2006/time#intervalFinishedBy
+    time:hasBeginning:
+      $ref: '#/$defs/instant_type'
+      x-jsonld-id: http://www.w3.org/2006/time#hasBeginning
+    time:hasEnd:
+      $ref: '#/$defs/instant_type'
+      x-jsonld-id: http://www.w3.org/2006/time#hasEnd
+  required:
+  - '@type'
   anyOf:
   - required:
     - time:intervalStartedBy
@@ -386,37 +394,13 @@ anyOf:
         const: time:ProperInterval
       minItems: 1
     time:hasBeginning:
-      type: object
-      properties:
-        '@type':
-          type: array
-          items:
-            type: string
-          contains:
-            const: time:Instant
-          minItems: 1
-        time:inTimePosition:
-          $ref: '#/$defs/timePosition_type'
-          x-jsonld-id: http://www.w3.org/2006/time#inTimePosition
-      required:
-      - time:inTimePosition
+      $ref: '#/$defs/numericInstant_type'
       x-jsonld-id: http://www.w3.org/2006/time#hasBeginning
     time:hasEnd:
-      type: object
-      properties:
-        '@type':
-          type: array
-          items:
-            type: string
-          contains:
-            const: time:Instant
-          minItems: 1
-        time:inTimePosition:
-          $ref: '#/$defs/timePosition_type'
-          x-jsonld-id: http://www.w3.org/2006/time#inTimePosition
-      required:
-      - time:inTimePosition
+      $ref: '#/$defs/numericInstant_type'
       x-jsonld-id: http://www.w3.org/2006/time#hasEnd
+  required:
+  - '@type'
   anyOf:
   - required:
     - time:hasBeginning
@@ -454,6 +438,26 @@ anyOf:
   description: Simple ISO8601 encoding of calendar date, dateTime, or time interval
     with calendar date bounds
 $defs:
+  instant_type:
+    anyOf:
+    - $ref: '#/$defs/numericInstant_type'
+    - $ref: '#/$defs/calendarInstant_type'
+  numericInstant_type:
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: time:Instant
+        minItems: 1
+      time:inTimePosition:
+        $ref: '#/$defs/timePosition_type'
+        x-jsonld-id: http://www.w3.org/2006/time#inTimePosition
+    required:
+    - '@type'
+    - time:inTimePosition
   calendarInstant_type:
     type: object
     properties:
@@ -506,7 +510,7 @@ x-bblocks-metadata:
   itemIdentifier: cdif.bbr.metadata.schemaorgProperties.temporalExtent
   register: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/register.json
   version: '0.1'
-  dateOfLastChange: '2026-11-26'
+  dateOfLastChange: '2026-11-27'
 
 ```
 
