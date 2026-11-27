@@ -478,6 +478,47 @@ their refs are resolved over the network at their build time, not ours.
   meant to clear. If you add an applicator keyword to a schema here, check the walker handles it;
   `contains` is the only one this register uses beyond `allOf`/`anyOf`/`oneOf`/`if`/`items`.
 
+- **A shape nothing references is dead even though it loads, and a review of the 1.1 release
+  artifacts is not a review of `main`.** Settled 2026-11-27, working Achim's 1.1 SHACL report.
+  `cdifd:temporalExtentProperty` was a `sh:PropertyShape` with no target and no referrer, so a
+  `temporalCoverage` of `"garbage"` conformed. It is now reached by `cdifd:temporalCoverageNode`
+  (`sh:targetSubjectsOf schema:temporalCoverage`) at **`sh:Warning`**, chosen so activating a
+  never-run rule cannot fail a record that passed before; its interval regex was also regrouped
+  (`2020/2021junk` and `anything..` matched) and year-only dates admitted, since the message
+  promised `YYYY`. The contact-point e-mail pattern was case-sensitive and unanchored (it flagged
+  `John.Doe@Example.org` and accepted `junk a@b.co`); it is anchored with `sh:flags "i"`.
+  `sh:filterShape` in `derivedFrom` is not a SHACL Core term, validators ignored it, and removing
+  it changes no verdict. **Two of the report's findings were not live:** the namespace-sniffing
+  shapes were retargeted in `243576f21f` (all three fire), and **do not delete the
+  `schema:name "example ..."` branches in the item-level SPARQL targets** -- they look like test
+  fixtures leaking into production, but measured across the block examples they are the only
+  reason `additionalProperty`, `definedTerm`, `identifier` and `variableMeasured` select any node
+  in their own standalone examples, so removing them leaves those examples validating nothing.
+  **The `ProperInterval` contradiction is fixed too (2026-11-27).** `cdifd:timeIntervalNode`
+  required both `time:hasBeginning` and `time:hasEnd` at `sh:Violation`, while the JSON Schema
+  accepts a named-era interval and either bound alone. It now needs any ONE of the four bounds. The
+  same pass made `@type` **required in the schema** on the named-era and numeric interval objects and
+  on the numeric form's two instants (the calendar form already required it), and SHACL follows:
+  a non-literal `temporalCoverage` value must be a `time:ProperInterval`
+  (`cdifd:temporalCoverageObjectProperty`, Violation), and each bound must be a typed
+  `time:Instant` with either a `time:inTimePosition` that is a `time:TimePosition` or a
+  `time:inXSDDate` matching the schema's date pattern. Before the change, no record under mBB, the
+  release clones checked, or gBB lacked those types. Differential test (the same JSON-LD instance
+  against the JSON Schema and the shapes): **0 disagreements across 42 cases**.
+  **The named-era form now declares `time:hasBeginning` and `time:hasEnd` too** (either instant
+  form, `$defs/instant_type`). It is open, so until then `time:hasEnd: "present"` beside a named
+  start was never inspected and the schema accepted what SHACL rejected; a form in an `anyOf` has to
+  declare every property it means to constrain, because one matching form is enough. The numeric
+  form's two inline instants became `$defs/numericInstant_type`. Compared before and after on 53
+  cases, only those four named-era-plus-bad-bound cases changed verdict, and all 34 existing
+  `temporalCoverage` values (mBB, release clones, gBB; NIAID `nde:` intervals excluded) pass.
+  **Still different:** SHACL is looser on one calendar bound mixed with one numeric bound and on a
+  `TimePosition` missing `time:numericPosition` or `time:hasTRS` (the schema requires both); it
+  only warns on a free-text string (schema accepts any string) or a number (schema rejects it).
+  **Use `sh:or` over named shapes, not `sh:node`, when a failure should read as one finding:**
+  `sh:node` adds nested `sh:detail` results, and `validate_shacl.py` and `validate_examples.py`
+  both count every `sh:ValidationResult` node, so one bad bound reported three times.
+
 - **A SHACL target selected by the property under test cannot fail.** `xasFacility`'s shape
   targeted Places *by* their `schema:additionalType`, then asserted that same property — so every
   node reaching the constraint already satisfied it. Measured 2026-09-27: a facility with

@@ -11,39 +11,83 @@ cdifd:temporalExtentProperty
 	a sh:PropertyShape ;
 	sh:path schema:temporalCoverage ;
 	sh:or (
-		# use proper interval to specify extent using named time ordinal eras or temporal positions specified with numeric coordinates.
-		[sh:class time:ProperInterval ; ] 
-		# time position specified with a numeric coordinate in some temporal reference system
-		[sh:class time:Instant ; ]
+		# an interval object is judged by temporalCoverageObjectProperty below
+		[sh:nodeKind sh:BlankNodeOrIRI ; ]
 		# for calendar dates and intervals,
 		[sh:datatype xsd:string ;
 		# allow ISO8601 date or dateTime string, or an ISO date interval string
 			sh:or (
-				[sh:pattern "^[1-2][0-9]{3}-([0][1-9]|[1][0-2])(-([0-2][0-9]|[3][0-1])(T([0-1][0-9]|[2][0-3])(:[0-5][0-9](:[0-5][0-9](\\.[0-9]+)?)?)?(Z|[+-][0-2][0-9]:[0-5][0-9])?)?)?$" ]
-				[sh:pattern "^(([1-2][0-9]{3}(-([0][1-9]|[1][0-2])(-([0-2][0-9]|[3][0-1]))?)?)|(\\.\\.))\\/([1-2][0-9]{3}(-([0][1-9]|[1][0-2])(-([0-2][0-9]|[3][0-1]))?)?)|(\\.\\.)$"
+				[sh:pattern "^[1-2][0-9]{3}(-([0][1-9]|[1][0-2])(-([0-2][0-9]|[3][0-1])(T([0-1][0-9]|[2][0-3])(:[0-5][0-9](:[0-5][0-9](\\.[0-9]+)?)?)?(Z|[+-][0-2][0-9]:[0-5][0-9])?)?)?)?$" ]
+				[sh:pattern "^([1-2][0-9]{3}(-([0][1-9]|[1][0-2])(-([0-2][0-9]|[3][0-1]))?)?|\\.\\.)/([1-2][0-9]{3}(-([0][1-9]|[1][0-2])(-([0-2][0-9]|[3][0-1]))?)?|\\.\\.)$"
 				]
 			)
 		]
       );
 	sh:minCount 0 ;
-	sh:message "temporalCoverage problem; need an ISO 8601 dateTime, ISO 8601 time interval (two xsd:date separated by a '/' character),  or a time:ProperInterval. ISO time interval allows YYYY, YYYY-MM, or YYYY-DD-MM" ;
+	sh:severity sh:Warning ;
+	sh:message "A temporalCoverage string should be an ISO 8601 date or dateTime, or an ISO 8601 interval (start/end, either may be '..'). Dates may be YYYY, YYYY-MM or YYYY-MM-DD" ;
 	.
-	
+
+cdifd:temporalCoverageObjectProperty
+	a sh:PropertyShape ;
+	sh:path schema:temporalCoverage ;
+	sh:or (
+		[sh:nodeKind sh:Literal ; ]
+		[sh:class time:ProperInterval ; ]
+	) ;
+	sh:message "A temporalCoverage object must declare @type time:ProperInterval" ;
+	.
+
+# A property shape with no target never runs: nothing referenced the shape above
+# until this one. The target is the values' subjects, so it applies wherever
+# temporalCoverage is used, not only on a Dataset.
+cdifd:temporalCoverageNode
+	a sh:NodeShape ;
+	sh:targetSubjectsOf schema:temporalCoverage ;
+	sh:property cdifd:temporalExtentProperty ;
+	sh:property cdifd:temporalCoverageObjectProperty ;
+	.
+
 cdifd:timeIntervalNode
 	a sh:NodeShape ;
     sh:targetClass time:ProperInterval ;
+	# Mirrors temporalExtent's schema: any ONE of the four bounds is enough -- a
+	# named era (intervalStartedBy / intervalFinishedBy), a numeric age or a
+	# calendar date (hasBeginning / hasEnd), either end alone.
+	sh:or (
+		[ sh:property [ sh:path time:hasBeginning ; sh:minCount 1 ] ]
+		[ sh:property [ sh:path time:hasEnd ; sh:minCount 1 ] ]
+		[ sh:property [ sh:path time:intervalStartedBy ; sh:minCount 1 ] ]
+		[ sh:property [ sh:path time:intervalFinishedBy ; sh:minCount 1 ] ]
+	) ;
+	sh:message "A time interval needs at least one bound: time:hasBeginning, time:hasEnd, time:intervalStartedBy or time:intervalFinishedBy" ;
 	sh:property
 		[ sh:path time:hasBeginning ;
-		sh:class time:Instant ;
-		sh:minCount 1;
-		sh:message "A time interval must have a beginning "
+		sh:or ( cdifd:numericInstantShape cdifd:calendarInstantShape ) ;
+		sh:message "A time interval beginning must be typed time:Instant and give either a time:inTimePosition that is a time:TimePosition, or a time:inXSDDate (YYYY-MM-DD)"
 		] ;
 	sh:property
 		[ sh:path time:hasEnd ;
-		sh:class time:Instant ;
-		sh:minCount 1;
-		sh:message "A time interval must have an end "
+		sh:or ( cdifd:numericInstantShape cdifd:calendarInstantShape ) ;
+		sh:message "A time interval end must be typed time:Instant and give either a time:inTimePosition that is a time:TimePosition, or a time:inXSDDate (YYYY-MM-DD)"
 		]
+	.
+
+# The two ways to state one bound of an interval, matching the two instant forms
+# in temporalExtent's schema. Neither has a target of its own; they are reached
+# through the sh:or on each bound above. Named alternatives rather than sh:node,
+# so a bad bound reports once, with the interval's message.
+cdifd:numericInstantShape
+	a sh:NodeShape ;
+	sh:class time:Instant ;
+	sh:property [ sh:path time:inTimePosition ; sh:minCount 1 ; sh:class time:TimePosition ]
+	.
+
+cdifd:calendarInstantShape
+	a sh:NodeShape ;
+	sh:class time:Instant ;
+	sh:property [ sh:path time:inXSDDate ; sh:minCount 1 ;
+	    sh:pattern "^-?[0-9]{4,}-[0-9]{2}-[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})?$" ]
 	.
 
 cdifd:timeInstantNode
